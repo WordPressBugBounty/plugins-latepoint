@@ -10,7 +10,7 @@ class OsInvoicesHelper {
 		$invoices         = $invoices->order_by( 'id desc' )->set_limit( 100 )->get_results_as_models();
 		$invoice_options = [];
 		foreach ( $invoices as $invoice ) {
-			$name            = sprintf(esc_html__('%s To %s', 'latepoint'), OsMoneyHelper::format_price($invoice->charge_amount, true, false), $invoice->get_customer()->full_name) . ' [#' . $invoice->invoice_number . ' : ID: ' . $invoice->id . ']';
+			$name            = sprintf(esc_html__('%s To %s', 'latepoint'), OsMoneyHelper::format_price($invoice->charge_amount, true, false), $invoice->get_customer()->full_name) . ' [#' . $invoice->get_invoice_number() . ' : ID: ' . $invoice->id . ']';
 			$invoice_options[] = [ 'value' => $invoice->id, 'label' => esc_html( $name ) ];
 		}
 
@@ -33,7 +33,7 @@ class OsInvoicesHelper {
                 OsInvoicesHelper::readable_status($invoice->status),
                 $invoice->get_readable_due_at(),
                 OsMoneyHelper::format_price($invoice->charge_amount, true, false),
-                $invoice->invoice_number,
+                $invoice->get_invoice_number(),
                 $invoice->get_access_url(),
                 $invoice->get_pay_url(),
                 $invoice->get_receipt_url()
@@ -151,7 +151,7 @@ class OsInvoicesHelper {
                         <div class="invoice-data">
                             <div class="invoice-row">
                                 <div class="id-label"><?php esc_html_e( 'Invoice number', 'latepoint-pro-features' ); ?></div>
-                                <div class="id-value"><?php echo esc_html( $invoice->invoice_number ); ?></div>
+                                <div class="id-value"><?php echo esc_html( $invoice->get_invoice_number() ); ?></div>
                             </div>
 							<?php if ( $transaction ) { ?>
                                 <div class="invoice-row">
@@ -555,7 +555,7 @@ class OsInvoicesHelper {
                 <div class="lp-invoice-status lp-invoice-status-' . $invoice->status . '">' . self::readable_status( $invoice->status ) . '</div>
               </div>
               <div class="quick-invoice-sub">
-                <div class="lp-invoice-number"><span>' . esc_html__( 'Invoice Number:', 'latepoint-pro-features' ) . '</span> <strong>' . esc_html( $invoice->invoice_number ) . '</strong></div>
+                <div class="lp-invoice-number"><span>' . esc_html__( 'Invoice Number:', 'latepoint-pro-features' ) . '</span> <strong>' . esc_html( $invoice->get_invoice_number() ) . '</strong></div>
                 <div class="lp-invoice-date">' . sprintf( esc_html__( 'Due: %s', 'latepoint-pro-features' ), OsTimeHelper::get_readable_date( new OsWpDateTime( $invoice->due_at, new DateTimeZone('UTC') ) ) ) . '</div>
               </div>';
         $html.= '</div>';
@@ -919,11 +919,14 @@ class OsInvoicesHelper {
                           </div>
                           <div class="sub-section-content">';
 				echo '<div class="os-row os-mb-2">';
-				echo '<div class="os-col-6">';
+				echo '<div class="os-col-4">';
 				echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );
 				echo '</div>';
-				echo '<div class="os-col-6">';
+				echo '<div class="os-col-4">';
 				echo OsFormHelper::text_field( 'settings[invoices_tax_id]', __( 'VAT Number/Tax ID', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ), [ 'theme' => 'simple' ] );
+				echo '</div>';
+				echo '<div class="os-col-4">';
+				echo OsFormHelper::text_field( 'settings[invoices_number_prefix]', __( 'Number Prefix', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '</div>';
 				echo '<div class="os-mb-2">';

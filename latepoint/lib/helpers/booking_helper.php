@@ -609,7 +609,7 @@ class OsBookingHelper {
                                 <span class="os-item-name-w">
 		                <span class="os-item-name"><?php echo esc_html($bundle->name); ?></span>
 		                <?php if ( $bundle->short_description ) { ?>
-                            <span class="os-item-desc"><?php echo esc_html($bundle->short_description); ?></span>
+                            <span class="os-item-desc"><?php echo wp_kses_post($bundle->short_description); ?></span>
 		                <?php } ?>
 		              </span>
 
@@ -659,7 +659,7 @@ class OsBookingHelper {
                             <span class="os-item-name-w">
                 <span class="os-item-name"><?php echo esc_html($service->name); ?></span>
                 <?php if ( $service->short_description ) { ?>
-                    <span class="os-item-desc"><?php echo esc_html($service->short_description); ?></span>
+                    <span class="os-item-desc"><?php echo wp_kses_post($service->short_description); ?></span>
                 <?php } ?>
               </span>
 							<?php if ( $service->price_min > 0 ) { ?>

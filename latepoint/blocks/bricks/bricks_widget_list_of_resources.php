@@ -144,6 +144,30 @@ class Latepoint_Bricks_Widget_List_Of_Resources extends \Bricks\Element {
 
 		#step settings group
 
+		$this->controls['selected_service'] = [
+			'tab'         => 'content',
+			'group'       => 'step_settings',
+			'label'       => esc_html__( 'Preselected Service', 'latepoint' ),
+			'type'        => 'select',
+			'options'     => OsBricksHelper::get_data('selected_services'),
+			'placeholder' => esc_html__( 'Preselected Service', 'latepoint' ),
+			'searchable'  => true,
+			'clearable'   => true,
+			'required'   => array( 'items', '!=', ['services', 'bundles'] ),
+		];
+
+		$this->controls['selected_bundle'] = [
+			'tab'         => 'content',
+			'group'       => 'step_settings',
+			'label'       => esc_html__( 'Preselected Bundle', 'latepoint' ),
+			'type'        => 'select',
+			'options'     => OsBricksHelper::get_data('selected_bundles'),
+			'placeholder' => esc_html__( 'Preselected Bundle', 'latepoint' ),
+			'searchable'  => true,
+			'clearable'   => true,
+			'required'   => array( 'items', '!=', ['services', 'bundles'] ),
+		];
+
 		$this->controls['selected_agent'] = [
 			'tab'         => 'content',
 			'group'       => 'step_settings',
@@ -153,6 +177,7 @@ class Latepoint_Bricks_Widget_List_Of_Resources extends \Bricks\Element {
 			'placeholder' => esc_html__( 'Preselected Agent', 'latepoint' ),
 			'searchable'  => true,
 			'clearable'   => true,
+			'required'   => array( 'items', '!=', ['agents'] ),
 		];
 
 		$this->controls['selected_location'] = [
@@ -164,6 +189,7 @@ class Latepoint_Bricks_Widget_List_Of_Resources extends \Bricks\Element {
 			'placeholder' => esc_html__( 'Preselected Location', 'latepoint' ),
 			'searchable'  => true,
 			'clearable'   => true,
+			'required'   => array( 'items', '!=', ['locations'] ),
 		];
 		$this->controls['selected_start_date'] = [
 			'tab'     => 'content',
@@ -645,6 +671,7 @@ class Latepoint_Bricks_Widget_List_Of_Resources extends \Bricks\Element {
 			'hide_description',
 			'selected_agent',
 			'selected_service',
+			'selected_bundle',
 			'selected_service_category',
 			'selected_location',
 			'selected_start_date',

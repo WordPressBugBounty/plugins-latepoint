@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LatePoint\n"
-"POT-Creation-Date: 2025-01-26 22:45-0800\n"
-"PO-Revision-Date: 2025-01-26 22:45-0800\n"
+"POT-Creation-Date: 2025-01-30 22:19-0800\n"
+"PO-Revision-Date: 2025-01-30 22:19-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -45,16 +45,16 @@ msgstr ""
 #: blocks/bricks/bricks_widget_list_of_resources.php:30
 #: blocks/elementor/elementor_widget_book_button.php:111
 #: blocks/elementor/elementor_widget_book_form.php:101
-#: blocks/elementor/elementor_widget_list_of_resources.php:139
+#: blocks/elementor/elementor_widget_list_of_resources.php:179
 msgid "Step Settings"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_book_button.php:40
 #: blocks/bricks/bricks_widget_book_form.php:40
 #: blocks/bricks/bricks_widget_list_of_resources.php:40
-#: blocks/elementor/elementor_widget_book_button.php:418
+#: blocks/elementor/elementor_widget_book_button.php:429
 #: blocks/elementor/elementor_widget_book_form.php:195
-#: blocks/elementor/elementor_widget_list_of_resources.php:322
+#: blocks/elementor/elementor_widget_list_of_resources.php:407
 #: lib/helpers/stripe_connect_helper.php:263 lib/views/services/_form.php:101
 #: lib/views/settings/general.php:370 lib/views/settings/notifications.php:57
 #: lib/views/settings/payments.php:30
@@ -63,6 +63,7 @@ msgstr ""
 
 #: blocks/bricks/bricks_widget_book_button.php:44
 #: blocks/bricks/bricks_widget_list_of_resources.php:50
+#: blocks/elementor/elementor_widget_list_of_resources.php:495
 msgid "Button"
 msgstr ""
 
@@ -75,8 +76,8 @@ msgstr ""
 
 #: blocks/bricks/bricks_widget_book_button.php:60
 #: blocks/elementor/elementor_widget_book_button.php:76
-#: lib/helpers/shortcodes_helper.php:298 lib/helpers/shortcodes_helper.php:327
-#: lib/helpers/shortcodes_helper.php:341
+#: lib/helpers/shortcodes_helper.php:309 lib/helpers/shortcodes_helper.php:361
+#: lib/helpers/shortcodes_helper.php:375
 msgid "Book Appointment"
 msgstr ""
 
@@ -98,12 +99,12 @@ msgstr ""
 #: blocks/bricks/bricks_widget_book_button.php:87
 #: blocks/bricks/bricks_widget_book_form.php:71
 #: blocks/bricks/bricks_widget_book_form.php:74
-#: blocks/bricks/bricks_widget_list_of_resources.php:122
-#: blocks/bricks/bricks_widget_list_of_resources.php:125
+#: blocks/bricks/bricks_widget_list_of_resources.php:174
+#: blocks/bricks/bricks_widget_list_of_resources.php:177
 #: blocks/elementor/elementor_widget_book_button.php:119
 #: blocks/elementor/elementor_widget_book_form.php:109
-#: blocks/elementor/elementor_widget_list_of_resources.php:147
-#: blocks/src/book-button/edit.js:164 blocks/src/book-form/edit.js:293
+#: blocks/elementor/elementor_widget_list_of_resources.php:226
+#: blocks/src/book-button/edit.js:159 blocks/src/book-form/edit.js:288
 msgid "Preselected Agent"
 msgstr ""
 
@@ -111,9 +112,12 @@ msgstr ""
 #: blocks/bricks/bricks_widget_book_button.php:97
 #: blocks/bricks/bricks_widget_book_form.php:81
 #: blocks/bricks/bricks_widget_book_form.php:84
+#: blocks/bricks/bricks_widget_list_of_resources.php:150
+#: blocks/bricks/bricks_widget_list_of_resources.php:153
 #: blocks/elementor/elementor_widget_book_button.php:129
 #: blocks/elementor/elementor_widget_book_form.php:119
-#: blocks/src/book-button/edit.js:172 blocks/src/book-form/edit.js:301
+#: blocks/elementor/elementor_widget_list_of_resources.php:187
+#: blocks/src/book-button/edit.js:165 blocks/src/book-form/edit.js:294
 msgid "Preselected Service"
 msgstr ""
 
@@ -121,175 +125,190 @@ msgstr ""
 #: blocks/bricks/bricks_widget_book_button.php:107
 #: blocks/bricks/bricks_widget_book_form.php:91
 #: blocks/bricks/bricks_widget_book_form.php:94
-#: blocks/bricks/bricks_widget_list_of_resources.php:136
 #: blocks/elementor/elementor_widget_book_button.php:138
 #: blocks/elementor/elementor_widget_book_form.php:128
-#: blocks/src/book-button/edit.js:180 blocks/src/book-form/edit.js:309
+#: blocks/elementor/elementor_widget_list_of_resources.php:200
+#: blocks/src/book-button/edit.js:171 blocks/src/book-form/edit.js:300
 msgid "Preselected Service Category"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:114
-#: blocks/bricks/bricks_widget_book_button.php:117
+#: blocks/bricks/bricks_widget_book_button.php:115
+#: blocks/bricks/bricks_widget_book_button.php:118
+#: blocks/bricks/bricks_widget_list_of_resources.php:162
+#: blocks/bricks/bricks_widget_list_of_resources.php:165
+#: blocks/elementor/elementor_widget_book_button.php:148
+#: blocks/elementor/elementor_widget_list_of_resources.php:213
+#: blocks/src/book-button/edit.js:177
+msgid "Preselected Bundle"
+msgstr ""
+
+#: blocks/bricks/bricks_widget_book_button.php:126
+#: blocks/bricks/bricks_widget_book_button.php:129
 #: blocks/bricks/bricks_widget_book_form.php:101
 #: blocks/bricks/bricks_widget_book_form.php:104
-#: blocks/bricks/bricks_widget_list_of_resources.php:133
-#: blocks/elementor/elementor_widget_book_button.php:147
+#: blocks/bricks/bricks_widget_list_of_resources.php:186
+#: blocks/bricks/bricks_widget_list_of_resources.php:189
+#: blocks/elementor/elementor_widget_book_button.php:158
 #: blocks/elementor/elementor_widget_book_form.php:138
-#: blocks/elementor/elementor_widget_list_of_resources.php:158
-#: blocks/src/book-button/edit.js:188 blocks/src/book-form/edit.js:317
+#: blocks/elementor/elementor_widget_list_of_resources.php:240
+#: blocks/src/book-button/edit.js:183 blocks/src/book-form/edit.js:306
 msgid "Preselected Location"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:124
+#: blocks/bricks/bricks_widget_book_button.php:136
 #: blocks/bricks/bricks_widget_book_form.php:111
-#: blocks/bricks/bricks_widget_list_of_resources.php:143
-#: blocks/elementor/elementor_widget_book_button.php:156
+#: blocks/bricks/bricks_widget_list_of_resources.php:197
+#: blocks/elementor/elementor_widget_book_button.php:167
 #: blocks/elementor/elementor_widget_book_form.php:148
-#: blocks/elementor/elementor_widget_list_of_resources.php:168
-#: blocks/src/book-button/edit.js:195 blocks/src/book-form/edit.js:325
+#: blocks/elementor/elementor_widget_list_of_resources.php:253
+#: blocks/src/book-button/edit.js:188 blocks/src/book-form/edit.js:312
 msgid "Preselected Booking Start Date"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:135
+#: blocks/bricks/bricks_widget_book_button.php:147
 #: blocks/bricks/bricks_widget_book_form.php:122
-#: blocks/bricks/bricks_widget_list_of_resources.php:154
-#: blocks/elementor/elementor_widget_book_button.php:166
+#: blocks/bricks/bricks_widget_list_of_resources.php:208
+#: blocks/elementor/elementor_widget_book_button.php:177
 #: blocks/elementor/elementor_widget_book_form.php:158
-#: blocks/elementor/elementor_widget_list_of_resources.php:178
-#: blocks/src/book-button/edit.js:203 blocks/src/book-form/edit.js:333
+#: blocks/elementor/elementor_widget_list_of_resources.php:263
+#: blocks/src/book-button/edit.js:194 blocks/src/book-form/edit.js:318
 msgid "Preselected Booking Start Time"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:148
+#: blocks/bricks/bricks_widget_book_button.php:160
 #: blocks/bricks/bricks_widget_book_form.php:135
-#: blocks/bricks/bricks_widget_list_of_resources.php:166
-#: blocks/elementor/elementor_widget_book_button.php:177
+#: blocks/bricks/bricks_widget_list_of_resources.php:220
+#: blocks/elementor/elementor_widget_book_button.php:188
 #: blocks/elementor/elementor_widget_book_form.php:169
-#: blocks/elementor/elementor_widget_list_of_resources.php:189
-#: blocks/src/book-button/edit.js:211 blocks/src/book-form/edit.js:341
+#: blocks/elementor/elementor_widget_list_of_resources.php:274
+#: blocks/src/book-button/edit.js:200 blocks/src/book-form/edit.js:324
 msgid "Preselected Duration"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:156
+#: blocks/bricks/bricks_widget_book_button.php:168
 #: blocks/bricks/bricks_widget_book_form.php:143
-#: blocks/bricks/bricks_widget_list_of_resources.php:174
-#: blocks/elementor/elementor_widget_book_button.php:188
+#: blocks/bricks/bricks_widget_list_of_resources.php:228
+#: blocks/elementor/elementor_widget_book_button.php:199
 #: blocks/elementor/elementor_widget_book_form.php:181
-#: blocks/elementor/elementor_widget_list_of_resources.php:201
-#: blocks/src/book-button/edit.js:219 blocks/src/book-form/edit.js:349
+#: blocks/elementor/elementor_widget_list_of_resources.php:286
+#: blocks/src/book-button/edit.js:206 blocks/src/book-form/edit.js:330
 msgid "Preselected Total Attendees"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:167
+#: blocks/bricks/bricks_widget_book_button.php:179
 #: blocks/bricks/bricks_widget_book_form.php:154
-#: blocks/bricks/bricks_widget_list_of_resources.php:270
-#: blocks/elementor/elementor_widget_book_button.php:426
+#: blocks/bricks/bricks_widget_list_of_resources.php:324
+#: blocks/elementor/elementor_widget_book_button.php:437
 #: blocks/elementor/elementor_widget_book_form.php:203
-#: blocks/elementor/elementor_widget_list_of_resources.php:330
+#: blocks/elementor/elementor_widget_list_of_resources.php:415
 #: lib/helpers/settings_helper.php:259
 msgid "Source ID"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:175
+#: blocks/bricks/bricks_widget_book_button.php:187
 #: blocks/bricks/bricks_widget_book_form.php:162
-#: blocks/bricks/bricks_widget_list_of_resources.php:278
-#: blocks/elementor/elementor_widget_book_button.php:437
+#: blocks/bricks/bricks_widget_list_of_resources.php:332
+#: blocks/elementor/elementor_widget_book_button.php:448
 #: blocks/elementor/elementor_widget_book_form.php:214
-#: blocks/elementor/elementor_widget_list_of_resources.php:341
+#: blocks/elementor/elementor_widget_list_of_resources.php:426
 msgid "Calendar Start Date"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:186
-#: blocks/bricks/bricks_widget_book_button.php:189
+#: blocks/bricks/bricks_widget_book_button.php:198
+#: blocks/bricks/bricks_widget_book_button.php:201
 #: blocks/bricks/bricks_widget_book_form.php:173
 #: blocks/bricks/bricks_widget_book_form.php:176
 #: blocks/bricks/bricks_widget_calendar.php:45
-#: blocks/bricks/bricks_widget_list_of_resources.php:289
-#: blocks/elementor/elementor_widget_book_button.php:448
+#: blocks/bricks/bricks_widget_list_of_resources.php:343
+#: blocks/elementor/elementor_widget_book_button.php:459
 #: blocks/elementor/elementor_widget_book_form.php:224
 #: blocks/elementor/elementor_widget_calendar.php:81
-#: blocks/elementor/elementor_widget_list_of_resources.php:352
+#: blocks/elementor/elementor_widget_list_of_resources.php:437
 msgid "Show Services"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:197
-#: blocks/bricks/bricks_widget_book_button.php:200
+#: blocks/bricks/bricks_widget_book_button.php:209
+#: blocks/bricks/bricks_widget_book_button.php:212
 #: blocks/bricks/bricks_widget_book_form.php:184
 #: blocks/bricks/bricks_widget_book_form.php:187
-#: blocks/bricks/bricks_widget_list_of_resources.php:302
-#: blocks/elementor/elementor_widget_book_button.php:459
+#: blocks/bricks/bricks_widget_list_of_resources.php:356
+#: blocks/elementor/elementor_widget_book_button.php:470
 #: blocks/elementor/elementor_widget_book_form.php:235
-#: blocks/elementor/elementor_widget_list_of_resources.php:366
+#: blocks/elementor/elementor_widget_list_of_resources.php:451
 msgid "Show Service Categories"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:208
-#: blocks/bricks/bricks_widget_book_button.php:211
+#: blocks/bricks/bricks_widget_book_button.php:220
+#: blocks/bricks/bricks_widget_book_button.php:223
 #: blocks/bricks/bricks_widget_book_form.php:195
 #: blocks/bricks/bricks_widget_book_form.php:198
 #: blocks/bricks/bricks_widget_calendar.php:34
-#: blocks/bricks/bricks_widget_list_of_resources.php:314
-#: blocks/elementor/elementor_widget_book_button.php:470
+#: blocks/bricks/bricks_widget_list_of_resources.php:368
+#: blocks/elementor/elementor_widget_book_button.php:481
 #: blocks/elementor/elementor_widget_book_form.php:246
 #: blocks/elementor/elementor_widget_calendar.php:70
-#: blocks/elementor/elementor_widget_list_of_resources.php:380
+#: blocks/elementor/elementor_widget_list_of_resources.php:465
 msgid "Show Agents"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:221
-#: blocks/elementor/elementor_widget_book_button.php:213
+#: blocks/bricks/bricks_widget_book_button.php:233
+#: blocks/elementor/elementor_widget_book_button.php:224
 msgid "Position"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:236
-#: blocks/bricks/bricks_widget_list_of_resources.php:355
+#: blocks/bricks/bricks_widget_book_button.php:248
+#: blocks/bricks/bricks_widget_list_of_resources.php:409
 #: lib/helpers/settings_helper.php:466
 msgid "Full Width"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:252
-#: blocks/bricks/bricks_widget_list_of_resources.php:340
+#: blocks/bricks/bricks_widget_book_button.php:265
+#: blocks/bricks/bricks_widget_list_of_resources.php:394
 msgid "Typography"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:273
-#: blocks/bricks/bricks_widget_list_of_resources.php:377
-#: blocks/bricks/bricks_widget_list_of_resources.php:476
-#: blocks/src/book-button/edit.js:331 blocks/src/book-button/edit.js:353
+#: blocks/bricks/bricks_widget_book_button.php:286
+#: blocks/bricks/bricks_widget_list_of_resources.php:431
+#: blocks/bricks/bricks_widget_list_of_resources.php:530
+#: blocks/src/book-button/edit.js:305 blocks/src/book-button/edit.js:327
 #: lib/models/service_model.php:54 lib/views/services/_form.php:23
 msgid "Background Color"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:286
-#: blocks/bricks/bricks_widget_list_of_resources.php:390
-#: blocks/elementor/elementor_widget_book_button.php:305
-#: blocks/elementor/elementor_widget_book_button.php:335
-#: blocks/elementor/elementor_widget_list_of_resources.php:478
-#: blocks/elementor/elementor_widget_list_of_resources.php:506
-#: blocks/elementor/elementor_widget_list_of_resources.php:659
-#: blocks/elementor/elementor_widget_list_of_resources.php:687
-#: blocks/src/book-button/edit.js:339 blocks/src/book-button/edit.js:361
+#: blocks/bricks/bricks_widget_book_button.php:299
+#: blocks/bricks/bricks_widget_list_of_resources.php:444
+#: blocks/elementor/elementor_widget_book_button.php:316
+#: blocks/elementor/elementor_widget_book_button.php:346
+#: blocks/elementor/elementor_widget_list_of_resources.php:563
+#: blocks/elementor/elementor_widget_list_of_resources.php:591
+#: blocks/elementor/elementor_widget_list_of_resources.php:833
+#: blocks/elementor/elementor_widget_list_of_resources.php:848
+#: blocks/elementor/elementor_widget_list_of_resources.php:887
+#: blocks/elementor/elementor_widget_list_of_resources.php:902
+#: blocks/elementor/elementor_widget_list_of_resources.php:942
+#: blocks/elementor/elementor_widget_list_of_resources.php:957
+#: blocks/src/book-button/edit.js:313 blocks/src/book-button/edit.js:335
 msgid "Text Color"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:305
-#: blocks/bricks/bricks_widget_list_of_resources.php:409
-#: blocks/bricks/bricks_widget_list_of_resources.php:546
+#: blocks/bricks/bricks_widget_book_button.php:318
+#: blocks/bricks/bricks_widget_list_of_resources.php:463
+#: blocks/bricks/bricks_widget_list_of_resources.php:608
 msgid "Border"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:320
-#: blocks/bricks/bricks_widget_list_of_resources.php:424
-#: blocks/bricks/bricks_widget_list_of_resources.php:561
+#: blocks/bricks/bricks_widget_book_button.php:333
+#: blocks/bricks/bricks_widget_list_of_resources.php:478
+#: blocks/bricks/bricks_widget_list_of_resources.php:623
 msgid "Box Shadow"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_book_button.php:341
-#: blocks/bricks/bricks_widget_list_of_resources.php:445
-#: blocks/bricks/bricks_widget_list_of_resources.php:582
-#: blocks/elementor/elementor_widget_book_button.php:401
-#: blocks/elementor/elementor_widget_list_of_resources.php:569
-#: blocks/src/book-button/edit.js:307
+#: blocks/bricks/bricks_widget_book_button.php:354
+#: blocks/bricks/bricks_widget_list_of_resources.php:499
+#: blocks/bricks/bricks_widget_list_of_resources.php:644
+#: blocks/elementor/elementor_widget_book_button.php:412
+#: blocks/elementor/elementor_widget_list_of_resources.php:654
+#: blocks/src/book-button/edit.js:281
 msgid "Padding"
 msgstr ""
 
@@ -309,11 +328,11 @@ msgstr ""
 #: blocks/bricks/bricks_widget_book_form.php:207
 #: blocks/bricks/bricks_widget_book_form.php:210
 #: blocks/bricks/bricks_widget_calendar.php:56
-#: blocks/bricks/bricks_widget_list_of_resources.php:327
-#: blocks/elementor/elementor_widget_book_button.php:481
+#: blocks/bricks/bricks_widget_list_of_resources.php:381
+#: blocks/elementor/elementor_widget_book_button.php:492
 #: blocks/elementor/elementor_widget_book_form.php:257
 #: blocks/elementor/elementor_widget_calendar.php:93
-#: blocks/elementor/elementor_widget_list_of_resources.php:394
+#: blocks/elementor/elementor_widget_list_of_resources.php:479
 msgid "Show Locations"
 msgstr ""
 
@@ -396,7 +415,7 @@ msgid "Settings"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:35
-#: blocks/elementor/elementor_widget_list_of_resources.php:215
+#: blocks/elementor/elementor_widget_list_of_resources.php:300
 msgid "Items Settings"
 msgstr ""
 
@@ -411,12 +430,12 @@ msgid "Book Now"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:91
-#: blocks/elementor/elementor_widget_list_of_resources.php:104
+#: blocks/elementor/elementor_widget_list_of_resources.php:120
 msgid "Resource Type"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:94
-#: blocks/elementor/elementor_widget_list_of_resources.php:108
+#: blocks/elementor/elementor_widget_list_of_resources.php:124
 #: lib/controllers/services_controller.php:19
 #: lib/helpers/booking_helper.php:781 lib/helpers/menu_helper.php:52
 #: lib/helpers/menu_helper.php:54 lib/helpers/menu_helper.php:103
@@ -426,7 +445,7 @@ msgid "Services"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:95
-#: blocks/elementor/elementor_widget_list_of_resources.php:109
+#: blocks/elementor/elementor_widget_list_of_resources.php:125
 #: lib/controllers/default_agent_controller.php:37
 #: lib/controllers/default_agent_controller.php:38
 #: lib/helpers/menu_helper.php:60 lib/helpers/roles_helper.php:301
@@ -435,7 +454,7 @@ msgid "Agents"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:96
-#: blocks/elementor/elementor_widget_list_of_resources.php:110
+#: blocks/elementor/elementor_widget_list_of_resources.php:126
 #: lib/helpers/location_helper.php:147 lib/helpers/menu_helper.php:61
 #: lib/helpers/menu_helper.php:111 lib/helpers/roles_helper.php:304
 #: lib/views/shared/pro_feature.php:18
@@ -443,85 +462,100 @@ msgid "Locations"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:97
-#: blocks/elementor/elementor_widget_list_of_resources.php:111
+#: blocks/elementor/elementor_widget_list_of_resources.php:127
 #: lib/helpers/booking_helper.php:589 lib/helpers/menu_helper.php:55
 #: lib/helpers/menu_helper.php:106 lib/views/customer_cabinet/dashboard.php:56
 #: lib/views/shared/pro_feature.php:14
 msgid "Bundles"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:104
-#: blocks/elementor/elementor_widget_list_of_resources.php:119
+#: blocks/bricks/bricks_widget_list_of_resources.php:105
+#: blocks/elementor/elementor_widget_list_of_resources.php:104
 msgid "Number of columns"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:107
-#: blocks/elementor/elementor_widget_list_of_resources.php:123
+#: blocks/bricks/bricks_widget_list_of_resources.php:108
+#: blocks/elementor/elementor_widget_list_of_resources.php:108
 msgid "One"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:108
-#: blocks/elementor/elementor_widget_list_of_resources.php:124
+#: blocks/bricks/bricks_widget_list_of_resources.php:109
+#: blocks/elementor/elementor_widget_list_of_resources.php:109
 msgid "Two"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:109
-#: blocks/elementor/elementor_widget_list_of_resources.php:125
+#: blocks/bricks/bricks_widget_list_of_resources.php:110
+#: blocks/elementor/elementor_widget_list_of_resources.php:110
 msgid "Three"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:110
-#: blocks/elementor/elementor_widget_list_of_resources.php:126
+#: blocks/bricks/bricks_widget_list_of_resources.php:111
+#: blocks/elementor/elementor_widget_list_of_resources.php:111
 msgid "Four"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:111
-#: blocks/elementor/elementor_widget_list_of_resources.php:127
+#: blocks/bricks/bricks_widget_list_of_resources.php:112
+#: blocks/elementor/elementor_widget_list_of_resources.php:112
 msgid "Five"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:185
-#: blocks/elementor/elementor_widget_list_of_resources.php:223
+#: blocks/bricks/bricks_widget_list_of_resources.php:120
+#: blocks/elementor/elementor_widget_list_of_resources.php:136
+msgid "Hide Image"
+msgstr ""
+
+#: blocks/bricks/bricks_widget_list_of_resources.php:129
+#: blocks/elementor/elementor_widget_list_of_resources.php:149
+msgid "Hide Price"
+msgstr ""
+
+#: blocks/bricks/bricks_widget_list_of_resources.php:138
+#: blocks/elementor/elementor_widget_list_of_resources.php:162
+msgid "Hide Description"
+msgstr ""
+
+#: blocks/bricks/bricks_widget_list_of_resources.php:239
+#: blocks/elementor/elementor_widget_list_of_resources.php:308
 msgid "Max Number of Items Shown"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:194
-#: blocks/bricks/bricks_widget_list_of_resources.php:197
-#: blocks/elementor/elementor_widget_list_of_resources.php:234
+#: blocks/bricks/bricks_widget_list_of_resources.php:248
+#: blocks/bricks/bricks_widget_list_of_resources.php:251
+#: blocks/elementor/elementor_widget_list_of_resources.php:319
 msgid "Show Selected Services"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:206
-#: blocks/bricks/bricks_widget_list_of_resources.php:209
-#: blocks/elementor/elementor_widget_list_of_resources.php:276
+#: blocks/bricks/bricks_widget_list_of_resources.php:260
+#: blocks/bricks/bricks_widget_list_of_resources.php:263
+#: blocks/elementor/elementor_widget_list_of_resources.php:361
 msgid "Show Services Categories"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:219
-#: blocks/bricks/bricks_widget_list_of_resources.php:220
-#: blocks/elementor/elementor_widget_list_of_resources.php:248
+#: blocks/bricks/bricks_widget_list_of_resources.php:273
+#: blocks/bricks/bricks_widget_list_of_resources.php:274
+#: blocks/elementor/elementor_widget_list_of_resources.php:333
 msgid "Show Selected Agents"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:231
-#: blocks/bricks/bricks_widget_list_of_resources.php:232
-#: blocks/elementor/elementor_widget_list_of_resources.php:262
+#: blocks/bricks/bricks_widget_list_of_resources.php:285
+#: blocks/bricks/bricks_widget_list_of_resources.php:286
+#: blocks/elementor/elementor_widget_list_of_resources.php:347
 msgid "Show Selected Locations"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:243
-#: blocks/bricks/bricks_widget_list_of_resources.php:244
-#: blocks/elementor/elementor_widget_list_of_resources.php:290
+#: blocks/bricks/bricks_widget_list_of_resources.php:297
+#: blocks/bricks/bricks_widget_list_of_resources.php:298
+#: blocks/elementor/elementor_widget_list_of_resources.php:375
 msgid "Show Location Categories"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:256
-#: blocks/bricks/bricks_widget_list_of_resources.php:259
-#: blocks/elementor/elementor_widget_list_of_resources.php:304
+#: blocks/bricks/bricks_widget_list_of_resources.php:310
+#: blocks/bricks/bricks_widget_list_of_resources.php:313
+#: blocks/elementor/elementor_widget_list_of_resources.php:389
 msgid "Show Selected Bundles"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:290
+#: blocks/bricks/bricks_widget_list_of_resources.php:344
 #: lib/helpers/events_helper.php:329 lib/views/bookings/index.php:67
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:25
 #: lib/views/dashboard/widget_daily_bookings_chart.php:39
@@ -530,11 +564,11 @@ msgstr ""
 msgid "All Services"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:303
+#: blocks/bricks/bricks_widget_list_of_resources.php:357
 msgid "All Service Categories"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:315
+#: blocks/bricks/bricks_widget_list_of_resources.php:369
 #: lib/helpers/events_helper.php:328 lib/views/bookings/index.php:79
 #: lib/views/dashboard/widget_daily_bookings_chart.php:30
 #: lib/views/dashboard/widget_upcoming_appointments.php:34
@@ -542,63 +576,66 @@ msgstr ""
 msgid "All Agents"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:461
+#: blocks/bricks/bricks_widget_list_of_resources.php:515
 msgid "Align"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:495
+#: blocks/bricks/bricks_widget_list_of_resources.php:549
+#: blocks/elementor/elementor_widget_list_of_resources.php:802
 msgid "Title"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:510
+#: blocks/bricks/bricks_widget_list_of_resources.php:564
+#: blocks/elementor/elementor_widget_list_of_resources.php:866
 #: lib/controllers/bookings_controller.php:220
 #: lib/helpers/settings_helper.php:262
 msgid "Price"
 msgstr ""
 
-#: blocks/bricks/bricks_widget_list_of_resources.php:525
+#: blocks/bricks/bricks_widget_list_of_resources.php:583
+#: blocks/elementor/elementor_widget_list_of_resources.php:920
 #: lib/controllers/activities_controller.php:54
 #: lib/helpers/invoices_helper.php:230
 msgid "Description"
 msgstr ""
 
 #: blocks/controls/BorderControl.js:17
+#: blocks/elementor/elementor_widget_book_button.php:380
+#: blocks/elementor/elementor_widget_list_of_resources.php:623
+#: blocks/elementor/elementor_widget_list_of_resources.php:754
+msgid "Border Radius"
+msgstr ""
+
+#: blocks/controls/BorderControl.js:31
 msgid "Style"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:21 blocks/controls/TypographyControl.js:71
+#: blocks/controls/BorderControl.js:35 blocks/controls/TypographyControl.js:71
 msgid "Default"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:22 blocks/controls/TypographyControl.js:72
+#: blocks/controls/BorderControl.js:36 blocks/controls/TypographyControl.js:72
 #: lib/views/settings/general.php:143
 msgid "None"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:23
+#: blocks/controls/BorderControl.js:37
 msgid "Solid"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:24
+#: blocks/controls/BorderControl.js:38
 msgid "Dotted"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:25
+#: blocks/controls/BorderControl.js:39
 msgid "Dashed"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:31
-#: blocks/elementor/elementor_widget_book_button.php:369
-#: blocks/elementor/elementor_widget_list_of_resources.php:538
-#: blocks/elementor/elementor_widget_list_of_resources.php:719
-msgid "Border Radius"
-msgstr ""
-
-#: blocks/controls/BorderControl.js:45
+#: blocks/controls/BorderControl.js:47
 msgid "Border Width"
 msgstr ""
 
-#: blocks/controls/BorderControl.js:74 blocks/controls/BorderControl.js:86
+#: blocks/controls/BorderControl.js:76 blocks/controls/BorderControl.js:88
 msgid "Border Color"
 msgstr ""
 
@@ -648,95 +685,100 @@ msgstr ""
 
 #: blocks/elementor/elementor_widget_book_button.php:85
 #: blocks/elementor/elementor_widget_book_button.php:97
-#: blocks/elementor/elementor_widget_book_button.php:244
+#: blocks/elementor/elementor_widget_book_button.php:255
 #: blocks/elementor/elementor_widget_book_form.php:76
 #: blocks/elementor/elementor_widget_book_form.php:88
 #: blocks/elementor/elementor_widget_customer_dashboard.php:62
-#: blocks/elementor/elementor_widget_list_of_resources.php:420
-#: blocks/elementor/elementor_widget_list_of_resources.php:601
+#: blocks/elementor/elementor_widget_list_of_resources.php:505
+#: blocks/elementor/elementor_widget_list_of_resources.php:686
 msgid "Yes"
 msgstr ""
 
 #: blocks/elementor/elementor_widget_book_button.php:86
 #: blocks/elementor/elementor_widget_book_button.php:98
-#: blocks/elementor/elementor_widget_book_button.php:245
+#: blocks/elementor/elementor_widget_book_button.php:256
 #: blocks/elementor/elementor_widget_book_form.php:77
 #: blocks/elementor/elementor_widget_book_form.php:89
 #: blocks/elementor/elementor_widget_customer_dashboard.php:63
-#: blocks/elementor/elementor_widget_list_of_resources.php:421
-#: blocks/elementor/elementor_widget_list_of_resources.php:602
+#: blocks/elementor/elementor_widget_list_of_resources.php:506
+#: blocks/elementor/elementor_widget_list_of_resources.php:687
 msgid "No"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:169
+#: blocks/elementor/elementor_widget_book_button.php:180
 #: blocks/elementor/elementor_widget_book_form.php:161
-#: blocks/elementor/elementor_widget_list_of_resources.php:181
+#: blocks/elementor/elementor_widget_list_of_resources.php:266
 msgid "HH:MM"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:170
+#: blocks/elementor/elementor_widget_book_button.php:181
 #: blocks/elementor/elementor_widget_book_form.php:162
-#: blocks/elementor/elementor_widget_list_of_resources.php:182
+#: blocks/elementor/elementor_widget_list_of_resources.php:267
 msgid "Choose a time (format HH:MM)"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:182
+#: blocks/elementor/elementor_widget_book_button.php:193
 #: blocks/elementor/elementor_widget_book_form.php:174
-#: blocks/elementor/elementor_widget_list_of_resources.php:194
+#: blocks/elementor/elementor_widget_list_of_resources.php:279
 #: lib/helpers/service_helper.php:39 lib/helpers/service_helper.php:41
 msgid "Minutes"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:204
-#: blocks/elementor/elementor_widget_list_of_resources.php:410
+#: blocks/elementor/elementor_widget_book_button.php:215
 msgid "Button Appearance"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:217
+#: blocks/elementor/elementor_widget_book_button.php:228
 msgid "Left"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:221
+#: blocks/elementor/elementor_widget_book_button.php:232
 msgid "Center"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:225
+#: blocks/elementor/elementor_widget_book_button.php:236
 msgid "Right"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:229
+#: blocks/elementor/elementor_widget_book_button.php:240
 msgid "Stretch"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:242
-#: blocks/elementor/elementor_widget_list_of_resources.php:418
-#: blocks/elementor/elementor_widget_list_of_resources.php:599
+#: blocks/elementor/elementor_widget_book_button.php:253
+#: blocks/elementor/elementor_widget_list_of_resources.php:503
+#: blocks/elementor/elementor_widget_list_of_resources.php:684
 msgid "Inherit From Theme"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:286
-#: blocks/elementor/elementor_widget_list_of_resources.php:460
-#: blocks/elementor/elementor_widget_list_of_resources.php:641
+#: blocks/elementor/elementor_widget_book_button.php:297
+#: blocks/elementor/elementor_widget_list_of_resources.php:545
+#: blocks/elementor/elementor_widget_list_of_resources.php:704
+#: blocks/elementor/elementor_widget_list_of_resources.php:828
+#: blocks/elementor/elementor_widget_list_of_resources.php:882
+#: blocks/elementor/elementor_widget_list_of_resources.php:937
 msgid "Normal"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:293
-#: blocks/elementor/elementor_widget_book_button.php:324
-#: blocks/elementor/elementor_widget_list_of_resources.php:467
-#: blocks/elementor/elementor_widget_list_of_resources.php:496
-#: blocks/elementor/elementor_widget_list_of_resources.php:648
-#: blocks/elementor/elementor_widget_list_of_resources.php:677
+#: blocks/elementor/elementor_widget_book_button.php:304
+#: blocks/elementor/elementor_widget_book_button.php:335
+#: blocks/elementor/elementor_widget_list_of_resources.php:552
+#: blocks/elementor/elementor_widget_list_of_resources.php:581
+#: blocks/elementor/elementor_widget_list_of_resources.php:709
+#: blocks/elementor/elementor_widget_list_of_resources.php:723
 msgid "Background"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:318
-#: blocks/elementor/elementor_widget_list_of_resources.php:490
-#: blocks/elementor/elementor_widget_list_of_resources.php:671
+#: blocks/elementor/elementor_widget_book_button.php:329
+#: blocks/elementor/elementor_widget_list_of_resources.php:575
+#: blocks/elementor/elementor_widget_list_of_resources.php:719
+#: blocks/elementor/elementor_widget_list_of_resources.php:844
+#: blocks/elementor/elementor_widget_list_of_resources.php:898
+#: blocks/elementor/elementor_widget_list_of_resources.php:953
 msgid "Hover"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_book_button.php:358
-#: blocks/elementor/elementor_widget_list_of_resources.php:528
+#: blocks/elementor/elementor_widget_book_button.php:369
+#: blocks/elementor/elementor_widget_list_of_resources.php:613
 msgid "Button Border"
 msgstr ""
 
@@ -758,112 +800,112 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_list_of_resources.php:590
-msgid "Box Appearance"
+#: blocks/elementor/elementor_widget_list_of_resources.php:675
+msgid "Box"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_list_of_resources.php:709
+#: blocks/elementor/elementor_widget_list_of_resources.php:744
 msgid "Card Border"
 msgstr ""
 
-#: blocks/elementor/elementor_widget_list_of_resources.php:750
+#: blocks/elementor/elementor_widget_list_of_resources.php:785
 msgid "Box Padding"
 msgstr ""
 
-#: blocks/src/book-button/edit.js:290
+#: blocks/src/book-button/edit.js:264
 msgid "Alignment"
 msgstr ""
 
-#: latepoint.php:994
+#: latepoint.php:993
 msgid "Once every 5 minutes"
 msgstr ""
 
-#: latepoint.php:1013
+#: latepoint.php:1012
 msgid "Email Settings"
 msgstr ""
 
-#: latepoint.php:1017
+#: latepoint.php:1016
 msgid "From Name"
 msgstr ""
 
-#: latepoint.php:1018
+#: latepoint.php:1017
 msgid "From Email Address"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 #. Author of the plugin/theme
-#: latepoint.php:1202 latepoint.php:1203 latepoint.php:1219
+#: latepoint.php:1201 latepoint.php:1202 latepoint.php:1218
 msgid "LatePoint"
 msgstr ""
 
-#: latepoint.php:1285 latepoint.php:1410 lib/helpers/agent_helper.php:240
+#: latepoint.php:1284 latepoint.php:1409 lib/helpers/agent_helper.php:240
 #: lib/helpers/calendar_helper.php:122 lib/helpers/events_helper.php:321
-#: lib/helpers/time_helper.php:54 lib/models/booking_model.php:726
+#: lib/helpers/time_helper.php:54 lib/models/booking_model.php:732
 #: lib/views/calendars/view.php:36
 msgid "Today"
 msgstr ""
 
-#: latepoint.php:1288 latepoint.php:1416 lib/helpers/agent_helper.php:279
+#: latepoint.php:1287 latepoint.php:1415 lib/helpers/agent_helper.php:279
 #: lib/helpers/timeline_helper.php:80 lib/helpers/timeline_helper.php:137
 msgid "Not Available"
 msgstr ""
 
-#: latepoint.php:1294 lib/helpers/booking_helper.php:1684
+#: latepoint.php:1293 lib/helpers/booking_helper.php:1684
 #: lib/views/customer_cabinet/_booking_tile.php:37
 msgid "Are you sure you want to cancel this appointment?"
 msgstr ""
 
-#: latepoint.php:1295 latepoint.php:1420
+#: latepoint.php:1294 latepoint.php:1419
 msgid "Space Available"
 msgstr ""
 
-#: latepoint.php:1296 latepoint.php:1421
+#: latepoint.php:1295 latepoint.php:1420
 msgid "Spaces Available"
 msgstr ""
 
-#: latepoint.php:1311 latepoint.php:1433
+#: latepoint.php:1310 latepoint.php:1432
 msgid "can not be blank"
 msgstr ""
 
-#: latepoint.php:1312 latepoint.php:1434
+#: latepoint.php:1311 latepoint.php:1433
 msgid "has to be checked"
 msgstr ""
 
-#: latepoint.php:1313 latepoint.php:1435
+#: latepoint.php:1312 latepoint.php:1434
 msgid "is invalid"
 msgstr ""
 
-#: latepoint.php:1314 latepoint.php:1436
+#: latepoint.php:1313 latepoint.php:1435
 msgid " minutes"
 msgstr ""
 
-#: latepoint.php:1319 latepoint.php:1418 lib/views/steps/start.php:81
+#: latepoint.php:1318 latepoint.php:1417 lib/views/steps/start.php:81
 msgid "Selected"
 msgstr ""
 
-#: latepoint.php:1411
+#: latepoint.php:1410
 msgid "Copied"
 msgstr ""
 
-#: latepoint.php:1412
+#: latepoint.php:1411
 msgid "Just click to copy"
 msgstr ""
 
-#: latepoint.php:1413
+#: latepoint.php:1412
 msgid "Are you sure you want to approve this booking?"
 msgstr ""
 
-#: latepoint.php:1414
+#: latepoint.php:1413
 msgid "Are you sure you want to reject this booking?"
 msgstr ""
 
-#: latepoint.php:1417 lib/misc/process_action.php:110
+#: latepoint.php:1416 lib/misc/process_action.php:110
 #: lib/views/processes/_form.php:28 lib/views/services/_form.php:27
 msgid "Active"
 msgstr ""
 
-#: latepoint.php:1419 lib/helpers/replacer_helper.php:563
-#: lib/helpers/time_helper.php:105 lib/models/booking_model.php:871
+#: latepoint.php:1418 lib/helpers/replacer_helper.php:563
+#: lib/helpers/time_helper.php:105 lib/models/booking_model.php:877
 #: lib/views/settings/general.php:257 lib/views/settings/general.php:294
 msgid "minutes"
 msgstr ""
@@ -959,6 +1001,7 @@ msgstr ""
 #: lib/controllers/activities_controller.php:207
 #: lib/controllers/activities_controller.php:212
 #: lib/controllers/activities_controller.php:218
+#: lib/helpers/invoices_helper.php:583 lib/helpers/invoices_helper.php:589
 msgid "View Order"
 msgstr ""
 
@@ -969,11 +1012,13 @@ msgstr ""
 #: lib/controllers/activities_controller.php:219
 #: lib/controllers/activities_controller.php:226
 #: lib/controllers/activities_controller.php:231
+#: lib/helpers/invoices_helper.php:585
 msgid "Created On:"
 msgstr ""
 
 #: lib/controllers/activities_controller.php:213
 #: lib/controllers/activities_controller.php:236
+#: lib/helpers/invoices_helper.php:591
 msgid "Updated On:"
 msgstr ""
 
@@ -1190,8 +1235,8 @@ msgstr ""
 
 #: lib/controllers/customer_cabinet_controller.php:133
 #: lib/controllers/manage_booking_by_key_controller.php:110
-#: lib/models/booking_model.php:508 lib/models/booking_model.php:518
-#: lib/models/booking_model.php:525
+#: lib/models/booking_model.php:510 lib/models/booking_model.php:520
+#: lib/models/booking_model.php:527
 msgid ""
 "Unfortunately the selected time slot is not available anymore, please select "
 "another timeslot."
@@ -1259,7 +1304,7 @@ msgid "Error! Passwords do not match."
 msgstr ""
 
 #: lib/controllers/customer_cabinet_controller.php:390
-#: lib/models/booking_model.php:550
+#: lib/models/booking_model.php:556
 msgid "Customer Not Found"
 msgstr ""
 
@@ -1951,11 +1996,15 @@ msgstr ""
 msgid "Customer will pick"
 msgstr ""
 
-#: lib/helpers/blocks_helper.php:22 lib/helpers/blocks_helper.php:75
+#: lib/helpers/blocks_helper.php:22 lib/helpers/blocks_helper.php:76
 msgid "Any Available"
 msgstr ""
 
-#: lib/helpers/blocks_helper.php:58 lib/views/bookings/index.php:78
+#: lib/helpers/blocks_helper.php:51 lib/helpers/shortcodes_helper.php:177
+msgid "Starts at"
+msgstr ""
+
+#: lib/helpers/blocks_helper.php:59 lib/views/bookings/index.php:78
 #: lib/views/bookings/index.php:82 lib/views/bookings/index.php:83
 #: lib/views/orders/index.php:58 lib/views/orders/index.php:59
 #: lib/views/orders/index.php:60 lib/views/transactions/index.php:51
@@ -2027,31 +2076,31 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1273 lib/helpers/util_helper.php:309
+#: lib/helpers/booking_helper.php:1273 lib/helpers/util_helper.php:310
 msgid "Monday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1274 lib/helpers/util_helper.php:310
+#: lib/helpers/booking_helper.php:1274 lib/helpers/util_helper.php:311
 msgid "Tuesday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1275 lib/helpers/util_helper.php:311
+#: lib/helpers/booking_helper.php:1275 lib/helpers/util_helper.php:312
 msgid "Wednesday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1276 lib/helpers/util_helper.php:312
+#: lib/helpers/booking_helper.php:1276 lib/helpers/util_helper.php:313
 msgid "Thursday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1277 lib/helpers/util_helper.php:313
+#: lib/helpers/booking_helper.php:1277 lib/helpers/util_helper.php:314
 msgid "Friday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1278 lib/helpers/util_helper.php:314
+#: lib/helpers/booking_helper.php:1278 lib/helpers/util_helper.php:315
 msgid "Saturday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1279 lib/helpers/util_helper.php:315
+#: lib/helpers/booking_helper.php:1279 lib/helpers/util_helper.php:316
 msgid "Sunday"
 msgstr ""
 
@@ -2179,7 +2228,7 @@ msgstr ""
 msgid "Theme requires Elementor version"
 msgstr ""
 
-#: lib/helpers/elementor_helper.php:143
+#: lib/helpers/elementor_helper.php:144
 msgid "Latepoint"
 msgstr ""
 
@@ -2279,7 +2328,8 @@ msgstr ""
 msgid "Edit Data"
 msgstr ""
 
-#: lib/helpers/invoices_helper.php:130 lib/views/invoices/email_form.php:17
+#: lib/helpers/invoices_helper.php:130 lib/helpers/invoices_helper.php:942
+#: lib/views/invoices/email_form.php:17
 msgid "Email Invoice"
 msgstr ""
 
@@ -2287,7 +2337,8 @@ msgstr ""
 msgid "Receipt"
 msgstr ""
 
-#: lib/helpers/invoices_helper.php:150 lib/helpers/roles_helper.php:308
+#: lib/helpers/invoices_helper.php:150 lib/helpers/invoices_helper.php:840
+#: lib/helpers/roles_helper.php:308
 msgid "Invoice"
 msgstr ""
 
@@ -2398,11 +2449,12 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: lib/helpers/invoices_helper.php:332 lib/views/orders/quick_edit.php:281
+#: lib/helpers/invoices_helper.php:332 lib/helpers/invoices_helper.php:893
+#: lib/views/orders/quick_edit.php:281
 msgid "Invoices"
 msgstr ""
 
-#: lib/helpers/invoices_helper.php:351
+#: lib/helpers/invoices_helper.php:351 lib/helpers/invoices_helper.php:844
 msgid "New Invoice"
 msgstr ""
 
@@ -2415,20 +2467,122 @@ msgstr ""
 msgid "Due: %s"
 msgstr ""
 
-#: lib/helpers/license_helper.php:43
-msgid "Please enter your license key"
+#: lib/helpers/invoices_helper.php:584 lib/helpers/invoices_helper.php:601
+#: lib/helpers/invoices_helper.php:859
+msgid "Invoice Created"
 msgstr ""
 
-#: lib/helpers/license_helper.php:67
-msgid ""
-"Connection Error. Please try again in a few minutes or contact us at "
-"license@latepoint.com. Error Code: UDF732S83"
+#: lib/helpers/invoices_helper.php:590 lib/helpers/invoices_helper.php:602
+#: lib/helpers/invoices_helper.php:860
+msgid "Invoice Updated"
 msgstr ""
 
-#: lib/helpers/license_helper.php:76
-msgid ""
-"Connection Error. Please try again in a few minutes or contact us at "
-"license@latepoint.com. Error Code: SUYF8362"
+#: lib/helpers/invoices_helper.php:707
+msgid "Choose an invoice for this test run:"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:716
+msgid "Choose old invoice to be used for this test run:"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:722
+msgid "Choose new invoice to be used for this test run:"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:819 lib/misc/process_event.php:309
+msgid "was equal to"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:820 lib/misc/process_event.php:310
+msgid "was not equal to"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:822 lib/misc/process_event.php:312
+msgid "has changed"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:823 lib/misc/process_event.php:313
+msgid "has not changed"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:828 lib/misc/process_event.php:323
+msgid "is equal to"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:829 lib/misc/process_event.php:324
+msgid "is not equal to"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:843
+msgid "Old Invoice"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:895
+msgid "Invoice Status"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:896
+msgid "Invoice Due Date"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:897
+msgid "Invoice Amount"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:898
+msgid "Invoice Number"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:899
+msgid "Invoice Access URL"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:900
+msgid "Invoice Pay URL"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:901
+msgid "Invoice Receipt URL"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:912 lib/views/invoices/new_form.php:12
+msgid "Invoice Settings"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:918
+msgid "Invoice Data"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:923 lib/views/settings/general.php:385
+msgid "Company Name"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:926
+msgid "VAT Number/Tax ID"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:929
+msgid "Number Prefix"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:933
+msgid "Bill From"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:936
+msgid "Bill To"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:945
+msgid "This subject and content will be used when invoice is being emailed. "
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:946
+msgid "Subject"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:947
+msgid "Email Content"
 msgstr ""
 
 #: lib/helpers/location_helper.php:41 lib/helpers/steps_helper.php:2405
@@ -2866,10 +3020,6 @@ msgstr ""
 msgid "Half Width"
 msgstr ""
 
-#: lib/helpers/shortcodes_helper.php:166
-msgid "Starts at"
-msgstr ""
-
 #: lib/helpers/sms_helper.php:25
 msgid "No SMS processor is selected."
 msgstr ""
@@ -3165,41 +3315,41 @@ msgstr ""
 msgid "Currency Code"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:405
+#: lib/helpers/stripe_connect_helper.php:410
 msgid "disconnect"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:407
+#: lib/helpers/stripe_connect_helper.php:412
 #: lib/views/customers/quick_edit.php:85
 msgid "Connected"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:411
+#: lib/helpers/stripe_connect_helper.php:416
 msgid "Pending Action"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:412
+#: lib/helpers/stripe_connect_helper.php:417
 msgid "Continue Setup"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:420
+#: lib/helpers/stripe_connect_helper.php:425
 msgid "Start Connecting"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:652
-#: lib/helpers/stripe_connect_helper.php:680
+#: lib/helpers/stripe_connect_helper.php:657
+#: lib/helpers/stripe_connect_helper.php:685
 msgid "Payment for Appointment"
 msgstr ""
 
 #. translators: %s is the payment error
-#: lib/helpers/stripe_connect_helper.php:663
-#: lib/helpers/stripe_connect_helper.php:691
+#: lib/helpers/stripe_connect_helper.php:668
+#: lib/helpers/stripe_connect_helper.php:696
 #, php-format
 msgid "Payment Error: %s"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:663
-#: lib/helpers/stripe_connect_helper.php:691
+#: lib/helpers/stripe_connect_helper.php:668
+#: lib/helpers/stripe_connect_helper.php:696
 msgid "Payment error"
 msgstr ""
 
@@ -3220,12 +3370,12 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: lib/helpers/time_helper.php:98 lib/models/booking_model.php:864
+#: lib/helpers/time_helper.php:98 lib/models/booking_model.php:870
 #: lib/views/settings/general.php:259 lib/views/settings/general.php:296
 msgid "days"
 msgstr ""
 
-#: lib/helpers/time_helper.php:102 lib/models/booking_model.php:868
+#: lib/helpers/time_helper.php:102 lib/models/booking_model.php:874
 #: lib/views/settings/general.php:258 lib/views/settings/general.php:295
 msgid "hours"
 msgstr ""
@@ -3266,108 +3416,108 @@ msgstr ""
 msgid "UTC"
 msgstr ""
 
-#: lib/helpers/util_helper.php:116
+#: lib/helpers/util_helper.php:117
 msgid "Show Available Variables"
 msgstr ""
 
-#: lib/helpers/util_helper.php:234 lib/helpers/util_helper.php:270
+#: lib/helpers/util_helper.php:235 lib/helpers/util_helper.php:271
 msgid "January"
 msgstr ""
 
-#: lib/helpers/util_helper.php:235 lib/helpers/util_helper.php:271
+#: lib/helpers/util_helper.php:236 lib/helpers/util_helper.php:272
 msgid "February"
 msgstr ""
 
-#: lib/helpers/util_helper.php:236 lib/helpers/util_helper.php:272
+#: lib/helpers/util_helper.php:237 lib/helpers/util_helper.php:273
 msgid "March"
 msgstr ""
 
-#: lib/helpers/util_helper.php:237 lib/helpers/util_helper.php:273
+#: lib/helpers/util_helper.php:238 lib/helpers/util_helper.php:274
 msgid "April"
 msgstr ""
 
-#: lib/helpers/util_helper.php:238 lib/helpers/util_helper.php:274
+#: lib/helpers/util_helper.php:239 lib/helpers/util_helper.php:275
 msgid "May"
 msgstr ""
 
-#: lib/helpers/util_helper.php:239 lib/helpers/util_helper.php:275
+#: lib/helpers/util_helper.php:240 lib/helpers/util_helper.php:276
 msgid "June"
 msgstr ""
 
-#: lib/helpers/util_helper.php:240 lib/helpers/util_helper.php:276
+#: lib/helpers/util_helper.php:241 lib/helpers/util_helper.php:277
 msgid "July"
 msgstr ""
 
-#: lib/helpers/util_helper.php:241 lib/helpers/util_helper.php:277
+#: lib/helpers/util_helper.php:242 lib/helpers/util_helper.php:278
 msgid "August"
 msgstr ""
 
-#: lib/helpers/util_helper.php:242 lib/helpers/util_helper.php:278
+#: lib/helpers/util_helper.php:243 lib/helpers/util_helper.php:279
 msgid "September"
 msgstr ""
 
-#: lib/helpers/util_helper.php:243 lib/helpers/util_helper.php:279
+#: lib/helpers/util_helper.php:244 lib/helpers/util_helper.php:280
 msgid "October"
 msgstr ""
 
-#: lib/helpers/util_helper.php:244 lib/helpers/util_helper.php:280
+#: lib/helpers/util_helper.php:245 lib/helpers/util_helper.php:281
 msgid "November"
 msgstr ""
 
-#: lib/helpers/util_helper.php:245 lib/helpers/util_helper.php:281
+#: lib/helpers/util_helper.php:246 lib/helpers/util_helper.php:282
 msgid "December"
 msgstr ""
 
-#: lib/helpers/util_helper.php:246 lib/helpers/util_helper.php:282
+#: lib/helpers/util_helper.php:247 lib/helpers/util_helper.php:283
 msgid "Jan"
 msgstr ""
 
-#: lib/helpers/util_helper.php:247 lib/helpers/util_helper.php:283
+#: lib/helpers/util_helper.php:248 lib/helpers/util_helper.php:284
 msgid "Feb"
 msgstr ""
 
-#: lib/helpers/util_helper.php:248 lib/helpers/util_helper.php:284
+#: lib/helpers/util_helper.php:249 lib/helpers/util_helper.php:285
 msgid "Mar"
 msgstr ""
 
-#: lib/helpers/util_helper.php:249 lib/helpers/util_helper.php:285
+#: lib/helpers/util_helper.php:250 lib/helpers/util_helper.php:286
 msgid "Apr"
 msgstr ""
 
-#: lib/helpers/util_helper.php:250
+#: lib/helpers/util_helper.php:251
 msgctxt "short version of May month"
 msgid "May"
 msgstr ""
 
-#: lib/helpers/util_helper.php:251 lib/helpers/util_helper.php:286
+#: lib/helpers/util_helper.php:252 lib/helpers/util_helper.php:287
 msgid "Jun"
 msgstr ""
 
-#: lib/helpers/util_helper.php:252 lib/helpers/util_helper.php:287
+#: lib/helpers/util_helper.php:253 lib/helpers/util_helper.php:288
 msgid "Jul"
 msgstr ""
 
-#: lib/helpers/util_helper.php:253 lib/helpers/util_helper.php:288
+#: lib/helpers/util_helper.php:254 lib/helpers/util_helper.php:289
 msgid "Aug"
 msgstr ""
 
-#: lib/helpers/util_helper.php:254 lib/helpers/util_helper.php:289
+#: lib/helpers/util_helper.php:255 lib/helpers/util_helper.php:290
 msgid "Sep"
 msgstr ""
 
-#: lib/helpers/util_helper.php:255 lib/helpers/util_helper.php:290
+#: lib/helpers/util_helper.php:256 lib/helpers/util_helper.php:291
 msgid "Oct"
 msgstr ""
 
-#: lib/helpers/util_helper.php:256 lib/helpers/util_helper.php:291
+#: lib/helpers/util_helper.php:257 lib/helpers/util_helper.php:292
 msgid "Nov"
 msgstr ""
 
-#: lib/helpers/util_helper.php:257 lib/helpers/util_helper.php:292
+#: lib/helpers/util_helper.php:258 lib/helpers/util_helper.php:293
 msgid "Dec"
 msgstr ""
 
-#: lib/helpers/util_helper.php:450 lib/misc/process_action.php:153
+#: lib/helpers/util_helper.php:451 lib/misc/process_action.php:153
 #: lib/views/integrations/external_calendars.php:48
 #: lib/views/integrations/external_marketing_systems.php:54
 #: lib/views/integrations/external_meeting_systems.php:54
@@ -3586,30 +3736,6 @@ msgstr ""
 msgid "AND"
 msgstr ""
 
-#: lib/misc/process_event.php:309
-msgid "was equal to"
-msgstr ""
-
-#: lib/misc/process_event.php:310
-msgid "was not equal to"
-msgstr ""
-
-#: lib/misc/process_event.php:312
-msgid "has changed"
-msgstr ""
-
-#: lib/misc/process_event.php:313
-msgid "has not changed"
-msgstr ""
-
-#: lib/misc/process_event.php:323
-msgid "is equal to"
-msgstr ""
-
-#: lib/misc/process_event.php:324
-msgid "is not equal to"
-msgstr ""
-
 #: lib/misc/process_event.php:351 lib/misc/process_event.php:360
 #: lib/models/order_model.php:388 lib/views/orders/quick_edit.php:51
 msgid "Order Status"
@@ -3714,38 +3840,38 @@ msgstr ""
 msgid "Connected WordPress User"
 msgstr ""
 
-#: lib/models/booking_model.php:495
+#: lib/models/booking_model.php:497
 msgid ""
-"Unfortunately there are no active resources that can offer selected serivce, "
+"Unfortunately there are no active resources that can offer selected service, "
 "please select another service."
 msgstr ""
 
 #. translators: %1$s is the timeslot date and time
 #. translators: %2$s is the service name
-#: lib/models/booking_model.php:534
+#: lib/models/booking_model.php:536
 #, php-format
 msgid ""
 "Unfortunately the selected time slot \"%1$s\" for \"%2$s\" is not available "
 "anymore, please select another timeslot."
 msgstr ""
 
-#: lib/models/booking_model.php:544
+#: lib/models/booking_model.php:550
 msgid "You have to select a service"
 msgstr ""
 
-#: lib/models/booking_model.php:547
+#: lib/models/booking_model.php:553
 msgid "You have to select an agent"
 msgstr ""
 
-#: lib/models/booking_model.php:554
+#: lib/models/booking_model.php:560
 msgid "You have to be logged in"
 msgstr ""
 
-#: lib/models/booking_model.php:797 lib/models/booking_model.php:807
+#: lib/models/booking_model.php:803 lib/models/booking_model.php:813
 msgid "Invalid Date/Time"
 msgstr ""
 
-#: lib/models/booking_model.php:896
+#: lib/models/booking_model.php:902
 msgid "Any Available Agent"
 msgstr ""
 
@@ -4946,10 +5072,6 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: lib/views/invoices/new_form.php:12
-msgid "Invoice Settings"
-msgstr ""
-
 #: lib/views/invoices/new_form.php:26
 msgid "Due On"
 msgstr ""
@@ -6009,10 +6131,6 @@ msgstr ""
 msgid "Company Logo"
 msgstr ""
 
-#: lib/views/settings/general.php:385
-msgid "Company Name"
-msgstr ""
-
 #: lib/views/settings/general.php:388
 msgid "Business Phone"
 msgstr ""
@@ -6494,6 +6612,11 @@ msgstr ""
 
 #: lib/views/shared/request_reschedule_calendar.php:18
 msgid "Select date and time"
+msgstr ""
+
+#: lib/views/steps/_booking__datepicker.php:22
+#, php-format
+msgid "Searching %s for available dates"
 msgstr ""
 
 #: lib/views/steps/_confirmation.php:73

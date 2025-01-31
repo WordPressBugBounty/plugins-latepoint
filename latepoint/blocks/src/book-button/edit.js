@@ -141,138 +141,112 @@ export default function Edit({attributes, setAttributes}) {
                                         />
                                     </PanelBody>
                                     <PanelBody title="Booking Form Settings" initialOpen={false}>
-                                        <PanelRow>
-                                            <ToggleControl
-                                                label="Hide Summary Panel"
-                                                checked={attributes.hide_summary}
-                                                onChange={(value) => setAttributes({hide_summary: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <ToggleControl
-                                                label="Hide Side Panel"
-                                                checked={attributes.hide_side_panel}
-                                                onChange={(value) => setAttributes({hide_side_panel: value})}
-                                            />
-                                        </PanelRow>
+                                        <ToggleControl
+                                            label="Hide Summary Panel"
+                                            checked={attributes.hide_summary}
+                                            onChange={(value) => setAttributes({hide_summary: value})}
+                                        />
+                                        <ToggleControl
+                                            label="Hide Side Panel"
+                                            checked={attributes.hide_side_panel}
+                                            onChange={(value) => setAttributes({hide_side_panel: value})}
+                                        />
                                     </PanelBody>
 
                                     <PanelBody title="Step Settings" initialOpen={false}>
-                                        <PanelRowBlock>
-                                            <SelectControl
-                                                value={attributes.selected_agent}
-                                                label={__('Preselected Agent', 'latepoint')}
-                                                onChange={(value) => setAttributes({selected_agent: value})}
-                                                options={latepoint_helper.selected_agents_options}
-                                            />
-                                        </PanelRowBlock>
-                                        <PanelRowBlock>
-                                            <SelectControl
-                                                value={attributes.selected_service}
-                                                label={__('Preselected Service', 'latepoint')}
-                                                onChange={(value) => setAttributes({selected_service: value})}
-                                                options={latepoint_helper.selected_services_options}
-                                            />
-                                        </PanelRowBlock>
-                                        <PanelRowBlock>
-                                            <SelectControl
-                                                value={attributes.selected_service_category}
-                                                label={__('Preselected Service Category', 'latepoint')}
-                                                onChange={(value) => setAttributes({selected_service_category: value})}
-                                                options={latepoint_helper.selected_service_categories_options}
-                                            />
-                                        </PanelRowBlock>
-                                        <PanelRowBlock>
-                                            <SelectControl
-                                                value={attributes.selected_location}
-                                                label={__('Preselected Location', 'latepoint')}
-                                                onChange={(value) => setAttributes({selected_location: value})}
-                                                options={latepoint_helper.selected_locations_options}
-                                            />
-                                        </PanelRowBlock>
-                                        <PanelRow>
-                                            <TextControl
-                                                label={__('Preselected Booking Start Date', 'latepoint')}
-                                                value={attributes.selected_start_date || ''}
-                                                placeholder="YYYY-MM-DD"
-                                                onChange={(value) => setAttributes({selected_start_date: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label={__('Preselected Booking Start Time', 'latepoint')}
-                                                value={attributes.selected_start_time || ''}
-                                                placeholder="Minutes"
-                                                onChange={(value) => setAttributes({selected_start_time: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label={__('Preselected Duration', 'latepoint')}
-                                                value={attributes.selected_duration || ''}
-                                                placeholder="Minutes"
-                                                onChange={(value) => setAttributes({selected_duration: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label={__('Preselected Total Attendees', 'latepoint')}
-                                                value={attributes.selected_total_attendees || ''}
-                                                placeholder="Number"
-                                                onChange={(value) => setAttributes({selected_total_attendees: value})}
-                                            />
-                                        </PanelRow>
+                                        <SelectControl
+                                            value={attributes.selected_agent}
+                                            label={__('Preselected Agent', 'latepoint')}
+                                            onChange={(value) => setAttributes({selected_agent: value})}
+                                            options={latepoint_helper.selected_agents_options}
+                                        />
+                                        <SelectControl
+                                            value={attributes.selected_service}
+                                            label={__('Preselected Service', 'latepoint')}
+                                            onChange={(value) => setAttributes({selected_service: value})}
+                                            options={latepoint_helper.selected_services_options}
+                                        />
+                                        <SelectControl
+                                            value={attributes.selected_service_category}
+                                            label={__('Preselected Service Category', 'latepoint')}
+                                            onChange={(value) => setAttributes({selected_service_category: value})}
+                                            options={latepoint_helper.selected_service_categories_options}
+                                        />
+                                        <SelectControl
+                                            value={attributes.selected_bundle}
+                                            label={__('Preselected Bundle', 'latepoint')}
+                                            onChange={(value) => setAttributes({selected_bundle: value})}
+                                            options={latepoint_helper.selected_bundles_options}
+                                        />
+                                        <SelectControl
+                                            value={attributes.selected_location}
+                                            label={__('Preselected Location', 'latepoint')}
+                                            onChange={(value) => setAttributes({selected_location: value})}
+                                            options={latepoint_helper.selected_locations_options}
+                                        />
+                                        <TextControl
+                                            label={__('Preselected Booking Start Date', 'latepoint')}
+                                            value={attributes.selected_start_date || ''}
+                                            placeholder="YYYY-MM-DD"
+                                            onChange={(value) => setAttributes({selected_start_date: value})}
+                                        />
+                                        <TextControl
+                                            label={__('Preselected Booking Start Time', 'latepoint')}
+                                            value={attributes.selected_start_time || ''}
+                                            placeholder="Minutes"
+                                            onChange={(value) => setAttributes({selected_start_time: value})}
+                                        />
+                                        <TextControl
+                                            label={__('Preselected Duration', 'latepoint')}
+                                            value={attributes.selected_duration || ''}
+                                            placeholder="Minutes"
+                                            onChange={(value) => setAttributes({selected_duration: value})}
+                                        />
+                                        <TextControl
+                                            label={__('Preselected Total Attendees', 'latepoint')}
+                                            value={attributes.selected_total_attendees || ''}
+                                            placeholder="Number"
+                                            onChange={(value) => setAttributes({selected_total_attendees: value})}
+                                        />
                                     </PanelBody>
 
                                     <PanelBody title="Other Settings" initialOpen={false}>
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Source ID"
-                                                value={attributes.source_id || ''}
-                                                onChange={(value) => setAttributes({source_id: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Calendar Start Date"
-                                                value={attributes.calendar_start_date || ''}
-                                                placeholder="YYYY-MM-DD"
-                                                onChange={(value) => setAttributes({calendar_start_date: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Show Services"
-                                                placeholder="Comma separated service IDs"
-                                                value={attributes.show_services || ''}
-                                                onChange={(value) => setAttributes({show_services: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Show Service Categories"
-                                                placeholder="Comma separated category IDs"
-                                                value={attributes.show_service_categories || ''}
-                                                onChange={(value) => setAttributes({show_service_categories: value})}
-                                            />
-                                        </PanelRow>
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Show Agents"
-                                                placeholder="Comma separated agent IDs"
-                                                value={attributes.show_agents || ''}
-                                                onChange={(value) => setAttributes({show_agents: value})}
-                                            />
-                                        </PanelRow>
+                                        <TextControl
+                                            label="Source ID"
+                                            value={attributes.source_id || ''}
+                                            onChange={(value) => setAttributes({source_id: value})}
+                                        />
+                                        <TextControl
+                                            label="Calendar Start Date"
+                                            value={attributes.calendar_start_date || ''}
+                                            placeholder="YYYY-MM-DD"
+                                            onChange={(value) => setAttributes({calendar_start_date: value})}
+                                        />
+                                        <TextControl
+                                            label="Show Services"
+                                            placeholder="Comma separated service IDs"
+                                            value={attributes.show_services || ''}
+                                            onChange={(value) => setAttributes({show_services: value})}
+                                        />
+                                        <TextControl
+                                            label="Show Service Categories"
+                                            placeholder="Comma separated category IDs"
+                                            value={attributes.show_service_categories || ''}
+                                            onChange={(value) => setAttributes({show_service_categories: value})}
+                                        />
+                                        <TextControl
+                                            label="Show Agents"
+                                            placeholder="Comma separated agent IDs"
+                                            value={attributes.show_agents || ''}
+                                            onChange={(value) => setAttributes({show_agents: value})}
+                                        />
 
-                                        <PanelRow>
-                                            <TextControl
-                                                label="Show Locations"
-                                                placeholder="Comma separated location IDs"
-                                                value={attributes.show_locations || ''}
-                                                onChange={(value) => setAttributes({show_locations: value})}
-                                            />
-                                        </PanelRow>
+                                        <TextControl
+                                            label="Show Locations"
+                                            placeholder="Comma separated location IDs"
+                                            value={attributes.show_locations || ''}
+                                            onChange={(value) => setAttributes({show_locations: value})}
+                                        />
                                     </PanelBody>
                                 </>
                             );

@@ -29,6 +29,9 @@
     "selected_service": {
       "type": "string"
     },
+    "selected_bundle": {
+      "type": "string"
+    },
     "selected_service_category": {
       "type": "string"
     },

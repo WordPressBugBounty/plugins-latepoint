@@ -637,7 +637,7 @@ class OsFormHelper {
 		}
 		$html .= '<input type="checkbox" '.$validate_html.' name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" ' . $checked_attr . ' ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-checkbox' ] ) . '/>';
 		if ( $label ) {
-			$html .= $label . '</label>';
+			$html .= '<div>'. wp_kses_post($label) .'</div>' . '</label>';
 		}
 		$html .= '</div>';
 		if ( ! empty( $wrapper_atts ) ) {

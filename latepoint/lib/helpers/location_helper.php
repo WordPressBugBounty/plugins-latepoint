@@ -82,7 +82,7 @@ class OsLocationHelper {
                             <div class="os-item-name-w">
             <div class="os-item-name"><?php echo esc_html($location->name); ?></div>
 			<?php if ($location->full_address) { ?>
-                <div class="os-item-desc"><?php echo esc_html($location->full_address); ?></div>
+                <div class="os-item-desc"><?php echo wp_kses_post($location->full_address); ?></div>
 								<?php } ?>
                             </div>
                         </div>
@@ -322,7 +322,7 @@ class OsLocationHelper {
                             </button>
                         </div>
                         <div class="os-category-body">
-							<?php include( LATEPOINT_ADDON_LOCATIONS_VIEWS_ABSPATH . 'location_categories/_form.php' ); ?>
+							<?php include( LATEPOINT_ADDON_PRO_VIEWS_ABSPATH . 'location_categories/_form.php' ); ?>
                         </div>
                     </div>
                     <div class="os-category-children">

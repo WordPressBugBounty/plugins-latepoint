@@ -25,6 +25,9 @@
     "selected_service_category": {
       "type": "string"
     },
+    "selected_bundle": {
+      "type": "string"
+    },
     "selected_location": {
       "type": "string"
     },

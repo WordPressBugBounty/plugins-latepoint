@@ -1107,6 +1107,7 @@
   padding: 0px;
   border-radius: 0px;
   display: flex;
+  gap: 8px;
   align-items: center;
   color: var(--latepoint-body-color);
   vertical-align: middle;
@@ -1117,7 +1118,6 @@
 }
 .latepoint-w .os-form-group.os-form-checkbox-group label input.os-form-checkbox {
   display: inline-block;
-  margin-right: 7px;
   vertical-align: middle;
   border-radius: 0px;
   box-shadow: none;
@@ -7699,6 +7699,7 @@
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
+  pointer-events: none;
 }
 .latepoint-w .latepoint-booking-form-element.step-content-loading .latepoint-step-content.step-customer-w {
   transform: translateY(10px);
@@ -7745,6 +7746,7 @@
 }
 .latepoint-w .latepoint-booking-form-element.step-content-mid-loading .latepoint-message,
 .latepoint-w .latepoint-booking-form-element.step-content-mid-loading .latepoint-step-content {
+  pointer-events: none;
   opacity: 0;
   transform: translateY(30px);
 }

@@ -146,6 +146,7 @@
       transition: all 0.3s ease;
       opacity: 0;
       transform: translateY(20px);
+      pointer-events: none;
     }
     .latepoint-step-content.step-customer-w {
       transform: translateY(10px);
@@ -174,6 +175,7 @@
     }
     .latepoint-message,
     .latepoint-step-content{
+      pointer-events: none;
       opacity: 0;
       transform: translateY(30px);
     }

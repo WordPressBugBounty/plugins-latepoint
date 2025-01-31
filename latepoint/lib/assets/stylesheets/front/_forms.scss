@@ -93,6 +93,7 @@
         padding: 0px;
         border-radius: $form-controls-border-radius;
         display: flex;
+        gap: 8px;
         align-items: center;
         color: $body-color;
         vertical-align: middle;
@@ -104,7 +105,6 @@
         }
         input.os-form-checkbox {
           display: inline-block;
-          margin-right: 7px;
           vertical-align: middle;
           border-radius: $form-controls-border-radius;
           box-shadow: none;

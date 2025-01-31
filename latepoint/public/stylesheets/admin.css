@@ -5692,6 +5692,9 @@ body.latepoint-admin .active-license-info .version-check-icon {
 .quick-order-form-w .order-items-list .order-item-pill.order-item-pill-variant-booking .booking-item-status-pill {
   display: none;
 }
+.quick-order-form-w .order-items-list .order-item-pill.order-item-pill-variant-booking .qr-code-on-full-summary, .quick-order-form-w .order-items-list .order-item-pill.order-item-pill-variant-booking .qr-show-trigger {
+  display: none;
+}
 .quick-order-form-w .order-items-list .order-item-pill.order-item-pill-variant-booking .order-item-pill-inner {
   box-shadow: 0 2px 0 0 #eee;
 }
@@ -7578,7 +7581,7 @@ form > .os-form-sub-header:first-child {
   border: 1px solid #ddd;
   border-bottom-color: #bbb;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  border-radius: 6px;
 }
 .os-form-block.gu-transit, .os-form-block.gu-mirror {
   animation: none;
@@ -7661,7 +7664,7 @@ form > .os-form-sub-header:first-child {
   padding: 10px 20px;
   position: relative;
   z-index: 2;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 .os-form-block .os-form-block-header.os-form-block-required .os-form-block-type:after {
   position: absolute;
@@ -9175,20 +9178,20 @@ i + .latepoint-customer-facebook {
   font-size: 16px;
 }
 .addons-boxes-w .addon-media {
-  height: 200px;
+  padding-bottom: 65%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
-  margin: 20px;
+  margin: 5px;
   border-radius: 6px;
-  border: 1px solid #e4e5e7;
   background-color: #fff;
 }
 .addons-boxes-w .addon-name {
   flex: 1;
   margin: 0px;
-  padding: 10px 20px 0px;
-  font-size: 19px;
+  padding: 30px 20px 0px;
+  font-size: 17px;
+  border-top: 1px solid #F4F4F4;
 }
 .addons-boxes-w .addon-name a {
   display: inline-block;
@@ -9215,7 +9218,7 @@ i + .latepoint-customer-facebook {
   font-size: 14px;
   line-height: 1.35;
   color: #788291;
-  padding-bottom: 75px;
+  padding-bottom: 85px;
 }
 .addons-boxes-w .addon-meta {
   margin-top: 10px;
@@ -9242,6 +9245,8 @@ i + .latepoint-customer-facebook {
   bottom: 0px;
   left: 0px;
   right: 0px;
+  background-color: #f8f8f8;
+  border-radius: 0 0 6px 6px;
 }
 .addons-boxes-w .addon-footer .addon-price {
   font-weight: 400;
@@ -9257,16 +9262,15 @@ i + .latepoint-customer-facebook {
 .addons-boxes-w .addon-footer .os-addon-activated-label {
   display: block;
   text-align: center;
-  background-color: #c6fed3;
-  border: 1px solid #c6fed3;
-  color: #0e9836;
+  background-color: #caffd6;
+  border: 1px solid #57d675;
+  color: #235b33;
   text-decoration: none;
   padding: 0px 6px;
   border-radius: 6px;
   font-weight: 400;
 }
 .addons-boxes-w .addon-footer .os-addon-activated-label .latepoint-icon {
-  color: #0e9837;
   font-size: 12px;
 }
 .addons-boxes-w .addon-footer .os-addon-activated-label span {
@@ -13381,6 +13385,7 @@ body.has-side-sub-panel .latepoint-side-panel-w .latepoint-side-panel-i .os-form
   box-shadow: none;
   min-height: 200px;
   align-self: stretch;
+  border-radius: 6px;
 }
 .os-services-list .create-service-link-w .create-service-link-i {
   position: absolute;
@@ -14618,7 +14623,7 @@ pre.json-document a.json-placeholder:hover {
   align-items: center;
   text-decoration: none;
   margin: 15px 0px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 .os-add-box .add-box-graphic-w {
   width: 40px;
@@ -15490,7 +15495,7 @@ pre.json-document a.json-placeholder:hover {
 }
 
 .create-agent-link-w {
-  border: 4px dotted rgba(0, 0, 0, 0.1);
+  border: 1px dotted #aaa;
   border-radius: 6px;
   text-align: center;
   position: relative;
@@ -19592,6 +19597,7 @@ pre.json-document a.json-placeholder:hover {
   box-shadow: none;
   min-height: 180px;
   align-self: stretch;
+  border-radius: 6px;
 }
 .os-bundles-list .create-bundle-link-w .create-bundle-link-i {
   position: absolute;
@@ -19659,7 +19665,7 @@ pre.json-document a.json-placeholder:hover {
   border: 1px solid #ddd;
   border-bottom-color: #bbb;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  border-radius: 6px;
 }
 .process-action-form:not(.is-editing) .process-action-heading:hover .process-action-remove {
   display: block;

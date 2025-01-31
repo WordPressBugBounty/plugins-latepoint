@@ -17,6 +17,7 @@ class OsUtilHelper {
               <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
               <div class="add-box-label">'.esc_html($label).'</div>
             </a>';
+	$html = apply_filters('latepoint_missing_addon_link', $html, $label);
     return $html;
   }
 

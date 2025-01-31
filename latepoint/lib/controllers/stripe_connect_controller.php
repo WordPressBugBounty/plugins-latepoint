@@ -210,7 +210,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, $booking_form_page_url );
 
 				if ( ! $order_intent->is_bookable() ) {
-					throw new Exception( __( 'Booking slot is not available anymore.', 'latepoint' ) );
+					throw new Exception( empty($order_intent->get_error_messages()) ? __( 'Booking slot is not available anymore.', 'latepoint' ) : implode(', ', $order_intent->get_error_messages()) );
 				}
 
 				if ( OsSettingsHelper::get_settings_value( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id' ) ) ) {

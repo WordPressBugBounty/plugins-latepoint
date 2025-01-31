@@ -357,6 +357,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					 */
 					do_action( 'latepoint_order_updated', $order, $old_order );
 				} else {
+					OsInvoicesHelper::create_invoices_for_new_order($order, $payment_request);
 					/**
 					 * Order was created
 					 *
@@ -367,7 +368,6 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					 *
 					 */
 					do_action( 'latepoint_order_created', $order );
-					OsInvoicesHelper::create_invoices_for_new_order($order, $payment_request);
 				}
 
 				$status        = LATEPOINT_STATUS_SUCCESS;

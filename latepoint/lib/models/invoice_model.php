@@ -48,7 +48,7 @@ class OsInvoiceModel extends OsModel {
 
 		$vars['id'] = $this->id;
 		$vars['order_id'] = $this->order_id;
-		$vars['invoice_number'] = $this->invoice_number;
+		$vars['invoice_number'] = $this->get_invoice_number();
 		$vars['payment_portion'] = $this->payment_portion;
 		$vars['status'] = $this->status;
 		$vars['data'] = $this->data;
@@ -139,12 +139,16 @@ class OsInvoiceModel extends OsModel {
 
 	}
 
+	public function get_invoice_number(): string {
+		if(!empty($this->invoice_number)) return $this->invoice_number;
+		if(empty($this->id)) return '';
+		$this->invoice_number = OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ).sprintf('1%06d', $this->id);
+		$this->update_attributes('invoice_number', $this->invoice_number);
+		return $this->invoice_number;
+	}
+
 
 	protected function before_save() {
-
-		if ( empty( $this->invoice_number ) ) {
-			$this->invoice_number = strtoupper( OsUtilHelper::random_text( 'distinct', 8 ) );
-		}
 		if ( empty( $this->status ) ) {
 			$this->status = LATEPOINT_INVOICE_STATUS_OPEN;
 		}

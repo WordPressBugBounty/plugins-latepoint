@@ -72,6 +72,12 @@ class OsShortcodesHelper {
 			'btn_wrapper_classes'       => false
 		), $atts );
 
+        if ($atts['items'] == 'bundles' && $atts['selected_service']) {
+	        $atts['selected_service'] = false;
+        }
+		if ($atts['items'] == 'services' && $atts['selected_bundle']) {
+			$atts['selected_bundle'] = false;
+		}
 
 		// Data attributes setup
 		$data_atts = '';
@@ -301,6 +307,7 @@ class OsShortcodesHelper {
 		$atts = shortcode_atts( array_merge( self::get_default_booking_atts(), [
 			'id'                  => false,
 			'caption'             => __( 'Book Appointment', 'latepoint' ),
+			'is_inherit'          => false,
 			'align'               => false,
 			'bg_color'            => false,
 			'text_color'          => false,
@@ -327,15 +334,18 @@ class OsShortcodesHelper {
 		$data_atts = self::generate_data_atts_string_from_atts($atts);
 
 		$styles = [];
-		if ($atts['bg_color']) $styles[] = "background-color: " . esc_attr($atts['bg_color']);
-		if ($atts['text_color']) $styles[] = "color: " . esc_attr($atts['text_color']);
-		if ($atts['font_size']) $styles[] = "font-size: " . esc_attr($atts['font_size']);
-		if ($atts['border']) $styles[] = "border: " . esc_attr($atts['border']);
-		if ($atts['border_radius']) $styles[] = "border-radius: " . esc_attr($atts['border_radius']);
-		if ($atts['margin']) $styles[] = "margin: " . esc_attr($atts['margin']);
-		if ($atts['padding']) $styles[] = "padding: " . esc_attr($atts['padding']);
-		if ($atts['css']) $styles[] = $atts['css'];
-		$style_attr = !empty($styles) ? ' style="' . esc_html(implode('; ', $styles)) . '"' : '';
+        # if not inherit - show button styles
+        if (!$atts['is_inherit']) {
+            if ($atts['bg_color']) $styles[] = "background-color: " . esc_attr($atts['bg_color']);
+            if ($atts['text_color']) $styles[] = "color: " . esc_attr($atts['text_color']);
+            if ($atts['font_size']) $styles[] = "font-size: " . esc_attr($atts['font_size']);
+            if ($atts['border']) $styles[] = "border: " . esc_attr($atts['border']);
+            if ($atts['border_radius']) $styles[] = "border-radius: " . esc_attr($atts['border_radius']);
+            if ($atts['margin']) $styles[] = "margin: " . esc_attr($atts['margin']);
+            if ($atts['padding']) $styles[] = "padding: " . esc_attr($atts['padding']);
+            if ($atts['css']) $styles[] = $atts['css'];
+        }
+		$style_attr = !empty($styles) ? ' style="' . esc_attr(implode('; ', $styles)) . '"' : '';
 
 		$before_html = '<div class="latepoint-book-button-wrapper ' . implode(' ', $btn_wrapper_classes) . '">';
 		$after_html = '</div>';

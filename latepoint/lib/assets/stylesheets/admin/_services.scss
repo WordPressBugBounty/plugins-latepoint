@@ -324,6 +324,7 @@
     box-shadow: none;
     min-height: 200px;
     align-self: stretch;
+    border-radius: $border-radius;
 
     .create-service-link-i {
       position: absolute;

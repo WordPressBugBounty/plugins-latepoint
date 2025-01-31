@@ -197,6 +197,8 @@ class OsBookingModel extends OsModel {
 			'timezone'         => OsTimeHelper::get_wp_timezone_name(),
 			'agent'            => $this->agent->get_data_vars(),
 			'created_datetime' => $this->format_created_datetime_rfc3339(),
+			'manage_booking_for_agent' => OsBookingHelper::generate_direct_manage_booking_url( $this, 'agent' ),
+			'manage_booking_for_customer' => OsBookingHelper::generate_direct_manage_booking_url( $this, 'customer' ),
 		];
 		return $vars;
 	}
@@ -492,7 +494,7 @@ class OsBookingModel extends OsModel {
 				                                 ->get_results( ARRAY_A );
 				if ( empty( $connection_groups ) ) {
 					// no active locations and agents are connected to this service
-					$this->add_error( 'send_to_step', __( 'Unfortunately there are no active resources that can offer selected serivce, please select another service.', 'latepoint' ), 'booking__service' );
+					$this->add_error( 'send_to_step', __( 'Unfortunately there are no active resources that can offer selected service, please select another service.', 'latepoint' ), 'booking__service' );
 
 					return false;
 				} else {
@@ -536,6 +538,10 @@ class OsBookingModel extends OsModel {
 
 					return false;
 				}
+			}
+
+			if(!$this->validate(false, ['order_item_id', 'status', 'customer_id'])){
+				return false;
 			}
 
 			return true;

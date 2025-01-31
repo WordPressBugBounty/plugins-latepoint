@@ -41,7 +41,7 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
 				<?php } else {
 					echo '<div class="latepoint-desc-media svg-w">' . $current_step->get_default_image_html_for_side_panel() . '</div>';
 				} ?>
-                <h3 class="latepoint-desc-title"><?php echo esc_html($current_step->side_panel_heading); ?></h3>
+                <h3 class="latepoint-desc-title"><?php echo wp_kses_post($current_step->side_panel_heading); ?></h3>
                 <div class="latepoint-desc-content"><?php echo stripcslashes( $current_step->side_panel_description ); ?></div>
             </div>
 			<?php
@@ -82,7 +82,7 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
               data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name( 'steps', 'load_step' )); ?>"
               action="#">
             <div class="latepoint-heading-w">
-                <h3 class="os-heading-text"><?php echo esc_html($current_step->main_panel_heading); ?></h3>
+                <h3 class="os-heading-text"><?php echo wp_kses_post($current_step->main_panel_heading); ?></h3>
 				<?php foreach ( $all_steps as $index => $step ) { ?>
                     <div data-step-code="<?php echo esc_attr($step->code); ?>"
                          class="os-heading-text-library <?php if ( $current_step->code == $step->code ) {

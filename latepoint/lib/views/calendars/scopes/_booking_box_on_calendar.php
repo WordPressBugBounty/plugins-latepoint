@@ -27,7 +27,7 @@ $css = 'top: '.$booking_start_percent.'%; height: '.$booking_duration_percent.'%
 <div class="ch-day-booking status-<?php echo esc_attr($booking->status); ?>" <?php echo $action_html; ?> style="<?php echo esc_attr($css); ?>">
 	<?php if($buffer_before_height_percent) echo '<div class="ch-day-buffer-before" style="height: '.esc_attr($buffer_before_height_percent).'%;"></div>'; ?>
 	<div class="ch-day-booking-i">
-		<div class="booking-service-name"><?php echo esc_html(OsReplacerHelper::replace_all_vars(OsSettingsHelper::get_booking_template_for_calendar(), array('customer' => $booking->customer, 'agent' => $booking->agent, 'booking' => $booking))); ?></div>
+		<div class="booking-service-name"><?php echo wp_kses_post(OsReplacerHelper::replace_all_vars(OsSettingsHelper::get_booking_template_for_calendar(), array('customer' => $booking->customer, 'agent' => $booking->agent, 'booking' => $booking, 'order' => $booking->get_order()))); ?></div>
 		<div class="booking-time"><?php echo esc_html(OsTimeHelper::minutes_to_hours_and_minutes($booking->start_time)); ?> - <?php echo esc_html(OsTimeHelper::minutes_to_hours_and_minutes($booking->end_time)); ?></div>
 		<?php if($max_capacity > 1){ 
 			$total_attendees_in_group = $total_attendees_in_group + $booking->total_attendees; ?>

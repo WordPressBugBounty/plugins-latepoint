@@ -1953,7 +1953,7 @@ form > .os-form-sub-header:first-child {
     padding: 10px 20px;
     position: relative;
     z-index: 2;
-    border-radius: 4px;
+    border-radius: $border-radius;
     &.os-form-block-required {
       .os-form-block-type {
         &:after {

@@ -182,12 +182,54 @@ class Latepoint_Elementor_Widget_List_Of_Resources extends \Elementor\Widget_Bas
 		);
 
 		$this->add_control(
+			'selected_service',
+			[
+				'label' => esc_html__('Preselected Service', 'latepoint'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => '',
+				'options' => $this->widget_data['selected_services_options'],
+				'condition' => [
+					'items' => ['agents', 'locations'],
+				],
+			]
+		);
+
+		$this->add_control(
+			'selected_service_category',
+			[
+				'label' => esc_html__('Preselected Service Category', 'latepoint'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => '',
+				'options' => $this->widget_data['selected_service_categories_options'],
+				'condition' => [
+					'items' => ['agents', 'locations'],
+				],
+			]
+		);
+
+		$this->add_control(
+			'selected_bundle',
+			[
+				'label' => esc_html__('Preselected Bundle', 'latepoint'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => '',
+				'options' => $this->widget_data['selected_bundles_options'],
+				'condition' => [
+					'items' => ['agents', 'locations'],
+				],
+			]
+		);
+
+		$this->add_control(
 			'selected_agent',
 			[
 				'label' => esc_html__('Preselected Agent', 'latepoint'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => '',
 				'options' => $this->widget_data['selected_agents_options'],
+				'condition' => [
+					'items!' => 'agents',
+				],
 			]
 		);
 
@@ -199,6 +241,9 @@ class Latepoint_Elementor_Widget_List_Of_Resources extends \Elementor\Widget_Bas
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => '',
 				'options' => $this->widget_data['selected_locations_options'],
+				'condition' => [
+					'items!' => 'locations',
+				],
 			]
 		);
 
@@ -944,6 +989,7 @@ class Latepoint_Elementor_Widget_List_Of_Resources extends \Elementor\Widget_Bas
 			'hide_description',
 			'selected_agent',
 			'selected_service',
+			'selected_bundle',
 			'selected_service_category',
 			'selected_location',
 			'selected_start_date',

@@ -40,8 +40,11 @@ class OsPagesHelper {
 				return $page_object->ID;
 			}
 		}
-		if ( $page = self::get_page_by_slug($page_settings['slug']) ) {
-			return $page->ID;
+
+		$page = self::get_page_by_slug($page_settings['slug']);
+
+		if ( $page ) {
+			return $page;
 		}
 
 		$page_data = array(

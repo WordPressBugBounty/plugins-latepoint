@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	echo OsStepsHelper::get_formatted_extra_step_content( $current_step_code, 'before' );
 	?>
     <div class="os-dates-w is-searching">
-        <div class="os-calendar-searching-info"><?php echo sprintf(esc_html( 'Searching %s for available dates', 'latepoint' ), '<span></span>'); ?></div>
+        <div class="os-calendar-searching-info"><?php echo sprintf(esc_html__( 'Searching %s for available dates', 'latepoint' ), '<span></span>'); ?></div>
         <div class="os-calendar-while-searching-wrapper">
             <?php OsCalendarHelper::generate_calendar_for_datepicker_step( \LatePoint\Misc\BookingRequest::create_from_booking_model( $booking ), new OsWpDateTime( $calendar_start_date ), [ 'timezone_name'       => OsTimeHelper::get_timezone_name_from_session(), 'consider_cart_items' => true] ); ?>
         </div>
