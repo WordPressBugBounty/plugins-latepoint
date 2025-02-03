@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.1
+ * Version: 5.1.2
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,7 +28,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.1';
+		public $version = '5.1.2';
 		public $db_version = '2.1.5';
 
 
@@ -926,8 +926,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			add_action( 'latepoint_clear_old_activity_logs', [ $this, 'clear_old_activity_logs' ] );
 
 
-			add_action( 'latepoint_on_addon_activate', [ $this, 'init_addon' ], 10, 2 );
-			add_action( 'latepoint_on_addon_deactivate', [ $this, 'deactivate_addon' ], 10, 2 );
+			add_action( 'latepoint_on_addon_activate', [ $this, 'addon_activated' ], 10, 2 );
+			add_action( 'latepoint_on_addon_deactivate', [ $this, 'addon_deactivated' ], 10, 2 );
 
 
 			add_action( 'latepoint_email_processor_settings', [ $this, 'email_processor_settings' ], 10, 2 );
@@ -1083,11 +1083,11 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [esc_sql($activity->table_name), $cutoff] ) );
 		}
 
-		public function init_addon( $addon_name, $addon_version ) {
+		public function addon_activated( $addon_name, $addon_version ) {
 			OsDatabaseHelper::check_db_version_for_addons();
 		}
 
-		public function deactivate_addon( $addon_name, $addon_version ) {
+		public function addon_deactivated( $addon_name, $addon_version ) {
 			OsDatabaseHelper::delete_addon_info( $addon_name, $addon_version );
 		}
 

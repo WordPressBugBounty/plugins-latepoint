@@ -29,7 +29,7 @@ if ($transactions) {
 
         <a class="os-with-avatar" target="_blank" <?php echo OsCustomerHelper::quick_customer_btn_html($transaction->customer->id); ?> href="#">
           <span class="os-avatar" style="background-image: url(<?php echo esc_url($transaction->customer->get_avatar_url()); ?>)"></span>
-          <span class="os-name"><?php esc_html($transaction->customer->full_name); ?></span>
+          <span class="os-name"><?php echo esc_html($transaction->customer->full_name); ?></span>
 	        <i class="latepoint-icon latepoint-icon-external-link"></i>
         </a>
 				<?php } else {

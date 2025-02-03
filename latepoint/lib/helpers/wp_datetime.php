@@ -1,8 +1,9 @@
 <?php 
 class OsWpDateTime extends DateTime {
-  function __construct(string $time = 'now', ?DateTimeZone $timezone = null){
+  function __construct(?string $time = 'now', ?DateTimeZone $timezone = null){
 		$timezone = ($timezone instanceof DateTimeZone) ? $timezone : OsTimeHelper::get_wp_timezone();
 		try{
+			if(empty($time)) $time = 'now';
 		    parent::__construct($time, $timezone);
 		}catch(Exception $e){
 			OsDebugHelper::log('Error parsing date: '.$e->getMessage() , 'date_parsing' );

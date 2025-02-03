@@ -447,12 +447,24 @@ class OsUtilHelper {
 		return 'new_'.self::random_text();
 	}
 
-	public static function pro_feature_block($label_override = false) {
-		$label = $label_override ? $label_override : __('Requires upgrade to a premium version', 'latepoint');
-		return '<a href="'.esc_url(LATEPOINT_UPGRADE_URL).'" class="os-add-box" >
+	public static function pro_feature_block(string $label = '', string $label_code = '') : string {
+		$label = !empty($label) ? $label : __('Requires upgrade to a premium version', 'latepoint');
+		$html = '<a href="'.esc_url(LATEPOINT_UPGRADE_URL).'" class="os-add-box" >
             <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
             <div class="add-box-label">'.esc_html($label).'</div>
           </a>';
+		/**
+		 * PRO Features block
+		 *
+		 * @since 5.1.2
+		 * @hook latepoint_pro_feature_block_html
+		 *
+		 * @param {string} $html html of a block
+		 * @param {string} $label label that goes inside
+		 * @param {string} $label_code code used to determine where the block is shown
+		 * @returns {string} The filtered html of a block
+		 */
+		return apply_filters('latepoint_pro_feature_block_html', $html, $label, $label_code);
 	}
 
 	public static function generate_key_to_manage() : string {

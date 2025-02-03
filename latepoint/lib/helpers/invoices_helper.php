@@ -95,6 +95,11 @@ class OsInvoicesHelper {
 		return $invoice->where( [ 'access_key' => $key ] )->set_limit( 1 )->get_results_as_models();
 	}
 
+    public static function get_invoice_logo_url(): string {
+        $default_logo_url = LATEPOINT_IMAGES_URL . 'logo.svg';
+        return OsImageHelper::get_image_url_by_id(OsSettingsHelper::get_settings_value('invoices_company_logo'), 'thumbnail', $default_logo_url);
+    }
+
 	public static function invoice_document_html( OsInvoiceModel $invoice, bool $show_controls, ?OsTransactionModel $transaction = null ) {
 		$invoice_data = json_decode( $invoice->data, true );
 		?>
@@ -181,7 +186,7 @@ class OsInvoicesHelper {
                         </div>
                     </div>
                     <div class="invoice-logo">
-                        <img src="<?php echo esc_attr( LATEPOINT_IMAGES_URL . 'logo.svg' ); ?>" width="50" height="50" alt="LatePoint Dashboard">
+                        <img src="<?php echo esc_attr( self::get_invoice_logo_url() ); ?>" width="50" height="50" alt="LatePoint Dashboard">
                     </div>
                 </div>
                 <div class="invoice-to-from">
@@ -918,6 +923,10 @@ class OsInvoicesHelper {
                             <h3>' . __( 'Invoice Data', 'latepoint-pro-features' ) . '</h3>
                           </div>
                           <div class="sub-section-content">';
+
+                echo '<div class="os-row">
+                            <div class="os-col-lg-12">'.OsFormHelper::media_uploader_field( 'settings[invoices_company_logo]', 0, __( 'Company Logo', 'latepoint' ), __( 'Remove Image', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_logo' ) ).'</div>
+                        </div>';
 				echo '<div class="os-row os-mb-2">';
 				echo '<div class="os-col-4">';
 				echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );

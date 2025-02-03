@@ -39,10 +39,28 @@ class OsDatabaseHelper {
 
 	  public static function save_addon_info($name, $version){
 	    update_option( $name . '_addon_db_version', $version );
+		$active_addons = OsSettingsHelper::get_active_addons();
+		$active_addons[] = $name;
+		$active_addons = array_unique( $active_addons );
+		$verified_active_addons = [];
+		foreach($active_addons as $active_addon){
+			if(($active_addon == $name) || is_plugin_active($active_addon.'/'.$active_addon.'.php')){
+				$verified_active_addons[] = $active_addon;
+			}
+		}
+		OsSettingsHelper::save_setting_by_name('active_addons', wp_json_encode($verified_active_addons));
 	  }
 
 	  public static function delete_addon_info($name, $version){
 	    delete_option( $name . '_addon_db_version' );
+		$active_addons = OsSettingsHelper::get_active_addons();
+			$verified_active_addons = [];
+			foreach($active_addons as $active_addon){
+				if(($active_addon != $name) && is_plugin_active($active_addon.'/'.$active_addon.'.php')){
+					$verified_active_addons[] = $active_addon;
+				}
+			}
+			OsSettingsHelper::save_setting_by_name('active_addons', wp_json_encode($verified_active_addons));
 	  }
 
 

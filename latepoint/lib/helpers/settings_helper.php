@@ -71,6 +71,11 @@ class OsSettingsHelper {
 		return $encrypted_settings;
 	}
 
+
+	public static function get_active_addons() : array{
+		return json_decode(OsSettingsHelper::get_settings_value('active_addons', '')) ?? [];
+	}
+
 	public static function run_autoload() {
 		/**
 		 * Default settings to be used in SettingsHelper when no value exists in DB

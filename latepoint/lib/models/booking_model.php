@@ -245,7 +245,7 @@ class OsBookingModel extends OsModel {
 		return ( $start_time_utc > $now_time_utc );
 	}
 
-	public function set_utc_datetimes() {
+	public function set_utc_datetimes(bool $save = false) {
 		if ( empty( $this->start_date ) || empty( $this->end_date ) || empty( $this->start_time ) || empty( $this->end_time ) ) {
 			return;
 		}
@@ -255,6 +255,9 @@ class OsBookingModel extends OsModel {
 
 		$this->start_datetime_utc = OsWpDateTime::datetime_in_utc( $start_datetime, LATEPOINT_DATETIME_DB_FORMAT );
 		$this->end_datetime_utc   = OsWpDateTime::datetime_in_utc( $end_datetime, LATEPOINT_DATETIME_DB_FORMAT );
+		if ( $save ) {
+			$this->update_attributes(['start_datetime_utc' => $this->start_datetime_utc, 'end_datetime_utc' => $this->end_datetime_utc]);
+		}
 	}
 
 
@@ -837,6 +840,9 @@ class OsBookingModel extends OsModel {
 	public function time_status() {
 		try {
 			$now_datetime  = OsTimeHelper::now_datetime_utc();
+			if(empty($this->start_datetime_utc) || empty($this->end_datetime_utc)){
+				$this->set_utc_datetimes(true);
+			}
 			$booking_start = new OsWpDateTime( $this->start_datetime_utc, new DateTimeZone( 'UTC' ) );
 			$booking_end   = new OsWpDateTime( $this->end_datetime_utc, new DateTimeZone( 'UTC' ) );
 			if ( ( $now_datetime <= $booking_end ) && ( $now_datetime >= $booking_start ) ) {

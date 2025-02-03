@@ -445,6 +445,12 @@
     gap: 20px;
   }
 }
+@media (max-width: 1400px){
+  .addons-boxes-w {
+    gap: 40px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
 @media (max-width: 600px){
   .latepoint-top-user-info-w {
     flex: 1;
