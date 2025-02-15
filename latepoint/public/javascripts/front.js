@@ -675,11 +675,15 @@ jQuery(function( $ ) {
       });
     }
 
-    var data = { action: 'latepoint_route_call', route_name: $(this).data('os-action'), params: latepoint_formdata_to_url_encoded_string(form_data), return_format: 'json' }
+    let data = latepoint_create_form_data($form, $(this).data('os-action'));
+
+    // var data = { action: 'latepoint_route_call', route_name: $(this).data('os-action'), params: latepoint_formdata_to_url_encoded_string(form_data), return_format: 'json' }
     $form.find('button[type="submit"]').addClass('os-loading');
     $.ajax({
       type : "post",
       dataType : "json",
+      processData: false,
+      contentType: false,
       url : latepoint_timestamped_ajaxurl(),
       data : data,
       success: function(response){
@@ -705,7 +709,6 @@ jQuery(function( $ ) {
               window.location.replace(response.url);
             }else{
               latepoint_add_notification(response.message);
-              $form.prepend(latepoint_generate_form_message_html(response.message, 'success'));
             }
           }
           if($form.data('os-record-id-holder') && response.record_id){
@@ -750,7 +753,7 @@ jQuery(function( $ ) {
           if($form.data('os-show-errors-as-notification')){
             latepoint_add_notification(response.message, 'error');
           }else{
-            $form.prepend(latepoint_generate_form_message_html(response.message, 'error'));
+            latepoint_add_notification(response.message, 'error');
             $([document.documentElement, document.body]).animate({
                 scrollTop: ($form.find(".os-form-message-w").offset().top - 30)
             }, 200);

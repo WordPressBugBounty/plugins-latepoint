@@ -470,4 +470,23 @@ class OsUtilHelper {
 	public static function generate_key_to_manage() : string {
 		return bin2hex( random_bytes( 18 ) );
 	}
+
+	public static function get_color_for_variable_by_index($index) : string {
+		$colors = self::get_colors_for_variables();
+		return $colors[$index] ?? '#eee';
+	}
+
+	public static function get_colors_for_variables() : array {
+		$colors = [ '#b6ffc8', '#ffbbbb', '#cbc5ff', '#ffe2a3', '#ffbfe2', '#6dffe3', '#abe4ff', '#eee' ];
+		/**
+		 * Generate colors to be used for variables
+		 *
+		 * @since 5.1.3
+		 * @hook latepoint_get_colors_for_variables
+		 *
+		 * @param {array} $colors array of colors
+		 * @returns {array} The filtered array of colors
+		 */
+		return apply_filters('latepoint_get_colors_for_variables', $colors);
+	}
 }

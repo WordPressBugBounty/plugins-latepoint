@@ -3513,6 +3513,14 @@
       "oAP" : "\/lib\/helpers\/version_specific_updates_helper.php",
       "oF" : 0
     },
+    "\/lib\/helpers\/whatsapp_helper.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/helpers\/whatsapp_helper.php",
+      "oF" : 0
+    },
     "\/lib\/helpers\/work_periods_helper.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -4529,6 +4537,14 @@
       "oAP" : "\/lib\/views\/layouts\/print.php",
       "oF" : 0
     },
+    "\/lib\/views\/layouts\/pure.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/layouts\/pure.php",
+      "oF" : 0
+    },
     "\/lib\/views\/layouts\/wizard.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -4951,6 +4967,22 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/lib\/views\/settings\/general.php",
+      "oF" : 0
+    },
+    "\/lib\/views\/settings\/get_pro.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/settings\/get_pro.php",
+      "oF" : 0
+    },
+    "\/lib\/views\/settings\/import_modal.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/settings\/import_modal.php",
       "oF" : 0
     },
     "\/lib\/views\/settings\/notifications.php" : {

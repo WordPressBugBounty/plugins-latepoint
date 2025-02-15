@@ -60,7 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 			<div class="latepoint-template-variables">
 				<div class="close-template-variables-panel"><i class="latepoint-icon latepoint-icon-x"></i></div>
-				<h3><?php esc_html_e('Available Template Variables', 'latepoint'); ?></h3>
+				<h3><?php esc_html_e('Available Smart Variables', 'latepoint'); ?></h3>
 				<div class="latepoint-template-variables-i">
 			    <?php include(LATEPOINT_ABSPATH.'lib/views/shared/_template_variables.php'); ?>
 				</div>

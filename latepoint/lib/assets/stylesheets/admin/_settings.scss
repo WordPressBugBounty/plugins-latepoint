@@ -466,3 +466,34 @@
 }
 
 
+
+
+.get-pro-wrapper {
+  padding: 30px;
+  border: 1px solid #e4e5e7;
+  border-radius: $border-radius;
+  h4 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: $body-font-size-l;
+    font-weight: $body-font-weight-black;
+  }
+  .pro-sub-heading {
+    font-size: $body-font-size-m;
+    color: $color-faded;
+    margin-bottom: 15px;
+  }
+  .get-pro-wrapper-fields {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 10px;
+    .os-form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    button {
+      flex: 0;
+    }
+  }
+}

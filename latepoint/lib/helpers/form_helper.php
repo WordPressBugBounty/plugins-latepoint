@@ -2,6 +2,22 @@
 
 class OsFormHelper {
 
+
+	public static function get_hidden_fields_for_array( array $array, string $prefix = '' ): string {
+		$inputs = '';
+		foreach ( $array as $key => $value ) {
+			$fieldName = $prefix ? $prefix . "[" . $key . "]" : $key;
+
+			if ( is_array( $value ) ) {
+				$inputs .= self::get_hidden_fields_for_array( $value, $fieldName );
+			} else {
+				$inputs .= OsFormHelper::hidden_field( $fieldName, $value );
+			}
+		}
+
+		return $inputs;
+	}
+
 	public static function atts_string_from_array( $atts = array(), $join_atts = array() ) {
 		$atts_str = '';
 		if ( ! empty( $atts ) ) {
@@ -17,13 +33,13 @@ class OsFormHelper {
 					unset( $join_atts[ $key ] );
 				}
 				if ( ! is_array( $value ) ) {
-					$atts_str .= esc_attr($key) . '="' . esc_attr($value) . '" ';
+					$atts_str .= esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
 				}
 			}
 		}
 		if ( ! empty( $join_atts ) ) {
 			foreach ( $join_atts as $key => $value ) {
-				$atts_str .= esc_attr($key) . '="' . esc_attr($value) . '" ';
+				$atts_str .= esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
 			}
 		}
 
@@ -56,9 +72,9 @@ class OsFormHelper {
 		$html .= '<div ' . $controlledToggleHtml . ' class="os-toggler os-toggler-radio ' . $status . ' size-' . $size . '" data-is-string-value="true" data-for="' . $id . '"><div class="toggler-rail"><div class="toggler-pill"></div></div></div>';
 		if ( $label ) {
 			$html .= '<div class="os-toggler-label-w">';
-			$html .= '<label>' . esc_html($label) . '</label>';
+			$html .= '<label>' . esc_html( $label ) . '</label>';
 			if ( ! empty( $atts['sub_label'] ) ) {
-				$html .= '<span>' . esc_html($atts['sub_label']) . '</span>';
+				$html .= '<span>' . esc_html( $atts['sub_label'] ) . '</span>';
 			}
 			$html .= '</div>';
 		}
@@ -92,14 +108,14 @@ class OsFormHelper {
 			$html .= '<div class="os-form-group os-form-toggler-group ' . $extra . ' size-' . $size . '">';
 		}
 		$html           .= OsFormHelper::hidden_field( $name, $value, [ 'id' => $id ] );
-		$instant_update = ! empty( $atts['instant_update_route'] ) ? 'data-os-instant-update="' . esc_attr($atts['instant_update_route']) . '"' : '';
-		$instant_update .= empty( $atts['nonce'] ) ? '' : ' data-nonce="' . esc_attr($atts['nonce']) . '"';
+		$instant_update = ! empty( $atts['instant_update_route'] ) ? 'data-os-instant-update="' . esc_attr( $atts['instant_update_route'] ) . '"' : '';
+		$instant_update .= empty( $atts['nonce'] ) ? '' : ' data-nonce="' . esc_attr( $atts['nonce'] ) . '"';
 		$html           .= '<div ' . $controlledToggleHtml . ' class="os-toggler ' . $status . ' size-' . $size . '" data-is-string-value="true" data-for="' . $id . '" ' . $instant_update . '><div class="toggler-rail"><div class="toggler-pill"></div></div></div>';
 		if ( $label ) {
 			$html .= '<div class="os-toggler-label-w">';
-			$html .= '<label>' . esc_html($label) . '</label>';
+			$html .= '<label>' . esc_html( $label ) . '</label>';
 			if ( ! empty( $atts['sub_label'] ) ) {
-				$html .= '<span>' . esc_html($atts['sub_label']) . '</span>';
+				$html .= '<span>' . esc_html( $atts['sub_label'] ) . '</span>';
 			}
 			$html .= '</div>';
 		}
@@ -119,7 +135,7 @@ class OsFormHelper {
 
 		// Image is set
 		if ( $value_image_id ) {
-			$image_url       = esc_url(OsImageHelper::get_image_url_by_id( $value_image_id ));
+			$image_url       = esc_url( OsImageHelper::get_image_url_by_id( $value_image_id ) );
 			$img_html        = $is_avatar ? '<div class="image-self" style="background-image: url(' . $image_url . ')"></div>' : '<img src="' . $image_url . '"/>';
 			$has_image_class = 'has-image';
 			$label_str       = $label_remove_str;
@@ -131,19 +147,21 @@ class OsFormHelper {
 		$is_compact_class = $is_compact ? ' is-compact ' : '';
 		$html             = '';
 		$html             .= '<div class="os-image-selector-w ' . $is_avatar_class . ' ' . $is_compact_class . ' ' . $has_image_class . '">';
-		$html             .= '<a href="' . $upload_link . '" data-label-remove-str="' . esc_attr($label_remove_str) . '" data-label-set-str="' . esc_attr($label_set_str) . '"' . self::atts_string_from_array( $wrapper_atts, [ 'class' => "os-image-selector-trigger" ] ) . '>';
+		$html             .= '<a href="' . $upload_link . '" data-label-remove-str="' . esc_attr( $label_remove_str ) . '" data-label-set-str="' . esc_attr( $label_set_str ) . '"' . self::atts_string_from_array( $wrapper_atts, [ 'class' => "os-image-selector-trigger" ] ) . '>';
 		$html             .= '<div class="os-image-container">' . $img_html . '</div>';
-		if($default_image_html) $html.= '<div class="os-default-image-wrapper">'.$default_image_html.'</div>';
-		$html             .= '<div class="os-image-selector-text"><span class="os-text-holder">' . esc_html($label_str) . '</span></div>';
-		$html             .= '</a>';
-		$html             .= '<input type="hidden" name="' . $name . '" value="' . esc_attr( $value_image_id ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-image-id-holder' ] ) . '/>';
-		$html             .= '</div>';
+		if ( $default_image_html ) {
+			$html .= '<div class="os-default-image-wrapper">' . $default_image_html . '</div>';
+		}
+		$html .= '<div class="os-image-selector-text"><span class="os-text-holder">' . esc_html( $label_str ) . '</span></div>';
+		$html .= '</a>';
+		$html .= '<input type="hidden" name="' . $name . '" value="' . esc_attr( $value_image_id ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-image-id-holder' ] ) . '/>';
+		$html .= '</div>';
 
 		return $html;
 	}
 
 	public static function file_upload_field( $name, $label, $value = '', $atts = [], $wrapper_atts = [] ) {
-		$accepted_formats = '.jpg,.jpeg,.png,.gif,.ico,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.PSD,.mp3,.m4a,.ogg,.wav,.mp4,.m4v,.mov,.wmv,.avi,.mpg,.ogv,.3gp,.3g2';
+		$accepted_formats = '.jpg,.jpeg,.png,.gif,.ico,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.PSD,.mp3,.m4a,.ogg,.wav,.mp4,.m4v,.mov,.wmv,.avi,.mpg,.ogv,.3gp,.3g2,.json';
 		// generate id if not set
 		if ( ! isset( $atts['id'] ) && ! isset( $atts['skip_id'] ) ) {
 			$atts['id'] = self::name_to_id( $name, $atts );
@@ -154,9 +172,9 @@ class OsFormHelper {
 		}
 		$html .= '<div class="os-form-group os-form-file-upload-group">';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($name) . '">' . $label . '</label>';
+			$html .= '<label for="' . esc_attr( $name ) . '">' . $label . '</label>';
 		}
-		$html .= '<a target="_blank" href="' . esc_url($value) . '" class="os-uploaded-file-info ' . ( ! empty( $value ) ? 'is-uploaded' : '' ) . '" style="' . ( empty( $value ) ? 'display: none' : '' ) . '">
+		$html .= '<a target="_blank" href="' . esc_url( $value ) . '" class="os-uploaded-file-info ' . ( ! empty( $value ) ? 'is-uploaded' : '' ) . '" style="' . ( empty( $value ) ? 'display: none' : '' ) . '">
 								<div class="uf-icon"><i class="latepoint-icon latepoint-icon-file-text"></i></div>
 								<div class="uf-data">
 									<div class="uf-name">' . ( ! empty( $value ) ? basename( $value ) : '' ) . '</div>
@@ -164,7 +182,7 @@ class OsFormHelper {
 								<div class="uf-remove"><i class="latepoint-icon latepoint-icon-cross"></i></div>
 							</a>';
 		$html .= '<div class="os-upload-file-input-w" style="' . ( $value ? 'display: none' : '' ) . '">';
-		$html .= '<input type="file" accept="' . $accepted_formats . '" name="' . esc_attr($name) . '"  multiple="false" ' . self::atts_string_from_array( $atts ) . '/>';
+		$html .= '<input type="file" accept="' . $accepted_formats . '" name="' . esc_attr( $name ) . '"  multiple="false" ' . self::atts_string_from_array( $atts ) . '/>';
 		if ( $value ) {
 			$html .= self::hidden_field( $name, $value );
 		}
@@ -209,7 +227,7 @@ class OsFormHelper {
 	public static function wp_editor_field( $name, $id, $label, $content, $atts = array() ) {
 		$editor_height = isset( $atts['editor_height'] ) ? $atts['editor_height'] : 300;
 		echo '<div class="os-form-group os-form-control-wp-editor-group">';
-		echo '<label for="' . esc_attr($name) . '">' . esc_html($label) . '</label>';
+		echo '<label for="' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label>';
 		wp_editor( $content, $id, [
 			'textarea_name' => $name,
 			'media_buttons' => false,
@@ -256,10 +274,10 @@ class OsFormHelper {
 		$html = '<div ' . self::atts_string_from_array( $wrapper_atts ) . '>';
 		$html .= '<div ' . self::atts_string_from_array( array( 'class' => 'os-form-group os-form-textfield-group os-form-textarea-group' . $extra_class ) ) . '>';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">' . $label . '</label>';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">' . $label . '</label>';
 		}
-		$placeholder = ( !empty( $atts['placeholder'] ) ) ? $atts['placeholder'] : $label;
-		$html        .= '<textarea ' . $validate_html . ' type="text" placeholder="' . esc_attr( $placeholder ) . '" name="' . esc_attr($name) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '>' . esc_textarea( $value ?? '' ) . '</textarea>';
+		$placeholder = ( ! empty( $atts['placeholder'] ) ) ? $atts['placeholder'] : $label;
+		$html        .= '<textarea ' . $validate_html . ' type="text" placeholder="' . esc_attr( $placeholder ) . '" name="' . esc_attr( $name ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '>' . esc_textarea( $value ?? '' ) . '</textarea>';
 		$html        .= '</div>';
 		$html        .= '</div>';
 
@@ -272,15 +290,15 @@ class OsFormHelper {
 			$html .= '<label for="' . $name . '">' . $label . '</label>';
 		}
 		$html .= '<div class="selector-adder-w">';
-		$html .= '<select name="' . $name . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . ' data-select-source="' . esc_attr(OsRouterHelper::build_route_name( 'service_categories', 'list_for_select' )) . '">';
+		$html .= '<select name="' . $name . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . ' data-select-source="' . esc_attr( OsRouterHelper::build_route_name( 'service_categories', 'list_for_select' ) ) . '">';
 		foreach ( $options as $option ) {
 			if ( isset( $option['value'] ) && isset( $option['label'] ) ) {
 				$selected = ( $value == $option['value'] ) ? 'selected' : '';
-				$html     .= '<option value="' . esc_attr($option['value']) . '" ' . $selected . '>' . esc_html($option['label']) . '</option>';
+				$html     .= '<option value="' . esc_attr( $option['value'] ) . '" ' . $selected . '>' . esc_html( $option['label'] ) . '</option>';
 			}
 		}
 		$html .= '</select>';
-		$html .= '<button class="latepoint-btn latepoint-btn-primary" data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'service_categories', 'new_form' )) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html($add_label) . '</span></button>';
+		$html .= '<button class="latepoint-btn latepoint-btn-primary" data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'service_categories', 'new_form' ) ) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html( $add_label ) . '</span></button>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -293,15 +311,15 @@ class OsFormHelper {
 			$html .= '<label for="' . $name . '">' . $label . '</label>';
 		}
 		$html .= '<div class="selector-adder-w">';
-		$html .= '<select name="' . $name . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . ' data-select-source="' . esc_attr(OsRouterHelper::build_route_name( 'location_categories', 'list_for_select' )) . '">';
+		$html .= '<select name="' . $name . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . ' data-select-source="' . esc_attr( OsRouterHelper::build_route_name( 'location_categories', 'list_for_select' ) ) . '">';
 		foreach ( $options as $option ) {
 			if ( isset( $option['value'] ) && isset( $option['label'] ) ) {
 				$selected = ( $value == $option['value'] ) ? 'selected' : '';
-				$html     .= '<option value="' . esc_attr($option['value']) . '" ' . $selected . '>' . esc_html($option['label']) . '</option>';
+				$html     .= '<option value="' . esc_attr( $option['value'] ) . '" ' . $selected . '>' . esc_html( $option['label'] ) . '</option>';
 			}
 		}
 		$html .= '</select>';
-		$html .= '<button class="latepoint-btn latepoint-btn-primary" data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'location_categories', 'new_form' )) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html($add_label) . '</span></button>';
+		$html .= '<button class="latepoint-btn latepoint-btn-primary" data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'location_categories', 'new_form' ) ) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html( $add_label ) . '</span></button>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -367,13 +385,14 @@ class OsFormHelper {
 		return apply_filters( 'latepoint_model_options_for_multi_select', $options, $model_name );
 	}
 
-	public static function date_picker_field(string $name, string $formatted_value = '', string $raw_value = '', array $atts = []) : string{
-		$html = '<div data-single-date="yes" '.self::atts_string_from_array($atts, ['class' => 'os-date-range-picker']).'>
-					<span class="range-picker-value">'.esc_html($formatted_value).'</span>
+	public static function date_picker_field( string $name, string $formatted_value = '', string $raw_value = '', array $atts = [] ): string {
+		$html = '<div data-single-date="yes" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-date-range-picker' ] ) . '>
+					<span class="range-picker-value">' . esc_html( $formatted_value ) . '</span>
 					<i class="latepoint-icon latepoint-icon-chevron-down"></i>
-					<input class="os-datepicker-date-from" type="hidden" name="'.esc_attr($name).'" value="'.esc_attr($raw_value).'"/>
+					<input class="os-datepicker-date-from" type="hidden" name="' . esc_attr( $name ) . '" value="' . esc_attr( $raw_value ) . '"/>
 				</div>';
-        return $html;
+
+		return $html;
 	}
 
 	public static function multi_select_field( $name, $label = false, $options = [], $selected_values = [], $atts = [], $wrapper_atts = [] ) {
@@ -390,17 +409,17 @@ class OsFormHelper {
 		}
 		$html .= '<div class="os-form-group os-form-select-group os-form-group-transparent">';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">' . esc_html( $label ) . '</label>';
 		}
 		$html .= '<select " ' . self::atts_string_from_array( $atts, [ 'class' => 'os-late-select' ] ) . ' data-placeholder="' . esc_attr__( 'Click to select...', 'latepoint' ) . '" multiple>';
 		foreach ( $options as $key => $option ) {
 			if ( isset( $option['value'] ) && isset( $option['label'] ) ) {
 				$selected = ( $selected_values && is_array( $selected_values ) && in_array( $option['value'], $selected_values ) ) ? 'selected="selected"' : '';
-				$html     .= '<option value="' . esc_attr($option['value']) . '" ' . $selected . '>' . esc_html($option['label']) . '</option>';
+				$html     .= '<option value="' . esc_attr( $option['value'] ) . '" ' . $selected . '>' . esc_html( $option['label'] ) . '</option>';
 			} else {
 				$value    = ( is_string( $key ) ) ? $key : $option;
 				$selected = ( $selected_values && in_array( $value, $selected_values ) ) ? 'selected' : '';
-				$html     .= '<option value="' . esc_attr($value) . '" ' . $selected . '>' . esc_html($option) . '</option>';
+				$html     .= '<option value="' . esc_attr( $value ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
 			}
 		}
 		$html .= '</select>';
@@ -494,30 +513,30 @@ class OsFormHelper {
 		if ( ! empty( $wrapper_atts ) ) {
 			$html = '<div ' . self::atts_string_from_array( $wrapper_atts ) . '>';
 		}
-		$html .= '<div class="os-form-group os-form-select-group '.esc_attr( $extra_class ).'">';
+		$html .= '<div class="os-form-group os-form-select-group ' . esc_attr( $extra_class ) . '">';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">' . esc_html( $label ) . '</label>';
 		}
-		$html .= '<select ' . $validate_html . ' name="' . esc_attr($name) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '>';
+		$html .= '<select ' . $validate_html . ' name="' . esc_attr( $name ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '>';
 		if ( isset( $atts['placeholder'] ) && ! empty( $atts['placeholder'] ) ) {
-			$html .= '<option value="">' . esc_html($atts['placeholder']) . '</option>';
+			$html .= '<option value="">' . esc_html( $atts['placeholder'] ) . '</option>';
 		}
 		if ( is_array( $options ) ) {
 			foreach ( $options as $key => $option ) {
 				if ( isset( $option['value'] ) && isset( $option['label'] ) ) {
 					$selected = ( $selected_value == $option['value'] ) ? 'selected' : '';
-					$html     .= '<option value="' . esc_attr($option['value']) . '" ' . $selected . '>' . esc_html($option['label']) . '</option>';
+					$html     .= '<option value="' . esc_attr( $option['value'] ) . '" ' . $selected . '>' . esc_html( $option['label'] ) . '</option>';
 				} else {
 					$value    = ( is_string( $key ) ) ? $key : $option;
 					$selected = ( $selected_value == $value ) ? 'selected' : '';
-					$html     .= '<option value="' . esc_attr($value) . '" ' . $selected . '>' . esc_html($option) . '</option>';
+					$html     .= '<option value="' . esc_attr( $value ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
 				}
 			}
 		} else {
 			$html .= $options;
 		}
 		if ( $add_value_if_not_present && ! isset( $options[ $selected_value ] ) ) {
-			$html .= '<option value="' . esc_attr($selected_value) . '">' . esc_html($selected_value) . '</option>';
+			$html .= '<option value="' . esc_attr( $selected_value ) . '">' . esc_html( $selected_value ) . '</option>';
 		}
 		$html .= '</select>';
 		$html .= '</div>';
@@ -540,17 +559,17 @@ class OsFormHelper {
 
 		$html = '<div class="os-time-group os-time-input-w ' . $extra_class . '">';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($name) . '[formatted_value]">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $name ) . '[formatted_value]">' . esc_html( $label ) . '</label>';
 		}
 		$html .= '<div class="os-time-input-fields">';
-		$html .= '<input type="text" placeholder="HH:MM" name="' . esc_attr($name) . '[formatted_value]" value="' . esc_attr($formatted_value) . '" class="os-form-control os-mask-time"/>';
+		$html .= '<input type="text" placeholder="HH:MM" name="' . esc_attr( $name ) . '[formatted_value]" value="' . esc_attr( $formatted_value ) . '" class="os-form-control os-mask-time"/>';
 
 		// am-pm toggler switch
 		if ( ! OsTimeHelper::is_army_clock() ) {
 			$is_am     = ( OsTimeHelper::am_or_pm( $value ) == 'am' );
 			$am_active = ( $is_am ) ? 'active' : '';
 			$pm_active = ( ! $is_am ) ? 'active' : '';
-			$html      .= '<input type="hidden" name="' . esc_attr($name) . '[ampm]" value="' . esc_attr(OsTimeHelper::am_or_pm( $value )) . '" class="ampm-value-hidden-holder"/>';
+			$html      .= '<input type="hidden" name="' . esc_attr( $name ) . '[ampm]" value="' . esc_attr( OsTimeHelper::am_or_pm( $value ) ) . '" class="ampm-value-hidden-holder"/>';
 			$html      .= '<div class="time-ampm-w"><div class="time-ampm-select time-am ' . $am_active . '" data-ampm-value="am">' . esc_html__( 'am', 'latepoint' ) . '</div><div class="time-ampm-select time-pm ' . $pm_active . '" data-ampm-value="pm">' . esc_html__( 'pm', 'latepoint' ) . '</div></div>';
 		}
 
@@ -572,11 +591,11 @@ class OsFormHelper {
 		}
 		$html .= '<div ' . self::atts_string_from_array( array( 'class' => 'os-form-group os-form-group-transparent os-form-color-picker-group' . $extra_class ) ) . '>';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($name) . '">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $name ) . '">' . esc_html( $label ) . '</label>';
 		}
 		$html .= '<div class="latepoint-color-picker-w">';
-		$html .= '<div class="latepoint-color-picker" data-color="' . esc_attr($value) . '"></div>';
-		$html .= '<input maxlength="7" type="text" name="' . esc_attr($name) . '" placeholder="' . esc_attr__( 'Pick a color', 'latepoint' ) . '" value="' . esc_attr($value) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '/>';
+		$html .= '<div class="latepoint-color-picker" data-color="' . esc_attr( $value ) . '"></div>';
+		$html .= '<input maxlength="7" type="text" name="' . esc_attr( $name ) . '" placeholder="' . esc_attr__( 'Pick a color', 'latepoint' ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '/>';
 		$html .= '</div>';
 		$html .= '</div>';
 		if ( ! empty( $wrapper_atts ) ) {
@@ -630,14 +649,14 @@ class OsFormHelper {
 		$checked_attr = $is_checked ? 'checked' : '';
 		$html         .= '<div ' . self::atts_string_from_array( array( 'class' => 'os-form-group os-form-checkbox-group ' . $checked_class ) ) . '>';
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">';
 		}
 		if ( $off_value !== false ) {
-			$html .= '<input type="hidden" name="' . esc_attr($name) . '" value="' . esc_attr($off_value) . '"/>';
+			$html .= '<input type="hidden" name="' . esc_attr( $name ) . '" value="' . esc_attr( $off_value ) . '"/>';
 		}
-		$html .= '<input type="checkbox" '.$validate_html.' name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" ' . $checked_attr . ' ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-checkbox' ] ) . '/>';
+		$html .= '<input type="checkbox" ' . $validate_html . ' name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . $checked_attr . ' ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-checkbox' ] ) . '/>';
 		if ( $label ) {
-			$html .= '<div>'. wp_kses_post($label) .'</div>' . '</label>';
+			$html .= '<div>' . wp_kses_post( $label ) . '</div>' . '</label>';
 		}
 		$html .= '</div>';
 		if ( ! empty( $wrapper_atts ) ) {
@@ -721,13 +740,13 @@ class OsFormHelper {
 		if ( ! empty( $wrapper_atts ) ) {
 			$html = '<div ' . self::atts_string_from_array( $wrapper_atts ) . '>';
 		}
-		$html        .= '<div class ="os-form-group os-form-textfield-group' . esc_attr($extra_class) . '" ' . self::atts_string_from_array( $form_group_atts ) . '>';
+		$html        .= '<div class ="os-form-group os-form-textfield-group' . esc_attr( $extra_class ) . '" ' . self::atts_string_from_array( $form_group_atts ) . '>';
 		$placeholder = ( ! empty( $atts['placeholder'] ) ) ? $atts['placeholder'] : $label;
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">' . esc_html( $label ) . '</label>';
 		}
 		$input_class = 'os-form-control';
-		$html        .= '<input ' . $validate_html . ' type="' . esc_attr(( $atts['type'] ?? 'text' )) . '" placeholder="' . esc_attr( $placeholder ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => $input_class ] ) . '/>';
+		$html        .= '<input ' . $validate_html . ' type="' . esc_attr( ( $atts['type'] ?? 'text' ) ) . '" placeholder="' . esc_attr( $placeholder ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => $input_class ] ) . '/>';
 		$html        .= '</div>';
 		if ( ! empty( $wrapper_atts ) ) {
 			$html .= '</div>';
@@ -780,7 +799,7 @@ class OsFormHelper {
 	public static function quantity_field( $name, $placeholder, $value = '' ): string {
 		return '<div class="item-quantity-selector-w">
       <div class="item-quantity-selector item-quantity-selector-minus" data-sign="minus"></div>
-      <input type="text" name="' . esc_attr($name) . '" class="item-quantity-selector-input" value="' . esc_attr($value) . '" placeholder="' . esc_attr($placeholder) . '">
+      <input type="text" name="' . esc_attr( $name ) . '" class="item-quantity-selector-input" value="' . esc_attr( $value ) . '" placeholder="' . esc_attr( $placeholder ) . '">
       <div class="item-quantity-selector item-quantity-selector-plus" data-sign="plus"></div>
     </div>';
 	}
@@ -843,9 +862,9 @@ class OsFormHelper {
 		$html        .= '<div ' . self::atts_string_from_array( array( 'class' => 'os-form-group os-form-textfield-group' . $extra_class ) ) . '>';
 		$placeholder = ( isset( $atts['placeholder'] ) && ! empty( $atts['placeholder'] ) ) ? $atts['placeholder'] : $label;
 		if ( $label ) {
-			$html .= '<label for="' . esc_attr($atts['id']) . '">' . esc_html($label) . '</label>';
+			$html .= '<label for="' . esc_attr( $atts['id'] ) . '">' . esc_html( $label ) . '</label>';
 		}
-		$html .= '<input type="password" placeholder="' . esc_attr($placeholder) . '" name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '/>';
+		$html .= '<input type="password" placeholder="' . esc_attr( $placeholder ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts, [ 'class' => 'os-form-control' ] ) . '/>';
 		$html .= '</div>';
 		if ( ! empty( $wrapper_atts ) ) {
 			$html .= '</div>';
@@ -859,7 +878,7 @@ class OsFormHelper {
 		if ( ! isset( $atts['id'] ) && ! isset( $atts['skip_id'] ) ) {
 			$atts['id'] = self::name_to_id( $name, $atts );
 		}
-		$html = '<input type="hidden" name="' . esc_attr($name) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts ) . '/>';
+		$html = '<input type="hidden" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts ) . '/>';
 
 		return $html;
 	}
@@ -871,7 +890,7 @@ class OsFormHelper {
 			$atts['id'] = self::name_to_id( $name, $atts );
 		}
 		$checked_html = $checked ? 'checked' : '';
-		$html         = '<input ' . $checked_html . ' type="radio" name="' . esc_attr($name) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts ) . '/>';
+		$html         = '<input ' . $checked_html . ' type="radio" name="' . esc_attr( $name ) . '" value="' . esc_attr( $value ) . '" ' . self::atts_string_from_array( $atts ) . '/>';
 
 		return $html;
 	}
@@ -886,7 +905,7 @@ class OsFormHelper {
 		if ( $icon ) {
 			$label = '<i class="latepoint-icon ' . esc_attr( $icon ) . '"></i><span>' . $label . '</span>';
 		}
-		$html .= '<button type="' . esc_attr($type) . '" name="' . esc_attr($name) . '" ' . self::atts_string_from_array( $atts ) . '>' . esc_html($label) . '</button>';
+		$html .= '<button type="' . esc_attr( $type ) . '" name="' . esc_attr( $name ) . '" ' . self::atts_string_from_array( $atts ) . '>' . esc_html( $label ) . '</button>';
 		$html .= '</div>';
 
 		return $html;

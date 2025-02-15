@@ -184,7 +184,8 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 
 		function new_action() {
 			$action        = new \LatePoint\Misc\ProcessAction();
-			$response_html = \LatePoint\Misc\ProcessAction::generate_form( $action );
+			$process_id = !empty($this->params['process_id']) ? sanitize_text_field($this->params['process_id']) : '';
+			$response_html = \LatePoint\Misc\ProcessAction::generate_form( $action, $process_id );
 
 			if ( $this->get_return_format() == 'json' ) {
 				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
@@ -299,9 +300,7 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			}
 			$action_settings_html .= OsFormHelper::hidden_field( 'action[type]', $action->type );
 			$action_settings_html .= OsFormHelper::hidden_field( 'action[event][type]', $action->event->type );
-			foreach ( $action->settings as $key => $setting ) {
-				$action_settings_html .= OsFormHelper::hidden_field( 'action[settings][' . $key . ']', $setting );
-			}
+			$action_settings_html.= OsFormHelper::get_hidden_fields_for_array($action->settings, 'action[settings]');
 			$preview_html = $action->generate_preview();
 
 			$this->vars['action']               = $action;
@@ -310,6 +309,7 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 
 			$this->format_render( __FUNCTION__ );
 		}
+
 
 		function reload_action_test_preview() {
 			$action = new \LatePoint\Misc\ProcessAction();

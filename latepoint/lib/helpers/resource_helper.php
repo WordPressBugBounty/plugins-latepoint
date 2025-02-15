@@ -29,7 +29,7 @@ class OsResourceHelper {
 	 *  | 0       | 0       | 0        | NULL          |   11:00 - 17:00   |  0
 	 *
 	 */
-	public static function get_resources_grouped_by_day( \LatePoint\Misc\BookingRequest $booking_request, DateTime $date_from, DateTime $date_to = null, array $settings = [] ): array {
+	public static function get_resources_grouped_by_day( \LatePoint\Misc\BookingRequest $booking_request, DateTime $date_from, ?DateTime $date_to = null, array $settings = [] ): array {
 		$defaults = [
 			'now'                   => OsTimeHelper::now_datetime_object(),
 			'exclude_booking_ids'   => [],

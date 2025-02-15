@@ -8,7 +8,7 @@ class OsDatabaseHelper {
 
 	public static function check_db_version() {
 		$current_db_version = OsSettingsHelper::get_db_version();
-		if (!$current_db_version || version_compare(LATEPOINT_DB_VERSION, $current_db_version)) {
+		if ( ! $current_db_version || version_compare( LATEPOINT_DB_VERSION, $current_db_version ) ) {
 			self::install_database();
 		}
 	}
@@ -16,7 +16,8 @@ class OsDatabaseHelper {
 	// [name => 'addon_name', 'db_version' => '1.0.0', 'version' => '1.0.0']
 	public static function get_installed_addons_list() {
 		$installed_addons = [];
-		$installed_addons = apply_filters('latepoint_installed_addons', $installed_addons);
+		$installed_addons = apply_filters( 'latepoint_installed_addons', $installed_addons );
+
 		return $installed_addons;
 	}
 
@@ -24,103 +25,120 @@ class OsDatabaseHelper {
 	// Check if addons databases are up to date
 	public static function check_db_version_for_addons() {
 		$is_new_addon_db_version_available = false;
-		$installed_addons = self::get_installed_addons_list();
-		if (empty($installed_addons)) return;
-		foreach ($installed_addons as $installed_addon) {
-			$current_addon_db_version = get_option($installed_addon['name'] . '_addon_db_version');
-			if (!$current_addon_db_version || version_compare($current_addon_db_version, $installed_addon['db_version'])) {
-				self::save_addon_info($installed_addon['name'], $installed_addon['db_version']);
+		$installed_addons                  = self::get_installed_addons_list();
+		if ( empty( $installed_addons ) ) {
+			return;
+		}
+		foreach ( $installed_addons as $installed_addon ) {
+			$current_addon_db_version = get_option( $installed_addon['name'] . '_addon_db_version' );
+			if ( ! $current_addon_db_version || version_compare( $current_addon_db_version, $installed_addon['db_version'] ) ) {
+				self::save_addon_info( $installed_addon['name'], $installed_addon['db_version'] );
 				$is_new_addon_db_version_available = true;
 			}
 		}
-		if ($is_new_addon_db_version_available) self::install_database_for_addons();
+		if ( $is_new_addon_db_version_available ) {
+			self::install_database_for_addons();
+		}
 	}
 
 
-	  public static function save_addon_info($name, $version){
-	    update_option( $name . '_addon_db_version', $version );
-		$active_addons = OsSettingsHelper::get_active_addons();
-		$active_addons[] = $name;
-		$active_addons = array_unique( $active_addons );
+	public static function save_addon_info( $name, $version ) {
+		update_option( $name . '_addon_db_version', $version );
+		$active_addons          = OsSettingsHelper::get_active_addons();
+		$active_addons[]        = $name;
+		$active_addons          = array_unique( $active_addons );
 		$verified_active_addons = [];
-		foreach($active_addons as $active_addon){
-			if(($active_addon == $name) || is_plugin_active($active_addon.'/'.$active_addon.'.php')){
+		if ( ! function_exists( 'plugin_main_function' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		foreach ( $active_addons as $active_addon ) {
+			if ( ( $active_addon == $name ) || is_plugin_active( $active_addon . '/' . $active_addon . '.php' ) ) {
 				$verified_active_addons[] = $active_addon;
 			}
 		}
-		OsSettingsHelper::save_setting_by_name('active_addons', wp_json_encode($verified_active_addons));
-	  }
+		OsSettingsHelper::save_setting_by_name( 'active_addons', wp_json_encode( $verified_active_addons ) );
+	}
 
-	  public static function delete_addon_info($name, $version){
-	    delete_option( $name . '_addon_db_version' );
-		$active_addons = OsSettingsHelper::get_active_addons();
-			$verified_active_addons = [];
-			foreach($active_addons as $active_addon){
-				if(($active_addon != $name) && is_plugin_active($active_addon.'/'.$active_addon.'.php')){
-					$verified_active_addons[] = $active_addon;
-				}
+	public static function delete_addon_info( $name, $version ) {
+		delete_option( $name . '_addon_db_version' );
+		$active_addons          = OsSettingsHelper::get_active_addons();
+		$verified_active_addons = [];
+
+		if (!function_exists('plugin_main_function')) {
+		    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		foreach ( $active_addons as $active_addon ) {
+			if ( ( $active_addon != $name ) && is_plugin_active( $active_addon . '/' . $active_addon . '.php' ) ) {
+				$verified_active_addons[] = $active_addon;
 			}
-			OsSettingsHelper::save_setting_by_name('active_addons', wp_json_encode($verified_active_addons));
-	  }
+		}
+		OsSettingsHelper::save_setting_by_name( 'active_addons', wp_json_encode( $verified_active_addons ) );
+	}
 
 
 	// Install queries for addons
 	public static function install_database_for_addons() {
 		$sqls = self::get_table_queries_for_addons();
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		foreach ($sqls as $sql) {
-			error_log(print_r(dbDelta($sql), true));
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		foreach ( $sqls as $sql ) {
+			error_log( print_r( dbDelta( $sql ), true ) );
 		}
 	}
 
 
 	public static function install_database() {
 		$sqls = self::get_initial_table_queries();
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		foreach ($sqls as $sql) {
-			error_log(print_r(dbDelta($sql), true));
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		foreach ( $sqls as $sql ) {
+			error_log( print_r( dbDelta( $sql ), true ) );
 		}
 		OsVersionSpecificUpdatesHelper::run_version_specific_updates();
 		self::seed_initial_data();
-		update_option('latepoint_db_version', LATEPOINT_DB_VERSION);
+		update_option( 'latepoint_db_version', LATEPOINT_DB_VERSION );
 	}
 
 	public static function seed_initial_data() {
 		// if DB version is set (means that it's probably an update) skip seeding
-		if (OsSettingsHelper::get_db_version()) return false;
+		if ( OsSettingsHelper::get_db_version() ) {
+			return false;
+		}
 		// if database was already seeded before - skip it
-		if (OsSettingsHelper::get_settings_value('is_database_seeded', false)) return false;
+		if ( OsSettingsHelper::get_settings_value( 'is_database_seeded', false ) ) {
+			return false;
+		}
 
 		// set default booking status rules
-		OsSettingsHelper::save_setting_by_name('default_booking_status', LATEPOINT_BOOKING_STATUS_APPROVED);
-		OsSettingsHelper::save_setting_by_name('timeslot_blocking_statuses', LATEPOINT_BOOKING_STATUS_APPROVED);
-		OsSettingsHelper::save_setting_by_name('calendar_hidden_statuses', LATEPOINT_BOOKING_STATUS_CANCELLED);
-		OsSettingsHelper::save_setting_by_name('need_action_statuses', implode(',', [LATEPOINT_BOOKING_STATUS_PENDING, LATEPOINT_BOOKING_STATUS_PAYMENT_PENDING]));
+		OsSettingsHelper::save_setting_by_name( 'default_booking_status', LATEPOINT_BOOKING_STATUS_APPROVED );
+		OsSettingsHelper::save_setting_by_name( 'timeslot_blocking_statuses', LATEPOINT_BOOKING_STATUS_APPROVED );
+		OsSettingsHelper::save_setting_by_name( 'calendar_hidden_statuses', LATEPOINT_BOOKING_STATUS_CANCELLED );
+		OsSettingsHelper::save_setting_by_name( 'need_action_statuses', implode( ',', [ LATEPOINT_BOOKING_STATUS_PENDING, LATEPOINT_BOOKING_STATUS_PAYMENT_PENDING ] ) );
 		// create default processes
-		$process = new OsProcessModel();
+		$process             = new OsProcessModel();
 		$process->event_type = 'booking_created';
-		$process->name = 'New Booking Notification';
-		$actions = [];
+		$process->name       = 'New Booking Notification';
+		$actions             = [];
 
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		if ( ! WP_Filesystem() ) {
 			OsDebugHelper::log( __( 'Failed to initialise WC_Filesystem API while trying to setup notifications for initial data seed.', 'latepoint' ) );
-		}else{
+		} else {
 			global $wp_filesystem;
-			foreach (['agent', 'customer'] as $user_type) {
-				$action = [];
-				$action['type'] = 'send_email';
-				$action['settings']['to_email'] = '{{' . $user_type . '_full_name}} <{{' . $user_type . '_email}}>';
-				$action['settings']['subject'] = ($user_type == 'agent') ? "New Appointment Received" : "Appointment Confirmation";
-				$action['settings']['content'] = OsEmailHelper::get_email_layout($wp_filesystem->get_contents(LATEPOINT_VIEWS_ABSPATH . 'mailers/' . $user_type . '/booking_created.html'));
-				$actions[\LatePoint\Misc\ProcessAction::generate_id()] = $action;
+			foreach ( [ 'agent', 'customer' ] as $user_type ) {
+				$action                                                  = [];
+				$action['type']                                          = 'send_email';
+				$action['settings']['to_email']                          = '{{' . $user_type . '_full_name}} <{{' . $user_type . '_email}}>';
+				$action['settings']['subject']                           = ( $user_type == 'agent' ) ? "New Appointment Received" : "Appointment Confirmation";
+				$action['settings']['content']                           = OsEmailHelper::get_email_layout( $wp_filesystem->get_contents( LATEPOINT_VIEWS_ABSPATH . 'mailers/' . $user_type . '/booking_created.html' ) );
+				$actions[ \LatePoint\Misc\ProcessAction::generate_id() ] = $action;
 			}
 		}
 
-		$process_actions = OsProcessesHelper::iterate_trigger_conditions([], $actions);
+		$process_actions                   = OsProcessesHelper::iterate_trigger_conditions( [], $actions );
 		$process_actions[0]['time_offset'] = [];
-		$process->actions_json = wp_json_encode($process_actions);
-		if (!OsProcessesHelper::check_if_process_exists($process)) $process->save();
+		$process->actions_json             = wp_json_encode( $process_actions );
+		if ( ! OsProcessesHelper::check_if_process_exists( $process ) ) {
+			$process->save();
+		}
 
 		/**
 		 * Hook your initial data seed actions here
@@ -129,23 +147,24 @@ class OsDatabaseHelper {
 		 * @hook latepoint_seed_initial_data
 		 *
 		 */
-		do_action('latepoint_seed_initial_data');
-		OsSettingsHelper::save_setting_by_name('is_database_seeded', true);
+		do_action( 'latepoint_seed_initial_data' );
+		OsSettingsHelper::save_setting_by_name( 'is_database_seeded', true );
 
 	}
 
-	public static function run_query(string $sql) {
+	public static function run_query( string $sql ) {
 		global $wpdb;
-		OsDebugHelper::log_query($sql);
-		return $wpdb->query($sql);
+		OsDebugHelper::log_query( $sql );
+
+		return $wpdb->query( $sql );
 	}
 
-	public static function run_queries($sqls) {
+	public static function run_queries( $sqls ) {
 		global $wpdb;
-		if ($sqls && is_array($sqls)) {
-			foreach ($sqls as $sql) {
-				$wpdb->query($sql);
-				OsDebugHelper::log_query($sql);
+		if ( $sqls && is_array( $sqls ) ) {
+			foreach ( $sqls as $sql ) {
+				$wpdb->query( $sql );
+				OsDebugHelper::log_query( $sql );
 			}
 		}
 	}
@@ -154,10 +173,64 @@ class OsDatabaseHelper {
 	// Get queries registered by addons
 	public static function get_table_queries_for_addons() {
 		$sqls = [];
-		$sqls = apply_filters('latepoint_addons_sqls', $sqls);
+		$sqls = apply_filters( 'latepoint_addons_sqls', $sqls );
+
 		return $sqls;
 	}
 
+	public static function get_all_latepoint_tables() {
+		$tables = [
+			LATEPOINT_TABLE_BUNDLES,
+			LATEPOINT_TABLE_JOIN_BUNDLES_SERVICES,
+			LATEPOINT_TABLE_BOOKINGS,
+			LATEPOINT_TABLE_SESSIONS,
+			LATEPOINT_TABLE_SERVICES,
+			LATEPOINT_TABLE_SETTINGS,
+			LATEPOINT_TABLE_SERVICE_CATEGORIES,
+			LATEPOINT_TABLE_WORK_PERIODS,
+			LATEPOINT_TABLE_CUSTOM_PRICES,
+			LATEPOINT_TABLE_AGENTS_SERVICES,
+			LATEPOINT_TABLE_ACTIVITIES,
+			LATEPOINT_TABLE_TRANSACTIONS,
+			LATEPOINT_TABLE_TRANSACTION_REFUNDS,
+			LATEPOINT_TABLE_TRANSACTION_INTENTS,
+			LATEPOINT_TABLE_AGENTS,
+			LATEPOINT_TABLE_CUSTOMERS,
+			LATEPOINT_TABLE_CUSTOMER_META,
+			LATEPOINT_TABLE_SERVICE_META,
+			LATEPOINT_TABLE_BOOKING_META,
+			LATEPOINT_TABLE_AGENT_META,
+			LATEPOINT_TABLE_STEPS,
+			LATEPOINT_TABLE_STEP_SETTINGS,
+			LATEPOINT_TABLE_LOCATIONS,
+			LATEPOINT_TABLE_LOCATION_CATEGORIES,
+			LATEPOINT_TABLE_PROCESSES,
+			LATEPOINT_TABLE_PROCESS_JOBS,
+			LATEPOINT_TABLE_CARTS,
+			LATEPOINT_TABLE_CART_META,
+			LATEPOINT_TABLE_CART_ITEMS,
+			LATEPOINT_TABLE_ORDERS,
+			LATEPOINT_TABLE_ORDER_META,
+			LATEPOINT_TABLE_ORDER_ITEMS,
+			LATEPOINT_TABLE_ORDER_INTENTS,
+			LATEPOINT_TABLE_ORDER_INTENT_META,
+			LATEPOINT_TABLE_ORDER_INVOICES,
+			LATEPOINT_TABLE_PAYMENT_REQUESTS
+		];
+
+		/**
+		 * Get list of all tables that hold latepoint related data
+		 *
+		 * @param {array} $tables list of tables
+		 * @returns {array} The filtered list of tables
+		 *
+		 * @since 5.1.3
+		 * @hook get_all_latepoint_tables
+		 *
+		 */
+		return apply_filters( 'get_all_latepoint_tables', $tables );
+
+	}
 
 	public static function get_initial_table_queries() {
 

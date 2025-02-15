@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="side-sub-panel-wrapper wide" data-invoice-id="<?php echo esc_attr( $invoice->id ); ?>">
     <div class="side-sub-panel-header os-form-header">
-        <h2><?php esc_html_e( 'View Invoice', 'latepoint-pro-features' ); ?></h2>
+        <h2><?php esc_html_e( 'View Invoice', 'latepoint' ); ?></h2>
         <a href="#" class=" latepoint-side-sub-panel-close latepoint-side-sub-panel-close-trigger latepoint-deselect-invoice-trigger"><i class="latepoint-icon latepoint-icon-x"></i></a>
     </div>
     <div class="side-sub-panel-content pattern-dotted invoice-document-wrapper">

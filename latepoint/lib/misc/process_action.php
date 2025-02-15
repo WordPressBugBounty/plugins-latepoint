@@ -31,6 +31,10 @@ class ProcessAction{
 				$this->settings['to_phone'] = $this->settings['to_phone'] ?? '';
 				$this->settings['content'] = $this->settings['content'] ?? '';
 				break;
+			case 'send_whatsapp':
+				$this->settings['to_phone'] = $this->settings['to_phone'] ?? '';
+				$this->settings['content'] = $this->settings['content'] ?? '';
+				break;
 		}
 	}
 
@@ -43,6 +47,8 @@ class ProcessAction{
 			case 'send_email':
 				return $this->settings['to_email'] ?? '';
 			case 'send_sms':
+				return $this->settings['to_phone'] ?? '';
+			case 'send_whatsapp':
 				return $this->settings['to_phone'] ?? '';
 		}
 	}
@@ -72,6 +78,10 @@ class ProcessAction{
 						$this->settings['to_phone'] = $template['to_phone'];
 						$this->settings['content'] = $template['content'];
 						break;
+					case 'send_whatsapp':
+						$this->settings['to_phone'] = $template['to_phone'];
+						$this->settings['content'] = $template['content'];
+						break;
 				}
 
 				/**
@@ -92,7 +102,7 @@ class ProcessAction{
 		}
 	}
 
-	public static function generate_form(ProcessAction $action): string{
+	public static function generate_form(ProcessAction $action, string $process_id = ''): string{
 		$descriptive_setting = $action->get_descriptive_setting() ? '<div class="process-action-descriptive-setting">'.$action->get_descriptive_setting().'</div>' : '';
 		$html = '<div class="process-action-form pa-type-'.$action->type.' pa-status-'.$action->status.'" data-id="'.$action->id.'">';
 			$html.= '<div class="process-action-heading">
@@ -106,11 +116,11 @@ class ProcessAction{
 							</div>';
 			$html.= '<div class="process-action-content">';
 			$html.= '<div class="os-row">';
-			$html.= \OsFormHelper::select_field('process[actions]['.$action->id.'][type]', __('Action Type', 'latepoint'), \LatePoint\Misc\ProcessAction::get_action_types_for_select(), $action->type, ['class' => 'process-action-type', 'data-action-id' => $action->id, 'data-route' => \OsRouterHelper::build_route_name('processes', 'load_action_settings')], ['class' => 'os-col-10']);
+			$html.= \OsFormHelper::select_field('process[actions]['.$action->id.'][type]', __('Action Type', 'latepoint'), \LatePoint\Misc\ProcessAction::get_action_types_for_select(), $action->type, ['class' => 'process-action-type', 'data-action-id' => $action->id, 'data-process-id' => $process_id, 'data-route' => \OsRouterHelper::build_route_name('processes', 'load_action_settings')], ['class' => 'os-col-10']);
 			$html.= \OsFormHelper::select_field('process[actions]['.$action->id.'][status]', __('Status', 'latepoint'), [LATEPOINT_STATUS_ACTIVE => __('Active', 'latepoint'), LATEPOINT_STATUS_DISABLED => __('Disabled', 'latepoint')], $action->status, false, ['class' => 'os-col-2']);
 			$html.= '</div>';
 			$html.= '<div class="process-action-settings">';
-				$html.= self::generate_settings_fields($action);
+				$html.= self::generate_settings_fields($action, $process_id);
 			$html.= '</div>';
 			$html.= '<div class="process-buttons">
 								<a href="#" class="latepoint-btn latepoint-btn-danger pull-left os-remove-process-action" 
@@ -123,12 +133,12 @@ class ProcessAction{
 	}
 
 
-	public static function generate_settings_fields(ProcessAction $action){
+	public static function generate_settings_fields(ProcessAction $action, string $process_id = ''){
 		$html = '';
 
 		if(in_array($action->type, ['send_email', 'send_sms'])){
 			$html.= '<div class="process-action-controls-wrapper">';
-			$html.= '<a href="#" data-os-after-call="latepoint_init_template_library" data-os-params="'.\OsUtilHelper::build_os_params(['action_id'=>$action->id, 'action_type'=>$action->type]).'" data-os-lightbox-classes="width-1000" data-os-action="'.\OsRouterHelper::build_route_name('notifications', 'templates_index').'" href="#" data-os-output-target="side-panel" class="latepoint-btn latepoint-btn-outline latepoint-btn-sm"><i class="latepoint-icon latepoint-icon-book"></i><span>'.__('Load from template', 'latepoint').'</span></a>';
+			$html.= '<a href="#" data-os-after-call="latepoint_init_template_library" data-os-params="'.\OsUtilHelper::build_os_params(['action_id'=>$action->id, 'action_type'=>$action->type, 'process_id' => $process_id]).'" data-os-lightbox-classes="width-1000" data-os-action="'.\OsRouterHelper::build_route_name('notifications', 'templates_index').'" href="#" data-os-output-target="side-panel" class="latepoint-btn latepoint-btn-outline latepoint-btn-sm"><i class="latepoint-icon latepoint-icon-book"></i><span>'.__('Load from template', 'latepoint').'</span></a>';
 			$html.= '<a href="#" class="latepoint-btn latepoint-btn-outline latepoint-btn-sm open-template-variables-panel"><i class="latepoint-icon latepoint-icon-zap"></i><span>'.__('Show smart variables', 'latepoint').'</span></a>';
 			$html.= '</div>';
 		}
@@ -146,7 +156,16 @@ class ProcessAction{
 					$html.= \OsFormHelper::text_field('process[actions]['.$action->id.'][settings][to_phone]', __('To Phone Number', 'latepoint'),  $action->settings['to_phone'], ['theme' => 'simple', 'placeholder' => __('Phone Number', 'latepoint')]);
 					$html.= \OsFormHelper::textarea_field('process[actions]['.$action->id.'][settings][content]', __('Message Content', 'latepoint'),  $action->settings['content'], ['theme' => 'simple', 'placeholder' => __('Message', 'latepoint'), 'rows' => 4]);
 				}else{
-					$html = \OsUtilHelper::generate_missing_addon_link(__('You have to install an SMS processor addon to send text messages.', 'latepoint'));
+					$html = \OsUtilHelper::generate_missing_addon_link(__('You have to enable an SMS processor to send text messages. Available in a premium version.', 'latepoint'));
+				}
+				break;
+			case 'send_whatsapp':
+				if(\OsWhatsappHelper::get_whatsapp_processors()){
+					$html.= '<div class="latepoint-whatsapp-templates-loader" data-route="'.esc_attr(\OsRouterHelper::build_route_name('whatsapp', 'load_templates_for_action')).'" data-selected-template-id="'.esc_attr($action->settings['template_id'] ?? '').'" data-process-id="'.esc_attr($process_id).'" data-process-action-id="'.esc_attr($action->id).'"></div>';
+					$html.= '<div class="latepoint-whatsapp-templates-holder">'.\OsFormHelper::get_hidden_fields_for_array($action->settings, 'process[actions]['.$action->id.']').'</div>';
+
+				}else{
+					$html = \OsUtilHelper::generate_missing_addon_link(__('You have to enable a WhatsApp processor to send messages. Available in a premium version.', 'latepoint'));
 				}
 				break;
 			case 'trigger_webhook':
@@ -181,6 +200,9 @@ class ProcessAction{
 			case 'send_sms':
 				$html.= \OsFormHelper::text_field('action[actions]['.$this->id.'][to]', '', $this->settings['to'], ['theme' => 'simple', 'placeholder' => __('SMS To', 'latepoint')]);
 				break;
+			case 'send_whatsapp':
+				$html.= \OsFormHelper::text_field('action[actions]['.$this->id.'][to]', '', $this->settings['to'], ['theme' => 'simple', 'placeholder' => __('WhatsApp Message To', 'latepoint')]);
+				break;
 			case 'trigger_webhook':
 				$html.= \OsFormHelper::text_field('action[actions]['.$this->id.'][url]', '', $this->settings['url'], ['theme' => 'simple', 'placeholder' => __('Webhook URL', 'latepoint')]);
 				break;
@@ -191,7 +213,7 @@ class ProcessAction{
 
 
 	public static function get_action_types(){
-		$action_types = ['send_email', 'send_sms', 'trigger_webhook'];
+		$action_types = ['send_email', 'send_sms', 'trigger_webhook', 'send_whatsapp'];
 
 		/**
 		 * Returns an array of process action types that can be executed when an event is triggered
@@ -210,7 +232,8 @@ class ProcessAction{
 		$names = [
 			'send_email' => __('Send Email', 'latepoint'),
 			'send_sms' => __('Send SMS', 'latepoint'),
-			'trigger_webhook' => __('HTTP Request (Webhook)', 'latepoint')
+			'trigger_webhook' => __('HTTP Request (Webhook)', 'latepoint'),
+			'send_whatsapp' => __('Send WhatsApp Message', 'latepoint')
 		];
 
 		/**
@@ -277,6 +300,67 @@ class ProcessAction{
 				$this->prepared_data_for_run['to'] = \OsReplacerHelper::replace_all_vars($this->settings['to_phone'], $this->replacement_vars);
 				$this->prepared_data_for_run['content'] = \OsReplacerHelper::replace_all_vars($this->settings['content'], $this->replacement_vars);
 				break;
+			case 'send_whatsapp':
+				$this->prepared_data_for_run['to'] = \OsReplacerHelper::replace_all_vars($this->settings['to_phone'], $this->replacement_vars);
+				$this->prepared_data_for_run['data']['type'] = 'template';
+				$this->prepared_data_for_run['data']['template_id'] = $this->settings['template_id'];
+				$this->prepared_data_for_run['data']['template_language'] = $this->settings['template_language'];
+				$this->prepared_data_for_run['data']['template_parameter_format'] = $this->settings['template_parameter_format'];
+				$this->prepared_data_for_run['data']['template_category'] = $this->settings['template_category'];
+				$this->prepared_data_for_run['data']['template_name'] = $this->settings['template_name'];
+
+				$selected_template = \OsWhatsappHelper::get_template($this->settings['template_id']);
+
+				$this->prepared_data_for_run['data']['variables'] = $this->settings['variables'] ?? [];
+				if(!empty($this->settings['variables'])){
+					foreach($this->settings['variables'] as $type => $variables){
+						$parameters = [];
+						foreach($variables as $key => $value){
+							$clean_key = str_replace(['{{', '}}'], '', $key);
+							$replaced_value = \OsReplacerHelper::replace_all_vars($value, $this->replacement_vars);
+							if(is_numeric($clean_key)){
+								$parameters[] = ['type' => 'text', 'text' => $replaced_value];
+							}else{
+								$parameters[] = ['type' => 'text', 'text' => $replaced_value, 'parameter_name' => $clean_key];
+							}
+						}
+						if(strtolower($type) == 'buttons'){
+							// each button has to have a separate component element, only URL typed buttons have variables in them
+							foreach($parameters as $index => $parameter){
+								$this->prepared_data_for_run['data']['components'][] = [
+									'type' => 'button',
+									'index' => $index,
+									'sub_type' => 'url',
+									'parameters' => $parameters
+								];
+							}
+						}else{
+							$this->prepared_data_for_run['data']['components'][] = ['type' => $type, 'parameters' => $parameters];
+						}
+					}
+				}
+
+				$content_by_type['header'] = \OsWhatsappHelper::get_template_component_value_by_key($selected_template, 'HEADER', 'text');
+				$content_by_type['body'] = \OsWhatsappHelper::get_template_component_value_by_key($selected_template, 'BODY', 'text');
+				$content_by_type['buttons'] = \OsWhatsappHelper::get_template_component_value_by_key($selected_template, 'BUTTONS', 'buttons');
+
+
+				foreach($content_by_type as $content_type => $content){
+					if($content_type == 'buttons'){
+						if(!empty($content)){
+							foreach($content as $button){
+								// only URL can have variables
+								if($button['type'] == 'URL') $button['url'] = empty($this->settings['variables'][$content_type]) ? $button['url'] : \OsReplacerHelper::replace_all_vars(str_replace(array_keys($this->settings['variables'][$content_type]), array_values($this->settings['variables'][$content_type]), $button['url']), $this->replacement_vars);
+								$this->prepared_data_for_run['content_for_'.$content_type][] = $button;
+							}
+						}else{
+							$this->prepared_data_for_run['content_for_'.$content_type] = [];
+						}
+					}else{
+						$this->prepared_data_for_run['content_for_'.$content_type] = empty($this->settings['variables'][$content_type]) ? $content : \OsReplacerHelper::replace_all_vars(str_replace(array_keys($this->settings['variables'][$content_type]), array_values($this->settings['variables'][$content_type]), $content), $this->replacement_vars);
+					}
+				}
+				break;
 		}
 
 		/**
@@ -311,6 +395,10 @@ class ProcessAction{
 				break;
 			case 'send_sms':
 				$notification_type = 'sms';
+				$result = \OsNotificationsHelper::send($notification_type, $this->prepared_data_for_run);
+				break;
+			case 'send_whatsapp':
+				$notification_type = 'whatsapp';
 				$result = \OsNotificationsHelper::send($notification_type, $this->prepared_data_for_run);
 				break;
 		}
@@ -351,6 +439,31 @@ class ProcessAction{
 			case 'send_sms':
 				$preview_content_html.= '<div class="action-preview-to"><span class="os-label">'.__('To:', 'latepoint').'</span><span class="os-value">'.esc_html($this->prepared_data_for_run['to']).'</span></div>';
 				$preview_content_html.= '<div class="action-preview-content">'.$this->prepared_data_for_run['content'].'</div>';
+				break;
+			case 'send_whatsapp':
+				$preview_content_html.= '<div class="action-preview-to"><span class="os-label">'.__('To:', 'latepoint').'</span><span class="os-value">'.esc_html($this->prepared_data_for_run['to']).'</span></div>';
+				$preview_content_html.= '<div class="action-preview-content">';
+					$preview_content_html.= '<div class="latepoint-whatsapp-template-preview-messages">';
+						$preview_content_html.= '<div class="latepoint-whatsapp-template-preview-message">';
+						$preview_content_html.= '<div class="latepoint-whatsapp-template-preview-message-header">'.$this->prepared_data_for_run['content_for_header'].'</div>';
+						$preview_content_html.= '<div class="latepoint-whatsapp-template-preview-message-body">'.$this->prepared_data_for_run['content_for_body'].'</div>';
+						if($this->prepared_data_for_run['content_for_buttons']){
+							$preview_content_html.= '<div class="latepoint-whatsapp-template-preview-message-buttons">';
+							foreach($this->prepared_data_for_run['content_for_buttons'] as $button){
+								switch($button['type']){
+									case 'PHONE_NUMBER':
+										$preview_content_html.= '<a href="tel:'.esc_url($button['phone_number']).'" class="latepoint-whatsapp-template-preview-message-button"><i class="latepoint-icon latepoint-icon-phone"></i>'.esc_html($button['text']).'</a>';
+										break;
+									case 'URL':
+										$preview_content_html.= '<a href="'.esc_url($button['url']).'" class="latepoint-whatsapp-template-preview-message-button"><i class="latepoint-icon latepoint-icon-external-link"></i>'.esc_html($button['text']).'</a>';
+										break;
+								}
+							}
+							$preview_content_html.= '</div>';
+						}
+						$preview_content_html.= '</div>';
+					$preview_content_html.= '</div>';
+				$preview_content_html.= '</div>';
 				break;
 		}
 

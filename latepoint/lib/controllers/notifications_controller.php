@@ -20,6 +20,7 @@ if (!class_exists('OsNotificationsController')) :
 		public function templates_index() {
 			$action_id = $this->params['action_id'];
 			$action_type = $this->params['action_type'];
+			$process_id = $this->params['process_id'];
 
 			$templates = OsNotificationsHelper::load_templates_for_action_type($action_type);
 			$grouped_templates = [];
@@ -38,6 +39,7 @@ if (!class_exists('OsNotificationsController')) :
 
 			$this->vars['action_type'] = $action_type;
 			$this->vars['action_id'] = $action_id;
+			$this->vars['process_id'] = $process_id;
 
 			$this->vars['selected_template_id'] = false;
 			$this->vars['templates'] = $templates;

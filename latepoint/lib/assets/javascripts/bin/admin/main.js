@@ -140,6 +140,7 @@ function latepoint_init_template_library(){
     let $btn = jQuery(this);
     let route_name = $btn.data('route');
     let action_id = $btn.data('action-id');
+    let process_id = $btn.data('process-id');
     let action_type = $btn.data('action-type');
     $btn.addClass('os-loading');
 
@@ -148,6 +149,7 @@ function latepoint_init_template_library(){
                   params: {
                     template_id: jQuery('.os-template-item.selected').data('id'),
                     action_id: action_id,
+                    process_id: process_id,
                     action_type: action_type
                   },
                   return_format: 'json' }

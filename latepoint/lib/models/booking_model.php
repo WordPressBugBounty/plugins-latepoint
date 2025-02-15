@@ -872,7 +872,7 @@ class OsBookingModel extends OsModel {
 
 		if ( $booking_datetime ) {
 			$diff = $now_datetime->diff( $booking_datetime );
-			if ( $diff->d > 0 ) {
+			if ( $diff->d > 0 || $diff->m > 0 || $diff->y > 0 ) {
 				$left = $diff->format( '%a ' . __( 'days', 'latepoint' ) );
 			} else {
 				if ( $diff->h > 0 ) {
@@ -950,7 +950,7 @@ class OsBookingModel extends OsModel {
 		return $this->service;
 	}
 
-	public function get_start_datetime_object( DateTimeZone $timezone = null ) {
+	public function get_start_datetime_object( ?DateTimeZone $timezone = null ) {
 		if ( empty( $timezone ) ) {
 			$timezone = OsTimeHelper::get_wp_timezone();
 		}
@@ -968,7 +968,7 @@ class OsBookingModel extends OsModel {
 		return $booking_start_datetime;
 	}
 
-	public function get_end_datetime_object( DateTimeZone $timezone = null ) {
+	public function get_end_datetime_object( ?DateTimeZone $timezone = null ) {
 		if ( empty( $timezone ) ) {
 			$timezone = OsTimeHelper::get_wp_timezone();
 		}

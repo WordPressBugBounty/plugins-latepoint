@@ -475,6 +475,18 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                     </div>
                 </div>
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Export/Import', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <a class="latepoint-btn latepoint-btn-grey latepoint-btn-outline" target="_blank" href="<?php echo OsRouterHelper::build_admin_post_link( [ 'settings', 'export_data' ]); ?>">
+                            <i class="latepoint-icon latepoint-icon-external-link"></i>
+                            <span><?php esc_html_e('Export Data'); ?></span>
+                        </a>
+                        <a data-os-lightbox-classes="width-700" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('settings', 'import_modal')); ?>" href="#" data-os-output-target="lightbox" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Import Data', 'latepoint'); ?></span></a>
+                    </div>
+                </div>
 
 				<?php
 				/**

@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<div class="bf-main-panel">
-			<div class="bf-main-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_heading]" contenteditable="true"><?php echo OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_heading'); ?></div>
+			<div class="bf-main-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_heading]" contenteditable="true"><?php echo strip_tags(OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_heading')); ?></div>
 			<div class="bf-main-panel-content-wrapper">
 				<div class="bf-main-panel-content-before os-editable editable-setting" data-placeholder="+" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_content_before]"><?php echo OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_content_before'); ?></div>
 				<div class="bf-main-panel-content">

@@ -42,6 +42,11 @@ class OsNotificationsHelper {
 			'label' => __('SMS', 'latepoint'),
 			'processors' => OsSmsHelper::get_sms_processors()
 		];
+		$notification_types['whatsapp'] = [
+			'code' => 'whatsapp',
+			'label' => __('WhatsApp', 'latepoint'),
+			'processors' => OsWhatsappHelper::get_whatsapp_processors()
+		];
 		/**
 		 *
 		 * Returns notification types with processors
@@ -87,6 +92,10 @@ class OsNotificationsHelper {
 				$to = $notification_settings['to'] ?? '';
 				$content = $notification_settings['content'] ?? '';
 				$result = OsSmsHelper::send_sms($to, $content, ($notification_settings['activity_data'] ?? []));
+				break;
+			case 'whatsapp':
+				$to = $notification_settings['to'] ?? '';
+				$result = OsWhatsappHelper::send_whatsapp($to, $notification_settings['data'], ($notification_settings['activity_data'] ?? []));
 				break;
 		}
 

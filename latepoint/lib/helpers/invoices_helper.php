@@ -83,7 +83,7 @@ class OsInvoicesHelper {
 	public static function readable_status( string $status ): string {
 		$statuses = self::list_of_statuses_for_select();
 
-		return $statuses[ $status ] ?? __( 'n/a', 'latepoint-pro-features' );
+		return $statuses[ $status ] ?? __( 'n/a', 'latepoint' );
 	}
 
 	public static function get_invoice_by_key( string $key ): OsInvoiceModel {
@@ -107,11 +107,11 @@ class OsInvoicesHelper {
 			<?php if ( $show_controls ) { ?>
                 <div class="invoice-controls">
                     <div class="ic-block">
-						<?php echo OsFormHelper::select_field( 'invoice[status]', __( 'Status', 'latepoint-pro-features' ), OsInvoicesHelper::list_of_statuses_for_select(), $invoice->status, ['class' => 'invoice-change-status-selector'] ); ?>
+						<?php echo OsFormHelper::select_field( 'invoice[status]', __( 'Status', 'latepoint' ), OsInvoicesHelper::list_of_statuses_for_select(), $invoice->status, ['class' => 'invoice-change-status-selector'] ); ?>
                     </div>
                     <div class="ic-block">
                         <a target="_blank" href="<?php echo $invoice->get_access_url(); ?>" class="ic-external-link">
-                            <span><?php esc_html_e( 'Open', 'latepoint-pro-features' ); ?></span>
+                            <span><?php esc_html_e( 'Open', 'latepoint' ); ?></span>
                             <i class="latepoint-icon latepoint-icon-external-link"></i>
                         </a>
                     </div>
@@ -123,7 +123,7 @@ class OsInvoicesHelper {
                                  data-os-after-call="latepointInvoicesAdminFeature.init_invoice_data_form"
                               data-os-lightbox-classes="width-500">
                             <i class="latepoint-icon latepoint-icon-edit-2"></i>
-                            <span><?php esc_html_e( 'Edit Data', 'latepoint-pro-features' ); ?></span>
+                            <span><?php esc_html_e( 'Edit Data', 'latepoint' ); ?></span>
                         </button>
                         <button type="button" class="latepoint-btn latepoint-btn-sm latepoint-btn-outline"
                                 data-os-params="<?php echo esc_attr(http_build_query( [ 'invoice_id' => $invoice->id ] )); ?>"
@@ -132,7 +132,7 @@ class OsInvoicesHelper {
                                  data-os-after-call="latepointInvoicesAdminFeature.init_email_invoice_form"
                               data-os-lightbox-classes="width-500">
                             <i class="latepoint-icon latepoint-icon-mail"></i>
-                            <span><?php esc_html_e( 'Email Invoice', 'latepoint-pro-features' ); ?></span>
+                            <span><?php esc_html_e( 'Email Invoice', 'latepoint' ); ?></span>
                         </button>
                     </div>
                 </div>
@@ -152,41 +152,41 @@ class OsInvoicesHelper {
 				?>
                 <div class="invoice-heading">
                     <div class="invoice-info">
-                        <div class="invoice-title"><?php echo $transaction ? esc_html__( 'Receipt', 'latepoint-pro-features' ) : esc_html__( 'Invoice', 'latepoint-pro-features' ); ?></div>
+                        <div class="invoice-title"><?php echo $transaction ? esc_html__( 'Receipt', 'latepoint' ) : esc_html__( 'Invoice', 'latepoint' ); ?></div>
                         <div class="invoice-data">
                             <div class="invoice-row">
-                                <div class="id-label"><?php esc_html_e( 'Invoice number', 'latepoint-pro-features' ); ?></div>
+                                <div class="id-label"><?php esc_html_e( 'Invoice number', 'latepoint' ); ?></div>
                                 <div class="id-value"><?php echo esc_html( $invoice->get_invoice_number() ); ?></div>
                             </div>
 							<?php if ( $transaction ) { ?>
                                 <div class="invoice-row">
-                                    <div class="id-label"><?php esc_html_e( 'Receipt number', 'latepoint-pro-features' ); ?></div>
+                                    <div class="id-label"><?php esc_html_e( 'Receipt number', 'latepoint' ); ?></div>
                                     <div class="id-value"><?php echo esc_html( $transaction->receipt_number ); ?></div>
                                 </div>
                                 <div class="invoice-row">
-                                    <div class="id-label"><?php esc_html_e( 'Date paid', 'latepoint-pro-features' ); ?></div>
+                                    <div class="id-label"><?php esc_html_e( 'Date paid', 'latepoint' ); ?></div>
                                     <div class="id-value"><?php echo esc_html( OsTimeHelper::get_readable_date( new OsWpDateTime( $transaction->created_at, new DateTimeZone('UTC') ) ) ); ?></div>
                                 </div>
 							<?php } else { ?>
                                 <div class="invoice-row">
-                                    <div class="id-label"><?php esc_html_e( 'Date of issue', 'latepoint-pro-features' ); ?></div>
+                                    <div class="id-label"><?php esc_html_e( 'Date of issue', 'latepoint' ); ?></div>
                                     <div class="id-value"><?php echo esc_html( OsTimeHelper::get_readable_date( new OsWpDateTime( $invoice->created_at, new DateTimeZone('UTC') ) ) ); ?></div>
                                 </div>
                                 <div class="invoice-row">
-                                    <div class="id-label"><?php esc_html_e( 'Date due', 'latepoint-pro-features' ); ?></div>
+                                    <div class="id-label"><?php esc_html_e( 'Date due', 'latepoint' ); ?></div>
                                     <div class="id-value"><?php echo esc_html( OsTimeHelper::get_readable_date( new OsWpDateTime( $invoice->due_at, new DateTimeZone('UTC') ) ) ); ?></div>
                                 </div>
 							<?php } ?>
                             <?php if(!empty($invoice_data['tax_id'])){ ?>
                             <div class="invoice-row">
-                                <div class="id-label"><?php esc_html_e( 'VAT Number', 'latepoint-pro-features' ); ?></div>
+                                <div class="id-label"><?php esc_html_e( 'VAT Number', 'latepoint' ); ?></div>
                                 <div class="id-value"><?php echo esc_html( $invoice_data['tax_id'] ); ?></div>
                             </div>
                             <?php } ?>
                         </div>
                     </div>
                     <div class="invoice-logo">
-                        <img src="<?php echo esc_attr( self::get_invoice_logo_url() ); ?>" width="50" height="50" alt="LatePoint Dashboard">
+                        <img src="<?php echo esc_attr( self::get_invoice_logo_url() ); ?>" width="50" height="50" alt="<?php esc_attr_e('LatePoint Dashboard', 'latepoint'); ?>">
                     </div>
                 </div>
                 <div class="invoice-to-from">
@@ -199,7 +199,7 @@ class OsInvoicesHelper {
                         </div>
                     </div>
                     <div class="invoice-from">
-                        <div class="if-heading"><?php echo esc_html( 'Bill to' ); ?></div>
+                        <div class="if-heading"><?php echo esc_html( __('Bill to', 'latepoint') ); ?></div>
                         <div class="if-data-block">
 							<?php echo wp_kses($invoice_data['to'], ['br' => []]); ?>
                         </div>
@@ -208,65 +208,65 @@ class OsInvoicesHelper {
 				<?php if ( empty( $transaction ) ) { ?>
                     <div class="invoice-due-info">
                         <div class="invoice-due-amount">
-							<?php echo esc_html( sprintf( __( '%s due %s', 'latepoint-pro-features' ), OsMoneyHelper::format_price( $invoice->charge_amount, true, false ), OsTimeHelper::get_readable_date_from_string( $invoice->due_at ) ) ); ?>
+							<?php echo esc_html( sprintf( __( '%s due %s', 'latepoint' ), OsMoneyHelper::format_price( $invoice->charge_amount, true, false ), OsTimeHelper::get_readable_date_from_string( $invoice->due_at ) ) ); ?>
                         </div>
 						<?php if ( $invoice->status == LATEPOINT_INVOICE_STATUS_OPEN ) { ?>
                             <div class="invoice-due-pay-link-w">
-                                <a href="<?php echo $invoice->get_pay_url(); ?>" target="_blank"><?php esc_html_e( 'Pay Online', 'latepoint-pro-features' ); ?></a>
+                                <a href="<?php echo $invoice->get_pay_url(); ?>" target="_blank"><?php esc_html_e( 'Pay Online', 'latepoint' ); ?></a>
                             </div>
 						<?php } ?>
 						<?php if ( $invoice->status == LATEPOINT_INVOICE_STATUS_PAID || $invoice->get_successful_payments() ) { ?>
                             <div class="invoice-due-pay-link-w">
                                 <a target="_blank"
-                                   href="<?php echo OsOrdersHelper::generate_direct_manage_order_url( $invoice->get_order(), 'customer', 'list_payments' ) ?>"><?php esc_html_e( 'View Payments', 'latepoint-pro-features' ); ?></a>
+                                   href="<?php echo OsOrdersHelper::generate_direct_manage_order_url( $invoice->get_order(), 'customer', 'list_payments' ) ?>"><?php esc_html_e( 'View Payments', 'latepoint' ); ?></a>
                             </div>
 						<?php } ?>
                     </div>
 				<?php } else { ?>
                     <div class="invoice-due-info">
                         <div class="invoice-due-amount">
-							<?php echo esc_html( sprintf( __( '%s paid on %s', 'latepoint-pro-features' ), OsMoneyHelper::format_price( $transaction->amount, true, false ), OsTimeHelper::get_readable_date_from_string( $transaction->created_at ) ) ); ?>
+							<?php echo esc_html( sprintf( __( '%s paid on %s', 'latepoint' ), OsMoneyHelper::format_price( $transaction->amount, true, false ), OsTimeHelper::get_readable_date_from_string( $transaction->created_at ) ) ); ?>
                         </div>
                     </div>
 
 				<?php } ?>
                 <div class="invoice-items">
                     <div class="invoice-items-table-heading">
-                        <div class="it-column"><?php esc_html_e( 'Description', 'latepoint-pro-features' ); ?></div>
-                        <div class="it-column"><?php esc_html_e( 'Amount', 'latepoint-pro-features' ); ?></div>
+                        <div class="it-column"><?php esc_html_e( 'Description', 'latepoint' ); ?></div>
+                        <div class="it-column"><?php esc_html_e( 'Amount', 'latepoint' ); ?></div>
                     </div>
 					<?php OsPriceBreakdownHelper::output_price_breakdown( $invoice_data['price_breakdown'] ); ?>
                 </div>
                 <div class="invoice-totals">
                     <div class="it-row">
-                        <div class="it-column"><?php esc_html_e( 'Subtotal', 'latepoint-pro-features' ); ?></div>
+                        <div class="it-column"><?php esc_html_e( 'Subtotal', 'latepoint' ); ?></div>
                         <div class="it-column"><?php echo esc_html( OsMoneyHelper::format_price( $invoice_data['totals']['subtotal'], true, false ) ); ?></div>
                     </div>
                     <div class="it-row">
-                        <div class="it-column"><?php esc_html_e( 'Total', 'latepoint-pro-features' ); ?></div>
+                        <div class="it-column"><?php esc_html_e( 'Total', 'latepoint' ); ?></div>
                         <div class="it-column"><?php echo esc_html( OsMoneyHelper::format_price( $invoice_data['totals']['total'], true, false ) ); ?></div>
                     </div>
 					<?php if ( empty( $transaction ) ) { ?>
 						<?php if ( ! empty( $invoice_data['totals']['payments'] ) ) { ?>
                             <div class="it-row it-row-positive">
-                                <div class="it-column"><?php esc_html_e( 'Payments & Credits', 'latepoint-pro-features' ); ?></div>
+                                <div class="it-column"><?php esc_html_e( 'Payments & Credits', 'latepoint' ); ?></div>
                                 <div class="it-column"><?php echo '-' . esc_html( OsMoneyHelper::format_price( $invoice_data['totals']['payments'], true, false ) ); ?></div>
                             </div>
 						<?php } ?>
                         <div class="it-row it-row-bold">
-                            <div class="it-column"><?php esc_html_e( 'Amount Due', 'latepoint-pro-features' ); ?></div>
+                            <div class="it-column"><?php esc_html_e( 'Amount Due', 'latepoint' ); ?></div>
                             <div class="it-column"><?php echo esc_html( OsMoneyHelper::format_price( $invoice->charge_amount, true, false ) ); ?></div>
                         </div>
 					<?php } else { ?>
                         <div class="it-row it-row-bold">
-                            <div class="it-column"><?php esc_html_e( 'Amount Paid', 'latepoint-pro-features' ); ?></div>
+                            <div class="it-column"><?php esc_html_e( 'Amount Paid', 'latepoint' ); ?></div>
                             <div class="it-column"><?php echo esc_html( OsMoneyHelper::format_price( $transaction->amount, true, false ) ); ?></div>
                         </div>
 					<?php } ?>
                 </div>
 				<?php if ( OsSettingsHelper::get_settings_value( 'invoice_terms', '' ) ) { ?>
                     <div class="invoice-terms">
-                        <div class="terms-heading"><?php esc_html_e( 'Terms & Conditions', 'latepoint-pro-features' ); ?></div>
+                        <div class="terms-heading"><?php esc_html_e( 'Terms & Conditions', 'latepoint' ); ?></div>
                         <div class="terms-content"><?php echo esc_html( OsSettingsHelper::get_settings_value( 'invoice_terms', '' ) ); ?></div>
                     </div>
 				<?php } ?>
@@ -277,12 +277,12 @@ class OsInvoicesHelper {
 
 	public static function list_of_statuses_for_select(): array {
 		$statuses = [
-			LATEPOINT_INVOICE_STATUS_OPEN       => __( 'Open', 'latepoint-pro-features' ),
-			LATEPOINT_INVOICE_STATUS_PAID           => __( 'Paid', 'latepoint-pro-features' ),
-			LATEPOINT_INVOICE_STATUS_PARTIALLY_PAID => __( 'Partially Paid', 'latepoint-pro-features' ),
-			LATEPOINT_INVOICE_STATUS_DRAFT          => __( 'Draft', 'latepoint-pro-features' ),
-			LATEPOINT_INVOICE_STATUS_VOID         => __( 'Void', 'latepoint-pro-features' ),
-			LATEPOINT_INVOICE_STATUS_UNCOLLECTIBLE  => __( 'Uncollectible', 'latepoint-pro-features' ),
+			LATEPOINT_INVOICE_STATUS_OPEN       => __( 'Open', 'latepoint' ),
+			LATEPOINT_INVOICE_STATUS_PAID           => __( 'Paid', 'latepoint' ),
+			LATEPOINT_INVOICE_STATUS_PARTIALLY_PAID => __( 'Partially Paid', 'latepoint' ),
+			LATEPOINT_INVOICE_STATUS_DRAFT          => __( 'Draft', 'latepoint' ),
+			LATEPOINT_INVOICE_STATUS_VOID         => __( 'Void', 'latepoint' ),
+			LATEPOINT_INVOICE_STATUS_UNCOLLECTIBLE  => __( 'Uncollectible', 'latepoint' ),
 		];
 
 		/**
@@ -334,7 +334,7 @@ class OsInvoicesHelper {
 		if ( OsRolesHelper::can_user( 'invoice__view' ) ) { ?>
             <div class="invoices-info-w">
                 <div class="os-form-sub-header">
-                    <h3><?php esc_html_e( 'Invoices', 'latepoint-pro-features' ); ?></h3>
+                    <h3><?php esc_html_e( 'Invoices', 'latepoint' ); ?></h3>
                 </div>
                 <div class="list-of-invoices">
 				<?php if ( $invoices ) {
@@ -560,8 +560,8 @@ class OsInvoicesHelper {
                 <div class="lp-invoice-status lp-invoice-status-' . $invoice->status . '">' . self::readable_status( $invoice->status ) . '</div>
               </div>
               <div class="quick-invoice-sub">
-                <div class="lp-invoice-number"><span>' . esc_html__( 'Invoice Number:', 'latepoint-pro-features' ) . '</span> <strong>' . esc_html( $invoice->get_invoice_number() ) . '</strong></div>
-                <div class="lp-invoice-date">' . sprintf( esc_html__( 'Due: %s', 'latepoint-pro-features' ), OsTimeHelper::get_readable_date( new OsWpDateTime( $invoice->due_at, new DateTimeZone('UTC') ) ) ) . '</div>
+                <div class="lp-invoice-number"><span>' . esc_html__( 'Invoice Number:', 'latepoint' ) . '</span> <strong>' . esc_html( $invoice->get_invoice_number() ) . '</strong></div>
+                <div class="lp-invoice-date">' . sprintf( esc_html__( 'Due: %s', 'latepoint' ), OsTimeHelper::get_readable_date( new OsWpDateTime( $invoice->due_at, new DateTimeZone('UTC') ) ) ) . '</div>
               </div>';
         $html.= '</div>';
         return $html;
@@ -586,13 +586,13 @@ class OsInvoicesHelper {
 		switch ( $activity->code ) {
 			case 'invoice_created':
 				$link_to_invoice = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-                $vars['name'] = __('Invoice Created', 'latepoint-pro-features');
+                $vars['name'] = __('Invoice Created', 'latepoint');
 				$vars['meta_html']     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_invoice . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
 				$vars['content_html']  = '<pre class="format-json">' . wp_json_encode( $data['invoice_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 				break;
 			case 'invoice_updated':
 				$link_to_invoice = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-                $vars['name'] = __('Invoice Updated', 'latepoint-pro-features');
+                $vars['name'] = __('Invoice Updated', 'latepoint');
 				$vars['meta_html']     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_invoice . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
 				$changes       = OsUtilHelper::compare_model_data_vars( $data['invoice_data_vars']['new'], $data['invoice_data_vars']['old'] );
 				$vars['content_html']  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
@@ -603,8 +603,8 @@ class OsInvoicesHelper {
 	}
 
 	public static function add_invoice_activity_code( array $codes ): array {
-		$codes['invoice_created'] = __( 'Invoice Created', 'latepoint-pro-features' );
-		$codes['invoice_updated'] = __( 'Invoice Updated', 'latepoint-pro-features' );
+		$codes['invoice_created'] = __( 'Invoice Created', 'latepoint' );
+		$codes['invoice_updated'] = __( 'Invoice Updated', 'latepoint' );
 
 		return $codes;
 	}
@@ -842,11 +842,11 @@ class OsInvoicesHelper {
 	public static function add_conditions_for_invoice_events( array $objects, string $event_type ): array {
 		switch ( $event_type ) {
 			case 'invoice_created':
-				$objects[] = [ 'code' => 'invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'Invoice', 'latepoint-pro-features' ), 'properties' => [] ];
+				$objects[] = [ 'code' => 'invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'Invoice', 'latepoint' ), 'properties' => [] ];
 				break;
 			case 'invoice_updated':
-				$objects[] = [ 'code' => 'old_invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'Old Invoice', 'latepoint-pro-features' ), 'properties' => [] ];
-				$objects[] = [ 'code' => 'invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'New Invoice', 'latepoint-pro-features' ), 'properties' => [] ];
+				$objects[] = [ 'code' => 'old_invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'Old Invoice', 'latepoint' ), 'properties' => [] ];
+				$objects[] = [ 'code' => 'invoice', 'model' => 'OsInvoiceModel', 'label' => __( 'New Invoice', 'latepoint' ), 'properties' => [] ];
 				break;
 		}
 
@@ -861,8 +861,8 @@ class OsInvoicesHelper {
 	}
 
 	public static function add_names_for_process_events_for_invoices( array $process_event_names ): array {
-		$process_event_names['invoice_created'] = __( 'Invoice Created', 'latepoint-pro-features' );
-		$process_event_names['invoice_updated'] = __( 'Invoice Updated', 'latepoint-pro-features' );
+		$process_event_names['invoice_created'] = __( 'Invoice Created', 'latepoint' );
+		$process_event_names['invoice_updated'] = __( 'Invoice Updated', 'latepoint' );
 
 		return $process_event_names;
 	}
@@ -877,13 +877,13 @@ class OsInvoicesHelper {
 	public static function get_invoice_data_bill_from(): string {
 		$default = '{{business_address}}<br>{{business_phone}}';
 
-		return OsSettingsHelper::get_settings_value( 'invoices_data_bill_from', $default );
+		return OsSettingsHelper::get_settings_value( 'invoices_data_from', $default );
 	}
 
 	public static function get_invoice_data_bill_to(): string {
 		$default = '{{customer_full_name}}<br>{{customer_email}}<br>{{customer_phone}}';
 
-		return OsSettingsHelper::get_settings_value( 'invoices_data_bill_to', $default );
+		return OsSettingsHelper::get_settings_value( 'invoices_data_to', $default );
 	}
 
 	public static function get_content_for_invoice_email(): string {
@@ -895,15 +895,15 @@ class OsInvoicesHelper {
 	public static function output_invoice_vars() {
 		?>
         <div class="available-vars-block">
-            <h4><?php _e( 'Invoices', 'latepoint-pro-features' ); ?></h4>
+            <h4><?php _e( 'Invoices', 'latepoint' ); ?></h4>
             <ul>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Status' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_status}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Due Date' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_due_date}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Amount' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_amount}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Number' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_number}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Access URL' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_access_url}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Pay URL' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_pay_url}}</span></li>
-                <li><span class="var-label"><?php esc_html_e( 'Invoice Receipt URL' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_receipt_url}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Status', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_status}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Due Date', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_due_date}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Amount', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_amount}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Number', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_number}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Access URL', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_access_url}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Pay URL', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_pay_url}}</span></li>
+                <li><span class="var-label"><?php esc_html_e( 'Invoice Receipt URL', 'latepoint' ); ?></span> <span class="var-code os-click-to-copy">{{invoice_receipt_url}}</span></li>
 
             </ul>
         </div>
@@ -920,7 +920,7 @@ class OsInvoicesHelper {
 				<?php
 				echo '<div class="sub-section-row">
                           <div class="sub-section-label">
-                            <h3>' . __( 'Invoice Data', 'latepoint-pro-features' ) . '</h3>
+                            <h3>' . __( 'Invoice Data', 'latepoint' ) . '</h3>
                           </div>
                           <div class="sub-section-content">';
 
@@ -929,31 +929,31 @@ class OsInvoicesHelper {
                         </div>';
 				echo '<div class="os-row os-mb-2">';
 				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );
+				echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_tax_id]', __( 'VAT Number/Tax ID', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ), [ 'theme' => 'simple' ] );
+				echo OsFormHelper::text_field( 'settings[invoices_tax_id]', __( 'VAT Number/Tax ID', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_number_prefix]', __( 'Number Prefix', 'latepoint-pro-features' ), OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ), [ 'theme' => 'simple' ] );
+				echo OsFormHelper::text_field( 'settings[invoices_number_prefix]', __( 'Number Prefix', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '</div>';
 				echo '<div class="os-mb-2">';
-				echo OsFormHelper::textarea_field( 'settings[invoices_data_from]', __( 'Bill From', 'latepoint-pro-features' ), self::get_invoice_data_bill_from(), [ 'theme' => 'simple' ] );
+				echo OsFormHelper::textarea_field( 'settings[invoices_data_from]', __( 'Bill From', 'latepoint' ), self::get_invoice_data_bill_from(), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '<div>';
-				echo OsFormHelper::textarea_field( 'settings[invoices_data_to]', __( 'Bill To', 'latepoint-pro-features' ), self::get_invoice_data_bill_to(), [ 'theme' => 'simple' ] );
+				echo OsFormHelper::textarea_field( 'settings[invoices_data_to]', __( 'Bill To', 'latepoint' ), self::get_invoice_data_bill_to(), [ 'theme' => 'simple' ] );
 				echo '</div>';
 				echo '</div>
 					</div>
 					<div class="sub-section-row">
                           <div class="sub-section-label">
-                            <h3>' . __( 'Email Invoice', 'latepoint-pro-features' ) . '</h3>
+                            <h3>' . __( 'Email Invoice', 'latepoint' ) . '</h3>
                           </div>
                           <div class="sub-section-content">
-                            <div class="latepoint-message latepoint-message-subtle">' . __( 'This subject and content will be used when invoice is being emailed. ', 'latepoint-pro-features' ) . OsUtilHelper::template_variables_link_html() . '</div>';
-				echo OsFormHelper::text_field( 'settings[invoices_email_subject]', __( 'Subject', 'latepoint-pro-features' ), self::get_subject_for_invoice_email(), [ 'theme' => 'simple' ] );
-				OsFormHelper::wp_editor_field( 'settings[invoices_email_content]', 'settingsInvoiceEmailContent', __( 'Email Content', 'latepoint-pro-features' ), self::get_content_for_invoice_email() );
+                            <div class="latepoint-message latepoint-message-subtle">' . __( 'This subject and content will be used when invoice is being emailed. ', 'latepoint' ) . OsUtilHelper::template_variables_link_html() . '</div>';
+				echo OsFormHelper::text_field( 'settings[invoices_email_subject]', __( 'Subject', 'latepoint' ), self::get_subject_for_invoice_email(), [ 'theme' => 'simple' ] );
+				OsFormHelper::wp_editor_field( 'settings[invoices_email_content]', 'settingsInvoiceEmailContent', __( 'Email Content', 'latepoint' ), self::get_content_for_invoice_email() );
 				echo '</div>
 					</div>';
 				?>

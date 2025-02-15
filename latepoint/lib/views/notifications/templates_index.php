@@ -3,6 +3,8 @@
 /* @var $grouped_templates array */
 /* @var $heading string */
 /* @var $action_type string */
+/* @var $action_id string */
+/* @var $process_id string */
 /* @var $selected_template_id string */
 
 
@@ -79,7 +81,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             }
             ?>
             <div class="os-template-use-button-wrapper hidden">
-                <button type="button" class="latepoint-btn latepoint-btn-primary latepoint-btn-lg latepoint-btn-block latepoint-select-template-btn" data-action-type="<?php echo esc_attr($action_type); ?>" data-action-id="<?php echo esc_attr($action_id); ?>" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('processes', 'load_action_settings'));?>">
+                <button type="button" class="latepoint-btn latepoint-btn-primary latepoint-btn-lg latepoint-btn-block latepoint-select-template-btn" data-action-type="<?php echo esc_attr($action_type); ?>" data-process-id="<?php echo esc_attr($process_id); ?>" data-action-id="<?php echo esc_attr($action_id); ?>" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('processes', 'load_action_settings'));?>">
                     <span><?php esc_html_e('Use this template', 'latepoint'); ?></span>
                     <i class="latepoint-icon latepoint-icon-arrow-right"></i>
                 </button>

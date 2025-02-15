@@ -57,11 +57,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					if(!empty($process->actions)) {
 						foreach ($process->actions as $action) {
-							echo \LatePoint\Misc\ProcessAction::generate_form($action);
+							echo \LatePoint\Misc\ProcessAction::generate_form($action, $process->id);
 						}
 					}
 					?>
-	        <a href="#" class="latepoint-btn latepoint-btn-block latepoint-btn-outline" data-os-after-call="latepoint_init_added_process_action_form" data-os-pass-this="yes" data-os-action="<?php echo OsRouterHelper::build_route_name('processes', 'new_action'); ?>" data-os-before-after="before">
+	        <a href="#" class="latepoint-btn latepoint-btn-block latepoint-btn-outline" data-os-after-call="latepoint_init_added_process_action_form" data-os-pass-this="yes" data-os-action="<?php echo OsRouterHelper::build_route_name('processes', 'new_action'); ?>" data-os-params="<?php echo OsUtilHelper::build_os_params(['process_id' => $process->id]); ?>" data-os-before-after="before">
 		        <i class="latepoint-icon latepoint-icon-plus"></i>
 		        <span><?php esc_html_e('Add Action', 'latepoint');  ?></span>
 	        </a>

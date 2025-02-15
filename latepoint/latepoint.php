@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.2
+ * Version: 5.1.4
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,7 +28,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.2';
+		public $version = '5.1.4';
 		public $db_version = '2.1.5';
 
 
@@ -147,6 +147,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			if ( ! defined( 'LATEPOINT_ALLOW_SMS' ) ) {
 				define( 'LATEPOINT_ALLOW_SMS', true );
+			}
+			if ( ! defined( 'LATEPOINT_ALLOW_WHATSAPP' ) ) {
+				define( 'LATEPOINT_ALLOW_WHATSAPP', true );
 			}
 			if ( ! defined( 'LATEPOINT_ALLOW_EMAILS' ) ) {
 				define( 'LATEPOINT_ALLOW_EMAILS', true );
@@ -801,6 +804,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/notifications_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/email_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/sms_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/whatsapp_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/styles_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/work_periods_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/bundles_helper.php' );

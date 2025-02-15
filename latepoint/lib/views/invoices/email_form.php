@@ -33,7 +33,7 @@
 		}else{
             ?>
             <?php
-            echo '<div class="latepoint-message latepoint-message-subtle">' . __( 'You can customize subject and content of the email in general settings', 'latepoint-pro-features' ). '</div>';
+            echo '<div class="latepoint-message latepoint-message-subtle">' . __( 'You can customize subject and content of the email in general settings', 'latepoint' ). '</div>';
             echo OsFormHelper::text_field('invoice_email[to]', __('Email to:', 'latepoint'), $to, ['theme' => 'simple']);
             echo OsFormHelper::hidden_field('invoice_id', $invoice->id);
         }
