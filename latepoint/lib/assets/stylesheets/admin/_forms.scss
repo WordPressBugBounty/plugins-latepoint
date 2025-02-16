@@ -369,7 +369,7 @@ input, select {
       }
       &.os-form-phonefield-group {
         border: none;
-        .iti {
+        .lp_iti {
           background-color: #fff;
           border: 1px solid $border-color-strong;
           padding-left: 8px;
@@ -378,7 +378,7 @@ input, select {
           &:has(input:focus){
             border-color: $brand-primary;
           }
-          .iti__selected-flag {
+          .lp_iti__selected-flag {
             padding: 0;
           }
         }
@@ -879,7 +879,7 @@ input, select {
   &.os-form-phonefield-group{
     border-bottom: 1px solid $form-controls-border-color;
     &:not(.has-value){
-      .iti, .latepoint .iti {
+      .lp_iti, .latepoint .lp_iti {
         align-items: center;
       }
     }
@@ -900,8 +900,8 @@ input, select {
       &:has(.os-form-control:focus) {
         border-bottom-color: $form-controls-border-color-error;
       }
-      .iti__flag-container .iti__selected-flag {
-        .iti__selected-dial-code {
+      .lp_iti__flag-container .lp_iti__selected-flag {
+        .lp_iti__selected-dial-code {
           color: $form-controls-color-error;
         }
       }
@@ -911,13 +911,13 @@ input, select {
     }
 
 
-    .iti__selected-dial-code {
+    .lp_iti__selected-dial-code {
       line-height: 19px;
       color: $form-controls-color;
     }
 
-    .iti__flag-container {
-      .iti__selected-flag {
+    .lp_iti__flag-container {
+      .lp_iti__selected-flag {
         line-height: 18px;
         transition: all 0.2s ease;
         font-size: $font-size-base;
@@ -941,7 +941,7 @@ input, select {
         }
       }
 
-      .iti__selected-flag {
+      .lp_iti__selected-flag {
         z-index: 1;
         position: relative;
         display: flex;
@@ -968,7 +968,7 @@ input, select {
           }
         }
       }
-      .iti {
+      .lp_iti {
         align-items: center;
       }
       &.no-label.has-value, &.no-label:not(.has-value) {
@@ -986,7 +986,7 @@ input, select {
 
       &.no-label:not(.has-value),
       &.no-label.has-value {
-        .iti__selected-flag {
+        .lp_iti__selected-flag {
           padding: 7px 6px 8px 10px;
         }
         .os-form-control {

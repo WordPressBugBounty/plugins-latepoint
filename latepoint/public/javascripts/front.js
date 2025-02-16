@@ -141,7 +141,7 @@ function latepoint_validate_form($form) {
             }
             break;
           case 'phone':
-            if (!window.intlTelInputGlobals.getInstance($input[0]).isValidNumber()) {
+            if (!window.lp_intlTelInputGlobals.getInstance($input[0]).isValidNumber()) {
               errors.push({message: label + ' ' + latepoint_helper.msg_validation_invalid});
               field_has_errors = true;
             }
@@ -179,10 +179,10 @@ function latepoint_create_form_data($form, route_name = false, extra_params = fa
   }
 
   // get values from phone number fields
-  if (('intlTelInputGlobals' in window) && ('intlTelInputUtils' in window)) {
+  if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
     $form.find('input.os-mask-phone').each(function () {
       const phoneInputName = this.getAttribute('name');
-      const phoneInputValue = window.intlTelInputGlobals.getInstance(this).getNumber(window.intlTelInputUtils.numberFormat.E164);
+      const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
       // override value generated automatically by formdata with a formatted value of a phone field with country code
       params.set(phoneInputName, phoneInputValue);
     });
@@ -297,7 +297,7 @@ function latepoint_mask_phone($elem) {
   let jsElem = $elem[0];
 
   // First priority is to prevent duplicates (common in non-document.body contexts)
-  if (jsElem && !window.intlTelInputGlobals.getInstance(jsElem)) {
+  if (jsElem && !window.lp_intlTelInputGlobals.getInstance(jsElem)) {
     let dropdownContainer = document.body;
 
     let onlyCountries = JSON.parse(latepoint_helper.included_phone_countries);
@@ -305,10 +305,10 @@ function latepoint_mask_phone($elem) {
     if (onlyCountries.length === 1 && onlyCountries[0] === "") {
       onlyCountries = [];
     }
-    const preferredCountries = onlyCountries.length ? [] : window.intlTelInputGlobals.defaults.preferredCountries;
+    const preferredCountries = onlyCountries.length ? [] : window.lp_intlTelInputGlobals.defaults.preferredCountries;
 
     // remove country name in english and only use names in country language
-    var countryData = window.intlTelInputGlobals.getCountryData();
+    var countryData = window.lp_intlTelInputGlobals.getCountryData();
 
     for (var i = 0; i < countryData.length; i++) {
       var country = countryData[i];
@@ -321,7 +321,7 @@ function latepoint_mask_phone($elem) {
     }
 
 
-    let iti = window.intlTelInput(jsElem, {
+    let iti = window.lp_intlTelInput(jsElem, {
       dropdownContainer: dropdownContainer,
       formatOnDisplay: true,
       nationalMode: true,
@@ -663,13 +663,13 @@ jQuery(function( $ ) {
       var $form = $(this);
       var form_data = new FormData($form[0]);
 
-    if (('intlTelInputGlobals' in window) && ('intlTelInputUtils' in window)) {
+    if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
       // Get e164 formatted number from phone fields when form is submitted
       $form.find('input.os-mask-phone').each(function () {
-        let telInstance = window.intlTelInputGlobals.getInstance(this);
+        let telInstance = window.lp_intlTelInputGlobals.getInstance(this);
         if(telInstance){
           const phoneInputName = this.getAttribute('name');
-          const phoneInputValue = window.intlTelInputGlobals.getInstance(this).getNumber(window.intlTelInputUtils.numberFormat.E164);
+          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
           form_data.set(phoneInputName, phoneInputValue);
         }
       });
@@ -871,7 +871,7 @@ function latepoint_init_manage_booking_by_key() {
 }
 
 function latepoint_init_form_masks() {
-    if (('intlTelInput' in window) && ('intlTelInputGlobals' in window)) {
+    if (('lp_intlTelInput' in window) && ('lp_intlTelInputGlobals' in window)) {
         jQuery('.os-mask-phone').each(function () {
             latepoint_mask_phone(jQuery(this));
         });

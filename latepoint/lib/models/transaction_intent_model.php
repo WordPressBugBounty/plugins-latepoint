@@ -71,6 +71,8 @@ class OsTransactionIntentModel extends OsModel {
 
 		try {
 
+			$this->specs_charge_amount = apply_filters('latepoint_transaction_intent_convert_amount_to_specs', $this->charge_amount, $this);
+
 			// process payment if there is amount due
 			$transaction = OsPaymentsHelper::process_payment_for_transaction_intent( $this );
 			if(!$transaction || $transaction->status != LATEPOINT_TRANSACTION_STATUS_SUCCEEDED){
@@ -139,23 +141,30 @@ class OsTransactionIntentModel extends OsModel {
 		return $this->where( [ 'intent_key' => $intent_key ] )->set_limit( 1 )->get_results_as_models();
 	}
 
-	public function mark_as_converted( OsTransactionModel $transaction ) {
+	public function mark_as_converted( OsTransactionModel $transaction ) : bool {
 		if ( empty( $transaction->id ) ) {
 			return false;
 		}
 
-		$this->update_attributes( [ 'transaction_id' => $transaction->id, 'status' => LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED ] );
-		/**
-		 * Transaction intent is converted to transaction
-		 *
-		 * @param {OsTransactionIntentModel} $transaction_intent Instance of transaction intent model that has been converted to transaction
-		 * @param {OsTransactionModel} $transaction Instance of transaction model that transaction intent was converted to
-		 *
-		 * @since 5.0.0
-		 * @hook latepoint_transaction_intent_converted
-		 *
-		 */
-		do_action( 'latepoint_transaction_intent_converted', $this, $transaction );
+		$this->transaction_id = $transaction->id;
+		$this->status = LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED;
+
+		if($this->save()){
+			/**
+			 * Transaction intent is converted to transaction
+			 *
+			 * @param {OsTransactionIntentModel} $transaction_intent Instance of transaction intent model that has been converted to transaction
+			 * @param {OsTransactionModel} $transaction Instance of transaction model that transaction intent was converted to
+			 *
+			 * @since 5.0.0
+			 * @hook latepoint_transaction_intent_converted
+			 *
+			 */
+			do_action( 'latepoint_transaction_intent_converted', $this, $transaction );
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public function mark_as_processing() {

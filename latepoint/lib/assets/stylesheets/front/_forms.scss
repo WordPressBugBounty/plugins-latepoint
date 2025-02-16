@@ -172,7 +172,7 @@
         border-color: $brand-primary;
       }
 
-      .iti__selected-dial-code {
+      .lp_iti__selected-dial-code {
         color: $form-controls-color;
         font-weight: $body-font-weight-normal;
         font-size: $font-size-base!important;
@@ -189,7 +189,7 @@
         }
       }
 
-      .iti__selected-flag {
+      .lp_iti__selected-flag {
         padding: 12px 4px 12px 10px ;
         transition: all 0.2s ease;
       }
@@ -208,16 +208,16 @@
       }
 
       &:not(.has-value){
-        .iti.iti--allow-dropdown {
+        .lp_iti.lp_iti--allow-dropdown {
           align-items: center;
         }
-        .iti__selected-flag {
+        .lp_iti__selected-flag {
           padding-top: 10px;
           padding-bottom: 10px;
         }
       }
       &.has-value {
-        .iti__selected-flag {
+        .lp_iti__selected-flag {
           padding-top: 19px;
           padding-bottom: 5px;
         }

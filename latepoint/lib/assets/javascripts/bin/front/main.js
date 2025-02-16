@@ -99,7 +99,7 @@ function latepoint_init_manage_booking_by_key() {
 }
 
 function latepoint_init_form_masks() {
-    if (('intlTelInput' in window) && ('intlTelInputGlobals' in window)) {
+    if (('lp_intlTelInput' in window) && ('lp_intlTelInputGlobals' in window)) {
         jQuery('.os-mask-phone').each(function () {
             latepoint_mask_phone(jQuery(this));
         });
