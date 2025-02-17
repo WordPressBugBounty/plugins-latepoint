@@ -1855,7 +1855,7 @@ class OsStepsHelper {
 	}
 
 	public static function prepare_step_payment__pay() {
-        $booking_form_page_url = self::$params['booking_form_page_url'] ?? wp_get_original_referer();
+        $booking_form_page_url = self::$params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
         $order_intent         = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, $booking_form_page_url );
 	}
 

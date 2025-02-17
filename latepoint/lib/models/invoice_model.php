@@ -143,7 +143,7 @@ class OsInvoiceModel extends OsModel {
 		if(!empty($this->invoice_number)) return $this->invoice_number;
 		if(empty($this->id)) return '';
 		$this->invoice_number = OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ).sprintf('1%06d', $this->id);
-		$this->update_attributes('invoice_number', $this->invoice_number);
+		$this->update_attributes(['invoice_number' => $this->invoice_number]);
 		return $this->invoice_number;
 	}
 

@@ -622,4 +622,40 @@ class OsOrdersHelper {
 		return implode( ',', array_unique( $property_values ) );
 	}
 
+	public static function check_if_order_invoices_paid_full_balance( $order_id ) {
+		$order = new OsOrderModel( $order_id );
+		$invoices = new OsInvoiceModel();
+		$paid_invoices = $invoices->where(['status' => LATEPOINT_INVOICE_STATUS_PAID, 'order_id' => $order_id])->get_results_as_models();
+		$total_paid = 0;
+		$updated = false;
+		foreach ( $paid_invoices as $invoice ) {
+			$total_paid += $invoice->charge_amount;
+		}
+		if($total_paid > 0){
+			$old_order = clone $order;
+			if($total_paid < $order->get_total()){
+				if($order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID){
+					$updated = $order->update_attributes(['payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID]);
+				}
+			}else{
+				if($order->get_total() > 0 && $order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID){
+					$updated = $order->update_attributes(['payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID]);
+				}
+			}
+			if($updated){
+				/**
+				 * Order was updated
+				 *
+				 * @param {OsOrderModel} $order instance of order model after it was updated
+				 * @param {OsOrderModel} $old_order instance of order model before it was updated
+				 *
+				 * @since 5.0.0
+				 * @hook latepoint_order_updated
+				 *
+				 */
+				do_action( 'latepoint_order_updated', $order, $old_order );
+			}
+		}
+	}
+
 }

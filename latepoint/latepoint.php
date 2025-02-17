@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.5
+ * Version: 5.1.6
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,7 +28,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.5';
+		public $version = '5.1.6';
 		public $db_version = '2.1.5';
 
 
@@ -973,6 +973,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			add_filter( 'latepoint_convert_charge_amount_to_requirements', 'OsStripeConnectHelper::convert_charge_amount_to_requirements', 10, 2 );
 			add_filter( 'latepoint_process_payment_for_order_intent', 'OsStripeConnectHelper::process_payment', 10, 2 );
 			add_filter( 'latepoint_process_payment_for_transaction_intent', 'OsStripeConnectHelper::process_payment_for_transaction_intent', 10, 2 );
+			add_filter( 'latepoint_transaction_intent_specs_charge_amount', 'OsStripeConnectHelper::convert_transaction_intent_charge_amount_to_specs', 10, 2 );
 
 			add_filter( 'latepoint_get_all_payment_times', 'OsStripeConnectHelper::add_all_payment_methods_to_payment_times' );
 			add_filter( 'latepoint_get_enabled_payment_times', 'OsStripeConnectHelper::add_enabled_payment_methods_to_payment_times' );

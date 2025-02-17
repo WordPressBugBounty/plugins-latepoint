@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LatePoint\n"
-"POT-Creation-Date: 2025-02-14 16:07-0800\n"
-"PO-Revision-Date: 2025-02-14 16:07-0800\n"
+"POT-Creation-Date: 2025-02-16 17:05-0800\n"
+"PO-Revision-Date: 2025-02-16 17:05-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr ""
 #: blocks/elementor/elementor_widget_book_button.php:429
 #: blocks/elementor/elementor_widget_book_form.php:195
 #: blocks/elementor/elementor_widget_list_of_resources.php:407
-#: lib/helpers/stripe_connect_helper.php:263 lib/views/services/_form.php:101
+#: lib/helpers/stripe_connect_helper.php:269 lib/views/services/_form.php:101
 #: lib/views/settings/general.php:370 lib/views/settings/notifications.php:57
 #: lib/views/settings/payments.php:30
 msgid "Other Settings"
@@ -587,7 +587,7 @@ msgstr ""
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:564
 #: blocks/elementor/elementor_widget_list_of_resources.php:866
-#: lib/controllers/bookings_controller.php:220
+#: lib/controllers/bookings_controller.php:248
 #: lib/helpers/settings_helper.php:390
 msgid "Price"
 msgstr ""
@@ -816,95 +816,95 @@ msgstr ""
 msgid "Alignment"
 msgstr ""
 
-#: latepoint.php:997
+#: latepoint.php:998
 msgid "Once every 5 minutes"
 msgstr ""
 
-#: latepoint.php:1016
+#: latepoint.php:1017
 msgid "Email Settings"
 msgstr ""
 
-#: latepoint.php:1020
+#: latepoint.php:1021
 msgid "From Name"
 msgstr ""
 
-#: latepoint.php:1021
+#: latepoint.php:1022
 msgid "From Email Address"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 #. Author of the plugin/theme
-#: latepoint.php:1205 latepoint.php:1206 latepoint.php:1222
+#: latepoint.php:1206 latepoint.php:1207 latepoint.php:1223
 msgid "LatePoint"
 msgstr ""
 
-#: latepoint.php:1288 latepoint.php:1413 lib/helpers/agent_helper.php:240
+#: latepoint.php:1289 latepoint.php:1414 lib/helpers/agent_helper.php:240
 #: lib/helpers/calendar_helper.php:122 lib/helpers/events_helper.php:321
 #: lib/helpers/time_helper.php:54 lib/models/booking_model.php:735
 #: lib/views/calendars/view.php:36
 msgid "Today"
 msgstr ""
 
-#: latepoint.php:1291 latepoint.php:1419 lib/helpers/agent_helper.php:279
+#: latepoint.php:1292 latepoint.php:1420 lib/helpers/agent_helper.php:279
 #: lib/helpers/timeline_helper.php:80 lib/helpers/timeline_helper.php:137
 msgid "Not Available"
 msgstr ""
 
-#: latepoint.php:1297 lib/helpers/booking_helper.php:1684
+#: latepoint.php:1298 lib/helpers/booking_helper.php:1684
 #: lib/views/customer_cabinet/_booking_tile.php:37
 msgid "Are you sure you want to cancel this appointment?"
 msgstr ""
 
-#: latepoint.php:1298 latepoint.php:1423
+#: latepoint.php:1299 latepoint.php:1424
 msgid "Space Available"
 msgstr ""
 
-#: latepoint.php:1299 latepoint.php:1424
+#: latepoint.php:1300 latepoint.php:1425
 msgid "Spaces Available"
 msgstr ""
 
-#: latepoint.php:1314 latepoint.php:1436
+#: latepoint.php:1315 latepoint.php:1437
 msgid "can not be blank"
 msgstr ""
 
-#: latepoint.php:1315 latepoint.php:1437
+#: latepoint.php:1316 latepoint.php:1438
 msgid "has to be checked"
 msgstr ""
 
-#: latepoint.php:1316 latepoint.php:1438
+#: latepoint.php:1317 latepoint.php:1439
 msgid "is invalid"
 msgstr ""
 
-#: latepoint.php:1317 latepoint.php:1439
+#: latepoint.php:1318 latepoint.php:1440
 msgid " minutes"
 msgstr ""
 
-#: latepoint.php:1322 latepoint.php:1421 lib/views/steps/start.php:81
+#: latepoint.php:1323 latepoint.php:1422 lib/views/steps/start.php:81
 msgid "Selected"
 msgstr ""
 
-#: latepoint.php:1414
+#: latepoint.php:1415
 msgid "Copied"
 msgstr ""
 
-#: latepoint.php:1415
+#: latepoint.php:1416
 msgid "Just click to copy"
 msgstr ""
 
-#: latepoint.php:1416
+#: latepoint.php:1417
 msgid "Are you sure you want to approve this booking?"
 msgstr ""
 
-#: latepoint.php:1417
+#: latepoint.php:1418
 msgid "Are you sure you want to reject this booking?"
 msgstr ""
 
-#: latepoint.php:1420 lib/misc/process_action.php:120
+#: latepoint.php:1421 lib/misc/process_action.php:120
 #: lib/views/processes/_form.php:28 lib/views/services/_form.php:27
 msgid "Active"
 msgstr ""
 
-#: latepoint.php:1422 lib/helpers/replacer_helper.php:563
+#: latepoint.php:1423 lib/helpers/replacer_helper.php:563
 #: lib/helpers/time_helper.php:105 lib/models/booking_model.php:883
 #: lib/views/settings/general.php:257 lib/views/settings/general.php:294
 msgid "minutes"
@@ -1091,7 +1091,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:209
+#: lib/controllers/bookings_controller.php:237
 #: lib/controllers/customers_controller.php:316
 #: lib/controllers/orders_controller.php:706
 #: lib/controllers/transactions_controller.php:137
@@ -1104,7 +1104,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:210 lib/misc/process_event.php:229
+#: lib/controllers/bookings_controller.php:238 lib/misc/process_event.php:229
 #: lib/misc/process_event.php:367 lib/misc/process_event.php:377
 #: lib/models/booking_model.php:40 lib/models/booking_model.php:137
 #: lib/models/cart_model.php:272 lib/views/bookings/_booking_data.php:28
@@ -1112,16 +1112,16 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:211
+#: lib/controllers/bookings_controller.php:239
 msgid "Start Date & Time"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:212
+#: lib/controllers/bookings_controller.php:240
 #: lib/helpers/settings_helper.php:386 lib/views/bookings/_booking_data.php:86
 msgid "Duration"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:213
+#: lib/controllers/bookings_controller.php:241
 #: lib/controllers/orders_controller.php:709
 #: lib/controllers/transactions_controller.php:140
 #: lib/helpers/customer_helper.php:26 lib/helpers/steps_helper.php:2418
@@ -1134,15 +1134,15 @@ msgstr ""
 msgid "Customer"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:214
+#: lib/controllers/bookings_controller.php:242
 msgid "Customer Phone"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:215
+#: lib/controllers/bookings_controller.php:243
 msgid "Customer Email"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:216
+#: lib/controllers/bookings_controller.php:244
 #: lib/controllers/default_agent_controller.php:23
 #: lib/helpers/agent_helper.php:125 lib/helpers/steps_helper.php:2449
 #: lib/misc/process_event.php:226 lib/misc/process_event.php:368
@@ -1158,15 +1158,15 @@ msgstr ""
 msgid "Agent"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:217
+#: lib/controllers/bookings_controller.php:245
 msgid "Agent Phone"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:218
+#: lib/controllers/bookings_controller.php:246
 msgid "Agent Email"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:219
+#: lib/controllers/bookings_controller.php:247
 #: lib/controllers/orders_controller.php:713
 #: lib/controllers/transactions_controller.php:144
 #: lib/helpers/invoices_helper.php:110 lib/misc/process_action.php:120
@@ -1182,25 +1182,25 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:221
+#: lib/controllers/bookings_controller.php:249
 msgid "Booked On"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:340
+#: lib/controllers/bookings_controller.php:368
 #: lib/controllers/customer_cabinet_controller.php:201
 #: lib/controllers/manage_booking_by_key_controller.php:181
 #: lib/controllers/manage_booking_by_key_controller.php:204
 msgid "Appointment Status Updated"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:343
+#: lib/controllers/bookings_controller.php:371
 #: lib/controllers/customer_cabinet_controller.php:204
 #: lib/controllers/manage_booking_by_key_controller.php:184
 #: lib/controllers/manage_booking_by_key_controller.php:207
 msgid "Error Updating Booking Status!"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:347
+#: lib/controllers/bookings_controller.php:375
 msgid "Error Updating Booking Status! Invalid ID"
 msgstr ""
 
@@ -1452,7 +1452,7 @@ msgstr ""
 #: lib/controllers/invoices_controller.php:131
 #: lib/controllers/invoices_controller.php:231
 #: lib/controllers/invoices_controller.php:282
-#: lib/controllers/invoices_controller.php:407
+#: lib/controllers/invoices_controller.php:409
 msgid "Invoice not found"
 msgstr ""
 
@@ -1473,7 +1473,7 @@ msgid "Please enter a valid email address."
 msgstr ""
 
 #: lib/controllers/invoices_controller.php:276
-#: lib/controllers/invoices_controller.php:401
+#: lib/controllers/invoices_controller.php:403
 msgid "Invalid Invoice Key"
 msgstr ""
 
@@ -1510,7 +1510,7 @@ msgstr ""
 msgid "Payment Form"
 msgstr ""
 
-#: lib/controllers/invoices_controller.php:365 lib/views/orders/index.php:51
+#: lib/controllers/invoices_controller.php:367 lib/views/orders/index.php:51
 #: lib/views/orders/index.php:61 lib/views/orders/index.php:89
 #: lib/views/shared/process_reschedule_request.php:20
 msgid "Confirmation"
@@ -1539,7 +1539,7 @@ msgstr ""
 #: lib/controllers/orders_controller.php:147
 #: lib/controllers/orders_controller.php:381
 #: lib/models/order_intent_model.php:354
-#: lib/models/transaction_intent_model.php:132
+#: lib/models/transaction_intent_model.php:149
 #, php-format
 msgid "Error: %s"
 msgstr ""
@@ -1776,20 +1776,21 @@ msgstr ""
 msgid "Invalid Refund Amount"
 msgstr ""
 
-#: lib/controllers/stripe_connect_controller.php:76
-#: lib/controllers/stripe_connect_controller.php:221
+#: lib/controllers/stripe_connect_controller.php:63
+#: lib/controllers/stripe_connect_controller.php:208
 msgid "Stripe connect account ID not set"
 msgstr ""
 
-#: lib/controllers/stripe_connect_controller.php:82
+#: lib/controllers/stripe_connect_controller.php:68
+#: lib/helpers/transaction_intent_helper.php:78
 msgid "Unable to save transaction intent"
 msgstr ""
 
-#: lib/controllers/stripe_connect_controller.php:143
+#: lib/controllers/stripe_connect_controller.php:130
 msgid "Redirecting to Stripe"
 msgstr ""
 
-#: lib/controllers/stripe_connect_controller.php:213
+#: lib/controllers/stripe_connect_controller.php:200
 msgid "Booking slot is not available anymore."
 msgstr ""
 
@@ -2093,31 +2094,31 @@ msgstr ""
 msgid "Completed"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1273 lib/helpers/util_helper.php:310
+#: lib/helpers/booking_helper.php:1273 lib/helpers/util_helper.php:318
 msgid "Monday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1274 lib/helpers/util_helper.php:311
+#: lib/helpers/booking_helper.php:1274 lib/helpers/util_helper.php:319
 msgid "Tuesday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1275 lib/helpers/util_helper.php:312
+#: lib/helpers/booking_helper.php:1275 lib/helpers/util_helper.php:320
 msgid "Wednesday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1276 lib/helpers/util_helper.php:313
+#: lib/helpers/booking_helper.php:1276 lib/helpers/util_helper.php:321
 msgid "Thursday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1277 lib/helpers/util_helper.php:314
+#: lib/helpers/booking_helper.php:1277 lib/helpers/util_helper.php:322
 msgid "Friday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1278 lib/helpers/util_helper.php:315
+#: lib/helpers/booking_helper.php:1278 lib/helpers/util_helper.php:323
 msgid "Saturday"
 msgstr ""
 
-#: lib/helpers/booking_helper.php:1279 lib/helpers/util_helper.php:316
+#: lib/helpers/booking_helper.php:1279 lib/helpers/util_helper.php:324
 msgid "Sunday"
 msgstr ""
 
@@ -2235,7 +2236,7 @@ msgstr ""
 msgid "Customer with this email already exists"
 msgstr ""
 
-#: lib/helpers/database_helper.php:107
+#: lib/helpers/database_helper.php:123
 msgid ""
 "Failed to initialise WC_Filesystem API while trying to setup notifications "
 "for initial data seed."
@@ -3315,83 +3316,83 @@ msgstr ""
 msgid "Open in Stripe"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:107
-#: lib/helpers/stripe_connect_helper.php:141
+#: lib/helpers/stripe_connect_helper.php:113
+#: lib/helpers/stripe_connect_helper.php:147
 msgid "Payment Error"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:113
-#: lib/helpers/stripe_connect_helper.php:148
+#: lib/helpers/stripe_connect_helper.php:119
+#: lib/helpers/stripe_connect_helper.php:154
 msgid "Payment Error 23JDF38"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:218
+#: lib/helpers/stripe_connect_helper.php:224
 msgid "Payment Element"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:219
+#: lib/helpers/stripe_connect_helper.php:225
 msgid "Credit Card"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:228
+#: lib/helpers/stripe_connect_helper.php:234
 msgid "Stripe Connect"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:229
+#: lib/helpers/stripe_connect_helper.php:235
 msgid "Stripe"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:239
+#: lib/helpers/stripe_connect_helper.php:245
 msgid "Connect (Live)"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:251
+#: lib/helpers/stripe_connect_helper.php:257
 msgid "Connect (Dev)"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:271
+#: lib/helpers/stripe_connect_helper.php:277
 msgid "Country"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:274
+#: lib/helpers/stripe_connect_helper.php:280
 msgid "Currency Code"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:410
+#: lib/helpers/stripe_connect_helper.php:416
 msgid "disconnect"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:412
+#: lib/helpers/stripe_connect_helper.php:418
 #: lib/views/customers/quick_edit.php:85
 msgid "Connected"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:416
+#: lib/helpers/stripe_connect_helper.php:422
 msgid "Pending Action"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:417
+#: lib/helpers/stripe_connect_helper.php:423
 msgid "Continue Setup"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:425
+#: lib/helpers/stripe_connect_helper.php:431
 msgid "Start Connecting"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:657
-#: lib/helpers/stripe_connect_helper.php:685
+#: lib/helpers/stripe_connect_helper.php:663
+#: lib/helpers/stripe_connect_helper.php:691
 msgid "Payment for Appointment"
 msgstr ""
 
 #. translators: %s is the payment error
-#: lib/helpers/stripe_connect_helper.php:668
-#: lib/helpers/stripe_connect_helper.php:696
+#: lib/helpers/stripe_connect_helper.php:674
+#: lib/helpers/stripe_connect_helper.php:702
 #, php-format
 msgid "Payment Error: %s"
 msgstr ""
 
-#: lib/helpers/stripe_connect_helper.php:668
-#: lib/helpers/stripe_connect_helper.php:696
+#: lib/helpers/stripe_connect_helper.php:674
+#: lib/helpers/stripe_connect_helper.php:702
 msgid "Payment error"
 msgstr ""
 
@@ -3458,108 +3459,108 @@ msgstr ""
 msgid "UTC"
 msgstr ""
 
-#: lib/helpers/util_helper.php:117
+#: lib/helpers/util_helper.php:125
 msgid "Show Available Variables"
 msgstr ""
 
-#: lib/helpers/util_helper.php:235 lib/helpers/util_helper.php:271
+#: lib/helpers/util_helper.php:243 lib/helpers/util_helper.php:279
 msgid "January"
 msgstr ""
 
-#: lib/helpers/util_helper.php:236 lib/helpers/util_helper.php:272
+#: lib/helpers/util_helper.php:244 lib/helpers/util_helper.php:280
 msgid "February"
 msgstr ""
 
-#: lib/helpers/util_helper.php:237 lib/helpers/util_helper.php:273
+#: lib/helpers/util_helper.php:245 lib/helpers/util_helper.php:281
 msgid "March"
 msgstr ""
 
-#: lib/helpers/util_helper.php:238 lib/helpers/util_helper.php:274
+#: lib/helpers/util_helper.php:246 lib/helpers/util_helper.php:282
 msgid "April"
 msgstr ""
 
-#: lib/helpers/util_helper.php:239 lib/helpers/util_helper.php:275
+#: lib/helpers/util_helper.php:247 lib/helpers/util_helper.php:283
 msgid "May"
 msgstr ""
 
-#: lib/helpers/util_helper.php:240 lib/helpers/util_helper.php:276
+#: lib/helpers/util_helper.php:248 lib/helpers/util_helper.php:284
 msgid "June"
 msgstr ""
 
-#: lib/helpers/util_helper.php:241 lib/helpers/util_helper.php:277
+#: lib/helpers/util_helper.php:249 lib/helpers/util_helper.php:285
 msgid "July"
 msgstr ""
 
-#: lib/helpers/util_helper.php:242 lib/helpers/util_helper.php:278
+#: lib/helpers/util_helper.php:250 lib/helpers/util_helper.php:286
 msgid "August"
 msgstr ""
 
-#: lib/helpers/util_helper.php:243 lib/helpers/util_helper.php:279
+#: lib/helpers/util_helper.php:251 lib/helpers/util_helper.php:287
 msgid "September"
 msgstr ""
 
-#: lib/helpers/util_helper.php:244 lib/helpers/util_helper.php:280
+#: lib/helpers/util_helper.php:252 lib/helpers/util_helper.php:288
 msgid "October"
 msgstr ""
 
-#: lib/helpers/util_helper.php:245 lib/helpers/util_helper.php:281
+#: lib/helpers/util_helper.php:253 lib/helpers/util_helper.php:289
 msgid "November"
 msgstr ""
 
-#: lib/helpers/util_helper.php:246 lib/helpers/util_helper.php:282
+#: lib/helpers/util_helper.php:254 lib/helpers/util_helper.php:290
 msgid "December"
 msgstr ""
 
-#: lib/helpers/util_helper.php:247 lib/helpers/util_helper.php:283
+#: lib/helpers/util_helper.php:255 lib/helpers/util_helper.php:291
 msgid "Jan"
 msgstr ""
 
-#: lib/helpers/util_helper.php:248 lib/helpers/util_helper.php:284
+#: lib/helpers/util_helper.php:256 lib/helpers/util_helper.php:292
 msgid "Feb"
 msgstr ""
 
-#: lib/helpers/util_helper.php:249 lib/helpers/util_helper.php:285
+#: lib/helpers/util_helper.php:257 lib/helpers/util_helper.php:293
 msgid "Mar"
 msgstr ""
 
-#: lib/helpers/util_helper.php:250 lib/helpers/util_helper.php:286
+#: lib/helpers/util_helper.php:258 lib/helpers/util_helper.php:294
 msgid "Apr"
 msgstr ""
 
-#: lib/helpers/util_helper.php:251
+#: lib/helpers/util_helper.php:259
 msgctxt "short version of May month"
 msgid "May"
 msgstr ""
 
-#: lib/helpers/util_helper.php:252 lib/helpers/util_helper.php:287
+#: lib/helpers/util_helper.php:260 lib/helpers/util_helper.php:295
 msgid "Jun"
 msgstr ""
 
-#: lib/helpers/util_helper.php:253 lib/helpers/util_helper.php:288
+#: lib/helpers/util_helper.php:261 lib/helpers/util_helper.php:296
 msgid "Jul"
 msgstr ""
 
-#: lib/helpers/util_helper.php:254 lib/helpers/util_helper.php:289
+#: lib/helpers/util_helper.php:262 lib/helpers/util_helper.php:297
 msgid "Aug"
 msgstr ""
 
-#: lib/helpers/util_helper.php:255 lib/helpers/util_helper.php:290
+#: lib/helpers/util_helper.php:263 lib/helpers/util_helper.php:298
 msgid "Sep"
 msgstr ""
 
-#: lib/helpers/util_helper.php:256 lib/helpers/util_helper.php:291
+#: lib/helpers/util_helper.php:264 lib/helpers/util_helper.php:299
 msgid "Oct"
 msgstr ""
 
-#: lib/helpers/util_helper.php:257 lib/helpers/util_helper.php:292
+#: lib/helpers/util_helper.php:265 lib/helpers/util_helper.php:300
 msgid "Nov"
 msgstr ""
 
-#: lib/helpers/util_helper.php:258 lib/helpers/util_helper.php:293
+#: lib/helpers/util_helper.php:266 lib/helpers/util_helper.php:301
 msgid "Dec"
 msgstr ""
 
-#: lib/helpers/util_helper.php:451 lib/misc/process_action.php:172
+#: lib/helpers/util_helper.php:459 lib/misc/process_action.php:172
 #: lib/views/integrations/external_calendars.php:48
 #: lib/views/integrations/external_marketing_systems.php:54
 #: lib/views/integrations/external_meeting_systems.php:54
@@ -4006,19 +4007,19 @@ msgid "Location Name"
 msgstr ""
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1063
+#: lib/models/model.php:1088
 #, php-format
 msgid "%s is not valid"
 msgstr ""
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1073
+#: lib/models/model.php:1098
 #, php-format
 msgid "%s can not be blank"
 msgstr ""
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1098
+#: lib/models/model.php:1123
 #, php-format
 msgid "%s has to be unique"
 msgstr ""
@@ -4123,13 +4124,13 @@ msgstr ""
 msgid "Service Category"
 msgstr ""
 
-#: lib/models/transaction_intent_model.php:66
+#: lib/models/transaction_intent_model.php:82
 msgid ""
 "Can not convert to transaction, because transaction intent conversion is "
 "being processed"
 msgstr ""
 
-#: lib/models/transaction_intent_model.php:78
+#: lib/models/transaction_intent_model.php:94
 msgid "No payment processor available to process this transaction intent"
 msgstr ""
 
@@ -4703,7 +4704,9 @@ msgid "Show Details"
 msgstr ""
 
 #: lib/views/customer_cabinet/_booking_tile.php:75
-msgid "View Summary"
+#: lib/views/customer_cabinet/_order_tile.php:33
+#: lib/views/steps/partials/_booking_form_summary_panel.php:14
+msgid "Summary"
 msgstr ""
 
 #: lib/views/customer_cabinet/_booking_tile.php:82
@@ -4728,11 +4731,6 @@ msgstr ""
 #: lib/views/customer_cabinet/_bundle_tile.php:36
 #: lib/views/steps/partials/_order_summary.php:34
 msgid "Start Scheduling"
-msgstr ""
-
-#: lib/views/customer_cabinet/_order_tile.php:33
-#: lib/views/steps/partials/_booking_form_summary_panel.php:14
-msgid "Summary"
 msgstr ""
 
 #: lib/views/customer_cabinet/_order_tile.php:47

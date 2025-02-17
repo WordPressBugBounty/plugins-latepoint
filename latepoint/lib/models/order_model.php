@@ -290,7 +290,7 @@ class OsOrderModel extends OsModel {
 			$this->fulfillment_status = $this->get_default_fulfillment_status();
 		}
 		if ( empty( $this->source_url ) ) {
-			$this->source_url = wp_get_original_referer();
+			$this->source_url = OsUtilHelper::get_referrer();
 		}
 		if ( empty( $this->status ) ) {
 			$this->status = $this->get_default_order_status();

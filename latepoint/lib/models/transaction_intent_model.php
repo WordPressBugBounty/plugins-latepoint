@@ -28,6 +28,22 @@ class OsTransactionIntentModel extends OsModel {
 		}
 	}
 
+	public function calculate_specs_charge_amount() {
+		/**
+		 * Convert transaction intent charge amount to specs
+		 *
+		 * @param {string} $charge_amount original charge amount of a transaction intent
+		 * @param {OsTransactionIntentModel} $transaction_intent transaction intent model
+		 *
+		 * @returns {string} The filtered to specs charge amount
+		 *
+		 * @since 5.1.3
+		 * @hook latepoint_transaction_intent_specs_charge_amount
+		 *
+		 */
+		$this->specs_charge_amount = apply_filters( 'latepoint_transaction_intent_specs_charge_amount', $this->charge_amount, $this );
+	}
+
 	protected function params_to_sanitize() {
 		return [
 			'charge_amount'        => 'money',
@@ -70,8 +86,6 @@ class OsTransactionIntentModel extends OsModel {
 		$this->mark_as_processing();
 
 		try {
-
-			$this->specs_charge_amount = apply_filters('latepoint_transaction_intent_convert_amount_to_specs', $this->charge_amount, $this);
 
 			// process payment if there is amount due
 			$transaction = OsPaymentsHelper::process_payment_for_transaction_intent( $this );
@@ -118,6 +132,7 @@ class OsTransactionIntentModel extends OsModel {
 					$invoice = new OsInvoiceModel($transaction->invoice_id);
 					if($invoice && !$invoice->is_new_record()){
 						$invoice->change_status(LATEPOINT_INVOICE_STATUS_PAID);
+						OsOrdersHelper::check_if_order_invoices_paid_full_balance($this->order_id);
 					}
 				}
 
@@ -251,6 +266,19 @@ class OsTransactionIntentModel extends OsModel {
 
 	public function generate_intent_key() {
 		$this->intent_key = bin2hex( openssl_random_pseudo_bytes( 10 ) );
+	}
+
+
+	public function get_customer() : OsCustomerModel {
+		if ( $this->customer_id ) {
+			if ( ! isset( $this->customer ) || ( isset( $this->customer ) && ( $this->customer->id != $this->customer_id ) ) ) {
+				$this->customer = new OsCustomerModel( $this->customer_id );
+			}
+		} else {
+			$this->customer = new OsCustomerModel();
+		}
+
+		return $this->customer;
 	}
 
 

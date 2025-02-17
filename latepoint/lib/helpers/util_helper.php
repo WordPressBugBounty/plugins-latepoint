@@ -2,6 +2,14 @@
 
 class OsUtilHelper {
 
+	public static function get_referrer(){
+		if(!empty($_SERVER['HTTP_REFERER'])){
+			return $_SERVER['HTTP_REFERER'];
+		}else{
+			return wp_get_original_referer() || '';
+		}
+	}
+
 	public static function add_auto_print_script(){
 		wp_register_script('latepoint-auto-print', false);
 	    wp_enqueue_script('latepoint-auto-print');

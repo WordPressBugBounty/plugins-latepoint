@@ -86,6 +86,12 @@ class OsStripeConnectHelper {
 		if ($stripe_customer_id) echo '<div class="payment-processor-customer-link-wrapper">' . esc_html__('Stripe Customer', 'latepoint') . '<a target="_blank" href="' . esc_url(self::build_customer_profile_link($stripe_customer_id, OsSettingsHelper::is_env_payments_dev())) . '">' . esc_html__('Open in Stripe', 'latepoint') . '</a></div>';
 	}
 
+    public static function convert_transaction_intent_charge_amount_to_specs($amount, OsTransactionIntentModel $transaction_intent) {
+        if ( OsPaymentsHelper::should_processor_handle_payment_for_transaction_intent( self::$processor_code, $transaction_intent ) ) {
+	        $amount = self::convert_amount_to_specs( $amount );
+        }
+        return $amount;
+    }
 
     public static function process_payment_for_transaction_intent( $result, OsTransactionIntentModel $transaction_intent ) {
         if ( OsPaymentsHelper::should_processor_handle_payment_for_transaction_intent( self::$processor_code, $transaction_intent ) ) {

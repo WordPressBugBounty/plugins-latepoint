@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			   class="latepoint-btn latepoint-btn-primary latepoint-btn-outline"
 			   <?php echo OsCustomerHelper::generate_booking_summary_preview_btn($booking->id); ?>>
 				<i class="latepoint-icon latepoint-icon-list"></i>
-				<span><?php esc_html_e('View Summary', 'latepoint'); ?></span>
+				<span><?php esc_html_e('Summary', 'latepoint'); ?></span>
 			</a>
 		</div>
 	</div>

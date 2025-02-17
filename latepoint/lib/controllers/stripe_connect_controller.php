@@ -22,51 +22,38 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$this->views_folder              = LATEPOINT_VIEWS_ABSPATH . 'stripe_connect/';
 		}
 
-		public function refund_transaction(){
-			if(!filter_var($this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT)) {
+		public function refund_transaction() {
+			if ( ! filter_var( $this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT ) ) {
 				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid Transaction', 'latepoint' ) ) );
 			}
-			$transaction = new OsTransactionModel($this->params['transaction_refund']['transaction_id']);
-			if(empty($transaction) || $transaction->is_new_record() || $transaction->processor != OsStripeConnectHelper::$processor_code){
+			$transaction = new OsTransactionModel( $this->params['transaction_refund']['transaction_id'] );
+			if ( empty( $transaction ) || $transaction->is_new_record() || $transaction->processor != OsStripeConnectHelper::$processor_code ) {
 				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid Transaction', 'latepoint' ) ) );
 			}
 			try {
-				$refund_amount = ($this->params['transaction_refund']['portion'] == 'custom') ? $this->params['transaction_refund']['custom_amount'] : ($transaction->amount - $transaction->get_total_refunded_amount());
+				$refund_amount = ( $this->params['transaction_refund']['portion'] == 'custom' ) ? $this->params['transaction_refund']['custom_amount'] : ( $transaction->amount - $transaction->get_total_refunded_amount() );
 				$refund_amount = OsParamsHelper::sanitize_param( $refund_amount, 'money' );
-				if(empty($refund_amount) || $refund_amount > $transaction->amount - $transaction->get_total_refunded_amount()){
-					throw new Exception(__('Invalid Refund Amount', 'latepoint'));
+				if ( empty( $refund_amount ) || $refund_amount > $transaction->amount - $transaction->get_total_refunded_amount() ) {
+					throw new Exception( __( 'Invalid Refund Amount', 'latepoint' ) );
 				}
-				$transaction_refund = OsStripeConnectHelper::refund_transaction($transaction, $refund_amount);
-				$this->vars['transaction'] = new OsTransactionModel($transaction->id); # reload to get new refund info
-				$message = $this->render(LATEPOINT_VIEWS_ABSPATH.'orders/_transaction_box', 'none');
+				$transaction_refund        = OsStripeConnectHelper::refund_transaction( $transaction, $refund_amount );
+				$this->vars['transaction'] = new OsTransactionModel( $transaction->id ); # reload to get new refund info
+				$message                   = $this->render( LATEPOINT_VIEWS_ABSPATH . 'orders/_transaction_box', 'none' );
 				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $message ) );
-			}catch(Exception $e){
+			} catch ( Exception $e ) {
 				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
 			}
 		}
 
-		public function create_payment_intent_for_transaction(){
-			if(!filter_var($this->params['invoice_id'], FILTER_VALIDATE_INT)) exit();
+		public function create_payment_intent_for_transaction() {
+			if ( ! filter_var( $this->params['invoice_id'], FILTER_VALIDATE_INT ) ) {
+				exit();
+			}
 			try {
 
-				$invoice = new OsInvoiceModel($this->params['invoice_id']);
+				$invoice = new OsInvoiceModel( $this->params['invoice_id'] );
 
-		        $transaction_intent = new OsTransactionIntentModel();
-
-				$transaction_intent = $transaction_intent->where(['status' => LATEPOINT_TRANSACTION_INTENT_STATUS_NEW, 'invoice_id' => $invoice->id])->set_limit(1)->get_results_as_models();
-				if(empty($transaction_intent)) $transaction_intent = new OsTransactionIntentModel();
-
-		        $transaction_intent->charge_amount = $invoice->charge_amount;
-		        $transaction_intent->invoice_id = $invoice->id;
-				$order = $invoice->get_order();
-		        $transaction_intent->order_id = $order->id;
-		        $transaction_intent->customer_id = $order->customer_id;
-		        $transaction_intent->specs_charge_amount = OsStripeConnectHelper::convert_amount_to_specs($transaction_intent->charge_amount);
-		        $transaction_intent->set_payment_data_value('time', LATEPOINT_PAYMENT_TIME_NOW, false);
-		        $transaction_intent->set_payment_data_value('portion', sanitize_text_field($this->params['payment_portion']), false);
-		        $transaction_intent->set_payment_data_value('method', sanitize_text_field($this->params['payment_method']), false);
-		        $transaction_intent->set_payment_data_value('processor', sanitize_text_field($this->params['payment_processor']), false);
-				$transaction_intent->generate_intent_key();
+				$transaction_intent = OsTransactionIntentHelper::create_or_update_transaction_intent( $invoice, $this->params );
 
 				if ( OsSettingsHelper::get_settings_value( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id' ) ) ) {
 					$payment_intent_data          = OsStripeConnectHelper::generate_payment_intent_id_and_secret_for_transaction_intent( $transaction_intent );
@@ -76,19 +63,19 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					throw new Exception( __( 'Stripe connect account ID not set', 'latepoint' ) );
 				}
 
-
-				$transaction_intent->set_payment_data_value('token', $payment_intent_id, false);
-				if(!$transaction_intent->save()){
+				$transaction_intent->set_payment_data_value( 'token', $payment_intent_id, false );
+				if ( ! $transaction_intent->save() ) {
 					throw new Exception( __( 'Unable to save transaction intent', 'latepoint' ) );
 				}
 
+
 				if ( $this->get_return_format() == 'json' ) {
 					$this->send_json( [
-						'status'                    => LATEPOINT_STATUS_SUCCESS,
+						'status'                          => LATEPOINT_STATUS_SUCCESS,
 						'continue_transaction_intent_url' => OsTransactionIntentHelper::generate_continue_intent_url( $transaction_intent->intent_key ),
-						'payment_intent_id'         => $payment_intent_id,
-						'payment_intent_secret'     => $payment_intent_client_secret,
-						'transaction_intent_key'    => $transaction_intent->intent_key
+						'payment_intent_id'               => $payment_intent_id,
+						'payment_intent_secret'           => $payment_intent_client_secret,
+						'transaction_intent_key'          => $transaction_intent->intent_key
 					] );
 				}
 			} catch ( Exception $e ) {
@@ -206,11 +193,11 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			try {
 				OsStepsHelper::set_required_objects( $this->params );
 
-				$booking_form_page_url = $this->params['booking_form_page_url'] ?? wp_get_original_referer();
+				$booking_form_page_url = $this->params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
 				$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, $booking_form_page_url );
 
 				if ( ! $order_intent->is_bookable() ) {
-					throw new Exception( empty($order_intent->get_error_messages()) ? __( 'Booking slot is not available anymore.', 'latepoint' ) : implode(', ', $order_intent->get_error_messages()) );
+					throw new Exception( empty( $order_intent->get_error_messages() ) ? __( 'Booking slot is not available anymore.', 'latepoint' ) : implode( ', ', $order_intent->get_error_messages() ) );
 				}
 
 				if ( OsSettingsHelper::get_settings_value( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id' ) ) ) {

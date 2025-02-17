@@ -3227,6 +3227,42 @@
   animation: 0.2s ease 0s selectedSlotCheckmark;
   animation-fill-mode: both;
 }
+.reschedule-calendar-wrapper .os-recurring-suggestion-wrapper {
+  background-color: #fff;
+  padding: 30px;
+  position: absolute;
+  box-shadow: 0 6px 26px -4px rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  z-index: 99999;
+}
+.reschedule-calendar-wrapper .step-datepicker-w.show-recurring-prompt .os-dates-w {
+  filter: blur(2px);
+}
+.reschedule-calendar-wrapper .step-datepicker-w.show-recurring-prompt .time-selector-w {
+  filter: blur(2px);
+}
+.reschedule-calendar-wrapper .os-recurring-suggestion .os-recurring-suggestion-heading {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #14161d;
+  font-size: 17px;
+  font-family: "latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+}
+.reschedule-calendar-wrapper .os-recurring-suggestion .os-recurring-suggestion-options {
+  display: flex;
+  justify-content: space-evenly;
+}
+.reschedule-calendar-wrapper .os-recurring-suggestion .os-recurring-suggestion-options .os-recurring-suggestion-option {
+  padding: 5px 15px;
+  border: 1px solid #14161d;
+  cursor: pointer;
+  color: #14161d;
+  font-size: 17px;
+}
 .reschedule-calendar-wrapper .time-selector-w {
   display: none;
   margin-top: 20px;
@@ -6109,6 +6145,42 @@
   color: #fff;
   animation: 0.2s ease 0s selectedSlotCheckmark;
   animation-fill-mode: both;
+}
+.latepoint-booking-form-element .os-recurring-suggestion-wrapper {
+  background-color: #fff;
+  padding: 30px;
+  position: absolute;
+  box-shadow: 0 6px 26px -4px rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  z-index: 99999;
+}
+.latepoint-booking-form-element .step-datepicker-w.show-recurring-prompt .os-dates-w {
+  filter: blur(2px);
+}
+.latepoint-booking-form-element .step-datepicker-w.show-recurring-prompt .time-selector-w {
+  filter: blur(2px);
+}
+.latepoint-booking-form-element .os-recurring-suggestion .os-recurring-suggestion-heading {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #14161d;
+  font-size: 17px;
+  font-family: "latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+}
+.latepoint-booking-form-element .os-recurring-suggestion .os-recurring-suggestion-options {
+  display: flex;
+  justify-content: space-evenly;
+}
+.latepoint-booking-form-element .os-recurring-suggestion .os-recurring-suggestion-options .os-recurring-suggestion-option {
+  padding: 5px 15px;
+  border: 1px solid #14161d;
+  cursor: pointer;
+  color: #14161d;
+  font-size: 17px;
 }
 .latepoint-booking-form-element .time-selector-w {
   display: none;

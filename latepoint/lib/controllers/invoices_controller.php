@@ -352,6 +352,8 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					}
 					if ( ! $payment_token || empty( $this->params['submitting_payment'] ) ) {
 						$current_step = 'pay';
+						$transaction_intent->calculate_specs_charge_amount();
+						$transaction_intent->save();
 					} else {
 						$transaction_id = $transaction_intent->convert_to_transaction();
 						if ( $transaction_id ) {

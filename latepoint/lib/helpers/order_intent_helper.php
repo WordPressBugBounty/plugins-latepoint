@@ -95,7 +95,7 @@ class OsOrderIntentHelper {
 	 */
 	public static function create_or_update_order_intent( OsCartModel $cart, array $restrictions_data = [], array $presets_data = [], string $booking_form_page_url = '' ): OsOrderIntentModel {
 		if ( empty( $booking_form_page_url ) ) {
-			$booking_form_page_url = wp_get_original_referer();
+			$booking_form_page_url = OsUtilHelper::get_referrer();
 		}
 		$order_intent = new OsOrderIntentModel();
 		if ( ! empty( $cart->order_intent_id ) ) {
