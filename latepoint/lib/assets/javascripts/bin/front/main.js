@@ -754,6 +754,7 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
     $booking_form_element.on('click', '.os-months .os-day', latepoint_monthly_calendar_day_clicked);
     $booking_form_element.off('keydown', '.os-months .os-day', latepoint_monthly_calendar_day_clicked);
     $booking_form_element.on('keydown', '.os-months .os-day', latepoint_monthly_calendar_day_clicked);
+
     if ($booking_form_element.find('input[name="booking[start_date]"]').val()){
         $booking_form_element.find('.os-day[data-date="' + $booking_form_element.find('input[name="booking[start_date]"]').val() + '"]').trigger('click');
     }else{
@@ -772,8 +773,8 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
                 await latepoint_monthly_calendar_load_next_month($booking_form_element);
             }
         }
-        $booking_form_element.find('.os-dates-w').removeClass('is-searching');
     }
+    $booking_form_element.find('.os-dates-w').removeClass('is-searching');
     return true;
 }
 

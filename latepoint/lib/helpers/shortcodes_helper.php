@@ -82,46 +82,46 @@ class OsShortcodesHelper {
 		// Data attributes setup
 		$data_atts = '';
 		if ( ( $atts['items'] != 'locations' ) && $atts['show_locations'] ) {
-			$data_atts .= 'data-show-locations="' . $atts['show_locations'] . '" ';
+			$data_atts .= 'data-show-locations="' . esc_attr($atts['show_locations']) . '" ';
 		}
 		if ( ( $atts['items'] != 'agents' ) && $atts['show_agents'] ) {
-			$data_atts .= 'data-show-agents="' . $atts['show_agents'] . '" ';
+			$data_atts .= 'data-show-agents="' . esc_attr($atts['show_agents']) . '" ';
 		}
 		if ( ( $atts['items'] != 'services' ) && $atts['show_services'] ) {
-			$data_atts .= 'data-show-services="' . $atts['show_services'] . '" ';
+			$data_atts .= 'data-show-services="' . esc_attr($atts['show_services']) . '" ';
 		}
 		if ( ( $atts['items'] != 'services' ) && $atts['show_service_categories'] ) {
-			$data_atts .= 'data-show-service-categories="' . $atts['show_service_categories'] . '" ';
+			$data_atts .= 'data-show-service-categories="' . esc_attr($atts['show_service_categories']) . '" ';
 		}
 		if ( ( $atts['items'] != 'locations' ) && $atts['selected_location'] ) {
-			$data_atts .= 'data-selected-location="' . $atts['selected_location'] . '" ';
+			$data_atts .= 'data-selected-location="' . esc_attr($atts['selected_location']) . '" ';
 		}
 		if ( ( $atts['items'] != 'agents' ) && $atts['selected_agent'] ) {
-			$data_atts .= 'data-selected-agent="' . $atts['selected_agent'] . '" ';
+			$data_atts .= 'data-selected-agent="' . esc_attr($atts['selected_agent']) . '" ';
 		}
 		if ( ( $atts['items'] != 'bundles' ) && $atts['selected_bundle'] ) {
-			$data_atts .= 'data-selected-bundle="' . $atts['selected_bundle'] . '" ';
+			$data_atts .= 'data-selected-bundle="' . esc_attr($atts['selected_bundle']) . '" ';
 		}
 		if ( ( $atts['items'] != 'services' ) && $atts['selected_service'] ) {
-			$data_atts .= 'data-selected-service="' . $atts['selected_service'] . '" ';
+			$data_atts .= 'data-selected-service="' . esc_attr($atts['selected_service']) . '" ';
 		}
 		if ( $atts['selected_duration'] ) {
-			$data_atts .= 'data-selected-duration="' . $atts['selected_duration'] . '" ';
+			$data_atts .= 'data-selected-duration="' . esc_attr($atts['selected_duration']) . '" ';
 		}
 		if ( $atts['selected_total_attendees'] ) {
-			$data_atts .= 'data-selected-total-attendees="' . $atts['selected_total_attendees'] . '" ';
+			$data_atts .= 'data-selected-total-attendees="' . esc_attr($atts['selected_total_attendees']) . '" ';
 		}
 		if ( ( $atts['items'] != 'services' ) && $atts['selected_service_category'] ) {
-			$data_atts .= 'data-selected-service-category="' . $atts['selected_service_category'] . '" ';
+			$data_atts .= 'data-selected-service-category="' . esc_attr($atts['selected_service_category']) . '" ';
 		}
 		if ( $atts['calendar_start_date'] ) {
-			$data_atts .= 'data-calendar-start-date="' . $atts['calendar_start_date'] . '" ';
+			$data_atts .= 'data-calendar-start-date="' . esc_attr($atts['calendar_start_date']) . '" ';
 		}
 		if ( $atts['selected_start_date'] ) {
-			$data_atts .= 'data-selected-start-date="' . $atts['selected_start_date'] . '" ';
+			$data_atts .= 'data-selected-start-date="' . esc_attr($atts['selected_start_date']) . '" ';
 		}
 		if ( $atts['selected_start_time'] ) {
-			$data_atts .= 'data-selected-start-time="' . $atts['selected_start_time'] . '" ';
+			$data_atts .= 'data-selected-start-time="' . esc_attr($atts['selected_start_time']) . '" ';
 		}
 		if ( $atts['hide_side_panel'] == 'yes' ) {
 			$data_atts .= 'data-hide-side-panel="yes" ';
@@ -130,7 +130,7 @@ class OsShortcodesHelper {
 			$data_atts .= 'data-hide-summary="yes" ';
 		}
 		if ( $atts['source_id'] ) {
-			$data_atts .= 'data-source-id="' . $atts['source_id'] . '" ';
+			$data_atts .= 'data-source-id="' . esc_attr($atts['source_id']) . '" ';
 		}
 
 		$block_classes = $atts['classname'] ? " " . $atts['classname'] : "";
@@ -139,7 +139,7 @@ class OsShortcodesHelper {
 		$btn_wrapper_classes = $atts['btn_wrapper_classes'] ?: " wp-block-button";
 		$btn_classes = $atts['btn_classes'] ?: " wp-block-button__link";
 
-		$output = '<div class="latepoint-resources-items-w resources-columns-' . $atts['columns'] . $block_classes . '">';
+		$output = '<div class="latepoint-resources-items-w resources-columns-' . esc_attr($atts['columns']) . esc_attr($block_classes) . '">';
 
 		if ( $atts['item_ids'] ) {
 			$ids            = OsUtilHelper::explode_and_trim( $atts['item_ids'] );
@@ -178,10 +178,10 @@ class OsShortcodesHelper {
 						$output .= '<div class="ri-price">' . $service_price_formatted . '</div>';
 					}
 					if ($atts['hide_description'] !== 'yes' && ! empty( $service->short_description)) {
-						$output .=  '<div class="ri-description">' . $service->short_description . '</div>';
+						$output .=  '<div class="ri-description">' . wp_kses_post($service->short_description) . '</div>';
 					}
-					$output .= '<div class="ri-buttons ' . $btn_wrapper_classes . '">
-						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . $btn_classes . '" data-selected-service="' . $service->id . '">' . $atts['button_caption'] . '</a>
+					$output .= '<div class="ri-buttons ' . esc_attr($btn_wrapper_classes) . '">
+						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . esc_attr($btn_classes) . '" data-selected-service="' . esc_attr($service->id) . '">' . wp_kses_post($atts['button_caption']) . '</a>
 					</div>';
 					$output .= '</div>';
 				}
@@ -203,13 +203,13 @@ class OsShortcodesHelper {
 				}
 				$agents = $agents->should_be_active()->get_results_as_models();
 				foreach ( $agents as $agent ) {
-					$output .= '<div class="resource-item '. $resource_item_classes .' ri-centered">';
+					$output .= '<div class="resource-item '. esc_attr($resource_item_classes) .' ri-centered">';
 					$output .= ! empty( $agent->avatar_image_id ) ? '<div class="ri-avatar" style="background-image: url(' . $agent->get_avatar_url() . ')"></div>' : '';
 					$output .= '<div class="ri-name"><h3>' . $agent->full_name . '</h3></div>';
 					$output .= ! empty( $agent->title ) ? '<div class="ri-title">' . $agent->title . '</div>' : '';
-					$output .= ! empty( $agent->short_description ) ? '<div class="ri-description">' . $agent->short_description . '</div>' : '';
-					$output .= '<div class="ri-buttons ' . $btn_wrapper_classes . '">
-						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking latepoint-btn-block ' . $btn_classes . '" data-selected-agent="' . $agent->id . '">' . $atts['button_caption'] . '</a>
+					$output .= ! empty( $agent->short_description ) ? '<div class="ri-description">' . wp_kses_post($agent->short_description) . '</div>' : '';
+					$output .= '<div class="ri-buttons ' . esc_attr($btn_wrapper_classes) . '">
+						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking latepoint-btn-block ' . esc_attr($btn_classes) . '" data-selected-agent="' . esc_attr($agent->id) . '">' . wp_kses_post($atts['button_caption']) . '</a>
 					</div>';
 					$output .= '</div>';
 				}
@@ -227,12 +227,12 @@ class OsShortcodesHelper {
 				}
 				$locations = $locations->should_be_active()->order_by( 'order_number asc' )->get_results_as_models();
 				foreach ( $locations as $location ) {
-					$output .= '<div class="resource-item '. $resource_item_classes .'">';
+					$output .= '<div class="resource-item '. esc_attr($resource_item_classes) .'">';
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-map">' . $location->get_google_maps_iframe( 200 ) . '</div>' : '';
 					$output .= '<div class="ri-name"><h3>' . $location->name . '</h3></div>';
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-description">' . $location->full_address . '<a href="' . $location->get_google_maps_link() . '" target="_blank" class="ri-external-link"><i class="latepoint-icon latepoint-icon-external-link"></i></a></div>' : '';
 					$output .= '<div class="ri-buttons ' . $btn_wrapper_classes . '">
-						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . $btn_classes . '" data-selected-location="' . $location->id . '">' . $atts['button_caption'] . '</a>
+						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . esc_attr($btn_classes) . '" data-selected-location="' . esc_attr($location->id) . '">' . wp_kses_post($atts['button_caption']) . '</a>
 					</div>';
 					$output .= '</div>';
 				}
@@ -254,7 +254,7 @@ class OsShortcodesHelper {
 				ob_start();
 				foreach ( $bundles as $bundle ) {
 				?>
-                    <div class="resource-item <?php echo $resource_item_classes; ?>">
+                    <div class="resource-item <?php echo esc_attr($resource_item_classes); ?>">
                         <div class="ri-name">
                             <h3><?php echo $bundle->name; ?></h3>
                         </div>
@@ -265,9 +265,9 @@ class OsShortcodesHelper {
 						<?php if ($atts['hide_description'] !== 'yes' && $description = $bundle->short_description ) { ?>
                             <div class="ri-description"><?php echo $description; ?></div>
 						<?php } ?>
-                        <div class="ri-buttons <?php echo $btn_wrapper_classes ?>">
+                        <div class="ri-buttons <?php echo esc_attr($btn_wrapper_classes) ?>">
                             <a href="#" <?php echo $data_atts ?>
-                               class="latepoint-book-button os_trigger_booking latepoint-btn-block <?php echo $btn_classes; ?>"
+                               class="latepoint-book-button os_trigger_booking latepoint-btn-block <?php echo esc_attr($btn_classes); ?>"
                                data-selected-bundle="<?php echo $bundle->id; ?>" >
 								<?php echo $atts['button_caption']; ?>
                             </a>
@@ -347,12 +347,12 @@ class OsShortcodesHelper {
         }
 		$style_attr = !empty($styles) ? ' style="' . esc_attr(implode('; ', $styles)) . '"' : '';
 
-		$before_html = '<div class="latepoint-book-button-wrapper ' . implode(' ', $btn_wrapper_classes) . '">';
+		$before_html = '<div class="latepoint-book-button-wrapper ' . esc_attr(implode(' ', $btn_wrapper_classes)) . '">';
 		$after_html = '</div>';
 
 		return $before_html . '<a href="#" class="latepoint-book-button os_trigger_booking ' .
-		       esc_html(implode(' ', $btn_classes)) . '"' . $style_attr . ' ' . $data_atts . '>' .
-		       esc_attr($atts['caption']) . '</a>' . $after_html;
+		       esc_attr(implode(' ', $btn_classes)) . '"' . $style_attr . ' ' . $data_atts . '>' .
+		       esc_html($atts['caption']) . '</a>' . $after_html;
 	}
 
 	// [latepoint_customer_dashboard]

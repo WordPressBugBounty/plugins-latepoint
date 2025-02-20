@@ -109,9 +109,12 @@ class OsSettingsHelper {
 			if ( $rows ) {
 				// Get table create statement
 				$create_table = $wpdb->get_row( "SHOW CREATE TABLE {$table}", ARRAY_N );
+                $var_table = str_replace($wpdb->prefix, '{{TABLE_PREFIX}}', $table);
+                $create_table = str_replace($table, $var_table, $create_table);
 
-				$output[ $table ] = [
+				$output[ $var_table ] = [
 					'create' => $create_table[1],
+                    'prefix' => $wpdb->prefix,
 					'data'   => $rows
 				];
 			}
@@ -143,6 +146,9 @@ class OsSettingsHelper {
 		if ( empty( $data ) ) {
 			throw new Exception( __( 'Error reading uploaded file', 'latepoint' ) );
 		}
+
+        // update table name from original to new prefix
+        $data = str_replace('{{TABLE_PREFIX}}', $wpdb->prefix, $data);
 
 		$data = json_decode( $data, true );
 		if ( json_last_error() !== JSON_ERROR_NONE ) {

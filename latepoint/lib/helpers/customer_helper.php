@@ -139,8 +139,13 @@ class OsCustomerHelper {
 		$customer = $customer->where( [ 'wordpress_user_id' => $wp_user->ID ] )->set_limit( 1 )->get_results_as_models();
 		if ( $customer ) {
 			if ( $customer->email != $wp_user->user_email ) {
-				// TODO: check if other customer already has this email
-				$customer->update_attributes( [ 'email' => $wp_user->user_email ] );
+
+				$email_already_assigned = new OsCustomerModel();
+                $email_already_assigned = $email_already_assigned->where([ 'email' => $wp_user->user_email, 'id !=' => $customer->id ])->set_limit( 1 )->get_results_as_models();
+
+                if (!$email_already_assigned) {
+				    $customer->update_attributes( [ 'email' => $wp_user->user_email ] );
+                }
 			}
 
 			return $customer;

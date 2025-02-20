@@ -238,11 +238,19 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
       if($customers){
         foreach($customers as $customer){
           $wp_user_id = OsCustomerHelper::create_wp_user_for_customer($customer);
-          if($wp_user_id) $customer->update_attributes(['wordpress_user_id' => $wp_user_id]);
+          if($wp_user_id) {
+			  //check if wp user already connected to another customer
+	          $connected_customer = new OsCustomerModel();
+	          $connected_customer = $connected_customer->where( [ 'wordpress_user_id' => $wp_user_id ] )->set_limit( 1 )->get_results_as_models();
+	          if ( !$connected_customer ) {
+		          $customer->update_attributes( [ 'wordpress_user_id' => $wp_user_id ] );
+	          }
+          }
         }
       }
+
       if($this->get_return_format() == 'json'){
-        $this->send_json(array('status' => LATEPOINT_STATUS_SUCCESS, 'message' => __('Customers Connected', 'latepoint')));
+	      $this->send_json(array('status' => LATEPOINT_STATUS_SUCCESS, 'message' => __('Customers Connected', 'latepoint')));
       }
     }
 
