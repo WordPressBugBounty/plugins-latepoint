@@ -261,7 +261,7 @@ class OsCustomerHelper {
 			   data-os-params="' . esc_attr(OsUtilHelper::build_os_params( [ 'order_id' => $order_id ] )) . '"
 			   data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'customer_cabinet', 'view_order_summary_in_lightbox' )) . '"
 			   data-os-output-target="lightbox"
-				data-os-lightbox-classes="width-500 customer-dashboard-booking-summary-lightbox"';
+				data-os-lightbox-classes="width-500 customer-dashboard-order-summary-lightbox"';
 
 		return $html;
 	}

@@ -197,16 +197,26 @@ class OsLocationHelper {
 	 *
 	 * @return array
 	 */
-	public static function get_locations_list( bool $filter_allowed_records = false ): array {
+	public static function get_locations_list( bool $filter_allowed_records = false, array $location_ids = [], bool $exclude_disabled = false ): array {
 		$locations = new OsLocationModel();
 		if ( $filter_allowed_records ) {
 			$locations->filter_allowed_records();
 		}
-		$locations      = $locations->get_results_as_models();
+
+        if (!empty($location_ids)) {
+            $locations->where_in('id', $location_ids);
+        }
+
+        if ($exclude_disabled) {
+            $locations->where(['status' => LATEPOINT_LOCATION_STATUS_ACTIVE]);
+        }
+
+		$locations      = $locations->order_by('status asc, name asc')->get_results_as_models();
 		$locations_list = [];
 		if ( $locations ) {
 			foreach ( $locations as $location ) {
-				$locations_list[] = [ 'value' => $location->id, 'label' => $location->name ];
+                $label = ($location->status == LATEPOINT_LOCATION_STATUS_DISABLED) ? ($location->name.' ['.esc_html__('Disabled', 'latepoint').']') : $location->name;
+				$locations_list[] = [ 'value' => $location->id, 'label' => $label ];
 			}
 		}
 

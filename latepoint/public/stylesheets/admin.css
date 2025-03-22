@@ -491,6 +491,7 @@
   text-decoration: none;
   align-items: center;
   gap: 5px;
+  color: #1d7bff;
 }
 .invoice-payment-summary-wrapper .invoice-due-amount-wrapper .id-sub-info a span {
   border-bottom: 1px dotted #1d7bff;
@@ -1090,22 +1091,23 @@ body.latepoint-admin {
 }
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-top-iconed-link i {
   vertical-align: middle;
+  display: block;
 }
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-top-iconed-link .notifications-count {
   position: absolute;
   background-color: #fadd88;
   border: 2px solid #fff;
-  color: #61502e;
+  color: #000;
   padding: 1px 3px;
   border-radius: 10px;
   font-size: 12px;
   min-width: 20px;
-  font-weight: 500;
   vertical-align: middle;
   line-height: 1.2;
   text-align: center;
-  top: -6px;
+  top: -10px;
   left: 50%;
+  font-weight: 600;
 }
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-mobile-top-menu-trigger,
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-mobile-top-search-trigger,
@@ -1199,6 +1201,26 @@ body.latepoint-admin {
 }
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-top-search-results .latepoint-search-result .name strong {
   background-color: rgba(255, 231, 18, 0.62);
+}
+.latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link {
+  text-decoration: none;
+  padding: 5px 10px;
+  color: #000;
+  font-weight: 600;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 20px;
+  cursor: pointer;
+  background-color: #fff5ca;
+  box-shadow: 0px 1px 0px 0px rgba(236, 207, 51, 0.5);
+  animation: 2s ease 0s pulseUnlockLink infinite;
+}
+.latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link:hover {
+  animation: none;
+  box-shadow: none;
+  background-color: #ffeb8b;
 }
 .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-top-search-w {
   position: relative;
@@ -1318,6 +1340,36 @@ body.latepoint-admin {
   text-align: center;
   padding: 20px;
 }
+.latepoint-all-wrapper .no-results-w.highlighted {
+  padding: 40px;
+  border-radius: 12px;
+  position: relative;
+}
+.latepoint-all-wrapper .no-results-w.highlighted .icon-w {
+  color: #1f222b;
+}
+.latepoint-all-wrapper .no-results-w.highlighted:before {
+  content: "";
+  z-index: 1;
+  width: 20%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-image: radial-gradient(#ccc 1px, transparent 0);
+  background-size: 23px 23px;
+}
+.latepoint-all-wrapper .no-results-w.highlighted:after {
+  content: "";
+  z-index: 1;
+  width: 20%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-image: radial-gradient(#ccc 1px, transparent 0);
+  background-size: 23px 23px;
+}
 .latepoint-all-wrapper .no-results-w .icon-w {
   font-size: 32px;
   color: #D6DDEA;
@@ -1326,6 +1378,20 @@ body.latepoint-admin {
 .latepoint-all-wrapper .no-results-w h2 {
   color: #ACB8CE;
   margin-top: 0px;
+}
+.latepoint-all-wrapper .no-results-w .no-results-heading {
+  max-width: 400px;
+  margin: 0 auto;
+  color: #1f222b;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.latepoint-all-wrapper .no-results-w .no-results-sub {
+  max-width: 400px;
+  margin: 0 auto;
+  color: #788291;
+  font-size: 17px;
+  margin-bottom: 20px;
 }
 .latepoint-all-wrapper .no-results-w a + a {
   margin-left: 10px;
@@ -1515,6 +1581,12 @@ body.latepoint-admin {
   font-size: 24px;
   padding: 20px 30px;
   background-color: #f9f8f8;
+}
+
+.latepoint-plugin-upgrade-premium-link {
+  color: #1e7bff;
+  font-weight: bold;
+  border-bottom: 1px dotted #1e7bff;
 }
 
 @keyframes os-loading {
@@ -2162,6 +2234,16 @@ body.latepoint-admin {
   100% {
     background-color: #8aca1c;
     box-shadow: 0px 1px 0px 0px rgba(139, 231, 141, 0.5), 0px 0px 0px 7px rgba(139, 231, 141, 0), 0px 0px 0px 12px rgba(139, 231, 141, 0);
+  }
+}
+@keyframes pulseUnlockLink {
+  0% {
+    background-color: #ffeb8b;
+    box-shadow: 0px 1px 0px 0px rgba(236, 207, 51, 0.5), 0px 0px 0px 0px rgba(255, 235, 139, 0.55), 0px 0px 0px 0px rgba(255, 235, 139, 0.55);
+  }
+  100% {
+    background-color: #fff5ca;
+    box-shadow: 0px 1px 0px 0px rgba(236, 207, 51, 0.5), 0px 0px 0px 7px rgba(255, 245, 202, 0), 0px 0px 0px 12px rgba(255, 245, 202, 0);
   }
 }
 @keyframes pulseSuccessPill {
@@ -3728,6 +3810,44 @@ body.latepoint-admin .active-license-info .version-check-icon {
 }
 .get-pro-wrapper .get-pro-wrapper-fields button {
   flex: 0;
+}
+
+.os-premium-features-list {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+.os-premium-features-list .os-premium-feature {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+.os-premium-features-list .os-premium-feature .feature-icon {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #1d7bff;
+  text-shadow: 2px -2px 0px #fff;
+}
+.os-premium-features-list .os-premium-feature .feature-heading {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f222b;
+  margin-bottom: 5px;
+}
+.os-premium-features-list .os-premium-feature .feature-description {
+  color: #788291;
+  font-size: 13px;
+}
+body.latepoint-admin .latepoint-lightbox-w .upgrade-info-btn {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  gap: 10px;
+  justify-content: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #1d7bff;
+  cursor: pointer;
 }
 
 @font-face {
@@ -5747,6 +5867,27 @@ body.latepoint-admin .active-license-info .version-check-icon {
   z-index: 999;
   left: 35px;
 }
+.quick-order-form-w .order-items-list .order-item-pill .order-item-pill-recurring-mark {
+  font-size: 14px;
+  position: relative;
+}
+.quick-order-form-w .order-items-list .order-item-pill .order-item-pill-recurring-mark .popover-message {
+  display: none;
+  background-color: #000;
+  color: #fff;
+  padding: 3px 5px;
+  max-width: 200px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  white-space: nowrap;
+  border-radius: 4px;
+  font-size: 13px;
+  transform: translateY(-100%);
+}
+.quick-order-form-w .order-items-list .order-item-pill .order-item-pill-recurring-mark:hover .popover-message {
+  display: block;
+}
 .quick-order-form-w .order-items-list .order-item-pill.order-item-pill-variant-booking:hover .order-item-pill-inner {
   border-color: #1d7bff;
   box-shadow: 0 0 0 1px #1d7bff;
@@ -6359,6 +6500,9 @@ input, select {
 .os-form-group.os-form-group-right-aligned.os-form-textfield-group label {
   top: 6px !important;
   left: 0px !important;
+  right: 78px;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 14px !important;
   opacity: 1;
 }
@@ -7543,22 +7687,22 @@ form > .os-form-sub-header:first-child {
   display: flex;
   align-items: center;
 }
-.merged-fields .os-form-group {
+.merged-fields .os-form-group, .merged-fields .os-form-group.os-form-group-transparent {
   flex: 0;
   margin: 0px;
   margin-right: 10px;
 }
-.merged-fields .os-form-group .os-form-control {
+.merged-fields .os-form-group .os-form-control, .merged-fields .os-form-group.os-form-group-transparent .os-form-control {
   min-width: 55px;
 }
-.merged-fields .os-form-group select.os-form-control {
+.merged-fields .os-form-group select.os-form-control, .merged-fields .os-form-group.os-form-group-transparent select.os-form-control {
   min-width: 110px;
   width: auto;
 }
-.merged-fields .os-form-group.os-form-group-transparent.os-form-textfield-group.has-value input.os-form-control {
+.merged-fields .os-form-group.os-form-group-transparent.os-form-textfield-group.has-value input.os-form-control, .merged-fields .os-form-group.os-form-group-transparent.os-form-group-transparent.os-form-textfield-group.has-value input.os-form-control {
   padding: 7px 6px 8px 6px !important;
 }
-.merged-fields .os-form-group.os-form-group-transparent.os-form-textfield-group input.os-form-control {
+.merged-fields .os-form-group.os-form-group-transparent.os-form-textfield-group input.os-form-control, .merged-fields .os-form-group.os-form-group-transparent.os-form-group-transparent.os-form-textfield-group input.os-form-control {
   border: 1px solid #cecfd8 !important;
   padding: 7px 6px 8px 6px !important;
   border-radius: 4px !important;
@@ -7677,6 +7821,10 @@ form > .os-form-sub-header:first-child {
 }
 .os-form-block:hover .os-form-block-header .os-form-block-edit-btn {
   opacity: 1;
+}
+.os-form-block.status-disabled:not(.os-is-editing) {
+  box-shadow: none;
+  border-color: transparent;
 }
 .os-form-block.status-disabled:not(.os-is-editing) .os-form-block-i {
   border-color: #eef0f6;
@@ -7871,6 +8019,9 @@ form > .os-form-sub-header:first-child {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
+}
+.os-default-field .os-form-group.os-form-group-transparent {
+  margin-bottom: 0;
 }
 .os-default-field .locked-field {
   padding: 0px 3px;
@@ -10158,6 +10309,13 @@ i + .latepoint-customer-facebook {
   flex: 1;
   position: relative;
 }
+.calendar-wrapper .ch-agents .day-action-trigger {
+  left: auto;
+  right: 20px;
+}
+.calendar-wrapper .ch-agents:hover .day-action-trigger {
+  display: block;
+}
 .calendar-wrapper .da-agents-bookings {
   display: flex;
 }
@@ -10730,6 +10888,26 @@ i + .latepoint-customer-facebook {
 .calendar-week-agent-w .agent-weekly-calendar.selected {
   display: block;
 }
+.calendar-week-agent-w .agent-weekly-calendar .current-time-indicator {
+  height: 3px;
+  background-color: #ff7c7c;
+  position: absolute;
+  top: 30%;
+  left: 0px;
+  right: 0px;
+  z-index: 998;
+}
+.calendar-week-agent-w .agent-weekly-calendar .current-time-indicator:before {
+  position: absolute;
+  content: "";
+  display: block;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fc6262;
+  padding: 6px;
+  border-radius: 50%;
+}
 .calendar-week-agent-w .cc-filters {
   display: flex;
   margin-left: auto;
@@ -10812,8 +10990,8 @@ i + .latepoint-customer-facebook {
 .calendar-week-agent-w .ch-day.is-today:before {
   content: "";
   background-color: #FF0F42;
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -10910,6 +11088,9 @@ i + .latepoint-customer-facebook {
 }
 .calendar-week-agent-w .calendar-hours .ch-day-periods-w .ch-day-periods-i {
   flex: 1;
+}
+.calendar-week-agent-w .calendar-hours .ch-day-periods-w .ch-day-periods-i:hover .day-action-trigger {
+  display: block;
 }
 .calendar-week-agent-w .calendar-hours .ch-day-periods-w .ch-day-periods-i:last-child .ch-day {
   border-right-color: #d2d4d7;
@@ -12111,6 +12292,253 @@ i + .latepoint-customer-facebook {
   color: #1f222b;
 }
 
+.quick-calendar-actions-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-calendar-action-toggler {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.quick-calendar-action-toggler .quick-calendar-action-toggle {
+  padding: 8px 5px;
+  border: 1px solid #d2d4d7;
+  color: #788291;
+  border-radius: 6px;
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+}
+.quick-calendar-action-toggler .quick-calendar-action-toggle.selected {
+  color: #1f222b;
+  border-color: #1d7bff;
+  box-shadow: 0 0 0 1px #1d7bff;
+}
+.quick-calendar-action-toggler .quick-calendar-action-toggle:hover:not(.selected) {
+  border-color: #111;
+}
+
+.quick-calendar-actions-wrapper.showing-settings .quick-calendar-actions {
+  display: none;
+}
+.quick-calendar-actions-wrapper.showing-settings .quick-calendar-action-settings {
+  display: block;
+}
+
+.quick-calendar-action-settings {
+  display: none;
+}
+.quick-calendar-action-settings .ws-period {
+  animation: none;
+}
+.quick-calendar-action-settings.setting-day-off .slot-off-reason {
+  display: none;
+}
+.quick-calendar-action-settings.setting-day-off .quick-calendar-action-settings-slot-off-title {
+  display: none;
+}
+.quick-calendar-action-settings.setting-day-off .ws-period {
+  display: none;
+}
+.quick-calendar-action-settings.setting-slot-off .quick-calendar-action-settings-day-off-title {
+  display: none;
+}
+
+.os-form-group.os-form-group-transparent {
+  margin-bottom: 15px;
+}
+
+.latepoint-message {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.quick-calendar-actions .quick-calendar-action {
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 17px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  position: relative;
+  color: #1f222b;
+  border: 1px solid #e4e5e7;
+  border-bottom-color: #c9cbcf;
+  cursor: pointer;
+}
+.quick-calendar-actions .quick-calendar-action:hover {
+  border-color: #1d7bff;
+  box-shadow: 0 0 0 1px #1d7bff;
+}
+.quick-calendar-actions .quick-calendar-action:hover:before {
+  background-color: #eef5ff;
+}
+.quick-calendar-actions .quick-calendar-action:hover.quick-calendar-action-day-off:before {
+  background-color: #ffe1e1;
+}
+.quick-calendar-actions .quick-calendar-action:hover i {
+  color: #1d7bff;
+  text-shadow: 2px -2px 0px #fff;
+  transform: scale(1.1);
+}
+.quick-calendar-actions .quick-calendar-action:hover span {
+  transform: translateX(5px);
+}
+.quick-calendar-actions .quick-calendar-action i {
+  position: relative;
+  font-size: 18px;
+  color: #1d7bff;
+}
+.quick-calendar-actions .quick-calendar-action i.latepoint-icon-cancel {
+  color: #ea6161;
+}
+.quick-calendar-actions .quick-calendar-action i, .quick-calendar-actions .quick-calendar-action span {
+  transition: transform 0.15s ease;
+  display: block;
+}
+.quick-calendar-actions .quick-calendar-action:before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  border-radius: 50%;
+}
+.quick-calendar-actions .quick-calendar-action + .quick-calendar-action {
+  margin-top: 15px;
+}
+
+.day-action-trigger {
+  display: none;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #1d7bff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #fff;
+}
+.day-action-trigger.os-loading:after {
+  display: none;
+}
+.day-action-trigger.os-loading:before {
+  width: auto;
+  height: auto;
+  display: block;
+  content: "";
+  width: 12px !important;
+  height: 12px !important;
+  border-bottom: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-top: 2px solid #fff;
+  border-right: 2px solid rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: os-loading 700ms infinite linear;
+  background-color: transparent !important;
+  z-index: 999;
+}
+.day-action-trigger:before {
+  content: "";
+  width: 10px;
+  height: 2px;
+  background-color: #fff;
+  display: block;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+}
+.day-action-trigger:after {
+  position: absolute;
+  content: "";
+  width: 10px;
+  height: 2px;
+  background-color: #fff;
+  transform: translate3d(-50%, -50%, 0) rotate(90deg);
+  display: block;
+  top: 50%;
+  left: 50%;
+}
+.day-action-trigger:hover {
+  background-color: #5099ff;
+}
+.day-action-trigger:hover:before, .day-action-trigger:hover:after {
+  background-color: #fff;
+}
+
+.ch-day-blocked-period {
+  background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+  color: #fff;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  text-align: left;
+  z-index: 999;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ch-day-blocked-period.os-loading:before {
+  display: block;
+  content: "";
+  width: 12px !important;
+  height: 12px !important;
+  border-bottom: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-top: 2px solid #fff;
+  border-right: 2px solid rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: os-loading 700ms infinite linear;
+  background-color: transparent !important;
+  z-index: 999;
+  left: auto;
+  right: 0px;
+  top: 10px;
+}
+.ch-day-blocked-period .ch-day-blocked-period-i {
+  visibility: hidden;
+  background-color: #ed2e2e;
+  padding: 3px 6px;
+}
+.ch-day-blocked-period .blocked-period-summary {
+  color: #fff;
+}
+.ch-day-blocked-period .blocked-period-time {
+  color: rgba(255, 255, 255, 0.8);
+}
+.ch-day-blocked-period:hover {
+  background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+}
+.ch-day-blocked-period:hover .ch-day-blocked-period-i {
+  visibility: visible;
+}
+
+.quick-calendar-locked-feature {
+  text-align: center;
+  padding: 25px;
+  background: #fffce8;
+  border-radius: 12px;
+}
+.quick-calendar-locked-feature h3 {
+  margin-bottom: 10px;
+}
+.quick-calendar-locked-feature div {
+  margin-bottom: 20px;
+  color: #788291;
+}
+
 .latepoint-lightbox-w {
   position: fixed;
   top: 0px;
@@ -12126,7 +12554,7 @@ i + .latepoint-customer-facebook {
 .latepoint-lightbox-w .latepoint-lightbox-close {
   position: absolute;
   line-height: 1;
-  top: 17px;
+  top: 16px;
   right: 19px;
   font-size: 20px;
   color: #333;
@@ -14634,6 +15062,29 @@ pre.json-document a.json-placeholder:hover {
   color: #000;
   text-decoration: none;
   font-size: 17px;
+  position: relative;
+}
+.pro-feature-banner .latepoint-pro-link-subtle.os-loading {
+  color: transparent;
+  border-color: transparent;
+}
+.pro-feature-banner .latepoint-pro-link-subtle.os-loading:before {
+  display: block;
+  content: "";
+  width: 14px !important;
+  height: 14px !important;
+  border-bottom: 2px solid #000;
+  border-left: 2px solid #000;
+  border-top: 2px solid #000;
+  border-right: 2px solid rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: os-loading 700ms infinite linear;
+  background-color: transparent !important;
+  z-index: 999;
 }
 .pro-feature-banner .latepoint-pro-link {
   padding: 10px 15px;
@@ -19431,7 +19882,7 @@ pre.json-document a.json-placeholder:hover {
   font-weight: 400;
   margin-bottom: 20px;
   background: #f6f3ec;
-  color: #857c74;
+  color: #6a6561;
   border-left: 2px solid #e9e4db;
   border-radius: 0;
 }
@@ -21809,7 +22260,7 @@ pre.json-document a.json-placeholder:hover {
   background-color: #fff;
   background-image: radial-gradient(rgba(0, 0, 0, 0.05) 2px, transparent 0);
   background-size: 20px 20px;
-  padding: 40px 20px;
+  padding: 40px 0;
   font-size: 15px;
 }
 .booking-form-preview-wrapper p {
@@ -21851,8 +22302,8 @@ pre.json-document a.json-placeholder:hover {
   margin-bottom: 20px;
 }
 .booking-form-preview-wrapper .bf-content .bf-color-scheme-colors .bf-color-scheme-color-trigger {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: 3px solid #fff;
   cursor: pointer;
@@ -21954,14 +22405,14 @@ pre.json-document a.json-placeholder:hover {
 }
 .booking-form-preview-wrapper .booking-form-preview-inner {
   flex: 1;
-  padding: 0 10px;
+  padding: 0 10px 0 0;
 }
 
 .booking-form-preview-settings {
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 5px 20px -3px rgba(0, 0, 0, 0.1);
-  width: 260px;
-  flex: 0 0 260px;
+  width: 350px;
+  flex: 0 0 350px;
   position: relative;
 }
 .booking-form-preview-settings.os-loading:before {
@@ -22186,6 +22637,7 @@ pre.json-document a.json-placeholder:hover {
 
 .latepoint-summary-w .summary-box .sbc-highlighted-item {
   font-size: 13px;
+  margin-top: 2px;
 }
 .latepoint-summary-w .summary-box-heading .sbh-item {
   font-size: 13px;
@@ -22384,23 +22836,25 @@ pre.json-document a.json-placeholder:hover {
 }
 .summary-box.main-box .summary-box-inner {
   flex: 1;
+  padding-top: 5px;
 }
 .summary-box.main-box .summary-box-booking-date-box {
   text-align: center;
-  flex: 0;
+  flex: 0 0 50px;
   background-color: #f1f1f1;
 }
 .summary-box.main-box .summary-box-booking-date-box .summary-box-booking-date-day {
-  font-size: 24px;
-  line-height: 1.2;
+  font-size: 20px;
+  line-height: 1.3;
   font-weight: 400;
   color: #1f222b;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 5px 10px;
+  padding: 5px 0;
 }
 .summary-box.main-box .summary-box-booking-date-box .summary-box-booking-date-month {
   color: #788291;
-  padding: 5px 15px;
+  padding: 5px 0;
+  font-size: 13px;
 }
 .summary-box.main-box .qr-show-trigger {
   flex: 0 1 80px;
@@ -22435,17 +22889,15 @@ pre.json-document a.json-placeholder:hover {
   display: block;
   background-color: #f1f2f5;
   position: absolute;
-  top: 4px;
+  top: 2px;
   right: 0px;
-  padding: 0px;
   cursor: pointer;
   color: #333;
   font-size: 14px;
   vertical-align: middle;
   line-height: 14px;
-  width: 16px;
-  height: 16px;
   text-align: center;
+  padding: 8px 5px;
 }
 .summary-box .summary-box-content .os-remove-item-from-cart.os-loading {
   color: transparent;
@@ -22469,14 +22921,21 @@ pre.json-document a.json-placeholder:hover {
   background-color: transparent !important;
   z-index: 999;
 }
-.summary-box .summary-box-content .os-remove-item-from-cart i {
-  font-size: 14px;
-  vertical-align: middle;
-  line-height: 16px;
+.summary-box .summary-box-content .os-remove-item-from-cart.os-loading .os-remove-from-cart-icon {
+  background-color: transparent !important;
+}
+.summary-box .summary-box-content .os-remove-item-from-cart .os-remove-from-cart-icon {
+  height: 2px;
+  display: block;
+  width: 8px;
+  background-color: #000;
 }
 .summary-box .summary-box-content .os-remove-item-from-cart:hover:not(.os-loading) {
   background-color: #000 !important;
   color: #fff;
+}
+.summary-box .summary-box-content .os-remove-item-from-cart:hover:not(.os-loading) .os-remove-from-cart-icon {
+  background-color: #fff;
 }
 .summary-box .summary-box-content.with-media {
   display: flex;
@@ -22538,6 +22997,9 @@ pre.json-document a.json-placeholder:hover {
   font-weight: 400;
   color: #1f222b;
   line-height: 1.3;
+}
+.summary-box .sbc-big-item + .sbc-highlighted-item {
+  margin-top: 2px;
 }
 .summary-box .sbc-highlighted-item {
   color: #788291;
@@ -22679,7 +23141,7 @@ pre.json-document a.json-placeholder:hover {
   margin-top: 0;
 }
 .latepoint-w .latepoint-summary-w .summary-box .sbc-big-item {
-  font-size: 15px;
+  font-size: 17px;
 }
 .latepoint-w .latepoint-summary-w .summary-box .summary-box-content .os-remove-item-from-cart {
   display: block;
@@ -22715,7 +23177,7 @@ pre.json-document a.json-placeholder:hover {
   padding: 5px;
   margin: 0px;
   text-align: right;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .latepoint-w .latepoint-summary-w .summary-header .summary-header-inner {
   display: flex;
@@ -22803,6 +23265,7 @@ pre.json-document a.json-placeholder:hover {
   justify-content: space-between;
   flex: 1;
   padding-top: 15px;
+  overflow-y: auto;
 }
 .latepoint-w .latepoint-summary-w .os-summary-contents-inner .os-summary-contents-inner-top {
   padding: 0 25px;
@@ -22825,7 +23288,8 @@ pre.json-document a.json-placeholder:hover {
 }
 .latepoint-w .latepoint-summary-w .os-summary-contents-inner .cart-item-wrapper {
   position: relative;
-  padding: 15px 0;
+  padding: 10px 0;
+  margin-top: 5px;
 }
 .latepoint-w .latepoint-summary-w .os-summary-contents-inner .cart-item-wrapper .summary-box:last-child {
   padding-bottom: 0;
@@ -22841,6 +23305,9 @@ pre.json-document a.json-placeholder:hover {
 .latepoint-w .latepoint-summary-w .os-summary-contents-inner .cart-item-wrapper.multi-item:hover .os-remove-item-from-cart {
   background-color: #dc5454;
   color: #fff;
+}
+.latepoint-w .latepoint-summary-w .os-summary-contents-inner .cart-item-wrapper.multi-item:hover .os-remove-item-from-cart .os-remove-from-cart-icon {
+  background-color: #fff;
 }
 .latepoint-w .latepoint-summary-w .os-summary-contents-inner .pb-heading {
   display: flex;
@@ -23192,6 +23659,7 @@ html.latepoint-clean {
   color: #ad3d12;
   border-color: #ad3d12;
 }
+.customer-dashboard-order-summary-lightbox .summary-box-heading .sbh-item,
 .customer-dashboard-booking-summary-lightbox .summary-box-heading .sbh-item,
 .bundle-scheduled-summary-lightbox .summary-box-heading .sbh-item,
 .manage-order-wrapper .summary-box-heading .sbh-item,
@@ -23200,12 +23668,14 @@ html.latepoint-clean {
   font-weight: 400;
   font-size: 15px;
 }
+.customer-dashboard-order-summary-lightbox .order-summary-main-section,
 .customer-dashboard-booking-summary-lightbox .order-summary-main-section,
 .bundle-scheduled-summary-lightbox .order-summary-main-section,
 .manage-order-wrapper .order-summary-main-section,
 .manage-booking-wrapper .order-summary-main-section {
   margin-bottom: 20px;
 }
+.customer-dashboard-order-summary-lightbox .part-of-bundle-message,
 .customer-dashboard-booking-summary-lightbox .part-of-bundle-message,
 .bundle-scheduled-summary-lightbox .part-of-bundle-message,
 .manage-order-wrapper .part-of-bundle-message,
@@ -23216,6 +23686,7 @@ html.latepoint-clean {
   font-size: 13px;
   margin-top: 20px;
 }
+.customer-dashboard-order-summary-lightbox .part-of-bundle-message a,
 .customer-dashboard-booking-summary-lightbox .part-of-bundle-message a,
 .bundle-scheduled-summary-lightbox .part-of-bundle-message a,
 .manage-order-wrapper .part-of-bundle-message a,
@@ -23224,18 +23695,21 @@ html.latepoint-clean {
   text-decoration: none;
   border-bottom: 1px dotted #1d7bff;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-head-info,
 .customer-dashboard-booking-summary-lightbox .full-summary-head-info,
 .bundle-scheduled-summary-lightbox .full-summary-head-info,
 .manage-order-wrapper .full-summary-head-info,
 .manage-booking-wrapper .full-summary-head-info {
   position: relative;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-head-info .add-to-calendar-wrapper,
 .customer-dashboard-booking-summary-lightbox .full-summary-head-info .add-to-calendar-wrapper,
 .bundle-scheduled-summary-lightbox .full-summary-head-info .add-to-calendar-wrapper,
 .manage-order-wrapper .full-summary-head-info .add-to-calendar-wrapper,
 .manage-booking-wrapper .full-summary-head-info .add-to-calendar-wrapper {
   display: inline-block;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-code-vevent,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-code-vevent,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-code-vevent,
 .manage-order-wrapper .qr-code-on-full-summary.show-vevent-qr-code .qr-code-vevent,
@@ -23245,12 +23719,14 @@ html.latepoint-clean {
   padding-bottom: 20px;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-show-trigger,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-show-trigger,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary.show-vevent-qr-code .qr-show-trigger,
 .manage-order-wrapper .qr-code-on-full-summary.show-vevent-qr-code .qr-show-trigger,
 .manage-booking-wrapper .qr-code-on-full-summary.show-vevent-qr-code .qr-show-trigger {
   display: none;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-show-trigger,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-show-trigger,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-show-trigger,
 .manage-order-wrapper .qr-code-on-full-summary .qr-show-trigger,
@@ -23261,6 +23737,7 @@ html.latepoint-clean {
   padding-top: 20px;
   cursor: pointer;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .latepoint-icon,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .latepoint-icon,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .latepoint-icon,
 .manage-order-wrapper .qr-code-on-full-summary .qr-show-trigger .latepoint-icon,
@@ -23268,6 +23745,7 @@ html.latepoint-clean {
   font-size: 45px;
   color: #111;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .qr-code-trigger-label,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .qr-code-trigger-label,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-show-trigger .qr-code-trigger-label,
 .manage-order-wrapper .qr-code-on-full-summary .qr-show-trigger .qr-code-trigger-label,
@@ -23282,18 +23760,21 @@ html.latepoint-clean {
   font-size: 12px;
   text-transform: uppercase;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-code-booking-info,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-code-booking-info,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-code-booking-info,
 .manage-order-wrapper .qr-code-on-full-summary .qr-code-booking-info,
 .manage-booking-wrapper .qr-code-on-full-summary .qr-code-booking-info {
   display: none;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-code-vevent,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-code-vevent,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-code-vevent,
 .manage-order-wrapper .qr-code-on-full-summary .qr-code-vevent,
 .manage-booking-wrapper .qr-code-on-full-summary .qr-code-vevent {
   display: none;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-code-vevent img,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-code-vevent img,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-code-vevent img,
 .manage-order-wrapper .qr-code-on-full-summary .qr-code-vevent img,
@@ -23301,6 +23782,7 @@ html.latepoint-clean {
   display: block;
   margin: 0px auto;
 }
+.customer-dashboard-order-summary-lightbox .qr-code-on-full-summary .qr-code-vevent .qr-code-label,
 .customer-dashboard-booking-summary-lightbox .qr-code-on-full-summary .qr-code-vevent .qr-code-label,
 .bundle-scheduled-summary-lightbox .qr-code-on-full-summary .qr-code-vevent .qr-code-label,
 .manage-order-wrapper .qr-code-on-full-summary .qr-code-vevent .qr-code-label,
@@ -23315,12 +23797,14 @@ html.latepoint-clean {
   line-height: 1.4;
   color: #000;
 }
+.customer-dashboard-order-summary-lightbox .payment-summary-info .full-summary-info-w,
 .customer-dashboard-booking-summary-lightbox .payment-summary-info .full-summary-info-w,
 .bundle-scheduled-summary-lightbox .payment-summary-info .full-summary-info-w,
 .manage-order-wrapper .payment-summary-info .full-summary-info-w,
 .manage-booking-wrapper .payment-summary-info .full-summary-info-w {
   margin-top: 0px;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-header,
 .customer-dashboard-booking-summary-lightbox .full-summary-header,
 .bundle-scheduled-summary-lightbox .full-summary-header,
 .manage-order-wrapper .full-summary-header,
@@ -23328,6 +23812,7 @@ html.latepoint-clean {
   margin-bottom: 0px;
   margin-top: 0px;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-number,
 .customer-dashboard-booking-summary-lightbox .full-summary-number,
 .bundle-scheduled-summary-lightbox .full-summary-number,
 .manage-order-wrapper .full-summary-number,
@@ -23340,12 +23825,14 @@ html.latepoint-clean {
   text-transform: uppercase;
   font-weight: 400;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-number strong,
 .customer-dashboard-booking-summary-lightbox .full-summary-number strong,
 .bundle-scheduled-summary-lightbox .full-summary-number strong,
 .manage-order-wrapper .full-summary-number strong,
 .manage-booking-wrapper .full-summary-number strong {
   color: #1f222b;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-order-info-wrapper,
 .customer-dashboard-booking-summary-lightbox .full-summary-order-info-wrapper,
 .bundle-scheduled-summary-lightbox .full-summary-order-info-wrapper,
 .manage-order-wrapper .full-summary-order-info-wrapper,
@@ -23353,13 +23840,7 @@ html.latepoint-clean {
   position: relative;
   margin-bottom: 40px;
 }
-.customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper,
-.bundle-scheduled-summary-lightbox .fsoi-main-wrapper,
-.manage-order-wrapper .fsoi-main-wrapper,
-.manage-booking-wrapper .fsoi-main-wrapper {
-  display: flex;
-  align-items: flex-start;
-}
+.customer-dashboard-order-summary-lightbox .fsoi-main-wrapper .fsoi-main,
 .customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper .fsoi-main,
 .bundle-scheduled-summary-lightbox .fsoi-main-wrapper .fsoi-main,
 .manage-order-wrapper .fsoi-main-wrapper .fsoi-main,
@@ -23369,6 +23850,7 @@ html.latepoint-clean {
   color: #788291;
   display: flex;
 }
+.customer-dashboard-order-summary-lightbox .fsoi-main-wrapper .fsoi-main strong,
 .customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper .fsoi-main strong,
 .bundle-scheduled-summary-lightbox .fsoi-main-wrapper .fsoi-main strong,
 .manage-order-wrapper .fsoi-main-wrapper .fsoi-main strong,
@@ -23376,14 +23858,16 @@ html.latepoint-clean {
   color: #1f222b;
   font-weight: 400;
 }
+.customer-dashboard-order-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions,
 .customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions,
 .bundle-scheduled-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions,
 .manage-order-wrapper .fsoi-main-wrapper .order-full-summary-actions,
 .manage-booking-wrapper .fsoi-main-wrapper .order-full-summary-actions {
-  margin-left: auto;
   display: flex;
-  gap: 10px;
+  gap: 20px;
+  margin-bottom: 15px;
 }
+.customer-dashboard-order-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions a,
 .customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions a,
 .bundle-scheduled-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions a,
 .manage-order-wrapper .fsoi-main-wrapper .order-full-summary-actions a,
@@ -23391,13 +23875,17 @@ html.latepoint-clean {
   display: flex;
   align-items: center;
   gap: 5px;
+  color: #1d7bff;
+  text-decoration: none;
 }
+.customer-dashboard-order-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions span,
 .customer-dashboard-booking-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions span,
 .bundle-scheduled-summary-lightbox .fsoi-main-wrapper .order-full-summary-actions span,
 .manage-order-wrapper .fsoi-main-wrapper .order-full-summary-actions span,
 .manage-booking-wrapper .fsoi-main-wrapper .order-full-summary-actions span {
   border-bottom: 1px dotted #1d7bff;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-order-info-elements,
 .customer-dashboard-booking-summary-lightbox .full-summary-order-info-elements,
 .bundle-scheduled-summary-lightbox .full-summary-order-info-elements,
 .manage-order-wrapper .full-summary-order-info-elements,
@@ -23406,6 +23894,7 @@ html.latepoint-clean {
   gap: 10px;
   font-size: 15px;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-order-info-elements .fsoi-element,
 .customer-dashboard-booking-summary-lightbox .full-summary-order-info-elements .fsoi-element,
 .bundle-scheduled-summary-lightbox .full-summary-order-info-elements .fsoi-element,
 .manage-order-wrapper .full-summary-order-info-elements .fsoi-element,
@@ -23413,6 +23902,7 @@ html.latepoint-clean {
   display: flex;
   gap: 2px;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-order-info-elements span,
 .customer-dashboard-booking-summary-lightbox .full-summary-order-info-elements span,
 .bundle-scheduled-summary-lightbox .full-summary-order-info-elements span,
 .manage-order-wrapper .full-summary-order-info-elements span,
@@ -23420,6 +23910,7 @@ html.latepoint-clean {
   color: #788291;
   display: block;
 }
+.customer-dashboard-order-summary-lightbox .full-summary-order-info-elements strong,
 .customer-dashboard-booking-summary-lightbox .full-summary-order-info-elements strong,
 .bundle-scheduled-summary-lightbox .full-summary-order-info-elements strong,
 .manage-order-wrapper .full-summary-order-info-elements strong,
@@ -23780,8 +24271,7 @@ html.latepoint-clean {
 }
 .booking-form-preview .os-step-tabs .os-step-tab.active {
   color: #41444b;
-  font-size: 16px;
-  line-height: 15px;
+  font-size: 17px;
   padding-bottom: 12px;
   padding-top: 8px;
 }
@@ -27118,6 +27608,20 @@ body.latepoint-admin.latepoint-dark .latepoint-all-wrapper .page-header-w {
   }
 }
 @media (max-width: 600px) {
+  .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link {
+    margin-right: 0;
+  }
+  .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link i {
+    display: none;
+  }
+  .day-action-trigger {
+    top: 50%;
+    left: 20px;
+  }
+  .calendar-wrapper .ch-agents .day-action-trigger {
+    top: 50%;
+    left: 20px;
+  }
   .latepoint-top-user-info-w {
     flex: 1;
   }

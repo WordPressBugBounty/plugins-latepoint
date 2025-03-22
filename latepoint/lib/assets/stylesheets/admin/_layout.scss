@@ -267,23 +267,24 @@ body.latepoint-admin {
       position: relative;
       i {
         vertical-align: middle;
+        display: block;
       }
 
       .notifications-count {
         position: absolute;
         background-color: #fadd88;
         border: 2px solid $body-bg;
-        color: #61502e;
+        color: #000;
         padding: 1px 3px;
         border-radius: 10px;
         font-size: floor($font-size-base * 0.8);
         min-width: 20px;
-        font-weight: 500;
         vertical-align: middle;
         line-height: 1.2;
         text-align: center;
-        top: -6px;
+        top: -10px;
         left: 50%;
+        font-weight: $body-font-weight-black;
       }
     }
 
@@ -410,6 +411,27 @@ body.latepoint-admin {
       }
     }
 
+    .latepoint-unlock-features-link {
+      text-decoration: none;
+      padding: 5px 10px;
+      color: #000;
+      font-weight: $body-font-weight-black;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 20px;
+      cursor: pointer;
+      background-color: #fff5ca;
+      box-shadow: 0px 1px 0px 0px rgba(#eccf33, 0.5);
+      animation: 2s ease 0s pulseUnlockLink infinite;
+      &:hover {
+        animation: none;
+        box-shadow: none;
+        background-color: #ffeb8b;
+      }
+    }
+
     .latepoint-top-search-w {
       position: relative;
       flex: 1;
@@ -528,6 +550,36 @@ body.latepoint-admin {
   .no-results-w {
     text-align: center;
     padding: 20px;
+    &.highlighted {
+      padding: 40px;
+      border-radius: 12px;
+      position: relative;
+      .icon-w {
+        color: $headings-color;
+      }
+      &:before {
+        content: "";
+        z-index: 1;
+        width: 20%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        background-image: radial-gradient(#ccc 1px, transparent 0);
+        background-size: 23px 23px;
+      }
+      &:after {
+        content: "";
+        z-index: 1;
+        width: 20%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        background-image: radial-gradient(#ccc 1px, transparent 0);
+        background-size: 23px 23px;
+      }
+    }
 
     .icon-w {
       font-size: 32px;
@@ -538,6 +590,22 @@ body.latepoint-admin {
     h2 {
       color: #ACB8CE;
       margin-top: 0px;
+    }
+
+    .no-results-heading {
+      max-width: 400px;
+      margin: 0 auto;
+      color: $headings-color;
+      font-size: $body-font-size-l;
+      margin-bottom: 10px;
+    }
+
+    .no-results-sub {
+      max-width: 400px;
+      margin: 0 auto;
+      color: $color-faded;
+      font-size: $body-font-size-m;
+      margin-bottom: 20px;
     }
 
     a + a {
@@ -757,4 +825,10 @@ body.latepoint-admin {
     padding: 20px 30px;
     background-color: #f9f8f8;
   }
+}
+
+.latepoint-plugin-upgrade-premium-link {
+  color: #1e7bff;
+  font-weight: bold;
+  border-bottom: 1px dotted #1e7bff;
 }

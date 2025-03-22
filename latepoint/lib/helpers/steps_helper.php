@@ -21,7 +21,7 @@ class OsStepsHelper {
 	public static $restrictions = [];
 	public static $presets = [];
 
-    public static $params = [];
+	public static $params = [];
 
 
 	public static function get_step_codes_with_rules(): array {
@@ -227,6 +227,7 @@ class OsStepsHelper {
 		OsStepsHelper::set_presets( $params['presets'] ?? [] );
 		OsStepsHelper::set_booking_object( $params['booking'] ?? [] );
 		OsStepsHelper::set_booking_properties_for_single_options();
+		OsStepsHelper::set_recurring_booking_properties( $params );
 		OsStepsHelper::set_cart_object( $params['cart'] ?? [] );
 		OsStepsHelper::set_active_cart_item_object( $params['active_cart_item'] ?? [] );
 		OsStepsHelper::get_step_codes_in_order();
@@ -443,7 +444,7 @@ class OsStepsHelper {
 	}
 
 	public static function load_step( $step_code, $format = 'json', $params = [] ) {
-        self::$params = $params;
+		self::$params = $params;
 
 		$step_code = self::check_step_code_access( $step_code );
 		if ( OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::get_settings_value( 'max_future_bookings_per_customer' ) ) {
@@ -559,26 +560,26 @@ class OsStepsHelper {
 
 	public static function remove_preset_steps(): void {
 
-        if (! empty( self::$presets['selected_bundle'] )) {
-            self::remove_steps_for_parent( 'booking' );
-        }else{
-            // if current step is agents or services selection and we have it preselected - skip to next step
-            if ( ! empty( self::$presets['selected_service'] ) ) {
-                $service = new OsServiceModel( self::$presets['selected_service'] );
-                if ( $service->id ) {
-                    self::remove_step_by_name( 'booking__services' );
-                }
-            }
-            if ( ! empty( self::$presets['selected_location'] ) ) {
-                self::remove_step_by_name( 'booking__locations' );
-            }
-            if ( ! empty( self::$presets['selected_agent'] ) ) {
-                self::remove_step_by_name( 'booking__agents' );
-            }
-            if ( ! empty( self::$presets['selected_start_date'] ) && ! empty( self::$presets['selected_start_time'] ) ) {
-                self::remove_step_by_name( 'booking__datepicker' );
-            }
-        }
+		if ( ! empty( self::$presets['selected_bundle'] ) ) {
+			self::remove_steps_for_parent( 'booking' );
+		} else {
+			// if current step is agents or services selection and we have it preselected - skip to next step
+			if ( ! empty( self::$presets['selected_service'] ) ) {
+				$service = new OsServiceModel( self::$presets['selected_service'] );
+				if ( $service->id ) {
+					self::remove_step_by_name( 'booking__services' );
+				}
+			}
+			if ( ! empty( self::$presets['selected_location'] ) ) {
+				self::remove_step_by_name( 'booking__locations' );
+			}
+			if ( ! empty( self::$presets['selected_agent'] ) ) {
+				self::remove_step_by_name( 'booking__agents' );
+			}
+			if ( ! empty( self::$presets['selected_start_date'] ) && ! empty( self::$presets['selected_start_time'] ) ) {
+				self::remove_step_by_name( 'booking__datepicker' );
+			}
+		}
 
 		if ( self::is_bundle_scheduling() ) {
 			// booking a bundle that was already paid for, skip payment step
@@ -628,7 +629,9 @@ class OsStepsHelper {
 	}
 
 	public static function remove_steps_for_parent( $parent_step_code ) {
-		self::$step_codes_in_order = array_filter( self::$step_codes_in_order, function($step) use ($parent_step_code) { return strpos($step, $parent_step_code . '__') !== 0; });
+		self::$step_codes_in_order = array_filter( self::$step_codes_in_order, function ( $step ) use ( $parent_step_code ) {
+			return strpos( $step, $parent_step_code . '__' ) !== 0;
+		} );
 	}
 
 	public static function validate_presence( array $steps, array $rules ): array {
@@ -640,7 +643,7 @@ class OsStepsHelper {
 			if ( ! in_array( $step_code, $steps ) ) {
 				// sometimes a rule is defined by the parent name, search for unflat list for parents
 				if ( ! in_array( $step_code, array_keys( self::unflatten_steps( $steps ) ) ) ) {
-                    // translators: %s is the name of a step
+					// translators: %s is the name of a step
 					$errors[] = sprintf( __( "Step %s is missing from steps array.", 'latepoint' ), $step_code );
 				}
 			}
@@ -649,7 +652,7 @@ class OsStepsHelper {
 		// Check if each step in steps is present in rules
 		foreach ( $steps as $step_code ) {
 			if ( ! array_key_exists( $step_code, $rules ) ) {
-                // translators: %s is the name of a step
+				// translators: %s is the name of a step
 				$errors[] = sprintf( __( "Step %s is not defined in the rules.", 'latepoint' ), $step_code );
 			}
 		}
@@ -719,7 +722,7 @@ class OsStepsHelper {
 			if ( isset( $rules[ $rule_step_code ]['after'] ) ) {
 				$after_index = array_search( $rules[ $rule_step_code ]['after'], $steps );
 				if ( $after_index === false || $after_index >= $current_index ) {
-                    // translators: %1$s is step name with error, %2$s is step that it should come after
+					// translators: %1$s is step name with error, %2$s is step that it should come after
 					$errors[] = sprintf( __( 'Step "%1$s" has to come after "%2$s"', 'latepoint' ), self::get_step_label_by_code( $rule_step_code ), self::get_step_label_by_code( $rules[ $rule_step_code ]['after'], $parent_code ) );
 				}
 			}
@@ -727,7 +730,7 @@ class OsStepsHelper {
 			if ( isset( $rules[ $rule_step_code ]['before'] ) ) {
 				$before_index = array_search( $rules[ $rule_step_code ]['before'], $steps );
 				if ( $before_index === false || $before_index <= $current_index ) {
-                    // translators: %1$s is step name with error, %2$s is step that it should come before
+					// translators: %1$s is step name with error, %2$s is step that it should come before
 					$errors[] = sprintf( __( 'Step "%1$s" has to come before "%2$s"', 'latepoint' ), self::get_step_label_by_code( $rule_step_code ), self::get_step_label_by_code( $rules[ $rule_step_code ]['before'], $parent_code ) );
 				}
 			}
@@ -1073,6 +1076,9 @@ class OsStepsHelper {
 	public static function set_booking_object( $booking_object_params = [] ): OsBookingModel {
 		self::$booking_object = new OsBookingModel();
 		self::$booking_object->set_data( $booking_object_params );
+
+        self::$booking_object->convert_start_datetime_into_server_timezone(OsTimeHelper::get_timezone_name_from_session());
+
 		if ( ! empty( $booking_object_params['intent_key'] ) ) {
 			self::$booking_object->intent_key = $booking_object_params['intent_key'];
 		}
@@ -1132,7 +1138,10 @@ class OsStepsHelper {
 
 		// get buffers from service and set to booking object
 		self::$booking_object->set_buffers();
-		self::$booking_object->calculate_end_date_and_time();
+		if ( self::$booking_object->is_start_date_and_time_set() ) {
+			self::$booking_object->calculate_end_date_and_time();
+			self::$booking_object->set_utc_datetimes();
+		}
 		self::$booking_object->customer_id = OsAuthHelper::get_logged_in_customer_id();
 
 		return self::$booking_object;
@@ -1146,8 +1155,8 @@ class OsStepsHelper {
 		}
 	}
 
-	public static function is_bundle_scheduling() {
-		return ! empty( self::$booking_object->order_item_id );
+	public static function is_bundle_scheduling() : bool {
+		return self::$booking_object->is_bundle_scheduling();
 	}
 
 	/**
@@ -1204,104 +1213,104 @@ class OsStepsHelper {
 					$skip = true;
 					self::set_zero_cost_payment_fields();
 				} else {
-                    if(self::$cart_object->is_empty()){
-                        $skip = true;
-                    }else{
-                        $original_amount      = self::$cart_object->get_subtotal();
-                        $after_coupons_amount = self::$cart_object->get_total();
-                        $deposit_amount       = self::$cart_object->deposit_amount_to_charge();
-                        if ( $original_amount > 0 && $after_coupons_amount <= 0 ) {
-                            // original price was set, but coupon was applied and charge amount is now 0, we can skip step, even if deposit is not 0
-                            $is_zero_cost = true;
-                        } else {
-                            if ( $after_coupons_amount <= 0 && $deposit_amount <= 0 ) {
-                                $is_zero_cost = true;
-                            } else {
-                                $is_zero_cost = false;
-                            }
-                        }
-                        // if nothing to charge - don't show it, no matter what
-                        if ( $is_zero_cost && ! OsSettingsHelper::is_env_demo() ) {
-                            $skip = true;
-                            self::set_zero_cost_payment_fields();
-                        } else {
-                            if ( $step_code == 'payment__times' ) {
-                                if ( ! empty( self::$cart_object->payment_time ) ) {
-                                    $skip = true;
-                                } else {
-                                    // try to check if one only available and preset it
-                                    $enabled_payment_times = OsPaymentsHelper::get_enabled_payment_times();
-                                    if ( count( $enabled_payment_times ) == 1 ) {
-                                        $skip                                                = true;
-                                        self::$cart_object->payment_time                     = array_key_first( $enabled_payment_times );
-                                        self::$preset_fields['verify']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
-                                        // assign preset field value for next step
-                                        self::$preset_fields['payment__portions']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
-                                        self::carry_preset_fields_to_next_step( 'payment__times', 'payment__portions' );
-                                    }
-                                }
-                            }
-                            if ( $step_code == 'payment__portions' ) {
-                                if ( ! empty( self::$cart_object->payment_portion ) ) {
-                                    $skip = true;
-                                } else {
-                                    if ( $is_zero_cost || ( self::$cart_object->payment_time == LATEPOINT_PAYMENT_TIME_LATER ) || ( $after_coupons_amount > 0 && $deposit_amount <= 0 ) ) {
-                                        // zero cost, pay later or 0 deposit, means it's a full portion payment preset
-                                        self::$cart_object->payment_portion = LATEPOINT_PAYMENT_PORTION_FULL;
-                                    } elseif ( $deposit_amount > 0 && $after_coupons_amount <= 0 ) {
-                                        self::$cart_object->payment_portion = LATEPOINT_PAYMENT_PORTION_DEPOSIT;
-                                    }
+					if ( self::$cart_object->is_empty() ) {
+						$skip = true;
+					} else {
+						$original_amount      = self::$cart_object->get_subtotal();
+						$after_coupons_amount = self::$cart_object->get_total();
+						$deposit_amount       = self::$cart_object->deposit_amount_to_charge();
+						if ( $original_amount > 0 && $after_coupons_amount <= 0 ) {
+							// original price was set, but coupon was applied and charge amount is now 0, we can skip step, even if deposit is not 0
+							$is_zero_cost = true;
+						} else {
+							if ( $after_coupons_amount <= 0 && $deposit_amount <= 0 ) {
+								$is_zero_cost = true;
+							} else {
+								$is_zero_cost = false;
+							}
+						}
+						// if nothing to charge - don't show it, no matter what
+						if ( $is_zero_cost && ! OsSettingsHelper::is_env_demo() ) {
+							$skip = true;
+							self::set_zero_cost_payment_fields();
+						} else {
+							if ( $step_code == 'payment__times' ) {
+								if ( ! empty( self::$cart_object->payment_time ) ) {
+									$skip = true;
+								} else {
+									// try to check if one only available and preset it
+									$enabled_payment_times = OsPaymentsHelper::get_enabled_payment_times();
+									if ( count( $enabled_payment_times ) == 1 ) {
+										$skip                                                = true;
+										self::$cart_object->payment_time                     = array_key_first( $enabled_payment_times );
+										self::$preset_fields['verify']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
+										// assign preset field value for next step
+										self::$preset_fields['payment__portions']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
+										self::carry_preset_fields_to_next_step( 'payment__times', 'payment__portions' );
+									}
+								}
+							}
+							if ( $step_code == 'payment__portions' ) {
+								if ( ! empty( self::$cart_object->payment_portion ) ) {
+									$skip = true;
+								} else {
+									if ( $is_zero_cost || ( self::$cart_object->payment_time == LATEPOINT_PAYMENT_TIME_LATER ) || ( $after_coupons_amount > 0 && $deposit_amount <= 0 ) ) {
+										// zero cost, pay later or 0 deposit, means it's a full portion payment preset
+										self::$cart_object->payment_portion = LATEPOINT_PAYMENT_PORTION_FULL;
+									} elseif ( $deposit_amount > 0 && $after_coupons_amount <= 0 ) {
+										self::$cart_object->payment_portion = LATEPOINT_PAYMENT_PORTION_DEPOSIT;
+									}
 
-                                    if ( ! empty( self::$cart_object->payment_portion ) ) {
-                                        $skip                                                             = true;
-                                        self::$preset_fields['verify']['cart[payment_portion]']           = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
-                                        self::$preset_fields['payment__methods']['cart[payment_portion]'] = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
+									if ( ! empty( self::$cart_object->payment_portion ) ) {
+										$skip                                                             = true;
+										self::$preset_fields['verify']['cart[payment_portion]']           = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
+										self::$preset_fields['payment__methods']['cart[payment_portion]'] = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
 
-                                        self::carry_preset_fields_to_next_step( 'payment__portions', 'payment__methods' );
-                                    }
-                                }
-                            }
-                            if ( $step_code == 'payment__methods' ) {
-                                if ( ! empty( self::$cart_object->payment_method ) ) {
-                                    $skip = true;
-                                } else {
-                                    if ( self::$cart_object->payment_time ) {
-                                        $enabled_payment_methods = OsPaymentsHelper::get_enabled_payment_methods_for_payment_time( self::$cart_object->payment_time );
-                                        if ( count( $enabled_payment_methods ) <= 1 ) {
-                                            $skip                                                               = true;
-                                            self::$cart_object->payment_method                                  = array_key_first( $enabled_payment_methods );
-                                            self::$preset_fields['verify']['cart[payment_method]']              = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
-                                            self::$preset_fields['payment__processors']['cart[payment_method]'] = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
+										self::carry_preset_fields_to_next_step( 'payment__portions', 'payment__methods' );
+									}
+								}
+							}
+							if ( $step_code == 'payment__methods' ) {
+								if ( ! empty( self::$cart_object->payment_method ) ) {
+									$skip = true;
+								} else {
+									if ( self::$cart_object->payment_time ) {
+										$enabled_payment_methods = OsPaymentsHelper::get_enabled_payment_methods_for_payment_time( self::$cart_object->payment_time );
+										if ( count( $enabled_payment_methods ) <= 1 ) {
+											$skip                                                               = true;
+											self::$cart_object->payment_method                                  = array_key_first( $enabled_payment_methods );
+											self::$preset_fields['verify']['cart[payment_method]']              = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
+											self::$preset_fields['payment__processors']['cart[payment_method]'] = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
 
-                                            self::carry_preset_fields_to_next_step( 'payment__methods', 'payment__processors' );
-                                        }
-                                    }
-                                }
-                            }
-                            if ( $step_code == 'payment__processors' ) {
-                                if ( ! empty( self::$cart_object->payment_processor ) ) {
-                                    $skip = true;
-                                } else {
-                                    if ( self::$cart_object->payment_time && self::$cart_object->payment_method ) {
-                                        $enabled_payment_processors = OsPaymentsHelper::get_enabled_payment_processors_for_payment_time_and_method( self::$cart_object->payment_time, self::$cart_object->payment_method );
-                                        if ( count( $enabled_payment_processors ) <= 1 ) {
-                                            $skip                                                           = true;
-                                            self::$cart_object->payment_processor                           = array_key_first( $enabled_payment_processors );
-                                            self::$preset_fields['verify']['cart[payment_processor]']       = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
-                                            self::$preset_fields['payment__pay']['cart[payment_processor]'] = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
+											self::carry_preset_fields_to_next_step( 'payment__methods', 'payment__processors' );
+										}
+									}
+								}
+							}
+							if ( $step_code == 'payment__processors' ) {
+								if ( ! empty( self::$cart_object->payment_processor ) ) {
+									$skip = true;
+								} else {
+									if ( self::$cart_object->payment_time && self::$cart_object->payment_method ) {
+										$enabled_payment_processors = OsPaymentsHelper::get_enabled_payment_processors_for_payment_time_and_method( self::$cart_object->payment_time, self::$cart_object->payment_method );
+										if ( count( $enabled_payment_processors ) <= 1 ) {
+											$skip                                                           = true;
+											self::$cart_object->payment_processor                           = array_key_first( $enabled_payment_processors );
+											self::$preset_fields['verify']['cart[payment_processor]']       = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
+											self::$preset_fields['payment__pay']['cart[payment_processor]'] = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
 
-                                            self::carry_preset_fields_to_next_step( 'payment__processors', 'payment__pay' );
-                                        }
-                                    }
-                                }
-                            }
-                            if ( $step_code == 'payment__pay' ) {
-                                if ( self::$cart_object->payment_time == LATEPOINT_PAYMENT_TIME_LATER || empty( OsPaymentsHelper::get_enabled_payment_times() ) ) {
-                                    $skip = true;
-                                }
-                            }
-                        }
-                    }
+											self::carry_preset_fields_to_next_step( 'payment__processors', 'payment__pay' );
+										}
+									}
+								}
+							}
+							if ( $step_code == 'payment__pay' ) {
+								if ( self::$cart_object->payment_time == LATEPOINT_PAYMENT_TIME_LATER || empty( OsPaymentsHelper::get_enabled_payment_times() ) ) {
+									$skip = true;
+								}
+							}
+						}
+					}
 				}
 				break;
 		}
@@ -1341,7 +1350,7 @@ class OsStepsHelper {
 			$next_step_code = self::get_next_step_code( $next_step_code );
 		}
 
-        /**
+		/**
 		 * Get the next step code, based on a current step
 		 *
 		 * @param {string} $next_step_code The next step code
@@ -1354,7 +1363,7 @@ class OsStepsHelper {
 		 * @hook latepoint_get_next_step_code
 		 *
 		 */
-		return apply_filters('latepoint_get_next_step_code', $next_step_code, $current_step_code, $all_step_codes, $active_step_codes);
+		return apply_filters( 'latepoint_get_next_step_code', $next_step_code, $current_step_code, $all_step_codes, $active_step_codes );
 	}
 
 	public static function get_prev_step_code( $current_step_code ) {
@@ -1371,7 +1380,7 @@ class OsStepsHelper {
 			$prev_step_code = self::get_prev_step_code( $prev_step_code );
 		}
 
-        /**
+		/**
 		 * Get the next step code, based on a current step
 		 *
 		 * @param {string} $next_step_code The next step code
@@ -1383,7 +1392,7 @@ class OsStepsHelper {
 		 * @hook latepoint_get_previous_step_code
 		 *
 		 */
-		return apply_filters('latepoint_get_previous_step_code', $prev_step_code, $current_step_code, $all_step_codes);
+		return apply_filters( 'latepoint_get_previous_step_code', $prev_step_code, $current_step_code, $all_step_codes );
 	}
 
 
@@ -1482,14 +1491,45 @@ class OsStepsHelper {
 				self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
 			} elseif ( self::$active_cart_item->is_booking() ) {
 				// only do this for new cart item, if modifying existing one - then the set_active_cart_item method will take care of updating it
-				if ( self::$booking_object->is_bookable( true, true ) ) {
-					// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
-					self::set_active_cart_item_object();
-					if ( self::is_bundle_scheduling() ) {
-						// we don't need to use a cart for bundle scheduling
+				if ( self::$booking_object->is_bookable( [ 'skip_customer_check' => true ] ) ) {
+					// create recurring record and assign it to this booking
+					if ( ! empty( self::$booking_object->generate_recurrent_sequence ) ) {
+						// Recurring booking
+						$recurrence            = new OsRecurrenceModel();
+						$recurrence->rules     = wp_json_encode( self::$booking_object->generate_recurrent_sequence['rules'] );
+						$recurrence->overrides = wp_json_encode( self::$booking_object->generate_recurrent_sequence['overrides'] );
+						if ( $recurrence->save() ) {
+							self::$booking_object->recurrence_id = $recurrence->id;
+							// we don't need these attributes anymore as we will get them from the recurrence model by ID
+							self::$booking_object->generate_recurrent_sequence = [];
+							$customer_timezone                                 = self::$booking_object->get_customer_timezone();
+							$recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( self::$booking_object, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
+                            $main_cart_item_id = false;
+							foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
+								if ( $recurrence_bookings_datum['unchecked'] == 'yes' || !$recurrence_bookings_datum['is_bookable'] ) {
+									continue;
+								}
+								self::$booking_object = $recurrence_bookings_datum['booking'];
+								// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
+								self::set_active_cart_item_object();
+                                if(!empty($main_cart_item_id)){
+                                    self::$active_cart_item->connected_cart_item_id = $main_cart_item_id;
+                                }
+								self::$cart_object->add_item( self::$active_cart_item );
+								self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
+                                if(empty($main_cart_item_id)) $main_cart_item_id = self::$active_cart_item->id;
+							}
+						}
 					} else {
-						self::$cart_object->add_item( self::$active_cart_item );
-						self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
+						// Single time booking
+						// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
+						self::set_active_cart_item_object();
+						if ( self::is_bundle_scheduling() ) {
+							// we don't need to use a cart for bundle scheduling
+						} else {
+							self::$cart_object->add_item( self::$active_cart_item );
+							self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
+						}
 					}
 					self::reset_booking_object();
 
@@ -1618,8 +1658,6 @@ class OsStepsHelper {
 			self::$booking_object->agent_id = LATEPOINT_ANY_AGENT;
 		}
 		self::$vars_for_view['calendar_start_date'] = self::$restrictions['calendar_start_date'] ? self::$restrictions['calendar_start_date'] : 'today';
-		self::$vars_for_view['timeshift_minutes']   = OsTimeHelper::get_timezone_shift_in_minutes_from_session();
-		self::$vars_for_view['timezone_name']       = OsTimeHelper::get_timezone_name_from_session();
 	}
 
 	public static function process_step_booking__datepicker() {
@@ -1847,7 +1885,7 @@ class OsStepsHelper {
 	}
 
 	public static function prepare_step_payment__processors() {
-		$enabled_payment_processors = OsPaymentsHelper::get_enabled_payment_processors();
+		$enabled_payment_processors                        = OsPaymentsHelper::get_enabled_payment_processors();
 		self::$vars_for_view['enabled_payment_processors'] = $enabled_payment_processors;
 	}
 
@@ -1855,8 +1893,8 @@ class OsStepsHelper {
 	}
 
 	public static function prepare_step_payment__pay() {
-        $booking_form_page_url = self::$params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
-        $order_intent         = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, $booking_form_page_url );
+		$booking_form_page_url = self::$params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
+		$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, $booking_form_page_url );
 	}
 
 
@@ -1887,24 +1925,58 @@ class OsStepsHelper {
 				self::$vars_for_view['order_bundles']        = $order->get_bundles_from_order_items();
 				self::$vars_for_view['price_breakdown_rows'] = self::$cart_object->generate_price_breakdown_rows();
 
-				if ( self::$booking_object->is_bookable() ) {
-					self::$booking_object->calculate_end_time();
-					self::$booking_object->calculate_end_date();
-					self::$booking_object->set_utc_datetimes();
-					$service                             = new OsServiceModel( self::$booking_object->service_id );
-					self::$booking_object->buffer_before = $service->buffer_before;
-					self::$booking_object->buffer_after  = $service->buffer_after;
+                if(!empty(self::$booking_object->generate_recurrent_sequence)){
+                    $recurrence            = new OsRecurrenceModel();
+                    $recurrence->rules     = wp_json_encode( self::$booking_object->generate_recurrent_sequence['rules'] );
+                    $recurrence->overrides = wp_json_encode( self::$booking_object->generate_recurrent_sequence['overrides'] );
+                    if ( $recurrence->save() ) {
+                        self::$booking_object->recurrence_id = $recurrence->id;
+                        // we don't need these attributes anymore as we will get them from the recurrence model by ID
+                        self::$booking_object->generate_recurrent_sequence = [];
+                        $customer_timezone                                 = self::$booking_object->get_customer_timezone();
+                        $recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( self::$booking_object, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
+                        foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
+                            if ( $recurrence_bookings_datum['unchecked'] == 'yes' ) {
+                                continue;
+                            }
+                            self::$booking_object = $recurrence_bookings_datum['booking'];
+                            // set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
+                            self::set_active_cart_item_object();
+                            if ( self::$booking_object->is_bookable() ) {
 
-					if ( self::$booking_object->save() ) {
-						do_action( 'latepoint_booking_created', self::$booking_object );
-					} else {
-						// error saving booking
-						self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-					}
-				} else {
-					// is not bookable
-					self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-				}
+                                if ( self::$booking_object->save() ) {
+                                    do_action( 'latepoint_booking_created', self::$booking_object );
+                                } else {
+                                    // error saving booking
+                                    self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+                                }
+                            } else {
+                                // is not bookable
+                                self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+                            }
+                        }
+                    }
+                }else{
+                    if ( self::$booking_object->is_bookable() ) {
+                        self::$booking_object->calculate_end_time();
+                        self::$booking_object->calculate_end_date();
+                        self::$booking_object->set_utc_datetimes();
+                        $service                             = new OsServiceModel( self::$booking_object->service_id );
+                        self::$booking_object->buffer_before = $service->buffer_before;
+                        self::$booking_object->buffer_after  = $service->buffer_after;
+
+                        if ( self::$booking_object->save() ) {
+                            do_action( 'latepoint_booking_created', self::$booking_object );
+                        } else {
+                            // error saving booking
+                            self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+                        }
+                    } else {
+                        // is not bookable
+                        self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+                    }
+                }
+
 
 			} else {
 				$order_intent = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets );
@@ -2029,10 +2101,10 @@ class OsStepsHelper {
 	public static function get_step_settings_edit_form_html( string $selected_step_code ): string {
 		$step_settings_html = '';
 		switch ( $selected_step_code ) {
-            case 'booking__services':
+			case 'booking__services':
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[steps_show_service_categories]', __( 'Show service categories', 'latepoint' ), OsSettingsHelper::steps_show_service_categories(), false, false, [ 'sub_label' => __( 'If turned on, services will be displayed in categories', 'latepoint' ) ] );
 				break;
-            case 'booking__agents':
+			case 'booking__agents':
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[steps_show_agent_bio]', __( 'Show Learn More about agents', 'latepoint' ), OsSettingsHelper::is_on( 'steps_show_agent_bio' ), false, false, [ 'sub_label' => __( 'A link to open information about agent will be added to each agent tile', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[steps_hide_agent_info]', __( 'Hide agent name from summary and confirmation', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_agent_info' ), false, false, [ 'sub_label' => __( 'Check if you want to hide agent name from showing up', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[allow_any_agent]', __( 'Add "Any Agent" option to agent selection', 'latepoint' ), OsSettingsHelper::is_on( 'allow_any_agent' ), 'lp-any-agent-settings', false, [ 'sub_label' => __( 'Customers can pick "Any agent" and system will find a matching agent', 'latepoint' ) ] );
@@ -2040,18 +2112,21 @@ class OsStepsHelper {
 				$step_settings_html .= OsFormHelper::select_field( 'settings[any_agent_order]', __( 'If "Any Agent" is selected then assign booking to', 'latepoint' ), OsSettingsHelper::get_order_types_list_for_any_agent_logic(), OsSettingsHelper::get_any_agent_order() );
 				$step_settings_html .= '</div>';
 				break;
-            case 'booking__datepicker':
+			case 'booking__datepicker':
 				$step_settings_html .= OsFormHelper::select_field( 'steps_settings[booking__datepicker][time_pick_style]', __( 'Show Time Slots as', 'latepoint' ), [
 					'timebox'  => 'Time Boxes',
 					'timeline' => 'Timeline'
 				], OsStepsHelper::get_time_pick_style() );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_timepicker_when_one_slot_available]', __( 'Hide time picker if single slot', 'latepoint' ), OsUtilHelper::is_on( self::get_step_setting_value( $selected_step_code, 'hide_timepicker_when_one_slot_available' ) ), false, false, [ 'sub_label' => __( 'If a single slot is available in a day, it will be preselected.', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_slot_availability_count]', __( 'Hide slot availability count', 'latepoint' ), OsStepsHelper::hide_slot_availability_count(), false, false, [ 'sub_label' => __( 'Slot counter tooltip will not appear when hovering a day.', 'latepoint' ) ] );
-				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_unavailable_slots]', __( 'Hide slots that are not available (time boxes)', 'latepoint' ), OsStepsHelper::hide_unavailable_slots(), false, false, [ 'sub_label' => __( 'Hides time boxes that are not available, instead of showing them in gray.', 'latepoint' ) ] );
+				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_unavailable_slots]', __( 'Hide slots that are not available', 'latepoint' ), OsStepsHelper::hide_unavailable_slots(), false, false, [ 'sub_label' => __( 'Hides time boxes that are not available, instead of showing them in gray.', 'latepoint' ) ] );
+				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][disable_searching_first_available_slot]', __( 'Disable auto searching for first available slot', 'latepoint' ), OsStepsHelper::disable_searching_first_available_slot(), false, false, [ 'sub_label' => __( 'If checked, this will stop calendar from automatically scrolling to a first available slot', 'latepoint' ) ] );
 				break;
-            case 'confirmation':
-                $step_settings_html .= OsFormHelper::select_field( 'steps_settings[confirmation][order_confirmation_message_style]', __( 'Message Style', 'latepoint' ), ['green' => __('Green', 'latepoint'), 'yellow' => __('Yellow', 'latepoint')], self::get_step_setting_value($selected_step_code, 'order_confirmation_message_style', 'green') );
-                break;
+			case 'confirmation':
+				$step_settings_html .= OsFormHelper::select_field( 'steps_settings[confirmation][order_confirmation_message_style]', __( 'Message Style', 'latepoint' ), [ 'green'  => __( 'Green', 'latepoint' ),
+				                                                                                                                                                           'yellow' => __( 'Yellow', 'latepoint' )
+				], self::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) );
+				break;
 		}
 		/**
 		 * Generates HTML for step settings form in the preview
@@ -2252,28 +2327,15 @@ class OsStepsHelper {
 				OsAgentHelper::generate_agents_list( $agents );
 				break;
 			case 'booking__datepicker':
-				$booking = new OsBookingModel();
+				$booking  = new OsBookingModel();
 				$services = new OsServiceModel();
-				$service = $services->should_be_active()->set_limit( 1 )->get_results_as_models();
+				$service  = $services->should_be_active()->set_limit( 1 )->get_results_as_models();
 				if ( $service ) {
 					$booking->service_id = $service->id;
+					echo OsCalendarHelper::generate_dates_and_times_picker( $booking, new OsWpDateTime( 'now' ), ! OsStepsHelper::disable_searching_first_available_slot() );
 					?>
-                    <div class="os-dates-w" data-time-pick-style="<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
-						<?php OsCalendarHelper::generate_calendar_for_datepicker_step( \LatePoint\Misc\BookingRequest::create_from_booking_model( $booking ), new OsWpDateTime( 'now' ) ); ?>
-                    </div>
-                    <div class="time-selector-w <?php echo OsStepsHelper::hide_unavailable_slots() ? 'hide-not-available-slots' : ''; ?> <?php echo 'time-system-' . esc_attr(OsTimeHelper::get_time_system()); ?> <?php echo ( OsSettingsHelper::is_on( 'show_booking_end_time' ) ) ? 'with-end-time' : 'without-end-time'; ?> style-<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
-                        <div class="times-header">
-                            <div class="th-line"></div>
-                            <div class="times-header-label">
-								<?php esc_html_e( 'Pick a slot for', 'latepoint' ); ?> <span></span>
-								<?php do_action( 'latepoint_step_datepicker_appointment_time_header_label', $booking ); ?>
-                            </div>
-                            <div class="th-line"></div>
-                        </div>
-                        <div class="os-times-w">
-                            <div class="timeslots"></div>
-                        </div>
-                    </div>
+
+
 					<?php
 				} else {
 					echo 'You need to have an active service to generate the calendar';
@@ -2305,17 +2367,17 @@ class OsStepsHelper {
 			case 'payment__pay':
 				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "Payment form generated by selected payment processor will appear here", 'latepoint' ) . '</div>';
 				break;
-            case 'confirmation':
-                echo '<div class="summary-status-wrapper summary-status-style-'.esc_attr(OsStepsHelper::get_step_setting_value($selected_step_code, 'order_confirmation_message_style', 'green')).'">';
-                    echo '<div class="summary-status-inner">';
-                        echo '<div class="ss-icon"></div>';
-                        echo '<div class="ss-title bf-side-heading editable-setting" data-setting-key="['. esc_attr($selected_step_code).'][order_confirmation_message_title]" contenteditable="true">'.esc_html(OsStepsHelper::get_step_setting_value($selected_step_code, 'order_confirmation_message_title', __('Appointment Confirmed', 'latepoint'))).'</div>';
-                        echo '<div class="ss-description bf-side-heading editable-setting" data-setting-key="['. esc_attr($selected_step_code).'][order_confirmation_message_content]" contenteditable="true">'.esc_html(OsStepsHelper::get_step_setting_value($selected_step_code, 'order_confirmation_message_content', __('We look forward to seeing you.', 'latepoint'))).'</div>';
-                        echo '<div class="ss-confirmation-number"><span>'.esc_html__('Order #', 'latepoint').'</span><strong>KDFJ934K</strong></div>';
-                    echo '</div>';
-                echo '</div>';
+			case 'confirmation':
+				echo '<div class="summary-status-wrapper summary-status-style-' . esc_attr( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) ) . '">';
+				echo '<div class="summary-status-inner">';
+				echo '<div class="ss-icon"></div>';
+				echo '<div class="ss-title bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_title]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_title', __( 'Appointment Confirmed', 'latepoint' ) ) ) . '</div>';
+				echo '<div class="ss-description bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_content]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_content', __( 'We look forward to seeing you.', 'latepoint' ) ) ) . '</div>';
+				echo '<div class="ss-confirmation-number"><span>' . esc_html__( 'Order #', 'latepoint' ) . '</span><strong>KDFJ934K</strong></div>';
+				echo '</div>';
+				echo '</div>';
 				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "Order information will appear here.", 'latepoint' ) . '</div>';
-                break;
+				break;
 		}
 		do_action( 'latepoint_get_step_content_preview', $selected_step_code );
 	}
@@ -2516,14 +2578,14 @@ class OsStepsHelper {
 				self::$active_cart_item = new OsCartItemModel();
 			}
 		}
-		self::$active_cart_item->variant = ! empty( $cart_item_params['variant'] ) ? $cart_item_params['variant'] : (empty(self::$presets['selected_bundle']) ? LATEPOINT_ITEM_VARIANT_BOOKING : LATEPOINT_ITEM_VARIANT_BUNDLE);
+		self::$active_cart_item->variant = ! empty( $cart_item_params['variant'] ) ? $cart_item_params['variant'] : ( empty( self::$presets['selected_bundle'] ) ? LATEPOINT_ITEM_VARIANT_BOOKING : LATEPOINT_ITEM_VARIANT_BUNDLE );
 		if ( self::$active_cart_item->is_bundle() ) {
-            if(empty($cart_item_params['item_data'])){
-                self::$active_cart_item->item_data = empty(self::$presets['selected_bundle']) ? '' : wp_json_encode(['bundle_id' => self::$presets['selected_bundle']]);
-            }else{
-                // bundle gets data from params
-                self::$active_cart_item->item_data = is_array( $cart_item_params['item_data'] ) ? wp_json_encode( $cart_item_params['item_data'], true ) : $cart_item_params['item_data'];
-            }
+			if ( empty( $cart_item_params['item_data'] ) ) {
+				self::$active_cart_item->item_data = empty( self::$presets['selected_bundle'] ) ? '' : wp_json_encode( [ 'bundle_id' => self::$presets['selected_bundle'] ] );
+			} else {
+				// bundle gets data from params
+				self::$active_cart_item->item_data = is_array( $cart_item_params['item_data'] ) ? wp_json_encode( $cart_item_params['item_data'], true ) : $cart_item_params['item_data'];
+			}
 		} else {
 			// booking gets data from booking object
 			self::$active_cart_item->item_data = wp_json_encode( self::$booking_object->generate_params_for_booking_form(), true );
@@ -2637,6 +2699,12 @@ class OsStepsHelper {
 
 	public static function set_cart_object( array $params = [] ): OsCartModel {
 		self::$cart_object = OsCartsHelper::get_or_create_cart();
+        if( self::$cart_object->order_intent_id ){
+            $order_intent = new OsOrderIntentModel(self::$cart_object->order_intent_id);
+            if($order_intent->is_converted()){
+                $order_intent->mark_cart_converted(self::$cart_object);
+            }
+        }
 		if ( self::$cart_object->order_id ) {
 			self::load_order_object( self::$cart_object->order_id );
 		} else {
@@ -2678,5 +2746,15 @@ class OsStepsHelper {
 
 	public static function hide_unavailable_slots() {
 		return OsUtilHelper::is_on( self::get_step_setting_value( 'booking__datepicker', 'hide_unavailable_slots' ) );
+	}
+
+	public static function disable_searching_first_available_slot() {
+		return OsUtilHelper::is_on( self::get_step_setting_value( 'booking__datepicker', 'disable_searching_first_available_slot' ) );
+	}
+
+	private static function set_recurring_booking_properties( array $params ) {
+		if ( ! empty( $params['is_recurring'] ) && $params['is_recurring'] == LATEPOINT_VALUE_ON ) {
+			self::$booking_object->generate_recurrent_sequence = [ 'rules' => $params['recurrence']['rules'] ?? [], 'overrides' => $params['recurrence']['overrides'] ?? [] ];
+		}
 	}
 }

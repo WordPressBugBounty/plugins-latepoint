@@ -476,8 +476,17 @@ class OsCartModel extends OsModel {
 		$this->set_payment_processor();
 	}
 
-	public function remove_item( OsCartItemModel $item ) {
+	public function remove_item( OsCartItemModel $item, bool $remove_connected_items = true ) {
 		if ( $item->id && $this->id == $item->cart_id ) {
+			if($remove_connected_items){
+				if(!empty($item->connected_cart_item_id)){
+					$cart_items = new OsCartItemModel();
+					$cart_items->delete_where(['id' => $item->connected_cart_item_id]);
+				}
+				// search for connected cart items
+				$cart_items = new OsCartItemModel();
+				$cart_items->delete_where(['connected_cart_item_id' => $item->id]);
+			}
 			$item->delete();
 			$this->items = OsCartsHelper::get_items_for_cart_id( $this->id );
 		}

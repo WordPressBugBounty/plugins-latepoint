@@ -116,14 +116,29 @@
     }
   }
 
+  .latepoint-w .latepoint-summary-w .os-summary-contents-inner .cart-summary-main-section {
+    padding: 0 20px;
+  }
+  .latepoint-summary-w .summary-price-breakdown-wrapper .summary-price-breakdown-inner {
+    padding: 0 20px 20px;
+  }
+  
+  .latepoint-w .latepoint-summary-w .os-summary-contents {
+    overflow: hidden;
+  }
+
   .checkout-from-summary-panel-btn-wrapper {
     &.os-mobile-only {
       display: block;
-      padding: 10px 25px;
+      padding: 10px 20px;
       background-color: #fff;
       position: sticky;
       top: 0;
       z-index: 1;
+      border-bottom: 1px solid $border-color-light;
+      .checkout-from-summary-panel-btn {
+        justify-content: space-between;
+      }
       + .os-summary-contents-inner {
         padding-top: 10px;
       }
@@ -220,7 +235,7 @@
       }
       .manage-booking-inner {
         padding: 20px;
-        padding-top: 60px;
+        padding-top: 100px;
       }
     }
   }
@@ -253,6 +268,16 @@
         }
       }
     }
+  }
+
+  .latepoint-w .latepoint-summary-w .summary-header .summary-header-inner {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
+  .latepoint-w .latepoint-summary-w .os-summary-contents-inner .os-summary-contents-inner-top {
+    padding: 0 20px;
   }
 
   .latepoint-w .latepoint-booking-form-element.latepoint-border-radius-rounded .latepoint-summary-w {
@@ -295,7 +320,7 @@
             display: block;
           }
           .latepoint-summary-w {
-            display: block!important;
+            display: flex!important;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -304,15 +329,19 @@
             border-radius: 0;
             bottom: auto;
             z-index: 4;
-            overflow: auto;
+            overflow: hidden;
             box-shadow: 0px 10px 28px -5px rgba(0,0,0,0.4), 0px 2px 3px 0px rgba(0,0,0,0.4);
             max-height: 90vh;
             max-width: 90vw;
             min-width: 80vw;
-            transform: translate3d(0,-50%, 0);
+            transform: translate3d(-50%,-50%, 0);
             .latepoint-lightbox-summary-trigger {
               line-height: 1;
-              padding: 5px;
+              right: 15px;
+              padding: 3px;
+              i {
+                display: block;
+              }
             }
           }
         }
@@ -444,7 +473,6 @@
 
       &.addon-timezone-selector-active {
         .os-dates-w {
-          padding-top: 40px;
         }
       }
 
@@ -498,14 +526,11 @@
         }
       }
       .os-weekdays {
-        grid-gap: 12px;
       }
       .os-monthly-calendar-days {
-        grid-gap: 12px;
       }
       .os-monthly-calendar-days .os-day {
         .os-day-number {
-          top: 45%;
         }
       }
       .step-confirmation-w .confirmation-info-w .confirmation-app-info {

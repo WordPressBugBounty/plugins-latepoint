@@ -83,7 +83,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
 			<?php echo OsFormHelper::hidden_field( 'transactions[' . $real_or_rand_id . '][id]', $real_or_rand_id ); ?>
+
+
 			<?php do_action( 'latepoint_transaction_edit_form_after', $transaction, $real_or_rand_id ); ?>
+
+            <?php OsTransactionHelper::output_refund_button($transaction); ?>
         </div>
     </div>
 </div>

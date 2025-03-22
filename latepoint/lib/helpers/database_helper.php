@@ -241,6 +241,17 @@ class OsDatabaseHelper {
 		$sqls = [];
 
 
+			/* Recurrences */
+			$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_RECURRENCES . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      rules text,
+      overrides text,
+      created_at datetime,
+      updated_at datetime,
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+
 		// ---------------
 		// STEPS
 		// ---------------
@@ -286,9 +297,11 @@ class OsDatabaseHelper {
       cart_id int(11) NOT NULL,
       variant varchar(55),
       item_data text,
+      connected_cart_item_id int(11),
       created_at datetime,
       updated_at datetime,
       PRIMARY KEY  (id),
+      KEY connected_cart_item_id_index (connected_cart_item_id)
       KEY cart_id_index (cart_id)
     ) $charset_collate;";
 
@@ -442,13 +455,41 @@ class OsDatabaseHelper {
       agent_id mediumint(9) NOT NULL,
       location_id mediumint(9),
       order_item_id mediumint(9),
+      recurrence_id mediumint(9),
       total_attendees mediumint(4),
+      customer_timezone varchar(100),
+      server_timezone varchar(100),
       created_at datetime,
       updated_at datetime,
       KEY start_date_index (start_date),
       KEY end_date_index (end_date),
       KEY status_index (status),
       KEY customer_id_index (customer_id),
+      KEY service_id_index (service_id),
+      KEY agent_id_index (agent_id),
+      KEY location_id_index (location_id),
+      KEY recurrence_id_index (recurrence_id),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+
+		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BLOCKED_PERIODS . " (
+      id int(11) NOT NULL AUTO_INCREMENT,
+      summary text,
+      start_date date,
+      end_date date,
+      start_time mediumint(9),
+      end_time mediumint(9),
+      start_datetime_utc datetime,
+      end_datetime_utc datetime,
+      service_id mediumint(9),
+      agent_id mediumint(9),
+      location_id mediumint(9),
+      server_timezone varchar(100),
+      created_at datetime,
+      updated_at datetime,
+      KEY start_date_index (start_date),
+      KEY end_date_index (end_date),
       KEY service_id_index (service_id),
       KEY agent_id_index (agent_id),
       KEY location_id_index (location_id),
@@ -807,6 +848,7 @@ class OsDatabaseHelper {
       payment_data text,
       charge_amount decimal(20,4),
       specs_charge_amount varchar(55),
+      order_form_page_url text,
       status varchar(30) DEFAULT '" . LATEPOINT_TRANSACTION_INTENT_STATUS_NEW . "' NOT NULL,
       created_at datetime,
       updated_at datetime,

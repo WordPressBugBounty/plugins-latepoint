@@ -497,6 +497,21 @@
   }
 }
 
+@keyframes pulseUnlockLink {
+  0% {
+    background-color: #ffeb8b;
+    box-shadow: 0px 1px 0px 0px rgba(#eccf33, 0.5),
+    0px 0px 0px 0px rgba(#ffeb8b, 0.55),
+                0px 0px 0px 0px rgba(#ffeb8b, 0.55);
+  }
+  100% {
+    background-color: #fff5ca;
+    box-shadow: 0px 1px 0px 0px rgba(#eccf33, 0.5),
+    0px 0px 0px 7px rgba(#fff5ca, 0.0),
+                0px 0px 0px 12px rgba(#fff5ca, 0.0);
+  }
+}
+
 @keyframes pulseSuccessPill {
   0% {
     background-color: #c0ffcb;

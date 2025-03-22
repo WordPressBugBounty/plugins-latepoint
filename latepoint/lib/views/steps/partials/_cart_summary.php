@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                          data-confirm-text="<?php esc_attr_e( 'Are you sure you want to remove this item from your cart?', 'latepoint' ); ?>"
                                          data-cart-item-id="<?php echo esc_attr($cart_item_id); ?>"
                                          data-route="<?php echo esc_attr(OsRouterHelper::build_route_name( 'carts', 'remove_item_from_cart' )); ?>">
-                                        <i class="latepoint-icon latepoint-icon-minus"></i></div>
+                                        <div class="os-remove-from-cart-icon"></div></div>
 								<?php } ?>
                                 <div class="sbc-big-item"><?php echo esc_html($bundle->name); ?></div>
                                 <div class="sbc-highlighted-item">
@@ -94,23 +94,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$same_location = OsBookingHelper::bookings_have_same_location( $cart_bookings );
 				$same_agent    = OsBookingHelper::bookings_have_same_agent( $cart_bookings );
 
+                $recurrent_bookings_packs = [];
 				foreach ( $cart_bookings as $cart_item_id => $cart_booking ) {
-					echo '<div class="cart-item-wrapper ' . esc_attr($count_class) . '">';
-					echo OsBookingHelper::generate_summary_for_booking( $cart_booking, $cart_item_id );
-					if ( ! $same_agent || ! $same_location ) {
-						echo '<div class="booking-summary-info-w">';
-						echo '<div class="summary-boxes-columns">';
-						if ( ! $same_agent && ( OsAgentHelper::count_agents() > 1 ) ) {
-							OsAgentHelper::generate_summary_for_agent( $cart_booking );
-						}
-						if ( ! $same_location ) {
-							OsLocationHelper::generate_summary_for_location( $cart_booking );
-						}
-						echo '</div>';
-						echo '</div>';
-					}
-					echo '</div>';
+                    $cart_booking->cart_item_id = $cart_item_id;
+                    if($cart_booking->recurrence_id){
+                        $recurrent_bookings_packs['recurrence_'.$cart_booking->recurrence_id][] = $cart_booking;
+                    }else{
+                        echo '<div class="cart-item-wrapper ' . esc_attr($count_class) . '">';
+                        echo OsBookingHelper::generate_summary_for_booking( $cart_booking, $cart_item_id );
+                        if ( ! $same_agent || ! $same_location ) {
+                            echo '<div class="booking-summary-info-w">';
+                            echo '<div class="summary-boxes-columns">';
+                            if ( ! $same_agent && ( OsAgentHelper::count_agents() > 1 ) ) {
+                                OsAgentHelper::generate_summary_for_agent( $cart_booking );
+                            }
+                            if ( ! $same_location ) {
+                                OsLocationHelper::generate_summary_for_location( $cart_booking );
+                            }
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                        echo '</div>';
+                    }
 				}
+                if(!empty($recurrent_bookings_packs)){
+                    foreach($recurrent_bookings_packs as $recurrent_bookings_pack){
+                        echo '<div class="cart-item-wrapper ' . esc_attr($count_class) . '">';
+                        $recurrent_bookings_sequence_info = apply_filters('latepoint_recurrent_bookings_sequence_info', '', $recurrent_bookings_pack, $same_location, $same_agent);
+                        echo $recurrent_bookings_sequence_info;
+                        echo '</div>';
+                    }
+                }
 			}
 
 

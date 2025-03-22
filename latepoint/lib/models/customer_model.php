@@ -76,7 +76,7 @@ class OsCustomerModel extends OsModel {
 	}
 
 	public function get_initials() {
-		return substr( $this->first_name, 0, 1 ) . substr( $this->last_name, 0, 1 );
+		return mb_substr( $this->first_name, 0, 1 ) . mb_substr( $this->last_name, 0, 1 );
 	}
 
 	public function delete_meta_by_key( $meta_key ) {
@@ -114,10 +114,6 @@ class OsCustomerModel extends OsModel {
 		$timezone_obj = new DateTimeZone( $this->get_selected_timezone_name() );
 
 		return $timezone_obj;
-	}
-
-	public function get_timeshift_in_minutes() {
-		return OsTimeHelper::get_timezone_shift_in_minutes( $this->get_selected_timezone_name() );
 	}
 
 

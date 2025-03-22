@@ -651,6 +651,10 @@ class OsSettingsHelper {
 		return OsAuthHelper::is_admin_logged_in() || self::is_on( 'allow_non_admins_download_csv' );
 	}
 
+	public static function get_link_attributes_for_premium_features() : string {
+        return ' data-os-action="'.OsRouterHelper::build_route_name('settings', 'premium_modal').'" data-os-lightbox-classes="width-600" data-os-output-target="lightbox" ';
+	}
+
 }
 
 ?>

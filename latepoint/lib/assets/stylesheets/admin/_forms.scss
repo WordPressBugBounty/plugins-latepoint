@@ -471,6 +471,9 @@ input, select {
     &.os-form-textfield-group label {
       top: 6px!important;
       left: 0px!important;
+      right: 78px;
+      white-space: nowrap;
+      overflow: hidden;
       font-size: floor($font-size-base * 0.95)!important;
       opacity: 1;
     }
@@ -1837,7 +1840,7 @@ form > .os-form-sub-header:first-child {
 .merged-fields {
   display: flex;
   align-items: center;
-  .os-form-group {
+  .os-form-group, .os-form-group.os-form-group-transparent {
     flex: 0;
     margin: 0px;
     margin-right: 10px;
@@ -1936,6 +1939,8 @@ form > .os-form-sub-header:first-child {
     }
   }
   &.status-disabled:not(.os-is-editing) {
+    box-shadow: none;
+    border-color: transparent;
     .os-form-block-i {
       border-color: #eef0f6;
     }
@@ -2163,6 +2168,9 @@ form > .os-form-sub-header:first-child {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
+  .os-form-group.os-form-group-transparent {
+    margin-bottom: 0;
+  }
   .locked-field {
     padding: 0px 3px;
     color: #444656;

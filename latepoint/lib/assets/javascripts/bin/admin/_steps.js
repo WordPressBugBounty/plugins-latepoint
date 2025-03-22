@@ -248,20 +248,7 @@ function latepoint_booking_form_preview_init_timeslots($booking_form_element = f
         jQuery(this).addClass('selected').find('.dp-label').prepend('<span class="dp-success-label">' + latepoint_helper.datepicker_timeslot_selected_label + '</span>');
 
         var minutes = parseInt(jQuery(this).data('minutes'));
-        var timeshift_minutes = parseInt($booking_form_element.find('.latepoint_timeshift_minutes').val());
-        // we substract timeshift minutes because its timeshift minutes that the business is running in, in opposite of what we do when we generate a calendar for a client
-        if(timeshift_minutes) minutes = minutes - timeshift_minutes;
         var start_date = new Date($booking_form_element.find('.os-day.selected').data('date'));
-        if(minutes < 0){
-          // business minutes are in previous day
-          minutes = 24*60 + minutes;
-          // move start date back 1 day
-          start_date.setDate(start_date.getDate() - 1);
-        }else if(minutes >= 24*60){
-          // business minutes are in next day
-          minutes = minutes - 24*60;
-          start_date.setDate(start_date.getDate() + 1);
-        }
         $booking_form_element.find('.latepoint_start_date').val(start_date.toISOString().split('T')[0])
         latepoint_trigger_next_btn($booking_form_element);
       }
@@ -398,6 +385,8 @@ function latepoint_booking_form_preview_init_datepicker(){
   $booking_form_element.on('click', '.os-months .os-day', function(){
     if(jQuery(this).hasClass('os-day-passed')) return false;
     if(jQuery(this).hasClass('os-not-in-allowed-period')) return false;
+    if(jQuery(this).hasClass('os-month-prev')) return false;
+    if(jQuery(this).hasClass('os-month-next')) return false;
     if(jQuery(this).closest('.os-monthly-calendar-days-w').hasClass('hide-if-single-slot')){
 
       // HIDE TIMESLOT IF ONLY ONE TIMEPOINT

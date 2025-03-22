@@ -321,6 +321,9 @@ function latepoint_init_booking_data_form($booking_data_form){
   $booking_data_form.on('change', '.agent-selector', function(){
     latepoint_apply_agent_selector_change($booking_data_form);
   });
+  $booking_data_form.on('change', '.location-selector', function(){
+    latepoint_apply_agent_selector_change($booking_data_form);
+  });
   $booking_data_form.on('change', 'select[name="booking[location_id]"]', function(){
     latepoint_apply_agent_selector_change($booking_data_form);
   });

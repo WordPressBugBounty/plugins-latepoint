@@ -317,7 +317,7 @@ class OsAgentHelper {
 	 *
 	 * @return array
 	 */
-	public static function get_agents_list( bool $filter_allowed_records = false, array $agent_ids = [] ): array {
+	public static function get_agents_list( bool $filter_allowed_records = false, array $agent_ids = [], bool $exclude_disabled = false ): array {
 		$agents = new OsAgentModel();
 		if ( $filter_allowed_records ) {
 			$agents->filter_allowed_records();
@@ -327,11 +327,16 @@ class OsAgentHelper {
         	$agents->where_in( 'id', $agent_ids );
         }
 
-		$agents      = $agents->get_results_as_models();
+        if($exclude_disabled){
+            $agents->where(['status' => LATEPOINT_AGENT_STATUS_ACTIVE]);
+        }
+
+		$agents      = $agents->order_by('status asc, first_name asc, last_name asc')->get_results_as_models();
 		$agents_list = [];
 		if ( $agents ) {
 			foreach ( $agents as $agent ) {
-				$agents_list[] = [ 'value' => $agent->id, 'label' => $agent->full_name ];
+                $label = ($agent->status == LATEPOINT_LOCATION_STATUS_DISABLED) ? ($agent->full_name.' ['.esc_html__('Disabled', 'latepoint').']') : $agent->full_name;
+				$agents_list[] = [ 'value' => $agent->id, 'label' => $label ];
 			}
 		}
 

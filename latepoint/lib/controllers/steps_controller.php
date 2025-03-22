@@ -76,6 +76,14 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 			}
 		}
 
+		function generate_timeslots_for_day(){
+			OsStepsHelper::set_required_objects( $this->params );
+
+
+
+			wp_send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => '' ] );
+		}
+
 
 		function reload_booking_form_summary_panel() {
 			OsStepsHelper::set_required_objects( $this->params );
@@ -250,6 +258,7 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 			$this->vars['presets']           = OsStepsHelper::$presets;
 			$this->vars['booking_element_type']      = $booking_element_type;
 			$this->vars['booking_element_styles'] = $booking_element_styles;
+			$this->vars['timezone_name'] = OsTimeHelper::get_timezone_name_from_session();
 
 			$this->set_layout( 'none' );
 

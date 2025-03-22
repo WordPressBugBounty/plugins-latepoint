@@ -5,6 +5,7 @@
 /* @var $presets array */
 /* @var $active_cart_item OsCartItemModel */
 /* @var $cart OsCartModel */
+/* @var $timezone_name string */
 ?>
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
@@ -59,6 +60,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	echo OsFormHelper::hidden_field('active_cart_item[id]', $active_cart_item->id ?? '', ['class' => 'latepoint_active_cart_item_id', 'skip_id' => true]);
 	echo OsFormHelper::hidden_field('active_cart_item[variant]', $active_cart_item->variant, ['class' => 'latepoint_active_cart_item_variant', 'skip_id' => true]);
 	echo OsFormHelper::hidden_field('active_cart_item[item_data]', $active_cart_item->item_data, ['class' => 'latepoint_active_cart_item_item_data', 'skip_id' => true]);
+
+	echo OsFormHelper::hidden_field( 'timezone_name', $timezone_name, [ 'class' => 'latepoint_timezone_name', 'skip_id' => true ] );
 
 	/**
 	 * Fired after booking form parameters

@@ -71,6 +71,7 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			$this->vars['key']     = $this->key;
 			$this->vars['for']     = $this->key_for;
 			$this->vars['order']   = $this->order;
+			$this->vars['viewer']   = $this->key_for == 'agent' ? 'agent' : 'customer';
 
 			$this->vars['timezone_name'] = $this->key_for == 'agent' ? OsTimeHelper::get_wp_timezone_name() : $this->order->customer->get_selected_timezone_name();
 

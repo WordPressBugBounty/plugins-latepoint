@@ -788,6 +788,30 @@
           }
         }
       }
+      .order-item-pill-recurring-mark {
+        font-size: 14px;
+        position: relative;
+        .popover-message {
+          display: none;
+          background-color: #000;
+          color: #fff;
+          padding: 3px 5px;
+          max-width: 200px;
+          top: 0;
+          right: 0;
+          position: absolute;
+          white-space: nowrap;
+          border-radius: 4px;
+          font-size: $body-font-size-xs;
+          transform: translateY(-100%);
+        }
+        &:hover {
+          .popover-message {
+            display: block;
+          }
+        }
+
+      }
       &.order-item-pill-variant-booking:hover {
         .order-item-pill-inner {
           border-color: $brand-primary;

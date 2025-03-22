@@ -40,21 +40,27 @@
 
 .calendar-view-wrapper {
   position: relative;
+
   &.os-loading {
     opacity: 0.7;
+
     &:before {
       top: 20px;
     }
+
     .ch-filter, .ch-info, .ma-head-info {
       position: relative;
+
       span {
         visibility: hidden;
       }
+
       &:before {
         @include loading-circle($brand-primary, 25px);
       }
     }
   }
+
   .no-results-w {
   }
 }
@@ -77,15 +83,18 @@
   label {
 
   }
+
   .os-form-group.os-form-group-transparent {
     margin: 0;
     display: flex;
     gap: 8px;
     align-items: center;
+
     label {
       margin: 0;
       font-size: $font-size-base;
     }
+
     select {
       border-radius: 6px;
       padding: 5px 15px 5px 10px !important;
@@ -94,25 +103,31 @@
     }
 
   }
+
   .cc-availability-toggler-w {
     display: flex;
     align-items: center;
     margin-right: auto;
+
     .cc-availability-toggler {
       border: 1px solid $border-color-light;
       padding: 0 5px 0 8px;
       border-radius: 6px;
+
       &:hover {
         border-color: darken($border-color-strong, 20%);
       }
+
       .os-form-group.os-form-toggler-group:hover {
         box-shadow: none;
         background-color: transparent;
       }
     }
+
     .cc-service-availability-selector {
       display: none;
     }
+
     &.show-availability-selector {
       display: block;
     }
@@ -124,6 +139,7 @@
     .os-calendar-settings-extra {
       display: flex;
     }
+
     .os-current-month-label-w .os-calendar-settings-toggler-wrapper .calendar-settings-toggler {
       background-color: #eff0f5;
     }
@@ -132,126 +148,129 @@
 
 .os-calendar-settings-main {
   padding-bottom: 15px;
-    .os-current-month-label-w {
-      padding-top: 20px;
+
+  .os-current-month-label-w {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .os-month-filters-buttons-w {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
+    }
 
-      .os-month-filters-buttons-w {
-        display: flex;
-        align-items: center;
+    select {
+      min-height: 34px;
+      font-size: $font-size-base;
+    }
+
+    .os-current-month-label {
+      font-size: floor($font-size-base * 2);
+      margin: 0px;
+      margin-right: auto;
+      padding: 0px;
+      line-height: 1;
+      position: relative;
+      color: $headings-color;
+
+      .current-day {
+        z-index: 2;
       }
 
-      select {
-        min-height: 34px;
-        font-size: $font-size-base;
+      .current-month {
+        z-index: 2;
+        position: relative;
+        font-weight: $body-font-weight-bold;
       }
 
-      .os-current-month-label {
-        font-size: floor($font-size-base * 2);
+      .current-year {
+        font-weight: $body-font-weight-black;
+        color: $calendar-year-color;
+        position: absolute;
+        font-size: 80px;
+        line-height: 79px;
+        bottom: -7px;
+        display: block;
         margin: 0px;
-        margin-right: auto;
-        padding: 0px;
-        line-height: 1;
-        position: relative;
-        color: $headings-color;
-
-        .current-day {
-          z-index: 2;
-        }
-
-        .current-month {
-          z-index: 2;
-          position: relative;
-          font-weight: $body-font-weight-bold;
-        }
-
-        .current-year {
-          font-weight: $body-font-weight-black;
-          color: $calendar-year-color;
-          position: absolute;
-          font-size: 80px;
-          line-height: 79px;
-          bottom: -7px;
-          display: block;
-          margin: 0px;
-          left: -0px;
-          z-index: 1;
-        }
+        left: -0px;
+        z-index: 1;
       }
+    }
 
-      .latepoint-btn {
-        line-height: 1;
-      }
+    .latepoint-btn {
+      line-height: 1;
+    }
 
-      .os-month-service-selector {
+    .os-month-service-selector {
+      margin-left: auto;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      padding-right: 20px;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+      label {
+        margin-right: 5px;
+        display: block;
         margin-left: auto;
-        margin-right: 20px;
-        display: flex;
-        align-items: center;
-        padding-right: 20px;
-        border-right: 1px solid rgba(0, 0, 0, 0.1);
-
-        label {
-          margin-right: 5px;
-          display: block;
-          margin-left: auto;
-          color: $color-faded;
-        }
-
-        input {
-          display: block;
-        }
+        color: $color-faded;
       }
 
-      .os-calendar-settings-toggler-wrapper {
-
-        .calendar-settings-toggler {
-          text-decoration: none;
-          padding: 4px 6px;
-          font-size: 24px;
-          line-height: 20px;
-          color: $headings-color;
-          cursor: pointer;
-          border-radius: 6px;
-          background-color: #fff;
-          display: block;
-          &:hover {
-            background-color: #eff0f5;
-          }
-          &:focus {
-            box-shadow: none;
-          }
-        }
+      input {
+        display: block;
       }
+    }
 
+    .os-calendar-settings-toggler-wrapper {
 
-      .os-month-control-buttons-w {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        align-items: center;
+      .calendar-settings-toggler {
+        text-decoration: none;
+        padding: 4px 6px;
+        font-size: 24px;
+        line-height: 20px;
+        color: $headings-color;
+        cursor: pointer;
+        border-radius: 6px;
+        background-color: #fff;
+        display: block;
 
-        .cc-action-prev, .cc-action-next {
-          position: relative;
-          bottom: auto;
-          top: auto;
-          left: auto;
-          right: auto;
-          transform: none;
-          padding: 3px 4px;
-          line-height: 1;
-          font-size: 20px;
-          color: $brand-primary;
+        &:hover {
+          background-color: #eff0f5;
         }
 
-        .os-month-today-btn {
-          margin: 0px 15px;
+        &:focus {
+          box-shadow: none;
         }
       }
     }
+
+
+    .os-month-control-buttons-w {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+
+      .cc-action-prev, .cc-action-next {
+        position: relative;
+        bottom: auto;
+        top: auto;
+        left: auto;
+        right: auto;
+        transform: none;
+        padding: 3px 4px;
+        line-height: 1;
+        font-size: 20px;
+        color: $brand-primary;
+      }
+
+      .os-month-today-btn {
+        margin: 0px 15px;
+      }
+    }
+  }
 }
 
 .daily-availability-calendar-wrapper {
@@ -262,24 +281,29 @@
   border: 1px solid #ddd;
   border-radius: $border-radius;
   margin-top: 10px;
+
   .daily-calendar-action-navigation-btn {
     padding: 35px 15px 10px 15px;
     display: block;
     text-decoration: none;
     color: $headings-color;
     font-size: 16px;
+
     &:hover {
       background-color: $brand-primary;
       color: #fff;
       border-color: $brand-primary;
     }
+
     &:focus {
       outline: none;
       box-shadow: none;
     }
+
     &:first-child {
       border-right: none;
     }
+
     &:last-child {
       border-left: none;
     }
@@ -294,17 +318,19 @@
 
   .calendar-and-buttons-w {
     display: flex;
-      button {
-        display: block;
-        border: none;
-        padding: 0 7px;
-        color: $headings-color;
-        cursor: pointer;
-        background-color: #fff;
-        padding-top: 28px;
-        font-size: 16px;
-        border: 1px solid rgba(0,0,0,0.1);
-      }
+
+    button {
+      display: block;
+      border: none;
+      padding: 0 7px;
+      color: $headings-color;
+      cursor: pointer;
+      background-color: #fff;
+      padding-top: 28px;
+      font-size: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
     .os-monthly-calendar-days-w {
       flex: 1;
     }
@@ -456,6 +482,7 @@
           .os-day-number {
             transform: scale(1.3) translateY(-5px);
           }
+
           .os-day-status {
             transform: scaleY(1.6);
           }
@@ -465,12 +492,15 @@
 
       &.selected {
         z-index: 2;
+
         .os-day-box {
           box-shadow: inset 0px -12px 0px $brand-primary;
+
           .os-day-status {
             display: none;
             background-color: $brand-primary;
           }
+
           .os-day-status {
             .day-available {
               display: none;
@@ -557,12 +587,13 @@
           border-radius: 0px;
           background-color: transparent;
           overflow: visible;
-          border-right: 1px solid rgba(0,0,0,0.1);
+          border-right: 1px solid rgba(0, 0, 0, 0.1);
           text-align: center;
         }
+
         &:first-child {
           .os-day-box {
-            border-left: 1px solid rgba(0,0,0,0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
           }
         }
 
@@ -577,6 +608,7 @@
           left: 8px;
           right: 0;
           overflow: hidden;
+
           &:first-letter {
             font-size: 24px;
             color: #f1f1f1;
@@ -607,6 +639,7 @@
 
           .os-day-weekday {
             color: #f6f2ec;
+
             &:first-letter {
               color: #f3ece1;
             }
@@ -622,10 +655,11 @@
 
 .calendar-wrapper {
   &[data-view="list"] {
-    .cc-actions, .cc-availability-toggler-w{
+    .cc-actions, .cc-availability-toggler-w {
       display: none;
     }
   }
+
   &.os-loading {
     .no-results-w {
       .icon-w {
@@ -669,7 +703,7 @@
     flex-direction: column;
     align-items: center;
     border-radius: $border-radius 0 0 $border-radius;
-      box-shadow: 0 2px 0 0 rgba(0,0,0,0.05);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 
     span {
       color: #c4cbe1;
@@ -677,10 +711,12 @@
       padding: 3px 0;
       font-weight: $body-font-weight-bold;
       font-size: floor($font-size-base * 0.7);
+
       &:first-child {
         margin-top: auto;
         border-bottom: 1px solid $border-color-strong;
       }
+
       &:last-child {
         margin-bottom: auto;
       }
@@ -712,6 +748,17 @@
   .ch-agents {
     flex: 1;
     position: relative;
+
+    .day-action-trigger {
+      left: auto;
+      right: 20px;
+    }
+
+    &:hover {
+      .day-action-trigger {
+        display: block;
+      }
+    }
   }
 
   .da-agents-bookings {
@@ -746,7 +793,7 @@
     flex: 1;
     background-color: transparent;
     position: relative;
-      box-shadow: 0 2px 0 0 rgba(0,0,0,0.05);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 
     &:first-child:before {
       content: "";
@@ -901,6 +948,7 @@
   margin-right: 15px;
   padding-right: 15px;
   border-right: 1px solid $border-color-lightest;
+
   .view-toggler {
     display: flex;
     align-items: center;
@@ -908,9 +956,11 @@
     border: 1px solid $border-color-strong;
     line-height: 1;
     gap: 5px;
+
     .os-form-select-group {
       display: none;
     }
+
     .view-selector {
       padding: 6px 15px 8px;
       font-weight: $body-font-weight-bold;
@@ -919,26 +969,30 @@
       text-decoration: none;
       color: $body-color;
       border-radius: 6px;
+
       &:focus {
         outline: none;
         box-shadow: none;
       }
+
       &.selected {
         box-shadow: 0 0 0 1px $brand-primary, inset 0 0 0 1px $brand-primary;
         color: $headings-color;
       }
     }
   }
+
   .os-form-group.os-form-group-transparent.os-form-select-group {
     margin-bottom: 0;
-    select.os-form-control  {
+
+    select.os-form-control {
       font-size: 16px;
       line-height: 1.5;
       text-decoration: none;
       background-color: #fff;
       border: 1px solid $border-color-strong;
       border-radius: 6px;
-      padding: 4px 15px 4px 10px!important;
+      padding: 4px 15px 4px 10px !important;
       height: auto;
       min-height: initial;
     }
@@ -966,9 +1020,11 @@
     border-radius: 6px;
     padding: 4px 14px 4px 10px;
     color: $headings-color;
+
     span {
       display: inline-block;
     }
+
     &:before {
       content: "";
       background-color: #f87373;
@@ -978,6 +1034,7 @@
       display: block;
       margin-right: 10px;
     }
+
     &:hover {
       color: $brand-primary;
       border-color: $brand-primary;
@@ -1007,6 +1064,7 @@
     display: block;
     text-decoration: none;
     position: relative;
+
     i {
       display: block;
     }
@@ -1208,6 +1266,7 @@
       }
     }
 
+
     .ch-day-booking {
       background-color: #1449ff;
       color: #fff;
@@ -1333,10 +1392,34 @@
 .calendar-week-agent-w {
   .agent-weekly-calendar {
     display: none;
+
     &.selected {
       display: block;
     }
+
+    .current-time-indicator {
+      height: 3px;
+      background-color: #ff7c7c;
+      position: absolute;
+      top: 30%;
+      left: 0px;
+      right: 0px;
+      z-index: 998;
+
+      &:before {
+        position: absolute;
+        content: "";
+        display: block;
+        left: 0px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #fc6262;
+        padding: 6px;
+        border-radius: 50%;
+      }
+    }
   }
+
   .cc-filters {
     display: flex;
     margin-left: auto;
@@ -1348,6 +1431,7 @@
       font-size: $font-size-base;
       min-height: 34px;
     }
+
     > div + div {
       margin-left: 10px;
     }
@@ -1371,11 +1455,13 @@
     font-weight: $body-font-weight-bold;
     color: #c4cbe1;
     position: relative;
+
     .cc-month {
       z-index: 2;
       position: relative;
       color: $brand-primary;
     }
+
     .cc-year {
       font-weight: $body-font-weight-black;
       color: $calendar-year-color;
@@ -1403,7 +1489,7 @@
     border-top: 1px solid $border-color-main;
     border-bottom: 1px solid $border-color-strong;
     border-right: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 2px 0 0 rgba(0,0,0,0.05);
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 
     span, strong {
       display: inline-block;
@@ -1437,8 +1523,8 @@
       &:before {
         content: "";
         background-color: #FF0F42;
-        width: 14px;
-        height: 14px;
+        width: 10px;
+        height: 10px;
         position: absolute;
         top: 10px;
         right: 10px;
@@ -1464,7 +1550,7 @@
       flex: 0 0 60px;
       font-weight: $body-font-weight-bold;
       font-size: floor($font-size-base * 0.7);
-      box-shadow: 0 2px 0 0 rgba(0,0,0,0.05);
+      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
       border-radius: $border-radius 0 0 $border-radius;
 
       span {
@@ -1557,6 +1643,12 @@
       .ch-day-periods-i {
         flex: 1;
 
+        &:hover {
+          .day-action-trigger {
+            display: block;
+          }
+        }
+
         &:last-child {
           .ch-day {
             border-right-color: $border-color-strong;
@@ -1574,6 +1666,7 @@
         height: $period_height;
         position: relative;
         cursor: copy;
+
         &:hover {
           z-index: 6;
         }
@@ -2203,6 +2296,7 @@
   .ma-days-with-bookings-w {
     .ma-day {
       border-bottom: 1px solid $border-color-lightest;
+
       &:nth-child(even) {
         .ma-day-agent-bookings {
         }
@@ -2218,6 +2312,7 @@
 
       &.ma-day-number-5 {
       }
+
       &.ma-day-number-6,
       &.ma-day-number-7 {
         .ma-day-info {
@@ -2231,6 +2326,7 @@
 
       &.ma-day-number-7 {
         border-bottom-color: $border-color-strong;
+
         .ma-day-agent-bookings {
         }
 
@@ -2242,6 +2338,7 @@
           }
         }
       }
+
       &:last-child {
         border-bottom-color: $border-color-strong;
       }
@@ -2722,6 +2819,7 @@
   display: flex;
   justify-content: space-between;
   padding-bottom: 10px;
+
   .os-form-group.os-form-group-transparent {
     margin-bottom: 0px;
   }
@@ -2804,6 +2902,7 @@
     margin-bottom: 10px;
     background-color: #f7f8fb;
     border-radius: 8px;
+
     &:first-child {
       margin-top: 20px;
     }
@@ -2819,12 +2918,15 @@
     border: 1px solid #ddd;
     border-bottom-color: #ccc;
     border-radius: $border-radius;
-    &.is-new-day{
+
+    &.is-new-day {
       margin-top: 20px;
+
       &:first-child {
         margin-top: 0;
       }
     }
+
     & + .upcoming-booking:not(.is-new-day) {
     }
 
@@ -2836,8 +2938,10 @@
       .booking-color-elem {
         display: none;
       }
+
       .booking-link {
       }
+
       .booking-fancy-date .fancy-day {
       }
     }
@@ -2931,8 +3035,10 @@
       .booking-attendees {
         display: flex;
         align-items: center;
+
         .booked-count-label {
         }
+
         .booked-percentage {
           background-color: #E6E6E6;
           border-radius: 2px;
@@ -2990,6 +3096,7 @@
 .mobile-calendar-actions-trigger {
   display: none;
 }
+
 .weekly-calendar-agents-list {
   display: flex;
   align-items: center;
@@ -3005,6 +3112,7 @@
     color: $color-faded;
     font-weight: $body-font-weight-bold;
   }
+
   .weekly-calendar-agent-selector {
     position: relative;
     padding-bottom: 10px;
@@ -3013,6 +3121,7 @@
     align-items: center;
     cursor: pointer;
     flex: 0;
+
     .agent-avatar {
       width: 30px;
       height: 30px;
@@ -3023,11 +3132,13 @@
       border-radius: 50%;
       display: none;
     }
+
     .agent-name {
       font-weight: $body-font-weight-bold;
       white-space: nowrap;
       color: $color-faded;
     }
+
     &.selected {
       &:after {
         content: "";
@@ -3038,12 +3149,284 @@
         left: 0;
         right: 0;
       }
+
       &:hover {
         background-color: #fff;
       }
+
       .agent-name {
         color: $headings-color;
       }
     }
+  }
+}
+
+.quick-calendar-actions-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-calendar-action-toggler {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  .quick-calendar-action-toggle {
+    padding: 8px 5px;
+    border: 1px solid $border-color-strong;
+    color: $color-faded;
+    border-radius: 6px;
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+
+    &.selected {
+      color: $headings-color;
+      border-color: $brand-primary;
+      box-shadow: 0 0 0 1px $brand-primary;
+    }
+
+    &:hover:not(.selected) {
+      border-color: #111;
+    }
+  }
+}
+
+.quick-calendar-actions-wrapper.showing-settings {
+  .quick-calendar-actions {
+    display: none;
+  }
+
+  .quick-calendar-action-settings {
+    display: block;
+  }
+}
+
+.quick-calendar-action-settings {
+  display: none;
+
+  .ws-period {
+    animation: none;
+  }
+
+  &.setting-day-off {
+    .slot-off-reason {
+      display: none;
+    }
+
+    .quick-calendar-action-settings-slot-off-title {
+      display: none;
+    }
+
+    .ws-period {
+      display: none;
+    }
+  }
+
+  &.setting-slot-off {
+    .quick-calendar-action-settings-day-off-title {
+      display: none;
+    }
+  }
+}
+
+.os-form-group.os-form-group-transparent {
+  margin-bottom: 15px;
+}
+
+.latepoint-message {
+  font-size: $body-font-size-s;
+  line-height: 1.4;
+}
+
+
+.quick-calendar-actions {
+  .quick-calendar-action {
+    padding: 15px;
+    border-radius: 6px;
+    font-size: $body-font-size-m;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    position: relative;
+    color: $headings-color;
+    border: 1px solid $border-color-main;
+    border-bottom-color: darken($border-color-main, 10%);
+    cursor: pointer;
+
+    &:hover {
+      border-color: $brand-primary;
+      box-shadow: 0 0 0 1px $brand-primary;
+
+      &:before {
+        background-color: #eef5ff;
+      }
+
+      &.quick-calendar-action-day-off {
+        &:before {
+          background-color: #ffe1e1;
+        }
+      }
+
+      i {
+        color: $brand-primary;
+        text-shadow: 2px -2px 0px #fff;
+        transform: scale(1.1);
+      }
+
+      span {
+        transform: translateX(5px);
+      }
+    }
+
+    i {
+      position: relative;
+      font-size: 18px;
+      color: $brand-primary;
+
+      &.latepoint-icon-cancel {
+        color: #ea6161;
+      }
+    }
+
+    span {
+    }
+
+    i, span {
+      transition: transform 0.15s ease;
+      display: block;
+    }
+
+    &:before {
+      content: "";
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      left: 9px;
+      top: 10px;
+      border-radius: 50%;
+    }
+
+    & + .quick-calendar-action {
+      margin-top: 15px;
+    }
+  }
+}
+
+
+.day-action-trigger {
+  display: none;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $brand-primary;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #fff;
+
+  &.os-loading {
+    &:after {
+      display: none;
+    }
+
+    &:before {
+      width: auto;
+      height: auto;
+      @include loading-circle(#fff, 12px);
+    }
+  }
+
+  &:before {
+    content: "";
+    width: 10px;
+    height: 2px;
+    background-color: #fff;
+    display: block;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate3d(-50%, -50%, 0);
+  }
+
+  &:after {
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 2px;
+    background-color: #fff;
+    transform: translate3d(-50%, -50%, 0) rotate(90deg);
+    display: block;
+    top: 50%;
+    left: 50%;
+  }
+
+  &:hover {
+    background-color: lighten($brand-primary, 10%);
+
+    &:before, &:after {
+      background-color: #fff;
+    }
+  }
+}
+
+
+.ch-day-blocked-period {
+  background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+  color: #fff;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  text-align: left;
+  z-index: 999;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.os-loading {
+    &:before {
+      @include loading-circle(#fff, 12px);
+      left: auto;
+      right: 0px;
+      top: 10px;
+    }
+  }
+
+  .ch-day-blocked-period-i {
+    visibility: hidden;
+    background-color: #ed2e2e;
+    padding: 3px 6px;
+  }
+
+  .blocked-period-summary {
+    color: #fff;
+  }
+
+  .blocked-period-time {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &:hover {
+    background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+
+    .ch-day-blocked-period-i {
+      visibility: visible;
+    }
+  }
+}
+
+.quick-calendar-locked-feature {
+  text-align: center;
+  padding: 25px;
+  background: #fffce8;
+  border-radius: 12px;
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  div {
+    margin-bottom: 20px;
+    color: $color-faded;
   }
 }

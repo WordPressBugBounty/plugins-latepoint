@@ -26,6 +26,11 @@
   100% { transform: translate3d(0, 0px, 0); opacity: 1; }
 }
 
+@keyframes LatepointSlideUpTinySolid {
+  0% { transform: translate3d(0, 10px, 0); }
+  100% { transform: translate3d(0, 0px, 0); }
+}
+
 @keyframes LatepointSlideDownHalf {
   0% { transform: translate3d(0, -20px, 0); opacity: 0; }
   100% { transform: translate3d(0, 0px, 0); opacity: 1; }
@@ -33,8 +38,8 @@
 
 
 @keyframes LatepointSlideUpMobileSummary {
-  0% { transform: translate3d(-50%, -30%, 0); opacity: 0; }
-  100% { transform: translate3d(-50%, -50%, 0); opacity: 1; }
+  0% { transform: translate3d(-50%, -30%, 0);  }
+  100% { transform: translate3d(-50%, -50%, 0);  }
 }
 
 @keyframes os-loading-delayed {

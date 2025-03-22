@@ -83,6 +83,7 @@
     display: grid;
     grid-gap: 30px;
     grid-template-columns: 1fr 1fr 1fr;
+    margin-bottom: 40px;
 
     .new-booking-tile {
       border: 2px dotted color-mix(in srgb, $brand-primary 20%, transparent);
@@ -384,12 +385,18 @@
     margin-top: 10px;
     border-top: 1px solid #eee;
     justify-content: stretch;
+    flex-wrap: wrap;
 
     .latepoint-btn {
       padding: 7px 10px;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      display: flex;
     }
 
     > div {
+      flex: 1;
     }
   }
 
@@ -397,7 +404,6 @@
   .reschedule-calendar-wrapper {
     @import "../shared/step_datepicker";
     .os-monthly-calendar-days {
-      grid-gap: 10px;
     }
 
 
@@ -408,7 +414,6 @@
     }
 
     .os-dates-w {
-      margin: 0;
     }
 
     .os-current-month-label-w {
@@ -445,24 +450,27 @@
       }
 
       h2 {
-        margin: 0 0 10px 0;
-        font-size: floor($headings-font-size * 2);
+        margin: 0;
+        font-size: $body-font-size-xxl;
         color: $headings-color;
       }
 
       .desc {
-        font-size: floor($font-size-base * 1.4);
-        margin-bottom: 20px;
+        font-size: $body-font-size-l;
+        margin-bottom: 30px;
+        color: $color-faded;
       }
 
       .rescheduled-date-time-info {
         .info-label {
           color: $color-faded;
           margin-bottom: 5px;
+          font-size: $body-font-size-m;
         }
 
         .info-value {
-          font-weight: $body-font-weight-bold;
+          font-weight: $body-font-weight-black;
+          font-size: $body-font-size-m;
         }
       }
     }
@@ -534,7 +542,9 @@
         background-color: color-mix(in srgb, $brand-primary 10%, transparent);
         border-radius: 30px;
         color: $brand-primary;
-
+        i {
+          display: block;
+        }
       }
     }
 

@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php if($is_upcoming_booking){ ?>
 		<div class="customer-booking-buttons">
 			<?php if(OsCustomerHelper::can_reschedule_booking($booking)){ ?>
-				<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-request-booking-reschedule latepoint-btn-link" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-400 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_reschedule_calendar')); ?>" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['booking_id' => $booking->id])); ?>" data-os-output-target="lightbox">
+				<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-request-booking-reschedule latepoint-btn-link" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-450 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_reschedule_calendar')); ?>" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['booking_id' => $booking->id])); ?>" data-os-output-target="lightbox">
 					<span><?php esc_html_e('Reschedule', 'latepoint'); ?></span>
 				</a>
 			<?php } ?>

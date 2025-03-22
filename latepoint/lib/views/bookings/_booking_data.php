@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php if ( ! $booking->is_new_record() ) { ?>
     <div class="quick-booking-info">
-		<?php echo '<span>' . esc_html__( 'Booking ID:', 'latepoint' ) . '</span><strong>' . esc_html($booking->id) . '</strong>'; ?>
+		<?php echo '<span>' . esc_html__( 'ID:', 'latepoint' ) . '</span><strong>' . esc_html($booking->id) . '</strong>'; ?>
 		<?php echo '<span>' . esc_html__( 'Code:', 'latepoint' ) . '</span><strong>' . esc_html($booking->booking_code) . '</strong>'; ?>
         <?php echo '<a target="_blank" href="'.$booking->manage_by_key_url('customer').'"><i class="latepoint-icon latepoint-icon-link-2"></i>'.esc_html__('Share', 'latepoint').'</a>'; ?>
 		<?php if ( OsAuthHelper::get_current_user()->has_capability( 'activity__view' ) ) {

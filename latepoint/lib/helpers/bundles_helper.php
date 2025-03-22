@@ -2,6 +2,14 @@
 
 class OsBundlesHelper {
 
+    public static function get_remaining_slots_for_bundle_order_item($order_item_id){
+        $order_item = new OsOrderItemModel(OsStepsHelper::$booking_object->order_item_id);
+        $bundle = $order_item->build_original_object_from_item_data();
+        $total_allowed = $bundle->quantity_for_service(OsStepsHelper::$booking_object->service_id);
+        $total_booked = count(OsOrdersHelper::get_bookings_for_order_item(OsStepsHelper::$booking_object->order_item_id, OsStepsHelper::$booking_object->service_id, OsBookingHelper::get_non_cancelled_booking_statuses()));
+        return max(0, $total_allowed - $total_booked);
+    }
+
 	public static function generate_order_summary_for_bundle(OsBundleModel $bundle, string $order_item_id, $preselected_booking_id = false): string{
 		$html = '<div class="summary-box main-box">';
 
@@ -107,8 +115,9 @@ class OsBundlesHelper {
                      tabindex="0"
 				     data-confirm-text="<?php esc_attr_e('Are you sure you want to remove this item from your cart?', 'latepoint'); ?>"
 				     data-cart-item-id="<?php echo esc_attr($cart_item_id); ?>"
-				     data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('carts', 'remove_item_from_cart')); ?>"><i
-						class="latepoint-icon latepoint-icon-minus"></i></div>
+				     data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('carts', 'remove_item_from_cart')); ?>">
+                    <div class="os-remove-from-cart-icon"></div>
+                </div>
 				<?php } ?>
 				<div class="sbc-big-item"><?php echo esc_html($bundle->name); ?></div>
 				<div class="sbc-subtle-item">

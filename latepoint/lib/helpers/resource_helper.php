@@ -33,9 +33,9 @@ class OsResourceHelper {
 		$defaults = [
 			'now'                   => OsTimeHelper::now_datetime_object(),
 			'exclude_booking_ids'   => [],
-			'timeshift_minutes'     => 0,
 			'accessed_from_backend' => false,
-			'consider_cart_items' => false
+			'consider_cart_items' => false,
+			'timezone_name' => OsTimeHelper::get_wp_timezone_name()
 		];
 		$settings = array_merge( $defaults, $settings );
 
@@ -47,13 +47,14 @@ class OsResourceHelper {
 		if ( empty( $date_to ) ) {
 			$date_to = clone $date_from;
 		}
-		if ( $settings['timeshift_minutes'] < 0 ) {
-			$date_to = clone $date_to;
-			$date_to->modify( '+1 day' );
-		} elseif ( $settings['timeshift_minutes'] > 0 ) {
-			$date_from = clone $date_from;
-			$date_from->modify( '-1 day' );
+
+
+		// all resource management is done in WP timezone, if requested timezone is different - make sure to include couple days on each end to accommodate for timezone differences, which could be up to 26 hours
+		if($settings['timezone_name'] != OsTimeHelper::get_wp_timezone_name()) {
+			$date_from->modify( '-2 days' );
+			$date_to->modify( '+2 days' );
 		}
+
 		$filter          = new \LatePoint\Misc\Filter( [
 			'connections' => $connections,
 			'date_from'   => $date_from->format( 'Y-m-d' ),
@@ -229,7 +230,7 @@ class OsResourceHelper {
 				} else {
 					// event spans mutiple days, expand boundaries to a full day
 					$times[] = 0;
-					$times[] = 24 * 60;
+					$times[] = 24 * 60 - 1;
 				}
 			}
 		}

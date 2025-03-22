@@ -1452,111 +1452,6 @@ class OsBookingHelper {
 	}
 
 
-	/**
-	 * @param \LatePoint\Misc\BookedPeriod[] $daily_periods
-	 * @param int $timeshift_minutes
-	 *
-	 * @return \LatePoint\Misc\BookedPeriod[]
-	 */
-	public static function apply_timeshift( array $daily_periods, int $timeshift_minutes ): array {
-		if ( empty( $timeshift_minutes ) ) {
-			return $daily_periods;
-		}
-		$shifted_periods = [];
-		// apply timeshift
-		foreach ( $daily_periods as $day => $periods ) {
-			$shifted_periods[ $day ] = [];
-			// search for the periods that has to be moved to the next day after a timeshift
-			if ( $timeshift_minutes > 0 ) {
-				$day_obj = OsWpDateTime::os_createFromFormat( 'Y-m-d', $day );
-				$day_obj->modify( '-1 day' );
-				if ( isset( $daily_periods[ $day_obj->format( 'Y-m-d' ) ] ) ) {
-					foreach ( $daily_periods[ $day_obj->format( 'Y-m-d' ) ] as $prev_day_period ) {
-						list( $period_start, $period_end ) = explode( ':', $prev_day_period );
-						// if period is a day off - don't shift it
-						if ( $period_start == 0 && $period_end == 0 ) {
-							continue;
-						}
-						$period_start = $period_start + $timeshift_minutes;
-						$period_end   = $period_end + $timeshift_minutes;
-						// if shifted period still ends on the same day - skip to next
-						if ( $period_end <= ( 24 * 60 ) ) {
-							continue;
-						}
-						// we need to capture the remaining minutes of this period in the day after shift
-						$period_start = max( 24 * 60, $period_start );
-						$period_start = $period_start - 24 * 60;
-						$period_end   = $period_end - 24 * 60;
-
-						$period_info_arr           = explode( ':', $prev_day_period );
-						$period_info_arr[0]        = $period_start;
-						$period_info_arr[1]        = $period_end;
-						$shifted_periods[ $day ][] = implode( ':', $period_info_arr );
-					}
-				}
-			}
-			// work on the periods that stay in the same day
-			if ( ! empty( $periods ) ) {
-				foreach ( $periods as $period ) {
-					list( $period_start, $period_end ) = explode( ':', $period );
-					// if period is a day off - don't shift it
-					if ( $period_start == 0 && $period_end == 0 ) {
-						$shifted_periods[ $day ][] = $period;
-					} else {
-						$period_start = $period_start + $timeshift_minutes;
-						$period_end   = $period_end + $timeshift_minutes;
-						// if starts next day or ended previous day - skip
-						if ( $period_start >= ( 24 * 60 ) || $period_end <= 0 ) {
-							continue;
-						}
-						if ( $period_end > ( 24 * 60 ) ) {
-							$period_end = 24 * 60;
-						}
-						if ( $period_start < 0 ) {
-							$period_start = 0;
-						}
-
-						$period_info_arr           = explode( ':', $period );
-						$period_info_arr[0]        = $period_start;
-						$period_info_arr[1]        = $period_end;
-						$shifted_periods[ $day ][] = implode( ':', $period_info_arr );
-					}
-				}
-			}
-			// search for the periods that has to be moved to the previous day after a timeshift
-			if ( $timeshift_minutes < 0 ) {
-				$day_obj = OsWpDateTime::os_createFromFormat( 'Y-m-d', $day );
-				$day_obj->modify( '+1 day' );
-				if ( isset( $daily_periods[ $day_obj->format( 'Y-m-d' ) ] ) ) {
-					foreach ( $daily_periods[ $day_obj->format( 'Y-m-d' ) ] as $next_day_period ) {
-						list( $period_start, $period_end ) = explode( ':', $next_day_period );
-						// if period is a day off - don't shift it
-						if ( $period_start == 0 && $period_end == 0 ) {
-							continue;
-						}
-						$period_start = $period_start + $timeshift_minutes;
-						$period_end   = $period_end + $timeshift_minutes;
-						// if shifted period still starts on the same day - skip to next
-						if ( $period_start >= 0 ) {
-							continue;
-						}
-						$period_end   = min( 0, $period_end );
-						$period_start = $period_start + 24 * 60;
-						$period_end   = $period_end + 24 * 60;
-
-						$period_info_arr           = explode( ':', $next_day_period );
-						$period_info_arr[0]        = $period_start;
-						$period_info_arr[1]        = $period_end;
-						$shifted_periods[ $day ][] = implode( ':', $period_info_arr );
-					}
-				}
-			}
-		}
-
-		return $shifted_periods;
-	}
-
-
 	public static function get_min_max_work_periods( $specific_weekdays = false, $service_id = false, $agent_id = false ) {
 		$select_string = 'MIN(start_time) as start_time, MAX(end_time) as end_time';
 		$work_periods  = new OsWorkPeriodModel();
@@ -1662,7 +1557,7 @@ class OsBookingHelper {
 		return $url;
 	}
 
-    public static function generate_summary_actions_for_booking(OsBookingModel $booking){
+    public static function generate_summary_actions_for_booking(OsBookingModel $booking, ?string $key = null){
         ?>
         <div class="booking-full-summary-actions">
 		  <div class="add-to-calendar-wrapper">
@@ -1673,7 +1568,7 @@ class OsBookingHelper {
           <?php
 			if($booking->is_upcoming()){
 				if(OsCustomerHelper::can_reschedule_booking($booking)){ ?>
-					<a href="#" class="latepoint-request-booking-reschedule booking-summary-action-btn" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-400 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'request_reschedule_calendar')); ?>" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')])); ?>" data-os-output-target="lightbox">
+					<a href="#" class="latepoint-request-booking-reschedule booking-summary-action-btn" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-450 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'request_reschedule_calendar')); ?>" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')])); ?>" data-os-output-target="lightbox">
 						<i class="latepoint-icon latepoint-icon-calendar"></i>
 						<span><?php esc_html_e('Reschedule', 'latepoint'); ?></span>
 					</a>
@@ -1697,14 +1592,15 @@ class OsBookingHelper {
         <?php
     }
 
-	public static function generate_summary_for_booking( OsBookingModel $booking, $cart_item_id = false, string $viewer = 'customer' ): string {
+	public static function generate_summary_for_booking( OsBookingModel $booking, $cart_item_id = false, ?string $viewer = 'customer' ): string {
         $summary_html = '';
         $summary_html.= apply_filters( 'latepoint_booking_summary_before_summary_box', '', $booking );
 		$summary_html.= '<div class="summary-box main-box" ' . ( ( $cart_item_id ) ? 'data-cart-item-id="' . $cart_item_id . '"' : '' ) . '>';
+        $output_timezone_name = $viewer == 'customer' ? $booking->get_customer_timezone_name() : OsTimeHelper::get_wp_timezone_name();
         if(!empty($booking->start_datetime_utc)) {
 	        $summary_html .= '<div class="summary-box-booking-date-box">';
-	        $summary_html .= '<div class="summary-box-booking-date-day">' . $booking->start_datetime_in_format( 'j', OsTimeHelper::get_timezone_name_from_session() ) . '</div>';
-	        $summary_html .= '<div class="summary-box-booking-date-month">' . OsUtilHelper::get_month_name_by_number( $booking->start_datetime_in_format( 'n', OsTimeHelper::get_timezone_name_from_session() ), true ) . '</div>';
+	        $summary_html .= '<div class="summary-box-booking-date-day">' . $booking->start_datetime_in_format( 'j', $output_timezone_name ) . '</div>';
+	        $summary_html .= '<div class="summary-box-booking-date-month">' . OsUtilHelper::get_month_name_by_number( $booking->start_datetime_in_format( 'n', $output_timezone_name ), true ) . '</div>';
             $summary_html .= '</div>';
         }
         $summary_html.= '<div class="summary-box-inner">';
@@ -1721,13 +1617,27 @@ class OsBookingHelper {
 		$summary_html .= '<div class="summary-box-content os-cart-item">';
 		if ( $cart_item_id && OsCartsHelper::can_checkout_multiple_items() ) {
 			$summary_html .= '<div class="os-remove-item-from-cart" role="button" tabindex="0" data-confirm-text="' . __( 'Are you sure you want to remove this item from your cart?', 'latepoint' ) . '" data-cart-item-id="' . $cart_item_id . '" data-route="' . OsRouterHelper::build_route_name( 'carts', 'remove_item_from_cart' ) . '">
-															<i class="latepoint-icon latepoint-icon-minus"></i>
+															<div class="os-remove-from-cart-icon"></div>
 														</div>';
 		}
 		$summary_html .= '<div class="sbc-big-item">' . $booking->get_service_name_for_summary() . '</div>';
 		if ( $booking->start_date ) {
             $summary_html .= '<div class="sbc-highlighted-item">' . $booking->get_nice_datetime_for_summary($viewer) . '</div>';
 		}
+        /**
+         * Output summary of the booking data after a start date and time
+         *
+         * @since 5.2.0
+         * @hook latepoint_summary_booking_info_after_start_date
+         *
+         * @param {string} $summary_html HTML of the summary
+         * @param {OsBookingModel} $booking Booking object that is being outputted
+         * @param {string} $cart_item_id ID of a cart item this booking belongs to
+         * @param {string} $viewer determines who is viewing this summary, can be customer or agent
+         *
+         * @returns {string} Filtered HTML
+         */
+        $summary_html = apply_filters('latepoint_summary_booking_info_after_start_date', $summary_html, $booking, $cart_item_id, $viewer);
 		$summary_html .= '</div>';
 
 		$service_attributes = [];

@@ -370,6 +370,9 @@ class OsOrdersHelper {
 		$html               .= '<input name="order_items[' . $order_item_form_id . '][id]" class="order_item_id" value="' . $order_item_form_id . '" type="hidden"/>';
 		$html               .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BOOKING . '" type="hidden"/>';
 		$html               .= '<div class="order-item-pill-inner">';
+		if($booking->recurrence_id){
+			$html.= '<div class="order-item-pill-recurring-mark"><div class="popover-message">'.esc_html__('Part of recurring sequence', 'latepoint').'</div><i class="latepoint-icon latepoint-icon-refresh"></i></div>';
+		}
 		$html               .= '<div class="order-item-remove-btn remove-order-item-btn" 
 																	data-os-prompt="' . __( 'Are you sure you want to remove this item from the order?', 'latepoint' ) . '"></div>';
 		$html               .= '<div class="booking-item-status-pill"></div>';

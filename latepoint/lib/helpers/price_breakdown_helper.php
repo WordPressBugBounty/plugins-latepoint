@@ -6,8 +6,11 @@
 class OsPriceBreakdownHelper {
 
 	public static function output_price_breakdown($rows, $inline_styles = false) {
+        $prev_heading = '';
 		foreach ($rows['before_subtotal'] as $row) {
-			self::output_price_breakdown_row($row, $inline_styles);
+            $skip_heading = !empty($row['heading']) && $row['heading'] == $prev_heading;
+			self::output_price_breakdown_row($row, $inline_styles, $skip_heading);
+            $prev_heading = $row['heading'];
 		}
 		// if there is nothing between subtotal and total - don't show subtotal as it will be identical to total
 		if (!empty($rows['after_subtotal'])) {
@@ -32,13 +35,15 @@ class OsPriceBreakdownHelper {
 		}
 	}
 
-	public static function output_price_breakdown_row($row, $inline_styles = false) {
+	public static function output_price_breakdown_row($row, $inline_styles = false, $skip_heading = false) {
 		if (!empty($row['items'])) {
-			if($inline_styles){
-				if (!empty($row['heading'])) echo '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px; margin-top: 10px;"><tr><td style="color: #788291;font-size: 11px;text-transform: uppercase;letter-spacing: 1px;font-weight: 600;">' . esc_html($row['heading']) . '</td><td style="width: 100%;"><div style="height: 1px;background-color: #f1f1f1;margin-left: 10px;"></div></td></tr></table>';
-			} else {
-				if (!empty($row['heading'])) echo '<div class="summary-box-heading"><div class="sbh-item">' . esc_html($row['heading']) . '</div><div class="sbh-line"></div></div>';
-			}
+            if(!$skip_heading){
+                if($inline_styles){
+                    if (!empty($row['heading'])) echo '<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 5px; margin-top: 10px;"><tr><td style="color: #788291;font-size: 11px;text-transform: uppercase;letter-spacing: 1px;font-weight: 600;">' . esc_html($row['heading']) . '</td><td style="width: 100%;"><div style="height: 1px;background-color: #f1f1f1;margin-left: 10px;"></div></td></tr></table>';
+                } else {
+                    if (!empty($row['heading'])) echo '<div class="summary-box-heading"><div class="sbh-item">' . esc_html($row['heading']) . '</div><div class="sbh-line"></div></div>';
+                }
+            }
 			foreach ($row['items'] as $row_item) {
 				self::output_price_breakdown_row($row_item, $inline_styles);
 			}

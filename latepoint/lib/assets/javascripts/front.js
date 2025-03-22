@@ -114,12 +114,10 @@ jQuery(document).ready(function ($) {
             }
         });
     }
-
-    if (jQuery('.latepoint-booking-form-element').length) {
-        jQuery('.latepoint-booking-form-element').each(function () {
-            latepoint_init_booking_form(jQuery(this));
-            latepoint_init_step(jQuery(this).find('.latepoint_current_step_code').val(), jQuery(this));
-        });
+  
+    if (latepoint_helper.start_from_transaction_access_key) {
+        const invoice_access_key = latepoint_helper.start_from_transaction_access_key;
+        show_summary_before_payment(invoice_access_key);
     }
 
 

@@ -23,7 +23,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'orders', 'index' ) )
 			);
 
-			$this->action_access['public'] = array_merge( $this->action_access['public'], [ 'continue_order_intent' ] );
+			$this->action_access['public'] = array_merge( $this->action_access['public'], [ 'continue_order_intent', 'continue_transaction_intent' ] );
 		}
 
 
@@ -58,6 +58,25 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				}
 			}
 
+		}
+
+
+		public function continue_transaction_intent() {
+			$intent_key = $this->params['transaction_intent_key'];
+			$transaction_intent = OsTransactionIntentHelper::get_transaction_intent_by_intent_key($intent_key);
+
+			if($transaction_intent->is_new_record()){
+				http_response_code( 400 );
+				OsDebugHelper::log('Transaction intent not found, id:'. $intent_key);
+				exit();
+			}else{
+				$transaction_intent->convert_to_transaction();
+
+				if ( $transaction_intent ) {
+					nocache_headers();
+					wp_redirect( $transaction_intent->get_page_url_with_intent(), 302 );
+				}
+			}
 		}
 
 		/*
@@ -236,7 +255,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			}
 
 			// Check if we have to create a payment request
-			$create_payment_request = (sanitize_text_field($this->params['create_payment_request']) == LATEPOINT_VALUE_ON);
+			$create_payment_request = (sanitize_text_field($this->params['create_payment_request'] ?? '') == LATEPOINT_VALUE_ON);
 			if($create_payment_request){
 				$payment_request_data = $this->params['payment_request'];
 				$payment_request_data['portion'] = sanitize_text_field($payment_request_data['portion']);

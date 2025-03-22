@@ -20,7 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'active' => true,
 				'layout' => 'horizontal',
 				'accessed_from_backend' => false, // we don't want it to filter based on access, since we already filtered that internally in booking request
-				'highlight_target_date' => true
+				'highlight_target_date' => true,
+                'output_target_date_in_header' => true
 			];
 			OsCalendarHelper::generate_single_month($booking_request, $target_date, $settings_for_single_month);
 		?>
@@ -82,6 +83,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="da-head-agent">
 							<div class="da-head-agent-avatar" style="background-image: url(<?php echo esc_url($agent->get_avatar_url()); ?>)"></div>
 							<a href="<?php echo esc_url(OsRouterHelper::build_link(['agents', 'edit_form'], ['id' => $agent->id])); ?>" class="da-head-agent-name"><?php echo esc_html($agent->full_name); ?></a>
+                            <?php echo OsCalendarHelper::generate_calendar_quick_actions_link($day_date, ['agent_id' => $agent->id, 'start_time' => $work_boundaries->start_time]); ?>
 						</div>
 					<?php } ?>
 					</div>

@@ -26,7 +26,7 @@ class OsInvoiceModel extends OsModel {
 		$transaction = new OsTransactionModel();
 		$transaction = $transaction->where( [ 'invoice_id' => $this->id, 'status' => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED ] )->set_limit( 1 )->get_results_as_models();
 		if ( $transaction && ! $transaction->is_new_record() ) {
-			return $transaction->get_access_url();
+			return $transaction->get_receipt_url();
 		} else {
 			return $this->get_access_url();
 		}

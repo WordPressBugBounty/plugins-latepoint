@@ -5,7 +5,7 @@
 
 /**
  * @var $booking OsBookingModel
- * @var $timezone_name string
+ * @var $viewer string
  */
 ?>
 <?php
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="info-value">
 			<?php
 			if ($booking->start_date) {
-				echo $booking->get_nice_datetime_for_summary($timezone_name);
+				echo $booking->get_nice_datetime_for_summary($viewer);
 			} ?>
 		</div>
 	</div>

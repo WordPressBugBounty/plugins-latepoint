@@ -40,12 +40,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 		do_action( 'latepoint_order_full_summary_head_info_before', $order ); ?>
         <div class="full-summary-order-info-wrapper">
             <div class="fsoi-main-wrapper">
+                <div class="order-full-summary-actions">
+                    <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_order_info'], [ 'latepoint_order_id' => $order->id ] )); ?>" class="print-booking-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e( 'Print', 'latepoint' ); ?></span></a>
+                    <?php if($order->get_transactions()){
+                        echo '<a target="_blank" href="'.OsOrdersHelper::generate_direct_manage_order_url( $order, 'customer', 'list_payments' ).'"><span>'.esc_html__('View Payments', 'latepoint').'</span><i class="latepoint-icon latepoint-icon-external-link"></i></a>';
+                    }
+                    ?>
+                </div>
                 <div class="fsoi-main">
                     <span><?php esc_html_e( 'Order #', 'latepoint' ); ?></span>
                     <strong><?php esc_html_e($order->confirmation_code); ?></strong>
-                </div>
-                <div class="order-full-summary-actions">
-                    <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_order_info'], [ 'latepoint_order_id' => $order->id ] )); ?>" class="print-booking-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e( 'Print', 'latepoint' ); ?></span></a>
                 </div>
             </div>
             <div class="full-summary-order-info-elements">

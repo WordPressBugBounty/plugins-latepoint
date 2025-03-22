@@ -36,8 +36,7 @@
       }
       &.active {
         color: $body-color;
-        font-size: floor($font-size-base * 1.1);
-        line-height: floor($font-size-base);
+        font-size: $body-font-size-m;
         padding-bottom: 12px;
         padding-top: 8px;
         &:before {

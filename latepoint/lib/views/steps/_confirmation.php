@@ -34,6 +34,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php
 					echo '<div class="summary-box-wrapper">';
 						echo OsBookingHelper::generate_summary_for_booking($booking, false);
+                        if(!empty($booking->recurrence_id)){
+                            $connected_bookings = $booking->get_connected_recurring_bookings();
+                            echo OsFeatureRecurringBookingsHelper::output_recurrent_bookings_summary($connected_bookings, false);
+                        }
 						echo '<div class="booking-summary-info-w">';
 							echo '<div class="summary-boxes-columns">';
 								if (OsAgentHelper::count_agents() > 1)  OsAgentHelper::generate_summary_for_agent($booking);

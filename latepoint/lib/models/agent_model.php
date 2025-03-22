@@ -47,7 +47,7 @@ class OsAgentModel extends OsModel {
 
 
 	public function get_initials(){
-		return substr($this->first_name,0,1).substr($this->last_name,0,1);
+		return mb_substr($this->first_name,0,1).mb_substr($this->last_name,0,1);
 	}
 
 	public function get_edit_link(){

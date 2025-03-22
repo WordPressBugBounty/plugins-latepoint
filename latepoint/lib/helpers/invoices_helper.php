@@ -144,6 +144,9 @@ class OsInvoicesHelper {
 						case LATEPOINT_INVOICE_STATUS_PAID:
 							echo '<div class="invoice-status-paid-label">' . esc_html( self::readable_status( $invoice->status ) ) . '</div>';
 							break;
+						case LATEPOINT_INVOICE_STATUS_DRAFT:
+							echo '<div class="invoice-status-draft-label">' . esc_html( self::readable_status( $invoice->status ) ) . '</div>';
+                            break;
 						case LATEPOINT_INVOICE_STATUS_VOID:
 							echo '<div class="invoice-status-voided-label">' . esc_html( self::readable_status( $invoice->status ) ) . '</div>';
 							break;
@@ -960,5 +963,18 @@ class OsInvoicesHelper {
             </div>
         </div>
 		<?php
+	}
+
+	/**
+	 * Get Invoice by transaction intent key
+	 * @param string $intent_key
+	 * @return OsInvoiceModel | false
+	 */
+	public static function get_invoice_by_transaction_intent_key( string $intent_key ) {
+		$transaction_intent = OsTransactionIntentHelper::get_transaction_intent_by_intent_key($intent_key);
+		if (!$transaction_intent->is_new_record()) {
+			return new OsInvoiceModel($transaction_intent->invoice_id);
+		}
+		return false;
 	}
 }

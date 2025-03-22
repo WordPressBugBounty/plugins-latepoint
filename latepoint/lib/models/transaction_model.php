@@ -55,6 +55,15 @@ class OsTransactionModel extends OsModel {
 		return !($this->get_total_refunded_amount() < $this->amount);
 	}
 
+	public function can_refund() : bool{
+		if ( $this->is_new_record() ) return false;
+		$can_refund = apply_filters('latepoint_transaction_is_refund_available', false, $this);
+		if (!$can_refund) return false;
+		if ( $this->is_fully_refunded()) return false;
+
+		return true;
+	}
+
 	public function properties_to_query(): array{
 		return [
 			'payment_method' => __('Payment Method', 'latepoint'),
@@ -81,9 +90,16 @@ class OsTransactionModel extends OsModel {
 	}
 
 
-	public function get_access_url(): string{
+	public function get_receipt_url(): string{
 		if(empty($this->access_key)) $this->update_attributes(['access_key' => OsUtilHelper::generate_uuid()]);
 		return OsRouterHelper::build_admin_post_link( [ 'transactions', 'view_receipt_by_key' ], [ 'key' => $this->access_key ] );
+	}
+
+	public function get_invoice_url(): string{
+		if(empty($this->invoice_id)) return '';
+		$invoice = new OsInvoiceModel($this->invoice_id);
+		if($invoice->is_new_record()) return '';
+		return $invoice->get_access_url();
 	}
 
 

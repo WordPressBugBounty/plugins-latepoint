@@ -15,7 +15,8 @@ class OsCartItemModel extends OsModel {
 		$coupon_discount = 0,
 		$tax_total = 0,
 		$variant,
-		$item_data;
+		$item_data,
+$connected_cart_item_id;
 
 	function __construct( $id = false ) {
 		parent::__construct();
@@ -266,6 +267,7 @@ class OsCartItemModel extends OsModel {
 			'cart_id',
 			'variant',
 			'item_data',
+			'connected_cart_item_id',
 			'updated_at',
 			'created_at'
 		);
@@ -280,6 +282,7 @@ class OsCartItemModel extends OsModel {
 			'cart_id',
 			'variant',
 			'item_data',
+			'connected_cart_item_id',
 			'updated_at',
 			'created_at'
 		);

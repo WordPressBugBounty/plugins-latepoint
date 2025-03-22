@@ -156,7 +156,6 @@
         display: none;
       }
       .step-datepicker-w { 
-        padding: 0px 15px;
       }
     }
     &.latepoint-inline-form {
@@ -616,7 +615,7 @@
           padding: 2px;
           border-radius: 50%;
           line-height: 1;
-          width: $body-font-size-xxs;
+          min-width: $body-font-size-xxs;
           text-align: center;
           box-sizing: content-box;
         }
@@ -683,6 +682,9 @@
       display: flex;
       justify-content: space-between;
       background-color: #fff;
+      &.force-hide {
+        display: none;
+      }
       .latepoint-progress {
         display: none;
         position: absolute;
@@ -1211,6 +1213,9 @@
 // Verify
 .latepoint-booking-form-element {
   .step-verify-w {
+    .os-recurring-bookings-count {
+      margin-top: 10px;
+    }
     .summary-box.main-box .summary-box-booking-date-box {
       display: none;
     }
@@ -1266,6 +1271,9 @@
         top: -5px;
         right: -5px;
         background-color: #f64f4f;
+        .os-remove-from-cart-icon {
+          background-color: #fff;
+        }
       }
     }
     .latepoint-add-another-item-trigger-wrapper.on-summary {
@@ -1319,10 +1327,10 @@
         padding-bottom: 20px;
       }
       .sbc-big-item {
-        font-size: floor($font-size-base * 1.7);
+        font-size: $body-font-size-l;
       }
       .sbc-highlighted-item {
-        font-size: floor($font-size-base * 1.2);
+        font-size: $body-font-size-m;
       }
     }
     .payment-summary-info {
@@ -1641,6 +1649,20 @@
       color: $headings-color;
     }
   }
+  &.status-cancelled {
+
+    .booking-status-icon {
+      background-color: #ffa6a6;
+      &:before {
+        @include latepointfont("\e927");
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+      }
+    }
+  }
   &.status-approved {
     .booking-status-icon {
       background-color: #a0ffa4;
@@ -1768,15 +1790,18 @@
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    padding: 15px 0;
+    padding: 15px 0 5px 0;
 
     .bundle-icon {
-      padding: 10px;
-      line-height: 20px;
-      font-size: 20px;
-      background-color: color-mix(in srgb, $brand-primary 10%, transparent);
-      border-radius: 30px;
-      color: $brand-primary;
+      padding: 13px;
+      line-height: 24px;
+      font-size: 24px;
+      background-color: #f1f1f1;
+      border-radius: 50%;
+      color: $headings-color;
+      i {
+        display: block;
+      }
     }
     .summary-box.main-box {
       padding: 0;
@@ -1784,13 +1809,14 @@
   }
   .schedule-bundle-booking-btn-wrapper {
     padding-bottom: 20px;
+    margin-left: 70px;
   }
   .schedule-bundle-booking-btn {
     padding: 4px 0;
     background-color: #fff;
     display: inline-flex;
     gap: 8px;
-    font-weight: $body-font-weight-bold;
+    font-weight: $body-font-weight-normal;
     color: $brand-primary;
     text-decoration: none;
     border: none;
@@ -1985,12 +2011,13 @@
 
 .latepoint-w {
 
+  &.customer-dashboard-order-summary-lightbox,
   &.customer-dashboard-booking-summary-lightbox {
     .os-item-details-popup {
       position: relative;
       background-color: #fff;
       display: none;
-      margin: -15px -30px -30px -30px;
+      margin: -30px -30px -30px -30px;
       &.open {
         display: block;
       }

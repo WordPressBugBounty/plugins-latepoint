@@ -61,7 +61,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					if ($weekday_for_last_day_of_month < 7) {
 						$days_to_add = 7 - $weekday_for_last_day_of_month;
-						$calendar_end->modify('+' . $days_to_add . ' days');
+                        if($days_to_add > 0){
+                            $calendar_end->modify('+' . $days_to_add . ' days');
+                        }
 					}
 
 					echo '<div class="os-monthly-calendar-days-w" data-calendar-year="' . esc_attr($target_date->format('Y')) . '" data-calendar-month="' . esc_attr($target_date->format('n')) . '" data-calendar-month-label="' . esc_attr(OsUtilHelper::get_month_name_by_number($target_date->format('n'))) . '">

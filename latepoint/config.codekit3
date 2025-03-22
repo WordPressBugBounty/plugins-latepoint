@@ -3489,6 +3489,14 @@
       "oAP" : "\/lib\/helpers\/timeline_helper.php",
       "oF" : 0
     },
+    "\/lib\/helpers\/transaction_helper.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/helpers\/transaction_helper.php",
+      "oF" : 0
+    },
     "\/lib\/helpers\/transaction_intent_helper.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3833,6 +3841,14 @@
       "oAP" : "\/lib\/models\/model.php",
       "oF" : 0
     },
+    "\/lib\/models\/off_period_model.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/models\/off_period_model.php",
+      "oF" : 0
+    },
     "\/lib\/models\/order_intent_meta_model.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -3895,6 +3911,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/lib\/models\/process_model.php",
+      "oF" : 0
+    },
+    "\/lib\/models\/recurrence_model.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/models\/recurrence_model.php",
       "oF" : 0
     },
     "\/lib\/models\/service_category_model.php" : {
@@ -4111,6 +4135,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/lib\/views\/calendars\/missing_resources.php",
+      "oF" : 0
+    },
+    "\/lib\/views\/calendars\/quick_actions.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/calendars\/quick_actions.php",
       "oF" : 0
     },
     "\/lib\/views\/calendars\/scopes\/_booking_box_on_calendar.php" : {
@@ -5007,6 +5039,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/lib\/views\/settings\/payments.php",
+      "oF" : 0
+    },
+    "\/lib\/views\/settings\/premium_modal.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/settings\/premium_modal.php",
       "oF" : 0
     },
     "\/lib\/views\/settings\/steps_order_modal.php" : {

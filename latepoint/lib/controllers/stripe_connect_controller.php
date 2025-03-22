@@ -22,29 +22,6 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$this->views_folder              = LATEPOINT_VIEWS_ABSPATH . 'stripe_connect/';
 		}
 
-		public function refund_transaction() {
-			if ( ! filter_var( $this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT ) ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid Transaction', 'latepoint' ) ) );
-			}
-			$transaction = new OsTransactionModel( $this->params['transaction_refund']['transaction_id'] );
-			if ( empty( $transaction ) || $transaction->is_new_record() || $transaction->processor != OsStripeConnectHelper::$processor_code ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid Transaction', 'latepoint' ) ) );
-			}
-			try {
-				$refund_amount = ( $this->params['transaction_refund']['portion'] == 'custom' ) ? $this->params['transaction_refund']['custom_amount'] : ( $transaction->amount - $transaction->get_total_refunded_amount() );
-				$refund_amount = OsParamsHelper::sanitize_param( $refund_amount, 'money' );
-				if ( empty( $refund_amount ) || $refund_amount > $transaction->amount - $transaction->get_total_refunded_amount() ) {
-					throw new Exception( __( 'Invalid Refund Amount', 'latepoint' ) );
-				}
-				$transaction_refund        = OsStripeConnectHelper::refund_transaction( $transaction, $refund_amount );
-				$this->vars['transaction'] = new OsTransactionModel( $transaction->id ); # reload to get new refund info
-				$message                   = $this->render( LATEPOINT_VIEWS_ABSPATH . 'orders/_transaction_box', 'none' );
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $message ) );
-			} catch ( Exception $e ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
-			}
-		}
-
 		public function create_payment_intent_for_transaction() {
 			if ( ! filter_var( $this->params['invoice_id'], FILTER_VALIDATE_INT ) ) {
 				exit();

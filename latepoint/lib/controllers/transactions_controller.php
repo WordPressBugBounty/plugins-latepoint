@@ -204,6 +204,50 @@ if (!class_exists('OsTransactionsController')) :
 		}
 
 
+		public function refund_transaction() {
+			try {
+				if ( ! filter_var( $this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT ) ) {
+					throw new Exception(esc_html__( 'Invalid Transaction', 'latepoint' ));
+				}
+
+				$transaction = new OsTransactionModel( $this->params['transaction_refund']['transaction_id'] );
+
+				if ( empty( $transaction ) || !$transaction->can_refund() ) {
+					throw new Exception(esc_html__( 'Invalid Transaction', 'latepoint' ));
+				}
+
+				$refund_amount = ( $this->params['transaction_refund']['portion'] == 'custom' ) ? $this->params['transaction_refund']['custom_amount'] : ( $transaction->amount - $transaction->get_total_refunded_amount() );
+				$refund_amount = OsParamsHelper::sanitize_param( $refund_amount, 'money' );
+
+				if ( empty( $refund_amount ) || $refund_amount > $transaction->amount - $transaction->get_total_refunded_amount() ) {
+					throw new Exception( __( 'Invalid Refund Amount', 'latepoint' ) );
+				}
+
+				/**
+				 * Process refund for different payment gateways
+				 *
+				 * @param {bool | OsTransactionRefundModel} $transaction_refund
+				 * @param {OsTransactionModel} $transaction
+				 * @param {array} $refund_amount
+				 *
+				 * @returns {OsTransactionRefundModel}
+				 * @since 5.1.8
+				 * @hook latepoint_process_refund
+				 *
+				 */
+				$transaction_refund = apply_filters('latepoint_process_refund', false,  $transaction, $refund_amount);
+
+				if ( $transaction_refund ) {
+					$this->vars['transaction'] = new OsTransactionModel( $transaction->id ); # reload to get new refund info
+					$message                   = $this->render( LATEPOINT_VIEWS_ABSPATH . 'orders/_transaction_box', 'none' );
+					$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $message ) );
+				}
+			} catch ( Exception $e ) {
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
+			}
+		}
+
+
 	}
 
 

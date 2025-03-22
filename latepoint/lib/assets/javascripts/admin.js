@@ -386,14 +386,6 @@ jQuery(document).ready(function( $ ) {
 
 
 
-  // WIZARD NEXT BUTTON CLICK LOGIC
-  jQuery('.latepoint').on('click', '.latepoint-pro-link-subtle', function(){
-    jQuery('.pro-premium-features-list-wrapper').slideDown(200);
-    jQuery('.pro-feature-banner').addClass('is-open');
-    jQuery(this).hide();
-    return false;
-  });
-
   jQuery('.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
     var $next_btn = jQuery(this);
     $next_btn.addClass('os-loading');

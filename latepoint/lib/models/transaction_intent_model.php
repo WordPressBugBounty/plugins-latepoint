@@ -16,6 +16,7 @@ class OsTransactionIntentModel extends OsModel {
 		$charge_amount,
 		$specs_charge_amount,
 		$status,
+		$order_form_page_url,
 		$updated_at,
 		$created_at;
 
@@ -226,6 +227,7 @@ class OsTransactionIntentModel extends OsModel {
 			'payment_data'          => !empty($this->payment_data) ? json_decode( $this->payment_data, true ) : [],
 			'order_id'              => $this->order_id,
 			'transaction_id'              => $this->transaction_id,
+			'order_form_page_url' => $this->order_form_page_url,
 			'updated_at'            => $this->updated_at,
 			'created_at'            => $this->created_at,
 		];
@@ -234,34 +236,34 @@ class OsTransactionIntentModel extends OsModel {
 	}
 
 	public function get_page_url_with_intent() {
-		$booking_page_url      = $this->booking_form_page_url;
-		$existing_var_position = strpos( $booking_page_url, 'latepoint_transaction_intent_key=' );
+		$order_form_page_url      = $this->order_form_page_url;
+		$existing_var_position = strpos( $order_form_page_url, 'latepoint_transaction_intent_key=' );
 		if ( $existing_var_position === false ) {
 			// no intent variable in url
-			$question_position = strpos( $booking_page_url, '?' );
+			$question_position = strpos( $order_form_page_url, '?' );
 			if ( $question_position === false ) {
 				// no ?query params
-				$hash_position = strpos( $booking_page_url, '#' );
+				$hash_position = strpos( $order_form_page_url, '#' );
 				if ( $hash_position === false ) {
 					// no hashtag in url
-					$booking_page_url = $booking_page_url . '?latepoint_transaction_intent_key=' . $this->intent_key;
+					$order_form_page_url = $order_form_page_url . '?latepoint_transaction_intent_key=' . $this->intent_key;
 				} else {
 					// hashtag in url and no ?query, prepend the hashtag with query
-					$booking_page_url = substr_replace( $booking_page_url, '?latepoint_transaction_intent_key=' . $this->intent_key . '#', $hash_position, 1 );
+					$order_form_page_url = substr_replace( $order_form_page_url, '?latepoint_transaction_intent_key=' . $this->intent_key . '#', $hash_position, 1 );
 				}
 			} else {
 				// ?query string exists, add intent key to it
-				$booking_page_url = substr_replace( $booking_page_url, '?latepoint_transaction_intent_key=' . $this->intent_key . '&', $question_position, 1 );
+				$order_form_page_url = substr_replace( $order_form_page_url, '?latepoint_transaction_intent_key=' . $this->intent_key . '&', $question_position, 1 );
 			}
 		} else {
 			// intent key variable exist in url
-			preg_match( '/latepoint_transaction_intent_key=([\d,\w]*)/', $booking_page_url, $matches );
+			preg_match( '/latepoint_transaction_intent_key=([\d,\w]*)/', $order_form_page_url, $matches );
 			if ( isset( $matches[1] ) ) {
-				$booking_page_url = str_replace( 'latepoint_transaction_intent_key=' . $matches[1], 'latepoint_transaction_intent_key=' . $this->intent_key, $booking_page_url );
+				$order_form_page_url = str_replace( 'latepoint_transaction_intent_key=' . $matches[1], 'latepoint_transaction_intent_key=' . $this->intent_key, $order_form_page_url );
 			}
 		}
 
-		return $booking_page_url;
+		return $order_form_page_url;
 	}
 
 	public function generate_intent_key() {
@@ -299,6 +301,7 @@ class OsTransactionIntentModel extends OsModel {
 			'customer_id',
 			'invoice_id',
 			'transaction_id',
+			'order_form_page_url',
 			'status',
 		);
 

@@ -28,9 +28,7 @@ $element_classes[] = empty($booking_element_styles['hide_side_panel']) ? 'latepo
 $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) && $current_step_code != 'confirmation') ? 'latepoint-summary-is-open' : '';
 ?>
 <div class="latepoint-w <?php echo esc_attr(implode(' ', $element_classes)); ?>">
-<div class="latepoint-booking-form-element current-step-<?php echo esc_attr($current_step->code); ?> <?php if ( ! $show_next_btn ) {
-	echo 'hidden-buttons';
-} ?> latepoint-color-<?php echo esc_attr(OsSettingsHelper::get_booking_form_color_scheme()); ?> latepoint-border-radius-<?php echo esc_attr(OsSettingsHelper::get_booking_form_border_radius()); ?> <?php echo esc_attr(implode( ' ', apply_filters( 'latepoint_booking_form_classes', [] ) )); ?>">
+<div class="latepoint-booking-form-element current-step-<?php echo esc_attr($current_step->code); ?> <?php echo $booking->is_bundle_scheduling() ? 'is-bundle-scheduling' : ''; ?> <?php echo ( !$show_next_btn  ? 'hidden-buttons' : ''); ?> latepoint-color-<?php echo esc_attr(OsSettingsHelper::get_booking_form_color_scheme()); ?> latepoint-border-radius-<?php echo esc_attr(OsSettingsHelper::get_booking_form_border_radius()); ?> <?php echo esc_attr(implode( ' ', apply_filters( 'latepoint_booking_form_classes', [] ) )); ?>">
     <div class="latepoint-side-panel">
 		<?php OsStepsHelper::show_step_progress( $all_steps, $current_step ); ?>
         <div class="latepoint-step-desc-w">

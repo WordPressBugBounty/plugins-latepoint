@@ -214,6 +214,13 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 		}
 
+		public function premium_modal(){
+
+			$this->set_layout( 'none' );
+			$response_html = $this->format_render_return( __FUNCTION__ );
+			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+		}
+
 		public function save_custom_day_schedule() {
 			$this->check_nonce( 'save_custom_day_schedule' );
 			$response_html = __( 'Work Schedule Updated', 'latepoint' );

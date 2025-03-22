@@ -22,7 +22,7 @@ if($max_capacity > 1){
 }else{
 	$action_html = OsBookingHelper::quick_booking_btn_html($booking->id);
 }
-$css = 'top: '.$booking_start_percent.'%; height: '.$booking_duration_percent.'%; background-color: '.esc_attr($booking->service->bg_color).' '.$left;
+$css = 'top: '.$booking_start_percent.'%; height: '.$booking_duration_percent.'%; background-color: '.esc_attr($booking->service->bg_color).'; '.$left;
 ?>
 <div class="ch-day-booking status-<?php echo esc_attr($booking->status); ?>" <?php echo $action_html; ?> style="<?php echo esc_attr($css); ?>">
 	<?php if($buffer_before_height_percent) echo '<div class="ch-day-buffer-before" style="height: '.esc_attr($buffer_before_height_percent).'%;"></div>'; ?>

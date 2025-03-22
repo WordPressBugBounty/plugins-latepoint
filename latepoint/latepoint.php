@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.7
+ * Version: 5.1.8
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,8 +28,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.7';
-		public $db_version = '2.1.5';
+		public $version = '5.1.8';
+		public $db_version = '2.2.0';
 
 
 		/**
@@ -281,6 +281,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 
 			global $wpdb;
+			if ( ! defined( 'LATEPOINT_TABLE_RECURRENCES' ) ) {
+				define( 'LATEPOINT_TABLE_RECURRENCES', $wpdb->prefix . 'latepoint_recurrences' );
+			}
 			if ( ! defined( 'LATEPOINT_TABLE_BUNDLES' ) ) {
 				define( 'LATEPOINT_TABLE_BUNDLES', $wpdb->prefix . 'latepoint_bundles' );
 			}
@@ -370,6 +373,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				define( 'LATEPOINT_TABLE_CART_ITEMS', $wpdb->prefix . 'latepoint_cart_items' );
 			}
 
+			if ( ! defined( 'LATEPOINT_TABLE_BLOCKED_PERIODS' ) ) {
+				define( 'LATEPOINT_TABLE_BLOCKED_PERIODS', $wpdb->prefix . 'latepoint_blocked_periods' );
+			}
 			if ( ! defined( 'LATEPOINT_TABLE_ORDERS' ) ) {
 				define( 'LATEPOINT_TABLE_ORDERS', $wpdb->prefix . 'latepoint_orders' );
 			}
@@ -679,6 +685,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			if ( ! defined( 'LATEPOINT_ANY_AGENT_ORDER_BUSY_LOW' ) ) {
 				define( 'LATEPOINT_ANY_AGENT_ORDER_BUSY_LOW', 'busy_low' );
 			}
+			if ( ! defined( 'LATEPOINT_RECURRING_BOOKINGS_UNFOLDED_COUNT' ) ) {
+				define( 'LATEPOINT_RECURRING_BOOKINGS_UNFOLDED_COUNT', 5 );
+			}
 
 			if ( ! defined( 'LATEPOINT_ALL' ) ) {
 				define( 'LATEPOINT_ALL', 'all' );
@@ -729,7 +738,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/controllers/support_topics_controller.php' );
 
 
-
 			// MODELS
 			include_once( LATEPOINT_ABSPATH . 'lib/models/model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/meta_model.php' );
@@ -767,6 +775,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/models/join_bundles_services_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/invoice_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/payment_request_model.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/models/recurrence_model.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/models/off_period_model.php' );
 
 
 			// HELPERS
@@ -829,6 +839,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/elementor_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/bricks_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/transaction_intent_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/transaction_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/invoices_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/support_topics_helper.php' );
 
@@ -952,7 +963,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			add_action( 'admin_init', array( $this, 'redirect_after_activation' ) );
 
-			add_filter( 'display_post_states', 'OsPagesHelper::add_display_post_states', 10, 2);
+			add_filter( 'display_post_states', 'OsPagesHelper::add_display_post_states', 10, 2 );
 
 			// allow agents to access admin when woocommerce plugin is installed
 			add_filter( 'woocommerce_prevent_admin_access', [
@@ -977,17 +988,21 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			add_filter( 'latepoint_get_all_payment_times', 'OsStripeConnectHelper::add_all_payment_methods_to_payment_times' );
 			add_filter( 'latepoint_get_enabled_payment_times', 'OsStripeConnectHelper::add_enabled_payment_methods_to_payment_times' );
+			add_filter( 'latepoint_transaction_is_refund_available', 'OsStripeConnectHelper::transaction_is_refund_available', 10, 2 );
+			add_filter( 'latepoint_process_refund', 'OsStripeConnectHelper::process_refund', 10, 3 );
+			add_filter( 'plugin_action_links', [ $this, 'add_upgrade_link' ], 10, 2 );
+
 
 			add_action( 'latepoint_customer_edit_form_after', 'OsStripeConnectHelper::output_stripe_link_on_customer_quick_form' );
 
-			add_action('save_post', 'OsBlockHelper::save_blocks_styles');
+			add_action( 'save_post', 'OsBlockHelper::save_blocks_styles' );
 			// misc
 			add_action( 'latepoint_after_step_content', 'OsStepsHelper::output_preset_fields' );
 
 			OsActivitiesHelper::init_hooks();
 			OsProcessJobsHelper::init_hooks();
 
-			do_action('latepoint_init_hooks');
+			do_action( 'latepoint_init_hooks' );
 		}
 
 
@@ -1000,6 +1015,17 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 
 			return $schedules;
+		}
+
+		function add_upgrade_link( $links, $plugin_file ) {
+			if ( plugin_basename( __FILE__ ) == $plugin_file ) {
+				if(apply_filters('latepoint_show_upgrade_link_on_plugins_page', true, $plugin_file) ) {
+					$custom_link = '<a class="latepoint-plugin-upgrade-premium-link" href="' . LATEPOINT_UPGRADE_URL . '">'.esc_html__('Get LatePoint Pro').'</a>';
+					$links[]     = $custom_link;
+				}
+			}
+
+			return $links;
 		}
 
 		function woocommerce_allow_agent_to_access_admin( $prevent_access ) {
@@ -1085,7 +1111,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			global $wpdb;
 			$activity = new OsActivityModel();
 			$cutoff   = OsTimeHelper::get_modified_now_object( '-1 week' )->format( LATEPOINT_DATETIME_DB_FORMAT );
-			$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [esc_sql($activity->table_name), $cutoff] ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [ esc_sql( $activity->table_name ), $cutoff ] ) );
 		}
 
 		public function addon_activated( $addon_name, $addon_version ) {
@@ -1169,7 +1195,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		}
 
 
-
 		/**
 		 * Init LatePoint when WordPress Initialises.
 		 */
@@ -1187,7 +1212,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			OsBlockHelper::register_blocks();
 		}
 
-		public function init_widgets(  ) {
+		public function init_widgets() {
 			OsElementorHelper::init();
 			OsBricksHelper::init();
 		}
@@ -1276,59 +1301,69 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		}
 
 
-
 		/**
 		 * Register scripts and styles - FRONT
 		 */
 		public function load_front_scripts_and_styles() {
 			$localized_vars = [
-				'route_action'                        => 'latepoint_route_call',
-				'response_status'                     => [ 'success' => 'success', 'error' => 'error' ],
-				'ajaxurl'                             => admin_url( 'admin-ajax.php' ),
-				'time_pick_style'                     => OsStepsHelper::get_time_pick_style(),
-				'string_today'                        => __( 'Today', 'latepoint' ),
-				'reload_booking_form_summary_route'   => OsRouterHelper::build_route_name( 'steps', 'reload_booking_form_summary_panel' ),
-				'time_system'                         => OsTimeHelper::get_time_system(),
-				'msg_not_available'                   => __( 'Not Available', 'latepoint' ),
-				'booking_button_route'                => OsRouterHelper::build_route_name( 'steps', 'start' ),
+				'route_action'                          => 'latepoint_route_call',
+				'response_status'                       => [ 'success' => 'success', 'error' => 'error' ],
+				'ajaxurl'                               => admin_url( 'admin-ajax.php' ),
+				'time_pick_style'                       => OsStepsHelper::get_time_pick_style(),
+				'string_today'                          => __( 'Today', 'latepoint' ),
+				'reload_booking_form_summary_route'     => OsRouterHelper::build_route_name( 'steps', 'reload_booking_form_summary_panel' ),
+				'time_system'                           => OsTimeHelper::get_time_system(),
+				'msg_not_available'                     => __( 'Not Available', 'latepoint' ),
+				'booking_button_route'                  => OsRouterHelper::build_route_name( 'steps', 'start' ),
 				'remove_cart_item_route'                => OsRouterHelper::build_route_name( 'carts', 'remove_item_from_cart' ),
-				'show_booking_end_time'               => ( OsSettingsHelper::is_on( 'show_booking_end_time' ) ) ? 'yes' : 'no',
-				'customer_dashboard_url'              => OsSettingsHelper::get_customer_dashboard_url( true ),
-				'demo_mode'                           => OsSettingsHelper::is_env_demo(),
-				'cancel_booking_prompt'               => __( 'Are you sure you want to cancel this appointment?', 'latepoint' ),
-				'single_space_message'                => __( 'Space Available', 'latepoint' ),
-				'many_spaces_message'                 => __( 'Spaces Available', 'latepoint' ),
-				'body_font_family'                    => '"latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif ',
-				'headings_font_family'                => '"latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif ',
-				'currency_symbol_before'              => OsSettingsHelper::get_settings_value( 'currency_symbol_before', '' ),
-				'currency_symbol_after'               => OsSettingsHelper::get_settings_value( 'currency_symbol_after', '' ),
-				'thousand_separator'                  => OsSettingsHelper::get_settings_value( 'thousand_separator', ',' ),
-				'decimal_separator'                   => OsSettingsHelper::get_settings_value( 'decimal_separator', '.' ),
-				'number_of_decimals'                  => OsSettingsHelper::get_settings_value( 'number_of_decimals', '2' ),
-				'included_phone_countries'            => wp_json_encode( OsSettingsHelper::get_included_phone_countries() ),
-				'default_phone_country'               => OsSettingsHelper::get_default_phone_country(),
-				'is_timezone_selected'                => OsTimeHelper::is_timezone_saved_in_session(),
-				'start_from_order_intent_route'       => OsRouterHelper::build_route_name( 'steps', 'start_from_order_intent' ),
-				'start_from_order_intent_key'         => OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) ? OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) : '',
-				'is_enabled_show_dial_code_with_flag' => OsSettingsHelper::is_enabled_show_dial_code_with_flag(),
-				'mask_phone_number_fields'            => OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ),
-				'msg_validation_presence'             => __( 'can not be blank', 'latepoint' ),
-				'msg_validation_presence_checkbox'             => __( 'has to be checked', 'latepoint' ),
-				'msg_validation_invalid'              => __( 'is invalid', 'latepoint' ),
-				'msg_minutes_suffix'                  => __( ' minutes', 'latepoint' ),
-				'is_stripe_connect_enabled'           => OsPaymentsHelper::is_payment_processor_enabled( OsStripeConnectHelper::$processor_code ),
-				'check_order_intent_bookable_route'   => OsRouterHelper::build_route_name( 'steps', 'check_order_intent_bookable' ),
-				'payment_environment'   => OsSettingsHelper::get_payments_environment(),
-				'style_border_radius' => OsSettingsHelper::get_booking_form_border_radius(),
-				'datepicker_timeslot_selected_label' => __('Selected', 'latepoint'),
-				'invoices_payment_form_route' => OsRouterHelper::build_route_name('invoices', 'payment_form')
+				'show_booking_end_time'                 => ( OsSettingsHelper::is_on( 'show_booking_end_time' ) ) ? 'yes' : 'no',
+				'customer_dashboard_url'                => OsSettingsHelper::get_customer_dashboard_url( true ),
+				'demo_mode'                             => OsSettingsHelper::is_env_demo(),
+				'cancel_booking_prompt'                 => __( 'Are you sure you want to cancel this appointment?', 'latepoint' ),
+				'single_space_message'                  => __( 'Space Available', 'latepoint' ),
+				'many_spaces_message'                   => __( 'Spaces Available', 'latepoint' ),
+				'body_font_family'                      => '"latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif ',
+				'headings_font_family'                  => '"latepoint", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif ',
+				'currency_symbol_before'                => OsSettingsHelper::get_settings_value( 'currency_symbol_before', '' ),
+				'currency_symbol_after'                 => OsSettingsHelper::get_settings_value( 'currency_symbol_after', '' ),
+				'thousand_separator'                    => OsSettingsHelper::get_settings_value( 'thousand_separator', ',' ),
+				'decimal_separator'                     => OsSettingsHelper::get_settings_value( 'decimal_separator', '.' ),
+				'number_of_decimals'                    => OsSettingsHelper::get_settings_value( 'number_of_decimals', '2' ),
+				'included_phone_countries'              => wp_json_encode( OsSettingsHelper::get_included_phone_countries() ),
+				'default_phone_country'                 => OsSettingsHelper::get_default_phone_country(),
+				'is_timezone_selected'                  => OsTimeHelper::is_timezone_saved_in_session(),
+				'start_from_order_intent_route'         => OsRouterHelper::build_route_name( 'steps', 'start_from_order_intent' ),
+				'start_from_order_intent_key'           => OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) ? OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) : '',
+				'is_enabled_show_dial_code_with_flag'   => OsSettingsHelper::is_enabled_show_dial_code_with_flag(),
+				'mask_phone_number_fields'              => OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ),
+				'msg_validation_presence'               => __( 'can not be blank', 'latepoint' ),
+				'msg_validation_presence_checkbox'      => __( 'has to be checked', 'latepoint' ),
+				'msg_validation_invalid'                => __( 'is invalid', 'latepoint' ),
+				'msg_minutes_suffix'                    => __( ' minutes', 'latepoint' ),
+				'is_stripe_connect_enabled'             => OsPaymentsHelper::is_payment_processor_enabled( OsStripeConnectHelper::$processor_code ),
+				'check_order_intent_bookable_route'     => OsRouterHelper::build_route_name( 'steps', 'check_order_intent_bookable' ),
+				'generate_timeslots_for_day_route'      => OsRouterHelper::build_route_name( 'steps', 'generate_timeslots_for_day' ),
+				'payment_environment'                   => OsSettingsHelper::get_payments_environment(),
+				'style_border_radius'                   => OsSettingsHelper::get_booking_form_border_radius(),
+				'datepicker_timeslot_selected_label'    => __( 'Selected', 'latepoint' ),
+				'invoices_payment_form_route'           => OsRouterHelper::build_route_name( 'invoices', 'payment_form' ),
+				'invoices_summary_before_payment_route' => OsRouterHelper::build_route_name( 'invoices', 'summary_before_payment' ),
+				'reset_presets_when_adding_new_item'    => OsSettingsHelper::is_on( 'reset_presets_when_adding_new_item' )
 			];
+
+			$localized_vars['start_from_transaction_access_key'] = '';
+			if ( OsRouterHelper::get_request_param( 'latepoint_transaction_intent_key' ) ) {
+				$invoice = OsInvoicesHelper::get_invoice_by_transaction_intent_key( OsRouterHelper::get_request_param( 'latepoint_transaction_intent_key' ) );
+				if ( $invoice ) {
+					$localized_vars['start_from_transaction_access_key'] = $invoice->access_key;
+				}
+			}
 
 			if ( OsPaymentsHelper::is_payment_processor_enabled( OsStripeConnectHelper::$processor_code ) ) {
 				$localized_vars['stripe_connect_key']          = OsStripeConnectHelper::get_connect_publishable_key();
 				$localized_vars['stripe_connected_account_id'] = OsStripeConnectHelper::get_connect_account_id();
 			}
-			$localized_vars['stripe_connect_route_create_payment_intent'] = OsRouterHelper::build_route_name( 'stripe_connect', 'create_payment_intent' );
+			$localized_vars['stripe_connect_route_create_payment_intent']                        = OsRouterHelper::build_route_name( 'stripe_connect', 'create_payment_intent' );
 			$localized_vars['stripe_connect_route_create_payment_intent_for_transaction_intent'] = OsRouterHelper::build_route_name( 'stripe_connect', 'create_payment_intent_for_transaction' );
 
 			// Stylesheets
@@ -1435,7 +1470,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				'is_enabled_show_dial_code_with_flag' => OsSettingsHelper::is_enabled_show_dial_code_with_flag(),
 				'mask_phone_number_fields'            => OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ),
 				'msg_validation_presence'             => __( 'can not be blank', 'latepoint' ),
-				'msg_validation_presence_checkbox'             => __( 'has to be checked', 'latepoint' ),
+				'msg_validation_presence_checkbox'    => __( 'has to be checked', 'latepoint' ),
 				'msg_validation_invalid'              => __( 'is invalid', 'latepoint' ),
 				'msg_minutes_suffix'                  => __( ' minutes', 'latepoint' ),
 				'order_item_variant_booking'          => LATEPOINT_ITEM_VARIANT_BOOKING,
@@ -1443,16 +1478,17 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			];
 
 			// Add block related variables
-			$localized_vars = array_merge($localized_vars, OsBlockHelper::localized_vars_for_blocks());
+			$localized_vars = array_merge( $localized_vars, OsBlockHelper::localized_vars_for_blocks() );
 
 			/**
 			 * Array of localized variables to be available in latepoint_helper object in admin
 			 *
+			 * @param {array} $localized_vars The default array being filtered
+			 * @returns {array} The filtered array of localized variables
+			 *
 			 * @since 5.0.0
 			 * @hook latepoint_localized_vars_admin
 			 *
-			 * @param {array} $localized_vars The default array being filtered
-			 * @returns {array} The filtered array of localized variables
 			 */
 			$localized_vars = apply_filters( 'latepoint_localized_vars_admin', $localized_vars );
 

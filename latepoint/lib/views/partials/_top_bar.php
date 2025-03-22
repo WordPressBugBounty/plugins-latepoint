@@ -20,6 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<a href="#" title="<?php esc_attr_e('Search', 'latepoint'); ?>"
 	   class="latepoint-top-iconed-link latepoint-mobile-top-search-trigger"><i
 			class="latepoint-icon latepoint-icon-search1"></i></a>
+    <?php echo apply_filters('latepoint_upgrade_top_bar_link_html', '<a href="#" '.OsSettingsHelper::get_link_attributes_for_premium_features().' class="latepoint-unlock-features-link"><i class="latepoint-icon latepoint-icon-switch"></i><span>'.esc_html__('Unlock All Features', 'latepoint').'</span></a>'); ?>
 	<?php do_action('latepoint_top_bar_before_actions'); ?>
 	<a href="<?php echo esc_url(OsRouterHelper::build_link(['activities', 'index'])); ?>"
 	   title="<?php esc_attr_e('Activity Log', 'latepoint'); ?>"

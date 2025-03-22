@@ -43,9 +43,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 		$same_agent = OsBookingHelper::bookings_have_same_agent($order_bookings);
 
 		foreach ($order_bookings as $order_item_id => $order_booking) {
+            // key passed for order, means we need to get a key for a booking
+            if(!empty($key)){
+                $booking_key = (($viewer ?? 'customer') == 'customer') ? OsMetaHelper::get_booking_meta_by_key( 'key_to_manage_for_customer', $order_booking->id ) : OsMetaHelper::get_booking_meta_by_key( 'key_to_manage_for_agent', $order_booking->id );
+            }
 			echo '<div class="summary-box-wrapper">';
-			echo OsBookingHelper::generate_summary_for_booking($order_booking, false);
-            OsBookingHelper::generate_summary_actions_for_booking($order_booking);
+			echo OsBookingHelper::generate_summary_for_booking($order_booking, false, $viewer ?? 'customer');
+            OsBookingHelper::generate_summary_actions_for_booking($order_booking, $booking_key ?? null);
 			if (!$same_agent || !$same_location) {
 				echo '<div class="booking-summary-info-w">';
 				echo '<div class="summary-boxes-columns">';

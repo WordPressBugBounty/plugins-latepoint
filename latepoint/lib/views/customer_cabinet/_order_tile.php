@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                data-os-params="<?php echo esc_attr( OsUtilHelper::build_os_params( [ 'order_id' => $order->id ] ) ); ?>"
                data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'customer_cabinet', 'view_order_summary_in_lightbox' ) ); ?>"
                data-os-output-target="lightbox"
-               data-os-lightbox-classes="width-500 customer-dashboard-booking-summary-lightbox">
+               data-os-lightbox-classes="width-500 customer-dashboard-order-summary-lightbox">
                 <i class="latepoint-icon latepoint-icon-list"></i>
                 <span><?php esc_html_e( 'Summary', 'latepoint' ); ?></span>
             </a>

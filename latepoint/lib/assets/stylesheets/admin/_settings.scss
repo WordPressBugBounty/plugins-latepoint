@@ -497,3 +497,49 @@
     }
   }
 }
+
+.os-premium-features-list {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  .os-premium-feature {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    .feature-icon {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: $brand-primary;
+      text-shadow: 2px -2px 0px #fff;
+    }
+    .feature-heading {
+      font-size: $body-font-size-m;
+      font-weight: $body-font-weight-black;
+      color: $headings-color;
+      margin-bottom: 5px;
+    }
+    .feature-description {
+      color: $color-faded;
+      font-size: $body-font-size-xs;
+    }
+    & + .os-premium-feature {
+    }
+  }
+}
+
+body.latepoint-admin {
+  .latepoint-lightbox-w {
+
+    .upgrade-info-btn {
+      display: flex;
+      align-items: center;
+      font-size: $body-font-size-l;
+      font-weight: $body-font-weight-black;
+      gap: 10px;
+      justify-content: center;
+      text-decoration: none;
+      color: #fff;
+      background-color: $brand-primary;
+      cursor: pointer;
+    }
+  }
+}

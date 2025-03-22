@@ -452,6 +452,20 @@
   }
 }
 @media (max-width: 600px){
+  .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link {
+    margin-right: 0;
+    i {
+      display: none;
+    }
+  }
+  .day-action-trigger {
+    top: 50%;
+    left: 20px;
+  }
+  .calendar-wrapper .ch-agents .day-action-trigger {
+    top: 50%;
+    left: 20px;
+  }
   .latepoint-top-user-info-w {
     flex: 1;
     & > .avatar-w {

@@ -2614,6 +2614,44 @@ function latepoint_check_horizontal_calendar_scroll(){
   }
 }
 
+function latepoint_calendar_custom_period_created(){
+    latepoint_reload_calendar_view();
+    latepoint_lightbox_close();
+}
+
+function latepoint_init_calendar_quick_actions(){
+  latepoint_init_input_masks(jQuery('.quick-calendar-action-settings'));
+
+  jQuery('.quick-calendar-action-day-off').on('click', function(){
+    jQuery('.quick-calendar-actions-wrapper').addClass('showing-settings');
+    jQuery('.quick-calendar-actions').hide();
+    jQuery('.quick-calendar-action-settings').removeClass('setting-slot-off').addClass('setting-day-off');
+    jQuery('.quick-calendar-action-settings input[name="blocked_period_settings[full_day_off]"]').val('yes');
+    jQuery('.quick-calendar-action-toggle.selected').removeClass('selected');
+    jQuery('.quick-calendar-action-toggle[data-period-type="full"]').addClass('selected');
+
+    return false;
+  });
+  jQuery('.quick-calendar-action-slot-off').on('click', function(){
+    jQuery('.quick-calendar-actions-wrapper').addClass('showing-settings');
+    jQuery('.quick-calendar-actions').hide();
+    jQuery('.quick-calendar-action-settings').removeClass('setting-day-off').addClass('setting-slot-off');
+    jQuery('.quick-calendar-action-settings input[name="blocked_period_settings[full_day_off]"]').val('no');
+    jQuery('.quick-calendar-action-toggle.selected').removeClass('selected');
+    jQuery('.quick-calendar-action-toggle[data-period-type="partial"]').addClass('selected');
+    return false;
+  });
+
+  jQuery('.quick-calendar-action-toggle').on('click', function(){
+    if(jQuery(this).data('period-type') === 'full'){
+      jQuery('.quick-calendar-action-day-off').trigger('click');
+    }else{
+      jQuery('.quick-calendar-action-slot-off').trigger('click');
+    }
+    return false;
+  });
+}
+
 function latepoint_init_calendars(){
   latepoint_check_horizontal_calendar_scroll();
   jQuery('.os-calendar-settings-extra .latecheckbox').lateCheckbox();
@@ -3386,20 +3424,7 @@ function latepoint_booking_form_preview_init_timeslots($booking_form_element = f
         jQuery(this).addClass('selected').find('.dp-label').prepend('<span class="dp-success-label">' + latepoint_helper.datepicker_timeslot_selected_label + '</span>');
 
         var minutes = parseInt(jQuery(this).data('minutes'));
-        var timeshift_minutes = parseInt($booking_form_element.find('.latepoint_timeshift_minutes').val());
-        // we substract timeshift minutes because its timeshift minutes that the business is running in, in opposite of what we do when we generate a calendar for a client
-        if(timeshift_minutes) minutes = minutes - timeshift_minutes;
         var start_date = new Date($booking_form_element.find('.os-day.selected').data('date'));
-        if(minutes < 0){
-          // business minutes are in previous day
-          minutes = 24*60 + minutes;
-          // move start date back 1 day
-          start_date.setDate(start_date.getDate() - 1);
-        }else if(minutes >= 24*60){
-          // business minutes are in next day
-          minutes = minutes - 24*60;
-          start_date.setDate(start_date.getDate() + 1);
-        }
         $booking_form_element.find('.latepoint_start_date').val(start_date.toISOString().split('T')[0])
         latepoint_trigger_next_btn($booking_form_element);
       }
@@ -3536,6 +3561,8 @@ function latepoint_booking_form_preview_init_datepicker(){
   $booking_form_element.on('click', '.os-months .os-day', function(){
     if(jQuery(this).hasClass('os-day-passed')) return false;
     if(jQuery(this).hasClass('os-not-in-allowed-period')) return false;
+    if(jQuery(this).hasClass('os-month-prev')) return false;
+    if(jQuery(this).hasClass('os-month-next')) return false;
     if(jQuery(this).closest('.os-monthly-calendar-days-w').hasClass('hide-if-single-slot')){
 
       // HIDE TIMESLOT IF ONLY ONE TIMEPOINT
@@ -3897,6 +3924,9 @@ function latepoint_init_booking_data_form($booking_data_form){
 
 
   $booking_data_form.on('change', '.agent-selector', function(){
+    latepoint_apply_agent_selector_change($booking_data_form);
+  });
+  $booking_data_form.on('change', '.location-selector', function(){
     latepoint_apply_agent_selector_change($booking_data_form);
   });
   $booking_data_form.on('change', 'select[name="booking[location_id]"]', function(){
@@ -4806,14 +4836,6 @@ jQuery(document).ready(function( $ ) {
 
 
 
-
-  // WIZARD NEXT BUTTON CLICK LOGIC
-  jQuery('.latepoint').on('click', '.latepoint-pro-link-subtle', function(){
-    jQuery('.pro-premium-features-list-wrapper').slideDown(200);
-    jQuery('.pro-feature-banner').addClass('is-open');
-    jQuery(this).hide();
-    return false;
-  });
 
   jQuery('.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
     var $next_btn = jQuery(this);

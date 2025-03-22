@@ -236,7 +236,7 @@ class OsUtilHelper {
   }
 
 	public static function ellipse_string( $string, $length ): string {
-		return substr( $string, 0, $length ) . ( strlen( $string ) > $length ? '...' : '' );
+		return mb_substr( $string, 0, $length ) . ( strlen( $string ) > $length ? '...' : '' );
 	}
 
   public static function get_month_name_by_number($month_number, $short = false){

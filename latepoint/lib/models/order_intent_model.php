@@ -131,14 +131,14 @@ class OsOrderIntentModel extends OsModel {
 		}
 	}
 
-	public function is_bookable(): bool {
+	public function is_bookable( array $settings = []): bool {
 		$cart = $this->build_cart_object();
 		// loop items and check if bookings are still available
 		foreach ( $cart->get_items() as $cart_item ) {
 			switch ( $cart_item->variant ) {
 				case LATEPOINT_ITEM_VARIANT_BOOKING:
 					$booking = $cart_item->build_original_object_from_item_data();
-					if ( ! $booking->is_bookable( false ) ) {
+					if ( ! $booking->is_bookable($settings) ) {
 						$this->add_error( 'send_to_step', $booking->get_error_messages(), 'booking__datepicker' );
 
 						return false;
@@ -318,14 +318,7 @@ class OsOrderIntentModel extends OsModel {
 					}
 				}
 				// update connected cart with created order id
-				$carts = new OsCartModel();
-				$carts = $carts->where( [ 'order_intent_id' => $this->id ] )->get_results_as_models();
-				if ( ! empty( $carts ) ) {
-					foreach ( $carts as $cart ) {
-						$cart->order_id = $order->id;
-						$cart->save();
-					}
-				}
+				$this->mark_cart_converted();
 				$order->determine_payment_status();
 				// update with latest info
 				$order->get_items(true);
@@ -533,5 +526,25 @@ class OsOrderIntentModel extends OsModel {
 		);
 
 		return $validations;
+	}
+
+	public function mark_cart_converted(?OsCartModel $cart = null) : bool {
+		if($this->is_new_record() || empty($this->order_id)){
+			return false;
+		}
+		if(!empty($cart)){
+			$cart->order_id = $this->order_id;
+			$cart->save();
+		}else{
+			$carts = new OsCartModel();
+			$carts = $carts->where( [ 'order_intent_id' => $this->id ] )->get_results_as_models();
+			if ( ! empty( $carts ) ) {
+				foreach ( $carts as $cart ) {
+					$cart->order_id = $this->order_id;
+					$cart->save();
+				}
+			}
+		}
+		return true;
 	}
 }

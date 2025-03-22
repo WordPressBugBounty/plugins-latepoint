@@ -52,17 +52,28 @@ if(count($agents) > 1){
 						</div>
 						<div class="ch-day-periods-w">
 						<?php
-				    for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
+				    for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')) {
+					      $day_off_class = empty($work_time_periods_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]) ? 'agent-has-day-off' : '';
 				      ?>
-							<div class="ch-day-periods-i">
+							<div class="ch-day-periods-i <?php echo esc_attr($day_off_class); ?>">
 								<div class="ch-day ch-day-<?php echo esc_attr(strtolower($day_date->format('N'))); ?> <?php if($today_date == $day_date) echo 'is-today'; ?>">
 									<span><?php echo esc_html(OsUtilHelper::get_weekday_name_by_number($day_date->format('N'), true)); ?></span>
 									<strong><?php echo esc_html($day_date->format('j')); ?></strong>
+                                    <?php echo OsCalendarHelper::generate_calendar_quick_actions_link($day_date, ['agent_id' => $agent->id, 'start_time' => $work_boundaries->start_time]); ?>
 								</div>
-					      <?php
-								$day_off_class = empty($work_time_periods_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]) ? 'agent-has-day-off' : ''; ?>
 								<div class="ch-day-periods ch-day-<?php echo esc_attr(strtolower($day_date->format('N')));?> <?php echo esc_attr($day_off_class); ?>">
+                                    <?php
+                                    if ( $day_date->format( 'Y-m-d' ) == $today_date->format( 'Y-m-d' ) ) {
+                                        $time_now            = OsTimeHelper::now_datetime_object();
+                                        $time_now_in_minutes = OsTimeHelper::convert_datetime_to_minutes( $time_now );
 
+                                        if(($time_now_in_minutes<=$work_boundaries->end_time && $time_now_in_minutes>=$work_boundaries->start_time) && $work_total_minutes) {
+                                            // agents row with avatars and margin below - offset that needs to be accounted for when calculating "time now" indicator position
+                                            $time_now_indicator_top_offset = ( $time_now_in_minutes - $work_boundaries->start_time ) / $work_total_minutes * 100;
+                                            echo '<div class="current-time-indicator" style="top: '.esc_attr($time_now_indicator_top_offset).'%"></div>';
+                                        }
+                                    }
+                                    ?>
 									<?php for($minutes = $work_boundaries->start_time; $minutes <= $work_boundaries->end_time; $minutes+= $timeblock_interval){ ?>
 										<?php
 										$period_class = 'chd-period';

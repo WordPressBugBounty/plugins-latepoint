@@ -102,9 +102,10 @@ if ($transactions) { ?>
 
 	</div>
 <?php } else { ?>
-	<div class="no-results-w">
+	<div class="no-results-w highlighted">
 		<div class="icon-w"><i class="latepoint-icon latepoint-icon-credit-card"></i></div>
-		<h2><?php esc_html_e('No Transactions Found', 'latepoint'); ?></h2>
-		<a href="#" <?php echo OsOrdersHelper::quick_order_btn_html(); ?> class="latepoint-btn"><i class="latepoint-icon latepoint-icon-plus"></i><span><?php esc_html_e('Create Appointment', 'latepoint'); ?></span></a>
+		<h2 class="no-results-heading"><?php esc_html_e('Accept Payments and Minimize No-Shows', 'latepoint'); ?></h2>
+		<div class="no-results-sub"><?php esc_html_e('By enabling payments for appointments, clients are more likely to commit, reducing last-minute cancellations and no-shows.', 'latepoint'); ?></div>
+		<a href="<?php echo OsRouterHelper::build_link(['settings', 'payments']); ?>" class="latepoint-btn"><span><?php esc_html_e('Enable Payments', 'latepoint'); ?></span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>
 	</div>
 <?php } ?>

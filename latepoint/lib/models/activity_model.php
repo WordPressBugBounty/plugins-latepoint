@@ -116,9 +116,12 @@ class OsActivityModel extends OsModel{
   }
 
 
-  protected function get_nice_created_at(){
-    $time = strtotime($this->created_at);
-    return gmdate("m/d/y g:i:s A", $time).' (UTC)';
+  protected function get_nice_created_at($include_time = true){
+	$format = $include_time ? OsSettingsHelper::get_readable_date_format() . ' ' . OsSettingsHelper::get_readable_time_format() : OsSettingsHelper::get_readable_date_format();
+	$utc_date = date_create_from_format( LATEPOINT_DATETIME_DB_FORMAT, $this->created_at );
+	$wp_timezone_date = $utc_date->setTimezone(OsTimeHelper::get_wp_timezone());
+
+	return date_format( $wp_timezone_date, $format );
   }
 
 

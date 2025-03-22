@@ -10,6 +10,44 @@ function latepoint_check_horizontal_calendar_scroll(){
   }
 }
 
+function latepoint_calendar_custom_period_created(){
+    latepoint_reload_calendar_view();
+    latepoint_lightbox_close();
+}
+
+function latepoint_init_calendar_quick_actions(){
+  latepoint_init_input_masks(jQuery('.quick-calendar-action-settings'));
+
+  jQuery('.quick-calendar-action-day-off').on('click', function(){
+    jQuery('.quick-calendar-actions-wrapper').addClass('showing-settings');
+    jQuery('.quick-calendar-actions').hide();
+    jQuery('.quick-calendar-action-settings').removeClass('setting-slot-off').addClass('setting-day-off');
+    jQuery('.quick-calendar-action-settings input[name="blocked_period_settings[full_day_off]"]').val('yes');
+    jQuery('.quick-calendar-action-toggle.selected').removeClass('selected');
+    jQuery('.quick-calendar-action-toggle[data-period-type="full"]').addClass('selected');
+
+    return false;
+  });
+  jQuery('.quick-calendar-action-slot-off').on('click', function(){
+    jQuery('.quick-calendar-actions-wrapper').addClass('showing-settings');
+    jQuery('.quick-calendar-actions').hide();
+    jQuery('.quick-calendar-action-settings').removeClass('setting-day-off').addClass('setting-slot-off');
+    jQuery('.quick-calendar-action-settings input[name="blocked_period_settings[full_day_off]"]').val('no');
+    jQuery('.quick-calendar-action-toggle.selected').removeClass('selected');
+    jQuery('.quick-calendar-action-toggle[data-period-type="partial"]').addClass('selected');
+    return false;
+  });
+
+  jQuery('.quick-calendar-action-toggle').on('click', function(){
+    if(jQuery(this).data('period-type') === 'full'){
+      jQuery('.quick-calendar-action-day-off').trigger('click');
+    }else{
+      jQuery('.quick-calendar-action-slot-off').trigger('click');
+    }
+    return false;
+  });
+}
+
 function latepoint_init_calendars(){
   latepoint_check_horizontal_calendar_scroll();
   jQuery('.os-calendar-settings-extra .latecheckbox').lateCheckbox();
