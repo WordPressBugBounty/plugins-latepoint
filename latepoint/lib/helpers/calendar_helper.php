@@ -336,14 +336,18 @@ class OsCalendarHelper {
 
 			$work_minutes = [];
 
-			foreach ( $daily_resources[ $day_date->format( 'Y-m-d' ) ] as $resource ) {
-				if ( $is_day_in_past && $not_in_allowed_period ) {
-					continue;
-				}
-				$work_minutes = array_merge( $work_minutes, $resource->work_minutes );
-			}
-			$work_minutes = array_unique( $work_minutes, SORT_NUMERIC );
-			sort( $work_minutes, SORT_NUMERIC );
+            if($settings['accessed_from_backend'] || !$not_in_allowed_period ){
+                // only do this if is in allowed period or accessed from backend
+                foreach ( $daily_resources[ $day_date->format( 'Y-m-d' ) ] as $resource ) {
+                    if ( $is_day_in_past && $not_in_allowed_period ) {
+                        continue;
+                    }
+                    $work_minutes = array_merge( $work_minutes, $resource->work_minutes );
+                }
+                $work_minutes = array_unique( $work_minutes, SORT_NUMERIC );
+                sort( $work_minutes, SORT_NUMERIC );
+            }
+
 
 
 			$work_boundaries    = OsResourceHelper::get_work_boundaries_for_resources( $daily_resources[ $day_date->format( 'Y-m-d' ) ] );
@@ -352,12 +356,15 @@ class OsCalendarHelper {
 			$booking_slots = OsResourceHelper::get_ordered_booking_slots_from_resources( $daily_resources[ $day_date->format( 'Y-m-d' ) ] );
 
 			$bookable_minutes = [];
-			foreach ( $booking_slots as $booking_slot ) {
-				if ( $booking_slot->can_accomodate( $booking_request->total_attendees ) ) {
-					$bookable_minutes[ $booking_slot->start_time ] = isset( $bookable_minutes[ $booking_slot->start_time ] ) ? max( $booking_slot->available_capacity(), $bookable_minutes[ $booking_slot->start_time ] ) : $booking_slot->available_capacity();
-				}
-			}
-			ksort( $bookable_minutes );
+            if($settings['accessed_from_backend'] || !$not_in_allowed_period ) {
+	            // only do this if is in allowed period or accessed from backend
+	            foreach ( $booking_slots as $booking_slot ) {
+		            if ( $booking_slot->can_accomodate( $booking_request->total_attendees ) ) {
+			            $bookable_minutes[ $booking_slot->start_time ] = isset( $bookable_minutes[ $booking_slot->start_time ] ) ? max( $booking_slot->available_capacity(), $bookable_minutes[ $booking_slot->start_time ] ) : $booking_slot->available_capacity();
+		            }
+	            }
+	            ksort( $bookable_minutes );
+            }
 			$bookable_minutes_with_capacity_data = '';
 			// this is a group service
 			if ( $service->is_group_service() && ! $settings['hide_slot_availability_count'] ) {

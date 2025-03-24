@@ -4273,12 +4273,14 @@ function latepoint_load_quick_availability($trigger_elem, custom_agent_id = fals
       if(response.status === "success"){
         if(load_more_days){
           jQuery('.latepoint-side-panel-w .quick-availability-per-day-w').html(response.message);
+          jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(52);
         }else if(load_prev_days){
           jQuery('.latepoint-side-panel-w .quick-availability-per-day-w').html(response.message);
-          jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(30);
+          console.log(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight);
+          jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight - jQuery('.latepoint-side-panel-w .os-availability-days')[0].clientHeight - 50);
         }else{
           latepoint_display_in_side_sub_panel(response.message);
-          jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(30);
+          jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(52);
           jQuery('body').addClass('has-side-sub-panel');
           latepoint_init_quick_availability_form();
         }

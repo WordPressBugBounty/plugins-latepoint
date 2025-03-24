@@ -313,11 +313,11 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
       // show one more day before so the current selection does not look weird
       if(isset($this->params['previous_days'])){
         $calendar_end_date = clone $calendar_start_date;
-        $calendar_start_date->modify('-30 days');
+        $calendar_start_date->modify('-60 days');
       }else{
         if(!isset($this->params['show_days_only'])) $calendar_start_date->modify('-1 day');
         $calendar_end_date = clone $calendar_start_date;
-				$calendar_end_date->modify('+30 days');
+				$calendar_end_date->modify('+60 days');
       }
       
       if(OsAuthHelper::get_current_user()->is_single_record_allowed('agent')) $booking->agent_id = OsRolesHelper::get_allowed_records('agent')[0];

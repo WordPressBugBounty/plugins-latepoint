@@ -1490,20 +1490,20 @@ class OsStepsHelper {
 				self::$cart_object->add_item( self::$active_cart_item );
 				self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
 			} elseif ( self::$active_cart_item->is_booking() ) {
-				// only do this for new cart item, if modifying existing one - then the set_active_cart_item method will take care of updating it
+                $original_booking = clone self::$booking_object; // we need to clone it, because is_bookable will set location and agent to set values from ANY, and we don't want that for our recurring bookings
 				if ( self::$booking_object->is_bookable( [ 'skip_customer_check' => true ] ) ) {
 					// create recurring record and assign it to this booking
-					if ( ! empty( self::$booking_object->generate_recurrent_sequence ) ) {
+					if ( ! empty( $original_booking->generate_recurrent_sequence ) ) {
 						// Recurring booking
 						$recurrence            = new OsRecurrenceModel();
-						$recurrence->rules     = wp_json_encode( self::$booking_object->generate_recurrent_sequence['rules'] );
-						$recurrence->overrides = wp_json_encode( self::$booking_object->generate_recurrent_sequence['overrides'] );
+						$recurrence->rules     = wp_json_encode( $original_booking->generate_recurrent_sequence['rules'] );
+						$recurrence->overrides = wp_json_encode( $original_booking->generate_recurrent_sequence['overrides'] );
 						if ( $recurrence->save() ) {
-							self::$booking_object->recurrence_id = $recurrence->id;
+							$original_booking->recurrence_id = $recurrence->id;
 							// we don't need these attributes anymore as we will get them from the recurrence model by ID
-							self::$booking_object->generate_recurrent_sequence = [];
-							$customer_timezone                                 = self::$booking_object->get_customer_timezone();
-							$recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( self::$booking_object, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
+							$original_booking->generate_recurrent_sequence = [];
+							$customer_timezone                                 = $original_booking->get_customer_timezone();
+							$recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( $original_booking, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
                             $main_cart_item_id = false;
 							foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
 								if ( $recurrence_bookings_datum['unchecked'] == 'yes' || !$recurrence_bookings_datum['is_bookable'] ) {
@@ -1516,12 +1516,13 @@ class OsStepsHelper {
                                     self::$active_cart_item->connected_cart_item_id = $main_cart_item_id;
                                 }
 								self::$cart_object->add_item( self::$active_cart_item );
-								self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
                                 if(empty($main_cart_item_id)) $main_cart_item_id = self::$active_cart_item->id;
 							}
+                            if($main_cart_item_id) self::$fields_to_update['active_cart_item[id]'] = $main_cart_item_id;
 						}
 					} else {
 						// Single time booking
+                        // only do this for new cart item, if modifying existing one - then the set_active_cart_item method will take care of updating it
 						// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
 						self::set_active_cart_item_object();
 						if ( self::is_bundle_scheduling() ) {

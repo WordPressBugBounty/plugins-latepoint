@@ -20998,12 +20998,16 @@ pre.json-document a.json-placeholder:hover {
 .quick-availability-per-day-w.side-sub-panel-wrapper .ma-month-label {
   color: #1d7bff;
   font-size: 19.5px;
-  padding: 10px 0px;
+  padding: 5px 0px;
   font-weight: 400;
   margin-bottom: 10px;
   margin-top: 10px;
   padding-left: 20px;
-  border-bottom: 1px dashed #1d7bff;
+  border-bottom: 2px dotted #1d7bff;
+  position: sticky;
+  top: -10px;
+  background: #fff;
+  z-index: 9;
 }
 .quick-availability-per-day-w.side-sub-panel-wrapper .ma-day {
   display: flex;
@@ -21110,7 +21114,6 @@ pre.json-document a.json-placeholder:hover {
 }
 .quick-availability-per-day-w.side-sub-panel-wrapper .os-availability-prev-w {
   padding: 0px 20px 5px;
-  border-bottom: 1px solid #eee;
 }
 .quick-availability-per-day-w.side-sub-panel-wrapper .os-availability-controls {
   position: absolute;

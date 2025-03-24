@@ -53,6 +53,35 @@ class BookingRequest{
 	}
 
 
+	public function get_start_datetime( string $set_timezone = '') : \OsWpDateTime{
+		try{
+			// start_time and start_date is legacy stored in wordpress timezone
+			$dateTime = new \OsWpDateTime( $this->start_date . ' 00:00:00', \OsTimeHelper::get_wp_timezone() );
+			if($this->start_time > 0){
+				$dateTime->modify( '+' . $this->start_time . ' minutes' );
+			}
+			if(!empty($set_timezone)) $dateTime->setTimezone( new \DateTimeZone( $set_timezone ) );
+			return $dateTime;
+		}catch(\Exception $e){
+			return new \OsWpDateTime('now');
+		}
+	}
+
+	public function get_end_datetime( string $set_timezone = '') : \OsWpDateTime{
+		try{
+			// start_time and start_date is legacy stored in wordpress timezone
+			$dateTime = new \OsWpDateTime( $this->end_date . ' 00:00:00', \OsTimeHelper::get_wp_timezone() );
+			if($this->end_time > 0){
+				$dateTime->modify( '+' . $this->end_time . ' minutes' );
+			}
+			if(!empty($set_timezone)) $dateTime->setTimezone( new \DateTimeZone( $set_timezone ) );
+			return $dateTime;
+		}catch(\Exception $e){
+			return new \OsWpDateTime('now');
+		}
+	}
+
+
 	public static function allowed_props(): array{
 		return ['start_date',
 						'end_date',

@@ -27,7 +27,7 @@ if(!$show_days_only) echo '<div class="quick-availability-per-day-w side-sub-pan
 						<a href="#" data-start-date="'. esc_attr($calendar_start_date->format('Y-m-d')).'" 
 												class="load-prev-quick-availability os-availability-prev-w latepoint-btn latepoint-btn-outline latepoint-btn-block">
 							<i class="latepoint-icon latepoint-icon-arrow-up"></i>
-							<span>'.esc_html__('Load previous 30 days', 'latepoint').'</span>
+							<span>'.esc_html__('Load previous 60 days', 'latepoint').'</span>
 						</a>
 					</div>';
 		echo OsBookingHelper::get_quick_availability_days($calendar_start_date, $calendar_end_date, $booking_request, $resources, ['exclude_booking_ids' => $booking->is_new_record() ? [] : [$booking->id], 'work_boundaries' => $work_boundaries]);
@@ -35,7 +35,7 @@ if(!$show_days_only) echo '<div class="quick-availability-per-day-w side-sub-pan
 						<a href="#" data-start-date="'. esc_attr($calendar_end_date->format('Y-m-d')).'" 
 												class="load-more-quick-availability os-availability-next-w latepoint-btn latepoint-btn-outline latepoint-btn-block">
 							<i class="latepoint-icon latepoint-icon-arrow-down"></i>
-							<span>'.esc_html__('Load next 30 days', 'latepoint').'</span>
+							<span>'.esc_html__('Load next 60 days', 'latepoint').'</span>
 						</a>
 					</div>';
 	echo '</div>';

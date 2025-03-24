@@ -477,12 +477,40 @@ class OsBookingHelper {
 	 * Checks if requested booking slot is available, loads work periods and booked periods from database and checks availability against them
 	 */
 	public static function is_booking_request_available( \LatePoint\Misc\BookingRequest $booking_request, $settings = [] ): bool {
-		$requested_date = new OsWpDateTime( $booking_request->start_date );
+        try{
+            $requested_date = new OsWpDateTime( $booking_request->start_date );
+        }catch(Exception $e){
+            return false;
+        }
 		$resources      = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $requested_date, $requested_date, $settings );
 		if ( empty( $resources[ $requested_date->format( 'Y-m-d' ) ] ) ) {
 			return false;
 		}
 		$is_available = false;
+        // check if satisfies earliest and latest bookings
+        $earliest_possible_booking = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', false );
+        $latest_possible_booking = OsSettingsHelper::get_settings_value( 'latest_possible_booking', false );
+        if($earliest_possible_booking || $latest_possible_booking){
+            // check earliest
+            try{
+                $earliest_possible_booking_date = new OsWpDateTime($earliest_possible_booking);
+                if($earliest_possible_booking_date > $booking_request->get_start_datetime()){
+                    return false;
+                }
+            }catch(Exception $e){
+
+            }
+            // check latest
+            try{
+                $latest_possible_booking_date = new OsWpDateTime($latest_possible_booking);
+                if($latest_possible_booking_date < $booking_request->get_start_datetime()){
+                    return false;
+                }
+            }catch(Exception $e){
+
+            }
+        }
+
 		foreach ( $resources[ $requested_date->format( 'Y-m-d' ) ] as $resource ) {
 			foreach ( $resource->slots as $slot ) {
 				if ( $slot->start_time == $booking_request->start_time && $slot->can_accomodate( $booking_request->total_attendees ) ) {
@@ -546,6 +574,10 @@ class OsBookingHelper {
 		if ( ! $settings['work_boundaries'] ) {
 			$settings['work_boundaries'] = OsResourceHelper::get_work_boundaries_for_groups_of_resources( $resources );
 		}
+
+        if ( $start_date->format( 'j' ) != '1' ) {
+            $html .= '<div class="ma-month-label">' . OsUtilHelper::get_month_name_by_number( $start_date->format( 'n' ) ) . '</div>';
+        }
 
 		for ( $day_date = clone $start_date; $day_date <= $end_date; $day_date->modify( '+1 day' ) ) {
 			// first day of month, output month name

@@ -106,12 +106,16 @@
   .ma-month-label {
     color: $brand-primary;
     font-size: $font-size-base * 1.3;
-    padding: 10px 0px;
+    padding: 5px 0px;
     font-weight: $body-font-weight-bold;
     margin-bottom: 10px;
     margin-top: 10px;
     padding-left: 20px;
-    border-bottom: 1px dashed $brand-primary;
+    border-bottom: 2px dotted $brand-primary;
+    position: sticky;
+    top: -10px;
+    background: #fff;
+    z-index: 9;
   }
 
   .ma-day {
@@ -232,7 +236,6 @@
 
   .os-availability-prev-w {
     padding: 0px 20px 5px;
-    border-bottom: 1px solid #eee;
   }
 
   .os-availability-controls {
