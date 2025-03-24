@@ -492,22 +492,26 @@ class OsBookingHelper {
         $latest_possible_booking = OsSettingsHelper::get_settings_value( 'latest_possible_booking', false );
         if($earliest_possible_booking || $latest_possible_booking){
             // check earliest
-            try{
-                $earliest_possible_booking_date = new OsWpDateTime($earliest_possible_booking);
-                if($earliest_possible_booking_date > $booking_request->get_start_datetime()){
-                    return false;
-                }
-            }catch(Exception $e){
+            if(!empty($earliest_possible_booking)) {
+	            try {
+		            $earliest_possible_booking_date = new OsWpDateTime( $earliest_possible_booking );
+		            if ( $earliest_possible_booking_date > $booking_request->get_start_datetime() ) {
+			            return false;
+		            }
+	            } catch ( Exception $e ) {
 
+	            }
             }
-            // check latest
-            try{
-                $latest_possible_booking_date = new OsWpDateTime($latest_possible_booking);
-                if($latest_possible_booking_date < $booking_request->get_start_datetime()){
-                    return false;
-                }
-            }catch(Exception $e){
+            if(!empty($latest_possible_booking)) {
+	            // check latest
+	            try {
+		            $latest_possible_booking_date = new OsWpDateTime( $latest_possible_booking );
+		            if ( $latest_possible_booking_date < $booking_request->get_start_datetime() ) {
+			            return false;
+		            }
+	            } catch ( Exception $e ) {
 
+	            }
             }
         }
 
