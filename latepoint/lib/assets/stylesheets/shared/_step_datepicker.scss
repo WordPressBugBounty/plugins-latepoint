@@ -408,8 +408,7 @@
   }
 }
 
-.os-dates-w {
-  margin: 0 0 0 -15px;
+.os-dates-and-times-w {
   &.is-searching {
     .os-calendar-searching-info {
       display: block;
@@ -417,7 +416,14 @@
     .os-calendar-while-searching-wrapper {
       display: none;
     }
+    .os-timezone-info-wrapper {
+      display: none;
+    }
   }
+}
+
+.os-dates-w {
+  margin: 0 0 0 -15px;
 }
 .os-times-w {
   position: relative;

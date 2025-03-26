@@ -3185,14 +3185,17 @@
   background-color: transparent !important;
   left: 10px;
 }
-.reschedule-calendar-wrapper .os-dates-w {
-  margin: 0 0 0 -15px;
-}
-.reschedule-calendar-wrapper .os-dates-w.is-searching .os-calendar-searching-info {
+.reschedule-calendar-wrapper .os-dates-and-times-w.is-searching .os-calendar-searching-info {
   display: block;
 }
-.reschedule-calendar-wrapper .os-dates-w.is-searching .os-calendar-while-searching-wrapper {
+.reschedule-calendar-wrapper .os-dates-and-times-w.is-searching .os-calendar-while-searching-wrapper {
   display: none;
+}
+.reschedule-calendar-wrapper .os-dates-and-times-w.is-searching .os-timezone-info-wrapper {
+  display: none;
+}
+.reschedule-calendar-wrapper .os-dates-w {
+  margin: 0 0 0 -15px;
 }
 .reschedule-calendar-wrapper .os-times-w {
   position: relative;
@@ -6128,14 +6131,17 @@
   background-color: transparent !important;
   left: 10px;
 }
-.latepoint-booking-form-element .os-dates-w {
-  margin: 0 0 0 -15px;
-}
-.latepoint-booking-form-element .os-dates-w.is-searching .os-calendar-searching-info {
+.latepoint-booking-form-element .os-dates-and-times-w.is-searching .os-calendar-searching-info {
   display: block;
 }
-.latepoint-booking-form-element .os-dates-w.is-searching .os-calendar-while-searching-wrapper {
+.latepoint-booking-form-element .os-dates-and-times-w.is-searching .os-calendar-while-searching-wrapper {
   display: none;
+}
+.latepoint-booking-form-element .os-dates-and-times-w.is-searching .os-timezone-info-wrapper {
+  display: none;
+}
+.latepoint-booking-form-element .os-dates-w {
+  margin: 0 0 0 -15px;
 }
 .latepoint-booking-form-element .os-times-w {
   position: relative;

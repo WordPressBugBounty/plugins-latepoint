@@ -301,7 +301,7 @@ class OsDatabaseHelper {
       created_at datetime,
       updated_at datetime,
       PRIMARY KEY  (id),
-      KEY connected_cart_item_id_index (connected_cart_item_id)
+      KEY connected_cart_item_id_index (connected_cart_item_id),
       KEY cart_id_index (cart_id)
     ) $charset_collate;";
 
@@ -402,7 +402,7 @@ class OsDatabaseHelper {
       invoice_id int(11) NOT NULL,
       charge_amount decimal(20,4),
       due_at datetime,
-      portion varchar(55),
+      `portion` varchar(55),
       created_at datetime,
       updated_at datetime,
       PRIMARY KEY  (id),

@@ -836,23 +836,25 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
     if ($booking_form_element.find('input[name="booking[start_date]"]').val()) {
         $booking_form_element.find('.os-day[data-date="' + $booking_form_element.find('input[name="booking[start_date]"]').val() + '"]').trigger('click');
     } else {
-        let max_number_of_months_to_check = 24;
-        let current_year = new Date().getFullYear();
-        for (let i = 0; i < max_number_of_months_to_check; i++) {
-            let $active_month = $booking_form_element.find('.os-monthly-calendar-days-w.active');
-            let searching_month_label = $active_month.data('calendar-month-label');
-            if ($active_month.data('calendar-year') != current_year) searching_month_label += ' ' + $active_month.data('calendar-year');
-            $booking_form_element.find('.os-calendar-searching-info span').text(searching_month_label);
-            // check if active month has any days available for booking
-            let $first_available = $active_month.find('.os-day').not('.os-not-available').first();
-            if ($first_available.length) {
-                break;
-            } else {
-                await latepoint_monthly_calendar_load_next_month($booking_form_element);
+        if($booking_form_element.find('.os-dates-and-times-w').hasClass('auto-search')){
+            let max_number_of_months_to_check = 24;
+            let current_year = new Date().getFullYear();
+            for (let i = 0; i < max_number_of_months_to_check; i++) {
+                let $active_month = $booking_form_element.find('.os-monthly-calendar-days-w.active');
+                let searching_month_label = $active_month.data('calendar-month-label');
+                if ($active_month.data('calendar-year') != current_year) searching_month_label += ' ' + $active_month.data('calendar-year');
+                $booking_form_element.find('.os-calendar-searching-info span').text(searching_month_label);
+                // check if active month has any days available for booking
+                let $first_available = $active_month.find('.os-day').not('.os-not-available').first();
+                if ($first_available.length) {
+                    break;
+                } else {
+                    await latepoint_monthly_calendar_load_next_month($booking_form_element);
+                }
             }
         }
     }
-    $booking_form_element.find('.os-dates-w').removeClass('is-searching');
+    $booking_form_element.find('.os-dates-and-times-w').removeClass('is-searching');
     return true;
 }
 

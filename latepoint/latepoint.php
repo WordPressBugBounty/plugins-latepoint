@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.91
+ * Version: 5.1.92
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,8 +28,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.91';
-		public $db_version = '2.2.0';
+		public $version = '5.1.92';
+		public $db_version = '2.2.1';
 
 
 		/**

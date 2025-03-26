@@ -10,8 +10,8 @@ class OsCalendarHelper {
         $is_recurring_supported = apply_filters('latepoint_is_feature_recurring_bookings_on', false);
         $can_service_be_recurring = $is_recurring_supported && ($booking->service->get_meta_by_key('allow_recurring_bookings') == 'on');
         ob_start(); ?>
-        <div class="os-dates-and-times-w" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('steps', 'load_datepicker_month')); ?>" data-allow-recurring="<?php echo $can_service_be_recurring ? 'yes' : 'no'; ?>">
-            <div class="os-dates-w <?php echo $auto_search ? 'is-searching' : '' ; ?>" data-time-pick-style="<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
+        <div class="os-dates-and-times-w <?php echo $auto_search ? 'auto-search is-searching' : '' ; ?>" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('steps', 'load_datepicker_month')); ?>" data-allow-recurring="<?php echo $can_service_be_recurring ? 'yes' : 'no'; ?>">
+            <div class="os-dates-w" data-time-pick-style="<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
                 <?php if($auto_search){ ?>
                     <div class="os-calendar-searching-info"><?php echo sprintf(esc_html__( 'Searching %s for available dates', 'latepoint' ), '<span></span>'); ?></div>
                 <?php } ?>
