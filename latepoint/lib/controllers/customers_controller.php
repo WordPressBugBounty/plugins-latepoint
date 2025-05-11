@@ -321,11 +321,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
         header("Content-Type: text/csv");
         header("Content-Disposition: attachment; filename={$csv_filename}.csv");
 
-        $labels_row = [ __('ID', 'latepoint'), 
-                        __('Name', 'latepoint'), 
-                        __('Phone', 'latepoint'), 
-                        __('Email', 'latepoint'), 
-                        __('Total Appointments', 'latepoint'), 
+        $labels_row = [ __('ID', 'latepoint'),
+                        __('Name', 'latepoint'),
+                        __('Phone', 'latepoint'),
+                        __('Email', 'latepoint'),
+                        __('Total Appointments', 'latepoint'),
+						__('Next Appointment', 'latepoint'),
                         __('Registered On', 'latepoint') ];
 
 
@@ -336,11 +337,13 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
         $customers_arr = $customers->where($query_args)->filter_allowed_records()->order_by('id desc')->get_results_as_models();
         if($customers_arr){
           foreach($customers_arr as $customer){
+	        $next_booking = $customer->get_future_bookings(1, true);
             $values_row = [ $customer->id, 
                             $customer->full_name, 
                             $customer->phone, 
                             $customer->email, 
                             $customer->total_bookings_count,
+	                        $next_booking ? $next_booking->nice_start_datetime : 'n/a',
                             $customer->formatted_created_date()];
             $values_row = apply_filters('latepoint_customer_row_for_csv_export', $values_row, $customer, $this->params);
             $customers_data[] = $values_row;

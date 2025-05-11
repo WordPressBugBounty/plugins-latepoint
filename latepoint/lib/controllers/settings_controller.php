@@ -19,6 +19,59 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Settings', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'settings', 'general' ) ) );
 		}
 
+		public function generate_instant_booking_page_url(){
+			$url_settings = [];
+			$instant_booking_settings = $this->params['instant_booking'] ?? [];
+			if(!empty($instant_booking_settings['selected_agent'])) $url_settings['selected_agent'] = $instant_booking_settings['selected_agent'];
+			if(!empty($instant_booking_settings['selected_location'])) $url_settings['selected_location'] = $instant_booking_settings['selected_location'];
+			if(!empty($instant_booking_settings['selected_service'])) $url_settings['selected_service'] = $instant_booking_settings['selected_service'];
+			if(!empty($instant_booking_settings['background_pattern'])) $url_settings['background_pattern'] = $instant_booking_settings['background_pattern'];
+			if(!empty($instant_booking_settings['hide_side_panel']) && $instant_booking_settings['hide_side_panel'] == LATEPOINT_VALUE_ON){
+				$url_settings['hide_side_panel'] = 'yes';
+			}
+			if(!empty($instant_booking_settings['hide_summary']) && $instant_booking_settings['hide_summary'] == LATEPOINT_VALUE_ON){
+				$url_settings['hide_summary'] = 'yes';
+			}
+
+
+			$url = OsSettingsHelper::generate_instant_booking_page_url($url_settings);
+
+			$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $url ] );
+		}
+
+		public function generate_instant_booking_page(){
+			$agents = new OsAgentModel();
+			$this->vars['agents'] = $agents->should_be_active()->get_results_as_models();
+			$services = new OsServiceModel();
+			$this->vars['services'] = $services->should_be_active()->get_results_as_models();
+			$locations = new OsLocationModel();
+			$this->vars['locations'] = $locations->should_be_active()->get_results_as_models();
+
+			$url_settings = [];
+			if(!empty($this->params['agent_id'])){
+				$this->vars['selected_agent_id'] = sanitize_text_field($this->params['agent_id']);
+				$url_settings['selected_agent'] = sanitize_text_field($this->params['agent_id']);
+			}
+			if(!empty($this->params['location_id'])){
+				$this->vars['selected_location_id'] = sanitize_text_field($this->params['location_id']);
+				$url_settings['selected_location'] = sanitize_text_field($this->params['location_id']);
+			}
+			if(!empty($this->params['service_id'])){
+				$this->vars['selected_service_id'] = sanitize_text_field($this->params['service_id']);
+				$url_settings['selected_service'] = sanitize_text_field($this->params['service_id']);
+			}
+
+			if(!empty($this->params['background_pattern'])){
+				$this->vars['background_pattern'] = sanitize_text_field($this->params['background_pattern']);
+				$url_settings['background_pattern'] = sanitize_text_field($this->params['background_pattern']);
+			}
+
+			$this->vars['instant_booking_page_url'] = OsSettingsHelper::generate_instant_booking_page_url($url_settings);
+			$this->vars['patterns'] = OsSettingsHelper::instant_page_background_patterns();
+
+			$this->format_render( __FUNCTION__ );
+		}
+
 		public function export_data() {
 			$this->set_layout( 'pure' );
 			$this->vars['content'] = OsSettingsHelper::export_data();

@@ -222,7 +222,7 @@ class OsOrdersHelper {
 		if ( ! in_array( $for, [ 'agent', 'customer' ] ) ) {
 			return '';
 		}
-		$actions = [ 'show', 'list_payments' ];
+		$actions = [ 'show', 'list_payments', 'print' ];
 		if ( ! in_array( $action, $actions ) ) {
 			$action = $actions[0];
 		}

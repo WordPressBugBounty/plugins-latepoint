@@ -143,7 +143,7 @@
 }
 
 .os-item-category-w {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 // List of services on services index in admin
@@ -158,6 +158,9 @@
     background-color: #fff;
     border: 1px solid $border-color-main;
     border-radius: $border-radius;
+    &:hover .instant-booking-settings-open {
+      display: block;
+    }
     .os-form-w {
       padding: 0px;
       margin: 0px;
@@ -179,6 +182,30 @@
     padding: 15px;
     border-bottom: 1px solid rgba(0,0,0,0.05);
     position: relative;
+    .instant-booking-settings-open {
+      display: none;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      text-decoration: none;
+      background-color: #eee;
+      box-shadow: 0 0 0 3px #fff;
+      color: #111;
+      border-radius: 20px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 18px;
+      cursor: pointer;
+      i {
+        line-height: 30px;
+      }
+      &:hover {
+        background-color: $brand-primary;
+        color: #fff;
+      }
+    }
 
     .service-hidden {
       position: absolute;

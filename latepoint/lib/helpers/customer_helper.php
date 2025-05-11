@@ -114,6 +114,7 @@ class OsCustomerHelper {
 	}
 
 	public static function can_reschedule_booking( OsBookingModel $booking ): bool {
+        if(!apply_filters('latepoint_is_feature_reschedule_available', false)) return false;
 		if ( OsSettingsHelper::is_on( 'allow_customer_booking_reschedule' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
 			if ( OsSettingsHelper::is_on( 'limit_when_customer_can_reschedule' ) ) {
 				// check if there is a limit on when they can reschedule

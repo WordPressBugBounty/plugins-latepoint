@@ -655,6 +655,35 @@ class OsSettingsHelper {
         return ' data-os-action="'.OsRouterHelper::build_route_name('settings', 'premium_modal').'" data-os-lightbox-classes="width-600" data-os-output-target="lightbox" ';
 	}
 
+	public static function generate_instant_booking_page_url( array $url_settings ) : string {
+        $url_settings['latepoint'] = 'instant';
+        return OsUtilHelper::get_site_url().'/?'.http_build_query($url_settings);
+	}
+
+    public static function instant_page_background_patterns(): array{
+        return [
+            'pattern_1' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);',
+            'pattern_2' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);',
+            'pattern_3' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);',
+            'pattern_4' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);',
+            'pattern_5' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);',
+            'pattern_6' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);',
+            'pattern_7' => 'background-color: transparent; background-size: auto; background-color: #DCD9D4; background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%); background-blend-mode: soft-light,screen;',
+            'pattern_8' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%);',
+            'pattern_9' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);',
+            'pattern_10' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #09203f 0%, #537895 100%);',
+            'pattern_11' => 'background-color: transparent; background-size: auto; background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%); background-blend-mode: screen;',
+            'pattern_12' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%);',
+            'pattern_13' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);',
+            'pattern_14' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);',
+            'pattern_15' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);',
+            'pattern_16' => 'background-color: transparent; background-size: auto; background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;background-blend-mode: multiply,multiply;',
+            'pattern_17' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);',
+            'pattern_18' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #222 0%, #111 100%);',
+            'pattern_19' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%);',
+        ];
+    }
+
 }
 
 ?>

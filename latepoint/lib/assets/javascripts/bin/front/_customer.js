@@ -348,8 +348,10 @@ function latepoint_init_reschedule() {
     $reschedule_wrapper.on('click', '.os-day', function () {
         if (jQuery(this).hasClass('os-day-passed')) return false;
         if (jQuery(this).hasClass('os-not-in-allowed-period')) return false;
-        if(jQuery(this).hasClass('os-month-prev')) return false;
-        if(jQuery(this).hasClass('os-month-next')) return false;
+        if(jQuery(this).closest('.os-dates-and-times-w').hasClass('calendar-style-modern')){
+            if(jQuery(this).hasClass('os-month-prev')) return false;
+            if(jQuery(this).hasClass('os-month-next')) return false;
+        }
         var $reschedule_calendar_wrapper = jQuery(this).closest('.reschedule-calendar-wrapper');
         if (jQuery(this).closest('.os-monthly-calendar-days-w').hasClass('hide-if-single-slot')) {
 

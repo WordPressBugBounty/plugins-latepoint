@@ -20,7 +20,6 @@
   }
 
   .side-sub-panel-wrapper {
-    right: $side-panel-width;
     width: 550px;
     background-color: #fff;
     z-index: 9999;
@@ -55,6 +54,9 @@
       overflow-y: auto;
       max-height: 100%;
       padding: 30px;
+      &.no-padding {
+        padding: 0;
+      }
       &.pattern-dotted {
         background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 0);
         background-size: 15px 15px;
@@ -64,6 +66,12 @@
     .side-sub-panel-footer {
       border-top: 1px solid $border-color-main;
       padding: 15px 30px;
+    }
+    &.width-full {
+      flex: 1;
+    }
+    &.width-400 {
+      flex: 0 0 400px;
     }
   }
 
@@ -306,6 +314,7 @@
   &.width-1000 .latepoint-side-panel-i{ width: 1000px; }
   &.width-1200 .latepoint-side-panel-i{ width: 1200px; }
   &.width-max .latepoint-side-panel-i{ width: 90%; }
+  &.width-full .latepoint-side-panel-i{ width: 100%; }
 
   .os-form-header {
     padding: (22px + calc($side-panel-offset/2)) $side-panel-padding-x;
@@ -639,6 +648,24 @@ body.has-side-sub-panel {
       .os-form-buttons {
         border-bottom-left-radius: 0;
       }
+    }
+  }
+}
+
+.latepoint-full-panel-w {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 9999;
+  background-color: #fff;
+  display: flex;
+  align-items: stretch;
+
+  &.os-loading {
+    &:before {
+      @include loading-circle($brand-primary, 40px);
     }
   }
 }

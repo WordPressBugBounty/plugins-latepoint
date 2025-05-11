@@ -340,7 +340,7 @@
     width: $booking-side-panel-width;
     background-color: $booking-side-panel-bg;
     border-right: 1px solid rgba(0,0,0,0.1);
-    padding: 15px 30px 25px 30px;
+    padding: 40px 40px 25px 40px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -386,7 +386,7 @@
 
 
     .latepoint-step-desc-w {
-      padding: 50px 0px 50px 0px;
+      padding: 0px 0px 50px 0px;
       color: $color-faded;
       margin-bottom: auto;
       .latepoint-step-desc-library {
@@ -443,6 +443,7 @@
         position: relative;
         font-size: $headings-font-size-s;
         text-transform: none;
+        letter-spacing: normal;
       }
       p:last-child {
         margin-bottom: 0px;
@@ -578,6 +579,9 @@
       text-align: left;
       display: flex;
       align-items: center;
+      &.os-hidden {
+        display: none;
+      }
 
       .latepoint-lightbox-summary-trigger {
         padding: 5px;
@@ -820,7 +824,6 @@
   }
   &.latepoint-border-radius-rounded {
     .os-day-status {
-      border-radius: 2px;
     }
     .lp-demo-mode-msg {
       border-radius: $rounded-borders-radius;
@@ -1086,7 +1089,7 @@
           font-size: floor($font-size-base * 3.3);
           font-weight: $body-font-weight-bold;
           line-height: 1.1;
-          color: $brand-primary;
+          color: $headings-color;
           font-family: $mono-font-family;
         }
         .os-duration-label {
@@ -1106,7 +1109,7 @@
           top: 0px;
           right: 0px;
           padding: 5px;
-          color: #D09F1D;
+          color: $brand-primary;
           line-height: 1;
           font-size: floor($font-size-base * 1.1);
           font-weight: $body-font-weight-bold;

@@ -156,14 +156,57 @@ class OsOrderIntentModel extends OsModel {
 		return $this->status == LATEPOINT_ORDER_INTENT_STATUS_PROCESSING;
 	}
 
+	public function is_failed(): bool {
+		return $this->status == LATEPOINT_ORDER_INTENT_STATUS_FAILED;
+	}
+
+
+	public function mark_as_failed() {
+		$this->update_attributes( [ 'status' => LATEPOINT_ORDER_INTENT_STATUS_FAILED ] );
+		/**
+		 * Order intent is marked as failed
+		 *
+		 * @param {OsOrderIntentModel} $order_intent Instance of order intent model that has failed
+		 *
+		 * @since 5.2.0
+		 * @hook latepoint_order_intent_failed
+		 *
+		 */
+		do_action( 'latepoint_order_intent_failed', $this );
+	}
+
+	public function wait_for_transaction_completion() : OsOrderIntentModel {
+		$attempts = 0;
+		$max_attempts = 6;
+		$delay_seconds = 2;
+
+		while ($attempts < $max_attempts) {
+			if (!$this->is_processing()) {
+				return $this;
+			}
+			sleep($delay_seconds);
+			$attempts++;
+			$this->load_by_id($this->id);
+		}
+		if($this->is_processing()){
+			// if it's still processing after waiting - mark as failed
+			$this->mark_as_failed();
+		}
+		return $this;
+	}
+
 	public function convert_to_order() {
 		if($this->is_converted()){
 			return $this->order_id;
 		}
 
 		if($this->is_processing()){
-			$this->add_error( 'order_error', 'Can not convert to order, because order intent conversion is being processed' );
-			return false;
+
+			$this->wait_for_transaction_completion();
+			if($this->is_failed()){
+				$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
+				return false;
+			}
 		}
 
 		$this->mark_as_processing();

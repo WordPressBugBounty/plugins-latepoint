@@ -41,9 +41,9 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="full-summary-order-info-wrapper">
             <div class="fsoi-main-wrapper">
                 <div class="order-full-summary-actions">
-                    <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_order_info'], [ 'latepoint_order_id' => $order->id ] )); ?>" class="print-booking-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e( 'Print', 'latepoint' ); ?></span></a>
+                    <a href="<?php echo esc_url(OsOrdersHelper::generate_direct_manage_order_url( $order, 'customer', 'print' )); ?>" class="print-booking-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e( 'Print', 'latepoint' ); ?></span></a>
                     <?php if($order->get_transactions()){
-                        echo '<a target="_blank" href="'.OsOrdersHelper::generate_direct_manage_order_url( $order, 'customer', 'list_payments' ).'"><span>'.esc_html__('View Payments', 'latepoint').'</span><i class="latepoint-icon latepoint-icon-external-link"></i></a>';
+                        echo '<a target="_blank" href="'.esc_url(OsOrdersHelper::generate_direct_manage_order_url( $order, 'customer', 'list_payments' )).'"><span>'.esc_html__('View Payments', 'latepoint').'</span><i class="latepoint-icon latepoint-icon-external-link"></i></a>';
                     }
                     ?>
                 </div>

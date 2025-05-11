@@ -353,13 +353,7 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function get_print_link( $key = false ) {
-		return ( $key ) ? OsRouterHelper::build_admin_post_link( [
-			'manage_booking_by_key',
-			'print_booking_info'
-		], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [
-			'customer_cabinet',
-			'print_booking_info'
-		], [ 'latepoint_booking_id' => $this->id ] );
+		return ( $key ) ? OsRouterHelper::build_admin_post_link( [ 'manage_booking_by_key', 'print'], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_booking_info' ], [ 'latepoint_booking_id' => $this->id ] );
 	}
 
 	public function get_meta_by_key( $meta_key, $default = false ) {
@@ -664,9 +658,13 @@ class OsBookingModel extends OsModel {
 		}
 
 		$args = OsAuthHelper::get_current_user()->clean_query_args( $args );
+		$allowed_statuses = OsCalendarHelper::get_booking_statuses_to_display_on_calendar();
+		if (empty($allowed_statuses)) {
+			return [];
+		}
 
-		return $bookings->should_be_approved()
-		                ->select( '*, count(id) as total_customers, sum(total_attendees) as total_attendees_sum' )
+		return $bookings->select( '*, count(id) as total_customers, sum(total_attendees) as total_attendees_sum' )
+		                ->where_in('status', $allowed_statuses )
 		                ->group_by( 'start_datetime_utc, agent_id, service_id, location_id' )
 		                ->where( $args )
 		                ->set_limit( $limit )

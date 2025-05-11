@@ -226,6 +226,8 @@
             color: $color-faded;
             font-size: floor($font-size-base * 0.8);
             transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-left: 15px;
           }
           .os-item-price-w {
             border-left: 1px solid rgba(0,0,0,0.05);
@@ -239,12 +241,12 @@
               line-height: 1.1;
               font-weight: $body-font-weight-bold;
               font-family: $mono-font-family;
-              font-size: floor($font-size-base * 1.1);
+              font-size: $body-font-size-l;
             }
             .os-item-price-label {
               display: block;
               color: $color-faded;
-              font-size: floor($font-size-base * 0.8);
+              font-size: $body-font-size-xxs;
               white-space: nowrap;
             }
           }
@@ -408,6 +410,9 @@
       }
       .os-item {
         position: relative;
+        &:focus {
+          outline: none;
+        }
         &.with-details {
           .os-item-name-w {
             transition: transform 0.2s ease;
@@ -583,6 +588,9 @@
         border-radius: $rounded-borders-radius;
       }
       .summary-box .summary-box-content .os-remove-item-from-cart {
+        border-radius: $rounded-borders-radius;
+      }
+      .latepoint-add-another-item-trigger {
         border-radius: $rounded-borders-radius;
       }
 

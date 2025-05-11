@@ -40,7 +40,7 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 
 			$this->action_access['public'] = array_merge( $this->action_access['public'], [
 				'show',
-				'print_booking_info',
+				'print',
 				'ical_download',
 				'change_status',
 				'request_cancellation',
@@ -91,7 +91,7 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 			echo OsBookingHelper::generate_ical_event_string( $this->booking );
 		}
 
-		function print_booking_info() {
+		function print() {
 			if ( empty( $this->booking->id ) ) {
 				return;
 			}
@@ -100,7 +100,7 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 			$this->vars['order']    = $this->booking->get_order();
 			$this->vars['customer'] = $this->booking->customer;
 			$this->set_layout( 'print' );
-			$content = $this->format_render_return( __FUNCTION__, [], [], true );
+			$content = $this->format_render_return( 'print_booking_info', [], [], true );
 			echo $content;
 		}
 

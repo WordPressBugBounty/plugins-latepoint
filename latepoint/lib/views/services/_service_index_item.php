@@ -5,6 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="os-service os-service-status-<?php echo esc_attr($service->status); ?>">
   <div class="os-service-header">
+      <a href="#" class="instant-booking-settings-open" data-os-output-target="full-panel"
+							data-os-after-call="latepoint_init_instant_booking_settings"
+							data-os-action="<?php echo OsRouterHelper::build_route_name('settings', 'generate_instant_booking_page'); ?>"
+							data-os-params="<?php echo OsUtilHelper::build_os_params(['service_id' => $service->id]); ?>"><i class="latepoint-icon latepoint-icon-zap"></i></a>
     <?php if($service->is_hidden()) echo '<i class="latepoint-icon latepoint-icon-eye-off service-hidden"></i>'; ?>
     <h3 class="service-name"><?php echo esc_html($service->name); ?></h3>
   </div>

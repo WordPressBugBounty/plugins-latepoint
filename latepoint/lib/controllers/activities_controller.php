@@ -190,74 +190,74 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 				// orders
 				case 'order_intent_updated':
 					$link_to_order = $activity->order_id ? '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>' : '';
-					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['order_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'order_intent_created':
 					$link_to_order = $activity->order_id ? '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>' : '';
-					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['order_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'order_intent_converted':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['order_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'order_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['order_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'order_updated':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$changes       = OsUtilHelper::compare_model_data_vars( $data['order_data_vars']['new'], $data['order_data_vars']['old'] );
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'payment_request_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['payment_request_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 
 				// bookings
 				case 'booking_change_status':
 					$link_to_order = $activity->order_id ? '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>' : '';
-					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$content_html  = '<div class="activity-preview-content">' . $activity->description . '</div>';
 					break;
 				case 'booking_created':
 					$link_to_booking = '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>';
-					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$content_html    = '<pre class="format-json">' . wp_json_encode( $data['booking_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'booking_updated':
 					$link_to_booking = '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>';
-					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</div>';
+					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$changes         = OsUtilHelper::compare_model_data_vars( $data['booking_data_vars']['new'], $data['booking_data_vars']['old'] );
 					$content_html    = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'email_sent':
 					$meta_html    = '<div class="activity-preview-subject">' . esc_html( $data['extra_data']['subject'] ) . '</div>';
-					$meta_html    .= '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</div>';
+					$meta_html    .= '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</span></div>';
 					$content_html = '<div class="activity-preview-content">' . $data['content'] . '</div>';
 					break;
 				case 'sms_sent':
-					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</div>';
+					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</span></div>';
 					$content_html = '<div class="activity-preview-content">' . $data['content'] . '</div>';
 					break;
 				case 'http_request':
-					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'URL:', 'latepoint' ) . '</span><span class="os-value"><a href="#" target="_blank">' . esc_html( $data['to'] ) . '</a></div>';
+					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'URL:', 'latepoint' ) . '</span><span class="os-value"><a href="#" target="_blank">' . esc_html( $data['to'] ) . '</a></span></div>';
 					$content_html = '<pre class="format-json">' . wp_json_encode( $data['content'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'process_job_run':
 					$job          = new OsProcessJobModel( $data['job_id'] );
 					$name         = $job->process->name . ', ID: ' . $job->process->id;
-					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'Process:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $name ) . '</div>';
+					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'Process:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $name ) . '</span></div>';
 					$content_html = '<pre class="format-json">' . $data['run_result'] . '</pre>';
 					break;
 				case 'error':
-					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'Error Message:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['message'] ) . ' | ' . esc_html( $data['error_code'] ) . '</div>';
+					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'Error Message:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['message'] ) . ' | ' . esc_html( $data['error_code'] ) . '</span></div>';
 					$content_html = '<pre class="format-json">' . wp_json_encode( $data['extra_description'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 			}

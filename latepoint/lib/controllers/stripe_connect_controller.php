@@ -88,6 +88,20 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 							OsDebugHelper::log( 'Error converting order intent' );
 						}
 					}
+					if ( ! empty( $event['data']['transaction_intent_key'] ) ) {
+						$transaction_intent = OsTransactionIntentHelper::get_transaction_intent_by_intent_key( $event['data']['transaction_intent_key'] );
+						if ( $transaction_intent->is_new_record() ) {
+							OsDebugHelper::log( 'Error processing stripe connect webhook: Transaction intent not found for key' );
+							http_response_code( 400 );
+							exit();
+						}
+						if ( $transaction_intent->convert_to_transaction() ) {
+							http_response_code( 200 );
+						} else {
+							http_response_code( 400 );
+							OsDebugHelper::log( 'Error converting transaction intent' );
+						}
+					}
 					break;
 			}
 			exit();

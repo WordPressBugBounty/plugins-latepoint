@@ -61,6 +61,10 @@
   0% { transform: translate3d(0, 0%, 0px); opacity: 0; }
   100% { transform: translate3d(0, -65%, 0px); opacity: 1; }
 }
+@keyframes latepointAvailabilityPopupCenter {
+  0% { transform: translate3d(-50%, -50%, 0px); opacity: 0; }
+  100% { transform: translate3d(-50%, -110%, 0px); opacity: 1; }
+}
 
 @keyframes latepointAvailabilityPopupY {
   0% { transform: translate3d(0%, -60%, 0px); opacity: 0; }

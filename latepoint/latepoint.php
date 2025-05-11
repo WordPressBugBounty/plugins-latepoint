@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.92
+ * Version: 5.1.93
  * Author: LatePoint
  * Author URI: http://latepoint.com
  * Text Domain: latepoint
@@ -28,7 +28,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.92';
+		public $version = '5.1.93';
 		public $db_version = '2.2.1';
 
 
@@ -406,6 +406,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			if ( ! defined( 'LATEPOINT_ORDER_INTENT_STATUS_PROCESSING' ) ) {
 				define( 'LATEPOINT_ORDER_INTENT_STATUS_PROCESSING', 'processing' );
 			}
+			if ( ! defined( 'LATEPOINT_ORDER_INTENT_STATUS_FAILED' ) ) {
+				define( 'LATEPOINT_ORDER_INTENT_STATUS_FAILED', 'failed' );
+			}
 
 			if ( ! defined( 'LATEPOINT_TRANSACTION_INTENT_STATUS_NEW' ) ) {
 				define( 'LATEPOINT_TRANSACTION_INTENT_STATUS_NEW', 'new' );
@@ -415,6 +418,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 			if ( ! defined( 'LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING' ) ) {
 				define( 'LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING', 'processing' );
+			}
+			if ( ! defined( 'LATEPOINT_TRANSACTION_INTENT_STATUS_FAILED' ) ) {
+				define( 'LATEPOINT_TRANSACTION_INTENT_STATUS_FAILED', 'failed' );
 			}
 
 			if ( ! defined( 'LATEPOINT_BOOKING_STATUS_APPROVED' ) ) {
@@ -874,6 +880,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * Hook into actions and filters.
 		 */
 		public function init_hooks() {
+			if(isset( $_GET['latepoint'] ) && $_GET['latepoint'] == 'instant' ){
+				add_action( 'init', array( $this, 'public_route_call' ), 100 );
+			}
 			$siteurl = get_site_option( 'siteurl' );
 			if ( $siteurl ) {
 				$siteurl_hash = md5( $siteurl );
@@ -1188,6 +1197,10 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			OsRouterHelper::call_by_route_name( $route_name, OsRouterHelper::get_request_param( 'return_format', 'html' ) );
 		}
 
+		public function public_route_call() {
+			OsRouterHelper::call_by_route_name( OsRouterHelper::build_route_name('steps', 'start_instant'), OsRouterHelper::get_request_param( 'return_format', 'html' ) );
+		}
+
 		public function pre_route_call() {
 			if ( OsRouterHelper::get_request_param( 'pre_route' ) ) {
 				$this->route_call();
@@ -1367,7 +1380,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			$localized_vars['stripe_connect_route_create_payment_intent_for_transaction_intent'] = OsRouterHelper::build_route_name( 'stripe_connect', 'create_payment_intent_for_transaction' );
 
 			// Stylesheets
-			wp_enqueue_style( 'latepoint-main-front', $this->public_stylesheets() . 'front.css', false, $this->version );
+			wp_enqueue_style('latepoint-main-front', $this->public_stylesheets() . 'front.css', false, $this->version);
 
 			// add styles from options if gutenberg blocks exists
 			OsBlockHelper::add_block_styles_to_page();

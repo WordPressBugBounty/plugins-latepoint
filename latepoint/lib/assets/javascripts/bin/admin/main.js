@@ -28,6 +28,72 @@ function latepoint_init_version5_intro(){
   }
 }
 
+function latepoint_init_instant_booking_settings(){
+
+  jQuery('.instant-copy-url').on('click', function(e){
+    e.preventDefault();
+    let $this = jQuery(this);
+    jQuery('body').find('.os-click-to-copy-prompt').hide();
+    let text_to_copy = jQuery('.instant-visit-url').prop('href');
+    navigator.clipboard.writeText(text_to_copy);
+
+    let position_info = $this.offset();
+    let position_left = position_info.left;
+    let position_top = position_info.top;
+
+    let $done_prompt = jQuery('<div class="os-click-to-copy-done color-dark" style="top: '+position_top+'px; left: '+position_left+'px;">' + latepoint_helper.click_to_copy_done + '</div>');
+    $done_prompt.appendTo(jQuery('body')).animate({
+      opacity: 0,
+      left: (position_left + 20),
+    }, 600);
+    setTimeout(function(){
+      jQuery('body').find('.os-click-to-copy-done').remove();
+      jQuery('body').find('.os-click-to-copy-prompt').show();
+    }, 800);
+  });
+
+  jQuery('.instant-booking-preview-settings-content').find('select, input').on('change', function(){
+    latepoint_build_url_for_instant_booking_page();
+  })
+  jQuery('.preview-background-option').on('click', function(e){
+    jQuery('.preview-background-option').removeClass('selected');
+    jQuery(this).addClass('selected');
+    jQuery('input[name="instant_booking[background_pattern]"]').val(jQuery(this).data('pattern-key')).trigger('change');
+  });
+
+  jQuery('.latepoint-instant-preview-close-trigger').on('click', function(e){
+    jQuery('.latepoint-full-panel-w').remove();
+    return false;
+  });
+
+}
+
+async function latepoint_build_url_for_instant_booking_page(){
+  let data = {
+      action: 'latepoint_route_call',
+      route_name: jQuery('.instant-booking-preview-settings-content').data('route-name'),
+      params: jQuery('.instant-booking-preview-settings-content').find('select, input').serialize(),
+      layout: 'none',
+      return_format: 'json'
+  }
+  try {
+      let response = await jQuery.ajax({
+          type: "post",
+          dataType: "json",
+          url: latepoint_timestamped_ajaxurl(),
+          data: data
+      });
+      if (response.status == 'success') {
+        jQuery('.instant-booking-settings-iframe-wrapper').html('<iframe class="instant-preview-iframe" src="' + response.message + '"/>');
+        jQuery('.instant-visit-url').attr('href', response.message);
+      } else {
+          throw new Error('Error: ' + response.message);
+      }
+  } catch (e) {
+      throw e;
+  }
+}
+
 function latepoint_build_and_save_step_order(){
   var $steps_wrapper = jQuery('.os-ordered-steps');
   let steps_in_order = [];

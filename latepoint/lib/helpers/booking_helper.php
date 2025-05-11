@@ -620,7 +620,7 @@ class OsBookingHelper {
                         <div class="os-item-name-w">
                             <div class="os-item-name"><?php echo esc_html__( 'Bundle & Save', 'latepoint' ); ?></div>
                         </div>
-						<?php if ( count( $bundles ) ) { ?>
+						<?php if (OsSettingsHelper::is_on('show_service_categories_count') && count( $bundles ) ) { ?>
                             <div class="os-item-child-count">
                                 <span><?php echo count( $bundles ); ?></span> <?php esc_html_e( 'Bundles', 'latepoint' ); ?>
                             </div>
@@ -811,8 +811,11 @@ class OsBookingHelper {
                                      style="background-image: url(<?php echo esc_url($service_category->selection_image_url); ?>);"></div>
                                 <div class="os-item-name-w">
                                     <div class="os-item-name"><?php echo esc_html($service_category->name); ?></div>
+                                    <?php if (!empty($service_category->short_description)) { ?>
+                                        <div class="os-item-desc"><?php echo $service_category->short_description; ?></div>
+                                    <?php } ?>
                                 </div>
-								<?php if ( count( $services ) ) { ?>
+								<?php if (OsSettingsHelper::is_on('show_service_categories_count') && count( $services ) ) { ?>
                                     <div class="os-item-child-count">
                                         <span><?php echo count( $services ); ?></span> <?php esc_html_e( 'Services', 'latepoint' ); ?>
                                     </div>

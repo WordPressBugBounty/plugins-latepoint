@@ -19,15 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
                         ?>
                     </div>
                 </div>
-				<div class="bf-side-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][side_panel_heading]" contenteditable="true"><?php echo OsStepsHelper::get_step_setting_value($selected_step_code, 'side_panel_heading'); ?></div>
-				<div class="bf-side-desc os-editable-basic editable-setting" data-setting-key="[<?php echo $selected_step_code;?>][side_panel_description]"><?php echo OsStepsHelper::get_step_setting_value($selected_step_code, 'side_panel_description'); ?></div>
+				<div class="bf-side-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][side_panel_heading]" contenteditable="true"><?php echo wp_strip_all_tags(OsStepsHelper::get_step_setting_value($selected_step_code, 'side_panel_heading')); ?></div>
+				<div class="bf-side-desc os-editable-basic editable-setting" data-setting-key="[<?php echo $selected_step_code;?>][side_panel_description]"><?php echo strip_tags(OsStepsHelper::get_step_setting_value($selected_step_code, 'side_panel_description'), ['a', 'i', 'u', 'b', 'br']); ?></div>
 			</div>
 			<div class="side-panel-extra os-editable editable-setting" data-setting-key="[shared][steps_support_text]">
 				<?php echo OsSettingsHelper::get_steps_support_text(); ?>
 			</div>
 		</div>
 		<div class="bf-main-panel">
-			<div class="bf-main-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_heading]" contenteditable="true"><?php echo strip_tags(OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_heading')); ?></div>
+			<div class="bf-main-heading editable-setting" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_heading]" contenteditable="true"><?php echo wp_strip_all_tags(OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_heading')); ?></div>
 			<div class="bf-main-panel-content-wrapper">
 				<div class="bf-main-panel-content-before os-editable editable-setting" data-placeholder="+" data-setting-key="[<?php echo esc_attr($selected_step_code);?>][main_panel_content_before]"><?php echo OsStepsHelper::get_step_setting_value($selected_step_code, 'main_panel_content_before'); ?></div>
 				<div class="bf-main-panel-content">

@@ -80,7 +80,7 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
               data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name( 'steps', 'load_step' )); ?>"
               action="#">
             <div class="latepoint-heading-w">
-                <h3 class="os-heading-text"><?php echo strip_tags($current_step->main_panel_heading); ?></h3>
+                <h3 class="os-heading-text"><?php echo esc_html($current_step->main_panel_heading); ?></h3>
 				<?php foreach ( $all_steps as $index => $step ) { ?>
                     <div data-step-code="<?php echo esc_attr($step->code); ?>"
                          class="os-heading-text-library <?php if ( $current_step->code == $step->code ) {

@@ -8,7 +8,7 @@
 
 .latepoint-summary-w {
   .summary-box .sbc-highlighted-item {
-    font-size: $body-font-size-xs;
+    font-size: $body-font-size-s;
     margin-top: 2px;
   }
 
@@ -659,7 +659,7 @@
       padding: 5px;
       margin: 0px;
       text-align: right;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
       .summary-header-inner {
         display: flex;
@@ -965,6 +965,9 @@
 
 .latepoint-clean-body {
   margin: 0;
+  .latepoint-w.latepoint-inline-form .latepoint-booking-form-element {
+    box-shadow: 0 10px 30px 0 rgba(36,36,36,0.45), 0 1px 2px 0 rgba(87,87,87,0.74);
+  }
 
   &.with-pattern {
     background-image: radial-gradient(#eee 2px, transparent 0);
@@ -979,6 +982,7 @@
 
 html.latepoint-clean {
   margin: 0 !important;
+  min-height: 100%;
 }
 
 .latepoint-w {

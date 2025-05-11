@@ -39,7 +39,7 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 
 			$this->action_access['public'] = array_merge( $this->action_access['public'], [
 				'show',
-				'print_order_info',
+				'print',
 				'list_payments'
 			] );
 
@@ -87,7 +87,7 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 		}
 
 
-		function print_order_info() {
+		function print() {
 			if ( empty( $this->order->id ) ) {
 				return;
 			}
@@ -95,7 +95,7 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			$this->vars['order']    = $this->order;
 			$this->vars['customer'] = $this->order->customer;
 			$this->set_layout( 'print' );
-			$content = $this->format_render_return( __FUNCTION__, [], [], true );
+			$content = $this->format_render_return( 'print_order_info', [], [], true );
 			echo $content;
 		}
 

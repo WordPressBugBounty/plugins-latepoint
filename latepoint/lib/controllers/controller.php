@@ -112,9 +112,6 @@ class OsController {
     }else{
       $this->layout = $layout;
     }
-	if($this->layout == 'print'){
-		add_action('wp_enqueue_scripts', 'OsUtilHelper::add_auto_print_script');
-	}
   }
 
   function get_layout(){

@@ -109,6 +109,7 @@ class OsMenuHelper {
 	          )
 	        ),
 	        array( 'id' => 'locations', 'label' => __( 'Locations', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-map-marker', 'link' => OsRouterHelper::build_link(['pro', 'locations'])),
+		    array('id' => 'coupons', 'label' => __( 'Coupons', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-tag1', 'link' => OsRouterHelper::build_link(['pro', 'coupons'])),
 	        array( 'id' => 'settings',  'label' => __( 'Settings', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-cog1', 'link' => OsRouterHelper::build_link(['agents', 'edit_form'], array('id' => OsAuthHelper::get_logged_in_agent_id()) ))
 	      );
 				break;

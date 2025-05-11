@@ -761,8 +761,10 @@ function latepoint_monthly_calendar_day_clicked(event) {
     let $day = jQuery(this);
     if ($day.hasClass('os-day-passed')) return false;
     if ($day.hasClass('os-not-in-allowed-period')) return false;
-    if ($day.hasClass('os-month-prev')) return false;
-    if ($day.hasClass('os-month-next')) return false;
+    if($day.closest('.os-dates-and-times-w').hasClass('calendar-style-modern')) {
+        if ($day.hasClass('os-month-prev')) return false;
+        if ($day.hasClass('os-month-next')) return false;
+    }
     var $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
     if ($day.closest('.os-recurrence-datepicker-wrapper').length) {
         // recurrent datepicker

@@ -84,7 +84,6 @@ class OsRouterHelper {
         }else{
           echo '<div class="latepoint-not-authorized"><div class="not-authorized-message">'.esc_html__('Not Authorized', 'latepoint').'</div></div>';
         }
-        exit();
       }
     }else{
       esc_html_e('Page Not Found', 'latepoint');

@@ -94,7 +94,12 @@ function latepoint_minutes_to_hours_and_minutes(minutes) {
   if (!army_clock && (hours > 12)) hours = hours - 12;
   if (!army_clock && hours == 0) hours = 12;
   minutes = minutes % 60;
-  return sprintf(format, hours, minutes);
+  // Check if sprintf is available (either native or from a library)
+  if (typeof sprintf === 'function') {
+    return sprintf(format, hours, minutes);
+  } else {
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
 }
 
 
@@ -502,6 +507,9 @@ jQuery(function( $ ) {
       $('.latepoint-side-panel-w').remove();
       let css_classes = $this.data('os-lightbox-classes') ? $this.data('os-lightbox-classes') : '';
       $('body').append('<div class="latepoint-side-panel-w ' + css_classes + ' os-loading"><div class="latepoint-side-panel-shadow"></div><div class="latepoint-side-panels"><div class="latepoint-side-panel-i"></div></div></div>');
+    }else if($this.data('os-output-target') == 'full-panel'){
+      $('.latepoint-full-panel-w').remove();
+      $('body').append('<div class="latepoint-full-panel-w os-loading"></div>');
     }
     $.ajax({
       type : "post",
@@ -518,6 +526,11 @@ jQuery(function( $ ) {
             jQuery('.latepoint-side-panel-i').find('.os-form-header').append('<a href="#" class="latepoint-side-panel-close latepoint-side-panel-close-trigger"><i class="latepoint-icon latepoint-icon-x"></i></a>');
             setTimeout(function(){
               $('.latepoint-side-panel-w').removeClass('os-loading');
+            }, 100);
+          }else if($this.data('os-output-target') == 'full-panel'){
+            $('.latepoint-full-panel-w').html(response.message);
+            setTimeout(function(){
+              $('.latepoint-full-panel-w').removeClass('os-loading');
             }, 100);
           }else if($this.data('os-success-action') == 'reload'){
             latepoint_add_notification(response.message);
@@ -1533,8 +1546,10 @@ function latepoint_monthly_calendar_day_clicked(event) {
     let $day = jQuery(this);
     if ($day.hasClass('os-day-passed')) return false;
     if ($day.hasClass('os-not-in-allowed-period')) return false;
-    if ($day.hasClass('os-month-prev')) return false;
-    if ($day.hasClass('os-month-next')) return false;
+    if($day.closest('.os-dates-and-times-w').hasClass('calendar-style-modern')) {
+        if ($day.hasClass('os-month-prev')) return false;
+        if ($day.hasClass('os-month-next')) return false;
+    }
     var $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
     if ($day.closest('.os-recurrence-datepicker-wrapper').length) {
         // recurrent datepicker
@@ -2988,8 +3003,10 @@ function latepoint_init_reschedule() {
     $reschedule_wrapper.on('click', '.os-day', function () {
         if (jQuery(this).hasClass('os-day-passed')) return false;
         if (jQuery(this).hasClass('os-not-in-allowed-period')) return false;
-        if(jQuery(this).hasClass('os-month-prev')) return false;
-        if(jQuery(this).hasClass('os-month-next')) return false;
+        if(jQuery(this).closest('.os-dates-and-times-w').hasClass('calendar-style-modern')){
+            if(jQuery(this).hasClass('os-month-prev')) return false;
+            if(jQuery(this).hasClass('os-month-next')) return false;
+        }
         var $reschedule_calendar_wrapper = jQuery(this).closest('.reschedule-calendar-wrapper');
         if (jQuery(this).closest('.os-monthly-calendar-days-w').hasClass('hide-if-single-slot')) {
 

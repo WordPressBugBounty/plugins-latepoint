@@ -16,6 +16,7 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [ 'start_from_order_intent' ] );
 			$this->action_access['public']   = array_merge( $this->action_access['public'], [
 				'start',
+				'start_instant',
 				'load_step',
 				'reload_booking_form_summary_panel',
 				'check_order_intent_bookable',
@@ -31,6 +32,22 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					'pending_approval'
 				] )
 			);
+		}
+
+
+		public function start_instant() {
+			$atts = [];
+			if(!empty($this->params['selected_agent'])) $atts['selected_agent'] = sanitize_text_field($this->params['selected_agent']);
+			if(!empty($this->params['selected_service'])) $atts['selected_service'] = sanitize_text_field($this->params['selected_service']);
+			if(!empty($this->params['selected_location'])) $atts['selected_location'] = sanitize_text_field($this->params['selected_location']);
+
+			if(!empty($this->params['hide_side_panel']) && $this->params['hide_side_panel'] == 'yes') $atts['hide_side_panel'] = 'yes';
+			if(!empty($this->params['hide_summary']) && $this->params['hide_summary'] == 'yes') $atts['hide_summary'] = 'yes';
+			if(!empty($this->params['background_pattern'])) $this->vars['background_pattern'] = sanitize_text_field($this->params['background_pattern']);
+
+			$this->vars['atts'] = $atts;
+			$this->set_layout( 'clean' );
+			$this->format_render( __FUNCTION__ );
 		}
 
 		public function load_datepicker_month() {

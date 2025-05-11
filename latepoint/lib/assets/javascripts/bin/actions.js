@@ -94,6 +94,9 @@ jQuery(function( $ ) {
       $('.latepoint-side-panel-w').remove();
       let css_classes = $this.data('os-lightbox-classes') ? $this.data('os-lightbox-classes') : '';
       $('body').append('<div class="latepoint-side-panel-w ' + css_classes + ' os-loading"><div class="latepoint-side-panel-shadow"></div><div class="latepoint-side-panels"><div class="latepoint-side-panel-i"></div></div></div>');
+    }else if($this.data('os-output-target') == 'full-panel'){
+      $('.latepoint-full-panel-w').remove();
+      $('body').append('<div class="latepoint-full-panel-w os-loading"></div>');
     }
     $.ajax({
       type : "post",
@@ -110,6 +113,11 @@ jQuery(function( $ ) {
             jQuery('.latepoint-side-panel-i').find('.os-form-header').append('<a href="#" class="latepoint-side-panel-close latepoint-side-panel-close-trigger"><i class="latepoint-icon latepoint-icon-x"></i></a>');
             setTimeout(function(){
               $('.latepoint-side-panel-w').removeClass('os-loading');
+            }, 100);
+          }else if($this.data('os-output-target') == 'full-panel'){
+            $('.latepoint-full-panel-w').html(response.message);
+            setTimeout(function(){
+              $('.latepoint-full-panel-w').removeClass('os-loading');
             }, 100);
           }else if($this.data('os-success-action') == 'reload'){
             latepoint_add_notification(response.message);

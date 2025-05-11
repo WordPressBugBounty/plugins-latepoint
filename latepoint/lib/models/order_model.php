@@ -551,7 +551,7 @@ class OsOrderModel extends OsModel {
 	public function get_print_link( $key = false ) {
 		return ( $key ) ? OsRouterHelper::build_admin_post_link( [
 			'manage_order_by_key',
-			'print_order_info'
+			'print'
 		], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [
 			'customer_cabinet',
 			'print_order_info'

@@ -73,16 +73,43 @@ class OsTransactionIntentModel extends OsModel {
 	public function is_processing(): bool {
 		return $this->status == LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING;
 	}
+	public function is_failed(): bool {
+		return $this->status == LATEPOINT_TRANSACTION_INTENT_STATUS_FAILED;
+	}
+
+	public function wait_for_transaction_completion() : OsTransactionIntentModel {
+		$attempts = 0;
+		$max_attempts = 6;
+		$delay_seconds = 2;
+
+		while ($attempts < $max_attempts) {
+			if (!$this->is_processing()) {
+				return $this;
+			}
+			sleep($delay_seconds);
+			$attempts++;
+			$this->load_by_id($this->id);
+		}
+		if($this->is_processing()){
+			// if it's still processing after waiting - mark as failed
+			$this->mark_as_failed();
+		}
+		return $this;
+	}
 
 	public function convert_to_transaction() {
+		if($this->is_processing()){
+			$this->wait_for_transaction_completion();
+			if($this->is_failed()){
+				$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
+				return false;
+			}
+		}
+
 		if($this->is_converted()){
 			return $this->transaction_id;
 		}
 
-		if($this->is_processing()){
-			$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
-			return false;
-		}
 
 		$this->mark_as_processing();
 
@@ -183,18 +210,32 @@ class OsTransactionIntentModel extends OsModel {
 		}
 	}
 
+	public function mark_as_failed() {
+		$this->update_attributes( [ 'status' => LATEPOINT_TRANSACTION_INTENT_STATUS_FAILED ] );
+		/**
+		 * Transaction intent is marked as failed
+		 *
+		 * @param {OsTransactionIntentModel} $transaction_intent Instance of order intent model that has failed
+		 *
+		 * @since 5.2.0
+		 * @hook latepoint_transaction_intent_failed
+		 *
+		 */
+		do_action( 'latepoint_transaction_intent_failed', $this );
+	}
+
 	public function mark_as_processing() {
 		$this->update_attributes( [ 'status' => LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING ] );
 		/**
-		 * Order intent is marked as processing
+		 * Transaction intent is marked as processing
 		 *
-		 * @param {OsTransactionIntentModel} $order_intent Instance of order intent model that has started processing
+		 * @param {OsTransactionIntentModel} $transaction_intent Instance of order intent model that has started processing
 		 *
 		 * @since 5.0.0
-		 * @hook latepoint_order_intent_processing
+		 * @hook latepoint_transaction_intent_processing
 		 *
 		 */
-		do_action( 'latepoint_order_intent_processing', $this );
+		do_action( 'latepoint_transaction_intent_processing', $this );
 	}
 
 	public function mark_as_new() {
@@ -202,13 +243,13 @@ class OsTransactionIntentModel extends OsModel {
 		/**
 		 * Order intent is marked as new
 		 *
-		 * @param {OsTransactionIntentModel} $order_intent Instance of order intent model that is being marked as new
+		 * @param {OsTransactionIntentModel} $transaction_intent Instance of order intent model that is being marked as new
 		 *
 		 * @since 5.0.0
-		 * @hook latepoint_order_intent_new
+		 * @hook latepoint_transaction_intent_new
 		 *
 		 */
-		do_action( 'latepoint_order_intent_new', $this );
+		do_action( 'latepoint_transaction_intent_new', $this );
 	}
 
 	// Determines if order intent has been converted into a order already

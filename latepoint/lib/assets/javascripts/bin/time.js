@@ -94,5 +94,10 @@ function latepoint_minutes_to_hours_and_minutes(minutes) {
   if (!army_clock && (hours > 12)) hours = hours - 12;
   if (!army_clock && hours == 0) hours = 12;
   minutes = minutes % 60;
-  return sprintf(format, hours, minutes);
+  // Check if sprintf is available (either native or from a library)
+  if (typeof sprintf === 'function') {
+    return sprintf(format, hours, minutes);
+  } else {
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
 }

@@ -1209,7 +1209,7 @@
       "oA" : 0,
       "oAP" : "\/public\/javascripts\/admin.js",
       "oF" : 2,
-      "sC" : 3,
+      "sC" : 0,
       "tS" : 0
     },
     "\/lib\/assets\/javascripts\/bin\/actions.js" : {
@@ -5001,6 +5001,14 @@
       "oAP" : "\/lib\/views\/settings\/general.php",
       "oF" : 0
     },
+    "\/lib\/views\/settings\/generate_instant_booking_page.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/settings\/generate_instant_booking_page.php",
+      "oF" : 0
+    },
     "\/lib\/views\/settings\/get_pro.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -5311,6 +5319,14 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/lib\/views\/steps\/preset_slot_not_available.php",
+      "oF" : 0
+    },
+    "\/lib\/views\/steps\/start_instant.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/lib\/views\/steps\/start_instant.php",
       "oF" : 0
     },
     "\/lib\/views\/steps\/start.php" : {

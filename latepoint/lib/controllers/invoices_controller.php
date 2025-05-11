@@ -289,7 +289,11 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			// find an existing transaction intent for this invoice
 
 			$transaction_intent = new OsTransactionIntentModel();
-			$transaction_intent = $transaction_intent->where( [ 'status' => LATEPOINT_TRANSACTION_INTENT_STATUS_NEW, 'invoice_id' => $invoice->id ] )->set_limit( 1 )->get_results_as_models();
+			$transaction_intent = $transaction_intent->where( [ 'status' => [
+					LATEPOINT_TRANSACTION_INTENT_STATUS_NEW,
+					LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING,
+					LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED
+				], 'invoice_id' => $invoice->id ] )->set_limit( 1 )->get_results_as_models();
 			if ( empty( $transaction_intent ) ) {
 				$transaction_intent = new OsTransactionIntentModel();
 			}
@@ -364,7 +368,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 							$receipt_link              = apply_filters( 'latepoint_transaction_receipt_link', $receipt_link, $invoice, $transaction );
 							$current_step              = 'confirmation';
 							$this->vars['transaction'] = $transaction;
-							$form_heading              = __( 'Confirmation', 'latepoint' );;
+							$form_heading              = __( 'Confirmation', 'latepoint' );
 						} else {
 							$current_step = 'pay';
 							$errors[]     = implode( ', ', $transaction_intent->get_error_messages() );

@@ -48,6 +48,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				exit();
 			}
 			$order_item               = new OsOrderItemModel( $this->params['order_item_id'] );
+			$order                    = new OsOrderModel( $order_item->order_id );
+
+			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+			}
+
 			$bundle                   = $order_item->build_original_object_from_item_data();
 			$this->vars['order_item'] = $order_item;
 			$this->vars['bundle']     = $bundle;
@@ -59,6 +65,11 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				exit();
 			}
 			$order                              = new OsOrderModel( $this->params['order_id'] );
+
+			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+			}
+
 			$this->vars['order']                = $order;
 			$this->vars['price_breakdown_rows'] = $order->generate_price_breakdown_rows();
 			$this->format_render( __FUNCTION__ );
@@ -71,6 +82,11 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			$booking                  = new OsBookingModel( $this->params['booking_id'] );
 			$order_item               = new OsOrderItemModel( $booking->order_item_id );
 			$order                    = new OsOrderModel( $order_item->order_id );
+
+			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+			}
+
 			$this->vars['booking']    = $booking;
 			$this->vars['order_item'] = $order_item;
 			$this->vars['order']      = $order;

@@ -243,36 +243,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h3><?php esc_html_e( 'Rescheduling', 'latepoint' ) ?></h3>
                     </div>
                     <div class="sub-section-content">
-						<?php echo OsFormHelper::toggler_field( 'settings[allow_customer_booking_reschedule]', __( 'Allow customers reschedule their bookings', 'latepoint' ), OsSettingsHelper::is_on( 'allow_customer_booking_reschedule' ), 'reschedule_settings', 'normal', [ 'sub_label' => __( 'If enable, shows a button on customer cabinet to reschedule an appointment', 'latepoint' ) ] ); ?>
-                        <div class="os-mb-2"
-                             id="reschedule_settings" <?php echo OsSettingsHelper::is_on( 'allow_customer_booking_reschedule' ) ? '' : 'style="display:none"' ?>>
-							<?php echo OsFormHelper::toggler_field( 'settings[limit_when_customer_can_reschedule]', __( 'Set restriction on when customer can reschedule', 'latepoint' ), OsSettingsHelper::is_on( 'limit_when_customer_can_reschedule' ), 'reschedule_limit_settings' ); ?>
-                            <div class="os-mb-2"
-                                 id="reschedule_limit_settings" <?php echo OsSettingsHelper::is_on( 'limit_when_customer_can_reschedule' ) ? '' : 'style="display:none"' ?>>
-                                <div class="merged-fields os-mt-1">
-                                    <div class="merged-label"><?php esc_html_e( 'Can reschedule when it is at least', 'latepoint' ); ?></div>
-									<?php echo OsFormHelper::text_field( 'settings[reschedule_limit_value]', false, OsSettingsHelper::get_settings_value( 'reschedule_limit_value', 5 ), [ 'placeholder' => __( 'Value', 'latepoint' ) ] ); ?>
-									<?php echo OsFormHelper::select_field( 'settings[reschedule_limit_unit]', false,
-										array(
-											'minute' => __( 'minutes', 'latepoint' ),
-											'hour'   => __( 'hours', 'latepoint' ),
-											'day'    => __( 'days', 'latepoint' )
-										),
-										OsSettingsHelper::get_settings_value( 'reschedule_limit_unit', 'hour' ) ); ?>
-                                    <div class="merged-label"><?php esc_html_e( 'before appointment start time', 'latepoint' ); ?></div>
-                                </div>
-                            </div>
-							<?php echo OsFormHelper::toggler_field( 'settings[change_status_on_customer_reschedule]', __( 'Change booking status when customer reschedules', 'latepoint' ), OsSettingsHelper::is_on( 'change_status_on_customer_reschedule' ), 'reschedule_change_status_settings' ); ?>
-                            <div class="os-mb-2"
-                                 id="reschedule_change_status_settings" <?php echo OsSettingsHelper::is_on( 'change_status_on_customer_reschedule' ) ? '' : 'style="display:none"' ?>>
-                                <div class="merged-fields os-mt-1">
-                                    <div class="merged-label"><?php esc_html_e( 'Change status to:', 'latepoint' ); ?></div>
-									<?php echo OsFormHelper::select_field( 'settings[status_to_set_after_customer_reschedule]', false,
-										OsBookingHelper::get_statuses_list(),
-										OsSettingsHelper::get_settings_value( 'status_to_set_after_customer_reschedule', LATEPOINT_BOOKING_STATUS_PENDING ) ); ?>
-                                </div>
-                            </div>
-                        </div>
+                        <?php echo apply_filters('latepoint_customer_reschedule_settings', '<div>'.esc_html__('Available in a Premium version', 'latepoint').'</div>'); ?>
                     </div>
                 </div>
                 <div class="sub-section-row">

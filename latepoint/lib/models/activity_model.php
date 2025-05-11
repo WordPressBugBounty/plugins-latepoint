@@ -68,28 +68,33 @@ class OsActivityModel extends OsModel{
   }
 
 
+	public function get_user_link_with_avatar() {
+		return $this->get_user_link( true );
+	}
 
-  protected function get_user_link_with_avatar(){
+
+  public function get_user_link($show_avatar = false){
     $link = '#';
     $name = 'n/a';
-		$attrs = '';
+	$attrs = '';
     $avatar_url = LATEPOINT_DEFAULT_AVATAR_URL;
+
     switch($this->initiated_by){
       case 'wp_user':
-      case 'admin':
-      case 'custom':
+      case LATEPOINT_USER_TYPE_ADMIN:
+      case LATEPOINT_USER_TYPE_CUSTOM:
         $link = get_edit_user_link($this->initiated_by_id);
         $userdata = get_userdata($this->initiated_by_id);
         $name = $userdata->display_name;
         $avatar_url = get_avatar_url($this->initiated_by_id, array('size' => 200));
       break;
-      case 'agent':
+      case LATEPOINT_USER_TYPE_AGENT:
         $agent = new OsAgentModel($this->initiated_by_id);
         $link = OsRouterHelper::build_link(OsRouterHelper::build_route_name('agents', 'edit_form'), array('id' => $this->initiated_by_id) );
         $name = $agent->full_name;
         $avatar_url = $agent->get_avatar_url();
       break;
-      case 'customer':
+      case LATEPOINT_USER_TYPE_CUSTOMER:
         $customer = new OsCustomerModel($this->initiated_by_id);
         $attrs = $attrs = OsCustomerHelper::quick_customer_btn_html($this->initiated_by_id);
         $name = $customer->full_name;
@@ -104,7 +109,9 @@ class OsActivityModel extends OsModel{
 		$avatar_url = esc_url($avatar_url);
 		$name = esc_html($name);
 		$link = esc_url($link);
-    return "<a class='user-link-with-avatar' target='_blank' href='{$link}' {$attrs}><span class='ula-avatar' style='background-image: url({$avatar_url})'></span><span class='ula-name'>{$name}</span><span class='latepoint-icon latepoint-icon-external-link'></span></a>";
+		$avatar = $show_avatar ? "<span class='ula-avatar' style='background-image: url({$avatar_url})'></span>" : "";
+
+    return "<a class='user-link-with-avatar' target='_blank' href='{$link}' {$attrs}>{$avatar}<span class='ula-name'>{$name}</span><span class='latepoint-icon latepoint-icon-external-link'></span></a>";
   }
 
   public function get_description() {

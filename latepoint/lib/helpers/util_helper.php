@@ -10,16 +10,6 @@ class OsUtilHelper {
 		}
 	}
 
-	public static function add_auto_print_script(){
-		wp_register_script('latepoint-auto-print', false);
-	    wp_enqueue_script('latepoint-auto-print');
-	    wp_add_inline_script('latepoint-auto-print', '
-	        window.onload = function() {
-	            window.print();
-	        }
-	    ');
-	}
-
   public static function generate_missing_addon_link($label){
     $html = '<a target="_blank" href="'.esc_url(LATEPOINT_UPGRADE_URL).'" class="os-add-box" >
               <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
@@ -496,5 +486,58 @@ class OsUtilHelper {
 		 * @returns {array} The filtered array of colors
 		 */
 		return apply_filters('latepoint_get_colors_for_variables', $colors);
+	}
+
+	public static function generate_css_for_clean_layout() : string {
+		$html = '';
+		$default_css_files = ['latepoint-main-front'];
+	    $css_files = apply_filters('latepoint_clean_layout_css_files', $default_css_files);
+	    global $wp_styles;
+
+	    foreach ( $css_files as $handle ){
+	        if(!isset($wp_styles->registered[$handle])) continue;
+	        $script_url = $wp_styles->registered[$handle]->src;
+	        $script_ver = $wp_styles->registered[$handle]->ver;
+	        $full_script_url = $script_url . ($script_ver ? '?ver=' . $script_ver : '');
+
+	        $html.= '<link rel="stylesheet" href="'.esc_url( $full_script_url ).'" media="all"/>';
+	        if (isset($wp_styles->registered[$handle]->extra['after']) && !empty($wp_styles->registered[$handle]->extra['after'])) {
+	            $html.= "<style id='{$handle}-inline-css'>\n";
+	            if (is_array($wp_styles->registered[$handle]->extra['after'])) {
+	                foreach ($wp_styles->registered[$handle]->extra['after'] as $inline_style) {
+	                    $html.= $inline_style . "\n";
+	                }
+	            } else {
+	                $html.= $wp_styles->registered[$handle]->extra['after'] . "\n";
+	            }
+	            $html.= "</style>";
+	        }
+	    }
+		return $html;
+	}
+
+	public static function generate_js_for_clean_layout() : string {
+		$html = '';
+		$default_js_files = ['jquery-core', 'jquery-migrate', 'latepoint-main-front', 'latepoint-vendor-front'];
+		if ( OsPaymentsHelper::is_payment_processor_enabled( OsStripeConnectHelper::$processor_code ) ) {
+		    $default_js_files[] = 'stripe';
+		}
+		$js_files = apply_filters('latepoint_clean_layout_js_files', $default_js_files);
+		global $wp_scripts;
+
+		foreach ( $js_files as $handle ){
+		    if(!isset($wp_scripts->registered[$handle])) continue;
+		    $script_url = $wp_scripts->registered[$handle]->src;
+		    $script_ver = $wp_scripts->registered[$handle]->ver;
+		    $full_script_url = $script_url . ($script_ver ? '?ver=' . $script_ver : '');
+		    $html.= '<script id="'.esc_attr( $handle ).'" src="'.esc_url( $full_script_url ).'" defer="defer"></script>';
+		    if (isset($wp_scripts->registered[$handle]->extra['data']) && !empty($wp_scripts->registered[$handle]->extra['data'])) {
+		        $html.= "<script type='text/javascript'>\n";
+		        $html.= $wp_scripts->registered[$handle]->extra['data'] . "\n";
+		        $html.= "</script>\n";
+		    }
+
+		}
+		return $html;
 	}
 }
