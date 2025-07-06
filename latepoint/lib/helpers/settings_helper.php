@@ -81,6 +81,36 @@ class OsSettingsHelper {
 		return json_decode( OsSettingsHelper::get_settings_value( 'active_addons', '' ) ) ?? [];
 	}
 
+    public static function get_earliest_possible_booking_restriction($service_id = 0) {
+        if(!empty($service_id)) {
+            $service = new OsServiceModel($service_id);
+            if(!$service->is_new_record() && !empty($service->earliest_possible_booking) && OsTimeHelper::is_valid_date($service->earliest_possible_booking)) {
+                return $service->earliest_possible_booking;
+            }
+        }
+        $restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', '' );
+        if(OsTimeHelper::is_valid_date($restriction_from_general_settings)) {
+            return $restriction_from_general_settings;
+        }else{
+            return '';
+        }
+    }
+
+    public static function get_latest_possible_booking_restriction($service_id = 0) {
+        if(!empty($service_id)) {
+            $service = new OsServiceModel($service_id);
+            if(!$service->is_new_record() && !empty($service->latest_possible_booking) && OsTimeHelper::is_valid_date($service->latest_possible_booking)) {
+                return $service->latest_possible_booking;
+            }
+        }
+        $restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'latest_possible_booking', '' );
+        if(OsTimeHelper::is_valid_date($restriction_from_general_settings)) {
+            return $restriction_from_general_settings;
+        }else{
+            return '';
+        }
+    }
+
 	/**
 	 * @param array $tables
 	 *

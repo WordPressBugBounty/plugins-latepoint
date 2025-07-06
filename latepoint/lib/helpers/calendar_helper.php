@@ -187,8 +187,8 @@ class OsCalendarHelper {
 		];
 
 		// if it's not from admin - blackout dates that are not available to select due to date restrictions in settings
-        $month_settings['earliest_possible_booking'] = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', false );
-        $month_settings['latest_possible_booking']   = OsSettingsHelper::get_settings_value( 'latest_possible_booking', false );
+        $month_settings['earliest_possible_booking'] = OsSettingsHelper::get_earliest_possible_booking_restriction($booking_request->service_id);
+        $month_settings['latest_possible_booking']   = OsSettingsHelper::get_latest_possible_booking_restriction($booking_request->service_id);
 
 		OsCalendarHelper::generate_single_month( $booking_request, $target_date, $month_settings );
 		for ( $i = 1; $i <= $settings['number_of_months_to_preload']; $i ++ ) {
@@ -322,9 +322,9 @@ class OsCalendarHelper {
 
 			$is_today              = ( $day_date->format( 'Y-m-d' ) == $now_datetime->format( 'Y-m-d' ) );
 			$is_day_in_past        = ( $day_date->format( 'Y-m-d' ) < $now_datetime->format( 'Y-m-d' ) );
-			$is_target_month       = ( $day_date->format( 'm' ) == $target_date->format( 'm' ) );
-			$is_next_month         = ( $day_date->format( 'm' ) > $target_date->format( 'm' ) );
-			$is_prev_month         = ( $day_date->format( 'm' ) < $target_date->format( 'm' ) );
+			$is_target_month       = ( $day_date->format( 'Ym' ) == $target_date->format( 'Ym' ) );
+			$is_next_month         = ( $day_date->format( 'Ym' ) > $target_date->format( 'Ym' ) );
+			$is_prev_month         = ( $day_date->format( 'Ym' ) < $target_date->format( 'Ym' ) );
 			$not_in_allowed_period = false;
 
 			if ( $day_date->format( 'Y-m-d' ) < $earliest_possible_booking->format( 'Y-m-d' ) ) {

@@ -271,7 +271,7 @@ class OsStepsHelper {
 	}
 
 	public static function init_step_actions() {
-		add_action( 'latepoint_process_step', 'OsStepsHelper::process_step', 10, 2 );
+		add_action( 'latepoint_process_step', 'OsStepsHelper::process_step', 10, 3 );
 		add_action( 'latepoint_load_step', 'OsStepsHelper::load_step', 10, 3 );
 		add_action( 'rest_api_init', function () {
 			register_rest_route( 'latepoint', '/booking/bite-force/', array(
@@ -290,7 +290,8 @@ class OsStepsHelper {
 		self::confirm_hash();
 	}
 
-	public static function process_step( $step_code, $booking_object ) {
+	public static function process_step( $step_code, $booking_object, $params = [] ) {
+		self::$params = $params;
 		self::$step_to_process = $step_code;
 		if ( strpos( $step_code, '__' ) !== false ) {
 			// process parent step (used to run shared code between child steps)
@@ -1029,11 +1030,6 @@ class OsStepsHelper {
 				self::$restrictions['calendar_start_date'] = $restrictions['calendar_start_date'];
 			}
 
-			// restriction in settings can override it
-			if ( OsTimeHelper::is_valid_date( OsSettingsHelper::get_settings_value( 'earliest_possible_booking' ) ) ) {
-				self::$restrictions['calendar_start_date'] = OsSettingsHelper::get_settings_value( 'earliest_possible_booking' );
-			}
-
 
 		}
 
@@ -1658,8 +1654,12 @@ class OsStepsHelper {
 		if ( empty( self::$booking_object->agent_id ) ) {
 			self::$booking_object->agent_id = LATEPOINT_ANY_AGENT;
 		}
-		self::$vars_for_view['calendar_start_date'] = self::$restrictions['calendar_start_date'] ? self::$restrictions['calendar_start_date'] : 'today';
+        if ( OsTimeHelper::is_valid_date( OsSettingsHelper::get_earliest_possible_booking_restriction(self::$booking_object->service_id ?? false) ) ) {
+            self::$restrictions['calendar_start_date'] = OsSettingsHelper::get_earliest_possible_booking_restriction(self::$booking_object->service_id ?? false);
+        }
+		self::$vars_for_view['calendar_start_date'] = (!empty(self::$restrictions['calendar_start_date']) && OsTimeHelper::is_valid_date(self::$restrictions['calendar_start_date'])) ? self::$restrictions['calendar_start_date'] : 'today';
 	}
+
 
 	public static function process_step_booking__datepicker() {
 	}

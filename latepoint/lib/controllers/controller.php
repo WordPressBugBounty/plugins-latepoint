@@ -140,6 +140,32 @@ class OsController {
     return $view_uri;
   }
 
+  private function get_safe_layout_path($layout) {
+      // 1. Remove any path separators and null bytes
+      $layout = str_replace(['/', '\\', "\0"], '', $layout);
+
+      // 2. Remove any dots to prevent directory traversal
+      $layout = str_replace('.', '', $layout);
+
+      // 3. Only allow alphanumeric, underscore, and hyphen
+      $layout = preg_replace('/[^a-zA-Z0-9_-]/', '', $layout);
+
+      // 4. Construct the full path
+      $layout_file = $this->add_extension($layout, '.php');
+      $full_path = LATEPOINT_VIEWS_LAYOUTS_ABSPATH . $layout_file;
+
+      // 5. Use realpath to resolve any remaining traversal attempts
+      $real_path = realpath($full_path);
+      $base_path = realpath(LATEPOINT_VIEWS_LAYOUTS_ABSPATH);
+
+      // 6. Ensure the resolved path is within the layouts directory
+      if ($real_path && $base_path && strpos($real_path, $base_path) === 0) {
+          return $real_path;
+      }
+
+      return false;
+  }
+
   // render view and if needed layout, when layout is rendered - view variable is passed to a layout file
   function render($view, $layout = 'none', $extra_vars = array()){
     $this->vars['route_name'] = $this->route_name;
@@ -147,8 +173,13 @@ class OsController {
     extract($this->vars);
     ob_start();
     if($layout != 'none'){
+		$layout_path = $this->get_safe_layout_path($layout);
       // rendering layout, view variable will be passed and used in layout file
-      include LATEPOINT_VIEWS_LAYOUTS_ABSPATH . $this->add_extension($layout, '.php');
+      if($layout_path){
+		  include $layout_path;
+      }else{
+		  __('Invalid layout', 'latepoint');
+      }
     }else{
       include $this->add_extension($view, '.php');
     }

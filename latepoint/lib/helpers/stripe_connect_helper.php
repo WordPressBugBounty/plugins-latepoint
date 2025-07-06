@@ -220,6 +220,11 @@ class OsStripeConnectHelper {
 
 	public static function add_settings_fields($processor_code) {
 		if ($processor_code != self::$processor_code) return false; ?>
+            <?php if(false){ ?>
+		<div class="sub-section-row fee-disclosure-wrapper">
+            <div class="fee-disclosure">LatePoint charges 2.9% transaction fee in a free version. To remove this fee upgrade to a <a target="_blank" href="<?php echo esc_url(LATEPOINT_UPGRADE_URL); ?>">Premium version</a>.</div>
+        </div>
+            <?php } ?>
 		<div class="sub-section-row">
 			<div class="sub-section-label">
 				<h3><?php esc_html_e('Connect (Live)', 'latepoint'); ?></h3>

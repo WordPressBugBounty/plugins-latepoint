@@ -8,6 +8,7 @@ class OsActivityModel extends OsModel{
       $booking_id,
       $service_id,
       $customer_id,
+	  $coupon_id,
       $code,
       $description,
       $initiated_by,
@@ -42,10 +43,6 @@ class OsActivityModel extends OsModel{
     $href = '#';
 		$attrs = '';
     switch($this->code){
-      case 'customer_created':
-      case 'customer_updated':
-        $attrs = OsCustomerHelper::quick_customer_btn_html($this->customer_id);
-      break;
       case 'agent_updated':
       case 'agent_created':
         $href = OsRouterHelper::build_link(OsRouterHelper::build_route_name('agents', 'edit_form'), array('id' => $this->agent_id) );
@@ -96,20 +93,17 @@ class OsActivityModel extends OsModel{
       break;
       case LATEPOINT_USER_TYPE_CUSTOMER:
         $customer = new OsCustomerModel($this->initiated_by_id);
-        $attrs = $attrs = OsCustomerHelper::quick_customer_btn_html($this->initiated_by_id);
+        $attrs = OsCustomerHelper::quick_customer_btn_html($this->initiated_by_id);
         $name = $customer->full_name;
         $avatar_url = $customer->get_avatar_url();
       break;
 	    default:
-				$link = '#';
-				$name = 'n/a';
-				$avatar_url = LATEPOINT_IMAGES_URL . 'default-avatar.jpg';
-				break;
+			return esc_html($this->initiated_by ?? 'n/a');
     }
-		$avatar_url = esc_url($avatar_url);
-		$name = esc_html($name);
-		$link = esc_url($link);
-		$avatar = $show_avatar ? "<span class='ula-avatar' style='background-image: url({$avatar_url})'></span>" : "";
+	$avatar_url = esc_url($avatar_url);
+	$name = esc_html($name);
+	$link = esc_url($link);
+	$avatar = $show_avatar ? "<span class='ula-avatar' style='background-image: url({$avatar_url})'></span>" : "";
 
     return "<a class='user-link-with-avatar' target='_blank' href='{$link}' {$attrs}>{$avatar}<span class='ula-name'>{$name}</span><span class='latepoint-icon latepoint-icon-external-link'></span></a>";
   }
@@ -148,6 +142,7 @@ class OsActivityModel extends OsModel{
                             'booking_id',
                             'service_id',
                             'customer_id',
+							'coupon_id',
                             'code',
                             'description',
                             'initiated_by',
@@ -163,6 +158,7 @@ class OsActivityModel extends OsModel{
       'order_item_id',
                             'service_id',
                             'customer_id',
+	                        'coupon_id',
                             'code',
                             'description',
                             'initiated_by',

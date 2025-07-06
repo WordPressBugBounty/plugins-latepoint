@@ -120,6 +120,13 @@ class OsBookingModel extends OsModel {
 		return $this->order;
 	}
 
+	public function get_order_item(  ) {
+		if (!isset( $this->order_item )) {
+			$this->order_item = new OsOrderItemModel( $this->order_item_id );
+		}
+		return $this->order_item;
+	}
+
 	public function filter_allowed_records(): OsModel {
 		if ( ! OsRolesHelper::are_all_records_allowed() ) {
 			if ( ! OsRolesHelper::are_all_records_allowed( 'agent' ) ) {
@@ -364,6 +371,17 @@ class OsBookingModel extends OsModel {
 		$meta = new OsBookingMetaModel();
 
 		return $meta->get_by_key( $meta_key, $this->id, $default );
+	}
+
+	public function get_coupon_code(  ) {
+		$order = $this->get_order();
+		return $order->coupon_code;
+	}
+
+	public function get_coupon_discount(  ): string {
+		$order_item = $this->get_order_item();
+		$coupon_discount = $order_item->get_coupon_discount();
+		return $coupon_discount > 0 ? OsMoneyHelper::format_price($order_item->get_coupon_discount()) : '';
 	}
 
 	public function save_meta_by_key( $meta_key, $meta_value ) {
@@ -699,10 +717,18 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function get_customer_timezone() : DateTimeZone{
-		return ($this->customer_id) ? $this->customer->get_selected_timezone_obj() : OsTimeHelper::get_timezone_from_session();
+		if(OsSettingsHelper::is_on('steps_show_timezone_selector')){
+			return ($this->customer_id) ? $this->customer->get_selected_timezone_obj() : OsTimeHelper::get_timezone_from_session();
+		}else{
+			return OsTimeHelper::get_wp_timezone();
+		}
 	}
 	public function get_customer_timezone_name() : string{
-		return ($this->customer_id) ? $this->customer->get_selected_timezone_name() : OsTimeHelper::get_timezone_name_from_session();
+		if(OsSettingsHelper::is_on('steps_show_timezone_selector')) {
+			return ( $this->customer_id ) ? $this->customer->get_selected_timezone_name() : OsTimeHelper::get_timezone_name_from_session();
+		}else{
+			return OsTimeHelper::get_wp_timezone_name();
+		}
 	}
 
 	/**

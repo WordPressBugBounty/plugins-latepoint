@@ -10,7 +10,10 @@ class OsUtilHelper {
 		}
 	}
 
-  public static function generate_missing_addon_link($label){
+  public static function generate_missing_addon_link($label = ''){
+		if(empty($label)){
+			$label = __('Requires upgrade to a premium version', 'latepoint');
+		}
     $html = '<a target="_blank" href="'.esc_url(LATEPOINT_UPGRADE_URL).'" class="os-add-box" >
               <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
               <div class="add-box-label">'.esc_html($label).'</div>
@@ -536,7 +539,12 @@ class OsUtilHelper {
 		        $html.= $wp_scripts->registered[$handle]->extra['data'] . "\n";
 		        $html.= "</script>\n";
 		    }
-
+		}
+		$inline_scripts = apply_filters('latepoint_clean_layout_inline_scripts', []);
+		if($inline_scripts){
+			foreach($inline_scripts as $script){
+				$html.= '<script>'.$script.'</script>';
+			}
 		}
 		return $html;
 	}

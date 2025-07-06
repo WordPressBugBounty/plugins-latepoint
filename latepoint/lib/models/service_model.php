@@ -29,6 +29,8 @@ class OsServiceModel extends OsModel{
 	  $meta_class = 'OsServiceMetaModel',
 		$services_agents_table_name,
 	  $is_deposit_required,
+	  $earliest_possible_booking,
+	  $latest_possible_booking,
 	  $deposit_value,
       $updated_at,
       $created_at;
@@ -80,6 +82,8 @@ class OsServiceModel extends OsModel{
                             'order_number',
                             'visibility',
                             'status',
+							'earliest_possible_booking',
+							'latest_possible_booking',
                             'capacity_min',
                             'capacity_max',
                             'description_image_id');
@@ -106,6 +110,8 @@ class OsServiceModel extends OsModel{
                             'override_default_booking_status',
                             'order_number',
                             'visibility',
+							'earliest_possible_booking',
+							'latest_possible_booking',
                             'status',
                             'capacity_min',
                             'capacity_max',

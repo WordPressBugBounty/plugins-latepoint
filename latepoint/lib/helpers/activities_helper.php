@@ -3,8 +3,8 @@
 class OsActivitiesHelper {
 	public static function create_activity($atts = array()) {
 		$activity = new OsActivityModel();
-		$atts['initiated_by'] = OsAuthHelper::get_highest_current_user_type();
-		$atts['initiated_by_id'] = OsAuthHelper::get_highest_current_user_id();
+		if(empty($atts['initiated_by'])) $atts['initiated_by'] = OsAuthHelper::get_highest_current_user_type();
+		if(empty($atts['initiated_by_id']) ) $atts['initiated_by_id'] = OsAuthHelper::get_highest_current_user_id();
 
 		$activity = $activity->set_data($atts);
 		$activity->save();
@@ -50,7 +50,7 @@ class OsActivitiesHelper {
 		add_action('latepoint_order_created', 'OsActivitiesHelper::log_order_created');
 		add_action('latepoint_order_updated', 'OsActivitiesHelper::log_order_updated', 10, 2);
 		add_action('latepoint_booking_created', 'OsActivitiesHelper::log_booking_created');
-		add_action('latepoint_booking_updated', 'OsActivitiesHelper::log_booking_updated', 10, 2);
+		add_action('latepoint_booking_updated', 'OsActivitiesHelper::log_booking_updated', 10, 3);
 		add_action('latepoint_customer_created', 'OsActivitiesHelper::log_customer_created');
 		add_action('latepoint_customer_updated', 'OsActivitiesHelper::log_customer_updated', 10, 2);
 		add_action('latepoint_agent_created', 'OsActivitiesHelper::log_agent_created');
@@ -139,8 +139,9 @@ class OsActivitiesHelper {
 		OsActivitiesHelper::create_activity($data);
 	}
 
-	public static function log_booking_updated(OsBookingModel $booking, OsBookingModel $old_booking) {
+	public static function log_booking_updated(OsBookingModel $booking, OsBookingModel $old_booking, $initiated_by = '') {
 		$data = [];
+		if(!empty($initiated_by)) $data['initiated_by'] = $initiated_by;
 		$data['booking_id'] = $booking->id;
 		$data['code'] = 'booking_updated';
 		$data['description'] = wp_json_encode(['booking_data_vars' => ['new' => $booking->get_data_vars(), 'old' => $old_booking->get_data_vars()]]);
@@ -166,10 +167,14 @@ class OsActivitiesHelper {
 	}
 
 	public static function log_customer_updated(OsCustomerModel $customer, array $old_customer_data) {
+		$new_customer_data = $customer->get_data_vars();
+		if(empty(OsUtilHelper::compare_model_data_vars($new_customer_data, $old_customer_data))){
+			return;
+		}
 		$data = [];
 		$data['customer_id'] = $customer->id;
 		$data['code'] = 'customer_updated';
-		$data['description'] = wp_json_encode(['customer_data_vars' => ['new' => $customer->get_data_vars(), 'old' => $old_customer_data]]);
+		$data['description'] = wp_json_encode(['customer_data_vars' => ['new' => $new_customer_data, 'old' => $old_customer_data]]);
 		OsActivitiesHelper::create_activity($data);
 
 	}

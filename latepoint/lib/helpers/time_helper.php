@@ -12,6 +12,7 @@ class OsTimeHelper {
 	}
 
 	public static function is_valid_date( $date_string ) {
+		if(empty($date_string)) return false;
 		return (bool) strtotime( $date_string );
 	}
 
@@ -19,13 +20,6 @@ class OsTimeHelper {
 		$start_date_obj = OsWpDateTime::os_createFromFormat( $from_format, $date_string );
 
 		return $start_date_obj->format( $to_format );
-	}
-
-
-	public static function modify_date( $date, $modify_by = '+1 day', $format = 'Y-m-d' ) {
-		$date_obj = new DateTime( $date );
-
-		return $date_obj->modify( $modify_by )->format( $format );
 	}
 
 	public static function nice_date( $date ) {
@@ -108,12 +102,6 @@ class OsTimeHelper {
 
 	public static function now_datetime_in_db_format() {
 		return self::now_datetime_in_format( LATEPOINT_DATETIME_DB_FORMAT );
-	}
-
-	public static function get_modified_now_object( $modify_by ) {
-		$now_datetime = self::now_datetime_object();
-
-		return $now_datetime->modify( $modify_by );
 	}
 
 	public static function now_datetime_object() {

@@ -107,7 +107,11 @@ class OsCustomerModel extends OsModel {
 	}
 
 	public function get_selected_timezone_name() {
-		return $this->get_meta_by_key( 'timezone_name', OsTimeHelper::get_timezone_name_from_session() );
+		if(OsSettingsHelper::is_on('steps_show_timezone_selector')){
+			return $this->get_meta_by_key( 'timezone_name', OsTimeHelper::get_timezone_name_from_session() );
+		}else{
+			return OsTimeHelper::get_wp_timezone_name();
+		}
 	}
 
 	public function get_selected_timezone_obj() {

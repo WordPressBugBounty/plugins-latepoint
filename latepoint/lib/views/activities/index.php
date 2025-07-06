@@ -35,7 +35,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<th><?php esc_html_e('Type', 'latepoint'); ?></th>
 						<th><?php esc_html_e('Action By', 'latepoint'); ?></th>
 						<th><?php esc_html_e('Date/Time', 'latepoint'); ?></th>
-						<th><?php esc_html_e('Action', 'latepoint'); ?></th>
 					</tr>
           <tr>
 	          <th><?php echo OsFormHelper::select_field('filter[code]', false, OsActivitiesHelper::get_codes(), '', ['placeholder' => __('All Types', 'latepoint'),'class' => 'os-table-filter']); ?></th>
@@ -61,7 +60,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<th><?php esc_html_e('Type', 'latepoint'); ?></th>
 						<th><?php esc_html_e('Action By', 'latepoint'); ?></th>
 						<th><?php esc_html_e('Date/Time', 'latepoint'); ?></th>
-						<th><?php esc_html_e('Action', 'latepoint'); ?></th>
 					</tr>
 				</tfoot>
 				</table>

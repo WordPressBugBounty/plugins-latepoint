@@ -214,6 +214,18 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 					$changes       = OsUtilHelper::compare_model_data_vars( $data['order_data_vars']['new'], $data['order_data_vars']['old'] );
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
 					break;
+
+				case 'customer_created':
+					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['customer_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
+					break;
+				case 'customer_updated':
+					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$changes       = OsUtilHelper::compare_model_data_vars( $data['customer_data_vars']['new'], $data['customer_data_vars']['old'] );
+					$content_html  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
+					break;
 				case 'payment_request_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
 					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span></div>';
@@ -260,6 +272,26 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 					$meta_html    = '<div class="activity-preview-to"><span class="os-label">' . __( 'Error Message:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['message'] ) . ' | ' . esc_html( $data['error_code'] ) . '</span></div>';
 					$content_html = '<pre class="format-json">' . wp_json_encode( $data['extra_description'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
+
+				default:
+					/**
+					 * Allow to add custom activity
+					 *
+					 * @since 5.1.8
+					 * @hook latepoint_custom_activity_html
+					 *
+					 * @param {OsActivityModel} $activity
+					 * @param {array} $data
+					 *
+					 * @returns {array}  The array of meta and content HTML
+					 */
+					$custom_activity_html = apply_filters('latepoint_custom_activity_html', false, $activity, $data);
+					if ($custom_activity_html !== false) {
+						$meta_html = $custom_activity_html['meta_html'] ?? '';
+						$content_html = $custom_activity_html['content_html'] ?? '';
+						break;
+					}
+				break;
 			}
 
 			$this->vars['content_html'] = $content_html ?? '';

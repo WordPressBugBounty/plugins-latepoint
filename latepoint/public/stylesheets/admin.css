@@ -8223,6 +8223,26 @@ form > .os-form-sub-header:first-child {
   border-color: #1d7bff;
 }
 
+.fee-disclosure-wrapper {
+  padding: 15px;
+}
+.fee-disclosure-wrapper .fee-disclosure {
+  background-color: #fff5dd;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 15px;
+  color: #785a1b;
+}
+.fee-disclosure-wrapper .fee-disclosure strong {
+  color: #000;
+  font-weight: 600;
+}
+.fee-disclosure-wrapper .fee-disclosure a {
+  color: #000;
+  border-bottom: 1px dotted #000;
+  text-decoration: none;
+}
+
 .os-table-w {
   padding: 0px 10px;
   background-color: #fff;
@@ -14167,6 +14187,10 @@ body.has-side-sub-panel .latepoint-side-panel-w .latepoint-side-panel-i .os-form
   transform: rotate(90deg);
 }
 
+.duplicate-service-btn {
+  margin-left: auto;
+}
+
 .os-categories-ordering-w {
   margin-bottom: 30px;
 }
@@ -16421,6 +16445,10 @@ pre.json-document a.json-placeholder:hover {
   opacity: 1;
 }
 
+.duplicate-agent-btn {
+  margin-left: auto;
+}
+
 .customer-info-w.selected .customer-edit-form-w {
   display: none;
 }
@@ -17075,6 +17103,7 @@ pre.json-document a.json-placeholder:hover {
 }
 .activity-status-wrapper .activity-status-content .status-item strong {
   font-weight: 600;
+  display: block;
 }
 .activity-status-wrapper.status-success .activity-status-content {
   background-color: #eeffed;
@@ -18624,7 +18653,7 @@ pre.json-document a.json-placeholder:hover {
 }
 .agent-day-availability-w .agent-timeslot .agent-timeslot-label {
   display: none;
-  padding: 4px 8px 5px;
+  padding: 3px 4px;
   line-height: 1;
   background-color: #fff;
   color: #1d2023;
@@ -21166,11 +21195,11 @@ pre.json-document a.json-placeholder:hover {
 }
 .quick-availability-per-day-w.side-sub-panel-wrapper .ma-month-label {
   color: #1d7bff;
-  font-size: 19.5px;
+  font-size: 19px;
   padding: 5px 0px;
   font-weight: 400;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-top: 15px;
   padding-left: 20px;
   border-bottom: 2px dotted #1d7bff;
   position: sticky;
@@ -21238,7 +21267,7 @@ pre.json-document a.json-placeholder:hover {
   border: 1px solid #000;
   border-radius: 4px;
   left: 50%;
-  top: -4px;
+  top: -2px;
   transform: translate(-50%, -100%);
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.33), 0px 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -21311,7 +21340,7 @@ pre.json-document a.json-placeholder:hover {
 }
 .agent-availability-timeslots-for-period .ma-month-label {
   color: #1d7bff;
-  font-size: 19.5px;
+  font-size: 19px;
   padding: 10px 0px;
   font-weight: 400;
   margin-bottom: 10px;
@@ -22931,7 +22960,6 @@ pre.json-document a.json-placeholder:hover {
 }
 .summary-price-breakdown-wrapper .pb-heading .pbh-label, .summary-heading .pb-heading .pbh-label {
   color: #788291;
-  font-weight: 400;
   position: relative;
   font-size: 15px;
 }
@@ -22942,10 +22970,9 @@ pre.json-document a.json-placeholder:hover {
 }
 
 .summary-section-heading {
-  font-size: 18px;
+  font-size: 17px;
   color: #1f222b;
   margin-bottom: 15px;
-  font-weight: 400;
 }
 
 .summary-box-heading {
@@ -22957,7 +22984,6 @@ pre.json-document a.json-placeholder:hover {
   color: #788291;
   position: relative;
   font-size: 15px;
-  font-weight: 400;
 }
 .summary-box-heading .sbh-item + .sbh-item {
   margin-left: 10px;

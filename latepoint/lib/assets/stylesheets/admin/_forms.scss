@@ -2278,3 +2278,23 @@ form > .os-form-sub-header:first-child {
     }
   }
 }
+
+.fee-disclosure-wrapper {
+  padding: 15px;
+  .fee-disclosure {
+    background-color: #fff5dd;
+    border-radius: $border-radius;
+    padding: 8px 10px;
+    font-size: $body-font-size-s;
+    color: #785a1b;
+    strong {
+      color: #000;
+      font-weight: $body-font-weight-black;
+    }
+    a {
+      color: #000;
+      border-bottom: 1px dotted #000;
+      text-decoration: none;
+    }
+  }
+}

@@ -305,7 +305,8 @@ class OsBookingHelper {
 		}
 		if ( ! $accessed_from_backend ) {
 			$today                     = new OsWpDateTime( 'today' );
-			$earliest_possible_booking = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', false );
+            $earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction($filter->service_id);
+
 			$block_end_datetime        = OsTimeHelper::now_datetime_object();
 			if ( $earliest_possible_booking ) {
 				try {
@@ -315,7 +316,7 @@ class OsBookingHelper {
 				}
 			}
 			for ( $day = clone $today; $day->format( 'Y-m-d' ) <= $block_end_datetime->format( 'Y-m-d' ); $day->modify( '+1 day' ) ) {
-				// loop days from now to earliest possible booking and block timeslots if these days were actually requested
+				// loop days from now to the earliest possible booking and block timeslots if these days were actually requested
 				if ( isset( $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ] ) ) {
 					$grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod( [
 						'start_time' => 0,
@@ -325,6 +326,30 @@ class OsBookingHelper {
 					] );
 				}
 			}
+            $latest_possible_booking = OsSettingsHelper::get_latest_possible_booking_restriction($filter->service_id);
+			if ( $latest_possible_booking ) {
+				try {
+					$latest_booking_datetime = OsTimeHelper::now_datetime_object();
+					$latest_booking_datetime->modify( $latest_possible_booking );
+				} catch ( Exception $e ) {
+					$latest_booking_datetime = null;
+				}
+                if ( $latest_booking_datetime && $filter->date_from) {
+                    $date_to   = ( $filter->date_to ) ? OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_to ) : OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_from );
+                    // Start from the latest_booking_datetime day
+                    for ( $day = clone $latest_booking_datetime; $day->format( 'Y-m-d' ) <= $date_to->format( 'Y-m-d' ); $day->modify( '+1 day' ) ) {
+                        if ( isset( $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ] ) ) {
+	                        $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod( [
+		                        'start_time' => ( $day->format( 'Y-m-d' ) == $latest_booking_datetime->format( 'Y-m-d' ) ) ? OsTimeHelper::convert_datetime_to_minutes( $latest_booking_datetime ) : 0,
+		                        'end_time'   => 24 * 60,
+		                        'start_date' => $day->format( 'Y-m-d' ),
+		                        'end_date'   => $day->format( 'Y-m-d' )
+	                        ] );
+                        }
+                    }
+                }
+			}
+
 		}
 
 		$grouped_blocked_periods = apply_filters( 'latepoint_blocked_periods_for_range', $grouped_blocked_periods, $filter );
@@ -487,9 +512,13 @@ class OsBookingHelper {
 			return false;
 		}
 		$is_available = false;
-        // check if satisfies earliest and latest bookings
-        $earliest_possible_booking = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', false );
-        $latest_possible_booking = OsSettingsHelper::get_settings_value( 'latest_possible_booking', false );
+
+
+        // check if satisfies earliest and latest bookings - check per-service settings first, then global
+        $earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction($booking_request->service_id);
+        $latest_possible_booking = OsSettingsHelper::get_latest_possible_booking_restriction($booking_request->service_id);
+
+
         if($earliest_possible_booking || $latest_possible_booking){
             // check earliest
             if(!empty($earliest_possible_booking)) {
@@ -701,7 +730,20 @@ class OsBookingHelper {
 							<?php if ( $service->price_min > 0 ) { ?>
                                 <span class="os-item-price-w">
                   <span class="os-item-price">
-                    <?php echo esc_html($service->price_min_formatted); ?>
+                    <?php
+                    /**
+                     * Filters the display price value shown on the service tile on a booking form
+                     *
+                     * @since 5.1.94
+                     * @hook latepoint_booking_form_display_service_price
+                     *
+                     * @param {string} $price displayed price that will be outputted
+                     * @param {OsServiceModel} $service Service that the price is displayed for
+                     *
+                     * @returns {string} Filtered displayed price
+                     */
+                    $display_price = apply_filters('latepoint_booking_form_display_service_price', $service->price_min_formatted, $service);
+                      echo esc_html($display_price) ?>
                   </span>
                   <?php if ( $service->price_min != $service->price_max ) { ?>
                       <span class="os-item-price-label"><?php esc_html_e( 'Starts From', 'latepoint' ); ?></span>

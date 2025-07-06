@@ -243,7 +243,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h3><?php esc_html_e( 'Rescheduling', 'latepoint' ) ?></h3>
                     </div>
                     <div class="sub-section-content">
-                        <?php echo apply_filters('latepoint_customer_reschedule_settings', '<div>'.esc_html__('Available in a Premium version', 'latepoint').'</div>'); ?>
+                        <?php echo apply_filters('latepoint_customer_reschedule_settings', '<div>'.OsUtilHelper::generate_missing_addon_link(__('Upgrade to the Premium version to let customers reschedule appointments', 'latepoint')).'</div>'); ?>
                     </div>
                 </div>
                 <div class="sub-section-row">
@@ -298,6 +298,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php echo OsFormHelper::toggler_field( 'settings[steps_hide_login_register_tabs]', __( 'Remove login and register tabs', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_login_register_tabs' ), false, false, [ 'sub_label' => __( 'This will disable ability for customers to login or register on booking form', 'latepoint' ) ] ); ?>
 						<?php echo OsFormHelper::toggler_field( 'settings[steps_hide_registration_prompt]', __( 'Hide "Create Account" prompt on confirmation step', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_registration_prompt' ) ); ?>
                     </div>
+                </div>
+
+                <div class="sub-section-row">
+                            <div class="sub-section-label">
+                                <h3><?php _e( 'Security & Spam', 'latepoint' ) ?></h3>
+                </div>
+                <div class="sub-section-content">
+                    <?php echo apply_filters('latepoint_general_settings_customer_security', OsUtilHelper::generate_missing_addon_link(__('Upgrade to the Premium version to unlock CAPTCHA protection and IP Address logging to fight with spam bookings.', 'latepoint'))); ?>
+                </div>
                 </div>
 
 				<?php
@@ -442,6 +451,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                             <div class="os-col-lg-3">
 								<?php echo OsFormHelper::select_field( 'settings[number_of_records_per_page]', __( 'Number of records per page', 'latepoint' ), [ 20, 50, 100, 200 ], OsSettingsHelper::get_settings_value( 'number_of_records_per_page', 20 ) ); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Activity Logs', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <div class="os-row">
+                            <div class="os-col-lg-12">
+								<?php echo OsFormHelper::toggler_field( 'settings[should_clear_old_activity_log]', __( 'Automatically clear old activity logs', 'latepoint' ), OsSettingsHelper::is_on( 'should_clear_old_activity_log' ), false, false, [ 'sub_label' => __( 'Activity logs older than 6 months will be automatically deleted', 'latepoint' ) ] ); ?>
                             </div>
                         </div>
                     </div>

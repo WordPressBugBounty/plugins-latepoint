@@ -165,7 +165,7 @@ class OsShortcodesHelper {
 				if ( $clean_group_ids ) {
 					$services->where( [ 'category_id' => $clean_group_ids ] );
 				}
-				$services = $services->should_be_active()->order_by( 'order_number asc' )->get_results_as_models();
+				$services = $services->should_be_active()->should_not_be_hidden()->order_by( 'order_number asc' )->get_results_as_models();
 				foreach ( $services as $service ) {
 					$output .= '<div class="resource-item '. $resource_item_classes .'">';
 					if ($atts['hide_image'] !== 'yes' && !empty( $service->description_image_id )) {
@@ -248,7 +248,7 @@ class OsShortcodesHelper {
 					$bundles->set_limit( $atts['limit'] );
 				}
 
-				$bundles = $bundles->should_be_active()->order_by( 'order_number asc' )->get_results_as_models();
+				$bundles = $bundles->should_be_active()->should_not_be_hidden()->order_by( 'order_number asc' )->get_results_as_models();
                 $bundles = is_array($bundles) ? $bundles : [$bundles];
 
 				ob_start();

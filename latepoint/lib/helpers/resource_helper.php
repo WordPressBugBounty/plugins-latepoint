@@ -56,6 +56,7 @@ class OsResourceHelper {
 		}
 
 		$filter          = new \LatePoint\Misc\Filter( [
+			'service_id' => $booking_request->service_id,
 			'connections' => $connections,
 			'date_from'   => $date_from->format( 'Y-m-d' ),
 			'date_to'     => $date_to->format( 'Y-m-d' )

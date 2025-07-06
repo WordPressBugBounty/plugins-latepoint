@@ -2,9 +2,10 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.93
+ * Version: 5.1.94
  * Author: LatePoint
- * Author URI: http://latepoint.com
+ * Author URI: https://latepoint.com
+ * Plugin URI: https://latepoint.com
  * Text Domain: latepoint
  * Domain Path: /languages
  * License: GPLv3
@@ -28,8 +29,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.93';
-		public $db_version = '2.2.1';
+		public $version = '5.1.94';
+		public $db_version = '2.2.3';
 
 
 		/**
@@ -343,6 +344,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 			if ( ! defined( 'LATEPOINT_TABLE_AGENT_META' ) ) {
 				define( 'LATEPOINT_TABLE_AGENT_META', $wpdb->prefix . 'latepoint_agent_meta' );
+			}
+			if ( ! defined( 'LATEPOINT_TABLE_BUNDLE_META' ) ) {
+				define( 'LATEPOINT_TABLE_BUNDLE_META', $wpdb->prefix . 'latepoint_bundle_meta' );
 			}
 			if ( ! defined( 'LATEPOINT_TABLE_STEPS' ) ) {
 				define( 'LATEPOINT_TABLE_STEPS', $wpdb->prefix . 'latepoint_steps' );
@@ -771,6 +775,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/models/customer_meta_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/agent_meta_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/service_meta_model.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/models/bundle_meta_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/location_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/location_category_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/session_model.php' );
@@ -1117,10 +1122,15 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 
 		public function clear_old_activity_logs() {
-			global $wpdb;
-			$activity = new OsActivityModel();
-			$cutoff   = OsTimeHelper::get_modified_now_object( '-1 week' )->format( LATEPOINT_DATETIME_DB_FORMAT );
-			$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [ esc_sql( $activity->table_name ), $cutoff ] ) );
+			if(OsSettingsHelper::is_on('should_clear_old_activity_log')){
+				global $wpdb;
+				$activity = new OsActivityModel();
+
+				$now_datetime = OsTimeHelper::now_datetime_object();
+
+				$cutoff   = $now_datetime->modify(  '-6 months' )->format( LATEPOINT_DATETIME_DB_FORMAT );
+				$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [ esc_sql( $activity->table_name ), $cutoff ] ) );
+			}
 		}
 
 		public function addon_activated( $addon_name, $addon_version ) {

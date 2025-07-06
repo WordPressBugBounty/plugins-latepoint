@@ -22,6 +22,7 @@ class OsOrderModel extends OsModel {
 		$initial_payment_data_arr,
 		$coupon_code,
 		$coupon_discount = 0,
+		$ip_address,
 		$tax_total = 0,
 		$keys_to_manage = [],
 		$created_at,
@@ -295,7 +296,7 @@ class OsOrderModel extends OsModel {
 		if ( empty( $this->status ) ) {
 			$this->status = $this->get_default_order_status();
 		}
-		if ( empty( $this->ip_address ) ) {
+		if ( empty( $this->ip_address ) && OsSettingsHelper::is_on('log_customer_ip_address') ) {
 			$this->ip_address = OsUtilHelper::get_user_ip();
 		}
 	}
@@ -576,6 +577,7 @@ class OsOrderModel extends OsModel {
 			'coupon_code',
 			'coupon_discount',
 			'tax_total',
+			'ip_address',
 			'updated_at',
 			'created_at'
 		);
@@ -602,6 +604,7 @@ class OsOrderModel extends OsModel {
 			'coupon_code',
 			'coupon_discount',
 			'tax_total',
+			'ip_address',
 			'updated_at',
 			'created_at'
 		);

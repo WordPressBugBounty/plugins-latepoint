@@ -1,4 +1,6 @@
 <?php
+/* @var $service OsServiceModel */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -202,6 +204,27 @@ if ( ! defined( 'ABSPATH' ) ) {
       </div>
     </div>
 		<?php } ?>
+
+    <div class="white-box">
+      <div class="white-box-header">
+        <div class="os-form-sub-header">
+          <h3><?php esc_html_e('Booking Restrictions', 'latepoint'); ?></h3>
+        </div>
+      </div>
+      <div class="white-box-content">
+        <div class="sub-section-content">
+            <div class="latepoint-message latepoint-message-subtle"><?php esc_html_e( 'You can set restrictions on earliest/latest dates in the future when your customer can place an appointment. You can either use a relative values like for example "+1 month", "+2 weeks", "+5 days", "+3 hours", "+30 minutes" (entered without quotes), or you can use a fixed date in format YYYY-MM-DD. Leave blank and it will use default restrictions set in general settings.', 'latepoint' ); ?></div>
+            <div class="os-row">
+                <div class="os-col-lg-6">
+                    <?php echo OsFormHelper::text_field( 'service[earliest_possible_booking]', __( 'Earliest Possible Booking', 'latepoint' ), $service->earliest_possible_booking, [ 'theme' => 'simple' ] ); ?>
+                </div>
+                <div class="os-col-lg-6">
+                    <?php echo OsFormHelper::text_field( 'service[latest_possible_booking]', __( 'Latest Possible Booking', 'latepoint' ), $service->latest_possible_booking, [ 'theme' => 'simple' ] ); ?>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
 		<?php if(OsRolesHelper::can_user('resource_schedule__edit')){ ?>
     <div class="white-box">
       <div class="white-box-header">
@@ -258,9 +281,14 @@ if ( ! defined( 'ABSPATH' ) ) {
         echo OsFormHelper::hidden_field('service[id]', $service->id);
         if(OsRolesHelper::can_user('service__edit')) {
 	        echo OsFormHelper::button('submit', __('Save Changes', 'latepoint'), 'submit', ['class' => 'latepoint-btn']);
+	        echo '<a href="#" class="latepoint-btn latepoint-btn-secondary duplicate-service-btn" 
+                        data-os-prompt="' . __( 'Are you sure you want to duplicate this service?', 'latepoint' ) . '"
+                        data-os-success-action="redirect" 
+                        data-os-params="' . OsUtilHelper::build_os_params( [ 'id' => $service->id ], 'duplicate_service_' . $service->id ) . '" 
+                        data-os-action="' . OsRouterHelper::build_route_name( 'services', 'duplicate' ) . '">' . __( 'Duplicate Service', 'latepoint' ) . '</a>';
         }
         if(OsRolesHelper::can_user('service__delete')) {
-	        echo '<a href="#" class="latepoint-btn latepoint-btn-danger remove-service-btn" style="margin-left: auto;" 
+	        echo '<a href="#" class="latepoint-btn latepoint-btn-danger remove-service-btn" 
                 data-os-prompt="' . esc_attr__('Are you sure you want to remove this service? It will remove all appointments associated with it. You can also change status to disabled if you want to temprorary disable it instead.', 'latepoint') . '" 
                 data-os-redirect-to="' . esc_url(OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'index'))) . '" 
                 data-os-params="' . esc_attr(OsUtilHelper::build_os_params(['id' => $service->id], 'destroy_service_'.$service->id)) . '" 

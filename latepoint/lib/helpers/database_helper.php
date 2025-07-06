@@ -582,6 +582,18 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
+		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BUNDLE_META . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      object_id mediumint(9) NOT NULL,
+      meta_key varchar(110) NOT NULL,
+      meta_value text,
+      created_at datetime,
+      updated_at datetime,
+      KEY meta_key_index (meta_key),
+      KEY object_id_index (object_id),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
 
 		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SETTINGS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -675,6 +687,8 @@ class OsDatabaseHelper {
       selection_image_id int(11),
       description_image_id int(11),
       bg_color varchar(20),
+      earliest_possible_booking varchar(50),
+      latest_possible_booking varchar(50),
       timeblock_interval int(11),
       capacity_min int(4),
       capacity_max int(4),
@@ -828,6 +842,7 @@ class OsDatabaseHelper {
       location_id int(11),
       order_id int(11),
       order_item_id int(11),
+      coupon_id int(11),
       code varchar(255) NOT NULL,
       description text,
       initiated_by varchar(100),

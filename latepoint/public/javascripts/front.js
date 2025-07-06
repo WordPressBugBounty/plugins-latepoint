@@ -2568,6 +2568,12 @@ function latepoint_init_booking_form($booking_form_element) {
                 $booking_form_element.removeClass('step-content-mid-loading').addClass('step-content-loaded');
                 latepoint_hide_message_inside_element($booking_form_element.find('.latepoint-body'));
                 latepoint_scroll_to_top_of_booking_form($booking_form_element);
+
+                let callbacks_list = [];
+                $booking_form_element.trigger('latepoint:prevStepReInit', [{
+                    current_step: new_current_step_code,
+                    callbacks_list: callbacks_list
+                }]);
             }, 150);
         }, 700);
         return false;

@@ -214,6 +214,41 @@ class OsBundleModel extends OsModel {
     return ($this->status == LATEPOINT_BUNDLE_STATUS_ACTIVE);
   }
 
+	public function delete_meta_by_key($meta_key){
+		if($this->is_new_record()) return false;
+
+		$meta = new OsBundleMetaModel();
+		return $meta->delete_by_key($meta_key, $this->id);
+	}
+
+	public function get_meta_by_key($meta_key, $default = false){
+		if($this->is_new_record()) return $default;
+
+		$meta = new OsBundleMetaModel();
+		return $meta->get_by_key($meta_key, $this->id, $default);
+	}
+
+	public function save_meta_by_key($meta_key, $meta_value){
+		if($this->is_new_record()) return false;
+
+		$meta = new OsBundleMetaModel();
+		return $meta->save_by_key($meta_key, $meta_value, $this->id);
+	}
+
+	public function delete($id = false){
+		if(!$id && isset($this->id)){
+			$id = $this->id;
+		}
+
+		if($id && $this->db->delete( $this->table_name, array('id' => $id), array( '%d' ))){
+			$this->db->delete(LATEPOINT_TABLE_BUNDLE_META, array('object_id' => $id), array( '%d' ) );
+			do_action('latepoint_bundle_deleted', $id);
+			return true;
+		}
+
+		return false;
+	}
+
 
   protected function properties_to_validate(){
     $validations = array(

@@ -59,8 +59,8 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 				'timezone_name'         => $this->params['timezone_name'] ?? false,
 			];
 
-			$calendar_settings['earliest_possible_booking'] = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', false );
-			$calendar_settings['latest_possible_booking']   = OsSettingsHelper::get_settings_value( 'latest_possible_booking', false );
+			$calendar_settings['earliest_possible_booking'] = OsSettingsHelper::get_earliest_possible_booking_restriction( OsStepsHelper::$booking_object->service_id ?? false );
+			$calendar_settings['latest_possible_booking']   = OsSettingsHelper::get_latest_possible_booking_restriction( OsStepsHelper::$booking_object->service_id ?? false );
 
 			$this->format_render( 'partials/_monthly_calendar_days', [
 				'target_date'       => $target_date,
@@ -301,7 +301,18 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 			$step_code_to_load = false;
 			switch ( $step_direction ) {
 				case 'next':
-					do_action( 'latepoint_process_step', $current_step_code, OsStepsHelper::$booking_object );
+					/**
+					 * Process step by code
+					 *
+					 * @param {string} $step_code step code that will be processed
+					 * @param {OsBookingModel} $booking booking object
+					 * @param {array} $params array of params
+					 *
+					 * @since 5.0.0
+					 * @hook latepoint_process_step
+					 *
+					 */
+					do_action( 'latepoint_process_step', $current_step_code, OsStepsHelper::$booking_object, $this->params );
 					$step_code_to_load = OsStepsHelper::get_next_step_code( $current_step_code );
 					break;
 				case 'prev':
@@ -312,6 +323,18 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					break;
 			}
 			if ( $step_code_to_load ) {
+
+				/**
+				 * Load step by code
+				 *
+				 * @param {string} $step_code step code to load
+				 * @param {string} $type type of return (json)
+				 * @param {array} $params array of params
+				 *
+				 * @since 5.0.0
+				 * @hook latepoint_load_step
+				 *
+				 */
 				do_action( 'latepoint_load_step', $step_code_to_load, 'json', $this->params );
 			}
 		}
