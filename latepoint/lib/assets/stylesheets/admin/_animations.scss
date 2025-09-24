@@ -301,6 +301,10 @@
 .os-widget-top-agents {
 }
 
+.table-with-pagination-w {
+    animation: 0.4s cubic-bezier(0.45, 1.1, 0.4, 1) 0s wizardWrapperAnimation;
+    animation-fill-mode: both;
+}
 
 .os-widget-animated {
   animation: 0.4s cubic-bezier(.45,1.1,.4,1) 0s wizardWrapperAnimation;
@@ -315,20 +319,7 @@
 .quick-order-form-w {
 }
 
-.index-agent-boxes .agent-box-w, .index-agent-boxes .create-agent-link-w {
-  animation: 0.4s cubic-bezier(.45,1.1,.4,1) 0s wizardWrapperAnimation;
-  animation-fill-mode: both;
-  $count: 10;
-  @for $i from 0 to $count {
-    &:nth-child(#{$i + 1}) {
-      animation: 0.4s cubic-bezier(.45,1.2,.8,1) #{$i*30}ms wizardWrapperAnimation;
-      animation-fill-mode: both;
-    }
-  }
-}
-
-
-.os-locations-list .os-location, .os-locations-list .create-location-link-w {
+.os-resources-grid .os-resource-grid-item, .os-resources-grid .create-resource-link-w {
   animation: 0.4s cubic-bezier(.45,1.1,.4,1) 0s wizardWrapperAnimation;
   animation-fill-mode: both;
   $count: 10;
@@ -464,6 +455,11 @@
 }
 
 
+@keyframes rotateScale {
+  0% { transform: scale(0.4) rotate(-90deg); opacity: 0 }
+  100% { transform: scale(1) rotate(0deg); opacity: 1 }
+}
+
 
 @keyframes pulseErrorPill {
   0% {
@@ -569,4 +565,10 @@
 body.latepoint-admin .new-version-message .version-check-icon,
 body.latepoint-admin .active-license-info .version-check-icon {
   animation: 1s ease 0s pulseSuccessPill infinite;
+}
+
+
+.a-rotate-scale {
+  animation: 0.7s cubic-bezier(.25, 1.4, .5, 1.15) 0s rotateScale;
+  animation-fill-mode: both;
 }

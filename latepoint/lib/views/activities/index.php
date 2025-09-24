@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if($activities){ ?>
 
-  <div class="table-with-pagination-w has-scrollable-table">
+  <div class="table-with-pagination-w has-scrollable-table no-overflow">
     <div class="os-pagination-w with-actions">
 
 	    <div class="table-heading-w">
@@ -49,7 +49,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			          </div>
 		          </div>
 	          </th>
-	          <th></th>
           </tr>
 				</thead>
 				<tbody>

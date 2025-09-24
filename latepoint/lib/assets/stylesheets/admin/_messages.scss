@@ -27,14 +27,23 @@
     color: #181b2d;
     text-align: center;
   }
+  &.latepoint-message-invalid {
+    padding: 10px 15px;
+    font-weight: $body-font-weight-bold;
+    margin-bottom: 20px;
+    background: #ffd9d9;
+    color: #700c0c;
+    border-left: 4px solid #f19696;
+    border-radius: $border-radius;
+  }
   &.latepoint-message-subtle {
     padding: 10px 15px;
     font-weight: $body-font-weight-bold;
     margin-bottom: 20px;
     background: #f6f3ec;
     color: #6a6561;
-    border-left: 2px solid #e9e4db;
-    border-radius: 0;
+    border-left: 4px solid #e9e4db;
+    border-radius: $border-radius;
     &:last-child {
       margin-bottom: 0px;
     }

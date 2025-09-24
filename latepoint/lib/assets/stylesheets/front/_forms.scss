@@ -34,6 +34,13 @@
           outline: none;
           box-shadow: none;
         }
+        &.os-invalid {
+          border-color: $form-controls-border-color-error!important;
+          box-shadow: 0 0 0 3px rgba($form-controls-border-color-error, 0.1)!important;
+        }
+        &.os-shake {
+          animation: latepointShake 1s ease-in-out;
+        }
       }
       textarea,
       input[type="number"],
@@ -124,7 +131,7 @@
         line-height: 1.1;
         cursor: default;
         font-size: floor($font-size-base * 0.8)!important;
-        color: #AFB8D6!important;
+        color: #959aae!important;
         font-weight: $body-font-weight-normal!important;
         position: absolute!important;
         top: 5px;
@@ -140,7 +147,7 @@
           z-index: 1;
         }
         &::placeholder {
-          color: #AFB8D6;
+          color: #959aae;
         }
         &.os-framed-field {
           height: floor(($font-size-base * 1.3) + 12px + 12px + 4px)!important;
@@ -149,7 +156,7 @@
           }
         }
       }
-      &.has-value {
+      &.has-value:not(.os-form-group-simple) {
         label {
           opacity: 1!important;
           transform: translateY(0)!important;
@@ -157,6 +164,90 @@
         textarea.os-form-control,
         input.os-form-control {
           padding: 19px 10px 5px 10px!important;
+        }
+      }
+    }
+
+
+    &.os-form-group-simple {
+      &.os-form-textfield-group {
+        label {
+          opacity: 1;
+          transform: none!important;
+          position: relative!important;
+          top: auto;
+          left: auto;
+          margin-bottom: 4px!important;
+          font-size: $body-font-size-s!important;
+        }
+        .os-form-control {
+          background-color: #fff;
+          border: 1px solid $form-input-border-color;
+          padding: 12px 8px 12px!important;
+          &:focus {
+            border-color: $brand-primary;
+          }
+        }
+        &.os-form-phonefield-group {
+          border: none;
+          .os-form-control {
+            padding: 13px 8px 13px 0!important;
+          }
+          .lp_iti {
+            background-color: #fff;
+            border: 1px solid $form-input-border-color;
+            align-items: stretch;
+            border-radius: 6px;
+            gap: 5px;
+            &:has(input:focus){
+              border-color: $brand-primary;
+            }
+            .lp_iti__selected-flag {
+              padding: 0;
+              padding-left: 12px;
+            }
+            .lp_iti__flag-container {
+              display: flex;
+            }
+          }
+        }
+      }
+
+      &.os-form-select-group {
+        label {
+          margin-bottom: 3px;
+        }
+        .os-form-control {
+          background-color: #fff;
+          border: 1px solid #d6d6e1;
+          &:focus {
+            border-color: $brand-primary;
+          }
+          &:hover {
+            border-color: $brand-primary;
+          }
+          &.size-small {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+          }
+        }
+        &.has-value {
+        }
+
+        &.os-invalid {
+          label {
+            color: $form-controls-label-color-error;
+          }
+          .os-form-control {
+            border-color: $form-controls-border-color-error;
+            color: $form-controls-color-error;
+            &::placeholder {
+              color: #d9a3a3;
+            }
+            &:focus {
+              border-color: $form-controls-border-color-error;
+            }
+          }
         }
       }
     }
@@ -209,22 +300,24 @@
 
       &:not(.has-value){
         .lp_iti.lp_iti--allow-dropdown {
-          align-items: center;
+          align-items: stretch;
         }
         .lp_iti__selected-flag {
-          padding-top: 10px;
-          padding-bottom: 10px;
+          padding-top: 12px;
+          padding-bottom: 12px;
         }
       }
-      &.has-value {
-        .lp_iti__selected-flag {
-          padding-top: 19px;
-          padding-bottom: 5px;
-        }
-        input.os-form-control {
-          &.os-mask-phone {
-            padding-left: 0px!important;
-            padding-top: 18px !important;
+      &:not(.os-form-group-simple){
+        &.has-value {
+          .lp_iti__selected-flag {
+            padding-top: 19px;
+            padding-bottom: 5px;
+          }
+          input.os-form-control {
+            &.os-mask-phone {
+              padding-left: 0px!important;
+              padding-top: 18px !important;
+            }
           }
         }
       }
@@ -237,6 +330,10 @@
       align-items: center;
       &.os-space-between {
         justify-content: space-between;
+      }
+      &.os-flex-end {
+        justify-content: flex-end;
+        gap: 20px;
       }
     }
     .os-form-group {

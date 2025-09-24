@@ -14,9 +14,9 @@
 // DOCUMENT READY
 jQuery(document).ready(function ($) {
 
+    latepoint_init_customer_login_form();
     latepoint_init_customer_dashboard();
     latepoint_init_manage_booking_by_key();
-
 
     jQuery('body').on('click', '.le-filter-trigger', function () {
         let $events_calendar = jQuery(this).closest('.latepoint-calendar-wrapper');
@@ -128,10 +128,20 @@ jQuery(document).ready(function ($) {
 
 
     jQuery('body').on('click', '.os-step-tabs .os-step-tab', function () {
+        let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
         jQuery(this).closest('.os-step-tabs').find('.os-step-tab').removeClass('active');
         jQuery(this).addClass('active');
         var target = jQuery(this).data('target');
         jQuery(this).closest('.os-step-tabs-w').find('.os-step-tab-content').hide();
+        if(jQuery(this).data('next-btn') === 'show'){
+            latepoint_show_next_btn($booking_form_element);
+        }else{
+            latepoint_hide_next_btn($booking_form_element);
+        }
+
+        if(jQuery(this).data('auth-action')){
+          $booking_form_element.find('input[name="auth[action]"]').val(jQuery(this).data('auth-action'));
+        }
         jQuery(target).show();
     });
 

@@ -10,10 +10,10 @@ $mono-font-family: "latepoint", 'SF Mono', SFMono-Regular, ui-monospace, 'DejaVu
 $letter-spacing: 1px;
 $letter-spacing-lg: 2px;
 
-$border-radius: 0px;
-$border-radius-sm: 0px;
-$border-radius-md: 0px;
-$border-radius-lg: 0px;
+$border-radius: var(--latepoint-border-radius);
+$border-radius-sm: var(--latepoint-border-radius-sm);
+$border-radius-md: var(--latepoint-border-radius-md);
+$border-radius-lg: var(--latepoint-border-radius-lg);
 
 $body-font-weight-normal: 400;
 $body-font-weight-bold: 600;
@@ -25,9 +25,15 @@ $mono-font-weight-bold: 600;
 
 // Forms
 $form-input-border-color: #cad2e0;
-$form-controls-border-radius: 0px;
+$form-controls-border-radius: var(--latepoint-border-radius);
 $form-controls-color: #32373c;
 $form-controls-select-height: auto;
+
+
+$form-controls-border-color-error: #b55959;
+$form-controls-color-error: #872727;
+$form-controls-background-error: #b55959;
+$form-controls-label-color-error: #bf6666;
 
 $form-input-border-color-invalid: #eb3a3a;
 
@@ -36,6 +42,7 @@ $body-color: var(--latepoint-body-color);
 
 $border-color-light: #f1f1f1;
 $border-color-lightest: #f9f9f9;
+$border-color-strong: #ddd;
 
 $rounded-borders-radius: 8px;
 $item-border-color: #E5E7EE;

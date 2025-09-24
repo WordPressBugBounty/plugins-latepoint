@@ -220,11 +220,6 @@ class OsStripeConnectHelper {
 
 	public static function add_settings_fields($processor_code) {
 		if ($processor_code != self::$processor_code) return false; ?>
-            <?php if(false){ ?>
-		<div class="sub-section-row fee-disclosure-wrapper">
-            <div class="fee-disclosure">LatePoint charges 2.9% transaction fee in a free version. To remove this fee upgrade to a <a target="_blank" href="<?php echo esc_url(LATEPOINT_UPGRADE_URL); ?>">Premium version</a>.</div>
-        </div>
-            <?php } ?>
 		<div class="sub-section-row">
 			<div class="sub-section-label">
 				<h3><?php esc_html_e('Connect (Live)', 'latepoint'); ?></h3>
@@ -402,7 +397,12 @@ class OsStripeConnectHelper {
 			if ($charges_enabled) {
 				$html .= '<div class="payment-processor-status-connected"><i class="latepoint-icon latepoint-icon-check"></i><span>' . __('Connected', 'latepoint') . '</span></div>';
 				$html .= $disconnect_link;
-				$html .= '<div class="stripe-connect-account-info">' . $stripe_connect_account_id . '</div>';
+				$html .= '<div class="stripe-connect-account-info">'.__('Account: ', 'latepoint') . $stripe_connect_account_id . '</div>';
+                if($env == 'live' && !empty(OsSettingsHelper::get_settings_value('stripe_connect_transaction_fee_info', ''))){
+                    $html .='<div class="fee-disclosure-wrapper">
+                        <div class="fee-disclosure">'.OsSettingsHelper::get_settings_value('stripe_connect_transaction_fee_info', '').' transaction fee. <a target="_blank" href="https://wpdocs.latepoint.com/understanding-payment-processing-fees/"><span>Pricing</span> <i class="latepoint-icon latepoint-icon-external-link"></i></a></div>
+                    </div>';
+                }
 			} else {
 				$html .= '<div class="payment-processor-status-charges-disabled"><i class="latepoint-icon latepoint-icon-clock"></i><span>' . __('Pending Action', 'latepoint') . '</span></div>';
 				$html .= '<a data-env="' . $env . '" data-route-name="' . OsRouterHelper::build_route_name('stripe_connect', 'start_connect_process') . '" href="#" class="payment-start-connecting"><span>' . __('Continue Setup', 'latepoint') . '</span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>';
@@ -656,7 +656,7 @@ class OsStripeConnectHelper {
 		$result = self::do_account_request('payment-intents', OsSettingsHelper::get_payments_environment(), '', 'POST', ['payment_intent_options' => $options, 'customer_data' => $customer_data]);
 		if (empty($result['data'])) {
             // translators: %s is the payment error
-			$error_message = !empty($result['error']) ? sprintf(__('Payment Error: %s', 'latepoint'), esc_html($result['error'])) : __('Payment error', 'latepoint');
+			$error_message = !empty($result['error']) ? sprintf(__('Payment Error: %s', 'latepoint'), esc_html($result['error'])) : __('Error generating payment intent for transaction', 'latepoint');
 			OsDebugHelper::log($error_message);
 			throw new Exception($error_message);
 		} else {
@@ -684,7 +684,7 @@ class OsStripeConnectHelper {
 		$result = self::do_account_request('payment-intents', OsSettingsHelper::get_payments_environment(), '', 'POST', ['payment_intent_options' => $options, 'customer_data' => $customer_data]);
 		if (empty($result['data'])) {
             // translators: %s is the payment error
-			$error_message = !empty($result['error']) ? sprintf(__('Payment Error: %s', 'latepoint'), esc_html($result['error'])) : __('Payment error', 'latepoint');
+			$error_message = !empty($result['error']) ? sprintf(__('Payment Error: %s', 'latepoint'), esc_html($result['error'])) : __('Error generating payment intent', 'latepoint');
 			OsDebugHelper::log($error_message);
 			throw new Exception($error_message);
 		} else {

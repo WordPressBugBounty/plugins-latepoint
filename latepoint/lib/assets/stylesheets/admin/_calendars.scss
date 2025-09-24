@@ -70,7 +70,7 @@
   align-items: center;
   gap: 10px;
   padding: 15px 0;
-  border-top: 1px solid $border-color-light;
+  border-top: 1px solid $border-color-lightest;
   margin-left: auto;
 
   .resource-filters-wrapper {
@@ -96,7 +96,7 @@
     }
 
     select {
-      border-radius: 6px;
+      border-radius: $border-radius;
       padding: 5px 15px 5px 10px !important;
       height: auto;
       min-height: initial;
@@ -112,7 +112,7 @@
     .cc-availability-toggler {
       border: 1px solid $border-color-light;
       padding: 0 5px 0 8px;
-      border-radius: 6px;
+      border-radius: $border-radius;
 
       &:hover {
         border-color: darken($border-color-strong, 20%);
@@ -141,7 +141,6 @@
     }
 
     .os-current-month-label-w .os-calendar-settings-toggler-wrapper .calendar-settings-toggler {
-      background-color: #eff0f5;
     }
   }
 }
@@ -166,7 +165,7 @@
     }
 
     .os-current-month-label {
-      font-size: floor($font-size-base * 2);
+      font-size: $body-font-size-xxl;
       margin: 0px;
       margin-right: auto;
       padding: 0px;
@@ -226,17 +225,18 @@
 
       .calendar-settings-toggler {
         text-decoration: none;
-        padding: 4px 6px;
-        font-size: 24px;
-        line-height: 20px;
+        padding: 7px 8px;
+        font-size: 16px;
+        line-height: 16px;
         color: $headings-color;
         cursor: pointer;
-        border-radius: 6px;
-        background-color: #fff;
+        border-radius: $border-radius;
+        border: 1px solid $border-color-main;
+        background-color: transparent;
         display: block;
 
         &:hover {
-          background-color: #eff0f5;
+          border-color: rgba(0,0,0,0.2);
         }
 
         &:focus {
@@ -275,24 +275,22 @@
 
 .daily-availability-calendar-wrapper {
   display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  background-color: #fff;
+  align-items: stretch;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
-  border-radius: $border-radius;
+  border-radius: $border-radius-lg;
   margin-top: 10px;
 
   .daily-calendar-action-navigation-btn {
-    padding: 35px 15px 10px 15px;
-    display: block;
+    padding: 10px 15px 10px 15px;
     text-decoration: none;
     color: $headings-color;
     font-size: 16px;
+    display: flex;
+    align-items: center;
 
     &:hover {
-      background-color: $brand-primary;
-      color: #fff;
-      border-color: $brand-primary;
+      background-color: #fff;
     }
 
     &:focus {
@@ -301,11 +299,11 @@
     }
 
     &:first-child {
-      border-right: none;
+      border-radius: $border-radius-lg 0 0 $border-radius-lg;
     }
 
     &:last-child {
-      border-left: none;
+      border-radius: 0 $border-radius-lg $border-radius-lg 0;
     }
   }
 }
@@ -406,10 +404,11 @@
   }
 
   .os-monthly-calendar-days {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    box-shadow: inset 0px -4px 0px #eee;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1px;
+    background-color: #e6e5e5;
 
     .os-day {
       flex: 1;
@@ -432,14 +431,12 @@
 
       &.os-day-current {
         .os-day-box {
-          background-color: #f5f6fb;
         }
       }
 
       &.os-day-passed {
         .os-day-box {
           background-color: #f5f6fb;
-          box-shadow: inset 0px -4px 0px #eee;
 
           .os-day-number {
             color: #B7BCCB;
@@ -480,11 +477,9 @@
       &:hover, &.selected {
         .os-day-box {
           .os-day-number {
-            transform: scale(1.3) translateY(-5px);
           }
 
           .os-day-status {
-            transform: scaleY(1.6);
           }
         }
       }
@@ -492,9 +487,10 @@
 
       &.selected {
         z-index: 2;
+        border-radius: 6px;
+        box-shadow: 0px 0px 0px 2px $brand-primary;
 
         .os-day-box {
-          box-shadow: inset 0px -12px 0px $brand-primary;
 
           .os-day-status {
             display: none;
@@ -526,7 +522,7 @@
     background-color: #eee;
 
     .day-available {
-      background-color: #80dc6e;
+      background-color: #8ad58d;
       top: 0px;
       bottom: 0px;
       position: absolute;
@@ -539,6 +535,8 @@
     padding: 0px;
     box-shadow: none;
     background-color: transparent;
+    border-left: 1px solid #e6e5e5;
+    border-right: 1px solid #e6e5e5;
 
     .os-available-slots-tooltip {
       display: none;
@@ -562,9 +560,18 @@
         padding: 0px;
         overflow: visible;
         position: relative;
+        background-color: #f8f8f8;
 
         &:last-child {
           border-right: none;
+        }
+
+        &.os-not-available {
+          background-image: repeating-linear-gradient(-45deg, rgba(1, 0, 10, 0.05) 0px, rgba(1, 0, 10, 0.05) 1px, transparent 1px, transparent 4px);
+          background-color: #f5f5f5;
+          .os-day-status {
+            display: none;
+          }
         }
 
         &.os-today {
@@ -587,18 +594,16 @@
           border-radius: 0px;
           background-color: transparent;
           overflow: visible;
-          border-right: 1px solid rgba(0, 0, 0, 0.1);
           text-align: center;
         }
 
         &:first-child {
           .os-day-box {
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
           }
         }
 
         .os-day-weekday {
-          color: #f9f9f9;
+          color: #ddd;
           font-weight: $body-font-weight-bold;
           text-transform: uppercase;
           letter-spacing: 1px;
@@ -610,38 +615,35 @@
           overflow: hidden;
 
           &:first-letter {
-            font-size: 24px;
-            color: #f1f1f1;
-            letter-spacing: -2px;
           }
         }
 
         .os-day-status {
-          bottom: 0px;
-          margin: 0px;
-          left: -1px;
-          right: -1px;
-          border-radius: 0px;
-          height: 4px;
+          bottom: 5px;
+          margin: 0;
+          left: 5px;
+          right: 5px;
+          border-radius: 4px;
+          height: 8px;
           transform-origin: bottom left;
           transition: transform 0.1s ease;
         }
 
         .os-day-number {
-          font-size: floor($font-size-base * 1.1);
-          padding: 35px 0 12px 0;
+          font-size: $body-font-size-s;
+          padding: 35px 0 15px 2px;
+          text-align: left;
           transition: transform 0.1s ease;
+          letter-spacing: -1px;
+          font-family: $mono-font-family;
         }
 
         &.week-day-6,
         &.week-day-7 {
-          background-color: #fefbf6;
-
           .os-day-weekday {
-            color: #f6f2ec;
+            color: #dcdcdc;
 
             &:first-letter {
-              color: #f3ece1;
             }
           }
         }
@@ -691,9 +693,6 @@
   }
 
   .ch-filter {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-bottom: 1px solid #ccc;
     border-right: none;
     height: 50px;
     margin-bottom: 20px;
@@ -702,11 +701,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: $border-radius 0 0 $border-radius;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 
     span {
-      color: #c4cbe1;
+      color: transparent;
       line-height: 1;
       padding: 3px 0;
       font-weight: $body-font-weight-bold;
@@ -714,7 +711,6 @@
 
       &:first-child {
         margin-top: auto;
-        border-bottom: 1px solid $border-color-strong;
       }
 
       &:last-child {
@@ -743,6 +739,10 @@
     background-color: #fff;
     height: 50px;
     margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    border-top-right-radius: $border-radius-lg;
   }
 
   .ch-agents {
@@ -771,6 +771,12 @@
       flex: 1;
       position: relative;
 
+      &:last-child {
+        .ch-day-periods {
+          border-right: none;
+        }
+      }
+
       &:first-child {
         .ch-day-periods .chd-period {
           &:before {
@@ -787,13 +793,11 @@
     display: flex;
     align-items: center;
     padding: 10px 5px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid $border-color-main;
+    border-right: 1px solid $border-color-lightest;
     flex: 1;
     background-color: transparent;
     position: relative;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
 
     &:first-child:before {
       content: "";
@@ -816,7 +820,8 @@
     }
 
     &:last-child {
-      border-top-right-radius: $border-radius;
+      border-top-right-radius: $border-radius-lg;
+      border-right: none;
     }
 
     .da-head-agent-avatar {
@@ -832,7 +837,7 @@
     .da-head-agent-name {
       text-decoration: none;
       color: $headings-color;
-      border-bottom: 1px dotted rgba($brand-primary, 0.4);
+      border-bottom: 1px dotted $headings-color;
       font-weight: $body-font-weight-bold;
       margin-right: auto;
       white-space: nowrap;
@@ -846,6 +851,9 @@
 
 .daily-agent-calendar-w {
   position: relative;
+  background-color: #fff;
+  border: 1px solid $border-color-main;
+  border-radius: $border-radius-lg;
 
   .current-time-indicator {
     height: 3px;
@@ -858,15 +866,15 @@
 
     span {
       position: absolute;
-      left: 0px;
+      left: 0;
       top: 50%;
       transform: translateY(-50%);
       background-color: #fc6262;
-      padding: 3px 5px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: $border-radius-sm;
       color: #fff;
       font-weight: $body-font-weight-bold;
-      font-size: floor($font-size-base * 0.8);
+      font-size: $body-font-size-xxs;
     }
   }
 
@@ -944,6 +952,38 @@
   }
 }
 
+.os-calendar-view-toggle {
+  padding: 10px;
+  border-radius: $border-radius-lg;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid $border-color-main;
+  .os-calendar-view-option {
+    font-size: $body-font-size-s;
+    border-radius: $border-radius-sm;
+    padding: 3px 8px;
+    color: $color-faded;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    border: 1px solid transparent;
+    &:hover:not(.os-selected) {
+      color: $headings-color;
+      background-color: #eee;
+    }
+    &.os-selected {
+      color: $headings-color;
+      border: 1px solid $headings-color;
+    }
+  }
+}
+
+.cc-panel {
+  display: flex;
+  align-items: center;
+}
+
 .cc-view {
   margin-right: 15px;
   padding-right: 15px;
@@ -952,7 +992,7 @@
   .view-toggler {
     display: flex;
     align-items: center;
-    border-radius: 6px;
+    border-radius: $border-radius;
     border: 1px solid $border-color-strong;
     line-height: 1;
     gap: 5px;
@@ -968,7 +1008,7 @@
       display: block;
       text-decoration: none;
       color: $body-color;
-      border-radius: 6px;
+      border-radius: $border-radius;
 
       &:focus {
         outline: none;
@@ -989,12 +1029,14 @@
       font-size: 16px;
       line-height: 1.5;
       text-decoration: none;
-      background-color: #fff;
-      border: 1px solid $border-color-strong;
-      border-radius: 6px;
+      background-color: transparent;
+      border-radius: $border-radius;
       padding: 4px 15px 4px 10px !important;
       height: auto;
       min-height: initial;
+      &:hover {
+        border-color: rgba(0,0,0,0.2);
+      }
     }
   }
 
@@ -1005,21 +1047,22 @@
   align-items: center;
   gap: 10px;
   margin-right: 15px;
-  padding-right: 15px;
-  border-right: 1px solid $border-color-lightest;
+  background-color: #f1f1f1;
+  border-radius: $border-radius-lg;
+  padding: 7px;
 
   .cc-action-today {
     position: relative;
     line-height: 1.5;
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: $body-font-size-s;
     text-decoration: none;
-    background-color: #fff;
-    border: 1px solid $border-color-strong;
-    border-radius: 6px;
     padding: 4px 14px 4px 10px;
     color: $headings-color;
+    border-radius: $border-radius;
+    border: 1px solid $border-color-main;
+    background-color: #f8f7f7;
 
     span {
       display: inline-block;
@@ -1036,8 +1079,7 @@
     }
 
     &:hover {
-      color: $brand-primary;
-      border-color: $brand-primary;
+      border-color: rgba(0,0,0,0.2);
     }
   }
 
@@ -1057,13 +1099,13 @@
     line-height: 1;
     vertical-align: middle;
     cursor: pointer;
-    background-color: #fff;
-    border: 1px solid $border-color-strong;
-    border-radius: 6px;
     padding: 8px 8px;
     display: block;
     text-decoration: none;
     position: relative;
+    border-radius: $border-radius;
+    border: 1px solid $border-color-main;
+    background-color: #f8f7f7;
 
     i {
       display: block;
@@ -1096,8 +1138,7 @@
     }
 
     &:hover {
-      color: $brand-primary;
-      border-color: $brand-primary;
+      border-color: rgba(0,0,0,0.2);
     }
 
     &.disabled {
@@ -1121,12 +1162,14 @@
         vertical-align: middle;
         text-align: right;
         line-height: $period_height;
-        font-size: $font-size-base * 0.8;
-        color: #AAB1CB;
+        font-size: $body-font-size-xxs;
+        color: rgba(0, 0, 0, 0.4);
         font-weight: $body-font-weight-bold;
 
         &.last-period {
           height: 1px !important;
+          span {
+          }
         }
 
         &.chh-period-minutes {
@@ -1179,6 +1222,7 @@
       flex: 1;
       border-right: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
+      margin-bottom: 20px;
 
       .chd-period {
         height: $period_height;
@@ -1258,7 +1302,7 @@
 
       &.ch-day-tue,
       &.ch-day-thu {
-        background-color: #fafbfd;
+        background-color: #fff;
       }
 
       &.ch-day-6,
@@ -1279,6 +1323,7 @@
       z-index: 1000;
       cursor: pointer;
       transition: all 0.2s ease;
+      border-radius: $border-radius;
 
       &.status-pending {
         &:before {
@@ -1390,6 +1435,9 @@
 // -----------------------
 
 .calendar-week-agent-w {
+  border-radius: $border-radius-lg;
+  background-color: #fff;
+  border: 1px solid $border-color-main;
   .agent-weekly-calendar {
     display: none;
 
@@ -1479,17 +1527,16 @@
 
   .ch-day {
     background-color: #fff;
-    font-size: floor($font-size-base * 1.15);
+    font-size: $body-font-size-s;
     text-align: center;
-    color: #c4cbe1;
+    color: rgba(0,0,0,0.3);
     line-height: 1;
     padding: 16px 10px;
-    position: relative;
-    z-index: 2;
-    border-top: 1px solid $border-color-main;
+    z-index: 5;
     border-bottom: 1px solid $border-color-strong;
     border-right: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
 
     span, strong {
       display: inline-block;
@@ -1508,10 +1555,9 @@
 
     &.ch-day-6,
     &.ch-day-7 {
-      background-color: #faf8f2;
+      background-color: #fff;
 
       span {
-        color: #c9bd93;
       }
     }
 
@@ -1522,9 +1568,9 @@
     &.is-today {
       &:before {
         content: "";
-        background-color: #FF0F42;
-        width: 10px;
-        height: 10px;
+        background-color: #f87373;
+        width: 8px;
+        height: 8px;
         position: absolute;
         top: 10px;
         right: 10px;
@@ -1540,35 +1586,32 @@
     .ch-info {
       position: relative;
       background-color: #fff;
-      border: 1px solid $border-color-main;
-      border-bottom-color: $border-color-strong;
+      border-bottom:none;
       border-right: none;
       padding: 10px 15px;
       line-height: 1;
       text-align: center;
-      color: #c4cbe1;
+      color: rgba(0,0,0,0.4);
       flex: 0 0 60px;
       font-weight: $body-font-weight-bold;
       font-size: floor($font-size-base * 0.7);
-      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.05);
-      border-radius: $border-radius 0 0 $border-radius;
+      border-radius: $border-radius-lg 0 0 0;
 
       span {
         display: block;
         padding: 2px 0;
+        color: transparent;
       }
 
       span + span {
-        border-top: 1px solid $border-color-light;
       }
 
       & + .chh-period.chh-period-hour {
         span {
-          display: none !important;
         }
 
         &:before {
-          display: none !important;
+          top: -1px!important;
         }
       }
     }
@@ -1582,12 +1625,13 @@
         vertical-align: middle;
         text-align: right;
         line-height: $period_height;
-        font-size: floor($font-size-base * 0.75);
-        color: #AAB1CB;
+        font-size: $body-font-size-xxs;
+        color: rgba(0,0,0,0.4);
         font-weight: $body-font-weight-bold;
 
         &.last-period {
           height: 1px !important;
+          color: transparent;
         }
 
         &.chh-period-minutes {
@@ -1650,9 +1694,12 @@
         }
 
         &:last-child {
+          .ch-day-periods {
+            border-right: none;
+          }
           .ch-day {
-            border-right-color: $border-color-strong;
-            border-top-right-radius: $border-radius;
+            border-top-right-radius: $border-radius-lg;
+            border-right: none;
           }
         }
       }
@@ -1661,6 +1708,10 @@
     .ch-day-periods {
       border-right: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
+
+      .current-time-indicator + .chd-period {
+        border-top: none!important;
+      }
 
       .chd-period {
         height: $period_height;
@@ -1672,7 +1723,8 @@
         }
 
         &.chd-period-off {
-          background-image: repeating-linear-gradient(90deg, #fff, #fff 2px, #cfcfcf 2px, #c2c2c2 3px);
+          //background-image: repeating-linear-gradient(90deg, #fff, #fff 2px, #cfcfcf 2px, #c2c2c2 3px);
+          background-image: repeating-linear-gradient(-37deg, rgba(1, 0, 10, 0.08) 0px, rgba(1, 0, 10, 0.08) 1px, transparent 1px, transparent 4px);
 
 
           &:hover {
@@ -1746,12 +1798,12 @@
 
       &.ch-day-tue,
       &.ch-day-thu {
-        background-color: #fafbfd;
+        background-color: #fff;
       }
 
       &.ch-day-6,
       &.ch-day-7 {
-        background-color: #FBF8EF;
+        background-color: #fff;
       }
     }
 
@@ -1768,6 +1820,7 @@
       cursor: pointer;
       transition: all 0.2s ease;
       overflow: hidden;
+      border-radius: $border-radius;
 
       &.status-pending {
         &:before {
@@ -1881,6 +1934,9 @@
 .calendar-month-agents-w {
   position: relative;
   $day-height: 35px;
+  background-color: #fff;
+  border-radius: $border-radius-lg;
+  border: 1px solid $border-color-main;
 
   &.os-loading {
     .ma-days-with-bookings-i {
@@ -1917,16 +1973,15 @@
     text-align: center;
     color: $color-faded;
     width: 80px;
-    height: 52px;
+    height: 51px;
     font-weight: $body-font-weight-bold;
     font-size: $font-size-base * 0.7;
-    background-color: #fff;
-    border-top: 1px solid $border-color-strong;
     border-bottom: 1px solid $border-color-strong;
     position: relative;
 
+
     span {
-      display: block;
+      display: none;
     }
 
     span + span {
@@ -1938,9 +1993,8 @@
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    border-top: 1px solid $border-color-strong;
     border-bottom: 1px solid $border-color-strong;
-    border-right: 1px solid $border-color-strong;
+    border-right: 1px solid $border-color-lightest;
     flex: 0 0 249px;
     background-color: #fff;
 
@@ -1984,7 +2038,6 @@
     left: 0px;
     z-index: 3;
     border-right: 1px solid $border-color-strong;
-    border-left: 1px solid $border-color-strong;
 
 
     .ma-month-label {
@@ -2371,7 +2424,7 @@
   left: 0px;
   background-color: #fff;
   z-index: 99999;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: none;
 
   .fsy-header {
@@ -2552,10 +2605,10 @@
   display: flex;
   margin-bottom: 10px;
   padding-bottom: 20px;
-  border-bottom: 1px solid $border-color-main;
+  border-bottom: 1px solid $border-color-lightest;
 
   .os-form-group {
-    margin-bottom: 0px;
+    margin-bottom: 0px!important;
 
     select {
       transition: none;
@@ -2654,11 +2707,11 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid $border-color-lightest;
   margin-bottom: 10px;
 
   .os-form-group {
-    margin-bottom: 0px;
+    margin-bottom: 0px!important;
 
     & + .os-form-group {
       margin-left: 5px;
@@ -2852,7 +2905,7 @@
 
 
   .os-form-group.os-form-toggler-group label {
-    padding: 5px 10px 6px 0px;
+    padding: 7px 10px 7px 0px;
   }
 }
 
@@ -2860,7 +2913,7 @@
   .no-results-w {
     background-color: #f8fafd;
     padding: 40px;
-    border-radius: 6px;
+    border-radius: $border-radius;
 
     h2 {
       max-width: 500px;
@@ -3101,12 +3154,12 @@
   display: flex;
   align-items: center;
   overflow-x: auto;
-  $tab-border-radius: 6px;
+  $tab-border-radius: $border-radius;
   margin-bottom: 15px;
   gap: 20px;
   box-shadow: inset 0 -1px 0 0 $border-color-lightest;
   padding-top: 20px;
-  font-size: floor($font-size-base * 1.2);
+  font-size: $body-font-size-m;
 
   .wc-label {
     color: $color-faded;
@@ -3142,18 +3195,22 @@
     &.selected {
       &:after {
         content: "";
-        height: 2px;
+        height: 4px;
+        border-radius: 4px;
         background-color: $headings-color;
         position: absolute;
         bottom: 0px;
         left: 0;
         right: 0;
+        background-image: linear-gradient(45deg, #702fdb, #ffc390)
       }
 
-      &:hover {
-        background-color: #fff;
-      }
 
+      .agent-name {
+        color: $headings-color;
+      }
+    }
+    &:hover {
       .agent-name {
         color: $headings-color;
       }
@@ -3175,7 +3232,7 @@
     padding: 8px 5px;
     border: 1px solid $border-color-strong;
     color: $color-faded;
-    border-radius: 6px;
+    border-radius: $border-radius;
     flex: 1;
     text-align: center;
     cursor: pointer;
@@ -3243,7 +3300,7 @@
 .quick-calendar-actions {
   .quick-calendar-action {
     padding: 15px;
-    border-radius: 6px;
+    border-radius: $border-radius;
     font-size: $body-font-size-m;
     display: flex;
     gap: 15px;

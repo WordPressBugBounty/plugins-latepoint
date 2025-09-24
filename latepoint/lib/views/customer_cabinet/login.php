@@ -4,16 +4,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="latepoint-w">
-	<div class="os-form-w latepoint-login-form-w">
-		<h4><?php esc_html_e('Login to your account', 'latepoint'); ?></h4>
-		<form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'do_login')); ?>" data-os-success-action="redirect">
-			<?php echo OsFormHelper::text_field('customer_login[email]', __('Email Address', 'latepoint')); ?>
-			<?php echo OsFormHelper::password_field('customer_login[password]', __('Password', 'latepoint')); ?>
-			<div class="os-form-buttons os-flex">
-				<?php echo OsFormHelper::button('submit', __('Log me in', 'latepoint'), 'submit', ['class' => 'latepoint-btn']); ?>
-				<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-link" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>" data-os-output-target=".latepoint-login-form-w"><?php esc_html_e('Forgot Password?', 'latepoint'); ?></a>
-			</div>
-			<?php do_action('latepoint_after_customer_login_form'); ?>
-		</form>
+	<div class="os-form-w latepoint-login-form-w" data-success-action="reload">
+        <?php
+        if(OsAuthHelper::is_customer_auth_enabled()){ ?>
+        <form action="" class="latepoint-form">
+            <div class="latepoint-customer-otp-input-container"></div>
+            <div class="latepoint-customer-auth-options-wrapper hide-when-entering-otp">
+                <div class="latepoint-customer-box-title"><?php _e('Sign in to your account', 'latepoint'); ?></div>
+                <?php
+                echo '<div class="os-step-existing-customer-login-w">';
+                    echo OsAuthHelper::auth_form_html( true, new OsCustomerModel() );
+                echo '</div>';
+                echo '<div class="os-password-reset-form-holder"></div>';
+                if ( apply_filters( 'latepoint_customer_login_show_other_options', false ) ) { ?>
+                    <div class="os-social-or"><span><?php _e( 'OR', 'latepoint' ); ?></span></div>
+                    <?php
+                }
+                ?>
+                <?php do_action('latepoint_after_customer_login_form'); ?>
+            </div>
+        </form>
+        <?php
+        }else{
+            echo '<div>'.__('Customer authentication is disabled', 'latepoint').'</div>';
+        } ?>
 	</div>
 </div>

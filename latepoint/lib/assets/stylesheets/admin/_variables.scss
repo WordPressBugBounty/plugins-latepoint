@@ -1,5 +1,6 @@
 $logo-color: #1d7bff;
 $brand-primary: #1d7bff;
+$brand-softer: #219ff8;
 $brand-dark: #2D303A;
 $body-bg: #fff;
 $faded-bg: #f3f3f3;
@@ -7,7 +8,7 @@ $sidebar-bg: #fff;
 $element-bg: #F5F6FA;
 $color-faded: #788291;
 $border-color-strong: #d2d4d7;
-$border-color-main: #e4e5e7;
+$border-color-main: #dcdad7;
 $border-color-sub: #f2f3f3;
 // FONTS & TYPOGRAPHY
 
@@ -57,11 +58,11 @@ $side-menu-width: 210px;
 
 // -- Light
 $side-menu-text-color: $headings-color;
-$side-menu-link-color: #333;
+$side-menu-link-color: #3a424b;
 $side-menu-icon-color: $brand-primary;
 $side-menu-bg: $body-bg;
-$side-menu-item-hover-bg: #ebedf1;
-$side-menu-active-item-bg: #ebedf1;
+$side-menu-item-hover-bg: #edeff1;
+$side-menu-active-item-bg: #edeff1;
 
 // -- Dark
 $side-menu-dark-link-color: #9398b7;
@@ -81,18 +82,18 @@ $box-shadow-hover: 0 15px 30px 0 rgba(108, 120, 143, 0.2), 0 1px 3px 0 rgba(170,
 $box-shadow-main: 0 1px 2px rgba(0,0,0,0.2);
 
 // -- Border Radius
-$border-radius-xs: 6px;
-$border-radius-sm: 6px;
-$border-radius: 6px;
-$border-radius-lg: 6px;
+$border-radius-xs: 8px;
+$border-radius-sm: 12px;
+$border-radius: 15px;
+$border-radius-lg: 20px;
 
-$border-radius-btn: 6px;
-$border-radius-btn-lg: 6px;
-$border-radius-btn-sm: 6px;
+$border-radius-btn: 15px;
+$border-radius-btn-lg: 20px;
+$border-radius-btn-sm: 12px;
 
-$lightbox-border-radius: 6px;
+$lightbox-border-radius: 20px;
 
-$border-color-lightest: #F4F4F4;
+$border-color-lightest: #EEF0F1;
 $border-color-light: #ddd;
 
 
@@ -102,13 +103,13 @@ $table-row-highlight-border: $border-color-main;
 $table-heading-border-color: $border-color-main;
 
 // TOOLTIPS
-$tooltip-border-radius: 5px;
+$tooltip-border-radius: $border-radius-sm;
 
 // FORMS
 
 $form-controls-border-color: #cecfd8;
 $form-controls-background-color: #f1f3f7;
-$form-controls-border-radius: 5px;
+$form-controls-border-radius: $border-radius;
 $form-controls-color: #32373c;
 $form-controls-label-color: #444756;
 $form-controls-select-height: auto;
@@ -134,8 +135,8 @@ $button-primary-border-color: #1e7bff;
 $button-primary-shadow-color: transparent;
 $button-primary-text-color: #fff;
 $button-primary-outline-text-color: #1e7bff;
-$button-primary-hover-bg-color: #456ef6;
-$button-primary-hover-border-color: #456ef6;
+$button-primary-hover-bg-color: #3c8dff;
+$button-primary-hover-border-color: #3c8dff;
 
 // danger
 $button-danger-bg-color: #ef6b6b;
@@ -165,7 +166,7 @@ $button-warning-hover-bg-color: #fde1ac;
 $button-warning-hover-border-color: #fde1ac;
 
 // secondary
-$button-secondary-bg-color: #e9eaed;
+$button-secondary-bg-color: #f3f4f7;
 $button-secondary-border-color: #e9eaed;
 $button-secondary-shadow-color: transparent;
 $button-secondary-text-color: #252C39;

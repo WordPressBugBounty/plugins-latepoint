@@ -20,7 +20,7 @@ if($customers){
         </a>
       </td>
       <td><?php echo esc_html($customer->phone); ?></td>
-      <td style="max-width: 220px; overflow: scroll;"><?php echo esc_html($customer->email); ?></td>
+      <td style="max-width: 220px; overflow: auto;"><?php echo esc_html($customer->email); ?></td>
       <?php if(OsSettingsHelper::is_using_social_login()){
         $social_google = $customer->google_user_id ? '<i class="latepoint-customer-google latepoint-icon latepoint-icon-google"></i>' : '';
         $social_facebook = $customer->facebook_user_id ? '<i class="latepoint-customer-facebook latepoint-icon latepoint-icon-facebook"></i>' : '';
@@ -30,7 +30,7 @@ if($customers){
       <td><?php echo esc_html($customer->get_total_bookings_count(true)); ?></td>
       <td><?php echo ($next_booking) ? esc_html($next_booking->nice_start_datetime) : esc_html__('n/a', 'latepoint'); ?></td>
       <td><?php echo ($next_booking) ? $next_booking->time_left : '<span class="time-left is-past">'.esc_html__('Past', 'latepoint').'</span>'; ?></td>
-      <?php if(OsAuthHelper::wp_users_as_customers()) echo ($customer->wordpress_user_id) ? '<td><a target="_blank" href="'.esc_url(get_edit_user_link($customer->wordpress_user_id)).'">'.esc_html($customer->wordpress_user_id).'</a></td>' : '<td><div class="not-connected-pill"></div></td>'; ?>
+      <?php if(OsAuthHelper::can_wp_users_login_as_customers()) echo ($customer->wordpress_user_id) ? '<td><a target="_blank" href="' . esc_url(get_edit_user_link($customer->wordpress_user_id)) . '">' . esc_html($customer->wordpress_user_id) . '</a></td>' : '<td><div class="not-connected-pill"></div></td>'; ?>
       <td><?php echo esc_html($customer->formatted_created_date()); ?></td>
     </tr>
     <?php 

@@ -71,14 +71,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 		<?php
 		// show "create account" prompt where they can set a password for their account
-		if (!empty($customer) && $customer->is_guest && (OsSettingsHelper::get_settings_value('steps_hide_registration_prompt') != 'on') && !OsSettingsHelper::is_on('steps_hide_login_register_tabs')) { ?>
+		if (!empty($customer) && $customer->is_guest && (OsSettingsHelper::is_off('steps_hide_registration_prompt') && OsAuthHelper::is_customer_auth_enabled())) { ?>
 			<div class="step-confirmation-set-password">
 				<div class="set-password-fields">
 					<?php echo OsFormHelper::password_field('customer[password]', __('Set Your Password', 'latepoint')); ?>
 					<a href="#" class="latepoint-btn latepoint-btn-primary set-customer-password-btn"
 					   data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'set_account_password_on_booking_completion')); ?>"><?php esc_html_e('Save', 'latepoint'); ?></a>
 				</div>
-				<?php echo OsFormHelper::hidden_field('account_nonse', $customer->account_nonse); ?>
+                <?php wp_nonce_field('set_initial_password_for_customer_'.$customer->get_uuid(), 'new_password_nonce'); ?>
 			</div>
 			<div class="confirmation-cabinet-info">
 				<div

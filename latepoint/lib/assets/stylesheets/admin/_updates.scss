@@ -174,8 +174,6 @@ body.latepoint-admin {
           border-bottom: 1px dotted $link-color;
         }
         .latepoint-btn {
-          padding: 7px 14px 8px;
-          box-shadow: none;
         }
       }
     }
@@ -190,7 +188,6 @@ body.latepoint-admin {
 
     .latepoint-btn {
       margin-right: 10px;
-      padding: 5px 10px 7px 10px;
     }
   }
 
@@ -260,16 +257,14 @@ body.latepoint-admin {
 
 body.latepoint-admin {
   .new-version-message, .active-license-info {
-    border: 1px solid $border-color-main;
     padding: 30px;
     padding-top: 25px;
-    background-color: #fff;
     padding-bottom: 25px;
-    border-radius: $border-radius;
     font-size: floor($font-size-base * 1);
     position: relative;
     color: $color-faded;
     margin-bottom: 40px;
+    @include white-box();
     .version-warn-icon,
     .version-check-icon {
       color: #fff;

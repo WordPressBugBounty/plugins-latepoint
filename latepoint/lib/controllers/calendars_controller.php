@@ -256,7 +256,11 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 					case 'week':
 						$calendar_start   = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'monday this week' );
 						$calendar_end     = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'sunday this week' );
-						$top_date_label   = OsUtilHelper::translate_months( $calendar_start->format( 'F' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . OsUtilHelper::translate_months( $calendar_end->format( 'F' ), false ) . ' ' . $calendar_end->format( 'j' );
+						if($calendar_start->format( 'M' ) == $calendar_end->format( 'M' )){
+							$top_date_label   = OsUtilHelper::translate_months( $calendar_start->format( 'F' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . $calendar_end->format( 'j' );
+						}else{
+							$top_date_label   = OsUtilHelper::translate_months( $calendar_start->format( 'M' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . OsUtilHelper::translate_months( $calendar_end->format( 'M' ), false ) . ' ' . $calendar_end->format( 'j' );
+						}
 						$prev_target_date = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( '-7 days' );
 						$next_target_date = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( '+7 days' );
 						break;

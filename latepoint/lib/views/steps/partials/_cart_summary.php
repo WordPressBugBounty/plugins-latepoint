@@ -8,6 +8,7 @@
 /* @var $booking OsBookingModel */
 /* @var $active_cart_item OsCartItemModel */
 /* @var $output_target string [summary_panel, step_verify] */
+/* @var $current_step_code string */
 
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -127,7 +128,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                 }
 			}
 
-
 			if ( $cart_bookings ) {
 				echo '<div class="booking-summary-info-w">';
 				echo '<div class="summary-boxes-columns">';
@@ -137,27 +137,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 				if ( $same_location ) {
 					OsLocationHelper::generate_summary_for_location( reset( $cart_bookings ) );
 				}
-				if ( $customer ) {
-					OsCustomerHelper::generate_summary_for_customer( $customer );
+				if ( !empty($customer) && !$customer->is_new_record() ) {
+					OsCustomerHelper::generate_summary_for_customer( $customer, ($current_step_code != 'customer') );
 				}
 				echo '</div>';
 				echo '</div>';
 			} else {
-				if ( $customer ) {
+				if ( !empty($customer) && !$customer->is_new_record() ) {
 					echo '<div class="booking-summary-info-w">';
 					echo '<div class="summary-boxes-columns">';
-					OsCustomerHelper::generate_summary_for_customer( $customer );
-					echo '</div>';
-					echo '</div>';
-				}
-			}
-		} else {
-			// no cart items, check if building a booking
-			if ( $booking ) {
-				if ( $customer ) {
-					echo '<div class="booking-summary-info-w">';
-					echo '<div class="summary-boxes-columns">';
-					OsCustomerHelper::generate_summary_for_customer( $customer );
+					OsCustomerHelper::generate_summary_for_customer( $customer, ($current_step_code != 'customer') );
 					echo '</div>';
 					echo '</div>';
 				}

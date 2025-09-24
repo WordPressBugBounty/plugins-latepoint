@@ -67,6 +67,9 @@
     i {
       color: #fff;
     }
+    &:focus {
+      outline: 2px solid $brand-primary;
+    }
 
     &.latepoint-btn-outline {
       background-color: transparent;
@@ -100,7 +103,12 @@
         color: $brand-primary;
       }
       span {
-        border-bottom: 1px solid $brand-primary;
+        border-bottom: 1px dotted $brand-primary;
+      }
+      &:hover {
+        span {
+          border-bottom-style: solid;
+        }
       }
       &.os-loading, &.os-loading:hover, &.os-loading:focus {
         color: transparent!important;

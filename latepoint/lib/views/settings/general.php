@@ -3,12 +3,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
+<form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name( 'settings', 'update' )); ?>">
+<div class="latepoint-page-with-side-nav">
 <div class="latepoint-settings-w os-form-w">
-    <form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name( 'settings', 'update' )); ?>">
 		<?php wp_nonce_field( 'update_settings' ); ?>
         <div class="white-box section-anchor" id="stickySectionAppointment">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Appointment Settings', 'latepoint' ); ?></h3></div>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Appointments', 'latepoint' ); ?></h3></div>
             </div>
             <div class="white-box-content no-padding">
                 <div class="sub-section-row">
@@ -167,7 +168,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
         <div class="white-box section-anchor" id="stickySectionPhone">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Phone Settings', 'latepoint' ); ?></h3></div>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Phone', 'latepoint' ); ?></h3></div>
             </div>
             <div class="white-box-content no-padding">
                 <div class="sub-section-row phone-country-picker-settings">
@@ -208,9 +209,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         </div>
-        <div class="white-box section-anchor" id="stickySectionAgent">
+        <div class="white-box section-anchor" id="stickySectionAvailability">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Timeslot Availability Logic', 'latepoint' ); ?></h3>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Availability Logic', 'latepoint' ); ?></h3>
                 </div>
             </div>
             <div class="white-box-content no-padding">
@@ -235,9 +236,72 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
         <div class="white-box section-anchor" id="stickySectionCustomer">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Customer Settings', 'latepoint' ); ?></h3></div>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Customers', 'latepoint' ); ?></h3></div>
             </div>
             <div class="white-box-content no-padding">
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Authentication', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <div class="latepoint-message latepoint-message-subtle">
+                            <?php _e('Make sure to install an SMS processor if you choose to text one-time codes (OTP) to customer phone numbers for authentication or verification', 'latepoint'); ?>
+                        </div>
+                        <div class="os-row os-mb-2">
+                            <div class="os-col-lg-6">
+                                <?php echo OsFormHelper::select_field('settings[selected_customer_authentication_field_type]', __('Field used for authentication', 'latepoint'), OsAuthHelper::get_customer_authentication_field_type_options(), OsAuthHelper::get_selected_customer_authentication_field_type(), ['data-os-on-change' => 'latepoint_settings_customer_authentication_field_type_changed']); ?>
+                            </div>
+                            <div class="os-col-lg-6" id="authDefaultContactType" <?php if(OsAuthHelper::get_selected_customer_authentication_field_type() != 'email_or_phone'){ ?>style="display: none;"<?php } ?>>
+                                <div>
+                                    <?php echo OsFormHelper::select_field('settings[default_contact_type_for_customer_auth]', __('Default to', 'latepoint'), OsAuthHelper::get_available_contact_types_for_customer_auth(), OsAuthHelper::get_default_contact_type_for_customer_auth()); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="passwordFields" <?php if(OsAuthHelper::is_customer_auth_disabled()){ ?>style="display: none;"<?php } ?>>
+                            <div class="os-row os-mb-2">
+                                <div class="os-col-lg-6">
+                                    <?php echo OsFormHelper::select_field('settings[selected_customer_authentication_method]', __('Authentication method', 'latepoint'), OsAuthHelper::get_customer_authentication_method_options(), OsAuthHelper::get_selected_customer_authentication_method(), ['data-os-on-change' => 'latepoint_settings_customer_authentication_method_changed']); ?>
+                                </div>
+                                <div id="authDefaultMethod" class="os-col-lg-6" <?php if(OsAuthHelper::get_selected_customer_authentication_method() != 'password_or_otp'){ ?>style="display: none;"<?php } ?>>
+                                    <div>
+                                        <?php echo OsFormHelper::select_field('settings[default_customer_authentication_method]', __('Default to', 'latepoint'), OsAuthHelper::get_available_customer_authentication_methods(), OsAuthHelper::get_default_customer_authentication_method()); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php echo OsFormHelper::toggler_field( 'settings[require_otp_for_new_contacts]', __( 'Require OTP verification for new contacts', 'latepoint' ), OsSettingsHelper::is_on( 'require_otp_for_new_contacts' ), false, false, [ 'sub_label' => __( 'Require customers to verify their primary contact (email or phone) when they change it or add a new one, a 6 digit one-time code will be sent to their email or phone', 'latepoint' ) ] ); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-section-row" id="customerStepSettings" <?php if(OsAuthHelper::is_customer_auth_disabled()){ ?>style="display: none;"<?php } ?>>
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Customer Step', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                            <?php // echo OsFormHelper::toggler_field( 'settings[modern_auth_flow_for_customers]', __( 'Simplified authentication flow', 'latepoint' ), !OsAuthHelper::is_classic_auth_flow(), false, false, [ 'sub_label' => __( 'Instead of having customer to pick if they want to create a new account or login, ask them their phone/email and then present a form to register if email/phone not found, or show OTP/password form to login', 'latepoint' ) ] ); ?>
+                            <?php echo OsFormHelper::toggler_field( 'settings[steps_require_setting_password]', __( 'Require customers to set password', 'latepoint' ), OsSettingsHelper::is_on( 'steps_require_setting_password' ), '-registrationPrompt', false, [ 'sub_label' => __( 'Shows password field on registration step, customer will be required to set a password in order to create an account', 'latepoint' ) ] ); ?>
+                            <div id="registrationPrompt" <?php if(OsSettingsHelper::is_on( 'steps_require_setting_password' )){ ?>style="display: none;"<?php } ?>>
+                                <?php echo OsFormHelper::toggler_field( 'settings[steps_hide_registration_prompt]', __( 'Do not show "Create Account" prompt on confirmation step', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_registration_prompt' ), false, false, [ 'sub_label' => __( 'If a customer has not set password for their account, they will be presented with a prompt to do it after a booking is placed.', 'latepoint' ) ] ); ?>
+                            </div>
+                    </div>
+                </div>
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'WordPress', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <?php echo OsFormHelper::toggler_field( 'settings[wp_users_as_customers]', __( 'Use WordPress users as customers', 'latepoint' ), OsSettingsHelper::is_on( 'wp_users_as_customers' ), 'defaultWPUserRole', false, [ 'sub_label' => __( 'Customers can login using their WordPress credentials (if authentication is enabled above), a linked customer account is created automatically. If a WordPress user is logged in - a customer with the same email will be created automatically and data will be prefilled. If a new customer provided an email address, a linked WordPress user is automatically created for that customer, if not present already.', 'latepoint' ) ] ); ?>
+                        <div id="defaultWPUserRole" class="os-mt-1" <?php if(!OsAuthHelper::can_wp_users_login_as_customers()){ ?>style="display: none;"<?php } ?>>
+                        <?php echo OsFormHelper::select_field( 'settings[default_wp_role_for_customer]', __('Default role for a created WP user', 'latepoint'), OsRolesHelper::get_wp_roles_list(), OsSettingsHelper::get_default_wp_role_for_new_customers() ); ?>
+                        <?php
+                        $default_fields = OsSettingsHelper::get_default_fields_for_customer();
+                        if(empty($default_fields['email']) || !$default_fields['email']['required'] || !$default_fields['email']['active']){
+                            echo '<div class="latepoint-message latepoint-message-invalid">'.esc_html__('Important: WordPress users are required to have an email address. You have to set email address field as required in order to create a matching WP user for new customers, otherwise customers without email address on file will not be able to login and make bookings', 'latepoint').'</div>';
+                        }
+                        ?>
+                        </div>
+
+                    </div>
+                </div>
                 <div class="sub-section-row">
                     <div class="sub-section-label">
                         <h3><?php esc_html_e( 'Rescheduling', 'latepoint' ) ?></h3>
@@ -278,25 +342,12 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <h3><?php esc_html_e( 'Customer Cabinet', 'latepoint' ) ?></h3>
                     </div>
                     <div class="sub-section-content">
-                        <div class="os-mt-2">
-							<?php echo OsFormHelper::text_field( 'settings[customer_dashboard_book_shortcode]', __( 'Shortcode for contents of New Appointment tab', 'latepoint' ), OsSettingsHelper::get_settings_value( 'customer_dashboard_book_shortcode', '[latepoint_book_form]' ), [ 'theme' => 'simple' ] ); ?>
-                        </div>
+                        <?php echo OsFormHelper::text_field( 'settings[customer_dashboard_book_shortcode]', __( 'Shortcode for contents of New Appointment tab', 'latepoint' ), OsSettingsHelper::get_settings_value( 'customer_dashboard_book_shortcode', '[latepoint_book_form]' ), [ 'theme' => 'simple' ] ); ?>
                         <div class="os-mt-2">
                             <div class="latepoint-message latepoint-message-subtle"><?php esc_html_e( 'You can set attributes for a new appointment button tile in a format', 'latepoint' ); ?>
                                 <strong>data-selected-agent="ID" data-selected-location="ID" etc...</strong></div>
 							<?php echo OsFormHelper::text_field( 'settings[customer_dashboard_book_button_attributes]', __( 'Attributes for New Appointment button', 'latepoint' ), OsSettingsHelper::get_settings_value( 'customer_dashboard_book_button_attributes', '' ), [ 'theme' => 'simple' ] ); ?>
                         </div>
-                    </div>
-                </div>
-                <div class="sub-section-row">
-                    <div class="sub-section-label">
-                        <h3><?php esc_html_e( 'Authentication', 'latepoint' ) ?></h3>
-                    </div>
-                    <div class="sub-section-content">
-						<?php echo OsFormHelper::toggler_field( 'settings[wp_users_as_customers]', __( 'Use WordPress users as customers', 'latepoint' ), OsSettingsHelper::is_on( 'wp_users_as_customers' ), false, false, [ 'sub_label' => __( 'Customers can login using their WordPress credentials', 'latepoint' ) ] ); ?>
-						<?php echo OsFormHelper::toggler_field( 'settings[steps_require_setting_password]', __( 'Require customers to set password', 'latepoint' ), OsSettingsHelper::is_on( 'steps_require_setting_password' ), false, false, [ 'sub_label' => __( 'Shows password field on registration step', 'latepoint' ) ] ); ?>
-						<?php echo OsFormHelper::toggler_field( 'settings[steps_hide_login_register_tabs]', __( 'Remove login and register tabs', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_login_register_tabs' ), false, false, [ 'sub_label' => __( 'This will disable ability for customers to login or register on booking form', 'latepoint' ) ] ); ?>
-						<?php echo OsFormHelper::toggler_field( 'settings[steps_hide_registration_prompt]', __( 'Hide "Create Account" prompt on confirmation step', 'latepoint' ), OsSettingsHelper::is_on( 'steps_hide_registration_prompt' ) ); ?>
                     </div>
                 </div>
 
@@ -338,7 +389,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 		<?php
 		/**
-		 * Plug before "Other Settings" section in general settings
+		 * Plug before "Other" section in general settings
 		 *
 		 * @since 5.1.0
 		 * @hook latepoint_settings_general_before_other
@@ -347,7 +398,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		do_action( 'latepoint_settings_general_before_other' ); ?>
         <div class="white-box section-anchor" id="stickySectionOther">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Other Settings', 'latepoint' ); ?></h3></div>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Other', 'latepoint' ); ?></h3></div>
             </div>
             <div class="white-box-content no-padding">
                 <div class="sub-section-row">
@@ -503,5 +554,38 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="os-form-buttons">
 			<?php echo OsFormHelper::button( 'submit', __( 'Save Settings', 'latepoint' ), 'submit', [ 'class' => 'latepoint-btn' ] ); ?>
         </div>
-    </form>
 </div>
+<div class="latepoint-page-side-nav">
+    <div class="side-nav-actions">
+        <button type="submit" class="latepoint-btn latepoint-btn-block"><i class="latepoint-icon latepoint-icon-check"></i><span><?php _e( 'Save Changes', 'latepoint' ); ?></span></button>
+    </div>
+    <div class="side-nav-body">
+        <div><a href="#stickySectionAppointment" class="is-active"><?php esc_html_e( 'Appointments', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionRestrictions"><?php esc_html_e( 'Restrictions', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionCurrency"><?php esc_html_e( 'Currency & Price', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionPhone"><?php esc_html_e( 'Phone', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionAvailability"><?php esc_html_e( 'Availability Logic', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionCustomer"><?php esc_html_e( 'Customers', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionSetup"><?php esc_html_e( 'Setup Pages', 'latepoint' ); ?></a></div>
+        <?php
+
+        /**
+         * Sticky menu items links for the general settings
+         *
+         * @since 5.1.94
+         * @hook latepoint_general_settings_sticky_section_items
+         *
+         * @param {array} $sticky_menu_items items that go into sticky menu on the right of settings, in format ['href' => '', 'label' => '']
+         * @returns {array} The filtered array of sticky menu items
+         */
+        $before_other_items = apply_filters('latepoint_general_settings_sticky_section_items', []);
+        foreach($before_other_items as $item){
+            echo '<div><a href="#'.esc_attr($item['href']).'">'.esc_html( $item['label'] ).'</a></div>';
+        }
+        ?>
+        <div><a href="#stickySectionOther"><?php esc_html_e( 'Other', 'latepoint' ); ?></a></div>
+    </div>
+
+</div>
+</div>
+</form>

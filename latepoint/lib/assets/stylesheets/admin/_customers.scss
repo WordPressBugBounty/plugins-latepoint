@@ -84,7 +84,7 @@
   }
   .customers-options-list {
     max-height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
     .os-no-matched-customers {
       text-align: center;
       padding: 10px;
@@ -193,7 +193,7 @@
         z-index: 9999;
         transform: translate(-50%, -5px);
         white-space: nowrap;
-        border-radius: 4px;
+        border-radius: $tooltip-border-radius;
       }
       &:hover {
         .agent-info-tooltip {
@@ -475,7 +475,7 @@
           z-index: 9999;
           transform: translate(-50%, -5px);
           white-space: nowrap;
-          border-radius: 4px;
+          border-radius: $tooltip-border-radius;
         }
         &:hover {
           .agent-info-tooltip {
@@ -542,5 +542,112 @@
     left: 10px;
     transform: translateY(-50%);
     @include latepointfont_admin("\e91a");
+  }
+}
+
+.customer-csv-step {
+  .os-upload-file-input-w input[type=file] {
+    border: 1px solid $border-color-main;
+    padding: 10px 10px 11px 10px;
+    border-radius: $border-radius;
+    width: 100%;
+    display: block;
+    line-height: 1;
+    cursor: pointer;
+    &:hover {
+      border-color: $brand-primary;
+    }
+  }
+
+  .customer-csv-mapping-wrapper {
+    margin-top: 15px;
+  }
+
+  .customer-csv-confirmation-table-wrapper {
+    border-radius: $border-radius;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px $border-color-main;
+  }
+  .customer-csv-confirmation-table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+    margin: 0;
+
+    td {
+      border: 1px solid $border-color-main;
+      padding: 10px;
+    }
+  }
+
+  .customer-csv-mapping-header {
+    font-size: $body-font-size-xxs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: $body-font-weight-black;
+    color: $color-faded;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid $border-color-lightest;
+  }
+  .customer-csv-mapping-row {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid $border-color-lightest;
+    .label-desc {
+      margin-bottom: 0;
+    }
+    .os-form-group.os-form-group-transparent {
+      margin-bottom: 0;
+    }
+  }
+
+  .customer-import-conflicts ul{
+    margin-bottom: 0;
+  }
+
+  .customer-import-result{
+    .customer-import-result-success {
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: $body-font-size-l;
+
+      .latepoint-icon{
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 15px;
+        color: #13c667;
+        text-align: center;
+        font-size: 32px;
+      }
+    }
+    .result-item{
+      display: flex;
+      gap: 20px;
+      padding: 15px;
+      align-items: center;
+      border: 1px solid $border-color-main;
+
+      &:not(:last-child){
+        margin-bottom: 10px;
+      }
+      &.import-status-success .latepoint-icon{
+        background-color: #2fe67f;
+      }
+      &.import-status-warning .latepoint-icon{
+        background: #b8b8b8;
+      }
+      .latepoint-icon{
+        width: 25px;
+        height: 25px;
+        background-color: #2fe67f;
+        box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.6);
+        color: #fff;
+        border-radius: 15px;
+        text-align: center;
+        line-height: 25px;
+      }
+    }
   }
 }

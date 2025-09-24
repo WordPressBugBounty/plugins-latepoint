@@ -52,6 +52,7 @@
       color: #222;
       align-self: flex-start;
       position: relative;
+      border-radius: $border-radius;
 
       .customer-order-confirmation {
         font-size: floor($font-size-base * 1.7);
@@ -96,6 +97,7 @@
       padding: 30px 20px;
       min-height: 100px;
       text-decoration: none!important;
+      border-radius: $border-radius;
 
       i, span {
         display: block;
@@ -135,6 +137,7 @@
       color: #222;
       align-self: flex-start;
       position: relative;
+      border-radius: $border-radius;
       .bt-payment-actions {
         margin-top: 20px;
         padding-top: 20px;
@@ -736,6 +739,7 @@
 
   .lp-payment-charge-amount {
     background-color: #fbf6e1;
+    border-radius: $border-radius;
     color: #877865;
     margin-bottom: 20px;
     padding: 15px;

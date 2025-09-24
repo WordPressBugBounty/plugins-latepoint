@@ -374,6 +374,92 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
     }
 
 
+	  public function import_csv_modal(  ) {
+		  $current_step = $this->params['step'] ?? 'upload_csv';
+		  $steps = [
+			  'upload_csv' => ['next_step' => 'mapping'],
+			  'mapping' => ['next_step' => 'importing'],
+		  ];
+		  $this->vars['current_step'] = $current_step;
+		  $this->vars['next_step'] = array_key_exists($current_step, $steps) ? $steps[$current_step]['next_step'] : 'upload_csv';
+		  $this->format_render( __FUNCTION__ );
+	}
+
+	public function import_load_step() {
+		$this->check_nonce( 'import_customers_csv' );
+		$current_step = $this->params['step'] ?? 'upload_csv';
+		$status = LATEPOINT_STATUS_SUCCESS;
+
+		try {
+			switch ($current_step) {
+				case 'upload_csv':
+					$response_html = $this->_handle_upload_step();
+					break;
+
+				case 'mapping':
+					$response_html = $this->_handle_mapping_step();
+					break;
+
+				case 'confirmation':
+					$response_html = $this->_handleConfirmationStep();
+					break;
+
+				default:
+					throw new Exception('Invalid step provided');
+			}
+		} catch (Exception $e) {
+			$response_html = $e->getMessage();
+			$status = LATEPOINT_STATUS_ERROR;
+		}
+
+		$this->send_json(array('status' => $status, 'message' => $response_html));
+	}
+
+	  private function _handle_upload_step(): string {
+		  $file_path = OsCSVHelper::upload_csv_file( $this->files, 'latepoint_customers_csv' );
+		  $csv_data  = OsCSVHelper::get_csv_data( $file_path, 1 );
+
+		  return $this->render( $this->views_folder . 'import_steps/step_mapping.php', 'none', [
+			  'csv_data' => $csv_data,
+		  ] );
+	  }
+
+	  private function _handle_mapping_step(): string {
+		  $columnMapping = $this->params['latepoint_column_mapping'] ?? [];
+
+		  if (!OsCustomerImportHelper::validate_import_mapping($columnMapping)) {
+			  throw new Exception(esc_html__('Email field is required', 'latepoint'));
+		  }
+
+		  $csv_data = OsCSVHelper::get_csv_data(OsCustomerImportHelper::get_import_tmp_filepath());
+		  $validation_result = OsCustomerImportHelper::validate_csv_data($csv_data, $columnMapping);
+
+		  return $this->render($this->views_folder . 'import_steps/step_confirmation.php', 'none', [
+			  'conflicts' => $validation_result['conflicts'],
+			  'can_be_imported' => $validation_result['importable_count'],
+			  'latepoint_column_mapping' => $columnMapping
+		  ]);
+	  }
+
+
+	  private function _handleConfirmationStep(): string {
+		  $update_existing_customers = !empty($this->params['latepoint_update_customers_acknowledgement']) && OsUtilHelper::is_on($this->params['latepoint_update_customers_acknowledgement']);
+		  $column_mapping = !empty($this->params['latepoint_column_mapping']) ? json_decode($this->params['latepoint_column_mapping'], true) : [];
+
+		  $file_path = OsCustomerImportHelper::get_import_tmp_filepath();
+		  $csv_data = OsCSVHelper::get_csv_data($file_path);
+
+		  $importResult = OsCustomerImportHelper::import_customers( $csv_data, $column_mapping, $update_existing_customers );
+
+		  // Cleanup after successful import
+		  OsCustomerImportHelper::cleanup_stored_file();
+
+		  return $this->render($this->views_folder . 'import_steps/step_done.php', 'none', [
+			  'skipped_records' => $importResult['skipped_count'],
+			  'updated_records' => $importResult['updated_count'],
+		  ]);
+	  }
+
 
   }
 

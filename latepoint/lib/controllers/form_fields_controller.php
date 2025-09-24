@@ -35,13 +35,15 @@ if (!class_exists('OsFormFieldsController')) :
 			$fields_to_save = [];
 			foreach ($default_fields as $name => $default_field) {
 				$default_field['width'] = $updated_fields[$name]['width'];
-				if (!$default_field['locked']) {
-					$default_field['required'] = ($updated_fields[$name]['required'] == 'off') ? false : true;
-					$default_field['active'] = ($updated_fields[$name]['active']) ? true : false;
-				}
+				$default_field['required'] = ($updated_fields[$name]['required'] == 'off') ? false : true;
+				$default_field['active'] = ($updated_fields[$name]['active']) ? true : false;
 				$fields_to_save[$name] = $default_field;
 			}
 			OsSettingsHelper::save_setting_by_name('default_fields_for_customer', wp_json_encode($fields_to_save));
+			if(!empty($fields_to_save['email']) || $fields_to_save['email']['active'] || $fields_to_save['email']['active']){
+				// if email field is disabled or not required - disabled wordpress login for customers
+				OsSettingsHelper::save_setting_by_name('wp_users_as_customers', LATEPOINT_VALUE_OFF);
+			}
 			if ($this->get_return_format() == 'json') {
 				$this->send_json(array('status' => LATEPOINT_STATUS_SUCCESS, 'message' => __('Default Fields Updated', 'latepoint')));
 			}

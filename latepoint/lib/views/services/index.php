@@ -6,18 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php if($uncategorized_services){ ?>
     <div class="os-item-category-w">
       <div class="os-form-sub-header sub-level"><h3><?php esc_html_e('Uncategorized', 'latepoint'); ?></h3></div>
-      <div class="os-services-list">
+      <div class="os-services-list os-resources-grid">
         <?php foreach ($uncategorized_services as $service): ?>
           <?php include('_service_index_item.php'); ?>
         <?php endforeach; ?>
-        <a class="create-service-link-w" href="<?php echo esc_url(OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'new_form') )); ?>">
-          <div class="create-service-link-i">
-            <div class="add-service-graphic-w">
-              <div class="add-service-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div>
-            </div>
-            <div class="add-service-label"><?php esc_html_e('Add Service', 'latepoint'); ?></div>
-          </div>
-        </a>
+
+
+		<?php if(OsRolesHelper::can_user('service__create')){ ?>
+            <?php echo OsUtilHelper::add_resource_link_html(__('New Service', 'latepoint-pro-features'), OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'new_form') )); ?>
+		<?php } ?>
       </div>
     </div>
 <?php } ?>
@@ -25,22 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
   <?php foreach ($service_categories as $service_category): ?>
     <div class="os-item-category-w">
       <div class="os-form-sub-header sub-level"><h3><?php echo esc_html($service_category->name); ?></h3></div>
-      <div class="os-services-list">
-      <?php 
-        if($service_category->get_active_services(true)){ ?>
-          <?php foreach ($service_category->services as $service): ?>
+      <div class="os-services-list os-resources-grid">
+      <?php
+      $active_services = $service_category->get_active_services(true, true);
+        if($active_services){ ?>
+          <?php foreach ($active_services as $service): ?>
             <?php include('_service_index_item.php'); ?>
           <?php endforeach; ?>
           <?php 
         } ?>
-        <a class="create-service-link-w" href="<?php echo esc_url(OsRouterHelper::build_link(['services', 'new_form'], ['service_category_id' => $service_category->id] )); ?>">
-          <div class="create-service-link-i">
-            <div class="add-service-graphic-w">
-              <div class="add-service-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div>
-            </div>
-            <div class="add-service-label"><?php esc_html_e('Add Service', 'latepoint'); ?></div>
-          </div>
-        </a>
+		<?php if(OsRolesHelper::can_user('service__create')){ ?>
+            <?php echo OsUtilHelper::add_resource_link_html(__('New Service', 'latepoint-pro-features'), OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'new_form'), ['service_category_id' => $service_category->id] )); ?>
+		<?php } ?>
       </div>
     </div>
   <?php endforeach; ?>
@@ -50,10 +43,12 @@ if ( ! defined( 'ABSPATH' ) ) {
   <div class="no-results-w">
     <div class="icon-w"><i class="latepoint-icon latepoint-icon-book"></i></div>
     <h2><?php esc_html_e('No Active Services Found', 'latepoint'); ?></h2>
-    <a href="<?php echo esc_url(OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'new_form') )); ?>" class="latepoint-btn">
-      <i class="latepoint-icon latepoint-icon-plus-square"></i>
-      <span><?php esc_html_e('Add Service', 'latepoint'); ?></span>
-    </a>
+    <?php if(OsRolesHelper::can_user('service__create')){ ?>
+        <a href="<?php echo esc_url(OsRouterHelper::build_link(OsRouterHelper::build_route_name('services', 'new_form') )); ?>" class="latepoint-btn">
+          <i class="latepoint-icon latepoint-icon-plus-square"></i>
+          <span><?php esc_html_e('Add Service', 'latepoint'); ?></span>
+        </a>
+    <?php } ?>
   </div>
 <?php } ?>
 <?php } ?>
@@ -63,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     echo '<div class="disabled-items-wrapper">';
     // translators: %d number of services
     echo '<div class="disabled-items-open-trigger"><span>'.esc_html(sprintf(_n('%d Disabled Service', '%d Disabled Services', count($disabled_services),'latepoint'), count($disabled_services))).'</span><i class="latepoint-icon latepoint-icon-chevron-down"></i></div>';
-        echo '<div class="os-services-list disabled-items-boxes">';
+        echo '<div class="os-services-list os-resources-grid disabled-items-boxes">';
         foreach($disabled_services as $service){
             include('_service_index_item.php');
         }

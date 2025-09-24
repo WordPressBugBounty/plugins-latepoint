@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.1.94
+ * Version: 5.2.0
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,8 +29,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.1.94';
-		public $db_version = '2.2.3';
+		public $version = '5.2.0';
+		public $db_version = '2.3.0';
 
 
 		/**
@@ -217,10 +217,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			if ( ! defined( 'LATEPOINT_MARKETPLACE' ) ) {
 				define( 'LATEPOINT_MARKETPLACE', 'codecanyon' );
 			}
-			if ( ! defined( 'LATEPOINT_REMOTE_HASH' ) ) {
-				define( 'LATEPOINT_REMOTE_HASH', 'aHR0cHM6Ly9sYXRlcG9pbnQuY29t' );
-			}
-
 			// role to assigne WP user to so they are connected to a LatePoint backend user type (agent or manager)
 			if ( ! defined( 'LATEPOINT_WP_ADMIN_ROLE' ) ) {
 				define( 'LATEPOINT_WP_ADMIN_ROLE', 'administrator' );
@@ -230,6 +226,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 			if ( ! defined( 'LATEPOINT_WP_MANAGER_ROLE' ) ) {
 				define( 'LATEPOINT_WP_MANAGER_ROLE', 'latepoint_manager' );
+			}
+			if ( ! defined( 'LATEPOINT_WP_CUSTOMER_ROLE' ) ) {
+				define( 'LATEPOINT_WP_CUSTOMER_ROLE', 'latepoint_customer' );
 			}
 
 			if ( ! defined( 'LATEPOINT_USER_TYPE_ADMIN' ) ) {
@@ -400,6 +399,21 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 			if ( ! defined( 'LATEPOINT_TABLE_PAYMENT_REQUESTS' ) ) {
 				define( 'LATEPOINT_TABLE_PAYMENT_REQUESTS', $wpdb->prefix . 'latepoint_payment_requests' );
+			}
+			if ( ! defined( 'LATEPOINT_TABLE_CUSTOMER_OTP_CODES' ) ) {
+				define( 'LATEPOINT_TABLE_CUSTOMER_OTP_CODES', $wpdb->prefix . 'latepoint_customer_otp_codes' );
+			}
+			if ( ! defined( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_ACTIVE' ) ) {
+				define( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_ACTIVE', 'active' );
+			}
+			if ( ! defined( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_USED' ) ) {
+				define( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_USED', 'used' );
+			}
+			if ( ! defined( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_EXPIRED' ) ) {
+				define( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_EXPIRED', 'expired' );
+			}
+			if ( ! defined( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_CANCELLED' ) ) {
+				define( 'LATEPOINT_CUSTOMER_OTP_CODE_STATUS_CANCELLED', 'cancelled' );
 			}
 			if ( ! defined( 'LATEPOINT_ORDER_INTENT_STATUS_NEW' ) ) {
 				define( 'LATEPOINT_ORDER_INTENT_STATUS_NEW', 'new' );
@@ -788,6 +802,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/models/payment_request_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/recurrence_model.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/models/off_period_model.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/models/otp_model.php' );
 
 
 			// HELPERS
@@ -810,12 +825,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/calendar_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/meeting_systems_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/marketing_systems_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/short_links_systems_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/timeline_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/booking_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/order_intent_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/activities_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/settings_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/customer_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/customer_import_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/processes_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/agent_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/service_helper.php' );
@@ -853,6 +870,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/transaction_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/invoices_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/support_topics_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/otp_helper.php' );
 
 			// MISC
 			include_once( LATEPOINT_ABSPATH . 'lib/misc/time_period.php' );
@@ -1093,7 +1111,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 						}
 					}
 				} else {
-					if ( OsAuthHelper::wp_users_as_customers() ) {
+					if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
 						OsCustomerHelper::create_wp_user_for_customer( $customer );
 					}
 				}

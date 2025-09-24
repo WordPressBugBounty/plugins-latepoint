@@ -208,6 +208,9 @@ class OsInvoicesHelper {
                         </div>
                     </div>
                 </div>
+
+                <?php do_action( 'latepoint_invoice_before_amount_info', $invoice, $transaction ); ?>
+
 				<?php if ( empty( $transaction ) ) { ?>
                     <div class="invoice-due-info">
                         <div class="invoice-due-amount">
@@ -913,11 +916,16 @@ class OsInvoicesHelper {
 		<?php
 	}
 
+    public static function add_settings_sticky_menu_item(array $items) : array{
+        $items[] = ['href' => 'stickySectionInvoice', 'label' => __( 'Invoices', 'latepoint' )];
+        return $items;
+    }
+
 	public static function output_invoice_settings() {
 		?>
-        <div class="white-box section-anchor" id="stickySectionOther">
+        <div class="white-box section-anchor" id="stickySectionInvoice">
             <div class="white-box-header">
-                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Invoice Settings', 'latepoint' ); ?></h3></div>
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Invoices', 'latepoint' ); ?></h3></div>
             </div>
             <div class="white-box-content no-padding">
 				<?php

@@ -258,8 +258,8 @@
   // Remove the default `border-radius` that macOS Chrome adds.
   //
   // Details at https://github.com/twbs/bootstrap/issues/24093
-  button {
-    border-radius: 0;
+  button:not(.latepoint-btn) {
+    //border-radius: 0;
   }
 
   // Work around a Firefox/IE bug where the transparent `button` background

@@ -66,89 +66,95 @@ if($agents){ ?>
 								return ($first->start_time > $second->start_time) ? 1 : 0;
 							});
 							$day_periods = \LatePoint\Misc\TimePeriod::merge_periods($day_periods);
-							if($day_periods){
-								echo '<div class="ma-day-agent-bookings" '.OsOrdersHelper::quick_order_btn_html(false, array('agent_id' => $agent->id, 'location_id' => $booking_request->location_id, 'start_date' => $day_date->format('Y-m-d'))).'>';
-									$off_blocks = [];
-									foreach($day_periods as $day_period){
-										if($day_period->start_time > $work_boundaries->start_time){
-											if($off_blocks){
-												$right = ($work_boundaries->end_time - $day_period->start_time) / $work_total_minutes * 100;
-												$off_blocks[count($off_blocks) - 1]['right'] = $right;
-											}else{
-												$right = ($work_boundaries->end_time - $day_period->start_time) / $work_total_minutes * 100;
-												$off_blocks[] = ['left' => 0, 'right' => $right];
-											}
-										}
-										if($day_period->end_time < $work_boundaries->end_time){
-											$left = ($day_period->end_time - $work_boundaries->start_time) / $work_total_minutes * 100;
-											$off_blocks[] = ['left' => $left, 'right' => 0];
-										}
-									}
-									foreach($blocked_blocks as $blocked_block){
-										echo '<div class="ma-day-off" style="left:'.esc_attr($blocked_block["left"]).'%; right: '.esc_attr($blocked_block["right"]).'%;"></div>';
-									}
-									foreach($off_blocks as $off_block){
-										echo '<div class="ma-day-off" style="left:'.esc_attr($off_block["left"]).'%; right: '.esc_attr($off_block["right"]).'%;"></div>';
-									}
-									echo '<div class="ma-day-work-periods">';
-										echo '<div class="ma-day-label">'.esc_html($day_date->format($date_format)).': </div>';
-										foreach($day_periods as $day_period){
-											echo '<div class="ma-day-work-period">';
-												echo esc_html(OsTimeHelper::minutes_to_hours_and_minutes($day_period->start_time).' - '.OsTimeHelper::minutes_to_hours_and_minutes($day_period->end_time));
-											echo '</div>';
-										}
-									echo '</div>';
-									if($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]){
-										$overlaps_count = 1;
-										$total_attendees_in_group = 0;
-										$total_bookings_in_group = 0;
-										$total_bookings = count($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]);
-										foreach($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id] as $index => $booking){
-											$next_booking = (($index + 1) < $total_bookings) ? $bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id][$index + 1] : false;
-											if(OsBookingHelper::check_if_group_bookings($booking, $next_booking)){
-												// skip this output because multiple bookings in the same slot because next booking has the same start and end time
-												$total_attendees_in_group+= $booking->total_attendees;
-												$total_bookings_in_group++;
-												continue;
-											}else{
-												if($booking->end_date && ($booking->start_date != $booking->end_date)){
-													$width = (24*60 - $booking->start_time) / $work_total_minutes * 100;
-													$left = ($booking->start_time - $work_boundaries->start_time) / $work_total_minutes * 100;
-												}else{
-													$width = ($booking->end_time - $booking->start_time) / $work_total_minutes * 100;
-													$left = ($booking->start_time - $work_boundaries->start_time) / $work_total_minutes * 100;
-												}
 
-												$max_capacity = OsServiceHelper::get_max_capacity($booking->service);
-												if($max_capacity > 1){
-												  $action_html = OsBookingHelper::group_booking_btn_html($booking->id);
-												}else{
-													$action_html = OsBookingHelper::quick_booking_btn_html($booking->id);
-												}
-												if($width <= 0 || $left >= 100 || (($left + $width) <= 0)) continue;
-												if($left < 0){
-													$width = $width + $left;
-													$left = 0;
-												}
-												if(($left + $width) > 100) $width = 100 - $left;
 
-												echo '<div class="ma-day-booking" style="left: '.esc_attr($left).'%; width: '.esc_attr($width).'%; background-color: '.esc_attr($booking->service->bg_color).'" '.$action_html.'>';
-																$hide_agent_info = true;
-																include(LATEPOINT_VIEWS_ABSPATH.'dashboard/_booking_info_box_small.php');
-												echo '</div>';
-												// time overlaps
-												$overlaps_count = ($next_booking && ($next_booking->start_time < $booking->end_time)) ? $overlaps_count + 1 : 1;
-												// reset
-												$total_attendees_in_group = 0;
-											}
-										}
-									}
-								echo '</div>';
-							}else{
-								echo '<div class="ma-day-agent-bookings is-day-off">';
-									echo '<div class="ma-day-off full"><span><strong>'.esc_html($day_date->format($date_format)).': </strong>'.esc_html__('Day Off', 'latepoint').'</span></div>';
-								echo '</div>';
-							}
+
+                            $slot_class = !$day_periods ? 'is-day-off' : '';
+                            echo '<div class="ma-day-agent-bookings '. $slot_class . '" ' . OsOrdersHelper::quick_order_btn_html(false, array( 'agent_id' => $agent->id, 'location_id' => $booking_request->location_id, 'start_date' => $day_date->format('Y-m-d'))) . '>';
+
+                                if($day_periods){
+                                    $off_blocks = [];
+                                    foreach($day_periods as $day_period){
+                                        if($day_period->start_time > $work_boundaries->start_time){
+                                            if($off_blocks){
+                                                $right = ($work_boundaries->end_time - $day_period->start_time) / $work_total_minutes * 100;
+                                                $off_blocks[count($off_blocks) - 1]['right'] = $right;
+                                            }else{
+                                                $right = ($work_boundaries->end_time - $day_period->start_time) / $work_total_minutes * 100;
+                                                $off_blocks[] = ['left' => 0, 'right' => $right];
+                                            }
+                                        }
+                                        if($day_period->end_time < $work_boundaries->end_time){
+                                            $left = ($day_period->end_time - $work_boundaries->start_time) / $work_total_minutes * 100;
+                                            $off_blocks[] = ['left' => $left, 'right' => 0];
+                                        }
+                                    }
+                                    foreach($blocked_blocks as $blocked_block){
+                                        echo '<div class="ma-day-off" style="left:'.esc_attr($blocked_block["left"]).'%; right: '.esc_attr($blocked_block["right"]).'%;"></div>';
+                                    }
+                                    foreach($off_blocks as $off_block){
+                                        echo '<div class="ma-day-off" style="left:'.esc_attr($off_block["left"]).'%; right: '.esc_attr($off_block["right"]).'%;"></div>';
+                                    }
+                                    echo '<div class="ma-day-work-periods">';
+                                    echo '<div class="ma-day-label">'.esc_html($day_date->format($date_format)).': </div>';
+                                    foreach($day_periods as $day_period){
+                                        echo '<div class="ma-day-work-period">';
+                                        echo esc_html(OsTimeHelper::minutes_to_hours_and_minutes($day_period->start_time).' - '.OsTimeHelper::minutes_to_hours_and_minutes($day_period->end_time));
+                                        echo '</div>';
+                                    }
+                                    echo '</div>';
+                                } else {
+	                                echo '<div class="ma-day-off full"><span><strong>' . esc_html( $day_date->format( $date_format ) ) . ': </strong>' . esc_html__( 'Day Off', 'latepoint' ) . '</span></div>';
+                                }
+
+                                // show booking even if day is off
+                                if(!empty($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id])){
+                                    $overlaps_count = 1;
+                                    $total_attendees_in_group = 0;
+                                    $total_bookings_in_group = 0;
+                                    $total_bookings = count($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]);
+                                    foreach($bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id] as $index => $booking){
+                                        $next_booking = (($index + 1) < $total_bookings) ? $bookings_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id][$index + 1] : false;
+                                        if(OsBookingHelper::check_if_group_bookings($booking, $next_booking)){
+                                            // skip this output because multiple bookings in the same slot because next booking has the same start and end time
+                                            $total_attendees_in_group+= $booking->total_attendees;
+                                            $total_bookings_in_group++;
+                                            continue;
+                                        }else{
+                                            if($booking->end_date && ($booking->start_date != $booking->end_date)){
+                                                $width = (24*60 - $booking->start_time) / $work_total_minutes * 100;
+                                                $left = ($booking->start_time - $work_boundaries->start_time) / $work_total_minutes * 100;
+                                            }else{
+                                                $width = ($booking->end_time - $booking->start_time) / $work_total_minutes * 100;
+                                                $left = ($booking->start_time - $work_boundaries->start_time) / $work_total_minutes * 100;
+                                            }
+
+                                            $max_capacity = OsServiceHelper::get_max_capacity($booking->service);
+                                            if($max_capacity > 1){
+                                                $action_html = OsBookingHelper::group_booking_btn_html($booking->id);
+                                            }else{
+                                                $action_html = OsBookingHelper::quick_booking_btn_html($booking->id);
+                                            }
+                                            if($width <= 0 || $left >= 100 || (($left + $width) <= 0)) continue;
+                                            if($left < 0){
+                                                $width = $width + $left;
+                                                $left = 0;
+                                            }
+                                            if(($left + $width) > 100) $width = 100 - $left;
+
+                                            echo '<div class="ma-day-booking" style="left: '.esc_attr($left).'%; width: '.esc_attr($width).'%; background-color: '.esc_attr($booking->service->bg_color).'" '.$action_html.'>';
+                                            $hide_agent_info = true;
+                                            include(LATEPOINT_VIEWS_ABSPATH.'dashboard/_booking_info_box_small.php');
+                                            echo '</div>';
+                                            // time overlaps
+                                            $overlaps_count = ($next_booking && ($next_booking->start_time < $booking->end_time)) ? $overlaps_count + 1 : 1;
+                                            // reset
+                                            $total_attendees_in_group = 0;
+                                        }
+                                    }
+                                }
+							echo '</div>';
+
 						}
 					echo '</div>';
 			}

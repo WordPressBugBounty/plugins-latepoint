@@ -35,6 +35,7 @@ class OsTimeHelper {
 	public static function date_from_db( $date_string, $format = false, string $output_timezone_name = 'UTC' ) {
 		$timezone = new DateTimeZone( 'UTC' );
 		$date_obj = OsWpDateTime::os_createFromFormat( LATEPOINT_DATETIME_DB_FORMAT, $date_string, $timezone );
+		if(empty($date_obj)) $date_obj = self::now_datetime_object();
 		$date_obj->setTimezone( new DateTimeZone( $output_timezone_name ) );
 		if ( $format ) {
 			return $date_obj->format( $format );
@@ -147,15 +148,15 @@ class OsTimeHelper {
 	}
 
 
-	public static function get_nice_date_with_optional_year( $date, $show_year_if_not_current = true ) {
+	public static function get_nice_date_with_optional_year( $date, $show_year_if_not_current = true, $short_month = false ) {
 		$d = OsWpDateTime::os_createFromFormat( "Y-m-d", $date );
 		if ( ! $d ) {
 			return $date;
 		}
 		if ( ! $show_year_if_not_current || ( $d->format( 'Y' ) == OsTimeHelper::today_date( 'Y' ) ) ) {
-			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( true ) ) );
+			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( true, $short_month ) ) );
 		} else {
-			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format() ) );
+			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( false, $short_month) ) );
 		}
 	}
 

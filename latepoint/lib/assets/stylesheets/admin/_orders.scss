@@ -751,7 +751,6 @@
       .order-item-pill-inner {
         padding: $order-item-padding;
         border: 1px solid $border-color-main;
-        border-bottom-color: darken($border-color-main, 20%);
         border-radius: $border-radius;
         z-index: 3;
         position: relative;
@@ -822,18 +821,18 @@
       .order-item-shadow {
         z-index: 2;
         position: absolute;
-        left: 5px;
-        right: 5px;
+        left: 13px;
+        right: 13px;
         bottom: -3px;
         height: 6px;
         box-shadow: 0 0 2px 0 rgba(0,0,0,0.4);
-        border-radius: 0 0 2px 2px;
+        border-radius: 0 0 20px 20px;
         background-color: #fff;
         + .order-item-shadow {
           bottom: -7px;
           z-index: 1;
-          left: 10px;
-          right: 10px;
+          left: 20px;
+          right: 20px;
           box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
         }
       }

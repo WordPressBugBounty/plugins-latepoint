@@ -76,6 +76,26 @@ jQuery(function( $ ) {
     });
   }
 
+  jQuery('body.latepoint').on('change', 'select[data-os-on-change]', function(e){
+    let $this = jQuery(this);
+
+    let func_name = $this.data('os-on-change');
+    if(func_name.includes('.')){
+      let func_arr = func_name.split('.');
+      if(typeof window[func_arr[0]][func_arr[1]] !== 'function'){
+        console.log(func_name + ' is undefined');
+      }else{
+        window[func_arr[0]][func_arr[1]]($this);
+      }
+    }else{
+      if(typeof window[func_name] !== 'function'){
+        console.log(func_name + ' is undefined');
+      }else{
+        window[func_name]($this);
+      }
+    }
+  });
+
   /*
     Ajax buttons action
   */

@@ -84,7 +84,7 @@ body.latepoint {
     background-color: #fff;
     white-space: nowrap;
     max-height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     margin: 0px;
     margin-bottom: 1px;
@@ -118,6 +118,7 @@ body.latepoint {
     padding: 6px 8px;
     outline: none;
     margin-bottom: 0px;
+    font-family: $body-font-family;
   }
 
   .lp_iti__dial-code {

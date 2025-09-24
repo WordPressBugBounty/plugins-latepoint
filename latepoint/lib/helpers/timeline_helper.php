@@ -124,7 +124,7 @@ class OsTimelineHelper{
     }
 		$style = $settings['slot_width'] ? 'width: '.$settings['slot_width'].'%' : '';
 		$timeslot_html = '<div '.$data_attrs.' style="'.$style.'" class="agent-timeslot '.$timeslot_class.'">
-												<span class="agent-timeslot-label">'.OsTimeHelper::get_nice_date_with_optional_year($booking_slot->start_date).', '.OsTimeHelper::minutes_to_hours_and_minutes($booking_slot->start_time).'</span>'.
+												<span class="agent-timeslot-label"><div class="at-sub-value">'.OsTimeHelper::get_nice_date_with_optional_year($booking_slot->start_date).'</div><div class="at-main-value">'.OsTimeHelper::minutes_to_hours_and_minutes($booking_slot->start_time).'</div></span>'.
 						            $tick_html.'
 											</div>';
     return $timeslot_html;

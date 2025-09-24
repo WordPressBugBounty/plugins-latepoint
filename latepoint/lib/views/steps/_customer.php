@@ -5,6 +5,10 @@
  * @var $restrictions array
  * @var $presets array
  * @var $customer OsCustomerModel
+ * @var $customer_contact_verified_via bool
+ * @var $auth_action string
+ * @var $selected_auth_method string
+ * @var $enabled_contact_types_for_customer_auth array
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,56 +17,83 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 ?>
-<div class="step-customer-w latepoint-step-content" data-step-code="<?php echo esc_attr($current_step_code); ?>"
-     data-next-btn-label="<?php echo esc_attr(OsStepsHelper::get_next_btn_label_for_step($current_step_code)); ?>">
+<div class="step-customer-w latepoint-step-content" data-step-code="<?php echo esc_attr( $current_step_code ); ?>" data-next-btn-label="<?php echo esc_attr( OsStepsHelper::get_next_btn_label_for_step( $current_step_code ) ); ?>">
 	<?php
-	do_action('latepoint_before_step_content', $current_step_code);
-	echo OsStepsHelper::get_formatted_extra_step_content($current_step_code, 'before');
+	do_action( 'latepoint_before_step_content', $current_step_code );
+	echo OsStepsHelper::get_formatted_extra_step_content( $current_step_code, 'before' );
+	echo '<div class="latepoint-customer-otp-input-container"></div>';
 	?>
-	<?php if ($customer->id) { ?>
-		<div class="step-customer-logged-in-header-w">
-			<div><?php esc_html_e('Contact Information', 'latepoint'); ?></div>
-			<span><?php esc_html_e('Not You?', 'latepoint'); ?></span><a
-				data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('auth', 'logout_customer')); ?>" href="#"
-				class="step-customer-logout-btn"><?php esc_html_e('Logout', 'latepoint'); ?></a>
-		</div>
-		<?php include('partials/_contact_form.php'); ?>
-	<?php } else { ?>
-		<div class="os-step-tabs-w">
-			<?php if (OsSettingsHelper::get_settings_value('steps_hide_login_register_tabs') != 'on') { ?>
-				<div class="os-step-tabs">
-					<div class="os-step-tab active"
-					     data-target=".os-step-new-customer-w"><?php esc_html_e('New Customer', 'latepoint'); ?></div>
-					<div class="os-step-tab"
-					     data-target=".os-step-existing-customer-login-w"><?php esc_html_e('Already have an account?', 'latepoint'); ?></div>
-				</div>
-			<?php } ?>
-			<div class="os-step-tab-content os-step-new-customer-w">
-				<?php include('partials/_contact_form.php'); ?>
-			</div>
-			<?php if (OsSettingsHelper::get_settings_value('steps_hide_login_register_tabs') != 'on') { ?>
-				<div class="os-step-tab-content os-step-existing-customer-login-w" style="display: none;">
-					<div class="os-row">
-						<?php echo OsFormHelper::text_field('customer_login[email]', __('Your Email Address', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
-						<?php echo OsFormHelper::password_field('customer_login[password]', __('Your Password', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
-					</div>
-					<div class="os-form-buttons os-flex os-space-between">
-						<a data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('auth', 'login_customer')); ?>" href="#"
-						   class="latepoint-btn latepoint-btn-primary step-login-existing-customer-btn"><?php esc_html_e('Log Me In', 'latepoint'); ?></a>
-						<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-link step-forgot-password-btn"
-						   data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>"
-						   data-os-output-target=".os-password-reset-form-holder"
-						   data-os-after-call="latepoint_reset_password_from_booking_init"
-						   data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['from_booking' => true])); ?>"><?php esc_html_e('Forgot Password?', 'latepoint'); ?></a>
-					</div>
-				</div>
-				<div class="os-password-reset-form-holder"></div>
-			<?php } ?>
-		</div>
-        <?php do_action('latepoint_after_customer_login_form'); ?>
-	<?php } ?>
 	<?php
-	echo OsStepsHelper::get_formatted_extra_step_content($current_step_code, 'after');
-	do_action('latepoint_after_step_content', $current_step_code);
+	if ( OsAuthHelper::is_customer_auth_disabled() ) {
+		// JUST THE FORM, NO LOGIN/REGISTER TABS
+		include( 'partials/_contact_form.php' );
+	} else {
+		if ( OsAuthHelper::is_customer_logged_in() ) {
+			// ALREADY LOGGED IN, SHOW DATA FORM
+			?>
+            <div class="hide-when-entering-otp">
+                <div class="step-customer-logged-in-header-w">
+                    <div><?php esc_html_e( 'Contact Information', 'latepoint' ); ?></div>
+                    <span><?php esc_html_e( 'Not You?', 'latepoint' ); ?></span><a
+                            data-btn-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'auth', 'logout_customer' ) ); ?>" href="#"
+                            class="step-customer-logout-btn"><?php esc_html_e( 'Logout', 'latepoint' ); ?></a>
+                </div>
+				<?php include( 'partials/_contact_form.php' ); ?>
+            </div>
+			<?php
+		} else {
+			// NOT LOGGED IN, SHOW AUTH OPTIONS
+			if ( OsAuthHelper::is_classic_auth_flow() ) {
+				// CLASSIC AUTH FLOW
+				?>
+                <div class="os-step-tabs-w latepoint-customer-auth-options-wrapper hide-when-entering-otp <?php echo $auth_action == 'otp_requested' ? 'os-hidden' : ''; ?>">
+                    <div class="os-step-tabs">
+                        <div class="os-step-tab active" data-auth-action="register" data-next-btn="show" data-target=".os-step-new-customer-w"><?php esc_html_e( 'New Customer', 'latepoint' ); ?></div>
+                        <div class="os-step-tab" data-auth-action="login" data-target=".os-step-existing-customer-login-w"><?php esc_html_e( 'Already have an account?', 'latepoint' ); ?></div>
+                    </div>
+                    <div class="os-step-tab-content os-step-new-customer-w">
+						<?php include( 'partials/_contact_form.php' ); ?>
+                    </div>
+                    <div class="os-step-tab-content os-step-existing-customer-login-w" style="display: none;">
+						<?php echo OsAuthHelper::auth_form_html( true, $customer, $selected_auth_method ); ?>
+                    </div>
+                    <div class="os-password-reset-form-holder"></div>
+                </div>
+				<?php if ( apply_filters( 'latepoint_customer_login_show_other_options', false ) ) { ?>
+                    <div class="os-social-or"><span><?php _e( 'OR', 'latepoint' ); ?></span></div>
+				<?php } ?>
+				<?php
+                do_action( 'latepoint_after_customer_login_form' );
+			} else {
+                // MODERN AUTH FLOW
+                if($customer_contact_verified_via){
+				    include( 'partials/_contact_form.php' );
+                }else{
+                    echo OsAuthHelper::auth_form_html( false, $customer, $selected_auth_method );
+                    if ( apply_filters( 'latepoint_customer_login_show_other_options', false ) || in_array( 'email', $enabled_contact_types_for_customer_auth ) || in_array( 'phone', $enabled_contact_types_for_customer_auth ) ) { ?>
+                        <div class="os-social-or"><span><?php _e( 'OR', 'latepoint' ); ?></span></div>
+                        <?php
+                    }
+                    if ( in_array( 'email', $enabled_contact_types_for_customer_auth ) ) { ?>
+                        <div class="alternative-login-option <?php echo ( $selected_auth_method == 'email' ) ? 'os-hidden' : ''; ?>" data-auth-via="email" data-otp-delivery-method="email">
+                            <i class="latepoint-icon latepoint-icon-mail"></i>
+                            <span><?php _e( 'Continue with Email', 'latepoint' ); ?></span>
+                        </div>
+                        <?php
+                    }
+                    if ( in_array( 'phone', $enabled_contact_types_for_customer_auth ) ) { ?>
+                        <div class="alternative-login-option <?php echo ( $selected_auth_method == 'phone' ) ? 'os-hidden' : ''; ?>" data-auth-via="phone" data-otp-delivery-method="sms">
+                            <i class="latepoint-icon latepoint-icon-smartphone"></i>
+                            <span><?php _e( 'Continue with Phone', 'latepoint' ); ?></span>
+                        </div>
+                        <?php
+                    }
+                    do_action( 'latepoint_after_customer_login_form' );
+                }
+			}
+		}
+	}
+	echo OsStepsHelper::get_formatted_extra_step_content( $current_step_code, 'after' );
+	do_action( 'latepoint_after_step_content', $current_step_code );
 	?>
 </div>

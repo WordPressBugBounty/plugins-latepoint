@@ -79,7 +79,7 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					'message' => __( 'Cart has already been converted to order', 'latepoint' )
 				] );
 			}
-			$order_intent = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets );
+			$order_intent = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, '', OsStepsHelper::get_customer_object_id() );
 			if ( $order_intent->is_bookable() ) {
 				$this->send_json( [
 					'status'  => LATEPOINT_STATUS_SUCCESS,
@@ -107,7 +107,9 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 			$this->vars['cart'] = OsStepsHelper::$cart_object;
 
 			if ( OsStepsHelper::is_ready_for_summary() ) {
+				$this->vars['current_step_code'] = $this->params['current_step_code'] ?? '';
 				$this->vars['booking']          = OsStepsHelper::$booking_object;
+				$this->vars['customer']          = OsStepsHelper::get_customer_object();
 				$this->vars['active_cart_item'] = OsStepsHelper::$active_cart_item;
 
 				if ( $this->get_return_format() == 'json' ) {
@@ -173,6 +175,7 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 
 				$this->vars['current_step_code'] = $current_step_code;
 				$this->vars['booking']           = OsStepsHelper::$booking_object;
+				$this->vars['customer']           = OsStepsHelper::get_customer_object();
 				$this->vars['active_cart_item']  = OsStepsHelper::$active_cart_item;
 				$this->vars['restrictions']      = OsStepsHelper::$restrictions;
 				$this->vars['presets']           = OsStepsHelper::$presets;
@@ -270,6 +273,7 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 
 			$this->vars['current_step_code'] = $current_step->code;
 			$this->vars['booking']           = OsStepsHelper::$booking_object;
+			$this->vars['customer']           = OsStepsHelper::get_customer_object();
 			$this->vars['active_cart_item']  = OsStepsHelper::$active_cart_item;
 			$this->vars['restrictions']      = OsStepsHelper::$restrictions;
 			$this->vars['presets']           = OsStepsHelper::$presets;

@@ -783,6 +783,22 @@ class OsModel {
 		return $value;
 	}
 
+	public function prepare_and_validate($alternative_validation = false, $skip_properties = [] ) : bool{
+		try {
+			$this->set_defaults();
+			$this->before_save();
+			if($this->validate( $alternative_validation, $skip_properties )){
+				return true;
+			}else{
+				return false;
+			}
+		} catch ( Exception $e ) {
+			$this->add_error( 'validate_exception', $e->getMessage() );
+
+			return false;
+		}
+	}
+
 	public function save( $alternative_validation = false, $skip_validation = false ) {
 		try {
 			$this->set_defaults();
@@ -1081,7 +1097,7 @@ class OsModel {
 	}
 
 	protected function validates_email( $property ) {
-		if ( isset( $this->$property ) && ! empty( $this->$property ) && OsUtilHelper::is_valid_email( $this->$property ) ) {
+		if ( empty( $this->$property ) || OsUtilHelper::is_valid_email( $this->$property ) ) {
 			return true;
 		} else {
 			// translators: %s is the property name for a model

@@ -30,6 +30,7 @@ if(!empty($services) && !empty($agents)){ ?>
 						</div>
 						<div class="current-year"><?php echo esc_html($target_date->format('Y')); ?></div>
 					</div>
+                    <div class="cc-panel">
 					<div class="cc-actions">
 
 						<a href="#" class="cc-action-today os-calendar-today-btn calendar-load-target-date" data-target-date="<?php echo esc_attr($today_date->format('Y-m-d')); ?>">
@@ -43,13 +44,20 @@ if(!empty($services) && !empty($agents)){ ?>
 					<div class="cc-view">
 						<?php
 						$views = ['day' => __('Day', 'latepoint'), 'week' => __('Week', 'latepoint'), 'month' => __('Month', 'latepoint'), 'list' => __('List', 'latepoint')];
-						echo OsFormHelper::select_field('calendar_settings[view]', false, $views, $calendar_settings['view']); ?>
+                        echo '<div class="os-calendar-view-toggle" data-update-element-by-name="calendar_settings[view]">';
+                        foreach($views as $view => $label){
+                            $selected = $calendar_settings['view'] == $view ? 'os-selected' : '';
+                            echo '<div class="os-calendar-view-option '.$selected.'" data-value="'.$view.'">'.$label.'</div>';
+                        }
+                        echo '</div>';
+						echo OsFormHelper::hidden_field('calendar_settings[view]', $calendar_settings['view']); ?>
 					</div>
 					<?php if(count($services) > 1 || count($agents) > 1 || count($locations) > 1){ ?>
 					<div class="os-calendar-settings-toggler-wrapper">
 						<a href="#" class="calendar-settings-toggler"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></a>
 					</div>
 					<?php } ?>
+                        </div>
 				</div>
 		  </div>
 			<div class="os-calendar-settings-extra">

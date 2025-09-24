@@ -455,6 +455,12 @@
     }
     &.latepoint-border-radius-rounded {
       border-radius: $rounded-borders-radius;
+      .alternative-login-option {
+        border-radius: $rounded-borders-radius;
+      }
+      .os-social-login-option {
+        border-radius: $rounded-borders-radius;
+      }
       .item-quantity-selector-w .item-quantity-selector {
         border-radius: $rounded-borders-radius;
       }
@@ -594,6 +600,12 @@
         border-radius: $rounded-borders-radius;
       }
 
+      .step-verify-w .cart-item-wrapper.multi-item {
+        border-radius: $rounded-borders-radius;
+      }
+      .latepoint-summary-w .os-summary-contents-inner .cart-item-wrapper.multi-item {
+        border-radius: $rounded-borders-radius;
+      }
 
       .os-form-group.os-form-file-upload-group .os-uploaded-file-info,
       .os-form-group.os-form-file-upload-group .os-upload-file-input-w input[type=file],

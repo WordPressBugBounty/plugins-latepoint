@@ -210,10 +210,54 @@ class OsRolesHelper {
 		}
 	}
 
+	public static function get_wp_roles_list($remove_admins = true) : array{
+		// this makes sure that the default customer role is created, before showing a list of roles
+		OsSettingsHelper::get_default_wp_role_for_new_customers();
+
+	    global $wp_roles;
+
+
+
+	    if (!isset($wp_roles)) {
+	        $wp_roles = new WP_Roles();
+	    }
+
+	    $roles = $wp_roles->get_names();
+
+		if($remove_admins){
+			unset($roles['administrator']);
+			unset($roles['editor']);
+			unset($roles['shop_manager']);
+			unset($roles['sc_shop_manager']);
+		}
+
+		/**
+		 * List of WP roles that you can assign to a new customer
+		 *
+		 * @since 5.2.0
+		 * @hook latepoint_wp_roles_list_for_customer
+		 *
+		 * @param {array} $roles list of roles in array
+		 * @param {array} $remove_admins whether to remove admin roles or not
+		 * @returns {array} The filtered list of roles
+		 */
+		return apply_filters('latepoint_wp_roles_list_for_customer', $roles, $remove_admins);
+
+	}
+
+
+	public static function register_customer_role(){
+		// Register Customer Role
+		add_role( LATEPOINT_WP_CUSTOMER_ROLE, __('LatePoint Customer', 'latepoint'), array( 'read' => true ) );
+	}
+
 	public static function register_roles_in_wp(){
 		// Register Agent Role
 		$role = \LatePoint\Misc\Role::get_from_wp_role(LATEPOINT_WP_AGENT_ROLE);
 		$role->register_in_wp();
+
+		self::register_customer_role();
+
 
 		// Register Custom Roles
 		$custom_roles = self::get_custom_roles(true);
@@ -359,6 +403,7 @@ class OsRolesHelper {
 			'service__view', 'service__delete' ,'service__create', 'service__edit' ,
 			'bundle__view', 'bundle__delete' ,'bundle__create', 'bundle__edit' ,
 			'location__view', 'location__delete' ,'location__create', 'location__edit' ,
+			'service_extra__view', 'service_extra__delete' ,'service_extra__create', 'service_extra__edit' ,
 			'booking__view', 'booking__delete' ,'booking__create', 'booking__edit' ,
 			'customer__view', 'customer__delete' ,'customer__create', 'customer__edit' ,
 			'transaction__view', 'transaction__delete' ,'transaction__create', 'transaction__edit' ,

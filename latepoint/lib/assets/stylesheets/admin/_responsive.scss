@@ -324,6 +324,10 @@
 }
 
 @media (min-width: 1600px){
+
+  .os-resources-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
   .addons-boxes-w .addon-box {
     flex: 0 0 17.6%;
     &:nth-child(5n){
@@ -387,23 +391,28 @@
   }
   .latepoint-all-wrapper .latepoint-side-menu-w {
     position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
+    left: -20px;
+    top: 20px;
+    bottom: 20px;
     border-right: 0;
     z-index: 10000;
-    transform: translateX(-100%);
+    transform: translateX(-100%) scale(0.8);
     transition: transform 0.35s cubic-bezier(0.25, 1.1, 0.5, 1);
     border-right: none;
+    border-radius: $border-radius-lg;
+    @include white-box();
   }
   .latepoint-all-wrapper {
     &.os-show-mobile-menu {
       .latepoint-content-w {
         transform: scale(0.96);
+        filter: blur(1px);
       }
       .latepoint-side-menu-w {
-        transform: translateX(0px);
+        left: 20px;
+        transform: translateX(0px) scale(1);
         box-shadow: 0 0 20px -2px rgba(0,0,0,0.2);
+        visibility: visible;
       }
       .latepoint-mobile-top-menu-trigger {
         i:before{
@@ -440,7 +449,16 @@
 }
 
 
+@media (min-width: 1251px){
+  .os-form-w .os-form-buttons.hidden-with-side-nav {
+    display: none;
+  }
+}
+
 @media (max-width: 1250px){
+  .latepoint-page-with-side-nav .latepoint-page-side-nav {
+    display: none;
+  }
   .addons-boxes-w {
     gap: 20px;
   }
@@ -452,6 +470,14 @@
   }
 }
 @media (max-width: 600px){
+  .latepoint-side-panel-w {
+    padding: 1vh;
+    padding: 1dvh;
+    .latepoint-side-panels {
+      height: 98vh;
+      height: 98dvh;
+    }
+  }
   .latepoint-all-wrapper .latepoint-top-bar-w .latepoint-unlock-features-link {
     margin-right: 0;
     i {
@@ -469,6 +495,11 @@
   .latepoint-top-user-info-w {
     flex: 1;
     & > .avatar-w {
+      display: none;
+    }
+  }
+  .latepoint-top-bar-w {
+    .latepoint-top-user-info-w {
       display: none;
     }
   }
@@ -538,8 +569,6 @@
     }
   }
   .os-widget .os-widget-header:before {
-    top: -7px;
-    right: -2px;
     height: 40px;
   }
 
@@ -809,7 +838,6 @@
   .timeline-type-toggle {
     margin-top: 10px;
     .timeline-type-option {
-      padding: 5px 10px;
       font-size: $font-size-base;
       flex: 1;
       text-align: center;
@@ -938,34 +966,32 @@
     }
   }
   .os-widget-daily-bookings {
-    border: none;
-    padding: 0;
   }
   .quick-end-time-w .plus-day-label {
     right: 160px;
   }
   .os-dashboard-row .os-dashboard-column.os-upcoming .os-widget .os-widget-content {
-    padding-left: 0px;
+    padding-left: 20px;
   }
   .os-dashboard-row .os-dashboard-column.os-upcoming .os-widget .os-widget-header {
-    padding-left: 0px;
+    padding-left: 20px;
   }
   .appointment-box-squared .appointment-main-info {
-    padding-left: 0;
+    padding-left: 20px;
   }
   .timeline-with-info-w .timeline-and-availability-contents {
-    padding: 20px 0;
+    padding: 20px;
   }
   .os-widget {
-    border: none;
     .daily-bookings-chart-w {
-      padding: 0;
+      padding: 10px;
+      padding-top: 0;
     }
     .stats-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-      padding: 20px 0;
+      padding: 20px;
       .stats-tab {
         flex: 1;
         .stats-tab-value {
@@ -1004,8 +1030,7 @@
       padding: 0px;
     }
     .os-widget-header {
-      padding: 0px;
-      padding-bottom: 15px;
+      padding: 20px;
       &.with-actions {
         .os-widget-header-text {
         }
@@ -1762,29 +1787,9 @@
   .daily-availability-calendar.horizontal-calendar .os-monthly-calendar-days .os-day:first-child .os-day-box {
     border-left: none;
   }
-  .os-services-list {
-    display: block;
-    .os-service {
-      width: auto;
-      margin: 0px;
-      margin-bottom: 20px;
-    }
-    .create-service-link-w {
-      margin: 0px;
-      width: auto;
-    }
-  }
-  .os-locations-list {
-    display: block;
-    .os-location {
-      width: auto;
-      margin: 0px;
-      margin-bottom: 20px;
-    }
-    .create-location-link-w {
-      margin: 0px;
-      width: auto;
-    }
+
+  .os-resources-grid {
+    grid-template-columns: 1fr;
   }
   .latepoint-all-wrapper .page-header-main-actions {
     margin-top: 0px;
@@ -1828,20 +1833,6 @@
       flex: 1;
     }
   }
-  .index-agent-boxes {
-    justify-content: space-between;
-    display: block;
-    .create-agent-link-w {
-      flex: 1;
-      margin: 0px;
-      margin-bottom: 4%;
-    }
-  }
-  .index-agent-boxes .agent-box-w {
-    flex: 1;
-    margin: 0px;
-    margin-bottom: 4%;
-  }
   .os-form-buttons {
     .latepoint-btn {
       font-size: 16px;
@@ -1867,8 +1858,8 @@
   .os-services-select-field-w {
     font-size: 16px;
     .service-option-selected {
-      padding-top: 11px;
-      padding-bottom: 11px;
+      padding-top: 8px;
+      padding-bottom: 8px;
     }
   }
   .latepoint-side-panel-w {
@@ -1886,11 +1877,13 @@
     .os-form-group.os-form-group-simple.os-form-textfield-group .os-form-control {
       min-height: 40px;
     }
+    .quick-availability-per-day-w.side-sub-panel-wrapper .os-form-header {
+      padding: 10px 20px;
+    }
+    .quick-availability-per-day-w.side-sub-panel-wrapper .separate-timeslots-w {
+      flex: 0 0 45px;
+    }
     .latepoint-side-panel-i {
-      max-width: 100%;
-      width: 100%;
-      height: 100vh;  /* Fallback */
-      height: 100dvh;
       .customer-info-w {
         .os-form-sub-header {
           display: flex;
@@ -1901,7 +1894,7 @@
       }
     }
     .os-form-buttons {
-      padding: 10px;
+      padding: 10px 20px;
       .latepoint-btn {
         font-size: 16px;
         text-align: center;
@@ -1910,11 +1903,11 @@
       }
     }
     .os-form-content {
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 20px;
+      padding-right: 20px;
     }
     .os-form-header {
-      padding: 20px 15px;
+      padding: 10px 20px;
     }
   }
   .latepoint-side-panel-w .latepoint-side-panel-close {
@@ -1927,6 +1920,7 @@
     right: 0px;
     left: 0px;
     border-right: none;
+    height: 100%;
     .os-form-header {
       padding-left: 15px;
       padding-right: 15px;
@@ -2248,11 +2242,11 @@
     .latepoint-content-w {
       border-top: none;
       .latepoint-content {
-        padding: 25px 15px;
+        padding: 20px;
       }
     }
     .page-header-w {
-      padding: 0px 15px;
+      padding: 0px 20px;
     }
     .latepoint-side-menu-w {
       flex: 1;
@@ -2331,6 +2325,7 @@
     &.os-show-mobile-menu {
       .latepoint-side-menu-w {
         display: block;
+        background-color: #fff;
       }
       .latepoint-mobile-top-menu-trigger {
         i:before{
@@ -2342,7 +2337,6 @@
   .latepoint #wpbody {
     padding-top: 0px;
     select {
-      border-radius: 6px;
     }
   }
   .wp-toolbar body.latepoint-admin {
@@ -2351,6 +2345,7 @@
 
   .os-widget .os-widget-header.with-actions .os-widget-header-text {
     margin-bottom: 0px;
+    font-size: $body-font-size-l;
   }
 
   .os-widget .os-widget-header.with-actions {
@@ -2381,7 +2376,6 @@
         }
       }
       .os-date-range-picker {
-        padding: 7px 4px 9px 6px;
         position: relative;
         > i {
           position: absolute;

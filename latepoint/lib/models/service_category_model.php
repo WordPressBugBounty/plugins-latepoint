@@ -94,19 +94,21 @@ class OsServiceCategoryModel extends OsModel{
     return $params_to_save;
   }
 
-  public function get_active_services($show_hidden = false){
+  public function get_active_services($show_hidden = false, $filtered = false){
     if(!isset($this->active_services)){
       $services = new OsServiceModel();
       $services->should_be_active()->where(array('category_id'=> $this->id))->order_by('order_number asc');
+      if($filtered) $services->filter_allowed_records();
       if(!$show_hidden) $services->should_not_be_hidden();
       $this->active_services = $services->get_results_as_models();
     }
     return $this->active_services;
   }
 
-  protected function get_services(){
+  public function get_services($filtered = false){
     if(!isset($this->services)){
       $services = new OsServiceModel();
+	  if($filtered) $services->filter_allowed_records();
       $this->services = $services->where(array('category_id'=> $this->id))->order_by('order_number asc')->get_results_as_models();
     }
     return $this->services;

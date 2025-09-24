@@ -5,6 +5,7 @@
  */
 class OsCustomerModel extends OsModel {
 	var $id,
+		$uuid,
 		$first_name,
 		$last_name,
 		$password,
@@ -290,12 +291,30 @@ class OsCustomerModel extends OsModel {
 		return $this;
 	}
 
-	public function update_password( $password, $is_hashed = false ) {
-		if ( ! $is_hashed ) {
-			$password = OsAuthHelper::hash_password( $password );
+	public function primary_contact_type(){
+		$contact_type = OsAuthHelper::get_selected_customer_authentication_field_type();
+		switch($contact_type){
+			case 'phone':
+				return $this->phone;
+			break;
+			default:
+				return $this->email;
+			break;
+		}
+	}
+
+	public function update_password( $password ) {
+		// update connected wp user password
+		if ( OsAuthHelper::can_wp_users_login_as_customers() && $this->wordpress_user_id ) {
+			$is_logged_in = OsWpUserHelper::get_current_user_id() == $this->wordpress_user_id;
+			$logged_in_wp_user = $is_logged_in ? OsWpUserHelper::get_current_user() : false;
+
+			// user is getting logged out after changing a password - we need to check if the user that we are changing password for is currently logged in, if it is - make sure to log them back in after password change
+			wp_set_password($password, $this->wordpress_user_id);
+			if($is_logged_in && $logged_in_wp_user) OsAuthHelper::login_wp_user($logged_in_wp_user);
 		}
 
-		return $this->update_attributes( [ 'password' => $password, 'is_guest' => false ] );
+		return $this->update_attributes( [ 'password' => wp_hash_password($password), 'is_guest' => false ] );
 	}
 
 	protected function get_full_name() {
@@ -347,11 +366,25 @@ class OsCustomerModel extends OsModel {
 	}
 
 
+	protected function before_save() {
+		if ( empty( $this->uuid ) ) {
+			$this->uuid = OsUtilHelper::generate_uuid();
+		}
+	}
+
+	public function get_uuid() : string{
+		if ( !$this->is_new_record() && empty( $this->uuid ) ) {
+			$this->update_attributes(['uuid' => OsUtilHelper::generate_uuid()]);
+		}
+		return $this->uuid ?? '';
+	}
+
 	protected function allowed_params( $role = 'admin' ) {
 		switch ( $role ) {
 			case 'admin':
 				$allowed_params = [
 					'id',
+					'uuid',
 					'first_name',
 					'last_name',
 					'email',
@@ -384,6 +417,7 @@ class OsCustomerModel extends OsModel {
 	protected function params_to_save( $role = 'admin' ) {
 		$params_to_save = array(
 			'id',
+			'uuid',
 			'first_name',
 			'last_name',
 			'email',

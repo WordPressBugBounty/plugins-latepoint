@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<div class="os-password-reset-form-w">
+<div class="os-password-reset-form-w os-customer-wrapped-box">
 	<?php if($from_booking){ ?>
 		<a href="#" class="password-reset-back-to-login"><span><?php esc_html_e('cancel', 'latepoint'); ?></span><i class="latepoint-icon latepoint-icon-common-01"></i></a>
 	<?php } ?>
@@ -14,8 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php echo OsFormHelper::text_field('password_reset_email', __('Email Address', 'latepoint')); ?>
 		<?php echo OsFormHelper::hidden_field('from_booking', true); ?>
 		<div class="os-form-buttons os-flex os-space-between">
-			<a href="#" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>" data-os-output-target=".os-password-reset-form-holder" data-os-source-of-params=".os-password-reset-form-w" class="latepoint-btn latepoint-btn-primary" ><?php esc_html_e('Submit Request', 'latepoint'); ?></a>
 			<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-link" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['from_booking' => true])); ?>" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'password_reset_form')); ?>" data-os-output-target=".os-password-reset-form-holder"><?php esc_html_e('Already have a key?', 'latepoint'); ?></a>
+			<a href="#" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>" data-os-output-target=".os-password-reset-form-holder" data-os-source-of-params=".os-password-reset-form-w" class="latepoint-btn latepoint-btn-primary" ><?php esc_html_e('Submit Request', 'latepoint'); ?></a>
 		</div>
 	<?php }else{ ?>
 		<form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>" data-os-output-target=".latepoint-login-form-w">

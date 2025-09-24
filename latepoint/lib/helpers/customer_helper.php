@@ -19,7 +19,7 @@ class OsCustomerHelper {
 		return $html;
 	}
 
-	public static function generate_summary_for_customer( OsCustomerModel $customer ): void {
+	public static function generate_summary_for_customer( OsCustomerModel $customer, bool $editable = false ): void {
 		?>
         <div class="summary-box summary-box-customer-info">
             <div class="summary-box-heading">
@@ -31,8 +31,12 @@ class OsCustomerHelper {
                     <div class="os-avatar"><span><?php echo esc_html( $customer->get_initials() ); ?></span></div>
                 </div>
                 <div class="sbc-content-i">
+                    <?php if($editable){ ?>
+                    <div class="sbc-main-item sbc-with-action"><div class="sbc-label"><?php echo esc_html( $customer->full_name ); ?></div><div class="sbc-action load-customer-step-trigger"><i class="latepoint-icon latepoint-icon-edit-3"></i></div></div>
+                    <?php }else{ ?>
                     <div class="sbc-main-item"><?php echo esc_html( $customer->full_name ); ?></div>
-                    <div class="sbc-sub-item"><?php echo esc_html( $customer->email ); ?></div>
+                    <?php } ?>
+                    <div class="sbc-sub-item"><?php echo esc_html( $customer->primary_contact_type() ); ?></div>
                 </div>
             </div>
 			<?php
@@ -67,7 +71,7 @@ class OsCustomerHelper {
 
 	public static function get_avatar_url( $customer ) {
 		$default_avatar = LATEPOINT_IMAGES_URL . 'default-avatar.jpg';
-		if ( OsAuthHelper::wp_users_as_customers() && $customer->wordpress_user_id && empty( $customer->avatar_image_id ) ) {
+		if ( OsAuthHelper::can_wp_users_login_as_customers() && $customer->wordpress_user_id && empty( $customer->avatar_image_id ) ) {
 			// try to get gravatar with WP function
 			$avatar_url = get_avatar_url( $customer->wordpress_user_id );
 		} else {
@@ -93,25 +97,40 @@ class OsCustomerHelper {
 		return $customers->count();
 	}
 
-	public static function can_cancel_booking( OsBookingModel $booking ): bool {
-		if ( OsSettingsHelper::is_on( 'allow_customer_booking_cancellation' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
-			if ( OsSettingsHelper::is_on( 'limit_when_customer_can_cancel' ) ) {
-				// check if there is a limit on when they can cancel
-				$limit_value = OsSettingsHelper::get_settings_value( 'cancellation_limit_value' );
-				$limit_unit  = OsSettingsHelper::get_settings_value( 'cancellation_limit_unit' );
-				if ( $limit_value && $limit_unit ) {
-					$now = new OsWpDateTime( 'now' );
-					if ( $now <= $booking->get_start_datetime_object()->modify( '-' . $limit_value . ' ' . $limit_unit ) ) {
-						return true;
-					}
-				}
-			} else {
-				return true;
-			}
-		}
+    public static function can_cancel_booking( OsBookingModel $booking ): bool {
+        $can_cancel = false;
 
-		return false;
-	}
+        if ( OsSettingsHelper::is_on( 'allow_customer_booking_cancellation' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
+            if ( OsSettingsHelper::is_on( 'limit_when_customer_can_cancel' ) ) {
+                // check if there is a limit on when they can cancel
+                $limit_value = OsSettingsHelper::get_settings_value( 'cancellation_limit_value' );
+                $limit_unit  = OsSettingsHelper::get_settings_value( 'cancellation_limit_unit' );
+                if ( $limit_value && $limit_unit ) {
+                    $now = new OsWpDateTime( 'now' );
+                    if ( $now <= $booking->get_start_datetime_object()->modify( '-' . $limit_value . ' ' . $limit_unit ) ) {
+                        $can_cancel = true;
+                    }
+                }
+            } else {
+                $can_cancel = true;
+            }
+        }
+
+        /**
+         * Filter to allow to modify the can_cancel booking status
+         *
+         * @param bool $can_cancel
+         * @param OsBookingModel $booking
+         * @returns bool
+         *
+         * @since 5.2.0
+         * @hook latepoint_can_cancel_booking
+         *
+         */
+        $can_cancel = apply_filters('latepoint_can_cancel_booking', $can_cancel, $booking);
+
+        return $can_cancel;
+    }
 
 	public static function can_reschedule_booking( OsBookingModel $booking ): bool {
         if(!apply_filters('latepoint_is_feature_reschedule_available', false)) return false;
@@ -180,6 +199,20 @@ class OsCustomerHelper {
 		return $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->count();
 	}
 
+    public static function get_by_contact($contact_value, $contact_type){
+        if(empty($contact_value) || empty($contact_type)) return false;
+        $customer = new OsCustomerModel();
+        switch($contact_type){
+            case 'email':
+                $customer = $customer->where(['email' => $contact_value])->set_limit(1)->get_results_as_models();
+                break;
+            case 'phone':
+                $customer = $customer->where(['phone' => $contact_value])->set_limit(1)->get_results_as_models();
+                break;
+        }
+        return $customer;
+    }
+
 	public static function get_by_account_nonse( $account_nonse ) {
 		if ( empty( $account_nonse ) ) {
 			return false;
@@ -208,16 +241,23 @@ class OsCustomerHelper {
 				$customer->update_attributes( [ 'wordpress_user_id' => $wp_user_id, 'is_guest' => false ] );
 			}
 		} else {
+
 			$userdata   = [
 				'user_email' => $customer->email,
 				'first_name' => $customer->first_name,
 				'last_name'  => $customer->last_name,
 				'user_login' => $customer->email,
-				'user_pass'  => $customer->password
+				'user_pass'  => $customer->password,
 			];
+
+            $default_role = OsSettingsHelper::get_default_wp_role_for_new_customers();
+            if(wp_roles()->is_role( $default_role )){
+                $userdata['role'] = $default_role;
+            }
+
 			$wp_user_id = wp_insert_user( $userdata );
 			if ( ! is_wp_error( $wp_user_id ) ) {
-				$customer->update_attributes( [ 'wordpress_user_id' => $wp_user_id, 'is_guest' => false ] );
+				$customer->update_attributes( [ 'wordpress_user_id' => $wp_user_id ] );
 				// update password directly in database because we already hashed it in latepoint customer
 				global $wpdb;
 				$wpdb->update(
@@ -265,6 +305,12 @@ class OsCustomerHelper {
 				data-os-lightbox-classes="width-500 customer-dashboard-order-summary-lightbox"';
 
 		return $html;
+	}
+
+	public static function get_by_uuid( string $uuid ) {
+        if(empty($uuid)) return false;
+        $customer = new OsCustomerModel();
+        return $customer->where(['uuid' => $uuid])->set_limit(1)->get_results_as_models();
 	}
 
 }

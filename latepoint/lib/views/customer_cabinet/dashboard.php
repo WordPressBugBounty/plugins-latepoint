@@ -135,9 +135,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			    <?php echo OsFormHelper::text_field('customer[last_name]', __('Your Last Name', 'latepoint'), $customer->last_name, array('class' => 'required'), array('class' => 'os-col-6')); ?>
 			    <?php echo OsFormHelper::phone_number_field('customer[phone]', __('Your Phone Number', 'latepoint'), $customer->phone, [], array('class' => 'os-col-6')); ?>
 			    <?php echo OsFormHelper::text_field('customer[email]', __('Your Email Address', 'latepoint'), $customer->email, array('class' => 'required'), array('class' => 'os-col-6')); ?>
-			    <?php echo OsFormHelper::hidden_field('customer[id]', $customer->id); ?>
 				</div>
 				<?php do_action('latepoint_customer_dashboard_information_form_after', $customer); ?>
+                <?php wp_nonce_field('update_customer_'.$customer->get_uuid()); ?>
 				<?php echo OsFormHelper::button('submit', __('Save Changes', 'latepoint'), 'submit', ['class' => 'latepoint-btn']); ?>
 			</form>
 			<div class="customer-password-form-w">
@@ -147,6 +147,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				    <?php echo OsFormHelper::password_field('password', __('New Password', 'latepoint'), '', [], array('class' => 'os-col-6')); ?>
 				    <?php echo OsFormHelper::password_field('password_confirmation', __('Confirm New Password', 'latepoint'), '', [], array('class' => 'os-col-6')); ?>
 					</div>
+                    <?php wp_nonce_field('change_password_'.$customer->get_uuid(), 'change_password_nonce'); ?>
 					<?php echo OsFormHelper::button('submit', __('Set New Password', 'latepoint'), 'submit', ['class' => 'latepoint-btn']); ?>
 				</form>
 			</div>

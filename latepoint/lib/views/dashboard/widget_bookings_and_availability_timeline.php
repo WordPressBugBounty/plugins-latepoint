@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php } ?>
 			</select>
 			<div class="timeline-type-toggle" data-value-holder-id="what_to_show_on_timeline_widget">
-				<div class="timeline-type-option <?php echo ($what_to_show == 'appointments') ? 'active' : ''; ?>" data-value="appointments"><?php esc_html_e('Show Appointments', 'latepoint'); ?></div>
-				<div class="timeline-type-option <?php echo ($what_to_show == 'availability') ? 'active' : ''; ?>" data-value="availability"><?php esc_html_e('Show Availability', 'latepoint'); ?></div>
+				<div class="timeline-type-option <?php echo ($what_to_show == 'appointments') ? 'active' : ''; ?>" data-value="appointments"><?php esc_html_e('Appointments', 'latepoint'); ?></div>
+				<div class="timeline-type-option <?php echo ($what_to_show == 'availability') ? 'active' : ''; ?>" data-value="availability"><?php esc_html_e('Availability', 'latepoint'); ?></div>
 			</div>
 		</div>
 	</div>

@@ -53,12 +53,20 @@ function latepoint_init_calendars(){
   jQuery('.os-calendar-settings-extra .latecheckbox').lateCheckbox();
 
 
+
+  jQuery('.os-calendar-view-toggle').on('click', '.os-calendar-view-option', function(){
+    jQuery(this).closest('.os-calendar-view-toggle').find('.os-calendar-view-option.os-selected').removeClass('os-selected')
+    jQuery(this).addClass('os-selected');
+    jQuery('input[name="' + jQuery(this).closest('.os-calendar-view-toggle').data('update-element-by-name') + '"]').val(jQuery(this).data('value')).trigger('change');
+    return false;
+  });
+
   jQuery('.calendar-settings-toggler').on('click', function(){
     jQuery('.os-calendar-settings-form').toggleClass('show-extra-settings');
     return false;
   });
 
-  jQuery('.os-calendar-settings-form').on('change', 'select[name="calendar_settings[view]"]', function(){
+  jQuery('.os-calendar-settings-form').on('change', 'input[name="calendar_settings[view]"]', function(){
     jQuery(this).closest('.calendar-wrapper').attr('data-view', jQuery(this).val());
   });
 

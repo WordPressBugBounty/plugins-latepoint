@@ -2,6 +2,10 @@
   0% { transform: rotate(-65deg) scale(0.5); }
   100% { transform: rotate(0deg) scale(1); }
 }
+@keyframes selectedSlotCheckmarkOpacity {
+  0% { transform: rotate(-65deg) scale(0.5); opacity: 0; }
+  100% { transform: rotate(0deg) scale(1); opacity: 1; }
+}
 
 @keyframes latepointFadeUp {
   0% { transform: translate3d(0, 40px, 0); opacity: 0; }
@@ -184,4 +188,9 @@
   0% { opacity: 1; }
   50% { opacity: 0; }
   100% { opacity: 1; }
+}
+@keyframes latepointShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+    20%, 40%, 60%, 80% { transform: translateX(4px); }
 }

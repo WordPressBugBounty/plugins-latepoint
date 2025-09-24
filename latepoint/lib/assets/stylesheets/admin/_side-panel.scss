@@ -10,6 +10,8 @@
   background-color: rgba(65,73,90,0.13);
   display: flex;
   align-items: stretch;
+  padding: 2vh;
+  padding: 2dvh;
   .latepoint-side-panel-shadow {
     flex: 1;
   }
@@ -17,6 +19,10 @@
     display: flex;
     flex-direction: row-reverse;
     box-shadow: 0px 10px 60px rgba(0,0,0, 0.15), 0px 2px 6px rgba(0,0,0,0.2);
+    height: 96vh;
+    height: 96dvh;
+    overflow: hidden;
+    border-radius: $lightbox-border-radius;
   }
 
   .side-sub-panel-wrapper {
@@ -26,8 +32,6 @@
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 100vh;  /* Fallback */
-    height: 100dvh;
     .side-sub-panel-header {
 
       select {
@@ -36,7 +40,6 @@
         margin-left: 5px;
       }
       .latepoint-side-sub-panel-close {
-        line-height: 1;
         font-size: 18px;
         color: #333;
         text-decoration: none;
@@ -44,8 +47,21 @@
         outline: none;
         box-shadow: none;
         z-index: 3;
+        background-color: #f8f8f8;
+        border-radius: $border-radius;
+        width: 34px;
+        height: 34px;
+        text-align: center;
+        line-height: 34px;
+        i {
+          display: block;
+          line-height: 34px;
+        }
         &:focus {
           outline: none;
+        }
+        &:hover {
+          background-color: #eee;
         }
       }
     }
@@ -271,7 +287,6 @@
   }
 
   .latepoint-side-panel-close {
-    line-height: 1;
     font-size: 18px;
     color: #333;
     text-decoration: none;
@@ -279,8 +294,21 @@
     outline: none;
     box-shadow: none;
     z-index: 3;
+    background-color: #f8f8f8;
+    border-radius: $border-radius;
+    width: 34px;
+    height: 34px;
+    text-align: center;
+    line-height: 34px;
+    i {
+      display: block;
+      line-height: 34px;
+    }
     &:focus {
       outline: none;
+    }
+    &:hover {
+      background-color: #eee;
     }
   }
 
@@ -292,8 +320,6 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    height: 100vh;  /* Fallback */
-    height: 100dvh;
     > .os-form-w {
       max-height: 100%;
       min-height: 100%;
@@ -317,8 +343,8 @@
   &.width-full .latepoint-side-panel-i{ width: 100%; }
 
   .os-form-header {
-    padding: (22px + calc($side-panel-offset/2)) $side-panel-padding-x;
-    border-bottom: 1px solid $border-color-main;
+    padding: (15px + calc($side-panel-offset/2)) $side-panel-padding-x;
+    border-bottom: 1px solid $border-color-lightest;
     margin-bottom: 0px;
     background-color: #fff;
     display: flex;
@@ -366,7 +392,7 @@
     padding: $side-panel-padding-y $side-panel-padding-x;
     flex: 1;
     max-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     &.no-padding {
       padding: 0;
@@ -378,7 +404,7 @@
 
   .os-form-buttons {
     padding: 15px $side-panel-padding-x;
-    border-top: 1px solid $border-color-main;
+    border-top: 1px solid $border-color-lightest;
     background-color: #fff;
     display: flex;
     .latepoint-btn {
@@ -432,7 +458,7 @@
     border: 2px dotted rgba(0, 0, 0, 0.1);
     padding: 7px 10px;
     text-align: center;
-    border-radius: 6px;
+    border-radius: $border-radius;
     color: $brand-primary;
     cursor: pointer;
     position: relative;
@@ -586,7 +612,7 @@
     position: relative;
     background-color: #fff;
     border: 2px solid $brand-primary;
-    border-radius: 8px;
+    border-radius: $border-radius-lg;
     .quick-add-transaction-box-header {
       padding: 5px 15px 7px 5px;
       display: flex;

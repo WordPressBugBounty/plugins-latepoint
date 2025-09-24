@@ -14,12 +14,12 @@
 }
 
 .latepoint-side-menu-w {
-  background-color: $side-menu-bg;
+  //background-color: $side-menu-bg;
   position: relative;
   box-shadow: none;
 
   ul.side-menu {
-    padding: 30px;
+    padding: 20px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -80,7 +80,7 @@
           &:after {
             content: "";
             height: 1px;
-            background-color: $border-color-main;
+            background-color: $border-color-lightest;
             flex: 1;
             display: block;
           }
@@ -90,14 +90,14 @@
       > a {
         text-decoration: none;
         color: $side-menu-link-color;
-        font-size: floor($font-size-menu-base * 0.95);
+        font-size: floor($font-size-menu-base * 0.90);
         font-weight: $body-font-weight-normal;
         display: flex;
         gap: 15px;
         align-items: center;
         padding: 8px 30px 8px 10px;
         white-space: nowrap;
-        border-radius: $border-radius-sm;
+        border-radius: $border-radius;
 
         > i {
           color: $side-menu-icon-color;
@@ -118,8 +118,10 @@
 
         > a {
           background-color: $side-menu-active-item-bg;
+          color: #1f242b;
 
           > i {
+            color: #0981d6;
           }
         }
 
@@ -423,12 +425,12 @@
     }
 
     .side-menu-top-part-w {
-      padding: 19px 35px 20px;
+      padding: 32px 30px 32px;
       align-items: center;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid $border-color-main;
-      
+      border-bottom: 1px solid $border-color-lightest;
+
       .latepoint-mobile-top-menu-trigger {
         display: none;
       }
@@ -524,12 +526,12 @@
 
 
     .latepoint-top-user-info-w {
-      margin-left: auto;
+      margin-left: 20px;
       position: relative;
 
       .avatar-w {
-        width: 25px;
-        height: 25px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         background-size: cover;
         cursor: pointer;
@@ -544,30 +546,37 @@
       .latepoint-user-info-dropdown {
         display: none;
         position: absolute;
-        top: -5px;
-        left: -5px;
+        top: -8px;
+        right: -8px;
         background-color: #fff;
-        padding: 30px 30px 15px 30px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2), 0px 5px 15px 0px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+        padding-bottom: 5px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15), 0px 5px 15px 0px rgba(0, 0, 0, 0.05);
         z-index: 99999;
         width: 240px;
+        border-radius: $border-radius-lg;
         &.os-visible {
           display: block;
         }
         .latepoint-user-info-close {
           position: absolute;
-          left: 8px;
+          right: 8px;
           top: 8px;
-          width: 20px;
-          height: 20px;
-          font-size: 15px;
-          line-height: 20px;
+          width: 35px;
+          height: 35px;
+          font-size: 18px;
+          line-height: 35px;
           text-align: center;
           border-radius: 50%;
           color: #000;
           text-decoration: none;
+          background-color: #f7f7f7;
           &:hover {
-            color: $brand-primary;
+            background-color: #eee;
+          }
+          i {
+            display: block;
+            line-height: 34px;
           }
         }
 
@@ -580,7 +589,7 @@
           align-items: center;
           justify-content: space-between;
           border-bottom: 1px solid $border-color-lightest;
-          padding: 0 0 15px 0;
+          padding: 0 0 20px 0;
           gap: 15px;
 
           .uid-avatar-w {
@@ -613,8 +622,9 @@
         ul {
           list-style: none;
           margin: 0px;
-          padding: 15px 0;
           font-size: $font-size-menu-base;
+          padding: 0;
+          padding-top: 5px;
 
           li {
             margin: 0px;
@@ -624,7 +634,7 @@
               display: flex;
               gap: 15px;
               align-items: center;
-              padding: 10px;
+              padding: 20px 12px;
               text-decoration: none;
 
               span, i {
@@ -635,7 +645,7 @@
 
               i {
                 color: $side-menu-icon-color;
-                font-size: 14px;
+                font-size: 16px;
               }
 
               .latepoint-icon-forward {
@@ -648,7 +658,7 @@
 
               &:hover {
                 span {
-                  transform: translateX(3px);
+                  text-decoration: underline;
                 }
               }
             }

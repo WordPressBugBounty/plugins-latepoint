@@ -54,10 +54,6 @@ class OsSettingsHelper {
 		'currency_symbol_before' => '$'
 	];
 
-	public static function get_remote_url( $extra = '' ) {
-		return base64_decode( LATEPOINT_REMOTE_HASH ) . $extra;
-	}
-
 	public static function get_business_logo_url() {
 		$default_logo_url = LATEPOINT_IMAGES_URL . 'logo.png';
 
@@ -377,7 +373,7 @@ class OsSettingsHelper {
 		return $format;
 	}
 
-	public static function get_readable_date_format( $no_year = false ) {
+	public static function get_readable_date_format( $no_year = false, $short_month = false ) {
 		if ( OsSettingsHelper::is_on( 'disable_verbose_date_output' ) ) {
 			return self::get_date_format();
 		}
@@ -395,6 +391,10 @@ class OsSettingsHelper {
 				$format = ( $no_year ) ? 'F j' : 'Y, M j';
 				break;
 		}
+        if($short_month){
+            // if short month is requested - use month shorthand;
+            $format = str_replace('F', 'M', $format);
+        }
 
 		return $format;
 	}
@@ -469,11 +469,11 @@ class OsSettingsHelper {
 
 	public static function get_default_fields_for_customer() {
 		$default_fields = [
-			'first_name' => [ 'locked' => false, 'label' => __( 'First Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'last_name'  => [ 'locked' => false, 'label' => __( 'Last Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'email'      => [ 'locked' => true, 'label' => __( 'Email Address', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'phone'      => [ 'locked' => false, 'label' => __( 'Phone Number', 'latepoint' ), 'required' => false, 'width' => 'os-col-6', 'active' => true ],
-			'notes'      => [ 'locked' => false, 'label' => __( 'Comments', 'latepoint' ), 'required' => false, 'width' => 'os-col-12', 'active' => true ]
+			'first_name' => [ 'label' => __( 'First Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
+			'last_name'  => [ 'label' => __( 'Last Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
+			'email'      => [ 'label' => __( 'Email Address', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
+			'phone'      => [ 'label' => __( 'Phone Number', 'latepoint' ), 'required' => false, 'width' => 'os-col-6', 'active' => true ],
+			'notes'      => [ 'label' => __( 'Comments', 'latepoint' ), 'required' => false, 'width' => 'os-col-12', 'active' => true ]
 		];
 
 		$fields_from_db     = OsSettingsHelper::get_settings_value( 'default_fields_for_customer', '' );
@@ -631,20 +631,14 @@ class OsSettingsHelper {
             <form>
 				<?php foreach ( $default_fields as $name => $default_field ) {
 					$atts = [];
-					if ( $default_field['locked'] ) {
-						$atts['disabled'] = 'disabled';
-					}
 					?>
                     <div class="os-default-field <?php echo $default_field['active'] ? '' : 'is-disabled'; ?>">
 						<?php
-						if ( $default_field['locked'] ) {
-							echo '<div class="locked-field"><i class="latepoint-icon latepoint-icon-lock"></i><span>' . esc_html__( 'Email Address field can not be disabled.', 'latepoint' ) . '</span></div>';
-						} else {
-							$active     = $default_field['active'] ? 'on' : 'off';
+                            $active     = $default_field['active'] ? 'on' : 'off';
 							$field_name = 'default_fields[' . $name . '][active]';
 							echo '<div class="os-toggler ' . esc_attr( $active ) . '" data-for="' . esc_attr( OsFormHelper::name_to_id( $field_name ) ) . '"><div class="toggler-rail"><div class="toggler-pill"></div></div></div>';
 							echo OsFormHelper::hidden_field( $field_name, $default_field['active'] );
-						} ?>
+                            ?>
                         <div class="os-field-name"><?php echo esc_html( $default_field['label'] ); ?></div>
                         <div class="os-field-setting">
 							<?php echo OsFormHelper::checkbox_field( 'default_fields[' . $name . '][required]', __( 'Required?', 'latepoint' ), 'on', $default_field['required'], $atts ); ?>
@@ -713,6 +707,13 @@ class OsSettingsHelper {
             'pattern_19' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%);',
         ];
     }
+
+	public static function get_default_wp_role_for_new_customers() : string {
+        if(!wp_roles()->is_role( LATEPOINT_WP_CUSTOMER_ROLE )){
+            OsRolesHelper::register_customer_role();
+        }
+        return OsSettingsHelper::get_settings_value('default_wp_role_for_customer', LATEPOINT_WP_CUSTOMER_ROLE);
+	}
 
 }
 

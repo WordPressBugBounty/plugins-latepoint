@@ -6,57 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="latepoint-side-menu-w side-menu-full">
 	<div class="side-menu-top-part-w">
 		<a href="<?php echo esc_url(OsRouterHelper::build_link(['dashboard', 'index'])); ?>" class="logo-w">
-			<img src="<?php echo esc_attr(LATEPOINT_IMAGES_URL . 'logo.svg'); ?>" width="25" height="25" alt="LatePoint Dashboard">
+			<img src="<?php echo esc_attr(LATEPOINT_IMAGES_URL . 'logo.svg'); ?>" width="20" height="20" alt="LatePoint Dashboard">
 		</a>
         <a href="#" title="<?php esc_attr_e('Menu', 'latepoint'); ?>" class="latepoint-mobile-top-menu-trigger">
             <i class="latepoint-icon latepoint-icon-menu"></i>
         </a>
-		<div class="latepoint-top-user-info-w">
-			<div class="avatar-w top-user-info-toggler" style="background-image: url('<?php echo esc_url(OsAuthHelper::get_current_user()->get_avatar_url()); ?>');"></div>
-            <div class="mobile-user-info-w">
-                <div class="m-avatar-w" style="background-image: url('<?php echo esc_url(OsAuthHelper::get_current_user()->get_avatar_url()); ?>');"></div>
-                <div class="muid-info">
-                    <div class="muid-info-username"><?php echo esc_html(OsAuthHelper::get_current_user()->get_display_name()); ?></div>
-                    <div class="muid-info-usertype"><?php echo esc_html(OsAuthHelper::get_current_user()->get_user_type_label()); ?></div>
-                </div>
-                <div class="m-logout">
-                    <a href="<?php echo esc_url(wp_logout_url()); ?>">
-                        <i class="latepoint-icon latepoint-icon-cancel"></i>
-                        <span><?php esc_html_e('Logout', 'latepoint'); ?></span>
-                    </a>
-                </div>
-            </div>
-			<div class="latepoint-user-info-dropdown">
-				<a href="#" class="latepoint-user-info-close top-user-info-toggler"><i class="latepoint-icon latepoint-icon-minus"></i></a>
-				<div class="latepoint-uid-head">
-					<div class="uid-avatar-w">
-						<div class="uid-avatar"
-						     style="background-image: url('<?php echo esc_url(OsAuthHelper::get_current_user()->get_avatar_url()); ?>');"></div>
-					</div>
-					<div class="uid-info">
-						<div class="uid-info-username"><?php echo esc_html(OsAuthHelper::get_current_user()->get_display_name()); ?></div>
-						<div class="uid-info-usertype"><?php echo esc_html(OsAuthHelper::get_current_user()->get_user_type_label()); ?></div>
-					</div>
-				</div>
-				<?php do_action('latepoint_top_bar_mobile_after_user'); ?>
-				<ul>
-					<?php if (OsAuthHelper::get_current_user()->get_link_to_settings()) { ?>
-						<li>
-							<a href="<?php echo esc_url(OsAuthHelper::get_current_user()->get_link_to_settings()); ?>">
-								<i class="latepoint-icon latepoint-icon-cog1"></i>
-								<span><?php esc_html_e('Settings', 'latepoint'); ?></span>
-							</a>
-						</li>
-					<?php } ?>
-					<li>
-						<a href="<?php echo esc_url(wp_logout_url()); ?>">
-							<i class="latepoint-icon latepoint-icon-cancel"></i>
-							<span><?php esc_html_e('Logout', 'latepoint'); ?></span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
 	</div>
 	<ul class="side-menu">
 		<?php

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<div class="step-datepicker-w latepoint-step-content" data-step-code="<?php echo esc_attr( $current_step_code ); ?>" data-clear-action="clear_step_datepicker">
+<div class="step-datepicker-w latepoint-step-content" data-step-code="<?php echo esc_attr( $current_step_code ); ?>" data-clear-action="latepoint_clear_step_datepicker">
 	<?php
 	do_action( 'latepoint_before_step_content', $current_step_code );
 	echo OsStepsHelper::get_formatted_extra_step_content( $current_step_code, 'before' );

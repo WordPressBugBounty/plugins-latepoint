@@ -167,11 +167,11 @@ class OsShortcodesHelper {
 				}
 				$services = $services->should_be_active()->should_not_be_hidden()->order_by( 'order_number asc' )->get_results_as_models();
 				foreach ( $services as $service ) {
-					$output .= '<div class="resource-item '. $resource_item_classes .'">';
+					$output .= '<div class="resource-item '. esc_attr($resource_item_classes) .'">';
 					if ($atts['hide_image'] !== 'yes' && !empty( $service->description_image_id )) {
 						$output .= '<div class="ri-media" style="background-image: url(' . $service->get_description_image_url() . ')"></div>';
 					}
-					$output .= '<div class="ri-name"><h3>' . $service->name . '</h3></div>';
+					$output .= '<div class="ri-name"><h3>' . esc_html($service->name) . '</h3></div>';
 
 					if ($atts['hide_price'] !== 'yes' && $service->price_min > 0) {
 						$service_price_formatted = ( $service->price_min != $service->price_max ) ? __( 'Starts at', 'latepoint' ) . ' ' . $service->price_min_formatted : $service->price_min_formatted;
@@ -205,8 +205,8 @@ class OsShortcodesHelper {
 				foreach ( $agents as $agent ) {
 					$output .= '<div class="resource-item '. esc_attr($resource_item_classes) .' ri-centered">';
 					$output .= ! empty( $agent->avatar_image_id ) ? '<div class="ri-avatar" style="background-image: url(' . $agent->get_avatar_url() . ')"></div>' : '';
-					$output .= '<div class="ri-name"><h3>' . $agent->full_name . '</h3></div>';
-					$output .= ! empty( $agent->title ) ? '<div class="ri-title">' . $agent->title . '</div>' : '';
+					$output .= '<div class="ri-name"><h3>' . esc_html($agent->full_name) . '</h3></div>';
+					$output .= ! empty( $agent->title ) ? '<div class="ri-title">' . esc_html($agent->title) . '</div>' : '';
 					$output .= ! empty( $agent->short_description ) ? '<div class="ri-description">' . wp_kses_post($agent->short_description) . '</div>' : '';
 					$output .= '<div class="ri-buttons ' . esc_attr($btn_wrapper_classes) . '">
 						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking latepoint-btn-block ' . esc_attr($btn_classes) . '" data-selected-agent="' . esc_attr($agent->id) . '">' . wp_kses_post($atts['button_caption']) . '</a>
@@ -229,7 +229,7 @@ class OsShortcodesHelper {
 				foreach ( $locations as $location ) {
 					$output .= '<div class="resource-item '. esc_attr($resource_item_classes) .'">';
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-map">' . $location->get_google_maps_iframe( 200 ) . '</div>' : '';
-					$output .= '<div class="ri-name"><h3>' . $location->name . '</h3></div>';
+					$output .= '<div class="ri-name"><h3>' . esc_html($location->name) . '</h3></div>';
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-description">' . $location->full_address . '<a href="' . $location->get_google_maps_link() . '" target="_blank" class="ri-external-link"><i class="latepoint-icon latepoint-icon-external-link"></i></a></div>' : '';
 					$output .= '<div class="ri-buttons ' . $btn_wrapper_classes . '">
 						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . esc_attr($btn_classes) . '" data-selected-location="' . esc_attr($location->id) . '">' . wp_kses_post($atts['button_caption']) . '</a>
@@ -256,7 +256,7 @@ class OsShortcodesHelper {
 				?>
                     <div class="resource-item <?php echo esc_attr($resource_item_classes); ?>">
                         <div class="ri-name">
-                            <h3><?php echo $bundle->name; ?></h3>
+                            <h3><?php echo esc_html($bundle->name); ?></h3>
                         </div>
                         <?php if ($atts['hide_price'] !== 'yes' && $price = $bundle->get_formatted_charge_amount()) { ?>
                             <div class="ri-price"><?php echo $price; ?></div>

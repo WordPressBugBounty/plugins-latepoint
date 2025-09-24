@@ -128,11 +128,11 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 					$query_args['to_run_after_utc <='] = $filter['to_run_after_utc_to'];
 				}
 
-				if ( isset( $filter['event_type'] ) && ! empty( $filter['event_type'] ) ) {
+				if ( ! empty( $filter['event_type'] ) ) {
 					$jobs->select( LATEPOINT_TABLE_PROCESS_JOBS . '.*, ' . LATEPOINT_TABLE_PROCESSES . '.event_type' );
-					$jobs->join( LATEPOINT_TABLE_PROCESSES, [ LATEPOINT_TABLE_PROCESSES . '.id' => LATEPOINT_TABLE_PROCESS_JOBS . '.process_id' ] );
+					$jobs->join( LATEPOINT_TABLE_PROCESSES, [ 'id' => LATEPOINT_TABLE_PROCESS_JOBS . '.process_id' ] );
 					$count_jobs->select( LATEPOINT_TABLE_PROCESS_JOBS . '.*, ' . LATEPOINT_TABLE_PROCESSES . '.event_type' );
-					$count_jobs->join( LATEPOINT_TABLE_PROCESSES, [ LATEPOINT_TABLE_PROCESSES . '.id' => LATEPOINT_TABLE_PROCESS_JOBS . '.process_id' ] );
+					$count_jobs->join( LATEPOINT_TABLE_PROCESSES, [ 'id' => LATEPOINT_TABLE_PROCESS_JOBS . '.process_id' ] );
 					$query_args[ LATEPOINT_TABLE_PROCESSES . '.event_type' ] = $filter['event_type'];
 				}
 			}

@@ -215,7 +215,9 @@ class OsDatabaseHelper {
 			LATEPOINT_TABLE_ORDER_INTENTS,
 			LATEPOINT_TABLE_ORDER_INTENT_META,
 			LATEPOINT_TABLE_ORDER_INVOICES,
-			LATEPOINT_TABLE_PAYMENT_REQUESTS
+			LATEPOINT_TABLE_PAYMENT_REQUESTS,
+			LATEPOINT_TABLE_RECURRENCES,
+			LATEPOINT_TABLE_CUSTOMER_OTP_CODES,
 		];
 
 		/**
@@ -239,6 +241,25 @@ class OsDatabaseHelper {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sqls = [];
+
+
+			/* OTP Codes */
+			$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOMER_OTP_CODES . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      contact_value varchar(255) NOT NULL,
+      contact_type varchar(30) NOT NULL,
+		delivery_method varchar(30) NOT NULL,
+		otp_hash VARCHAR(255) NOT NULL,
+      expires_at datetime not null,
+      status varchar(30) DEFAULT '" . LATEPOINT_CUSTOMER_OTP_CODE_STATUS_ACTIVE . "' NOT NULL,
+      attempts INT DEFAULT 0,
+      used_at DATETIME NULL,
+      created_at datetime,
+      updated_at datetime,
+      PRIMARY KEY  (id),
+    KEY idx_contact_status (contact_value, status),
+    KEY idx_expires_status (expires_at, status)
+    ) $charset_collate;";
 
 
 			/* Recurrences */
@@ -741,9 +762,10 @@ class OsDatabaseHelper {
 
 		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOMERS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
+      uuid varchar(36),
       first_name varchar(255),
       last_name varchar(255),
-      email varchar(110) NOT NULL,
+      email varchar(320),
       phone varchar(255),
       avatar_image_id int(11),
       status varchar(50) NOT NULL,
@@ -758,6 +780,7 @@ class OsDatabaseHelper {
       admin_notes text,
       created_at datetime,
       updated_at datetime,
+      UNIQUE KEY uuid_index (uuid),
       KEY email_index (email),
       KEY status_index (status),
       KEY wordpress_user_id_index (wordpress_user_id),

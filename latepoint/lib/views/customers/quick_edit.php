@@ -78,7 +78,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							} ?>
 				    </div>
 					<?php } ?>
-					<?php if(!$customer->is_new_record() && OsAuthHelper::wp_users_as_customers()){ ?>
+					<?php if(!$customer->is_new_record() && OsAuthHelper::can_wp_users_login_as_customers()){ ?>
 						<div class="connected-wp-user-status">
 					    <?php
 					    if($customer->wordpress_user_id){

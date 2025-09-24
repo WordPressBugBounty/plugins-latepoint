@@ -199,7 +199,7 @@
   }
   .latepoint-calendar-month {
     grid-template-columns: 200px 200px 200px 200px 200px 200px 200px;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
   .latepoint-calendar-week .le-day-wrapper:first-child .day-schedule-timeslot-value {
     display: none;

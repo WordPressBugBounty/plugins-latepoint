@@ -85,8 +85,11 @@ class OsNotificationsHelper {
 				$to = $notification_settings['to'] ?? '';
 				$subject = $notification_settings['subject'] ?? '';
 				$content = $notification_settings['content'] ?? '';
+				$activity_data = $notification_settings['activity_data'] ?? [];
+				$attachments = $notification_settings['attachments'] ?? [];
+
 				$mailer = new OsMailer();
-				$result = OsEmailHelper::send_email($to, $subject, $content, $mailer->get_headers(), ($notification_settings['activity_data'] ?? []));
+				$result = OsEmailHelper::send_email($to, $subject, $content, $mailer->get_headers(), $activity_data, $attachments);
 				break;
 			case 'sms':
 				$to = $notification_settings['to'] ?? '';

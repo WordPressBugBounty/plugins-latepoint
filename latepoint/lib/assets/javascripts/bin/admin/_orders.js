@@ -671,7 +671,6 @@ function latepoint_load_quick_availability($trigger_elem, custom_agent_id = fals
           jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(52);
         }else if(load_prev_days){
           jQuery('.latepoint-side-panel-w .quick-availability-per-day-w').html(response.message);
-          console.log(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight);
           jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight - jQuery('.latepoint-side-panel-w .os-availability-days')[0].clientHeight - 50);
         }else{
           latepoint_display_in_side_sub_panel(response.message);

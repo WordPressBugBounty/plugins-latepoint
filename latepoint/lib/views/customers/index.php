@@ -15,9 +15,10 @@ if($customers){ ?>
 	    <div class="mobile-table-actions-trigger"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></div>
       <div class="table-actions">
 	    <?php if (OsSettingsHelper::can_download_records_as_csv()) { ?>
-            <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link(OsRouterHelper::build_route_name('customers', 'index') )); ?>" target="_blank" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey download-csv-with-filters"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Download .csv', 'latepoint'); ?></span></a>
+            <a data-os-lightbox-classes="width-500" data-os-after-call="latepoint_init_customers_import" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customers', 'import_csv_modal')); ?>" href="#" data-os-output-target="lightbox" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Import .csv', 'latepoint'); ?></span></a>
+            <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link(OsRouterHelper::build_route_name('customers', 'index') )); ?>" target="_blank" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey download-csv-with-filters"><i class="latepoint-icon latepoint-icon-upload"></i><span><?php esc_html_e('Export .csv', 'latepoint'); ?></span></a>
         <?php } ?>
-        <?php if(OsAuthHelper::wp_users_as_customers()){ ?>
+        <?php if(OsAuthHelper::can_wp_users_login_as_customers()){ ?>
           <?php $not_connected_count = OsCustomerHelper::count_customers_not_connected_to_wp_users(); ?>
           <?php if($not_connected_count){ ?>
             <a href="#" data-os-success-action="reload" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customers', 'connect_all_to_wp_users')); ?>" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey"><i class="latepoint-icon latepoint-icon-wordpress"></i><span><?php esc_html_e('Connect to WP Users', 'latepoint'); ?><?php echo ' ['.esc_html($not_connected_count).']'; ?></span></a>
@@ -40,7 +41,7 @@ if($customers){ ?>
               <th><?php esc_html_e('Total Apps', 'latepoint'); ?></th>
               <th><?php esc_html_e('Next App', 'latepoint'); ?></th>
               <th><?php esc_html_e('Time to Next', 'latepoint'); ?></th>
-              <?php if(OsAuthHelper::wp_users_as_customers()) echo '<th>'.esc_html__('WP User ID', 'latepoint').'</th>'; ?>
+              <?php if(OsAuthHelper::can_wp_users_login_as_customers()) echo '<th>' . esc_html__('WP User ID', 'latepoint') . '</th>'; ?>
               <th><?php esc_html_e('Registered On', 'latepoint'); ?></th>
             </tr>
             <tr>
@@ -52,7 +53,7 @@ if($customers){ ?>
               <th></th>
               <th></th>
               <?php if(OsSettingsHelper::is_using_social_login()) echo '<th></th>'; ?>
-              <?php if(OsAuthHelper::wp_users_as_customers()) echo '<th></th>'; ?>
+              <?php if(OsAuthHelper::can_wp_users_login_as_customers()) echo '<th></th>'; ?>
               <th>
                 <div class="os-form-group">
                   <div class="os-date-range-picker os-table-filter-datepicker" data-can-be-cleared="yes" data-no-value-label="<?php esc_attr_e('Filter By Date', 'latepoint'); ?>" data-clear-btn-label="<?php esc_attr_e('Reset Date Filtering', 'latepoint'); ?>">
@@ -78,7 +79,7 @@ if($customers){ ?>
               <th><?php esc_html_e('Total Apps', 'latepoint'); ?></th>
               <th><?php esc_html_e('Next App', 'latepoint'); ?></th>
               <th><?php esc_html_e('Time to Next', 'latepoint'); ?></th>
-              <?php if(OsAuthHelper::wp_users_as_customers()) echo '<th>'.esc_html__('WP User ID', 'latepoint').'</th>'; ?>
+              <?php if(OsAuthHelper::can_wp_users_login_as_customers()) echo '<th>' . esc_html__('WP User ID', 'latepoint') . '</th>'; ?>
               <th><?php esc_html_e('Registered On', 'latepoint'); ?></th>
             </tr>
           </tfoot>

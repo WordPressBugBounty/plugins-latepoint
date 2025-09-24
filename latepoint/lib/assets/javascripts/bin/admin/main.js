@@ -28,6 +28,60 @@ function latepoint_init_version5_intro(){
   }
 }
 
+
+function latepoint_settings_customer_authentication_method_changed($select){
+    if($select.val() === 'password_or_otp'){
+      jQuery('#authDefaultMethod').show();
+    }else{
+      jQuery('#authDefaultMethod').hide();
+    }
+}
+
+function latepoint_settings_customer_authentication_field_type_changed($select){
+    if($select.val() === 'disabled'){
+      jQuery('#passwordFields, #customerStepSettings').hide();
+    }else{
+      jQuery('#passwordFields, #customerStepSettings').show();
+    }
+    if($select.val() === 'email_or_phone'){
+      jQuery('#authDefaultContactType').show();
+    }else{
+      jQuery('#authDefaultContactType').hide();
+    }
+}
+
+function latepoint_init_sticky_side_nav(){
+  jQuery('.latepoint-page-side-nav a').on('click', function(e) {
+    e.preventDefault();
+    let target = jQuery(this).attr('href');
+    let targetOffset = jQuery(target).offset().top - 20;
+
+    jQuery('html, body').animate({
+        scrollTop: targetOffset
+    }, 400, 'swing');
+  });
+  if(jQuery('.latepoint-page-side-nav').length){
+    jQuery(window).on('scroll', function() {
+        let scrollPos = jQuery(window).scrollTop() + 100; // 100px offset for better UX
+
+        jQuery('.section-anchor').each(function() {
+            let sectionTop = jQuery(this).offset().top;
+            let sectionBottom = sectionTop + jQuery(this).outerHeight();
+            let sectionId = jQuery(this).attr('id');
+
+            // Check if current scroll position is within this section
+            if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                // Remove active class from all menu items
+                jQuery('.latepoint-page-side-nav a').removeClass('is-active');
+
+                // Add active class to current section's menu item
+                jQuery('.latepoint-page-side-nav a[href="#' + sectionId + '"]').addClass('is-active');
+            }
+        });
+    });
+  }
+}
+
 function latepoint_init_instant_booking_settings(){
 
   jQuery('.instant-copy-url').on('click', function(e){
@@ -1017,6 +1071,10 @@ function latepoint_filter_table($table, $filter_elem, reset_page = true){
   });
 }
 
+function latepoint_init_service_duration_box($duration_box){
+  latepoint_init_input_masks(jQuery('.service-duration-box:last-child'));
+}
+
 function latepoint_init_wizard_content(){
   latepoint_init_input_masks(jQuery('.os-wizard-step-content'));
 }
@@ -1035,4 +1093,3 @@ function latepoint_init_input_masks($scoped_element = false){
 
   $wrapper.trigger('latepoint:initInputMasks');
 }
-

@@ -430,7 +430,7 @@
   border: 1px solid #ddd;
   display: flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: $border-radius;
   padding-left: 15px;
   margin-bottom: 15px;
   .os-zoom-meeting-info {
@@ -506,7 +506,7 @@
 .initial-payment-data-wrapper {
   margin-top: 15px;
   padding: 5px;
-  border-radius: 6px;
+  border-radius: $border-radius;
   background-color: #f3f3f3;
   .initial-payment-data-toggler-wrapper {
     display: flex;
@@ -644,6 +644,7 @@ pre.json-document {
   color: #f5fbff;
   font-family: $mono-font-family;
   font-weight: $mono-font-weight-normal;
+  border-radius: $border-radius-lg;
 
   a {
     color: #76b2fa;
@@ -713,7 +714,7 @@ pre.json-document {
   background-image: linear-gradient(110deg, #fff, #fff7da);
   position: relative;
   box-shadow: 0 8px 35px #ffe07f, inset 0 0 30px 4px #fff;
-  border-radius: 6px;
+  border-radius: $border-radius-lg;
   &.is-open {
     background-color: #fff;
     .pro-desc {
@@ -783,5 +784,117 @@ pre.json-document {
     display: inline-block;
     border-radius: $border-radius;
 
+  }
+}
+
+.os-resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 30px;
+  grid-auto-rows: 1fr;
+
+  .os-resource-grid-item {
+
+    &:hover {
+      .instant-booking-settings-open {
+        display: block;
+      }
+    }
+    .instant-booking-settings-open {
+      display: none;
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      text-decoration: none;
+      background-color: $brand-softer;
+      box-shadow: 0 0 0 5px #e0f2ff;
+      color: #fff;
+      border-radius: 20px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(.25,1.4,.5,1.35);
+      i {
+        line-height: 30px;
+      }
+      &:hover {
+        background-color: $brand-primary;
+        color: #fff;
+        box-shadow: 0 0 0 7px #c8e8ff;
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+.create-resource-link-w {
+  border: 2px dotted $border-color-strong;
+  border-radius: $border-radius-lg;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  display: block;
+  outline: none;
+  box-shadow: none;
+  min-height: 150px;
+
+  .create-resource-link-i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+
+  .add-resource-graphic-w {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0px auto;
+    .add-resource-plus {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+      height: 30px;
+      width: 30px;
+      background-color: $brand-primary;
+      box-shadow: 0px 0px 0px 15px rgba(208, 213, 220, 0.3);
+      color: #fff;
+      transform: translate(-50%, -50%);
+      transition: all 0.2s cubic-bezier(.25,1.4,.5,1.35);
+      i {
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 50%;
+        font-size: 12px;
+        transform: translate(-50%, -50%);
+        transition: all 0.2s ease;
+      }
+    }
+  }
+  .add-resource-label {
+    color: $headings-color;
+    font-weight: $body-font-weight-bold;
+    font-size: floor($font-size-base * 1.2);
+    margin-top: 5px;
+    transition: all 0.2s cubic-bezier(.25,1.4,.5,1.35);
+  }
+  &:hover {
+    border-color: $brand-primary;
+    border-style: solid;
+    .add-resource-plus {
+      box-shadow: 0px 0px 0px 15px rgba(208, 213, 220, 0.3);
+      transform: translate(-50%, -50%) scale(1.2);
+      i {
+      }
+    }
+    .add-resource-label {
+      transform: translateY(5px);
+    }
   }
 }

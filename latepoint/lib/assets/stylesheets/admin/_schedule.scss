@@ -334,7 +334,7 @@
     position: relative;
     padding: 24px 20px;
     border: 1px solid $border-color-main;
-    border-radius: 6px;
+    border-radius: $border-radius-lg;
     background-color: #fff;
     transition: all 0.2s ease;
     &:before {
@@ -437,7 +437,7 @@
   outline: none;
   box-shadow: none;
   min-height: 115px;
-  border-radius: 6px;
+  border-radius: $border-radius;
   .add-custom-day-i {
     position: absolute;
     top: 50%;
@@ -488,7 +488,7 @@
   .add-day-label {
     color: $headings-color;
     font-weight: $body-font-weight-bold;
-    font-size: $font-size-base * 1.2;
+    font-size: $body-font-size-s;
     margin-top: 5px;
     white-space: nowrap;
     transition: all 0.2s cubic-bezier(.25,1.4,.5,1.35);

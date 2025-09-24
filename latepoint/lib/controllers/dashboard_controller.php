@@ -102,11 +102,11 @@ if ( ! class_exists( 'OsDashboardController' ) ) :
       $daily_chart_data = [];
       // fill data array with all the days
       for($day_date=clone $date_from; $day_date<=$date_to; $day_date->modify('+1 day')){
-        $daily_chart_data[OsTimeHelper::get_nice_date_with_optional_year($day_date->format('Y-m-d'), false)] = 0;
+        $daily_chart_data[OsTimeHelper::get_nice_date_with_optional_year($day_date->format('Y-m-d'), false, true)] = 0;
       }
       // update the days with count of bookings
       foreach($daily_bookings as $bookings_for_day){
-        $daily_chart_data[OsTimeHelper::get_nice_date_with_optional_year(gmdate( 'Y-m-d', strtotime($bookings_for_day->start_date)), false)] = $bookings_for_day->bookings_per_day;
+        $daily_chart_data[OsTimeHelper::get_nice_date_with_optional_year(gmdate( 'Y-m-d', strtotime($bookings_for_day->start_date)), false, true)] = $bookings_for_day->bookings_per_day;
       }
 
       $this->vars['total_bookings'] = OsBookingHelper::get_stat_for_period('bookings', $date_from->format('Y-m-d'), $date_to->format('Y-m-d'), $filter);
@@ -157,7 +157,7 @@ if ( ! class_exists( 'OsDashboardController' ) ) :
 
       $this->vars['pie_chart_data'] = ['labels' => $pie_labels, 'colors' => $pie_colors, 'values' => $pie_values];
 
-      $this->vars['date_period_string'] = OsTimeHelper::format_date_with_locale(OsSettingsHelper::get_readable_date_format(), $date_from).' - '.OsTimeHelper::format_date_with_locale(OsSettingsHelper::get_readable_date_format(), $date_to);
+      $this->vars['date_period_string'] = OsTimeHelper::format_date_with_locale(OsSettingsHelper::get_readable_date_format(true, true), $date_from).' - '.OsTimeHelper::format_date_with_locale(OsSettingsHelper::get_readable_date_format(true, true), $date_to);
 
       $this->set_layout('none');
       $this->format_render(__FUNCTION__);

@@ -31,8 +31,8 @@ class OsController {
     $this->vars['logged_in_customer'] = OsAuthHelper::get_logged_in_customer();
   }
 
-	public function check_nonce($action){
-		$nonce = $this->params['_wpnonce'];
+	public function check_nonce($action, $custom_nonce = ''){
+		$nonce = !empty($custom_nonce) ? $custom_nonce : $this->params['_wpnonce'];
 		if(!wp_verify_nonce($nonce, $action)){
       if($this->get_return_format() == 'json'){
         $this->send_json(array('status' => LATEPOINT_STATUS_ERROR, 'message' => __('Invalid Request', 'latepoint')));

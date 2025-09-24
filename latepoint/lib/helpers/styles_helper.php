@@ -4,6 +4,7 @@ class OsStylesHelper {
 	public static function generate_css_variables(): string {
 		$css                     = '';
 		$color_scheme            = OsSettingsHelper::get_booking_form_color_scheme();
+		$border_radius           = OsSettingsHelper::get_booking_form_border_radius();
 		$default_css_variables = [
 			'--latepoint-brand-primary'                => '#1d7bff',
 			'--latepoint-body-color'                   => '#1f222b',
@@ -14,6 +15,10 @@ class OsStylesHelper {
 			'--latepoint-calendar-weekday-label-bg'    => '#fff',
 			'--latepoint-side-panel-bg'                => '#fff',
 			'--latepoint-summary-panel-bg'             => '#fff',
+			'--latepoint-border-radius' => ($border_radius == 'flat') ? '0px' : '8px',
+			'--latepoint-border-radius-sm' => ($border_radius == 'flat') ? '0px' : '4px',
+			'--latepoint-border-radius-md' => ($border_radius == 'flat') ? '0px' : '12px',
+			'--latepoint-border-radius-lg' => ($border_radius == 'flat') ? '0px' : '16px',
 		];
 		$override_css_variables = [];
 		switch ( $color_scheme ) {

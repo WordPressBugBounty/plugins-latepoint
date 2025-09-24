@@ -10,6 +10,9 @@
   .summary-box .sbc-highlighted-item {
     font-size: $body-font-size-s;
     margin-top: 2px;
+    .os-timezone-info {
+      font-size: $body-font-size-xs;
+    }
   }
 
   .summary-box-heading {
@@ -183,6 +186,7 @@
       height: 10px;
       background-color: rgba(0, 0, 0, 0.03);
       flex: 1;
+      border-radius: $border-radius;
     }
   }
 }
@@ -225,6 +229,7 @@
     background-color: rgba(0, 0, 0, 0.03);
     flex: 1;
     margin-left: 10px;
+    border-radius: $border-radius;
   }
 }
 
@@ -259,7 +264,6 @@
 
     .summary-box-inner {
       flex: 1;
-      padding-top: 5px;
     }
 
     .summary-box-booking-date-box {
@@ -379,6 +383,7 @@
     }
 
     .os-avatar-w {
+      text-transform: uppercase;
       width: 30px;
       height: 30px;
       flex: 0 0 30px;
@@ -414,6 +419,16 @@
       color: $brand-primary;
       font-size: $body-font-size-xxs;
     }
+    &.sbc-with-action {
+      display: flex;
+      gap: 5px;
+      align-items: flex-start;
+      .sbc-action {
+        color: $brand-primary;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    }
   }
 
   .sbc-sub-item {
@@ -438,13 +453,16 @@
     color: $headings-color;
     line-height: 1.3;
     & + .sbc-highlighted-item {
-      margin-top: 2px;
+      margin-top: 4px;
     }
   }
 
   .sbc-highlighted-item {
     color: $color-faded;
     font-size: $body-font-size-s;
+    .os-timezone-info {
+      font-size: $body-font-size-xs;
+    }
 
     span:not(.os-timezone-info) {
       white-space: nowrap;
@@ -1186,6 +1204,7 @@ html.latepoint-clean {
     align-items: center;
     position: relative;
     transition: none;
+    border-radius: $border-radius;
 
     span, i {
       display: block;

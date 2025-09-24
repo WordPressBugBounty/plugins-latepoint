@@ -18,7 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <?php if($jobs){ ?>
-	<div class="table-with-pagination-w">
+
+	<div class="table-with-pagination-w has-scrollable-table">
+    <div class="os-pagination-w with-actions">
+
+	    <div class="table-heading-w">
+	      <div class="pagination-info"><?php echo esc_html__('Showing', 'latepoint'). ' <span class="os-pagination-from">'. esc_html($showing_from) . '</span>-<span class="os-pagination-to">'. esc_html($showing_to) .'</span> '.esc_html__('of', 'latepoint').' <span class="os-pagination-total">'. esc_html($total_records). '</span>'; ?></div>
+	    </div>
+    </div>
   <div class="os-jobs-list">
 	  <div class="os-scrollable-table-w">
     <div class="os-table-w os-table-compact">

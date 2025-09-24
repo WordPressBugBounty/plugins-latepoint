@@ -12,6 +12,7 @@
 // @codekit-prepend "bin/admin/main.js";
 // @codekit-prepend "bin/admin/_agents.js";
 // @codekit-prepend "bin/admin/_customers.js";
+// @codekit-prepend "bin/admin/_customers_import.js";
 // @codekit-prepend "bin/admin/_chart.js";
 // @codekit-prepend "bin/admin/_calendar.js";
 // @codekit-prepend "bin/admin/_processes.js";
@@ -48,7 +49,7 @@ jQuery(document).ready(function( $ ) {
   latepoint_init_default_form_fields_settings();
   latepoint_init_steps_settings();
   latepoint_init_booking_form_preview();
-
+  latepoint_init_sticky_side_nav();
   latepoint_init_version5_intro();
 
   jQuery(document).on({
@@ -83,6 +84,7 @@ jQuery(document).ready(function( $ ) {
       jQuery('.select-phone-countries-wrapper').show();
     }
   });
+
 
   jQuery('.os-select-all-toggler').on('change', function(){
     var $connection_wrappers = jQuery(this).closest('.white-box').find('.os-complex-connections-selector .connection');
@@ -152,7 +154,7 @@ jQuery(document).ready(function( $ ) {
   });
 
 
-  jQuery('.latepoint-side-menu-w').on('click', '.top-user-info-toggler', function(){
+  jQuery('.latepoint-top-bar-w').on('click', '.top-user-info-toggler', function(){
     jQuery('.latepoint-user-info-dropdown').toggleClass('os-visible');
     return false;
   });
@@ -356,7 +358,7 @@ jQuery(document).ready(function( $ ) {
   });
 
 
-  jQuery('.latepoint').on('click', '.wizard-add-edit-item-trigger', function(e){
+  jQuery('body.latepoint').on('click', '.wizard-add-edit-item-trigger', function(e){
     jQuery(this).addClass('os-loading');
     var add_item_route_name = jQuery(this).data('route');
     var item_info = {  };
@@ -386,7 +388,7 @@ jQuery(document).ready(function( $ ) {
 
 
 
-  jQuery('.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
+  jQuery('body.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
     var $next_btn = jQuery(this);
     $next_btn.addClass('os-loading');
     var current_step_code = jQuery('#wizard_current_step_code').val();
@@ -458,7 +460,7 @@ jQuery(document).ready(function( $ ) {
   });
 
   // WIZARD PREV BUTTON CLICK LOGIC
-  jQuery('.latepoint').on('click', '.os-wizard-trigger-prev-btn', function(){
+  jQuery('body.latepoint').on('click', '.os-wizard-trigger-prev-btn', function(){
     var $prev_btn = jQuery(this);
     $prev_btn.addClass('os-loading');
     var current_step_code = jQuery('#wizard_current_step_code').val();
@@ -794,6 +796,13 @@ jQuery(document).ready(function( $ ) {
         jQuery('#' + $toggler.data('controlled-toggle-id')).show();
       }
     }
+    if($toggler.data('negative-controlled-toggle-id')){
+      if($toggler.hasClass('off')){
+        jQuery('#' + $toggler.data('negative-controlled-toggle-id')).show();
+      }else{
+        jQuery('#' + $toggler.data('negative-controlled-toggle-id')).hide();
+      }
+    }
     $toggler.trigger('ostoggler:toggle');
     return false;
   });
@@ -851,6 +860,79 @@ jQuery(document).ready(function( $ ) {
     
     return false;
   });
+
+
+    jQuery('.latepoint-admin').on('click', '.os-multiple-files-uploader a', function(event) {
+        event.stopPropagation();
+    });
+
+    jQuery('.latepoint-admin').on('click', '.os-multiple-files-uploader', function(event) {
+        var frame;
+        event.preventDefault();
+
+        var $uploader_trigger = jQuery(this);
+        var $uploader_wrapper = $uploader_trigger.closest('.os-multiple-files-uploader');
+        var $files_list = $uploader_wrapper.find('.os-uploaded-files-list');
+        var $file_ids_holder = $uploader_wrapper.find('.os-file-ids-holder');
+
+        // Create a new media frame
+        frame = wp.media({
+            title: 'Select or Upload Files',
+            button: { text: 'Add selected files' },
+            multiple: 'add' // Allows to select multiple files
+        });
+
+        // When files are selected...
+        frame.on('select', function() {
+            var attachments = frame.state().get('selection').map(function(attachment) {
+                attachment = attachment.toJSON();
+                return attachment;
+            });
+
+            var current_ids = $file_ids_holder.val() ? $file_ids_holder.val().split(',') : [];
+
+            attachments.forEach(function(attachment) {
+                // Skip if file already added
+                if(current_ids.indexOf(attachment.id.toString()) !== -1) return;
+
+                // Add to IDs list
+                current_ids.push(attachment.id);
+
+                // Add to files list
+                var $file_item = jQuery('<div class="os-uploaded-file" data-file-id="'+attachment.id+'">');
+                $file_item.append('<a class="os-file-link" href="'+attachment.url+'" target="_blank">'+attachment.filename+'</a>');
+                $file_item.append('<a href="#" class="os-remove-file" title="'+$uploader_trigger.data('label-remove-str')+'"><i class="latepoint-icon latepoint-icon-cross"></i></a>');
+                $files_list.append($file_item);
+            });
+
+            // Update hidden field with all IDs
+            $file_ids_holder.val(current_ids.join(','));
+        });
+
+        frame.open();
+        return false;
+    });
+
+    jQuery('.latepoint-admin').on('click', '.os-remove-file', function(event) {
+        event.preventDefault();
+
+        let $remove_btn = jQuery(this);
+        const confirm_text = $remove_btn.closest('.os-uploaded-files-list').data('confirm-text') || 'Are you sure you want to remove this file?';
+        if (confirm(confirm_text)) {
+            let $file_item = $remove_btn.closest('.os-uploaded-file');
+            let $file_ids_holder = $file_item.closest('.os-multiple-files-uploader').find('.os-file-ids-holder');
+
+            let file_id = $file_item.data('file-id');
+            let current_ids = $file_ids_holder.val() ? $file_ids_holder.val().split(',') : [];
+
+            current_ids = current_ids.filter(function(id) {
+                return id != file_id;
+            });
+
+            $file_ids_holder.val(current_ids.join(','));
+            $file_item.remove();
+        }
+    });
 
 
 

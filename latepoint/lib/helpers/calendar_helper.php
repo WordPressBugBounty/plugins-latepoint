@@ -428,7 +428,7 @@ class OsCalendarHelper {
                  data-interval="<?php echo esc_attr( $selectable_time_interval ); ?>">
 				<?php if ( $settings['layout'] == 'horizontal' ) { ?>
                     <div
-                            class="os-day-weekday"><?php echo esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' ) ) ); ?></div><?php } ?>
+                            class="os-day-weekday"><?php echo substr(esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' ) ) ), 0, 1); ?></div><?php } ?>
                 <div class="os-day-box">
 					<?php
 					if ( $bookable_slots_count && ! $settings['hide_slot_availability_count'] ) {

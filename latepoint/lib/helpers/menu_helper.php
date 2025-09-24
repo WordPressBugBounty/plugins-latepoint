@@ -79,11 +79,12 @@ class OsMenuHelper {
 	                          array('label' => __('Activity Log', 'latepoint'), 'icon' => '', 'link' => OsRouterHelper::build_link(['activities', 'index'])),
 	                        )
 	        ),
-	        array( 'id' => 'integrations', 'label' => __( 'Integrations', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-windows', 'link' => OsRouterHelper::build_link(['integrations', 'external_calendars']),
+	        array( 'id' => 'integrations', 'label' => __( 'Integrations', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-windows', 'link' => OsRouterHelper::build_link(['integrations', 'external_meeting_systems']),
 	          'children' => array(
-	                          array('id' => 'calendars', 'label' => __( 'Calendars', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_calendars'])),
-	                          array('id' => 'meetings', 'label' => __( 'Meetings', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_meeting_systems'])),
-	                          array('id' => 'meetings', 'label' => __( 'Marketing', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_marketing_systems'])),
+	              array('id' => 'meetings', 'label' => __( 'Meetings', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_meeting_systems'])),
+	              array('id' => 'calendars', 'label' => __( 'Calendars', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_calendars'])),
+		          array('id' => 'meetings', 'label' => __( 'Marketing', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_marketing_systems'])),
+		          array('id' => 'short_links', 'label' => __( 'Short Links', 'latepoint' ), 'icon' => '', 'link' => OsRouterHelper::build_link(['integrations', 'external_short_links_systems'])),
 	          )
 	        ),
 		      array( 'id' => 'form_fields', 'label' => __( 'Form Fields', 'latepoint' ), 'icon' => 'latepoint-icon latepoint-icon-browser', 'link' => OsRouterHelper::build_link(['form_fields', 'default_form_fields'])),

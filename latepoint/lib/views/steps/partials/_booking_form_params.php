@@ -62,6 +62,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	echo OsFormHelper::hidden_field('active_cart_item[item_data]', $active_cart_item->item_data, ['class' => 'latepoint_active_cart_item_item_data', 'skip_id' => true]);
 
 	echo OsFormHelper::hidden_field( 'timezone_name', $timezone_name, [ 'class' => 'latepoint_timezone_name', 'skip_id' => true ] );
+    echo OsFormHelper::hidden_field('customer_contact_verification_token', '');
+
+	if ( OsAuthHelper::is_customer_auth_disabled() ) {
+		echo OsFormHelper::hidden_field( 'customer[uuid]', '', [ 'class' => 'latepoint_customer_uuid', 'skip_id' => true ] );
+	}
 
 	/**
 	 * Fired after booking form parameters

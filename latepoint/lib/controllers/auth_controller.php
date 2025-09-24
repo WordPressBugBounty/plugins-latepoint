@@ -16,9 +16,161 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 				'login_customer',
 				'login_customer_using_social_data',
 				'login_customer_using_google_token',
-				'login_customer_using_facebook_token'
+				'login_customer_using_facebook_token',
+				'request_otp',
+				'verify_otp'
 			] );
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'auth/';
+		}
+
+		public function verify_otp(){
+			$this->check_nonce( 'otp_verify_otp_nonce', $this->params['otp']['verify_nonce'] );
+			$otp_verification_params = $this->params_for_otp_verification();
+			$otp_code = $otp_verification_params['otp_code'];
+			$contact_type = $otp_verification_params['contact_type'];
+			$contact_value = $otp_verification_params['contact_value'];
+
+			$result = OsOTPHelper::verifyOTP($otp_code, $contact_value, $contact_type, 'email');
+
+			$message = __('Invalid Code', 'latepoint');
+			$status = LATEPOINT_STATUS_ERROR;
+
+			if ( is_wp_error($result) ) {
+				$message = $result->get_error_message();
+			}elseif($result['status'] == LATEPOINT_STATUS_ERROR){
+				$message = $result['message'];
+			}elseif($result['status'] == LATEPOINT_STATUS_SUCCESS) {
+				// Success
+				$status = LATEPOINT_STATUS_SUCCESS;
+				$message = OsOTPHelper::create_verification_token($contact_value, $contact_type);
+				// if auth is enabled - make sure customer is logged in
+				if(OsAuthHelper::is_customer_auth_enabled() && !OsAuthHelper::is_customer_logged_in()){
+					$customer = OsCustomerHelper::get_by_contact($contact_value, $contact_type);
+					if($customer && !$customer->is_new_record()){
+						OsAuthHelper::authorize_customer($customer->id);
+					}
+				}
+			}
+			$this->send_json( array( 'status' => $status, 'message' => $message ) );
+		}
+
+
+		public function request_otp(){
+			$this->check_nonce( 'auth_nonce', $this->params['auth']['nonce'] );
+
+			$auth_params = $this->params_for_otp_request();
+			$contact_type = $auth_params['contact_type'];
+			$contact_value = $auth_params[$contact_type];
+			$delivery_method = $auth_params['delivery_method'];
+
+			if(OsAuthHelper::is_classic_auth_flow()){
+				// in classic flow - you can't send a OTP request to a non existent account
+				$customer = new OsCustomerModel();
+				if($contact_type == 'email'){
+					$existing_customer = $customer->where(['email' => $contact_value])->set_limit(1)->get_results_as_models();
+					if(!$existing_customer){
+						$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('We don\'t recognize this email. Double-check it or create an account.', 'latepoint') ) );
+					}
+				}elseif($contact_type == 'phone'){
+					$existing_customer = $customer->where(['phone' => $contact_value])->set_limit(1)->get_results_as_models();
+					if(!$existing_customer){
+						$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('We don\'t recognize this phone number. Double-check it or create an account.', 'latepoint') ) );
+					}
+				}
+			}
+
+			$result = OsOTPHelper::generateAndSendOTP($contact_value, $contact_type, $delivery_method);
+
+			$message = __('Error sending OTP', 'latepoint');
+			$status = LATEPOINT_STATUS_ERROR;
+
+			if ( is_wp_error($result) ) {
+				$message = $result->get_error_message();
+			}elseif($result['status'] == LATEPOINT_STATUS_ERROR){
+				$message = $result['message'];
+			}elseif($result['status'] == LATEPOINT_STATUS_SUCCESS){
+				// Success
+				$status = LATEPOINT_STATUS_SUCCESS;
+				$message = OsOTPHelper::otp_input_box_html($contact_type, $contact_value, $delivery_method);
+			}
+			$this->send_json( array( 'status' => $status, 'message' => $message ) );
+		}
+
+
+		private function params_for_otp_verification(): array {
+			$params = OsParamsHelper::get_param( 'otp' );
+			if ( empty( $params ) ) {
+				return [];
+			}
+
+			$otp_params = OsParamsHelper::permit_params( $params, [
+				'contact_value',
+				'contact_type',
+				'delivery_method',
+				'otp_code'
+			] );
+
+			$otp_params['otp_code'] = sanitize_text_field( $otp_params['otp_code'] );
+			$otp_params['delivery_method'] = sanitize_text_field( $otp_params['delivery_method'] );
+
+			if($otp_params['contact_type'] == 'phone'){
+				$otp_params['contact_value'] = sanitize_text_field( $otp_params['contact_value'] );
+			}
+
+			if($otp_params['contact_type'] == 'email'){
+				$otp_params['contact_value'] = sanitize_email( $otp_params['contact_value'] );
+			}
+
+			/**
+			 * Filtered auth params for steps
+			 *
+			 * @param {array} $otp_params a filtered array of auth params
+			 * @param {array} $params unfiltered 'auth' params
+			 * @returns {array} $otp_params a filtered array of auth params
+			 *
+			 * @since 5.2.0
+			 * @hook latepoint_auth_params_for_otp_verification
+			 *
+			 */
+			return apply_filters( 'latepoint_auth_params_for_otp_verification', $otp_params, $params );
+		}
+
+		private function params_for_otp_request(): array {
+			$params = OsParamsHelper::get_param( 'auth' );
+			if ( empty( $params ) ) {
+				return [];
+			}
+
+			$auth_params = OsParamsHelper::permit_params( $params, [
+				'email',
+				'phone',
+				'contact_type',
+				'delivery_method',
+				'otp_code'
+			] );
+
+			if ( ! empty( $auth_params['email'] ) ) {
+				$auth_params['email'] = sanitize_email( $auth_params['email'] );
+			}
+			if ( ! empty( $auth_params['phone'] ) ) {
+				$auth_params['phone'] = sanitize_text_field( $auth_params['phone'] );
+			}
+			if ( ! empty( $auth_params['otp_code'] ) ) {
+				$auth_params['otp_code'] = sanitize_text_field( $auth_params['otp_code'] );
+			}
+
+			/**
+			 * Filtered auth params for steps
+			 *
+			 * @param {array} $auth_params a filtered array of auth params
+			 * @param {array} $params unfiltered 'auth' params
+			 * @returns {array} $auth_params a filtered array of auth params
+			 *
+			 * @since 5.2.0
+			 * @hook latepoint_params_for_otp_request
+			 *
+			 */
+			return apply_filters( 'latepoint_params_for_otp_request', $auth_params, $params );
 		}
 
 
@@ -33,14 +185,22 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 
 		// Login customer and show contact step with prefilled info
 		public function login_customer() {
-			$customer = OsAuthHelper::login_customer( $this->params['email'], $this->params['password'] );
+			$contact_type = $this->params['auth']['contact_type'];
+			$contact_value = ($contact_type == 'email') ? $this->params['auth']['email'] : $this->params['auth']['phone'];
+			$customer = OsAuthHelper::login_customer( $contact_value, $this->params['auth']['password'], $this->params['auth']['contact_type'] );
 			if ( $customer ) {
 				$status        = LATEPOINT_STATUS_SUCCESS;
 				$customer_id   = $customer->id;
 				$response_html = __( 'Welcome back', 'latepoint' );
 			} else {
 				$status        = LATEPOINT_STATUS_ERROR;
-				$response_html = __( 'Sorry, that email or password didn\'t work.', 'latepoint' );
+				if($contact_type == 'email'){
+					$response_html = __( 'Sorry, that email or password didn\'t work.', 'latepoint' );
+				}elseif($contact_type == 'phone'){
+					$response_html = __( 'Sorry, that phone number or password didn\'t work.', 'latepoint' );
+				}else{
+					$response_html = __( 'Sorry, that didn\'t work.', 'latepoint' );
+				}
 				$customer_id   = '';
 			}
 			if ( $this->get_return_format() == 'json' ) {
@@ -59,7 +219,7 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 				// Search for existing customer with email that google provided
 				$customer = new OsCustomerModel();
 				$customer = $customer->where( array( 'email' => $social_user['email'] ) )->set_limit( 1 )->get_results_as_models();
-				if ( OsAuthHelper::wp_users_as_customers() ) {
+				if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
 					if ( $customer->wordpress_user_id != email_exists( $social_user['email'] ) ) {
 						$old_customer_data = $customer->get_data_vars();
 						$customer->update_attributes( [ 'wordpress_user_id' => null ] );

@@ -56,19 +56,19 @@ function latepoint_init_daily_bookings_chart() {
   Chart.defaults.plugins.tooltip.padding = 10;
   Chart.defaults.plugins.tooltip.yAlign = 'bottom';
   Chart.defaults.plugins.tooltip.xAlign = 'center';
-  Chart.defaults.plugins.tooltip.cornerRadius = 4;
+  Chart.defaults.plugins.tooltip.cornerRadius = 14;
   Chart.defaults.plugins.tooltip.caretSize = 5;
   Chart.defaults.plugins.tooltip.position = 'top';
 
   var ctx = $dailyBookingsChart[0].getContext("2d");
   var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-  gradientStroke.addColorStop(0, '#1d7bff');
-  gradientStroke.addColorStop(1, '#1d7bff');
+  gradientStroke.addColorStop(0, '#219ff8');
+  gradientStroke.addColorStop(1, '#219ff8');
 
 
   let gradientFill = ctx.createLinearGradient(0, 0, 0, 140);
-  gradientFill.addColorStop(0, 'rgb(206,224,255, 0.4)');
-  gradientFill.addColorStop(1, 'rgba(206,224,255,0)');
+  gradientFill.addColorStop(0, 'rgba(195, 229, 253, 0.9)');
+  gradientFill.addColorStop(1, 'rgba(195, 229, 253, 0.1)');
 
   // line chart data
   var chartDailyBookingsData = {
@@ -78,20 +78,20 @@ function latepoint_init_daily_bookings_chart() {
       borderColor: gradientStroke,
       label: "",
       fill: true,
-      lineTension: 0.1,
+      lineTension: 0.3,
       borderWidth: 2,
       borderCapStyle: 'butt',
       borderDash: [],
       borderDashOffset: 0.0,
       borderJoinStyle: 'miter',
       pointBorderColor: "#fff",
-      pointBackgroundColor: "#1D7BFF",
+      pointBackgroundColor: "#219ff8",
       pointRadius: 3,
       pointBorderWidth: 2,
       pointHoverRadius: 6,
       pointHoverBorderWidth: 4,
-      pointHoverBackgroundColor: "#1D7BFF",
-      pointHoverBorderColor: "#aecdff",
+      pointHoverBackgroundColor: "#219ff8",
+      pointHoverBorderColor: "#fff",
       pointHitRadius: 20,
       spanGaps: false,
       data: dailyBookingsValues,
@@ -123,9 +123,9 @@ function latepoint_init_daily_bookings_chart() {
         ticks: {
           fontFamily: fontFamily,
           maxRotation: 0,
-          color: '#1f222b',
+          color: '#788291',
           font: {
-            size: 11,
+            size: 10,
             family: fontFamily
           },
           callback: function (value, index, ticks) {

@@ -17,7 +17,7 @@
     gap: 5px;
     align-items: baseline;
     padding: 7px 5px 7px 10px;
-    border-radius: 6px;
+    border-radius: $border-radius;
     font-size: $font-size-base;
     font-weight: $body-font-weight-bold;
     border: 1px solid $border-color-light;
@@ -34,16 +34,16 @@
     }
 
     &:hover {
-      border-color: $headings-color;
+      border-color: $brand-primary;
     }
     &:focus {
       box-shadow: none;
     }
     &.is-active {
-      background-color: #eff0f5;
-      border-color: #eff0f5;
+      background-color: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.05);
       .filter-value {
-        background-color: #dddfe8;
+        background-color: rgba(0,0,0,0.05);
       }
       &:after {
         transform: rotate(180deg);
@@ -56,10 +56,10 @@
   }
 
   .filter-value {
-    background-color: #eff0f8;
-    font-size: floor(0.9 * $font-size-base);
+    background-color: rgba(0,0,0,0.05);
+    font-size: $body-font-size-xs;
     padding: 2px 5px;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
   }
 }
 
@@ -68,8 +68,9 @@
   z-index: 9999;
   background-color: #fff;
   box-shadow: 0 2px 6px 0 rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.3);
-  border-radius: 6px;
+  border-radius: $border-radius-lg;
   padding: 10px;
+  @include white-box();
   .select-all-wrapper {
     display: flex;
     gap: 7px;
@@ -90,7 +91,7 @@
       line-height: 1;
       padding: 5px 6px;
       border-color: $border-color-strong;
-      border-radius: 6px;
+      border-radius: $form-controls-border-radius;
       font-size: $font-size-base;
       flex: 1;
       &::placeholder {
@@ -122,7 +123,7 @@
     overflow-y: auto;
     .latecheckbox-group-heading {
       background-color: #f8f8f8;
-      border-radius: 4px;
+      border-radius: $border-radius;
       color: $color-faded;
       font-weight: $body-font-weight-bold;
       display: flex;

@@ -4,11 +4,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="os-step-tabs-w">
-	<?php if (OsSettingsHelper::get_settings_value('steps_hide_login_register_tabs') != 'on') { ?>
+	<?php if (OsAuthHelper::is_customer_auth_enabled()) { ?>
 		<div class="os-step-tabs">
 			<div class="os-step-tab active"
+                 data-auth-action="register"
 			     data-target=".os-step-new-customer-w"><?php esc_html_e('New Customer', 'latepoint'); ?></div>
 			<div class="os-step-tab"
+                 data-auth-action="login"
 			     data-target=".os-step-existing-customer-login-w"><?php esc_html_e('Already have an account?', 'latepoint'); ?></div>
 		</div>
 	<?php } ?>
@@ -26,20 +28,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php do_action('latepoint_booking_steps_contact_after', $customer, $booking); ?>
 		</div>
 	</div>
-	<?php if (OsSettingsHelper::get_settings_value('steps_hide_login_register_tabs') != 'on') { ?>
+	<?php if (OsAuthHelper::is_customer_auth_enabled()) { ?>
 		<div class="os-step-tab-content os-step-existing-customer-login-w" style="display: none;">
 			<div class="os-row">
-				<?php echo OsFormHelper::text_field('customer_login[email]', __('Your Email Address', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
-				<?php echo OsFormHelper::password_field('customer_login[password]', __('Your Password', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
+				<?php echo OsFormHelper::text_field('auth[email]', __('Your Email Address', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
+				<?php echo OsFormHelper::password_field('auth[password]', __('Your Password', 'latepoint'), '', array('class' => 'required'), array('class' => 'os-col-12')); ?>
 			</div>
 			<div class="os-form-buttons os-flex os-space-between">
-				<a data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('auth', 'login_customer')); ?>" href="#"
-				   class="latepoint-btn latepoint-btn-primary step-login-existing-customer-btn"><?php esc_html_e('Log Me In', 'latepoint'); ?></a>
 				<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-link step-forgot-password-btn"
 				   data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'request_password_reset_token')); ?>"
 				   data-os-output-target=".os-password-reset-form-holder"
 				   data-os-after-call="latepoint_reset_password_from_booking_init"
 				   data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['from_booking' => true])); ?>"><?php esc_html_e('Forgot Password?', 'latepoint'); ?></a>
+				<a data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('auth', 'login_customer')); ?>" href="#"
+				   class="latepoint-btn latepoint-btn-primary step-login-existing-customer-btn"><?php esc_html_e('Sign in', 'latepoint'); ?></a>
 			</div>
 		</div>
 		<div class="os-password-reset-form-holder"></div>

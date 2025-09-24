@@ -206,6 +206,8 @@ class OsOrderIntentModel extends OsModel {
 			if($this->is_failed()){
 				$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
 				return false;
+			}else if($this->is_converted()){
+				return $this->order_id;
 			}
 		}
 

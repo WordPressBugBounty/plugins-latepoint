@@ -91,13 +91,13 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 
 		public function index() {
 			$service_categories = new OsServiceCategoryModel();
-			$service_categories = $service_categories->order_by( 'order_number asc' )->get_results_as_models();
+			$service_categories = $service_categories->order_by( 'order_number asc' )->filter_allowed_records()->get_results_as_models();
 
 
 			$this->vars['service_categories'] = $service_categories;
 
-			$services                             = new OsServiceModel();
-			$this->vars['uncategorized_services'] = $services->should_be_active()->where( array(
+			$uncategorized_services                             = new OsServiceModel();
+			$this->vars['uncategorized_services'] = $uncategorized_services->filter_allowed_records()->should_be_active()->where( array(
 				'category_id' => [
 					'OR' => [
 						0,
@@ -105,7 +105,9 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 					]
 				]
 			) )->order_by( 'order_number asc' )->get_results_as_models();
-			$this->vars['disabled_services']      = $services->where( [ 'status' => LATEPOINT_SERVICE_STATUS_DISABLED ] )->get_results_as_models();
+
+			$disabled_services                             = new OsServiceModel();
+			$this->vars['disabled_services']      = $disabled_services->filter_allowed_records()->where( [ 'status' => LATEPOINT_SERVICE_STATUS_DISABLED ] )->get_results_as_models();
 
 			$this->format_render( __FUNCTION__ );
 		}

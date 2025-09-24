@@ -33,6 +33,11 @@ if ( ! class_exists( 'OsIntegrationsController' ) ) :
 		  $this->vars['available_marketing_systems'] = OsMarketingSystemsHelper::get_list_of_external_marketing_systems();
 		  $this->format_render(__FUNCTION__);
 	  }
+
+	  public function external_short_links_systems() {
+		  $this->vars['available_short_links_systems'] = OsShortLinksSystemsHelper::get_list_of_external_short_links_systems();
+		  $this->format_render(__FUNCTION__);
+	  }
   }
 
 endif;

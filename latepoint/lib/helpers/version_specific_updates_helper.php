@@ -339,6 +339,13 @@ class OsVersionSpecificUpdatesHelper {
 			// if wizard has not been visited yet - redirect to it
 			add_option('latepoint_show_version_5_modal', true);
 		}
+		if (version_compare('2.2.5', $current_db_version) > 0) {
+			$sqls = [];
+			$sqls = "ALTER TABLE ".LATEPOINT_TABLE_CUSTOMERS." MODIFY COLUMN email VARCHAR(320) NULL";
+			OsDatabaseHelper::run_queries($sqls);
+
+
+		}
 
 		/**
 		 * Hook your updates to database that need to be run for specific version of database

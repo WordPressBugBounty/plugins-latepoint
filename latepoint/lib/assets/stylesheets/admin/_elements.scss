@@ -1,12 +1,12 @@
 .os-add-box {
   border: 1px dotted #aaa;
-  padding: 6px 8px;
+  padding: 11px 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   text-decoration: none;
   margin: 15px 0px;
-  border-radius: 6px;
+  border-radius: $border-radius-lg;
 
   .add-box-graphic-w {
     width: 40px;
@@ -224,7 +224,7 @@
   line-height: 1.2;
   font-weight: $body-font-weight-bold;
   font-size: floor($font-size-base * 0.9);
-  border-radius: 6px;
+  border-radius: $tooltip-border-radius;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 

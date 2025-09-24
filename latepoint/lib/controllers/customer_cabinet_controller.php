@@ -269,26 +269,26 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 		*/
 
 		public function update() {
-			if ( ! filter_var( $this->params['customer']['id'], FILTER_VALIDATE_INT ) ) {
+			$customer = OsAuthHelper::get_logged_in_customer();
+			if( !$customer ) {
 				exit();
 			}
-			if ( ( OsAuthHelper::get_highest_current_user_type() == 'customer' ) && ( OsAuthHelper::get_logged_in_customer_id() != $this->params['customer']['id'] ) ) {
-				if ( $this->get_return_format() == 'json' ) {
-					$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => 'Customer Not Authorized' ) );
+			$this->check_nonce('update_customer_'.$customer->get_uuid());
+
+
+			if($customer){
+				$old_customer_data = $customer->get_data_vars();
+				$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_CUSTOMER );
+				if ( $customer->save() ) {
+					$response_html = __( 'Information Saved', 'latepoint' );
+					$status        = LATEPOINT_STATUS_SUCCESS;
+					do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
 				} else {
-					echo "Customer Not Authorized";
+					$response_html = $customer->get_error_messages();
+					$status        = LATEPOINT_STATUS_ERROR;
 				}
-				exit;
-			}
-			$customer          = new OsCustomerModel( $this->params['customer']['id'] );
-			$old_customer_data = $customer->get_data_vars();
-			$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_CUSTOMER );
-			if ( $customer->save() ) {
-				$response_html = __( 'Information Saved', 'latepoint' );
-				$status        = LATEPOINT_STATUS_SUCCESS;
-				do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
-			} else {
-				$response_html = $customer->get_error_messages();
+			}else{
+				$response_html = __('Customer not found', 'latepoint');
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
@@ -334,7 +334,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 		}
 
 		public function do_login() {
-			$customer = OsAuthHelper::login_customer( sanitize_email( $this->params['customer_login']['email'] ), $this->params['customer_login']['password'] );
+			$customer = OsAuthHelper::login_customer( sanitize_email( $this->params['auth']['email'] ), $this->params['auth']['password'] );
 			if ( $customer ) {
 				$response_html = OsSettingsHelper::get_customer_dashboard_url();
 				$status        = LATEPOINT_STATUS_SUCCESS;
@@ -405,39 +405,25 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				'password_reset_token',
 				'password',
 				'password_confirmation',
+				'change_password_nonce'
 			] );
 
-			if ( ! empty( $params['password_reset_token'] ) ) {
-				$params['password_reset_token'] = sanitize_text_field( $params['password_reset_token'] );
+			if(empty($params['password'])){
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Password can not be blank', 'latepoint') ) );
 			}
 
+
+			$customer = false;
 			if ( OsAuthHelper::is_customer_logged_in() ) {
+				$this->check_nonce('change_password_'.OsAuthHelper::get_logged_in_customer_uuid(), $params['change_password_nonce']);
 				$customer = OsAuthHelper::get_logged_in_customer();
-			} elseif ( $params['password_reset_token'] ) {
+			} elseif ( !empty($params['password_reset_token'] )) {
+				$params['password_reset_token'] = sanitize_text_field( $params['password_reset_token'] );
 				$customer = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
-				if ( ! $customer ) {
-					$response_html = __( 'Invalid Secret Key', 'latepoint' );
-					$status        = LATEPOINT_STATUS_ERROR;
-				}
-			} else {
-				$status        = LATEPOINT_STATUS_ERROR;
-				$response_html = __( 'Error!', 'latepoint' );
 			}
 			if ( $customer ) {
 				if ( ! empty( $params['password'] ) && $params['password'] == $params['password_confirmation'] ) {
 					if ( $customer->update_password( $params['password'] ) ) {
-						// update connected wp user password
-						if ( OsAuthHelper::wp_users_as_customers() && $customer->wordpress_user_id ) {
-							global $wpdb;
-							$wpdb->update(
-								$wpdb->users,
-								array(
-									'user_pass'           => $customer->password,
-									'user_activation_key' => '',
-								),
-								array( 'ID' => $customer->wordpress_user_id )
-							);
-						}
 						$status        = LATEPOINT_STATUS_SUCCESS;
 						$response_html = __( 'Your password was successfully updated.', 'latepoint' );
 					} else {
@@ -460,19 +446,14 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 		}
 
 		public function set_account_password_on_booking_completion() {
-
-			$params = OsParamsHelper::permit_params( $this->params, [
-				'account_nonse',
-				'password',
-			] );
-
-			if ( ! empty( $params['account_nonse'] ) ) {
-				$params['account_nonse'] = sanitize_text_field( $params['account_nonse'] );
-			}
-
-			$customer = OsCustomerHelper::get_by_account_nonse( $params['account_nonse'] );
+			$customer = OsAuthHelper::get_logged_in_customer();
 
 			if ( $customer ) {
+				$params = OsParamsHelper::permit_params( $this->params, [
+					'password',
+					'password_nonce'
+				] );
+				$this->check_nonce('set_initial_password_for_customer_'.$customer->get_uuid(), $params['password_nonce']);
 				if ( ! empty( $params['password'] ) ) {
 					if ( $customer->update_password( $params['password'] ) ) {
 						$status        = LATEPOINT_STATUS_SUCCESS;
@@ -486,7 +467,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					$response_html = __( 'Error! Password is empty.', 'latepoint' );
 				}
 			} else {
-				$response_html = __( 'Error! Message Code: JS76SD', 'latepoint' );
+				$response_html = __( 'Invalid request', 'latepoint' );
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 

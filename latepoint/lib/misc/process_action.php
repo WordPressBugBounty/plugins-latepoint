@@ -38,6 +38,10 @@ class ProcessAction{
 		}
 	}
 
+	public function is_attach_calendar(  ) {
+		return !empty($this->settings['attach_calendar']) && \OsUtilHelper::is_on($this->settings['attach_calendar']);
+	}
+
 	public function get_nice_type_name(){
 		return self::get_action_name_for_type($this->type);
 	}
@@ -150,6 +154,8 @@ class ProcessAction{
 				$html.= \OsFormHelper::text_field('process[actions]['.$action->id.'][settings][subject]', __('Email Subject', 'latepoint'),  $action->settings['subject'], ['theme' => 'simple', 'placeholder' => __('Email Subject', 'latepoint')], ['class' => 'os-col-6']);
 				$html.= '</div>';
 				$html.= \OsFormHelper::textarea_field('process[actions]['.$action->id.'][settings][content]', false, $action->settings['content'], ['id' => 'process_actions_'.$action->id.'_settings_content', 'class' => 'os-wp-editor-textarea']);
+				$html.= \OsFormHelper::toggler_field('process[actions]['.$action->id.'][settings][attach_calendar]', __('Attach Booking Calendar', 'latepoint'), $action->is_attach_calendar());
+				$html.= \OsFormHelper::multiple_files_uploader_field('process[actions]['.$action->id.'][settings][attachments]', esc_html__( '+ Attach File', 'latepoint' ), esc_html__( 'Remove File', 'latepoint' ), $action->get_attachments() );
 				break;
 			case 'send_sms':
 				if(\OsSmsHelper::get_sms_processors()){
@@ -290,11 +296,39 @@ class ProcessAction{
 			}
 		}
 
+		$this->replacement_vars['sender_type'] = $this->type;
+
 		switch($this->type) {
 			case 'send_email':
 				$this->prepared_data_for_run['to'] = \OsReplacerHelper::replace_all_vars($this->settings['to_email'], $this->replacement_vars);
 				$this->prepared_data_for_run['subject'] = \OsReplacerHelper::replace_all_vars($this->settings['subject'], $this->replacement_vars);
 				$this->prepared_data_for_run['content'] = \OsReplacerHelper::replace_all_vars($this->settings['content'], $this->replacement_vars);
+				$this->prepared_data_for_run['attachments'] = [];
+
+				if ($this->is_attach_calendar()) {
+					$booking = $this->find_booking_from_selected_data();
+
+					if ($booking) {
+						$ical_temp_file = $this->create_ical_temp_file($booking);
+
+						if ($ical_temp_file) {
+							$this->prepared_data_for_run['attachments'][] = $ical_temp_file;
+							$this->prepared_data_for_run['_attachments_temp_files'] = [$ical_temp_file];
+						}
+					}
+				}
+				$attachments = $this->get_attachments();
+				if (!empty($attachments)) {
+					foreach ( $attachments as $attachment_id ) {
+						$file_path = get_attached_file($attachment_id);
+						if ($file_path && file_exists($file_path)) {
+							$this->prepared_data_for_run['attachments'][] = $file_path;
+						} else {
+							\OsDebugHelper::log('Attachment file not found: ' . $file_path, 'error');
+						}
+					}
+				}
+
 				break;
 			case 'send_sms':
 				$this->prepared_data_for_run['to'] = \OsReplacerHelper::replace_all_vars($this->settings['to_phone'], $this->replacement_vars);
@@ -403,6 +437,12 @@ class ProcessAction{
 				break;
 		}
 
+		$tmp_files = $this->prepared_data_for_run['_attachments_temp_files'] ?? [];
+		foreach ( $tmp_files as $tmp_file ) {
+			if ( file_exists( $tmp_file ) ) {
+				@unlink( $tmp_file );
+			};
+		}
 
 		/**
 		 * ProcessAction run result
@@ -484,11 +524,47 @@ class ProcessAction{
 		return $html;
 	}
 
+	private function find_booking_from_selected_data() {
+		foreach ($this->selected_data_objects as $data_object) {
+			if ($data_object['model'] === 'booking' && !empty($data_object['model_ready'])) {
+				return $data_object['model_ready'];
+			}
+		}
+		return null;
+	}
+
+	private function create_ical_temp_file( $booking ) {
+		try {
+			$ical_content = \OsBookingHelper::generate_ical_event_string( $booking );
+			if ( empty( $ical_content ) ) {
+				throw new \Exception( 'iCal content is empty' );
+			}
+
+			$temp_file = tempnam(sys_get_temp_dir(), 'latepoint_ical_');
+			$ical_temp_file = $temp_file . '.ics';
+			rename($temp_file, $ical_temp_file);
+
+			if ( file_put_contents( $ical_temp_file, $ical_content ) !== false ) {
+				return $ical_temp_file;
+			} else {
+				throw new \Exception( 'Failed to write iCal content to file' );
+			}
+		} catch ( \Exception $e ) {
+			\OsDebugHelper::log( 'Failed to create iCal file: ' . $e->getMessage(), 'error' );
+		}
+
+		return null;
+	}
+
 	public static function replace_variables($test){
 
 	}
 
 	public static function allowed_props(): array{
 		return ['id', 'type', 'settings', 'status'];
+	}
+
+	public function get_attachments() {
+		return !empty($this->settings['attachments']) ? explode(',', $this->settings['attachments']) : [];
 	}
 }

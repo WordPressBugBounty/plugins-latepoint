@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 ?>
-<div class="os-service os-service-status-<?php echo esc_attr($service->status); ?>">
+<div class="os-service os-resource-grid-item os-service-status-<?php echo esc_attr($service->status); ?>">
   <div class="os-service-header">
       <a href="#" class="instant-booking-settings-open" data-os-output-target="full-panel"
 							data-os-after-call="latepoint_init_instant_booking_settings"

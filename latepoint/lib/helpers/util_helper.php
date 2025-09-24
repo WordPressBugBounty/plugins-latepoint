@@ -267,6 +267,17 @@ class OsUtilHelper {
     return $month_name;
   }
 
+  public static function add_resource_link_html(string $label, string $url) : string{
+		$html = '<a class="create-resource-link-w" href="'.esc_url($url).'">
+          <div class="create-resource-link-i">
+            <div class="add-resource-graphic-w">
+              <div class="add-resource-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div>
+            </div>
+            <div class="add-resource-label">'.esc_html($label).'</div>
+          </div>
+        </a>';
+		return $html;
+  }
 
   public static function translated_months(){
     return [ 'January' => __('January', 'latepoint'),

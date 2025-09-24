@@ -14,6 +14,7 @@ class OsStepsHelper {
 
 	public static OsOrderModel $order_object;
 	public static OsBookingModel $booking_object;
+	public static OsCustomerModel $customer_object;
 	public static OsCartModel $cart_object;
 	public static OsCartItemModel $active_cart_item;
 	public static $vars_for_view = [];
@@ -22,6 +23,7 @@ class OsStepsHelper {
 	public static $presets = [];
 
 	public static $params = [];
+	public static string $customer_contact_verified_via = '';
 
 
 	public static function get_step_codes_with_rules(): array {
@@ -225,6 +227,7 @@ class OsStepsHelper {
 	public static function set_required_objects( array $params = [] ) {
 		OsStepsHelper::set_restrictions( $params['restrictions'] ?? [] );
 		OsStepsHelper::set_presets( $params['presets'] ?? [] );
+		OsStepsHelper::set_customer_object( $params['customer'] ?? [] );
 		OsStepsHelper::set_booking_object( $params['booking'] ?? [] );
 		OsStepsHelper::set_booking_properties_for_single_options();
 		OsStepsHelper::set_recurring_booking_properties( $params );
@@ -300,17 +303,34 @@ class OsStepsHelper {
 			if ( method_exists( 'OsStepsHelper', $parent_step_function_name ) ) {
 				$result = self::$parent_step_function_name();
 				if ( is_wp_error( $result ) ) {
-					wp_send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $result->get_error_message() ) );
+					$error_data   = $result->get_error_data();
+					$send_to_step = !empty($error_data['send_to_step'])  ? $error_data['send_to_step'] : false;
+					wp_send_json( array(
+						'status'       => LATEPOINT_STATUS_ERROR,
+						'message'      => $result->get_error_message(),
+						'send_to_step' => $send_to_step,
+                        'fields_to_update' => self::$fields_to_update,
+                        'callback' => $error_data['callback'] ?? '',
+                        'callback_data' => $error_data['callback_data'] ?? '',
+					) );
 				}
+
 			}
 		}
 		$step_function_name = 'process_step_' . $step_code;
 		if ( method_exists( 'OsStepsHelper', $step_function_name ) ) {
 			$result = self::$step_function_name();
 			if ( is_wp_error( $result ) ) {
-				wp_send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $result->get_error_message() ) );
-
-				return;
+                $error_data   = $result->get_error_data();
+                $send_to_step = !empty($error_data['send_to_step'])  ? $error_data['send_to_step'] : false;
+                wp_send_json( array(
+                    'status'       => LATEPOINT_STATUS_ERROR,
+                    'message'      => $result->get_error_message(),
+                    'send_to_step' => $send_to_step,
+                    'fields_to_update' => self::$fields_to_update,
+                    'callback' => $error_data['callback'] ?? '',
+                    'callback_data' => $error_data['callback_data'] ?? '',
+                ) );
 			}
 		}
 	}
@@ -448,8 +468,8 @@ class OsStepsHelper {
 		self::$params = $params;
 
 		$step_code = self::check_step_code_access( $step_code );
-		if ( OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::get_settings_value( 'max_future_bookings_per_customer' ) ) {
-			$customer = OsAuthHelper::get_logged_in_customer();
+		if ( self::get_customer_object_id() && OsSettingsHelper::get_settings_value( 'max_future_bookings_per_customer' ) ) {
+			$customer = self::get_customer_object();
 			if ( $customer->get_future_bookings_count() >= OsSettingsHelper::get_settings_value( 'max_future_bookings_per_customer' ) ) {
 				$steps_controller = new OsStepsController();
 				$steps_controller->set_layout( 'none' );
@@ -480,7 +500,8 @@ class OsStepsHelper {
 					wp_send_json( array(
 						'status'       => LATEPOINT_STATUS_ERROR,
 						'message'      => $result->get_error_message(),
-						'send_to_step' => $send_to_step
+						'send_to_step' => $send_to_step,
+                        'fields_to_update' => self::$fields_to_update,
 					) );
 
 					return;
@@ -499,7 +520,8 @@ class OsStepsHelper {
 				wp_send_json( array(
 					'status'       => LATEPOINT_STATUS_ERROR,
 					'message'      => $result->get_error_message(),
-					'send_to_step' => $send_to_step
+					'send_to_step' => $send_to_step,
+                    'fields_to_update' => self::$fields_to_update,
 				) );
 
 				return;
@@ -1069,6 +1091,43 @@ class OsStepsHelper {
 		return self::$booking_object;
 	}
 
+	public static function set_customer_object( $customer_params = [] ): OsCustomerModel {
+        self::$customer_object = new OsCustomerModel();
+        if(OsAuthHelper::is_customer_auth_disabled()){
+
+            if(!empty($customer_params['uuid'])){
+                $customer = new OsCustomerModel();
+                $customer = $customer->where(['uuid' => $customer_params['uuid']])->set_limit(1)->get_results_as_models();
+                if($customer){
+                    self::$customer_object = $customer;
+                }
+            }
+            // login is disabled, get data from submitted form, do not save in DB as it will be saved on the confirmation step
+            if(!empty($customer_params)){
+                unset($customer_params['password']); // make sure we don't set password
+                self::$customer_object->set_data($customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC);
+            }
+        }else{
+            // customer is updated and logged in on "process_step_customer" action, so we just need to load it from db if
+            if(OsAuthHelper::is_customer_logged_in()){
+                self::$customer_object = OsAuthHelper::get_logged_in_customer();
+            }
+        }
+        return self::$customer_object;
+	}
+
+    public static function get_customer_object_id(){
+        $customer = self::get_customer_object();
+        return $customer->is_new_record() ? false : $customer->id;
+    }
+
+    public static function get_customer_object() : OsCustomerModel{
+        if (!isset(self::$customer_object)) {
+            self::$customer_object = new OsCustomerModel();
+        }
+        return self::$customer_object;
+    }
+
 	public static function set_booking_object( $booking_object_params = [] ): OsBookingModel {
 		self::$booking_object = new OsBookingModel();
 		self::$booking_object->set_data( $booking_object_params );
@@ -1138,7 +1197,7 @@ class OsStepsHelper {
 			self::$booking_object->calculate_end_date_and_time();
 			self::$booking_object->set_utc_datetimes();
 		}
-		self::$booking_object->customer_id = OsAuthHelper::get_logged_in_customer_id();
+		self::$booking_object->customer_id = self::get_customer_object_id();
 
 		return self::$booking_object;
 	}
@@ -1461,6 +1520,11 @@ class OsStepsHelper {
 			'confirmation'        => false
 		];
 
+        if($step_code == 'customer'){
+            // customer is set, or we are not using login/register tabs, allow to go next
+            $step_show_btn_rules['customer'] = self::get_customer_object_id() || OsAuthHelper::is_classic_auth_flow() || OsAuthHelper::is_customer_auth_disabled() || !empty(self::$customer_contact_verified_via);
+        }
+
 		/**
 		 * Returns an array of rules of whether to show a next button on not, step codes are keys in this array
 		 *
@@ -1670,16 +1734,82 @@ class OsStepsHelper {
 
 	public static function prepare_step_customer() {
 
-		if ( OsAuthHelper::is_customer_logged_in() ) {
-			self::$booking_object->customer    = OsAuthHelper::get_logged_in_customer();
-			self::$booking_object->customer_id = self::$booking_object->customer->id;
-		} else {
-			self::$booking_object->customer = new OsCustomerModel();
-		}
+        if(!empty(self::$params['customer_contact_verification_token'])){
+            self::set_customer_object_from_verification_token(self::$params['customer_contact_verification_token']);
+            if(self::get_customer_object_id()){
+                OsOTPHelper::add_verified_contact_for_customer_from_verification_token(self::get_customer_object(), self::$params['customer_contact_verification_token']);
+            }
+            self::$vars_for_view['customer_verification_info'] = OsOTPHelper::validate_verification_token(self::$params['customer_contact_verification_token']);
+        }else{
+            self::$vars_for_view['customer_verification_info'] = [];
+        }
 
+        if(self::$params['auth']['action'] == 'register') {
+            // set customer objects from params of the submitted form
+	        self::$customer_object->set_data( self::customer_params() );
+        }
+
+        // logout - clear the customer
+        if(self::$params['auth']['action'] == 'logout'){
+            self::$customer_object = new OsCustomerModel();
+        }
+
+        self::$booking_object->customer_id = self::get_customer_object_id();
 		self::$vars_for_view['default_fields_for_customer'] = OsSettingsHelper::get_default_fields_for_customer();
-		self::$vars_for_view['customer']                    = self::$booking_object->customer;
+        // if customer params are present - prefill customer object with them (do not save)
+		self::$vars_for_view['customer']                    = self::get_customer_object();
+        self::$vars_for_view['customer_contact_verified_via'] = self::$customer_contact_verified_via;
+
+
+        self::$vars_for_view['enabled_auth_methods'] = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
+        self::$vars_for_view['selected_auth_method'] = OsAuthHelper::get_default_contact_type_for_customer_auth();
+        self::$vars_for_view['enabled_contact_types_for_customer_auth'] = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
+
+        self::$vars_for_view['auth_action'] = self::$params['auth']['action'] ?? '';
 	}
+
+    public static function set_customer_object_from_verification_token(string $token){
+        // preset customer contact value based on a verification token if customer is not logged in yet and token exists
+        $verification_info = OsOTPHelper::validate_verification_token(self::$params['customer_contact_verification_token']);
+        if($verification_info['valid'] && !empty($verification_info['data']['contact_value'])){
+            switch($verification_info['data']['contact_type']){
+                case 'email':
+                    if(!OsUtilHelper::is_valid_email($verification_info['data']['contact_value'])){
+                        // invalid email value in validation token
+                        return false;
+                    }
+                    self::$customer_object->email = $verification_info['data']['contact_value'];
+                    self::$customer_contact_verified_via = 'email';
+                    break;
+                case 'phone':
+                    $phone_number = OsUtilHelper::sanitize_phone_number($verification_info['data']['contact_value']);
+                    if(empty($phone_number)){
+                        return false;
+                    }
+
+                    self::$customer_object->phone = $phone_number;
+                    self::$customer_contact_verified_via = 'phone';
+                    break;
+            }
+            if(OsAuthHelper::is_customer_auth_enabled()){
+                // need to login this customer if it exists
+                switch($verification_info['data']['contact_type']){
+                    case 'email':
+                        // find customer with this email
+                        $customer = new OsCustomerModel();
+                        $customer = $customer->where(['email' => $verification_info['data']['contact_value']])->set_limit(1)->get_results_as_models();
+                        if($customer && OsAuthHelper::authorize_customer($customer->id)){
+                            self::$customer_object = $customer;
+                        }
+                        break;
+                    case 'phone':
+                        self::$customer_object->phone = $verification_info['data']['contact_value'];
+                        self::$customer_contact_verified_via = 'phone';
+                        break;
+                }
+            }
+        }
+    }
 
 	private static function customer_params(): array {
 		$params = OsParamsHelper::get_param( 'customer' );
@@ -1730,90 +1860,28 @@ class OsStepsHelper {
 	public static function process_step_customer() {
 		$status = LATEPOINT_STATUS_SUCCESS;
 
-		$customer_params = self::customer_params();
-
-		$logged_in_customer = OsAuthHelper::get_logged_in_customer();
+		$sanitized_customer_params = self::customer_params();
 
 
-		if ( $logged_in_customer ) {
-			// LOGGED IN ALREADY
-			// Check if they are changing the email on file
-			if ( $logged_in_customer->email != $customer_params['email'] ) {
-				// Check if other customer already has this email
-				$customer                  = new OsCustomerModel();
-				$customer_with_email_exist = $customer->where( array(
-					'email' => $customer_params['email'],
-					'id !=' => $logged_in_customer->id
-				) )->set_limit( 1 )->get_results_as_models();
-				// check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
-				if ( $customer_with_email_exist || ( OsAuthHelper::wp_users_as_customers() && email_exists( $customer_params['email'] ) ) ) {
-					$status        = LATEPOINT_STATUS_ERROR;
-					$response_html = __( 'Another customer is registered with this email.', 'latepoint' );
-				}
-			}
-		} else {
-			// NEW REGISTRATION (NOT LOGGED IN)
-			if ( OsAuthHelper::wp_users_as_customers() ) {
-				// WP USERS AS CUSTOMERS
-				if ( email_exists( $customer_params['email'] ) ) {
-					// wordpress user with this email already exists, ask to login
-					$status        = LATEPOINT_STATUS_ERROR;
-					$response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-				} else {
-					// wp user does not exist - search for latepoint customer
-					$customer = new OsCustomerModel();
-					$customer = $customer->where( array( 'email' => $customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
-					if ( $customer ) {
-						// latepoint customer with this email exits, create wp user for them
-						$wp_user       = OsCustomerHelper::create_wp_user_for_customer( $customer );
-						$status        = LATEPOINT_STATUS_ERROR;
-						$response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-					} else {
-						// no latepoint customer or wp user with this email found, can proceed
-					}
-				}
-			} else {
-				// LATEPOINT CUSTOMERS
-				$customer       = new OsCustomerModel();
-				$customer_exist = $customer->where( array( 'email' => $customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
-				if ( $customer_exist ) {
-					// customer with this email exists - check if current customer was registered as a guest
-					if ( OsSettingsHelper::is_on( 'steps_hide_login_register_tabs' ) || ( $customer_exist->can_login_without_password() && ! OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) ) {
-						// guest account, login automatically
-						$status == LATEPOINT_STATUS_SUCCESS;
-						OsAuthHelper::authorize_customer( $customer_exist->id );
-					} else {
-						// Not a guest account, ask to login
-						$status        = LATEPOINT_STATUS_ERROR;
-						$response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-					}
-				} else {
-					// no latepoint customer with this email found, can proceed
-				}
-			}
-			// if not logged in - check if password has to be set
-			if ( ! OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) {
-				if ( ! empty( $customer_params['password'] ) && $customer_params['password'] == $customer_params['password_confirmation'] ) {
-					$customer_params['password'] = OsAuthHelper::hash_password( $customer_params['password'] );
-					$customer_params['is_guest'] = false;
-				} else {
-					// Password is blank or does not match the confirmation
-					$status        = LATEPOINT_STATUS_ERROR;
-					$response_html = __( 'Setting password is required and should match password confirmation', 'latepoint' );
-				}
-			}
-		}
-		// If no errors, proceed
-		if ( $status == LATEPOINT_STATUS_SUCCESS ) {
-			if ( OsAuthHelper::is_customer_logged_in() ) {
-				$customer        = OsAuthHelper::get_logged_in_customer();
-				$is_new_customer = $customer->is_new_record();
-			} else {
-				$customer        = new OsCustomerModel();
-				$is_new_customer = true;
-			}
-			$old_customer_data = $is_new_customer ? [] : $customer->get_data_vars();
-			$customer->set_data( $customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+        if(OsAuthHelper::is_customer_auth_disabled()){
+            // if login and register tabs are hidden - means we don't have to log in a customer and can just reuse the customer with that email
+            // we don't care about wordpress users connected to this email because we don't need to log them into their account
+            $customer       = new OsCustomerModel();
+            $customer = $customer->where( array( 'email' => $sanitized_customer_params['email']) )->set_limit( 1 )->get_results_as_models();
+            if ( $customer ) {
+                $is_new_customer = false;
+                $old_customer_data = $customer->get_data_vars();
+            }else{
+                $is_new_customer = true;
+                $customer = new OsCustomerModel();
+                $old_customer_data = [];
+            }
+
+            if(!empty($sanitized_customer_params)){
+                unset($sanitized_customer_params['password']); // make sure we don't set password
+                $customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+            }
+            // validate customer data
 			if ( $customer->save() ) {
 				if ( $is_new_customer ) {
 					do_action( 'latepoint_customer_created', $customer );
@@ -1822,18 +1890,134 @@ class OsStepsHelper {
 				}
 
 				self::$booking_object->customer_id = $customer->id;
-				if ( ! OsAuthHelper::is_customer_logged_in() ) {
-					OsAuthHelper::authorize_customer( $customer->id );
-				}
-				$customer->set_timezone_name();
-			} else {
+                self::$customer_object = $customer;
+                self::$fields_to_update['customer[uuid]'] = $customer->get_uuid();
+            } else {
 				$status        = LATEPOINT_STATUS_ERROR;
 				$response_html = $customer->get_error_messages();
 				if ( is_array( $response_html ) ) {
 					$response_html = implode( ', ', $response_html );
 				}
 			}
-		}
+        }else{
+            $logged_in_customer = OsAuthHelper::get_logged_in_customer();
+
+
+            if ( $logged_in_customer ) {
+                // LOGGED IN ALREADY
+                // Check if they are changing the email on file
+                if ( $logged_in_customer->email != $sanitized_customer_params['email'] ) {
+                    // Check if other customer already has this email
+                    $customer                  = new OsCustomerModel();
+                    $customer_with_email_exist = $customer->where( array(
+                        'email' => $sanitized_customer_params['email'],
+                        'id !=' => $logged_in_customer->id
+                    ) )->set_limit( 1 )->get_results_as_models();
+                    // check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
+                    if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
+                        $status        = LATEPOINT_STATUS_ERROR;
+                        $response_html = __( 'Another customer is registered with this email.', 'latepoint' );
+                    }else{
+                        if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['email'], 'email')){
+                            $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
+                            $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
+                            return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                        }
+                    }
+                }
+            } else {
+                // NEW REGISTRATION (NOT LOGGED IN)
+
+                if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
+                    // WordPress users as customers
+                    if ( email_exists( $sanitized_customer_params['email'] ) ) {
+                        // wordpress user with this email already exists, ask to login
+                        $status        = LATEPOINT_STATUS_ERROR;
+                        $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
+                    } else {
+                        // wp user does not exist - search for latepoint customer
+                        $customer = new OsCustomerModel();
+                        $customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+                        if ( $customer ) {
+                            // latepoint customer with this email exits, create wp user for them
+                            $wp_user       = OsCustomerHelper::create_wp_user_for_customer( $customer );
+                            $status        = LATEPOINT_STATUS_ERROR;
+                            $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
+                        } else {
+                            // no latepoint customer or wp user with this email found, can proceed
+                        }
+                    }
+                } else {
+                    // LatePoint customers
+                    $customer       = new OsCustomerModel();
+                    $existing_customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+                    if ( $existing_customer ) {
+                        // customer with this email exists - check if current customer was registered as a guest
+                        if ( ( $existing_customer->can_login_without_password() && ! OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) ) {
+                            $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
+                            $otp_form_html = OsOTPHelper::otp_input_box_html('email', $existing_customer->email, 'email');
+                            return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                        } else {
+                            // Not a guest account, ask to login
+                            $status        = LATEPOINT_STATUS_ERROR;
+                            $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
+                        }
+                    } else {
+                        // no latepoint customer with this email found, can proceed
+                    }
+                }
+                // if not logged in - check if password has to be set
+                if ( ! OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) {
+                    if ( ! empty( $sanitized_customer_params['password'] ) && $sanitized_customer_params['password'] == $sanitized_customer_params['password_confirmation'] ) {
+                        $sanitized_customer_params['password'] = OsAuthHelper::hash_password( $sanitized_customer_params['password'] );
+                        $sanitized_customer_params['is_guest'] = false;
+                    } else {
+                        // Password is blank or does not match the confirmation
+                        $status        = LATEPOINT_STATUS_ERROR;
+                        $response_html = __( 'Setting password is required and should match password confirmation', 'latepoint' );
+                    }
+                }
+            }
+            // If no errors, proceed
+            if ( $status == LATEPOINT_STATUS_SUCCESS ) {
+                if ( OsAuthHelper::is_customer_logged_in() ) {
+                    $customer        = OsAuthHelper::get_logged_in_customer();
+                    $is_new_customer = $customer->is_new_record();
+                } else {
+                    $customer        = new OsCustomerModel();
+                    $is_new_customer = true;
+                }
+                $old_customer_data = $is_new_customer ? [] : $customer->get_data_vars();
+                $customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+                if ( $customer->save() ) {
+
+                    if ( $is_new_customer ) {
+                        do_action( 'latepoint_customer_created', $customer );
+                    } else {
+                        do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
+                    }
+
+                    self::$booking_object->customer_id = $customer->id;
+                    if ( ! OsAuthHelper::is_customer_logged_in() ) {
+                        OsAuthHelper::authorize_customer( $customer->id );
+                    }
+                    $customer->set_timezone_name();
+                    self::$customer_object = $customer;
+
+
+                    if(!empty(self::$params['customer_contact_verification_token'])){
+                        OsOTPHelper::add_verified_contact_for_customer_from_verification_token(self::get_customer_object(), self::$params['customer_contact_verification_token']);
+                    }
+                } else {
+                    $status        = LATEPOINT_STATUS_ERROR;
+                    $response_html = $customer->get_error_messages();
+                    if ( is_array( $response_html ) ) {
+                        $response_html = implode( ', ', $response_html );
+                    }
+                }
+            }
+        }
+
 		if ( $status == LATEPOINT_STATUS_ERROR ) {
 			return new WP_Error( LATEPOINT_STATUS_ERROR, $response_html );
 		}
@@ -1853,7 +2037,7 @@ class OsStepsHelper {
 		$cart->set_singular_payment_attributes();
 
 		self::$vars_for_view['cart']                        = $cart;
-		self::$vars_for_view['customer']                    = OsAuthHelper::get_logged_in_customer();
+		self::$vars_for_view['customer']                    = self::get_customer_object();
 		self::$vars_for_view['default_fields_for_customer'] = OsSettingsHelper::get_default_fields_for_customer();
 	}
 
@@ -1895,7 +2079,7 @@ class OsStepsHelper {
 
 	public static function prepare_step_payment__pay() {
 		$booking_form_page_url = self::$params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
-		$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, $booking_form_page_url );
+		$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, $booking_form_page_url, self::get_customer_object_id() );
 	}
 
 
@@ -1905,7 +2089,7 @@ class OsStepsHelper {
 	}
 
 	public static function prepare_step_confirmation() {
-		self::$vars_for_view['customer']                    = OsAuthHelper::get_logged_in_customer();
+		self::$vars_for_view['customer']                    = self::get_customer_object();
 		self::$vars_for_view['default_fields_for_customer'] = OsSettingsHelper::get_default_fields_for_customer();
 		if ( ! self::$order_object->is_new_record() ) {
 			self::$vars_for_view['order']                = self::$order_object;
@@ -1980,7 +2164,7 @@ class OsStepsHelper {
 
 
 			} else {
-				$order_intent = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets );
+				$order_intent = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, '', self::get_customer_object_id() );
 				if ( $order_intent->is_processing() ) {
 					return new WP_Error( LATEPOINT_STATUS_ERROR, __( 'Processing...', 'latepoint' ), [ 'send_to_step' => 'resubmit' ] );
 				}
@@ -2666,7 +2850,7 @@ class OsStepsHelper {
 			switch ( $parent_code ) {
 				// even tho we are checking a parent code - make sure to assign to a $code, because it's a first one in order in that parent
 				case 'customer':
-					if ( ! OsAuthHelper::is_customer_logged_in() ) {
+					if ( ! self::get_customer_object_id() ) {
 						$step_code_to_access = $code;
 						break 2;
 					}

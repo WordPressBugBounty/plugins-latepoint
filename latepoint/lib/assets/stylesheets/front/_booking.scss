@@ -28,6 +28,180 @@
 }
 
 
+.latepoint-customer-box-title {
+  font-size: $body-font-size-m;
+  color: $headings-color;
+  font-weight: $body-font-weight-bold;
+  margin-bottom: 10px;
+}
+
+.latepoint-customer-box-desc {
+  margin-bottom: 5px;
+  font-size: $body-font-size-xs;
+}
+
+.login-options-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  .login-options-col {
+    &.os-full {
+      flex: 1;
+    }
+  }
+}
+.latepoint-customer-otp-option {
+  label {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin: 0;
+    padding: 5px;
+    cursor: pointer;
+    font-size: $body-font-size-s;
+    color: $body-color;
+    border-radius: $border-radius;
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+  input, span {
+    display: block;
+    margin: 0;
+    padding: 0;
+    &:focus {
+      outline: none;
+    }
+    &:focus-visible {
+      box-shadow: 0 0 0 1px $brand-primary;
+      outline: none;
+    }
+  }
+}
+
+.customer-login-method-wrapper {
+  &.os-hidden {
+    display: none;
+  }
+}
+
+.login-via-label {
+  font-size: $body-font-size-m;
+  color: $headings-color;
+}
+.login-options-via {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-options-via-wrapper {
+  display: flex;
+  background-color: #f2f2f4;
+  border-radius: $border-radius;
+  padding: 4px;
+  align-items: center;
+  .login-option-label {
+    margin-right: 5px;
+    color: $color-faded;
+    font-size: $body-font-size-xs;
+  }
+  .login-option {
+    border-radius: $border-radius;
+    padding: 4px 8px;
+    color: $color-faded;
+    cursor: pointer;
+    &.os-default {
+      order: -1;
+    }
+    &:hover {
+      color: $headings-color;
+    }
+    &.os-selected {
+      background-color: #fff;
+      color: $headings-color;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+    }
+  }
+}
+.os-customer-login-w {
+  .os-customer-login-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.os-customer-otp-notice{
+  background-color: #f2f2f4;
+  border-radius: $border-radius;
+  padding: 15px;
+  padding-bottom: 16px;
+  font-size: $body-font-size-xs;
+  margin-bottom: 15px;
+  text-align: center;
+  line-height: 1;
+}
+.os-customer-wrapped-box {
+  padding: 20px;
+  border: 1px solid $border-color-strong;
+  border-bottom-color: darken($border-color-strong, 10%);
+  border-radius: $border-radius;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.07);
+  position: relative;
+  animation: 0.3s cubic-bezier(0.05, 0.45, 0.1, 1) 0s up20op;
+  animation-fill-mode: both;
+  &.os-unwrapped {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .latepoint-customer-otp-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: $body-color;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    i {
+      display: block;
+    }
+    &:hover {
+      background-color: #eee;
+      border-radius: $border-radius;
+    }
+  }
+  .os-form-group {
+    animation: none;
+    transition: none!important;
+  }
+  .latepoint-customer-otp-sub-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: $body-font-size-xs;
+    margin-top: 10px;
+    a {
+      text-decoration: none;
+      border-bottom: 1px solid $brand-primary;
+      color: $brand-primary;
+      font-size: $body-font-size-xs;
+      &.os-loading {
+        color: transparent!important;
+        position: relative;
+        border-color: transparent;
+        &:before {
+          @include loading-circle($brand-primary, 10px);
+        }
+      }
+    }
+  }
+}
+
+
 .latepoint-book-form-wrapper {
   &.os-loading {
     .latepoint-form-w {
@@ -40,6 +214,17 @@
 }
 
 .latepoint-w {
+  .load-customer-step-trigger {
+    position: relative;
+    &.os-loading {
+      i {
+        color: transparent;
+      }
+      &:before {
+        @include loading-circle($brand-primary, 12px);
+      }
+    }
+  }
   .slot-not-available-wrapper {
     text-align: center;
     padding: 50px;
@@ -660,7 +845,7 @@
     .latepoint-body {
       padding: 40px;
       flex: 1;
-      overflow-y: scroll;
+      overflow-y: auto;
       transition: all 0.2s ease;
       position: relative;
       min-height: 200px;
@@ -802,6 +987,7 @@
       }
     }
     .lp-payment-charge-amount {
+      border-radius: $border-radius;
       background-color: #fbf6e1;
       color: #877865;
       margin-bottom: 20px;
@@ -1639,6 +1825,7 @@
     height: 24px;
     background-color: #eee;
     position: relative;
+    border-radius: $border-radius;
   }
   .booking-status-label {
     font-weight: $body-font-weight-bold;
@@ -1938,6 +2125,8 @@
   @import "../shared/step_customer";
   @import "../shared/step_datepicker";
 }
+
+@import "../shared/auth";
 
 .latepoint-message {
   border-radius: $border-radius;
@@ -2292,5 +2481,29 @@
     animation: os-loading 700ms infinite linear;
     background-color: transparent!important;
     z-index: 999;
+  }
+}
+
+.os-verifiable-field-wrapper {
+  position: relative;
+  .os-verified-badge {
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    font-size: $body-font-size-xs;
+    background-color: #d5ffc6;
+    color: #175908;
+    padding: 3px;
+    line-height: 1;
+    border-radius: 20px;
+    display: flex;
+    gap: 5px;
+    z-index: 1;
+    animation: 0.3s ease 0.4s selectedSlotCheckmarkOpacity;
+    animation-fill-mode: both;
+
+    .latepoint-icon {
+      font-size: 10px;
+    }
   }
 }

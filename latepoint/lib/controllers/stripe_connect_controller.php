@@ -67,7 +67,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$data    = json_decode( $payload, true );
 			if ( empty( $data['server_token'] ) || $data['server_token'] != OsStripeConnectHelper::get_server_token() || $data['stripe_account_id'] != OsStripeConnectHelper::get_connect_account_id() ) {
 				http_response_code( 400 );
-				echo 'Error converting order intent';
+				echo 'Validation issue with webhook';
 				exit();
 			}
 			$event = $data['event'];
@@ -85,7 +85,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 							http_response_code( 200 );
 						} else {
 							http_response_code( 400 );
-							OsDebugHelper::log( 'Error converting order intent' );
+							OsDebugHelper::log( 'Error converting order intent', 'stripe_connect_webhook', $order_intent->get_error_messages() );
 						}
 					}
 					if ( ! empty( $event['data']['transaction_intent_key'] ) ) {
@@ -144,6 +144,13 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$env = $this->get_env_from_params();
 			try {
 				$response = OsStripeConnectHelper::do_request( 'server-tokens/' . OsStripeConnectHelper::get_server_token( $env ) . '/status', '', 'GET', [], [], $env );
+				if($env == 'live'){
+					if(empty($response['data']['transaction_fee_info'])){
+						OsSettingsHelper::save_setting_by_name( 'stripe_connect_transaction_fee_info', '0' );
+					}else{
+						OsSettingsHelper::save_setting_by_name( 'stripe_connect_transaction_fee_info', $response['data']['transaction_fee_info'] );
+					}
+				}
 				if ( ! empty( $response['data'] ) && ! empty( $response['data']['account_id'] ) ) {
 					OsSettingsHelper::save_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id', $env ), $response['data']['account_id'] );
 					if ( ! empty( $response['data']['charges_enabled'] ) ) {
@@ -185,7 +192,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				OsStepsHelper::set_required_objects( $this->params );
 
 				$booking_form_page_url = $this->params['booking_form_page_url'] ?? OsUtilHelper::get_referrer();
-				$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, $booking_form_page_url );
+				$order_intent          = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, $booking_form_page_url, OsStepsHelper::get_customer_object_id() );
 
 				if ( ! $order_intent->is_bookable() ) {
 					throw new Exception( empty( $order_intent->get_error_messages() ) ? __( 'Booking slot is not available anymore.', 'latepoint' ) : implode( ', ', $order_intent->get_error_messages() ) );

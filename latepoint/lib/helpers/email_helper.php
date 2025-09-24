@@ -65,7 +65,7 @@ class OsEmailHelper{
 	 * @param array $headers
 	 * @return array
 	 */
-  public static function send_email(string $to, string $subject, string $content, array $headers = [], $activity_data = []): array{
+  public static function send_email(string $to, string $subject, string $content, array $headers = [], $activity_data = [], $attachments = []): array{
 		$processor_code = 'wp_mail';
 		$result = [
 			'status' => LATEPOINT_STATUS_ERROR,
@@ -95,7 +95,7 @@ class OsEmailHelper{
     if(OsSettingsHelper::is_email_allowed() && OsNotificationsHelper::is_notification_type_enabled('email')) {
 
 			if(OsNotificationsHelper::get_selected_processor_code_by_type('email') == $processor_code){
-				if(wp_mail($to, $subject, $content, $headers)){
+				if(wp_mail($to, $subject, $content, $headers, $attachments)){
 					$result['status'] = LATEPOINT_STATUS_SUCCESS;
 					$result['message'] = __('Email was sent successfully', 'latepoint');
 					$result['processed_datetime'] = OsTimeHelper::now_datetime_in_db_format();

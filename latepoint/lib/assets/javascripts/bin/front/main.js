@@ -9,14 +9,14 @@ function latepoint_init_order_summary_lightbox() {
     latepoint_init_item_details_popup($lightbox);
 }
 
-function latepoint_init_qr_trigger($lightbox){
+function latepoint_init_qr_trigger($lightbox) {
     $lightbox.on('click', '.qr-show-trigger', function () {
         jQuery(this).closest('.summary-box-wrapper').find('.qr-code-on-full-summary').toggleClass('show-vevent-qr-code');
         return false;
     });
 }
 
-function latepoint_init_item_details_popup($lightbox){
+function latepoint_init_item_details_popup($lightbox) {
 
     $lightbox.on('click', '.os-item-details-popup-close', function () {
         var $ligthbox = jQuery(this).closest('.latepoint-lightbox-content');
@@ -178,19 +178,19 @@ function latepoint_show_next_btn($booking_form_element) {
     $booking_form_element.removeClass('hidden-buttons');
 }
 
-function clear_step_services($booking_form_element) {
+function latepoint_clear_step_services($booking_form_element) {
 }
 
-function clear_step_service_extras($booking_form_element) {
+function latepoint_clear_step_service_extras($booking_form_element) {
 }
 
-function clear_step_locations($booking_form_element) {
+function latepoint_clear_step_locations($booking_form_element) {
 }
 
-function clear_step_agents($booking_form_element) {
+function latepoint_clear_step_agents($booking_form_element) {
 }
 
-function clear_step_datepicker($booking_form_element) {
+function latepoint_clear_step_datepicker($booking_form_element) {
 }
 
 function latepoint_hide_next_btn($booking_form_element) {
@@ -312,6 +312,7 @@ function latepoint_reload_step($booking_form_element, step_code = false) {
         }
     }
 
+    $booking_form_element.data('next-submit-is-last', 'no');
     $booking_form_element.find('.latepoint_step_direction').val('specific');
     latepoint_submit_booking_form($booking_form_element.find('.latepoint-form'));
 
@@ -385,6 +386,12 @@ function latepoint_init_booking_summary_panel($booking_form_element) {
     let $summary_panel = $booking_form_element.find('.latepoint-summary-w');
     if (!$summary_panel.length) return;
 
+    $summary_panel.find('.load-customer-step-trigger').on('click', function () {
+        jQuery(this).addClass('os-loading');
+        latepoint_reload_step($booking_form_element, 'customer');
+        return false;
+    });
+
     $summary_panel.find('.price-breakdown-unfold').on('click', function () {
         jQuery(this).closest('.summary-price-breakdown-wrapper').removeClass('compact-summary');
         return false;
@@ -418,7 +425,7 @@ function latepoint_show_message_inside_element(message, $elem = jQuery('.latepoi
             $elem.prepend('<div class="latepoint-message latepoint-message-' + message_type + '">' + message + '</div>');
         }
         // scroll errors into view
-        if (message_type == 'error') $elem.find('.latepoint-message')[0].scrollIntoView();
+        if (message_type == 'error') $elem.find('.latepoint-message')[0].scrollIntoView({block: "nearest", behavior: 'smooth'});
     }
 }
 
@@ -440,7 +447,7 @@ function latepoint_init_step(step_code, $booking_form_element) {
     latepoint_init_step_category_items(step_code);
     switch (step_code) {
         case 'customer':
-            latepoint_init_step_contact();
+            latepoint_init_step_customer($booking_form_element);
             break;
         case 'booking__datepicker':
             latepoint_init_step_datepicker($booking_form_element);
@@ -761,7 +768,7 @@ function latepoint_monthly_calendar_day_clicked(event) {
     let $day = jQuery(this);
     if ($day.hasClass('os-day-passed')) return false;
     if ($day.hasClass('os-not-in-allowed-period')) return false;
-    if($day.closest('.os-dates-and-times-w').hasClass('calendar-style-modern')) {
+    if ($day.closest('.os-dates-and-times-w').hasClass('calendar-style-modern')) {
         if ($day.hasClass('os-month-prev')) return false;
         if ($day.hasClass('os-month-next')) return false;
     }
@@ -838,7 +845,7 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
     if ($booking_form_element.find('input[name="booking[start_date]"]').val()) {
         $booking_form_element.find('.os-day[data-date="' + $booking_form_element.find('input[name="booking[start_date]"]').val() + '"]').trigger('click');
     } else {
-        if($booking_form_element.find('.os-dates-and-times-w').hasClass('auto-search')){
+        if ($booking_form_element.find('.os-dates-and-times-w').hasClass('auto-search')) {
             let max_number_of_months_to_check = 24;
             let current_year = new Date().getFullYear();
             for (let i = 0; i < max_number_of_months_to_check; i++) {
@@ -847,7 +854,7 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
                 if ($active_month.data('calendar-year') != current_year) searching_month_label += ' ' + $active_month.data('calendar-year');
                 $booking_form_element.find('.os-calendar-searching-info span').text(searching_month_label);
                 // check if active month has any days available for booking
-                let $first_available = $active_month.find('.os-day').not('.os-not-available').first();
+                let $first_available = $active_month.find('.os-day.os-month-current').not('.os-not-available').first();
                 if ($first_available.length) {
                     break;
                 } else {
@@ -864,6 +871,12 @@ async function latepoint_init_step_datepicker($booking_form_element = false) {
 function latepoint_init_step_verify($booking_form_element = false) {
     if (!$booking_form_element) return;
     $booking_form_element.closest('.latepoint-summary-is-open').removeClass('latepoint-summary-is-open');
+
+    $booking_form_element.find('.latepoint-body .load-customer-step-trigger').on('click', function () {
+        jQuery(this).addClass('os-loading');
+        latepoint_reload_step($booking_form_element, 'customer');
+        return false;
+    });
 
     $booking_form_element.find('.coupon-code-wrapper-on-verify .coupon-code-trigger-on-verify-w a').on('click', function (e) {
         jQuery(this).closest('.coupon-code-wrapper-on-verify').addClass('entering-coupon').find('.coupon-code-input').trigger('focus');
@@ -1134,16 +1147,15 @@ function latepoint_init_booking_summary_lightbox() {
 function latepoint_init_step_confirmation($booking_form_element = false) {
     if (!$booking_form_element) return;
     $booking_form_element.on('click', '.set-customer-password-btn', function () {
-        var $btn = jQuery(this);
-        var $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
+        let $btn = jQuery(this);
+        let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
 
         $btn.addClass('os-loading');
-        var params = {
-            account_nonse: jQuery('input[name="account_nonse"]').val(),
-            password: jQuery('input[name="customer[password]"]').val(),
-            password_confirmation: jQuery('input[name="customer[password_confirmation]"]').val()
+        let params = {
+            password_nonce: jQuery('input[name="new_password_nonce"]').val(),
+            password: jQuery('input[name="customer[password]"]').val()
         }
-        var data = {
+        let data = {
             action: latepoint_helper.route_action,
             route_name: jQuery(this).data('btn-action'),
             params: jQuery.param(params),
@@ -1182,6 +1194,12 @@ function latepoint_init_step_confirmation($booking_form_element = false) {
         jQuery(this).closest('.info-box').hide();
         return false;
     });
+}
+
+function latepoint_init_customer_login_form(){
+    if(jQuery('.latepoint-login-form-w').length){
+        latepoint_init_auth_form(jQuery('.latepoint-login-form-w'));
+    }
 }
 
 function latepoint_init_customer_dashboard() {
@@ -1249,7 +1267,7 @@ function latepoint_init_customer_dashboard() {
 }
 
 
-function get_customer_name($wrapper) {
+function latepoint_get_customer_name($wrapper) {
     var customer_name = '';
     var first_name = $wrapper.find('input[name="customer[first_name]"]').val();
     var last_name = $wrapper.find('input[name="customer[last_name]"]').val();
@@ -1258,13 +1276,347 @@ function get_customer_name($wrapper) {
     return customer_name.trim();
 }
 
-function latepoint_init_step_contact() {
+function latepoint_init_customer_otp_code_verify_form($booking_form_element) {
+    let $verify_otp_btn = $booking_form_element.find('.latepoint-verify-otp-button');
+    let $verify_otp_input = $booking_form_element.find('.os-otp-code-field');
+
+    if ($verify_otp_btn.length && $verify_otp_input.length) {
+        $verify_otp_input.trigger('focus');
+
+        // trigger on enter/space to emulate a button
+        $verify_otp_btn.on('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                jQuery(this).trigger('click'); // Triggers the click handler above
+            }
+        });
+        // close
+        $booking_form_element.find('.latepoint-customer-otp-resend').on('click', function (e) {
+            e.preventDefault();
+            latepoint_request_customer_otp_code($booking_form_element, jQuery(this));
+        });
+
+        $booking_form_element.find('.latepoint-customer-otp-close').on('click', function () {
+            $booking_form_element.find('.latepoint-customer-otp-input-container').html('');
+            $booking_form_element.find('.hide-when-entering-otp').removeClass('os-hidden');
+            latepoint_show_booking_form_footer($booking_form_element);
+            return false;
+        });
+
+        // input in code field
+        $verify_otp_input.on('input', function () {
+            // Remove non-numeric characters
+            const cleanValue = jQuery(this).val().replace(/[^0-9]/g, '');
+            jQuery(this).val(cleanValue);
+            if (cleanValue.length === 6) {
+                $verify_otp_btn.trigger('click');
+            }
+        });
+        $verify_otp_input.on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                $verify_otp_btn.trigger('click');
+            }
+        });
+
+        $verify_otp_btn.on('click', function (e) {
+            return latepoint_verify_customer_otp_code($booking_form_element);
+        });
+    }
+
+}
+
+async function latepoint_verify_customer_otp_code($booking_form_element) {
+    let $verify_otp_btn = $booking_form_element.find('.latepoint-verify-otp-button');
+    let $verify_otp_input = $booking_form_element.find('.os-otp-code-field');
+
+    $verify_otp_input.removeClass('os-invalid');
+    if ($verify_otp_input.val().length !== 6) {
+        $verify_otp_input.addClass('os-invalid').addClass('os-shake');
+        return false;
+    }
+
+    $verify_otp_btn.addClass('os-loading');
+
+    let form_data = new FormData($booking_form_element.find('.latepoint-form')[0]);
+
+    let data = {
+        action: 'latepoint_route_call',
+        route_name: $verify_otp_btn.data('route'),
+        params: latepoint_formdata_to_url_encoded_string(form_data),
+        layout: 'none',
+        return_format: 'json'
+    }
+    try {
+        let response = await jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: latepoint_timestamped_ajaxurl(),
+            data: data
+        });
+        $verify_otp_btn.removeClass('os-loading');
+        if (response.status === 'success') {
+            if($booking_form_element.data('success-action') === 'reload'){
+                location.reload();
+            }else{
+                latepoint_hide_message_inside_element($booking_form_element.find('.latepoint-customer-otp-input-code-wrapper'));
+                $booking_form_element.find('input[name="customer_contact_verification_token"]').val(response.message);
+                latepoint_reload_step($booking_form_element);
+            }
+        } else {
+            latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-customer-otp-input-code-wrapper'), 'error');
+        }
+        return false;
+    } catch (e) {
+        latepoint_show_message_inside_element('Error generating OTP', $booking_form_element.find('.latepoint-customer-otp-input-code-wrapper'), 'error');
+        throw e;
+    }
+}
+
+async function latepoint_show_verify_contact_form_with_otp_code($booking_form_element, form_html) {
+    $booking_form_element.find('.latepoint-customer-otp-input-container').html(form_html);
+    $booking_form_element.find('.hide-when-entering-otp').addClass('os-hidden');
+    $booking_form_element.removeClass('step-content-loading').addClass('step-content-loaded');
+    $booking_form_element.find('.latepoint-next-btn, .latepoint-prev-btn').removeClass('os-loading');
+    latepoint_init_customer_otp_code_verify_form($booking_form_element);
+    latepoint_hide_booking_form_footer($booking_form_element);
+}
+
+function latepoint_hide_booking_form_footer($booking_form_element) {
+    $booking_form_element.addClass('hidden-buttons');
+}
+
+function latepoint_show_booking_form_footer($booking_form_element) {
+    $booking_form_element.removeClass('hidden-buttons');
+}
+
+async function latepoint_request_customer_otp_code($booking_form_element, $request_otp_button) {
+    $request_otp_button.addClass('os-loading');
+
+    let form_data = new FormData($booking_form_element.find('.latepoint-form')[0]);
+
+
+        // get values from phone number fields
+      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+        $booking_form_element.find('input.os-mask-phone').each(function () {
+          const phoneInputName = this.getAttribute('name');
+          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          // override value generated automatically by formdata with a formatted value of a phone field with country code
+          form_data.set(phoneInputName, phoneInputValue);
+        });
+      }
+
+    let data = {
+        action: 'latepoint_route_call',
+        route_name: $request_otp_button.data('otp-request-route'),
+        params: latepoint_formdata_to_url_encoded_string(form_data),
+        layout: 'none',
+        return_format: 'json'
+    }
+    try {
+        let response = await jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: latepoint_timestamped_ajaxurl(),
+            data: data
+        });
+        $request_otp_button.removeClass('os-loading');
+        if (response.status === 'success') {
+            latepoint_hide_message_inside_element($booking_form_element.find('.hide-when-entering-otp'));
+            $booking_form_element.find('.hide-when-entering-otp').addClass('os-hidden');
+            $booking_form_element.find('.latepoint-customer-otp-input-container').html(response.message);
+            latepoint_init_customer_otp_code_verify_form($booking_form_element);
+        } else {
+            latepoint_show_message_inside_element(response.message, $booking_form_element.find('.hide-when-entering-otp'), 'error');
+        }
+        return false;
+    } catch (e) {
+        latepoint_show_message_inside_element('Error generating OTP', $booking_form_element.find('.hide-when-entering-otp'), 'error');
+        throw e;
+    }
+}
+
+function latepoint_customer_auth_load_next_step($booking_form_element) {
+
+}
+
+function latepoint_init_customer_otp_code_request_form($booking_form_element) {
+    let $request_otp_button = $booking_form_element.find('.latepoint-request-otp-button');
+    if ($request_otp_button.length > 0) {
+        $request_otp_button.on('click', function (e) {
+            return latepoint_request_customer_otp_code($booking_form_element, jQuery(this));
+        });
+        // trigger on enter/space to emulate a button
+        $request_otp_button.on('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                jQuery(this).trigger('click'); // Triggers the click handler above
+            }
+        });
+        $booking_form_element.find('.latepoint-customer-otp-request-wrapper').find('input, select').on('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                $request_otp_button.trigger('click');
+            }
+        });
+    }
+}
+
+async function latepoint_login_customer($booking_form_element, $request_otp_button) {
+
+    $request_otp_button.addClass('os-loading');
+    let $form = $booking_form_element.find('.latepoint-form');
+
+    let form_data = new FormData($form[0]);
+
+        // get values from phone number fields
+      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+        $form.find('input.os-mask-phone').each(function () {
+          const phoneInputName = this.getAttribute('name');
+          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          // override value generated automatically by formdata with a formatted value of a phone field with country code
+          form_data.set(phoneInputName, phoneInputValue);
+        });
+      }
+
+    let data = {
+        action: 'latepoint_route_call',
+        route_name: $request_otp_button.data('password-login-route'),
+        params: latepoint_formdata_to_url_encoded_string(form_data),
+        layout: 'none',
+        return_format: 'json'
+    }
+    try {
+        let response = await jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: latepoint_timestamped_ajaxurl(),
+            data: data
+        });
+        $request_otp_button.removeClass('os-loading');
+
+        if (response.status === "success") {
+            if($booking_form_element.data('success-action') === 'reload'){
+                location.reload();
+                return true;
+            }else {
+                return latepoint_reload_step($booking_form_element);
+            }
+        } else {
+            throw new Error(response.message);
+        }
+    } catch (e) {
+        latepoint_show_message_inside_element(e.message, $booking_form_element.find('.os-step-existing-customer-login-w'));
+    }
+
+}
+
+
+function latepoint_init_auth_form($wrapper){
+
+    latepoint_init_customer_otp_code_request_form($wrapper);
+    latepoint_init_customer_otp_code_verify_form($wrapper);
+
+
+    $wrapper.find('.login-with-password-toggle').on('change', function () {
+        if (jQuery(this).hasClass('os-opposite')) {
+            if (jQuery(this).is(':checked')) {
+                $wrapper.find('.os-customer-otp-notice').hide();
+                $wrapper.find('.os-customer-login-password-fields-w').show();
+            } else {
+                $wrapper.find('.os-customer-otp-notice').show();
+                $wrapper.find('.os-customer-login-password-fields-w').hide();
+            }
+        } else {
+            if (jQuery(this).is(':checked')) {
+                $wrapper.find('.os-customer-otp-notice').show();
+                $wrapper.find('.os-customer-login-password-fields-w').hide();
+            } else {
+                $wrapper.find('.os-customer-otp-notice').hide();
+                $wrapper.find('.os-customer-login-password-fields-w').show();
+            }
+        }
+    });
+
+    $wrapper.find('.alternative-login-option').on('click', function () {
+        let login_method = jQuery(this).data('auth-via');
+        let delivery_method = jQuery(this).data('otp-delivery-method');
+        $wrapper.find('input[name="auth[contact_type]"]').val(login_method);
+        $wrapper.find('input[name="auth[delivery_method]"]').val(delivery_method);
+        $wrapper.find('.customer-login-method-wrapper').addClass('os-hidden');
+        $wrapper.find('.customer-login-method-wrapper[data-login-method="' + login_method + '"]').removeClass('os-hidden');
+        $wrapper.find('.alternative-login-option').removeClass('os-hidden');
+        jQuery(this).addClass('os-hidden');
+        return false;
+    });
+
+    $wrapper.find('.login-options-via-wrapper .login-option').on('click', function () {
+        let $wrapper = jQuery(this).closest('.latepoint-customer-auth-options-wrapper');
+        let login_method = jQuery(this).data('login-method');
+        let delivery_method = jQuery(this).data('otp-delivery-method');
+
+        let otp_enabled = jQuery(this).data('is-otp-enabled');
+        if(otp_enabled === 'no'){
+            if($wrapper.find('.login-with-password-toggle.os-opposite:not(:checked)').length){
+                $wrapper.find('.login-with-password-toggle.os-opposite').trigger('click');
+            }
+            $wrapper.find('.latepoint-customer-otp-option').hide();
+            $wrapper.find('.step-login-existing-customer-btn').addClass('latepoint-btn-block');
+        }else{
+            if($wrapper.find('.latepoint-customer-otp-option').length){
+                $wrapper.find('.latepoint-customer-otp-option').show();
+                $wrapper.find('.step-login-existing-customer-btn').removeClass('latepoint-btn-block');
+            }
+        }
+        $wrapper.find('input[name="auth[contact_type]"]').val(login_method);
+        $wrapper.find('input[name="auth[delivery_method]"]').val(delivery_method);
+        jQuery(this).closest('.login-options-via-wrapper').find('.login-option.os-selected').removeClass('os-selected')
+        jQuery(this).addClass('os-selected');
+        jQuery('.customer-login-method-wrapper').addClass('os-hidden');
+        jQuery('.customer-login-method-wrapper[data-login-method="' + login_method + '"]').removeClass('os-hidden');
+
+        return false;
+    });
+
+    // Init Login Existing Customer Button
+    $wrapper.find('.os-customer-login-w input').on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            $wrapper.find('.step-login-existing-customer-btn').trigger('click');
+            return false;
+        }
+    });
+
+    $wrapper.find('.step-login-existing-customer-btn').on('click', function (e) {
+        e.preventDefault();
+        let via = $wrapper.find('input[name="auth[via]"]').val();
+        if ($wrapper.find('input[name="auth[via]"]').is(':checkbox')) {
+            let is_checked = $wrapper.find('input[name="auth[via]"]').is(':checked');
+            if (via === 'otp' && !is_checked) {
+                via = 'password';
+            } else if (via === 'password' && !is_checked) {
+                via = 'otp';
+            }
+        }
+        if (via === 'otp') {
+            latepoint_request_customer_otp_code($wrapper, jQuery(this));
+        } else if (via === 'password') {
+            latepoint_login_customer($wrapper, jQuery(this));
+        }
+
+    });
+}
+
+function latepoint_init_step_customer($booking_form_element) {
     latepoint_init_form_masks();
 
+    latepoint_init_auth_form($booking_form_element);
+
     // Init Logout button
-    jQuery('.step-customer-logout-btn').on('click', function () {
-        var $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
-        var data = {
+    $booking_form_element.find('.step-customer-logout-btn').on('click', function () {
+        let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
+        $booking_form_element.find('input[name="customer_contact_verification_token"]').val('');
+        let data = {
             action: latepoint_helper.route_action,
             route_name: jQuery(this).data('btn-action'),
             layout: 'none',
@@ -1277,43 +1629,14 @@ function latepoint_init_step_contact() {
             url: latepoint_timestamped_ajaxurl(),
             data: data,
             success: function (data) {
+                $booking_form_element.find('input[name="auth[action]"]').val('logout');
                 latepoint_reload_step($booking_form_element);
             }
         });
         return false;
     });
 
-    // Init Login Existing Customer Button
-    jQuery('.step-login-existing-customer-btn').on('click', function () {
-        var $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
-        var params = {
-            email: $booking_form_element.find('.os-step-existing-customer-login-w input[name="customer_login[email]"]').val(),
-            password: $booking_form_element.find('.os-step-existing-customer-login-w input[name="customer_login[password]"]').val()
-        }
-        var data = {
-            action: latepoint_helper.route_action,
-            route_name: jQuery(this).data('btn-action'),
-            params: jQuery.param(params),
-            layout: 'none',
-            return_format: 'json'
-        }
-        latepoint_step_content_change_start($booking_form_element);
-        jQuery.ajax({
-            type: "post",
-            dataType: "json",
-            url: latepoint_timestamped_ajaxurl(),
-            data: data,
-            success: function (data) {
-                if (data.status === "success") {
-                    latepoint_reload_step($booking_form_element);
-                } else {
-                    latepoint_show_message_inside_element(data.message, $booking_form_element.find('.os-step-existing-customer-login-w'));
-                    latepoint_step_content_change_end(false, $booking_form_element);
-                }
-            }
-        });
-        return false;
-    });
+
 }
 
 function latepoint_step_content_change_start($booking_form_element) {
@@ -1499,26 +1822,55 @@ async function latepoint_submit_booking_form($booking_form) {
             latepoint_change_step_desc($booking_form_element, response.step_code);
             latepoint_reload_summary($booking_form_element);
         } else {
-            if (response.send_to_step && response.send_to_step === 'resubmit') {
-                let current_resubmit_count = parseInt($booking_form.data('resubmit-count')) ? parseInt($booking_form.data('resubmit-count')) : 1;
-                $booking_form.data('resubmit-count', current_resubmit_count + 1);
-                if (current_resubmit_count > 6) {
-                    latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-body'));
+            if (response.fields_to_update) {
+                for (const [key, value] of Object.entries(response.fields_to_update)) {
+                    $booking_form_element.find('input[name="' + key + '"]').val(value)
+                }
+            }
+            if (response.callback) {
+                let func_name = response.callback;
+                if (func_name.includes('.')) {
+                    let func_arr = func_name.split('.');
+                    if (typeof window[func_arr[0]][func_arr[1]] !== 'function') {
+                        console.log(func_name + ' is undefined');
+                    }
+                    if (response.callback_data) {
+                        window[func_arr[0]][func_arr[1]]($booking_form_element, response.callback_data);
+                    } else {
+                        window[func_arr[0]][func_arr[1]]($booking_form_element);
+                    }
                 } else {
-                    // resubmission probably caused by order intent still being processed, since
-                    // order intent is still processing, give it a little more time and try again
-                    await latepoint_sleep(2000);
-                    return latepoint_submit_booking_form($booking_form);
+                    if (typeof window[func_name] !== 'function') {
+                        console.log(func_name + ' is undefined');
+                    }
+                    if (response.callback_data) {
+                        window[func_name]($booking_form_element, response.callback_data);
+                    } else {
+                        window[func_name]($booking_form_element);
+                    }
                 }
             } else {
-                $booking_form_element.removeClass('step-content-loading').addClass('step-content-loaded');
-                $booking_form_element.find('.latepoint-next-btn, .latepoint-prev-btn').removeClass('os-loading');
-                if (response.send_to_step && $booking_form_element.find('.latepoint-step-content[data-step-code="' + response.send_to_step + '"]').length) {
-                    $booking_form_element.data('flash-error', response.message);
-                    latepoint_reload_step($booking_form_element, response.send_to_step);
+                if (response.send_to_step && response.send_to_step === 'resubmit') {
+                    let current_resubmit_count = parseInt($booking_form.data('resubmit-count')) ? parseInt($booking_form.data('resubmit-count')) : 1;
+                    $booking_form.data('resubmit-count', current_resubmit_count + 1);
+                    if (current_resubmit_count > 6) {
+                        latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-body'));
+                    } else {
+                        // resubmission probably caused by order intent still being processed, since
+                        // order intent is still processing, give it a little more time and try again
+                        await latepoint_sleep(2000);
+                        return latepoint_submit_booking_form($booking_form);
+                    }
                 } else {
-                    latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-body'));
-                    latepoint_show_prev_btn($booking_form_element);
+                    $booking_form_element.removeClass('step-content-loading').addClass('step-content-loaded');
+                    $booking_form_element.find('.latepoint-next-btn, .latepoint-prev-btn').removeClass('os-loading');
+                    if (response.send_to_step && $booking_form_element.find('.latepoint-step-content[data-step-code="' + response.send_to_step + '"]').length) {
+                        $booking_form_element.data('flash-error', response.message);
+                        latepoint_reload_step($booking_form_element, response.send_to_step);
+                    } else {
+                        latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-body'));
+                        latepoint_show_prev_btn($booking_form_element);
+                    }
                 }
             }
         }
@@ -1594,9 +1946,9 @@ function latepoint_init_booking_form($booking_form_element) {
     });
 
     $booking_form_element.on('click keydown', '.latepoint-add-another-item-trigger', function (event) {
-        if(event.type === 'keydown' && event.key !== ' ' &&  event.key !== 'Enter') return;
+        if (event.type === 'keydown' && event.key !== ' ' && event.key !== 'Enter') return;
 
-        if (latepoint_helper.reset_presets_when_adding_new_item){
+        if (latepoint_helper.reset_presets_when_adding_new_item) {
             latepoint_clear_presets($booking_form_element);
         }
         latepoint_reset_active_cart_item($booking_form_element);

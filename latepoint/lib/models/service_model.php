@@ -119,6 +119,19 @@ class OsServiceModel extends OsModel{
     return $allowed_params;
   }
 
+
+	public function prepare_data_before_it_is_set( $data ) {
+		if ( isset( $data['name'] ) ) {
+			$data['name'] = sanitize_text_field( $data['name'] );
+		}
+		if ( isset( $data['short_description'] ) ) {
+			$data['short_description'] = wp_kses_post( $data['short_description'] );
+		}
+
+
+		return $data;
+	}
+
 	public function get_default_booking_status(){
 		if(!empty($this->override_default_booking_status)){
 			$all_statuses = OsBookingHelper::get_statuses_list();

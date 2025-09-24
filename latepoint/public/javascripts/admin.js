@@ -412,6 +412,26 @@ jQuery(function( $ ) {
     });
   }
 
+  jQuery('body.latepoint').on('change', 'select[data-os-on-change]', function(e){
+    let $this = jQuery(this);
+
+    let func_name = $this.data('os-on-change');
+    if(func_name.includes('.')){
+      let func_arr = func_name.split('.');
+      if(typeof window[func_arr[0]][func_arr[1]] !== 'function'){
+        console.log(func_name + ' is undefined');
+      }else{
+        window[func_arr[0]][func_arr[1]]($this);
+      }
+    }else{
+      if(typeof window[func_name] !== 'function'){
+        console.log(func_name + ' is undefined');
+      }else{
+        window[func_name]($this);
+      }
+    }
+  });
+
   /*
     Ajax buttons action
   */
@@ -1162,6 +1182,60 @@ function latepoint_init_version5_intro(){
       }
     }
   });
+  }
+}
+
+
+function latepoint_settings_customer_authentication_method_changed($select){
+    if($select.val() === 'password_or_otp'){
+      jQuery('#authDefaultMethod').show();
+    }else{
+      jQuery('#authDefaultMethod').hide();
+    }
+}
+
+function latepoint_settings_customer_authentication_field_type_changed($select){
+    if($select.val() === 'disabled'){
+      jQuery('#passwordFields, #customerStepSettings').hide();
+    }else{
+      jQuery('#passwordFields, #customerStepSettings').show();
+    }
+    if($select.val() === 'email_or_phone'){
+      jQuery('#authDefaultContactType').show();
+    }else{
+      jQuery('#authDefaultContactType').hide();
+    }
+}
+
+function latepoint_init_sticky_side_nav(){
+  jQuery('.latepoint-page-side-nav a').on('click', function(e) {
+    e.preventDefault();
+    let target = jQuery(this).attr('href');
+    let targetOffset = jQuery(target).offset().top - 20;
+
+    jQuery('html, body').animate({
+        scrollTop: targetOffset
+    }, 400, 'swing');
+  });
+  if(jQuery('.latepoint-page-side-nav').length){
+    jQuery(window).on('scroll', function() {
+        let scrollPos = jQuery(window).scrollTop() + 100; // 100px offset for better UX
+
+        jQuery('.section-anchor').each(function() {
+            let sectionTop = jQuery(this).offset().top;
+            let sectionBottom = sectionTop + jQuery(this).outerHeight();
+            let sectionId = jQuery(this).attr('id');
+
+            // Check if current scroll position is within this section
+            if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                // Remove active class from all menu items
+                jQuery('.latepoint-page-side-nav a').removeClass('is-active');
+
+                // Add active class to current section's menu item
+                jQuery('.latepoint-page-side-nav a[href="#' + sectionId + '"]').addClass('is-active');
+            }
+        });
+    });
   }
 }
 
@@ -2154,6 +2228,10 @@ function latepoint_filter_table($table, $filter_elem, reset_page = true){
   });
 }
 
+function latepoint_init_service_duration_box($duration_box){
+  latepoint_init_input_masks(jQuery('.service-duration-box:last-child'));
+}
+
 function latepoint_init_wizard_content(){
   latepoint_init_input_masks(jQuery('.os-wizard-step-content'));
 }
@@ -2172,8 +2250,6 @@ function latepoint_init_input_masks($scoped_element = false){
 
   $wrapper.trigger('latepoint:initInputMasks');
 }
-
-
 
 
 function latepoint_init_quick_agent_form(){
@@ -2301,6 +2377,65 @@ function latepoint_reload_after_customer_save(){
   latepoint_close_side_panel();
 }
 
+function  latepoint_init_customers_import() {
+
+  jQuery('body.latepoint').on('submit', '.import-customers-form', async function (e) {
+    e.preventDefault();
+    let $form = jQuery(this);
+
+    if($form.hasClass('os-loading')) return false;
+
+    $form.addClass('os-loading');
+    $form.find('button[type="submit"]').addClass('os-loading');
+
+    try {
+      let response = await jQuery.ajax({
+        type: "post",
+        dataType: "json",
+        processData: false,
+        contentType: false,
+        url: latepoint_timestamped_ajaxurl(),
+        data: latepoint_create_form_data($form)
+      });
+
+      $form.removeClass('os-loading').find('.os-loading').removeClass('os-loading');
+
+      if (response.status === 'success') {
+        $form.find('.latepoint-lightbox-content').html(response.message);
+
+        latepoint_import_customers_set_next_btn($form);
+        latepoint_import_customers_set_step($form);
+
+      } else {
+        latepoint_add_notification(response.message || 'Error', 'error');
+        return false;
+      }
+    } catch (e) {
+      $form.removeClass('os-loading').find('.os-loading').removeClass('os-loading');
+      console.log(e);
+    }
+  });
+}
+
+function latepoint_import_customers_set_next_btn($form) {
+  let step_form = $form.find('.customer-csv-step');
+  if (step_form.data('hide-next-btn')) {
+    $form.find('.latepoint-lightbox-footer').hide();
+  } else {
+    let btn_label = step_form.data('customer-csv-next-btn');
+    if (btn_label) {
+      $form.find('.latepoint-csv-next-btn').text(btn_label);
+    }
+  }
+}
+
+function latepoint_import_customers_set_step($form) {
+  let step = $form.find('.customer-csv-step').data('customer-csv-step');
+  if (step) {
+    $form.find('input[name="step"]').val(step);
+  }
+}
+
 /*
  * Copyright (c) 2023 LatePoint LLC. All rights reserved.
  */
@@ -2359,19 +2494,19 @@ function latepoint_init_daily_bookings_chart() {
   Chart.defaults.plugins.tooltip.padding = 10;
   Chart.defaults.plugins.tooltip.yAlign = 'bottom';
   Chart.defaults.plugins.tooltip.xAlign = 'center';
-  Chart.defaults.plugins.tooltip.cornerRadius = 4;
+  Chart.defaults.plugins.tooltip.cornerRadius = 14;
   Chart.defaults.plugins.tooltip.caretSize = 5;
   Chart.defaults.plugins.tooltip.position = 'top';
 
   var ctx = $dailyBookingsChart[0].getContext("2d");
   var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-  gradientStroke.addColorStop(0, '#1d7bff');
-  gradientStroke.addColorStop(1, '#1d7bff');
+  gradientStroke.addColorStop(0, '#219ff8');
+  gradientStroke.addColorStop(1, '#219ff8');
 
 
   let gradientFill = ctx.createLinearGradient(0, 0, 0, 140);
-  gradientFill.addColorStop(0, 'rgb(206,224,255, 0.4)');
-  gradientFill.addColorStop(1, 'rgba(206,224,255,0)');
+  gradientFill.addColorStop(0, 'rgba(195, 229, 253, 0.9)');
+  gradientFill.addColorStop(1, 'rgba(195, 229, 253, 0.1)');
 
   // line chart data
   var chartDailyBookingsData = {
@@ -2381,20 +2516,20 @@ function latepoint_init_daily_bookings_chart() {
       borderColor: gradientStroke,
       label: "",
       fill: true,
-      lineTension: 0.1,
+      lineTension: 0.3,
       borderWidth: 2,
       borderCapStyle: 'butt',
       borderDash: [],
       borderDashOffset: 0.0,
       borderJoinStyle: 'miter',
       pointBorderColor: "#fff",
-      pointBackgroundColor: "#1D7BFF",
+      pointBackgroundColor: "#219ff8",
       pointRadius: 3,
       pointBorderWidth: 2,
       pointHoverRadius: 6,
       pointHoverBorderWidth: 4,
-      pointHoverBackgroundColor: "#1D7BFF",
-      pointHoverBorderColor: "#aecdff",
+      pointHoverBackgroundColor: "#219ff8",
+      pointHoverBorderColor: "#fff",
       pointHitRadius: 20,
       spanGaps: false,
       data: dailyBookingsValues,
@@ -2426,9 +2561,9 @@ function latepoint_init_daily_bookings_chart() {
         ticks: {
           fontFamily: fontFamily,
           maxRotation: 0,
-          color: '#1f222b',
+          color: '#788291',
           font: {
-            size: 11,
+            size: 10,
             family: fontFamily
           },
           callback: function (value, index, ticks) {
@@ -2736,12 +2871,20 @@ function latepoint_init_calendars(){
   jQuery('.os-calendar-settings-extra .latecheckbox').lateCheckbox();
 
 
+
+  jQuery('.os-calendar-view-toggle').on('click', '.os-calendar-view-option', function(){
+    jQuery(this).closest('.os-calendar-view-toggle').find('.os-calendar-view-option.os-selected').removeClass('os-selected')
+    jQuery(this).addClass('os-selected');
+    jQuery('input[name="' + jQuery(this).closest('.os-calendar-view-toggle').data('update-element-by-name') + '"]').val(jQuery(this).data('value')).trigger('change');
+    return false;
+  });
+
   jQuery('.calendar-settings-toggler').on('click', function(){
     jQuery('.os-calendar-settings-form').toggleClass('show-extra-settings');
     return false;
   });
 
-  jQuery('.os-calendar-settings-form').on('change', 'select[name="calendar_settings[view]"]', function(){
+  jQuery('.os-calendar-settings-form').on('change', 'input[name="calendar_settings[view]"]', function(){
     jQuery(this).closest('.calendar-wrapper').attr('data-view', jQuery(this).val());
   });
 
@@ -3354,11 +3497,15 @@ function latepoint_init_booking_form_preview(){
 
 
   jQuery('.booking-form-preview-wrapper').on('click', '.os-step-tab', function(){
+    let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
     jQuery(this).closest('.os-step-tabs').find('.os-step-tab').removeClass('active');
     jQuery(this).addClass('active');
     var target = jQuery(this).data('target');
     jQuery(this).closest('.os-step-tabs-w').find('.os-step-tab-content').hide();
     jQuery(target).show();
+    if(jQuery(this).data('auth-action')){
+      $booking_form_element.find('input[name="auth[action]"]').val(jQuery(this).data('auth-action'));
+    }
   });
 
 
@@ -4355,7 +4502,6 @@ function latepoint_load_quick_availability($trigger_elem, custom_agent_id = fals
           jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(52);
         }else if(load_prev_days){
           jQuery('.latepoint-side-panel-w .quick-availability-per-day-w').html(response.message);
-          console.log(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight);
           jQuery('.latepoint-side-panel-w .os-availability-days').scrollTop(jQuery('.latepoint-side-panel-w .os-availability-days')[0].scrollHeight - jQuery('.latepoint-side-panel-w .os-availability-days')[0].clientHeight - 50);
         }else{
           latepoint_display_in_side_sub_panel(response.message);
@@ -4544,6 +4690,7 @@ window.latepointStripeConnectAdmin = new LatepointStripeConnectAdmin();
 // @codekit-prepend "bin/admin/main.js";
 // @codekit-prepend "bin/admin/_agents.js";
 // @codekit-prepend "bin/admin/_customers.js";
+// @codekit-prepend "bin/admin/_customers_import.js";
 // @codekit-prepend "bin/admin/_chart.js";
 // @codekit-prepend "bin/admin/_calendar.js";
 // @codekit-prepend "bin/admin/_processes.js";
@@ -4580,7 +4727,7 @@ jQuery(document).ready(function( $ ) {
   latepoint_init_default_form_fields_settings();
   latepoint_init_steps_settings();
   latepoint_init_booking_form_preview();
-
+  latepoint_init_sticky_side_nav();
   latepoint_init_version5_intro();
 
   jQuery(document).on({
@@ -4615,6 +4762,7 @@ jQuery(document).ready(function( $ ) {
       jQuery('.select-phone-countries-wrapper').show();
     }
   });
+
 
   jQuery('.os-select-all-toggler').on('change', function(){
     var $connection_wrappers = jQuery(this).closest('.white-box').find('.os-complex-connections-selector .connection');
@@ -4684,7 +4832,7 @@ jQuery(document).ready(function( $ ) {
   });
 
 
-  jQuery('.latepoint-side-menu-w').on('click', '.top-user-info-toggler', function(){
+  jQuery('.latepoint-top-bar-w').on('click', '.top-user-info-toggler', function(){
     jQuery('.latepoint-user-info-dropdown').toggleClass('os-visible');
     return false;
   });
@@ -4888,7 +5036,7 @@ jQuery(document).ready(function( $ ) {
   });
 
 
-  jQuery('.latepoint').on('click', '.wizard-add-edit-item-trigger', function(e){
+  jQuery('body.latepoint').on('click', '.wizard-add-edit-item-trigger', function(e){
     jQuery(this).addClass('os-loading');
     var add_item_route_name = jQuery(this).data('route');
     var item_info = {  };
@@ -4918,7 +5066,7 @@ jQuery(document).ready(function( $ ) {
 
 
 
-  jQuery('.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
+  jQuery('body.latepoint').on('click', '.os-wizard-trigger-next-btn', function(){
     var $next_btn = jQuery(this);
     $next_btn.addClass('os-loading');
     var current_step_code = jQuery('#wizard_current_step_code').val();
@@ -4990,7 +5138,7 @@ jQuery(document).ready(function( $ ) {
   });
 
   // WIZARD PREV BUTTON CLICK LOGIC
-  jQuery('.latepoint').on('click', '.os-wizard-trigger-prev-btn', function(){
+  jQuery('body.latepoint').on('click', '.os-wizard-trigger-prev-btn', function(){
     var $prev_btn = jQuery(this);
     $prev_btn.addClass('os-loading');
     var current_step_code = jQuery('#wizard_current_step_code').val();
@@ -5326,6 +5474,13 @@ jQuery(document).ready(function( $ ) {
         jQuery('#' + $toggler.data('controlled-toggle-id')).show();
       }
     }
+    if($toggler.data('negative-controlled-toggle-id')){
+      if($toggler.hasClass('off')){
+        jQuery('#' + $toggler.data('negative-controlled-toggle-id')).show();
+      }else{
+        jQuery('#' + $toggler.data('negative-controlled-toggle-id')).hide();
+      }
+    }
     $toggler.trigger('ostoggler:toggle');
     return false;
   });
@@ -5383,6 +5538,79 @@ jQuery(document).ready(function( $ ) {
     
     return false;
   });
+
+
+    jQuery('.latepoint-admin').on('click', '.os-multiple-files-uploader a', function(event) {
+        event.stopPropagation();
+    });
+
+    jQuery('.latepoint-admin').on('click', '.os-multiple-files-uploader', function(event) {
+        var frame;
+        event.preventDefault();
+
+        var $uploader_trigger = jQuery(this);
+        var $uploader_wrapper = $uploader_trigger.closest('.os-multiple-files-uploader');
+        var $files_list = $uploader_wrapper.find('.os-uploaded-files-list');
+        var $file_ids_holder = $uploader_wrapper.find('.os-file-ids-holder');
+
+        // Create a new media frame
+        frame = wp.media({
+            title: 'Select or Upload Files',
+            button: { text: 'Add selected files' },
+            multiple: 'add' // Allows to select multiple files
+        });
+
+        // When files are selected...
+        frame.on('select', function() {
+            var attachments = frame.state().get('selection').map(function(attachment) {
+                attachment = attachment.toJSON();
+                return attachment;
+            });
+
+            var current_ids = $file_ids_holder.val() ? $file_ids_holder.val().split(',') : [];
+
+            attachments.forEach(function(attachment) {
+                // Skip if file already added
+                if(current_ids.indexOf(attachment.id.toString()) !== -1) return;
+
+                // Add to IDs list
+                current_ids.push(attachment.id);
+
+                // Add to files list
+                var $file_item = jQuery('<div class="os-uploaded-file" data-file-id="'+attachment.id+'">');
+                $file_item.append('<a class="os-file-link" href="'+attachment.url+'" target="_blank">'+attachment.filename+'</a>');
+                $file_item.append('<a href="#" class="os-remove-file" title="'+$uploader_trigger.data('label-remove-str')+'"><i class="latepoint-icon latepoint-icon-cross"></i></a>');
+                $files_list.append($file_item);
+            });
+
+            // Update hidden field with all IDs
+            $file_ids_holder.val(current_ids.join(','));
+        });
+
+        frame.open();
+        return false;
+    });
+
+    jQuery('.latepoint-admin').on('click', '.os-remove-file', function(event) {
+        event.preventDefault();
+
+        let $remove_btn = jQuery(this);
+        const confirm_text = $remove_btn.closest('.os-uploaded-files-list').data('confirm-text') || 'Are you sure you want to remove this file?';
+        if (confirm(confirm_text)) {
+            let $file_item = $remove_btn.closest('.os-uploaded-file');
+            let $file_ids_holder = $file_item.closest('.os-multiple-files-uploader').find('.os-file-ids-holder');
+
+            let file_id = $file_item.data('file-id');
+            let current_ids = $file_ids_holder.val() ? $file_ids_holder.val().split(',') : [];
+
+            current_ids = current_ids.filter(function(id) {
+                return id != file_id;
+            });
+
+            $file_ids_holder.val(current_ids.join(','));
+            $file_item.remove();
+        }
+    });
 
 
 

@@ -100,7 +100,11 @@ class OsFormHelper {
 		}
 		$status               = $is_active ? 'on' : 'off';
 		$value                = $is_active ? 'on' : 'off';
-		$controlledToggleHtml = $controlledToggleId ? 'data-controlled-toggle-id="' . $controlledToggleId . '"' : '';
+		if($controlledToggleId){
+			$controlledToggleHtml = str_starts_with($controlledToggleId, '-') ? 'data-negative-controlled-toggle-id="' . substr($controlledToggleId, 1) . '"' : 'data-controlled-toggle-id="' . $controlledToggleId . '"';
+		}else{
+			$controlledToggleHtml = '';
+		}
 		$html                 = '';
 		$id                   = self::name_to_id( $name );
 		$extra                = ( empty( $atts['sub_label'] ) ) ? '' : ' with-sub-label';
@@ -160,8 +164,36 @@ class OsFormHelper {
 		return $html;
 	}
 
-	public static function file_upload_field( $name, $label, $value = '', $atts = [], $wrapper_atts = [] ) {
-		$accepted_formats = '.jpg,.jpeg,.png,.gif,.ico,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.PSD,.mp3,.m4a,.ogg,.wav,.mp4,.m4v,.mov,.wmv,.avi,.mpg,.ogv,.3gp,.3g2,.json';
+
+	public static function multiple_files_uploader_field($name, $label_add_str = '', $label_remove_str = '', $value_file_ids = array(), $wrapper_atts = array()): string {
+
+		$html = '<div class="os-multiple-files-uploader" '.OsFormHelper::atts_string_from_array($wrapper_atts).'>';
+
+		// Current files display
+		$html .= '<div class="os-uploaded-files-list" data-confirm-text="'. esc_attr__('Are you sure want to remove this file?', 'latepoint') . '">';
+		if (!empty($value_file_ids)) {
+			foreach ($value_file_ids as $file_id) {
+				$file_url = esc_url(wp_get_attachment_url($file_id));
+				$html .= '<div class="os-uploaded-file" data-file-id="'.esc_attr($file_id).'">';
+				$html .= '<a class="os-file-link" href="'.$file_url.'" target="_blank">'.esc_html(basename($file_url)).'</a>';
+				$html .= '<a href="#" class="os-remove-file" title="'.esc_attr($label_remove_str).'"><i class="latepoint-icon latepoint-icon-cross"></i></a>';
+				$html .= '</div>';
+			}
+		}
+		$html .= '</div>';
+
+		// Add more files button
+		$html .= '<span class="os-file-selector-text">' . esc_html($label_add_str) . '</span>';
+		$html .= '<input type="hidden" name="'.esc_attr($name).'" value="'.esc_attr(implode(',', $value_file_ids)).'" class="os-file-ids-holder" />';
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	public static function file_upload_field( $name, $label, $value = '', $atts = [], $wrapper_atts = [], $accepted_formats = '' ) {
+		if ( empty($accepted_formats) ) {
+			$accepted_formats = '.jpg,.jpeg,.png,.gif,.ico,.pdf,.doc,.docx,.ppt,.pptx,.pps,.ppsx,.odt,.xls,.xlsx,.PSD,.mp3,.m4a,.ogg,.wav,.mp4,.m4v,.mov,.wmv,.avi,.mpg,.ogv,.3gp,.3g2';
+		}
 		// generate id if not set
 		if ( ! isset( $atts['id'] ) && ! isset( $atts['skip_id'] ) ) {
 			$atts['id'] = self::name_to_id( $name, $atts );
@@ -298,7 +330,7 @@ class OsFormHelper {
 			}
 		}
 		$html .= '</select>';
-		$html .= '<button class="latepoint-btn latepoint-btn-primary" data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'service_categories', 'new_form' ) ) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html( $add_label ) . '</span></button>';
+		$html .= '<button class="latepoint-btn latepoint-btn-secondary" data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'service_categories', 'new_form' ) ) . '" data-os-output-target="lightbox"><i class="latepoint-icon latepoint-icon-plus"></i> <span>' . esc_html( $add_label ) . '</span></button>';
 		$html .= '</div>';
 		$html .= '</div>';
 
@@ -909,5 +941,9 @@ class OsFormHelper {
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	public static function otp_code_field( string $name ) : string {
+		return self::text_field($name, '', '', ['class' => 'os-otp-code-field required','autocomplete' => 'one-time-code', 'inputmode' => 'numeric', 'pattern' => '[0-9]*', 'maxlength' => '6', 'theme' => 'simple', 'placeholder' => __('Code', 'latepoint')]);
 	}
 }

@@ -99,11 +99,15 @@ function latepoint_init_booking_form_preview(){
 
 
   jQuery('.booking-form-preview-wrapper').on('click', '.os-step-tab', function(){
+    let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
     jQuery(this).closest('.os-step-tabs').find('.os-step-tab').removeClass('active');
     jQuery(this).addClass('active');
     var target = jQuery(this).data('target');
     jQuery(this).closest('.os-step-tabs-w').find('.os-step-tab-content').hide();
     jQuery(target).show();
+    if(jQuery(this).data('auth-action')){
+      $booking_form_element.find('input[name="auth[action]"]').val(jQuery(this).data('auth-action'));
+    }
   });
 
 

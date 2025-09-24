@@ -93,7 +93,7 @@ class OsOrderIntentHelper {
 	 *
 	 * @return OsOrderIntentModel
 	 */
-	public static function create_or_update_order_intent( OsCartModel $cart, array $restrictions_data = [], array $presets_data = [], string $booking_form_page_url = '' ): OsOrderIntentModel {
+	public static function create_or_update_order_intent( OsCartModel $cart, array $restrictions_data = [], array $presets_data = [], string $booking_form_page_url = '', $customer_id = false ): OsOrderIntentModel {
 		if ( empty( $booking_form_page_url ) ) {
 			$booking_form_page_url = OsUtilHelper::get_referrer();
 		}
@@ -115,8 +115,11 @@ class OsOrderIntentHelper {
 		// override only if not empty
 		if(!empty($booking_form_page_url)) $order_intent->booking_form_page_url = urldecode( $booking_form_page_url );
 
-		// set customer id from session, do not trust submitted data
-		$order_intent->customer_id = OsAuthHelper::get_logged_in_customer_id();
+		if(empty($customer_id)){
+			$order_intent->customer_id = OsAuthHelper::get_logged_in_customer_id();
+		}else{
+			$order_intent->customer_id = $customer_id;
+		}
 
 		$order_intent = self::set_order_intent_data_from_cart( $order_intent, $cart );
 
