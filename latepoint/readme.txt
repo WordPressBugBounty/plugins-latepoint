@@ -4,7 +4,7 @@ Donate link: https://latepoint.com
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.8.2
-Stable tag: 5.2.0
+Stable tag: 5.2.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -44,3 +44,25 @@ LatePoint generates calendar links to add event to customer's calendar on: [Goog
 1. Upload `latepoint.zip` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Make sure to disable caching on your customer cabinet page
+
+== Changelog ==
+
+= 5.2.1 - September 25, 2025 =
+- Fix: Fixed stripe connect issue when customer authentication is disabled in settings
+
+= 5.2.0 - September 23, 2025 =
+
+- New: Improved UI for admin dashboard
+- New: Customers can log in using their phone number instead of email
+- New: Import customers via CSV
+- New: Ability for customers login with one-time code via SMS or email
+- New: Support for short urls in SMS
+- New: You can now disable email as a required field
+- New: Guest booking, ability for customers to make a booking without creating an account
+- New: Ability to attach files in emails through workflows
+- New: Ability to attach an .isc calendar file for an appointment in workflows
+- Improvement: Improvements to how social login buttons look
+- Improvement: Added link to customer information edit on summary panel
+- Improvement: Out of the box support for multiple languages (French, German, Spanish, Italian, Russian)
+
+Full changelog can be found on our website: [Full Changelog](https://latepoint.com/changelog/)

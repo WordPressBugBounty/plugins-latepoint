@@ -17,8 +17,8 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 		function __construct() {
 			parent::__construct();
 
-			$this->action_access['public']   = array_merge( $this->action_access['public'], [ 'webhook', 'create_payment_intent_for_transaction' ] );
-			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [ 'create_payment_intent' ] );
+			$this->action_access['public']   = array_merge( $this->action_access['public'], [ 'webhook', 'create_payment_intent_for_transaction', 'create_payment_intent' ] );
+			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [] );
 			$this->views_folder              = LATEPOINT_VIEWS_ABSPATH . 'stripe_connect/';
 		}
 
