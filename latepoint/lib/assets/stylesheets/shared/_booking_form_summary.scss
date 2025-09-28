@@ -417,7 +417,7 @@
     a {
       text-decoration: none;
       color: $brand-primary;
-      font-size: $body-font-size-xxs;
+      font-size: $body-font-size-xs;
     }
     &.sbc-with-action {
       display: flex;
@@ -426,7 +426,7 @@
       .sbc-action {
         color: $brand-primary;
         cursor: pointer;
-        font-size: 14px;
+        font-size: $body-font-size-xs;
       }
     }
   }

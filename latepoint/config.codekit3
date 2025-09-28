@@ -5605,6 +5605,19 @@
       "oAP" : "\/public\/fonts\/latepoint-semibold.woff2",
       "oF" : 0
     },
+    "\/public\/images\/admin-bg.png" : {
+      "ft" : 32768,
+      "iS" : 226509,
+      "oA" : 0,
+      "oAP" : "\/public\/images\/admin-bg.png",
+      "oF" : 0,
+      "oIPL" : 0,
+      "opt" : 0,
+      "oT" : 1,
+      "ou" : "lpckwebp-none",
+      "q" : 90,
+      "rq" : 75
+    },
     "\/public\/images\/apple-logo-compact.png" : {
       "ft" : 32768,
       "iS" : 8177,

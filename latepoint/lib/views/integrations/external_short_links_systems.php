@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="latepoint-settings-w os-form-w">
   <form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('settings', 'update')); ?>">
 	  <?php wp_nonce_field('update_settings'); ?>
-		<div class="os-section-header"><h3><?php esc_html_e('Short Links Systems', 'latepoint'); ?></h3></div>
+		<div class="os-section-header"><h3><?php esc_html_e('Available URL Shortener', 'latepoint'); ?></h3></div>
 		<?php
 		if($available_short_links_systems){
 			echo '<div class="os-togglable-items-w">';

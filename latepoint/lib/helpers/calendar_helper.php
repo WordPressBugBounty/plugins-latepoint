@@ -566,7 +566,7 @@ class OsCalendarHelper {
 
 		$settings = OsUtilHelper::merge_default_atts( $defaults, $settings );
 
-        return '<a href="#" data-os-after-call="latepoint_init_calendar_quick_actions" data-os-lightbox-classes="width-400" class="day-action-trigger" data-os-output-target="lightbox" data-os-params="'.OsUtilHelper::build_os_params(['target_date' => $day_date->format('Y-m-d'), 'start_time' => $settings['start_time'], 'agent_id' => $settings['agent_id'], 'location_id' => $settings['location_id'], 'service_id' => $settings['service_id']]).'" data-os-action="'.OsRouterHelper::build_route_name('calendars', 'quick_actions').'"></a>';
+        return '<a href="#" data-os-after-call="latepoint_init_calendar_quick_actions" data-os-lightbox-classes="width-400" class="day-action-trigger" data-os-output-target="lightbox" data-os-params="'.OsUtilHelper::build_os_params(['target_date' => $day_date->format('Y-m-d'), 'start_time' => $settings['start_time'], 'agent_id' => $settings['agent_id'], 'location_id' => $settings['location_id'], 'service_id' => $settings['service_id']]).'" data-os-action="'.OsRouterHelper::build_route_name('calendars', 'quick_actions').'"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></a>';
 	}
 
 

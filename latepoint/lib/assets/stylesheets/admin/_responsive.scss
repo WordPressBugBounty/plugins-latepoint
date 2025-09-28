@@ -470,6 +470,41 @@
   }
 }
 @media (max-width: 600px){
+    .latepoint-side-panel-w {
+      z-index: 10000;
+    }
+  .cc-panel {
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+
+  .daily-availability-calendar .os-monthly-calendar-days {
+    display: flex;
+    background-color: transparent;
+    margin: 2px;
+  }
+  .daily-availability-calendar.horizontal-calendar {
+    border-left: none;
+    border-right: none;
+  }
+
+  .os-calendar-view-toggle {
+    padding: 7px;
+  }
+
+  .os-calendar-view-toggle .os-calendar-view-option {
+    padding: 5px 8px;
+    flex: 1;
+    border-radius: $border-radius;
+  }
+  .cc-view {
+    margin-right: 0;
+  }
+  .cc-actions {
+    margin-right: 0;
+  }
   .latepoint-side-panel-w {
     padding: 1vh;
     padding: 1dvh;
@@ -616,11 +651,11 @@
     .cc-view {
       border-right: none;
       padding-right: 0;
+      flex: 1;
     }
     .cc-actions {
-      margin-left: auto;
+      margin-right: auto;
       border-left: none;
-      padding-left: 0;
       order: 1;
     }
     .os-calendar-settings-toggler-wrapper {
@@ -628,8 +663,6 @@
     }
     .os-calendar-settings-toggler-wrapper {
       .calendar-settings-toggler {
-        border: 1px solid $border-color-strong;
-        padding: 3px 5px;
       }
     }
     .os-current-month-label {
@@ -900,9 +933,13 @@
   .os-page-tab-active:nth-child(n+6) {
     order: -1;
   }
+  .calendar-daily-agent-w .calendar-hours .ch-hours {
+    flex: 0 0 50px;
+  }
   .daily-agent-calendar-w {
-    margin-left: -15px;
-    margin-right: -15px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
   .daily-availability-calendar {
     .os-monthly-calendar-days-w {
@@ -916,7 +953,7 @@
     }
     .os-monthly-calendar-days .os-day {
       width: auto;
-      flex: 0 0 45px;
+      flex: 0 0 50px;
     }
   }
   .daily-availability-calendar .os-monthly-calendar-days .os-day.selected .os-day-box .os-day-number {
@@ -949,6 +986,7 @@
   .latepoint-side-menu-w.side-menu-full {
     .side-menu-top-part-w {
       padding: 20px 12px;
+      display: none;
       .logo-w {
         display: none;
       }
@@ -1662,10 +1700,18 @@
       width: 100%;
     }
   }
+  .calendar-view-wrapper {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .weekly-calendar-agents-list {
+    margin-left: 20px;
+  }
   .calendar-week-agent-w {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
     .calendar-self-w {
-      margin-left: -15px;
-      margin-right: -15px;
     }
     .calendar-hours {
       position: relative;
@@ -1673,7 +1719,7 @@
         border-left: none;
       }
       .ch-day-periods-w {
-        padding-left: 70px;
+        padding-left: 50px;
         position: relative;
         overflow: auto;
         .ch-day {
@@ -1688,10 +1734,10 @@
       .ch-day-periods {
       }
       .ch-hours {
-        z-index: 5;
+        z-index: 9;
         background-color: #fff;
-        flex: 0 0 70px;
-        width: 70px;
+        flex: 0 0 50px;
+        width: 50px;
         position: absolute;
         top: 0px;
         left: 0px;
@@ -1760,6 +1806,14 @@
       }
     }
   }
+  .daily-availability-calendar .os-monthly-calendar-days .os-day {
+    border-right: 1px solid $border-color-main;
+  }
+  .daily-availability-calendar .os-monthly-calendar-days .os-day.selected {
+    box-shadow: 0 0 0 2px $brand-primary;
+    border-radius: 6px;
+    border-right-color: transparent;
+  }
   .os-categories-ordering-w .os-category-parent-w .os-category-children {
     margin: 10px;
   }
@@ -1767,18 +1821,18 @@
     margin-top: 20px;
   }
   .daily-availability-calendar-wrapper {
-    margin-left: -15px;
-    margin-right: -15px;
     border-radius: 0;
     border-right: 0;
     border-left: 0;
     .daily-calendar-action-navigation-btn:first-child {
       border-left: none;
       border-right: 1px solid $border-color-light;
+      padding: 10px;
     }
     .daily-calendar-action-navigation-btn:last-child {
       border-right: none;
       border-left: 1px solid $border-color-light;
+      padding: 10px;
     }
   }
   .daily-availability-calendar.horizontal-calendar .os-monthly-calendar-days .os-day:last-child .os-day-box {
@@ -1797,8 +1851,9 @@
     margin-bottom: 20px;
   }
   .calendar-month-agents-w {
-    margin-left: -15px;
-    margin-right: -15px;
+    border-right: none;
+    border-radius: 0;
+    border-left: none;
     .ma-floated-days-w {
       border-left: none;
     }
@@ -1974,7 +2029,7 @@
       top: 0px;
       left: 0px;
       right: 0px;
-      z-index: 9999;
+      z-index: 10000;
       background-color: #fff;
       justify-content: space-between;
       align-items: center;
@@ -2258,7 +2313,7 @@
       right: 0px;
       bottom: 0px;
       overflow-y: auto;
-      z-index: 9998;
+      z-index: 10000;
       animation: 0.3s cubic-bezier(0.05, 0.45, 0.1, 1) 0s mobileSideMenuAnimation;
       animation-fill-mode: both;
       .back-to-wp-link {

@@ -10,8 +10,8 @@
   background-color: rgba(65,73,90,0.13);
   display: flex;
   align-items: stretch;
-  padding: 2vh;
-  padding: 2dvh;
+  padding: 1vh;
+  padding: 1dvh;
   .latepoint-side-panel-shadow {
     flex: 1;
   }
@@ -19,8 +19,8 @@
     display: flex;
     flex-direction: row-reverse;
     box-shadow: 0px 10px 60px rgba(0,0,0, 0.15), 0px 2px 6px rgba(0,0,0,0.2);
-    height: 96vh;
-    height: 96dvh;
+    height: 98vh;
+    height: 98dvh;
     overflow: hidden;
     border-radius: $lightbox-border-radius;
   }

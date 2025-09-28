@@ -23,7 +23,7 @@ if($agents){ ?>
 		$agents_head_html.=
 			'<div class="ma-head-agent">
 				<div class="ma-head-agent-avatar" style="background-image: url('.esc_url($agent->get_avatar_url()).')"></div>
-				<div class="ma-head-agent-name">'.esc_html($agent->full_name).'</div>
+				<div class="ma-head-agent-name"><a href="'.esc_url(OsRouterHelper::build_link(['agents', 'edit_form'], ['id' => $agent->id])).'">'.esc_html($agent->full_name).'</a></div>
 			</div>';
 	}
 	$calendar_not_scrollable_class = (count($agents) > 4) ? '' : 'calendar-month-not-scrollable';
@@ -95,16 +95,18 @@ if($agents){ ?>
                                     foreach($off_blocks as $off_block){
                                         echo '<div class="ma-day-off" style="left:'.esc_attr($off_block["left"]).'%; right: '.esc_attr($off_block["right"]).'%;"></div>';
                                     }
+                                    echo '<div class="ma-day-work-periods-w">';
+                                    echo '<div class="ma-day-label">'.esc_html($day_date->format($date_format)).'</div>';
                                     echo '<div class="ma-day-work-periods">';
-                                    echo '<div class="ma-day-label">'.esc_html($day_date->format($date_format)).': </div>';
                                     foreach($day_periods as $day_period){
                                         echo '<div class="ma-day-work-period">';
                                         echo esc_html(OsTimeHelper::minutes_to_hours_and_minutes($day_period->start_time).' - '.OsTimeHelper::minutes_to_hours_and_minutes($day_period->end_time));
                                         echo '</div>';
                                     }
                                     echo '</div>';
+                                    echo '</div>';
                                 } else {
-	                                echo '<div class="ma-day-off full"><span><strong>' . esc_html( $day_date->format( $date_format ) ) . ': </strong>' . esc_html__( 'Day Off', 'latepoint' ) . '</span></div>';
+	                                echo '<div class="ma-day-off full"><div class="ma-day-work-periods-w"><div class="ma-day-label">'.esc_html($day_date->format($date_format)).'</div><div class="ma-day-work-periods"><div class="ma-day-work-period">' . esc_html__( 'Day Off', 'latepoint' ) . '</div></div></div></div>';
                                 }
 
                                 // show booking even if day is off

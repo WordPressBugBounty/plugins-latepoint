@@ -475,12 +475,13 @@
 
 
 .appointment-box-small {
-  background: #FFFFFF;
-  display: flex;
-  align-items: center;
+  background-color: #fff;
   position: relative;
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: $border-radius-sm;
+  box-shadow: 0 20px 50px -10px rgba(0,0,0, 0.45), inset 2px 2px 0 0 #fff;
+  overflow: hidden;
   .edit-appointment-btn {
     position: absolute;
     top: 10px;
@@ -498,6 +499,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 4px;
+      font-size: $body-font-size-xxs;
       span, strong {
         display: block;
       }
@@ -511,31 +513,51 @@
   }
   .appointment-capacity-progress-w {
     background-color: rgba($brand-primary, 0.1);
+    border-radius: $border-radius;
     .appointment-capacity-progress {
-      height: 10px;
+      height: 3px;
       background-color: $brand-primary;
       border-radius: $border-radius;
     }
   }
   .appointment-info {
-    padding: 10px 25px;
     flex: 1;
     position: relative;
+    padding: 20px 45px;
+    &:before {
+      content: "";
+      z-index: -1;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      border-radius: 0 0px 0 50px;
+      background-image: radial-gradient(#d6d6d6 1px, transparent 0);
+      background-size: 12px 12px;
+      background-position: top right;
+    }
     .appointment-color-elem {
       position: absolute;
-      top: 0px;
-      left: 0px;
-      bottom: 0px;
-      width: 2px;
+      top: 22px;
+      left: 18px;
+      width: 15px;
+      height: 15px;
+      border-radius: 10px;
     }
     .appointment-service-name {
       font-weight: $body-font-weight-bold;
-      font-size: floor($font-size-base * 1.2);
-      margin-bottom: 5px;
+      font-size: $body-font-size-m;
+      color: $headings-color;
+      margin-bottom: 3px;
+      white-space: nowrap;
     }
     .appointment-time {
       white-space: nowrap;
-      font-size: floor($font-size-base * 0.9);
+      font-size: $body-font-size-xs;
+      display: flex;
+      gap: 5px;
+
       .at-date {
         color: $color-faded;
         margin-bottom: 1px;
@@ -553,14 +575,13 @@
     border-left: 1px solid rgba(0,0,0,0.05);
 
     .avatar-w {
-      width: 50px;
-      height: 50px;
-      flex: 0 0 50px;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
       border-radius: 50%;
       background-size: cover;
       background-position: center center;
       margin-right: 15px;
-      box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.4);
     }
     .agent-info {
 
@@ -569,7 +590,6 @@
       font-weight: $body-font-weight-bold;
       font-size: floor($font-size-base * 1);
       color: $brand-primary;
-      margin-bottom: 3px;
     }
     .agent-property {
       margin-bottom: 2px;
@@ -583,40 +603,55 @@
     }
   }
   .customer-info-w {
-    padding: 18px 15px 18px 15px;
+    padding: 15px;
+    padding-bottom: 20px;
     display: flex;
-    flex: 0 0 55%;
     align-items: center;
     overflow: hidden;
-    border-left: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid $border-color-lightest;
+    gap: 15px;
+    position: relative;
 
     .avatar-w {
-      width: 50px;
-      height: 50px;
-      flex: 0 0 50px;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
       border-radius: 50%;
       background-size: cover;
       background-position: center center;
-      margin-right: 15px;
-      box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.4);
     }
     .customer-info {
 
     }
     .customer-name {
       font-weight: $body-font-weight-bold;
-      font-size: floor($font-size-base * 1);
+      font-size: $body-font-size-xs;
+      margin-bottom: 5px;
       color: $brand-primary;
-      margin-bottom: 3px;
+      border-bottom: 1px dotted $brand-primary;
+      display: inline-block;
     }
     .customer-property {
-      margin-bottom: 2px;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
       .label {
         color: $color-faded;
+        width: 20px;
+        display: block;
+        i {
+          display: block;
+          font-size: 12px;
+        }
       }
       .value {
+        display: block;
         font-weight: $body-font-weight-bold;
+        font-size: $body-font-size-xxs;
+      }
+      & + .customer-property {
+        margin-top: 3px;
       }
     }
   }
@@ -689,65 +724,8 @@
       }
     }
   }
-  .appointment-box-small {
-    padding: 0px 0px 15px 0px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid $border-color-sub;
-    .customer-info-w {
-      padding: 0px 15px;
-    }
-    .appointment-info {
-      padding: 0px 20px;
-    }
-    .appointment-color-elem {
-      top: 7px;
-      bottom: auto;
-      left: 0px;
-      width: 6px;
-      height: 6px;
-    }
-    &:last-child {
-      border-bottom: none;
-      padding-bottom: 0px;
-      margin-bottom: 0px;
-    }
-
-    &.os-loading {
-      &:after {
-        @include loading-circle($brand-primary, 20px);
-        left: 3px;
-        top: 10px;
-      }
-      animation:animate_appointment_small_box 0.8s ease infinite;
-      .appointment-color-elem {
-        border-radius: 10px;
-      }
-    }
-  }
   .no-results-w:nth-child(8) {
     display: none;
-  }
-}
-
-.os-widget-agents-bookings-timeline {
-  .appointment-box-small {
-    display: block;
-    box-shadow: 0 20px 40px 0 rgba(108, 120, 143, 0.15), 0 1px 2px 0 rgba(206, 211, 222, 0.7);
-
-    .appointment-info {
-      flex: 1;
-      padding: 10px 15px;
-    }
-
-    .customer-info-w {
-      flex: 1;
-      padding: 10px 15px;
-      border-top: 1px solid rgba(0,0,0,0.05);
-      border-left: none;
-      .customer-name {
-        font-size: floor($font-size-base * 1);
-      }
-    }
   }
 }
 
@@ -1233,7 +1211,6 @@ $avatar-gap: 30px;
         }
         .appointment-box-small {
           position: absolute;
-          border-radius: $border-radius-lg;
           top: 0px;
           left: 50%;
           transform: translate(-50%, -110%);

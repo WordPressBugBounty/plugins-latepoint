@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
     if (latepoint_helper.start_from_order_intent_key) {
         $('body').append('<div class="latepoint-continue-intent-loading"></div>');
 
-        var data = {
+        let data = {
             action: latepoint_helper.route_action,
             route_name: latepoint_helper.start_from_order_intent_route,
             params: {order_intent_key: latepoint_helper.start_from_order_intent_key},

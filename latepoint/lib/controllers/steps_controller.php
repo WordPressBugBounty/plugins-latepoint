@@ -13,14 +13,15 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 
 		function __construct() {
 			parent::__construct();
-			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [ 'start_from_order_intent' ] );
+			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [  ] );
 			$this->action_access['public']   = array_merge( $this->action_access['public'], [
 				'start',
 				'start_instant',
 				'load_step',
 				'reload_booking_form_summary_panel',
 				'check_order_intent_bookable',
-				'load_datepicker_month'
+				'load_datepicker_month',
+				'start_from_order_intent'
 			] );
 
 			$this->views_folder          = LATEPOINT_VIEWS_ABSPATH . 'steps/';

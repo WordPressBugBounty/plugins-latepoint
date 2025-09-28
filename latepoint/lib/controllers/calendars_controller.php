@@ -286,7 +286,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 				}
 
 
-				$resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $calendar_start, $calendar_end );
+				$resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $calendar_start, $calendar_end, ['accessed_from_backend' => true] );
 
 				// if user wants to overlay availability for a specific service - we need to create a separate set of resources
 				// for the work boundaries, since the original one is only querying that service and not all other "shown" services,
@@ -352,7 +352,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 			$this->vars['calendar_start'] = $calendar_start;
 			$this->vars['calendar_end']   = $calendar_end;
 
-			$this->vars['date_format'] = OsSettingsHelper::get_readable_date_format( true );
+			$this->vars['date_format'] = OsSettingsHelper::get_readable_date_format( true, true );
 
 			$this->vars['target_date']    = new OsWpDateTime( $calendar_settings['target_date_string'] );
 			$this->vars['today_date']     = $today_date;

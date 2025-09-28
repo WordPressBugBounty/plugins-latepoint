@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			$settings_for_single_month = [
 				'active' => true,
 				'layout' => 'horizontal',
-				'accessed_from_backend' => false, // we don't want it to filter based on access, since we already filtered that internally in booking request
+				'accessed_from_backend' => true,
 				'highlight_target_date' => true,
                 'output_target_date_in_header' => true
 			];
@@ -83,7 +83,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<div class="da-head-agent">
 							<div class="da-head-agent-avatar" style="background-image: url(<?php echo esc_url($agent->get_avatar_url()); ?>)"></div>
 							<a href="<?php echo esc_url(OsRouterHelper::build_link(['agents', 'edit_form'], ['id' => $agent->id])); ?>" class="da-head-agent-name"><?php echo esc_html($agent->full_name); ?></a>
-                            <?php echo OsCalendarHelper::generate_calendar_quick_actions_link($day_date, ['agent_id' => $agent->id, 'start_time' => $work_boundaries->start_time]); ?>
 						</div>
 					<?php } ?>
 					</div>
@@ -91,6 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					  <?php foreach($agents as $agent){
 							$day_off_class = empty($work_time_periods_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]) ? 'agent-has-day-off' : ''; ?>
 							<div class="da-agent-bookings-and-periods">
+                                <?php echo OsCalendarHelper::generate_calendar_quick_actions_link($day_date, ['agent_id' => $agent->id, 'start_time' => $work_boundaries->start_time]); ?>
 								<div class="ch-day-periods ch-day-<?php echo esc_attr(strtolower($target_date->format('N'))); ?>">
 
 									<?php for($minutes = $work_boundaries->start_time; $minutes <= $work_boundaries->end_time; $minutes+= $timeblock_interval){ ?>

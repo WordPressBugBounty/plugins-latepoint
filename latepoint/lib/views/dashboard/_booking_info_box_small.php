@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="appointment-color-elem" style="background-color: <?php echo esc_attr($booking->service->bg_color); ?>"></div>
 		<div class="appointment-service-name"><?php echo esc_html($booking->service->name); ?></div>
 		<div class="appointment-time">
-			<div class="at-date"><?php echo esc_html($booking->nice_start_date); ?></div>
+			<div class="at-date"><?php echo esc_html($booking->nice_start_date); ?>,</div>
 			<div class="at-time"><?php echo esc_html(implode('-', array($booking->nice_start_time, $booking->nice_end_time))); ?></div>
 		</div>
 	</div>
@@ -18,11 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="customer-info">
 			<div class="customer-name"><?php echo esc_html($booking->customer->full_name); ?></div>
 			<div class="customer-property">
-				<span class="label"><?php esc_html_e('Phone: ', 'latepoint'); ?></span>
+				<span class="label"><i class="latepoint-icon latepoint-icon-phone-15"></i></span>
 				<span class="value"><?php echo esc_html($booking->customer->phone); ?></span>
 			</div>
 			<div class="customer-property">
-				<span class="label"><?php esc_html_e('Email: ', 'latepoint'); ?></span>
+				<span class="label"><i class="latepoint-icon latepoint-icon-mail-01"></i></span>
 				<span class="value"><?php echo esc_html($booking->customer->email); ?></span>
 			</div>
 		</div>

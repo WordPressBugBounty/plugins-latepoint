@@ -493,13 +493,10 @@
         .os-day-box {
 
           .os-day-status {
-            display: none;
-            background-color: $brand-primary;
           }
 
           .os-day-status {
             .day-available {
-              display: none;
             }
           }
         }
@@ -584,8 +581,8 @@
             background-color: #f87373;
             border-radius: 10px;
             position: absolute;
-            top: 2px;
-            right: 2px;
+            top: 4px;
+            right: 4px;
           }
         }
 
@@ -754,11 +751,6 @@
       right: 20px;
     }
 
-    &:hover {
-      .day-action-trigger {
-        display: block;
-      }
-    }
   }
 
   .da-agents-bookings {
@@ -770,6 +762,17 @@
     .da-agent-bookings-and-periods {
       flex: 1;
       position: relative;
+
+        .day-action-trigger {
+          z-index: 1001;
+          left: 50%;
+        }
+
+      &:hover {
+        .day-action-trigger {
+          display: block;
+        }
+      }
 
       &:last-child {
         .ch-day-periods {
@@ -821,7 +824,7 @@
 
     &:last-child {
       border-top-right-radius: $border-radius-lg;
-      border-right: none;
+      border-right-color: transparent;
     }
 
     .da-head-agent-avatar {
@@ -963,7 +966,7 @@
     font-size: $body-font-size-s;
     border-radius: $border-radius-sm;
     padding: 3px 8px;
-    color: $color-faded;
+    color: rgba(0,0,0,0.5);
     cursor: pointer;
     text-align: center;
     position: relative;
@@ -1230,7 +1233,7 @@
         cursor: copy;
 
         &.chd-period-off {
-          background-image: repeating-linear-gradient(90deg, #fff, #fff 2px, #cfcfcf 2px, #c2c2c2 3px);
+          background-image: repeating-linear-gradient(-37deg, rgba(1, 0, 10, 0.1) 0px, rgba(1, 0, 10, 0.1) 1px, transparent 1px, transparent 4px);
 
           &:hover {
             &:before {
@@ -1935,8 +1938,10 @@
   position: relative;
   $day-height: 35px;
   background-color: #fff;
-  border-radius: $border-radius-lg;
+  border-radius: $border-radius-lg 0 0 $border-radius-lg;
+  margin-right: -$content-padding;
   border: 1px solid $border-color-main;
+  overflow: clip;
 
   &.os-loading {
     .ma-days-with-bookings-i {
@@ -1962,22 +1967,24 @@
   .ma-head {
     display: flex;
     z-index: 2;
-    position: absolute;
-    top: 0px;
+    position: sticky;
+    top: 0;
     left: 80px;
-    right: 0px;
+    right: 0;
   }
 
   .ma-head-info {
     padding: 12px 15px 5px 15px;
     text-align: center;
     color: $color-faded;
-    width: 80px;
+    width: 60px;
     height: 51px;
     font-weight: $body-font-weight-bold;
     font-size: $font-size-base * 0.7;
     border-bottom: 1px solid $border-color-strong;
     position: relative;
+    background-color: #fff;
+    border-top-left-radius: $border-radius-lg;
 
 
     span {
@@ -2012,6 +2019,14 @@
       font-weight: $body-font-weight-bold;
       margin-right: auto;
       white-space: nowrap;
+      a {
+        text-decoration: none;
+        color: $headings-color;
+        border-bottom: 1px dotted $headings-color;
+        &:hover {
+          color: $border-radius;
+        }
+      }
     }
   }
 
@@ -2073,35 +2088,38 @@
         align-items: stretch;
         font-size: $font-size-base * 0.7;
         font-weight: $body-font-weight-bold;
-        flex: 0 0 80px;
+        flex: 0 0 60px;
         background-color: #fff;
+        font-family: $mono-font-family;
 
         .ma-day-number {
           border-right: 1px solid $border-color-lightest;
-          flex: 0 0 30px;
+          flex: 0 0 25px;
           line-height: $day-height;
-          text-align: center;
+          text-align: right;
+          padding-right: 5px;
+          border-bottom: 1px solid $border-color-lightest;
         }
 
         .ma-day-weekday {
           text-transform: uppercase;
-          letter-spacing: 2px;
+          letter-spacing: 1px;
           text-align: center;
-          flex: 0 0 50px;
+          flex: 0 0 35px;
           color: $color-faded;
           line-height: $day-height;
+          border-bottom: 1px solid $border-color-lightest;
         }
       }
     }
   }
 
   .ma-days-with-bookings-w {
-    padding-left: 80px;
+    padding-left: 60px;
     position: relative;
     overflow-x: auto;
 
     .ma-days-with-bookings-i {
-      padding-top: 52px;
     }
 
     .ma-day {
@@ -2109,28 +2127,50 @@
       height: $day-height;
 
       .ma-day-agent-bookings {
-        border-right: 1px solid #d8d8d8;
         flex: 0 0 249px;
         position: relative;
+        box-shadow: inset -1px 0 0 0 #dbdbdb;
 
         .ma-day-work-periods {
+          display: flex;
+        }
+        .ma-day-work-periods-w {
           display: none;
           position: absolute;
-          top: 0px;
-          left: 50%;
-          transform: translate(-50%, -100%);
-          background-color: #5c95ff;
+          top: -5px;
+          transform: translateY(-100%);
+          left: -6px;
+          right: -6px;
+          background-color: #62bda4;
           color: #fff;
-          padding: 3px 6px 4px;
-          font-size: floor($font-size-base * 0.7);
+          padding: 6px 12px 4px 12px;
+          font-size: $body-font-size-s;
           font-weight: $body-font-weight-bold;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
           white-space: nowrap;
+          border-radius: 12px 12px 0 0;
+          &:before {
+            content: "";
+            z-index: -1;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            border-radius: 0 0 0 50px;
+            background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 0);
+            background-size: 12px 12px;
+            background-position: top right;
+          }
 
           .ma-day-label {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.4);
             margin-right: 3px;
+            font-size: $body-font-size-l;
+            line-height: 1;
+          }
+
+          .ma-day-work-period {
+            font-size: $body-font-size-xs;
           }
 
           .ma-day-work-period + .ma-day-work-period {
@@ -2147,17 +2187,21 @@
         }
 
         &:hover {
-          box-shadow: 0px 0px 0px 2px #6b9fff, 0px 0px 0px 6px rgba(107, 159, 255, 0.22);
+          border-radius: 0 0 8px 8px;
+          box-shadow: 0px 0px 0px 3px #fff, 0 0 0 6px #62bda4;
           z-index: 9999;
           position: relative;
           background-color: #fff !important;
+          border-right-color: transparent;
 
-          .ma-day-work-periods {
-            display: flex;
+          .ma-day-work-periods-w {
+            display: block;
+            justify-content: space-between;
+            align-items: center;
           }
 
           &.is-day-off {
-            box-shadow: 0px 0px 0px 2px #fc6f6f, 0px 0px 0px 6px rgba(255, 103, 103, 0.22);
+            box-shadow: 0px 0px 0px 3px #fff, 0 0 0 6px #bd7062;
           }
         }
 
@@ -2167,30 +2211,14 @@
           left: 0px;
           right: 0px;
           position: absolute;
-          background-image: repeating-linear-gradient(90deg, #fff, #fff 2px, #cfcfcf 2px, #c2c2c2 3px);
+          background-image: repeating-linear-gradient(125deg, #fff, #fff 4px, #ccc 4px, #ccc 5px);
 
-          strong {
-            color: rgba(255, 255, 255, 0.8);
-          }
-
-          span {
-            position: absolute;
-            top: 0px;
-            left: 50%;
-            color: #fff;
-            padding: 3px 6px 4px;
-            line-height: 1.1;
-            background-color: #e02727;
-            display: none;
-            transform: translate(-50%, -100%);
-            font-size: floor($font-size-base * 0.7);
-            text-transform: uppercase;
-            font-weight: $body-font-weight-bold;
-            letter-spacing: 0.5px;
+          .ma-day-work-periods-w {
+            background-color: #bd7062;
           }
 
           &.full:hover {
-            background-image: repeating-linear-gradient(90deg, #fff, #fff 2px, #e86464 2px, #e86464 3px);
+            background-image: repeating-linear-gradient(125deg, #fff, #fff 4px, #d1958a 4px, #d1958a 5px);
 
             span {
               display: block;
@@ -2199,11 +2227,14 @@
         }
 
         .ma-day-booking {
-          top: 12px;
-          bottom: 12px;
+          top: 7px;
+          bottom: 7px;
           position: absolute;
           cursor: pointer;
           box-shadow: inset -1px 0px 0px 0px #fff;
+          border-radius: 8px;
+          transition: all 0.1s ease;
+
 
           &:hover {
           }
@@ -2227,26 +2258,18 @@
             transition: all 0.2s ease;
             display: block;
             align-items: flex-start;
-            box-shadow: 0 20px 40px 0 rgba(108, 120, 143, 0.15), 0 1px 2px 0 rgba(206, 211, 222, 0.7);
             z-index: 999;
 
             .appointment-info {
-              flex: 1;
-              padding: 15px 30px 10px 20px
             }
 
             .customer-info-w {
-              flex: 1;
-              padding: 15px 10px 15px 20px;
-              align-items: flex-start;
-              border-left: none;
-              border-top: 1px solid rgba(0, 0, 0, 0.05);
             }
           }
 
           &:hover {
-            top: 10px;
-            bottom: 10px;
+            top: 0px;
+            bottom: 0px;
 
             .appointment-box-small {
               transform: translate(-50%, -105%);
@@ -2347,8 +2370,10 @@
 
   .ma-floated-days-w,
   .ma-days-with-bookings-w {
-    .ma-day {
+    .ma-day-agent-bookings {
       border-bottom: 1px solid $border-color-lightest;
+    }
+    .ma-day {
 
       &:nth-child(even) {
         .ma-day-agent-bookings {
@@ -2400,8 +2425,11 @@
 
 
   &.calendar-month-not-scrollable {
+    border-radius: $border-radius-lg;
+    margin-right: 0;
+    overflow: clip;
     .ma-days-with-bookings-w {
-      overflow-x: visible;
+      overflow: visible;
     }
 
     .ma-head-agent {
@@ -3373,17 +3401,23 @@
 
 .day-action-trigger {
   display: none;
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   position: absolute;
   top: 0px;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: $brand-primary;
+  background-color: #fff;
   border-radius: 50%;
-  box-shadow: 0 0 0 4px #fff;
+  text-decoration: none;
+  border: 1px solid $border-color-main;
+  color: $headings-color;
 
   &.os-loading {
+    color: transparent;
+    i {
+      color: transparent;
+    }
     &:after {
       display: none;
     }
@@ -3391,36 +3425,21 @@
     &:before {
       width: auto;
       height: auto;
-      @include loading-circle(#fff, 12px);
+      @include loading-circle($headings-color, 12px);
     }
   }
 
-  &:before {
-    content: "";
-    width: 10px;
-    height: 2px;
-    background-color: #fff;
+  i {
+    color: $headings-color;
+    line-height: 24px;
+    text-decoration: none;
+    text-align: center;
     display: block;
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    transform: translate3d(-50%, -50%, 0);
-  }
-
-  &:after {
-    position: absolute;
-    content: "";
-    width: 10px;
-    height: 2px;
-    background-color: #fff;
-    transform: translate3d(-50%, -50%, 0) rotate(90deg);
-    display: block;
-    top: 50%;
-    left: 50%;
+    font-size: 16px;
   }
 
   &:hover {
-    background-color: lighten($brand-primary, 10%);
+    border-color: $headings-color;
 
     &:before, &:after {
       background-color: #fff;
@@ -3430,15 +3449,14 @@
 
 
 .ch-day-blocked-period {
-  background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+  background-image: repeating-linear-gradient(-37deg, #ffadad 0px, #ffadad 1px, transparent 1px, transparent 4px);
   color: #fff;
   position: absolute;
   left: 0px;
   right: 0px;
   text-align: left;
-  z-index: 999;
+  z-index: 3;
   cursor: pointer;
-  transition: all 0.2s ease;
 
   &.os-loading {
     &:before {
@@ -3451,8 +3469,9 @@
 
   .ch-day-blocked-period-i {
     visibility: hidden;
-    background-color: #ed2e2e;
+    background-color: #d54b3f;
     padding: 3px 6px;
+    border-radius: $border-radius;
   }
 
   .blocked-period-summary {
@@ -3464,7 +3483,9 @@
   }
 
   &:hover {
-    background-image: repeating-linear-gradient(90deg, #ffe8e8, #ffe8e8 2px, #ffadad 2px, #ffadad 3px);
+    background-image: repeating-linear-gradient(-37deg, #ff8282 0px, #ff8282 1px, transparent 1px, transparent 4px);
+    border-radius: $border-radius;
+    box-shadow: 0 0 0 5px rgba(255, 130, 130, 0.2);
 
     .ch-day-blocked-period-i {
       visibility: visible;
