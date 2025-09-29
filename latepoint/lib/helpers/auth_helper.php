@@ -680,11 +680,11 @@ class OsAuthHelper {
 	// UTILS
 
 	public static function hash_password( $password ) {
-		return password_hash( $password, PASSWORD_DEFAULT );
+		return wp_hash_password( $password, PASSWORD_DEFAULT );
 	}
 
 	public static function verify_password( $password, $hash ) {
-		return password_verify( $password, $hash );
+		return wp_check_password( $password, $hash );
 	}
 
 }

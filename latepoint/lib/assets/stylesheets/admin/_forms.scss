@@ -1639,7 +1639,7 @@ form > .os-form-sub-header:first-child {
 
   .capacity-info {
     padding: 9px;
-    border-radius: 6px;
+    border-radius: $form-controls-border-radius;
     background-color: #eff2f7;
     text-align: center;
     font-weight: $body-font-weight-bold;

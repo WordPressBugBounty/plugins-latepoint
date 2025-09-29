@@ -18,6 +18,38 @@
   position: relative;
   box-shadow: none;
 
+  .back-to-wp-link {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    background-color: #111;
+    color: #fff;
+    padding: 6px;
+    border-radius: 20px;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    i, span {
+      display: block;
+    }
+    i {
+      font-size: 20px;
+    }
+    span {
+      padding-right: 10px;
+      display: none;
+    }
+    &:hover {
+      background-color: $brand-primary;
+      span {
+        display: block;
+      }
+    }
+  }
+
   ul.side-menu {
     padding: 20px;
     margin: 0;
@@ -329,76 +361,28 @@
     display: none;
   }
 
-  &.side-menu-compact {
-    ul.side-menu {
-      li:not(.menu-item-is-active):first-child {
-      }
-    }
-
-    .side-menu-top-part-w {
+  .side-menu-fold-trigger {
+    text-decoration: none;
+    color: rgba(0,0,0,0.3);
+    position: relative;
+    font-size: 20px;
+    line-height: 1;
+    padding: 5px;
+    border-radius: $border-radius;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    display: block;
+    i {
       display: block;
-
-      .logo-w {
-        display: block;
-        text-decoration: none;
-        padding: 18px 15px;
-        border-bottom: 1px solid $border-color-main;
-        height: $top-bar-height;
-      }
-
-      .os-logo {
-        text-decoration: none;
-        @include logo(11px, $brand-primary);
-      }
-
-      .menu-color-toggler {
-        display: none;
-      }
-
-      .menu-toggler {
-        padding: 28px 20px;
-        cursor: pointer;
-        border-bottom: 1px solid $border-color-main;
-
-        &:hover {
-          .menu-toggler-lines {
-            background-color: $side-menu-icon-color;
-
-            &:after,
-            &:before {
-              background-color: $side-menu-icon-color;
-            }
-          }
-        }
-      }
-
-      .menu-toggler-lines {
-        height: 2px;
-        background-color: $color-faded;
-        position: relative;
-        margin-bottom: 1px;
-
-        &:before {
-          position: absolute;
-          top: -9px;
-          left: 0px;
-          right: 0px;
-          background-color: $color-faded;
-          content: "";
-          height: 2px;
-        }
-
-        &:after {
-          position: absolute;
-          bottom: -9px;
-          left: 0px;
-          right: 0px;
-          background-color: $color-faded;
-          content: "";
-          height: 2px;
-        }
-      }
     }
+    &:hover {
+      color: $headings-color;
+    }
+  }
+
+  .latepoint-mobile-top-menu-trigger {
+    display: none;
   }
 
   &.side-menu-full {
@@ -425,36 +409,18 @@
     }
 
     .side-menu-top-part-w {
-      padding: 32px 30px 32px;
+      padding: 22px 30px 22px;
       align-items: center;
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid $border-color-lightest;
 
-      .latepoint-mobile-top-menu-trigger {
-        display: none;
-      }
 
       .os-logo {
         text-decoration: none;
         @include logo(8px, $logo-color);
       }
 
-      .menu-toggler {
-        padding: 10px 0px;
-        cursor: pointer;
-
-        &:hover {
-          .menu-toggler-lines {
-            background-color: $brand-primary;
-
-            &:after,
-            &:before {
-              background-color: $brand-primary;
-            }
-          }
-        }
-      }
 
       .menu-toggler-lines {
         width: 12px;
@@ -485,37 +451,6 @@
       }
     }
 
-    .back-to-wp-link {
-      position: fixed;
-      bottom: 5px;
-      left: 5px;
-      background-color: #111;
-      color: #fff;
-      padding: 6px;
-      border-radius: 20px;
-      text-decoration: none;
-      border: none;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      i, span {
-        display: block;
-      }
-      i {
-        font-size: 20px;
-      }
-      span {
-        padding-right: 10px;
-        display: none;
-      }
-      &:hover {
-        background-color: $brand-primary;
-        span {
-          display: block;
-        }
-      }
-    }
 
     li.back-to-wp-item {
       display: none;

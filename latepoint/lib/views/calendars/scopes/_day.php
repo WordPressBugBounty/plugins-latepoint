@@ -134,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 											}
 										}
 									}
-									do_action('latepoint_calendar_daily_timeline', $target_date, ['agent_id' => $agent->id, 'work_start_minutes' => $work_boundaries->start_time, 'work_end_minutes' => $work_boundaries->end_time, 'work_total_minutes' => $work_total_minutes]);
+									do_action('latepoint_calendar_daily_timeline', $target_date, ['agent_id' => $agent->id, 'work_start_minutes' => $work_boundaries->start_time, 'work_end_minutes' => $work_boundaries->end_time, 'work_total_minutes' => $work_total_minutes, 'location_id' => $booking_request->location_id, 'service_id' => $booking_request->service_id]);
 									?>
 								</div>
 							</div>

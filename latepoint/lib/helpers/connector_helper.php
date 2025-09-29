@@ -17,7 +17,7 @@ class OsConnectorHelper {
 		if($filter_based_on_access && !OsRolesHelper::are_all_records_allowed('agent')){
 			$allowed_ids = OsRolesHelper::get_allowed_records('agent');
 			// if nothing is allowed, or the requested ID is not part of allowed - return blank
-			if(empty($allowed_ids) || ($booking_request->agent_id && !in_array($booking_request->agent_id, $allowed_ids))) return [];
+			if(empty($allowed_ids) || ($allowed_ids != LATEPOINT_ALL && (is_array($booking_request->agent_id) && !empty(reset($booking_request->agent_id)) && !array_intersect($booking_request->agent_id, $allowed_ids)))) return [];
 			if($booking_request->agent_id){
 				$connection_model->where(['agent_id' => $booking_request->agent_id]);
 			}else{
@@ -57,7 +57,7 @@ class OsConnectorHelper {
 		if($filter_based_on_access && !OsRolesHelper::are_all_records_allowed('location')){
 			$allowed_ids = OsRolesHelper::get_allowed_records('location');
 			// if nothing is allowed, or the requested ID is not part of allowed - return blank
-			if(empty($allowed_ids) || ($booking_request->location_id && !in_array($booking_request->location_id, $allowed_ids))) return [];
+			if(empty($allowed_ids) || ($allowed_ids != LATEPOINT_ALL && (is_array($booking_request->location_id) && !empty(reset($booking_request->location_id)) && !array_intersect($booking_request->location_id, $allowed_ids)))) return [];
 			if($booking_request->location_id){
 				$connection_model->where(['location_id' => $booking_request->location_id]);
 			}else{
@@ -98,7 +98,7 @@ class OsConnectorHelper {
 		if($filter_based_on_access && !OsRolesHelper::are_all_records_allowed('service')){
 			$allowed_ids = OsRolesHelper::get_allowed_records('service');
 			// if nothing is allowed, or the requested ID is not part of allowed - return blank
-			if(empty($allowed_ids) || ($booking_request->service_id && !in_array($booking_request->service_id, $allowed_ids))) return [];
+			if(empty($allowed_ids) || ($allowed_ids != LATEPOINT_ALL && (is_array($booking_request->service_id) && !empty(reset($booking_request->service_id)) && !array_intersect($booking_request->service_id, $allowed_ids)))) return [];
 			if($booking_request->service_id){
 				$connection_model->where(['service_id' => $booking_request->service_id]);
 			}else{

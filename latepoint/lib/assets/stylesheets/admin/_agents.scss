@@ -140,7 +140,8 @@
 
 
 .disabled-items-wrapper {
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 40px;
   &:not(.is-open) {
     .disabled-items-boxes {
       display: none;

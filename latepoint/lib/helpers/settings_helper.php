@@ -315,15 +315,18 @@ class OsSettingsHelper {
 	}
 
 	public static function set_menu_layout_style( $layout ) {
-		OsSessionsHelper::setcookie( LATEPOINT_ADMIN_MENU_LAYOUT_STYLE_COOKIE, $layout );
+        $layout = in_array($layout, ['compact', 'full']) ? $layout : 'full';
+        update_user_meta(get_current_user_id(), 'latepoint_admin_menu_style', $layout);
 	}
 
-	public static function get_menu_layout_style() {
-		if ( ! isset( $_COOKIE[ LATEPOINT_ADMIN_MENU_LAYOUT_STYLE_COOKIE ] ) ) {
-			self::set_menu_layout_style( 'full' );
-		}
+	public static function get_menu_layout_style() : string {
+        $menu_style = get_user_meta(get_current_user_id(), 'latepoint_admin_menu_style', true);
 
-		return isset( $_COOKIE[ LATEPOINT_ADMIN_MENU_LAYOUT_STYLE_COOKIE ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ LATEPOINT_ADMIN_MENU_LAYOUT_STYLE_COOKIE ] ) ) : 'full';
+        // Set default if not set
+        if (empty($menu_style)) {
+            $menu_style = 'full'; // default value
+        }
+        return $menu_style;
 	}
 
 	public static function get_time_system() {

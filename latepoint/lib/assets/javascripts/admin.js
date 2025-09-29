@@ -68,7 +68,7 @@ jQuery(document).ready(function( $ ) {
   }, "[data-late-tooltip]");
 
   jQuery('body').on('click', '.disabled-items-open-trigger', function(){
-    jQuery('.disabled-items-wrapper').toggleClass('is-open');
+    jQuery(this).closest('.disabled-items-wrapper').toggleClass('is-open');
     return false;
   });
 

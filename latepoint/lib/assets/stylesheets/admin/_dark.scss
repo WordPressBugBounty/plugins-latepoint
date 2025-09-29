@@ -220,7 +220,7 @@ body.latepoint-admin.latepoint-dark {
   .latepoint-side-menu-w {
     background-color: $dark-bg;
     border-right-color: $dark-border-1;
-    &.side-menu-full .back-to-wp-link-w .back-to-wp-link {
+    .back-to-wp-link-w .back-to-wp-link {
       background-color: $dark-bg;
       border-color: $dark-brand-primary;
       color: $dark-brand-primary;

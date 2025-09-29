@@ -109,6 +109,16 @@ class OsLocationCategoryModel extends OsModel{
     return $this->active_locations;
   }
 
+  public function get_disabled_locations($filter_allowed_records = false){
+    if(!isset($this->disabled_locations)){
+      $location = new OsLocationModel();
+			if($filter_allowed_records) $location->filter_allowed_records();
+      $location->where(array('category_id'=> $this->id, 'status' => LATEPOINT_LOCATION_STATUS_DISABLED))->order_by('order_number asc');
+      $this->disabled_locations = $location->get_results_as_models();
+    }
+    return $this->disabled_locations;
+  }
+
   protected function get_locations($filter_allowed_records = false){
     if(!isset($this->locations)){
       $location = new OsLocationModel();

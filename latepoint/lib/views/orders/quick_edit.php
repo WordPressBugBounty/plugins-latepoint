@@ -72,7 +72,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				echo 'show-preselected-only';
 			} ?>">
                 <div class="os-form-sub-header">
-                    <h3><?php esc_html_e( 'Order Items', 'latepoint' ); ?></h3>
+                    <h3><?php echo OsCartsHelper::can_checkout_multiple_items() ? esc_html__( 'Order Items', 'latepoint' ) : esc_html__( 'Order Item', 'latepoint' ); ?></h3>
                     <div class="os-form-sub-header-actions">
 						<?php if ( OsCartsHelper::can_checkout_multiple_items() ) { ?>
                             <a href="#" data-add-label="<?php esc_attr_e( 'Add Another Item', 'latepoint' ); ?>" data-cancel-label="<?php esc_attr_e( 'Cancel', 'latepoint' ); ?>"

@@ -270,17 +270,6 @@ if ( ! defined( 'ABSPATH' ) ) {
                             </div>
                             <?php echo OsFormHelper::toggler_field( 'settings[require_otp_for_new_contacts]', __( 'Require OTP verification for new contacts', 'latepoint' ), OsSettingsHelper::is_on( 'require_otp_for_new_contacts' ), false, false, [ 'sub_label' => __( 'Require customers to verify their primary contact (email or phone) when they change it or add a new one, a 6 digit one-time code will be sent to their email or phone', 'latepoint' ) ] ); ?>
                         </div>
-
-                        <?php
-                        /**
-                         * Plug after customer authentication settings output
-                         *
-                         * @since 5.2.1
-                         * @hook latepoint_settings_general_authentication_after
-                         *
-                         */
-                        do_action( 'latepoint_settings_general_authentication_after' ); ?>
-
                     </div>
                 </div>
                 <div class="sub-section-row" id="customerStepSettings" <?php if(OsAuthHelper::is_customer_auth_disabled()){ ?>style="display: none;"<?php } ?>>

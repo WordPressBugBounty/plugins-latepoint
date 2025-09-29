@@ -335,15 +335,15 @@ function latepoint_update_default_form_fields_settings(){
 
 function latepoint_init_side_menu(){
   jQuery('.menu-toggler').on('click', function(){
-    var layout_style = 'full';
+    let layout_style = 'full';
     if(jQuery('.latepoint-side-menu-w').hasClass('side-menu-full')){
       layout_style = 'compact';
       jQuery('.latepoint-side-menu-w').addClass('side-menu-compact').removeClass('side-menu-full');
     }else{
       jQuery('.latepoint-side-menu-w').addClass('side-menu-full').removeClass('side-menu-compact');
     }
-    var route_name = jQuery(this).data('route');
-    var data = { action: latepoint_helper.route_action, route_name: route_name, params: { menu_layout_style: layout_style }, layout: 'none', return_format: 'json' }
+    let route_name = jQuery(this).data('route');
+    let data = { action: latepoint_helper.route_action, route_name: route_name, params: { menu_layout_style: layout_style }, layout: 'none', return_format: 'json' }
     jQuery.ajax({
       type : "post",
       dataType : "json",

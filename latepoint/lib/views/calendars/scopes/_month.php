@@ -7,6 +7,7 @@
  * @var $booking_request \LatePoint\Misc\BookingRequest
  * @var $calendar_settings array
  * @var $agents OsAgentModel[]
+ * @var $resources \LatePoint\Misc\BookingResource[]
  */
 
 
@@ -39,6 +40,7 @@ if($agents){ ?>
 				echo '</div>';
 			}
 		echo '</div>';
+
 		echo '<div class="ma-days-with-bookings-w">';
 			echo '<div class="ma-days-with-bookings-i">';
 				echo '<div class="ma-head">';
@@ -54,9 +56,27 @@ if($agents){ ?>
 								if($resource->agent_id == $agent->id){
 									$day_periods = array_merge($day_periods, $resource->work_time_periods);
 									foreach($resource->blocked_time_periods as $blocked_time_period){
-										$left = max(($blocked_time_period->start_time - $work_boundaries->start_time) / $work_total_minutes * 100, 0);
-										$right = max(($work_boundaries->end_time - $blocked_time_period->end_time) / $work_total_minutes * 100, 0);
-										$blocked_blocks[] = ['left' => $left, 'right' => $right];
+                                        if($blocked_time_period->service_id != 0){
+                                            if(is_array($booking_request->service_id)){
+                                                if(empty($booking_request->service_id) || count($booking_request->service_id) > 1){
+                                                    continue;
+                                                }elseif($blocked_time_period->service_id != reset($booking_request->service_id)){
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        if($blocked_time_period->location_id != 0){
+                                            if(is_array($booking_request->location_id)){
+                                                if(empty($booking_request->location_id) || count($booking_request->location_id) > 1){
+                                                    continue;
+                                                }elseif($blocked_time_period->location_id != reset($booking_request->location_id)){
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                        $left = max(($blocked_time_period->start_time - $work_boundaries->start_time) / $work_total_minutes * 100, 0);
+                                        $right = max(($work_boundaries->end_time - $blocked_time_period->end_time) / $work_total_minutes * 100, 0);
+                                        $blocked_blocks[] = ['left' => $left, 'right' => $right];
 									}
 								}
 							}
@@ -90,7 +110,7 @@ if($agents){ ?>
                                         }
                                     }
                                     foreach($blocked_blocks as $blocked_block){
-                                        echo '<div class="ma-day-off" style="left:'.esc_attr($blocked_block["left"]).'%; right: '.esc_attr($blocked_block["right"]).'%;"></div>';
+                                        echo '<div class="ma-day-off ma-period-off" style="left:'.esc_attr($blocked_block["left"]).'%; right: '.esc_attr($blocked_block["right"]).'%;"></div>';
                                     }
                                     foreach($off_blocks as $off_block){
                                         echo '<div class="ma-day-off" style="left:'.esc_attr($off_block["left"]).'%; right: '.esc_attr($off_block["right"]).'%;"></div>';

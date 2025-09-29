@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LatePoint\n"
-"POT-Creation-Date: 2025-09-23 09:20-0700\n"
-"PO-Revision-Date: 2025-09-23 09:20-0700\n"
+"POT-Creation-Date: 2025-09-28 22:55-0700\n"
+"PO-Revision-Date: 2025-09-28 22:55-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr ""
 #: blocks/elementor/elementor_widget_book_button.php:437
 #: blocks/elementor/elementor_widget_book_form.php:203
 #: blocks/elementor/elementor_widget_list_of_resources.php:415
-#: lib/helpers/settings_helper.php:423
+#: lib/helpers/settings_helper.php:426
 msgid "Source ID"
 msgstr ""
 
@@ -258,7 +258,7 @@ msgstr ""
 
 #: blocks/bricks/bricks_widget_book_button.php:248
 #: blocks/bricks/bricks_widget_list_of_resources.php:409
-#: lib/helpers/settings_helper.php:648
+#: lib/helpers/settings_helper.php:651
 msgid "Full Width"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgstr ""
 #: blocks/elementor/elementor_widget_calendar.php:60
 #: blocks/src/calendar/edit.js:119 lib/controllers/orders_controller.php:734
 #: lib/controllers/transactions_controller.php:146
-#: lib/views/calendars/scopes/_month.php:32
+#: lib/views/calendars/scopes/_month.php:33
 #: lib/views/calendars/scopes/_week.php:41 lib/views/orders/index.php:52
 #: lib/views/orders/index.php:90 lib/views/transactions/edit_form.php:50
 #: lib/views/transactions/edit_form.php:51 lib/views/transactions/index.php:44
@@ -376,13 +376,13 @@ msgstr ""
 #: blocks/bricks/bricks_widget_calendar.php:70
 #: blocks/bricks/bricks_widget_calendar.php:73
 #: blocks/elementor/elementor_widget_calendar.php:108
-#: lib/views/calendars/view.php:45
+#: lib/views/calendars/view.php:46
 msgid "Month"
 msgstr ""
 
 #: blocks/bricks/bricks_widget_calendar.php:71
 #: blocks/elementor/elementor_widget_calendar.php:109
-#: lib/views/calendars/view.php:45
+#: lib/views/calendars/view.php:46
 msgid "Week"
 msgstr ""
 
@@ -588,7 +588,7 @@ msgstr ""
 #: blocks/bricks/bricks_widget_list_of_resources.php:564
 #: blocks/elementor/elementor_widget_list_of_resources.php:866
 #: lib/controllers/bookings_controller.php:266
-#: lib/helpers/settings_helper.php:426
+#: lib/helpers/settings_helper.php:429
 msgid "Price"
 msgstr ""
 
@@ -846,7 +846,7 @@ msgstr ""
 #: latepoint.php:1354 latepoint.php:1490 lib/helpers/agent_helper.php:240
 #: lib/helpers/calendar_helper.php:157 lib/helpers/events_helper.php:321
 #: lib/helpers/time_helper.php:27 lib/models/booking_model.php:789
-#: lib/views/calendars/view.php:36
+#: lib/views/calendars/view.php:37
 msgid "Today"
 msgstr ""
 
@@ -928,7 +928,7 @@ msgstr ""
 #: lib/controllers/transactions_controller.php:145
 #: lib/models/transaction_model.php:71
 #: lib/models/transaction_refund_model.php:25 lib/views/activities/index.php:35
-#: lib/views/activities/index.php:60 lib/views/transactions/edit_form.php:69
+#: lib/views/activities/index.php:59 lib/views/transactions/edit_form.php:69
 #: lib/views/transactions/index.php:43 lib/views/transactions/index.php:81
 msgid "Type"
 msgstr ""
@@ -1116,8 +1116,8 @@ msgstr ""
 
 #: lib/controllers/bookings_controller.php:18
 #: lib/controllers/calendars_controller.php:18
-#: lib/controllers/steps_controller.php:27
-#: lib/controllers/steps_controller.php:29 lib/helpers/menu_helper.php:47
+#: lib/controllers/steps_controller.php:28
+#: lib/controllers/steps_controller.php:30 lib/helpers/menu_helper.php:47
 #: lib/helpers/menu_helper.php:100 lib/views/bookings/index.php:29
 #: lib/views/customer_cabinet/dashboard.php:22
 #: lib/views/customers/quick_edit.php:109
@@ -1133,8 +1133,8 @@ msgstr ""
 msgid "Pending Appointments"
 msgstr ""
 
-#: lib/controllers/bookings_controller.php:102 lib/views/calendars/view.php:69
-#: lib/views/calendars/view.php:115 lib/views/calendars/view.php:143
+#: lib/controllers/bookings_controller.php:102 lib/views/calendars/view.php:77
+#: lib/views/calendars/view.php:123 lib/views/calendars/view.php:151
 #: lib/views/services/_form.php:135 lib/views/services/_form.php:137
 #: lib/views/services/_form.php:143
 msgid "All"
@@ -1166,7 +1166,7 @@ msgid "Start Date & Time"
 msgstr ""
 
 #: lib/controllers/bookings_controller.php:258
-#: lib/helpers/settings_helper.php:422 lib/views/bookings/_booking_data.php:86
+#: lib/helpers/settings_helper.php:425 lib/views/bookings/_booking_data.php:86
 #: lib/views/services/_form.php:83
 msgid "Duration"
 msgstr ""
@@ -1202,7 +1202,7 @@ msgstr ""
 #: lib/views/bookings/index.php:52 lib/views/bookings/index.php:120
 #: lib/views/bookings/pending_approval.php:29
 #: lib/views/calendars/scopes/_day.php:68
-#: lib/views/calendars/scopes/_month.php:32
+#: lib/views/calendars/scopes/_month.php:33
 #: lib/views/customer_cabinet/_booking_tile.php:51
 #: lib/views/shared/_template_variables.php:57
 msgid "Agent"
@@ -1226,7 +1226,7 @@ msgstr ""
 #: lib/views/customer_cabinet/_booking_tile.php:55
 #: lib/views/invoices/edit_data.php:34 lib/views/invoices/new_form.php:35
 #: lib/views/orders/index.php:48 lib/views/orders/index.php:86
-#: lib/views/process_jobs/index.php:32 lib/views/process_jobs/index.php:66
+#: lib/views/process_jobs/index.php:39 lib/views/process_jobs/index.php:73
 #: lib/views/processes/_form.php:25 lib/views/services/_form.php:34
 #: lib/views/transactions/index.php:42 lib/views/transactions/index.php:80
 msgid "Status"
@@ -1487,7 +1487,7 @@ msgid "Name"
 msgstr ""
 
 #: lib/controllers/customers_controller.php:326 lib/helpers/auth_helper.php:603
-#: lib/helpers/settings_helper.php:417 lib/views/customers/index.php:38
+#: lib/helpers/settings_helper.php:420 lib/views/customers/index.php:38
 #: lib/views/customers/index.php:76 lib/views/settings/general.php:171
 #: lib/views/settings/general.php:566
 msgid "Phone"
@@ -1495,7 +1495,7 @@ msgstr ""
 
 #: lib/controllers/customers_controller.php:327 lib/helpers/auth_helper.php:602
 #: lib/helpers/customer_import_helper.php:14
-#: lib/helpers/notifications_helper.php:31 lib/helpers/settings_helper.php:416
+#: lib/helpers/notifications_helper.php:31 lib/helpers/settings_helper.php:419
 #: lib/views/customers/index.php:39 lib/views/customers/index.php:77
 msgid "Email"
 msgstr ""
@@ -1871,21 +1871,21 @@ msgstr ""
 msgid "Settings Updated With Errors:"
 msgstr ""
 
-#: lib/controllers/steps_controller.php:79
+#: lib/controllers/steps_controller.php:80
 msgid "Cart has already been converted to order"
 msgstr ""
 
-#: lib/controllers/steps_controller.php:86
+#: lib/controllers/steps_controller.php:87
 msgid "Order intent can be converted to order"
 msgstr ""
 
-#: lib/controllers/steps_controller.php:91
+#: lib/controllers/steps_controller.php:92
 msgid ""
 "Selected booking slot is not available anymore. Please pick a different time "
 "slot."
 msgstr ""
 
-#: lib/controllers/steps_controller.php:195
+#: lib/controllers/steps_controller.php:196
 msgid "Invalid order intent key"
 msgstr ""
 
@@ -2142,7 +2142,7 @@ msgid "One-time code"
 msgstr ""
 
 #: lib/helpers/auth_helper.php:450 lib/helpers/auth_helper.php:525
-#: lib/helpers/settings_helper.php:474 lib/models/agent_model.php:39
+#: lib/helpers/settings_helper.php:477 lib/models/agent_model.php:39
 #: lib/models/customer_model.php:32
 #: lib/views/booking_form_settings/previews/_customer.php:22
 #: lib/views/customer_cabinet/request_password_reset_token.php:14
@@ -2158,7 +2158,7 @@ msgstr ""
 
 #: lib/helpers/auth_helper.php:450 lib/helpers/auth_helper.php:526
 #: lib/helpers/customer_import_helper.php:15
-#: lib/helpers/settings_helper.php:475 lib/misc/process_action.php:162
+#: lib/helpers/settings_helper.php:478 lib/misc/process_action.php:162
 #: lib/models/customer_model.php:33
 #: lib/views/booking_form_settings/previews/_customer.php:21
 #: lib/views/customers/quick_edit.php:52
@@ -2287,7 +2287,7 @@ msgstr ""
 #: lib/helpers/booking_helper.php:1333 lib/helpers/orders_helper.php:46
 #: lib/helpers/process_jobs_helper.php:268
 #: lib/views/customer_cabinet/dashboard.php:97
-#: lib/views/process_jobs/index.php:42
+#: lib/views/process_jobs/index.php:49
 msgid "Cancelled"
 msgstr ""
 
@@ -2296,7 +2296,7 @@ msgid "No Show"
 msgstr ""
 
 #: lib/helpers/booking_helper.php:1335 lib/helpers/orders_helper.php:47
-#: lib/helpers/process_jobs_helper.php:266 lib/views/process_jobs/index.php:42
+#: lib/helpers/process_jobs_helper.php:266 lib/views/process_jobs/index.php:49
 msgid "Completed"
 msgstr ""
 
@@ -2452,7 +2452,7 @@ msgid "Customer with this email already exists"
 msgstr ""
 
 #: lib/helpers/customer_import_helper.php:12
-#: lib/helpers/settings_helper.php:472 lib/models/agent_model.php:37
+#: lib/helpers/settings_helper.php:475 lib/models/agent_model.php:37
 #: lib/views/booking_form_settings/previews/_customer.php:19
 #: lib/views/customers/inline_edit_form.php:15
 #: lib/views/customers/quick_edit.php:37
@@ -2464,7 +2464,7 @@ msgid "First Name"
 msgstr ""
 
 #: lib/helpers/customer_import_helper.php:13
-#: lib/helpers/settings_helper.php:473 lib/models/agent_model.php:41
+#: lib/helpers/settings_helper.php:476 lib/models/agent_model.php:41
 #: lib/views/booking_form_settings/previews/_customer.php:20
 #: lib/views/customers/inline_edit_form.php:18
 #: lib/views/customers/quick_edit.php:40
@@ -2586,7 +2586,7 @@ msgstr ""
 msgid "Pick a color"
 msgstr ""
 
-#: lib/helpers/form_helper.php:947 lib/helpers/settings_helper.php:421
+#: lib/helpers/form_helper.php:947 lib/helpers/settings_helper.php:424
 msgid "Code"
 msgstr ""
 
@@ -3144,7 +3144,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: lib/helpers/process_jobs_helper.php:267 lib/views/process_jobs/index.php:42
+#: lib/helpers/process_jobs_helper.php:267 lib/views/process_jobs/index.php:49
 msgid "Scheduled"
 msgstr ""
 
@@ -3274,49 +3274,49 @@ msgstr ""
 msgid "Invalid JSON file format"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:349
+#: lib/helpers/settings_helper.php:352
 msgid "Randomly picked agent"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:350
+#: lib/helpers/settings_helper.php:353
 msgid "Most expensive agent"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:351
+#: lib/helpers/settings_helper.php:354
 msgid "Least expensive agent"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:352
+#: lib/helpers/settings_helper.php:355
 msgid "Agent with the most bookings on that day"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:353
+#: lib/helpers/settings_helper.php:356
 msgid "Agent with the least bookings on that day"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:424 lib/misc/process_event.php:382
+#: lib/helpers/settings_helper.php:427 lib/misc/process_event.php:382
 #: lib/models/transaction_model.php:69
 #: lib/models/transaction_refund_model.php:23
 #: lib/views/transactions/edit_form.php:77
 msgid "Payment Method"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:425 lib/models/invoice_model.php:38
+#: lib/helpers/settings_helper.php:428 lib/models/invoice_model.php:38
 #: lib/models/payment_request_model.php:41 lib/models/transaction_model.php:70
 #: lib/models/transaction_refund_model.php:24
 #: lib/views/transactions/edit_form.php:66
 msgid "Payment Portion"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:476
+#: lib/helpers/settings_helper.php:479
 msgid "Comments"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:644
+#: lib/helpers/settings_helper.php:647
 msgid "Required?"
 msgstr ""
 
-#: lib/helpers/settings_helper.php:649
+#: lib/helpers/settings_helper.php:652
 msgid "Half Width"
 msgstr ""
 
@@ -4430,17 +4430,18 @@ msgstr ""
 #: lib/views/activities/index.php:21 lib/views/bookings/index.php:30
 #: lib/views/customers/index.php:13 lib/views/customers/index.php:91
 #: lib/views/orders/index.php:26 lib/views/orders/index.php:98
-#: lib/views/transactions/index.php:20 lib/views/transactions/index.php:89
+#: lib/views/process_jobs/index.php:26 lib/views/transactions/index.php:20
+#: lib/views/transactions/index.php:89
 msgid "Showing"
 msgstr ""
 
-#: lib/views/activities/index.php:21 lib/views/activities/index.php:69
+#: lib/views/activities/index.php:21 lib/views/activities/index.php:68
 #: lib/views/bookings/index.php:30 lib/views/bookings/index.php:139
 #: lib/views/customers/index.php:13 lib/views/customers/index.php:91
 #: lib/views/dashboard/_booking_info_box_small.php:53
 #: lib/views/orders/index.php:26 lib/views/orders/index.php:98
-#: lib/views/process_jobs/index.php:77 lib/views/transactions/index.php:20
-#: lib/views/transactions/index.php:89
+#: lib/views/process_jobs/index.php:26 lib/views/process_jobs/index.php:84
+#: lib/views/transactions/index.php:20 lib/views/transactions/index.php:89
 msgid "of"
 msgstr ""
 
@@ -4456,16 +4457,16 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: lib/views/activities/index.php:36 lib/views/activities/index.php:61
+#: lib/views/activities/index.php:36 lib/views/activities/index.php:60
 msgid "Action By"
 msgstr ""
 
-#: lib/views/activities/index.php:37 lib/views/activities/index.php:62
+#: lib/views/activities/index.php:37 lib/views/activities/index.php:61
 #: lib/views/bookings/index.php:50 lib/views/bookings/index.php:118
 msgid "Date/Time"
 msgstr ""
 
-#: lib/views/activities/index.php:40 lib/views/process_jobs/index.php:38
+#: lib/views/activities/index.php:40 lib/views/process_jobs/index.php:45
 msgid "All Types"
 msgstr ""
 
@@ -4476,32 +4477,32 @@ msgstr ""
 #: lib/views/activities/index.php:44 lib/views/activities/index.php:45
 #: lib/views/customers/index.php:59 lib/views/customers/index.php:60
 #: lib/views/orders/index.php:65 lib/views/orders/index.php:67
-#: lib/views/process_jobs/index.php:45 lib/views/process_jobs/index.php:46
+#: lib/views/process_jobs/index.php:52 lib/views/process_jobs/index.php:53
 #: lib/views/transactions/index.php:58 lib/views/transactions/index.php:59
 msgid "Filter By Date"
 msgstr ""
 
 #: lib/views/activities/index.php:44 lib/views/customers/index.php:59
-#: lib/views/orders/index.php:66 lib/views/process_jobs/index.php:45
+#: lib/views/orders/index.php:66 lib/views/process_jobs/index.php:52
 #: lib/views/transactions/index.php:58
 msgid "Reset Date Filtering"
 msgstr ""
 
-#: lib/views/activities/index.php:69
+#: lib/views/activities/index.php:68
 msgid "Showing activities"
 msgstr ""
 
-#: lib/views/activities/index.php:69 lib/views/process_jobs/index.php:77
+#: lib/views/activities/index.php:68 lib/views/process_jobs/index.php:84
 msgid "to"
 msgstr ""
 
-#: lib/views/activities/index.php:71 lib/views/bookings/index.php:141
+#: lib/views/activities/index.php:70 lib/views/bookings/index.php:141
 #: lib/views/customers/index.php:93 lib/views/orders/index.php:100
-#: lib/views/process_jobs/index.php:79 lib/views/transactions/index.php:91
+#: lib/views/process_jobs/index.php:86 lib/views/transactions/index.php:91
 msgid "Page:"
 msgstr ""
 
-#: lib/views/activities/index.php:86
+#: lib/views/activities/index.php:85
 msgid "No Activity"
 msgstr ""
 
@@ -4778,7 +4779,6 @@ msgstr ""
 #: lib/views/bookings/pending_approval.php:35
 #: lib/views/bookings/pending_approval.php:54
 #: lib/views/customers/query_for_booking_form.php:21
-#: lib/views/dashboard/_booking_info_box_small.php:21
 #: lib/views/dashboard/_booking_info_box_small.php:37
 #: lib/views/orders/quick_edit.php:216
 msgid "Phone: "
@@ -4787,7 +4787,6 @@ msgstr ""
 #: lib/views/bookings/pending_approval.php:39
 #: lib/views/bookings/pending_approval.php:58
 #: lib/views/customers/query_for_booking_form.php:17
-#: lib/views/dashboard/_booking_info_box_small.php:25
 #: lib/views/dashboard/_booking_info_box_small.php:41
 #: lib/views/orders/quick_edit.php:212
 msgid "Email: "
@@ -4919,16 +4918,16 @@ msgstr ""
 msgid "No Upcoming Appointments"
 msgstr ""
 
-#: lib/views/calendars/scopes/_month.php:107
+#: lib/views/calendars/scopes/_month.php:129
 msgid "Day Off"
 msgstr ""
 
-#: lib/views/calendars/scopes/_month.php:167
+#: lib/views/calendars/scopes/_month.php:189
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:146
 msgid "No Agents Created"
 msgstr ""
 
-#: lib/views/calendars/scopes/_month.php:168 lib/views/calendars/view.php:184
+#: lib/views/calendars/scopes/_month.php:190 lib/views/calendars/view.php:192
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:147
 msgid "Create Agent"
 msgstr ""
@@ -4939,45 +4938,45 @@ msgid ""
 "selected does not offer this service."
 msgstr ""
 
-#: lib/views/calendars/view.php:45
+#: lib/views/calendars/view.php:46
 msgid "Day"
 msgstr ""
 
-#: lib/views/calendars/view.php:45
+#: lib/views/calendars/view.php:46
 msgid "List"
 msgstr ""
 
-#: lib/views/calendars/view.php:58
+#: lib/views/calendars/view.php:66
 msgid "Overlay service hours"
 msgstr ""
 
-#: lib/views/calendars/view.php:60
+#: lib/views/calendars/view.php:68
 msgid "For:"
 msgstr ""
 
-#: lib/views/calendars/view.php:68
+#: lib/views/calendars/view.php:76
 msgid "Services:"
 msgstr ""
 
-#: lib/views/calendars/view.php:75 lib/views/calendars/view.php:121
-#: lib/views/calendars/view.php:149
+#: lib/views/calendars/view.php:83 lib/views/calendars/view.php:129
+#: lib/views/calendars/view.php:157
 msgid "Type to filter..."
 msgstr ""
 
-#: lib/views/calendars/view.php:114
+#: lib/views/calendars/view.php:122
 msgid "Locations:"
 msgstr ""
 
-#: lib/views/calendars/view.php:142
+#: lib/views/calendars/view.php:150
 #: lib/views/services/_service_index_item.php:17
 msgid "Agents:"
 msgstr ""
 
-#: lib/views/calendars/view.php:182
+#: lib/views/calendars/view.php:190
 msgid "No Agents or Services Created"
 msgstr ""
 
-#: lib/views/calendars/view.php:185
+#: lib/views/calendars/view.php:193
 msgid "Create Service"
 msgstr ""
 
@@ -5473,7 +5472,7 @@ msgid "Video Meeting Systems"
 msgstr ""
 
 #: lib/views/integrations/external_short_links_systems.php:17
-msgid "Short Links Systems"
+msgid "Available URL Shortener"
 msgstr ""
 
 #: lib/views/invoices/edit_data.php:17
@@ -5680,6 +5679,10 @@ msgstr ""
 msgid "Order Items"
 msgstr ""
 
+#: lib/views/orders/quick_edit.php:75
+msgid "Order Item"
+msgstr ""
+
 #: lib/views/orders/quick_edit.php:78 lib/views/orders/quick_edit.php:83
 msgid "Add Another Item"
 msgstr ""
@@ -5756,15 +5759,15 @@ msgstr ""
 msgid "Delete Order"
 msgstr ""
 
-#: lib/views/partials/_side_menu.php:11 lib/views/partials/_top_bar.php:7
+#: lib/views/partials/_side_menu.php:12 lib/views/partials/_top_bar.php:7
 msgid "Menu"
 msgstr ""
 
-#: lib/views/partials/_side_menu.php:67 lib/views/partials/_side_menu.php:68
+#: lib/views/partials/_side_menu.php:68 lib/views/partials/_side_menu.php:69
 msgid "Back to WordPress"
 msgstr ""
 
-#: lib/views/partials/_side_menu.php:76
+#: lib/views/partials/_side_menu.php:77
 msgid "back to WordPress"
 msgstr ""
 
@@ -5816,45 +5819,45 @@ msgstr ""
 msgid "Run"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:28 lib/views/process_jobs/index.php:62
+#: lib/views/process_jobs/index.php:35 lib/views/process_jobs/index.php:69
 msgid "Event"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:29 lib/views/process_jobs/index.php:63
+#: lib/views/process_jobs/index.php:36 lib/views/process_jobs/index.php:70
 msgid "Workflow"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:30 lib/views/process_jobs/index.php:40
-#: lib/views/process_jobs/index.php:64
+#: lib/views/process_jobs/index.php:37 lib/views/process_jobs/index.php:47
+#: lib/views/process_jobs/index.php:71
 msgid "Object ID"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:31 lib/views/process_jobs/index.php:65
+#: lib/views/process_jobs/index.php:38 lib/views/process_jobs/index.php:72
 #: lib/views/processes/_form.php:54
 msgid "Actions"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:33 lib/views/process_jobs/index.php:67
+#: lib/views/process_jobs/index.php:40 lib/views/process_jobs/index.php:74
 msgid "Run Time (UTC)"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:34 lib/views/process_jobs/index.php:68
+#: lib/views/process_jobs/index.php:41 lib/views/process_jobs/index.php:75
 msgid "Run Info"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:39
+#: lib/views/process_jobs/index.php:46
 msgid "All Workflows"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:42
+#: lib/views/process_jobs/index.php:49
 msgid "All Statuses"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:77
+#: lib/views/process_jobs/index.php:84
 msgid "Showing jobs"
 msgstr ""
 
-#: lib/views/process_jobs/index.php:93
+#: lib/views/process_jobs/index.php:100
 msgid "No Jobs Found"
 msgstr ""
 

@@ -149,7 +149,6 @@
   padding-bottom: 15px;
 
   .os-current-month-label-w {
-    padding-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -225,7 +224,7 @@
 
       .calendar-settings-toggler {
         text-decoration: none;
-        padding: 7px 8px;
+        padding: 8px 8px;
         font-size: 16px;
         line-height: 16px;
         color: $headings-color;
@@ -234,6 +233,10 @@
         border: 1px solid $border-color-main;
         background-color: transparent;
         display: block;
+        
+        i {
+          display: block;
+        }
 
         &:hover {
           border-color: rgba(0,0,0,0.2);
@@ -857,6 +860,7 @@
   background-color: #fff;
   border: 1px solid $border-color-main;
   border-radius: $border-radius-lg;
+  padding-bottom: 20px;
 
   .current-time-indicator {
     height: 3px;
@@ -989,8 +993,6 @@
 
 .cc-view {
   margin-right: 15px;
-  padding-right: 15px;
-  border-right: 1px solid $border-color-lightest;
 
   .view-toggler {
     display: flex;
@@ -1225,7 +1227,6 @@
       flex: 1;
       border-right: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
-      margin-bottom: 20px;
 
       .chd-period {
         height: $period_height;
@@ -1385,8 +1386,8 @@
 
         .booked-bar {
           background-color: #fff;
-          border-radius: 2px;
-          height: 6px;
+          border-radius: 8px;
+          height: 5px;
         }
       }
 
@@ -1441,6 +1442,7 @@
   border-radius: $border-radius-lg;
   background-color: #fff;
   border: 1px solid $border-color-main;
+  padding-bottom: 20px;
   .agent-weekly-calendar {
     display: none;
 
@@ -1620,7 +1622,7 @@
     }
 
     .ch-hours {
-      flex: 0 0 70px;
+      flex: 0 0 50px;
       border-right: 1px solid $border-color-strong;
 
       .chh-period {
@@ -1880,10 +1882,12 @@
         background-color: rgba(255, 255, 255, 0.4);
         margin: 0px auto;
         margin-top: 2px;
+        border-radius: 8px;
 
         .booked-bar {
           background-color: #fff;
-          height: 4px;
+          height: 5px;
+          border-radius: 8px;
         }
       }
 
@@ -2217,12 +2221,11 @@
             background-color: #bd7062;
           }
 
-          &.full:hover {
+          &.ma-period-off {
             background-image: repeating-linear-gradient(125deg, #fff, #fff 4px, #d1958a 4px, #d1958a 5px);
+          }
 
-            span {
-              display: block;
-            }
+          &.full:hover {
           }
         }
 
@@ -2939,10 +2942,6 @@
 
 .calendar-self-w {
   .no-results-w {
-    background-color: #f8fafd;
-    padding: 40px;
-    border-radius: $border-radius;
-
     h2 {
       max-width: 500px;
       margin: 0px auto;
@@ -3127,9 +3126,9 @@
           margin-left: 10px;
 
           .booked-bar {
-            border-radius: 2px;
+            border-radius: 8px;
             background-color: $brand-primary;
-            height: 8px;
+            height: 5px;
           }
         }
       }
