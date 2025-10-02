@@ -310,9 +310,9 @@ class OsEventsHelper {
 				}
 			}
 			if($range_type == 'month'){
-				$html.= '<div class="le-month">' . $target_date->format('F') . '</div>';
+				$html.= '<div class="le-month">' . OsUtilHelper::get_month_name_by_number($target_date->format('n')) . '</div>';
 			}
-			$html.= '<div class="le-range-selector">'.OsFormHelper::select_field('calendar_range_type', false, ['week' => 'Weekly', 'month' => 'Monthly'], $range_type).'</div>';
+			$html.= '<div class="le-range-selector">'.OsFormHelper::select_field('calendar_range_type', false, ['week' => __('Weekly', 'latepoint'), 'month' => __('Monthly', 'latepoint')], $range_type).'</div>';
 			$html.= '<div class="le-filter le-filter-trigger"><i class="latepoint-icon latepoint-icon-ui-47"></i><span>' . __('Filters', 'latepoint') . '</span></div>';
 			$html.= OsFormHelper::hidden_field('target_date_string', $target_date->format('Y-m-d'));
 			$html.= '<div class="le-navigation-wrapper">';

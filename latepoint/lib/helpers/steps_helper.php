@@ -1867,7 +1867,17 @@ class OsStepsHelper {
             // if login and register tabs are hidden - means we don't have to log in a customer and can just reuse the customer with that email
             // we don't care about wordpress users connected to this email because we don't need to log them into their account
             $customer       = new OsCustomerModel();
-            $customer = $customer->where( array( 'email' => $sanitized_customer_params['email']) )->set_limit( 1 )->get_results_as_models();
+
+            $contact_merge = OsSettingsHelper::get_settings_value('default_contact_merge_behavior', 'email');
+            if($contact_merge == 'email' && !empty($sanitized_customer_params['email'])){
+                $customer = $customer->where( array( 'email' => $sanitized_customer_params['email']) )->set_limit( 1 )->get_results_as_models();
+            }elseif($contact_merge == 'phone' && !empty($sanitized_customer_params['phone'])){
+                $customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone']) )->set_limit( 1 )->get_results_as_models();
+            }else{
+                // do not merge, always create new record
+                $customer = false;
+            }
+
             if ( $customer ) {
                 $is_new_customer = false;
                 $old_customer_data = $customer->get_data_vars();
@@ -1905,25 +1915,50 @@ class OsStepsHelper {
 
             if ( $logged_in_customer ) {
                 // LOGGED IN ALREADY
-                // Check if they are changing the email on file
-                if ( $logged_in_customer->email != $sanitized_customer_params['email'] ) {
-                    // Check if other customer already has this email
-                    $customer                  = new OsCustomerModel();
-                    $customer_with_email_exist = $customer->where( array(
-                        'email' => $sanitized_customer_params['email'],
-                        'id !=' => $logged_in_customer->id
-                    ) )->set_limit( 1 )->get_results_as_models();
-                    // check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
-                    if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
-                        $status        = LATEPOINT_STATUS_ERROR;
-                        $response_html = __( 'Another customer is registered with this email.', 'latepoint' );
-                    }else{
-                        if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['email'], 'email')){
-                            $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
-                            $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
-                            return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                // Check if they are changing the email or phone on file
+                switch(OsAuthHelper::get_selected_customer_authentication_field_type()){
+                    case 'email':
+                        if ( $logged_in_customer->email != $sanitized_customer_params['email'] ) {
+                            // Check if other customer already has this email
+                            $customer                  = new OsCustomerModel();
+                            $customer_with_email_exist = $customer->where( array(
+                                'email' => $sanitized_customer_params['email'],
+                                'id !=' => $logged_in_customer->id
+                            ) )->set_limit( 1 )->get_results_as_models();
+                            // check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
+                            if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
+                                $status        = LATEPOINT_STATUS_ERROR;
+                                $response_html = __( 'Another customer is registered with this email.', 'latepoint' );
+                            }else{
+                                if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['email'], 'email')){
+                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
+                                    $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
+                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                                }
+                            }
                         }
-                    }
+                        break;
+                    case 'phone':
+                        if ( $logged_in_customer->phone != $sanitized_customer_params['phone'] ) {
+                            // Check if other customer already has this phone
+                            $customer                  = new OsCustomerModel();
+                            $customer_with_phone_exist = $customer->where( array(
+                                'phone' => $sanitized_customer_params['phone'],
+                                'id !=' => $logged_in_customer->id
+                            ) )->set_limit( 1 )->get_results_as_models();
+                            // check if another customer (or if wp user login enabled - another wp user) exists with the phone that this user tries to update to
+                            if ( $customer_with_phone_exist ) {
+                                $status        = LATEPOINT_STATUS_ERROR;
+                                $response_html = __( 'Another customer is already registered with this phone number.', 'latepoint' );
+                            }else{
+                                if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['phone'], 'phone')){
+                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['phone'], 'phone', 'sms');
+                                    $otp_form_html = OsOTPHelper::otp_input_box_html('phone', $sanitized_customer_params['phone'], 'sms');
+                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                                }
+                            }
+                        }
+                        break;
                 }
             } else {
                 // NEW REGISTRATION (NOT LOGGED IN)
@@ -1948,22 +1983,37 @@ class OsStepsHelper {
                         }
                     }
                 } else {
-                    // LatePoint customers
-                    $customer       = new OsCustomerModel();
-                    $existing_customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
-                    if ( $existing_customer ) {
-                        // customer with this email exists - check if current customer was registered as a guest
-                        if ( ( $existing_customer->can_login_without_password() && ! OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) ) {
-                            $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
-                            $otp_form_html = OsOTPHelper::otp_input_box_html('email', $existing_customer->email, 'email');
-                            return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
-                        } else {
-                            // Not a guest account, ask to login
-                            $status        = LATEPOINT_STATUS_ERROR;
-                            $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-                        }
-                    } else {
-                        // no latepoint customer with this email found, can proceed
+                    // Check if a customer with the same auth field value already exists or we require OTP for new contacts
+                    $require_otp_for_new_contacts = OsSettingsHelper::is_on('require_otp_for_new_contacts');
+                    switch(OsAuthHelper::get_selected_customer_authentication_field_type()){
+                        case 'email':
+                            if(!empty($sanitized_customer_params['email'])){
+                                // search if existing customer with this email exists
+                                $customer       = new OsCustomerModel();
+                                $existing_customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+
+                                // send otp if customer with this email already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
+                                if ( $existing_customer || ($require_otp_for_new_contacts && (empty(self::$params['customer_contact_verification_token']) || !OsOTPHelper::is_token_matching_to_contact_value(self::$params['customer_contact_verification_token'], $sanitized_customer_params['email'])) )){
+                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
+                                    $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
+                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                                }
+                            }
+                            break;
+                        case 'phone':
+                            if(!empty($sanitized_customer_params['phone'])){
+                                // search if existing customer with this phone exists
+                                $customer       = new OsCustomerModel();
+                                $existing_customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone'] ) )->set_limit( 1 )->get_results_as_models();
+
+                                // send otp if customer with this phone already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
+                                if ( $existing_customer || ($require_otp_for_new_contacts && (empty(self::$params['customer_contact_verification_token']) || !OsOTPHelper::is_token_matching_to_contact_value(self::$params['customer_contact_verification_token'], $sanitized_customer_params['phone'])) )){
+                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['phone'], 'phone', 'phone');
+                                    $otp_form_html = OsOTPHelper::otp_input_box_html('phone', $sanitized_customer_params['phone'], 'sms');
+                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
+                                }
+                            }
+                        break;
                     }
                 }
                 // if not logged in - check if password has to be set

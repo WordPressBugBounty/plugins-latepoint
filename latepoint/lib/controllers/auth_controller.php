@@ -18,7 +18,8 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 				'login_customer_using_google_token',
 				'login_customer_using_facebook_token',
 				'request_otp',
-				'verify_otp'
+				'verify_otp',
+				'resend_otp'
 			] );
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'auth/';
 		}
@@ -29,8 +30,9 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 			$otp_code = $otp_verification_params['otp_code'];
 			$contact_type = $otp_verification_params['contact_type'];
 			$contact_value = $otp_verification_params['contact_value'];
+			$delivery_method = $otp_verification_params['delivery_method'];
 
-			$result = OsOTPHelper::verifyOTP($otp_code, $contact_value, $contact_type, 'email');
+			$result = OsOTPHelper::verifyOTP($otp_code, $contact_value, $contact_type, $delivery_method);
 
 			$message = __('Invalid Code', 'latepoint');
 			$status = LATEPOINT_STATUS_ERROR;
@@ -54,6 +56,29 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 			$this->send_json( array( 'status' => $status, 'message' => $message ) );
 		}
 
+		public function resend_otp(){
+			$this->check_nonce( 'otp_resend_otp_nonce', $this->params['otp']['resend_nonce'] );
+			$otp_verification_params = $this->params_for_otp_verification();
+			$contact_type = $otp_verification_params['contact_type'];
+			$contact_value = $otp_verification_params['contact_value'];
+			$delivery_method = $otp_verification_params['delivery_method'];
+
+			$result = OsOTPHelper::generateAndSendOTP($contact_value, $contact_type, $delivery_method);
+
+			$message = __('Error sending OTP', 'latepoint');
+			$status = LATEPOINT_STATUS_ERROR;
+
+			if ( is_wp_error($result) ) {
+				$message = $result->get_error_message();
+			}elseif($result['status'] == LATEPOINT_STATUS_ERROR){
+				$message = $result['message'];
+			}elseif($result['status'] == LATEPOINT_STATUS_SUCCESS){
+				// Success
+				$status = LATEPOINT_STATUS_SUCCESS;
+				$message = OsOTPHelper::otp_input_box_html($contact_type, $contact_value, $delivery_method);
+			}
+			$this->send_json( array( 'status' => $status, 'message' => $message ) );
+		}
 
 		public function request_otp(){
 			$this->check_nonce( 'auth_nonce', $this->params['auth']['nonce'] );

@@ -1,11 +1,25 @@
 <?php
 /** @var $customers OsCustomerModel[] */
+/** @var $customers_violating_auth_rules array */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if($customers){ ?>
+if($customers){
+    if(!empty($customers_violating_auth_rules['values'])){
+        $field_name = ($customers_violating_auth_rules['field'] == 'email') ? __('email addresses', 'latepoint') : __('phone numbers', 'latepoint'); ?>
+
+        <div class="latepoint-fix-records-warning">
+            <i class="latepoint-icon latepoint-icon-info"></i>
+            <div>
+                <div><?php echo sprintf(__('There are customers with identical %s, you need to fix these, otherwise they will not be able to make bookings:', 'latepoint'), $field_name); ?></div>
+                <div class="latepoint-fix-records-values"><?php echo implode(', ', $customers_violating_auth_rules['values']); ?></div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
   <div class="table-with-pagination-w has-scrollable-table">
     <div class="os-pagination-w with-actions">
 	    <div class="table-heading-w">

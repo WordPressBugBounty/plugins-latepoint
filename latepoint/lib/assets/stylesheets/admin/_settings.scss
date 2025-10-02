@@ -356,10 +356,13 @@
 
 
 .payment-processor-connect-status-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 20px;
   font-size: $font-size-base;
+
+  .payment-processor-connect-status-inner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
   .os-loading-spinner {
     position: relative;
     width: 28px;
@@ -412,7 +415,7 @@
     color: #2c420e;
     padding: 5px;
     padding-right: 10px;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -427,7 +430,7 @@
     margin-left: auto;
     padding: 5px;
     background-color: #eee;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
     font-size: $body-font-size-xs;
     .payment-processor-disconnect-link {
       margin-top: 5px;

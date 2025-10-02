@@ -1198,7 +1198,13 @@ function latepoint_init_step_confirmation($booking_form_element = false) {
 
 function latepoint_init_customer_login_form(){
     if(jQuery('.latepoint-login-form-w').length){
-        latepoint_init_auth_form(jQuery('.latepoint-login-form-w'));
+        jQuery('.latepoint-login-form-w').each(function() {
+            if(jQuery(this).data('success-action') == 'auto-redirect'){
+                window.location.replace(jQuery(this).data('redirect-url'))
+            }else{
+                latepoint_init_auth_form(jQuery(this));
+            }
+        });
     }
 }
 
@@ -1293,7 +1299,7 @@ function latepoint_init_customer_otp_code_verify_form($booking_form_element) {
         // close
         $booking_form_element.find('.latepoint-customer-otp-resend').on('click', function (e) {
             e.preventDefault();
-            latepoint_request_customer_otp_code($booking_form_element, jQuery(this));
+            latepoint_resend_customer_otp_code($booking_form_element, jQuery(this));
         });
 
         $booking_form_element.find('.latepoint-customer-otp-close').on('click', function () {
@@ -1356,8 +1362,9 @@ async function latepoint_verify_customer_otp_code($booking_form_element) {
         });
         $verify_otp_btn.removeClass('os-loading');
         if (response.status === 'success') {
-            if($booking_form_element.data('success-action') === 'reload'){
-                location.reload();
+            if($booking_form_element.data('success-action') === 'redirect'){
+                window.location.replace($booking_form_element.data('redirect-url'));
+                return true;
             }else{
                 latepoint_hide_message_inside_element($booking_form_element.find('.latepoint-customer-otp-input-code-wrapper'));
                 $booking_form_element.find('input[name="customer_contact_verification_token"]').val(response.message);
@@ -1388,6 +1395,51 @@ function latepoint_hide_booking_form_footer($booking_form_element) {
 
 function latepoint_show_booking_form_footer($booking_form_element) {
     $booking_form_element.removeClass('hidden-buttons');
+}
+
+async function latepoint_resend_customer_otp_code($booking_form_element, $resend_otp_button) {
+    $resend_otp_button.addClass('os-loading');
+
+    let form_data = new FormData($booking_form_element.find('.latepoint-form')[0]);
+
+        // get values from phone number fields
+      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+        $booking_form_element.find('input.os-mask-phone').each(function () {
+          const phoneInputName = this.getAttribute('name');
+          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          // override value generated automatically by formdata with a formatted value of a phone field with country code
+          form_data.set(phoneInputName, phoneInputValue);
+        });
+      }
+
+    let data = {
+        action: 'latepoint_route_call',
+        route_name: $resend_otp_button.data('otp-resend-route'),
+        params: latepoint_formdata_to_url_encoded_string(form_data),
+        layout: 'none',
+        return_format: 'json'
+    }
+    try {
+        let response = await jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: latepoint_timestamped_ajaxurl(),
+            data: data
+        });
+        $resend_otp_button.removeClass('os-loading');
+        if (response.status === 'success') {
+            latepoint_hide_message_inside_element($booking_form_element.find('.hide-when-entering-otp'));
+            $booking_form_element.find('.hide-when-entering-otp').addClass('os-hidden');
+            $booking_form_element.find('.latepoint-customer-otp-input-container').html(response.message);
+            latepoint_init_customer_otp_code_verify_form($booking_form_element);
+        } else {
+            latepoint_show_message_inside_element(response.message, $booking_form_element.find('.latepoint-customer-otp-input-wrapper'), 'error');
+        }
+        return false;
+    } catch (e) {
+        latepoint_show_message_inside_element('Error generating OTP', $booking_form_element.find('.latepoint-customer-otp-input-wrapper'), 'error');
+        throw e;
+    }
 }
 
 async function latepoint_request_customer_otp_code($booking_form_element, $request_otp_button) {
@@ -1496,8 +1548,8 @@ async function latepoint_login_customer($booking_form_element, $request_otp_butt
         $request_otp_button.removeClass('os-loading');
 
         if (response.status === "success") {
-            if($booking_form_element.data('success-action') === 'reload'){
-                location.reload();
+            if($booking_form_element.data('success-action') === 'redirect'){
+                window.location.replace($booking_form_element.data('redirect-url'));
                 return true;
             }else {
                 return latepoint_reload_step($booking_form_element);

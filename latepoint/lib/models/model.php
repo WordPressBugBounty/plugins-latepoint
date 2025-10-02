@@ -1060,7 +1060,8 @@ class OsModel {
 
 	public function validate( $alternative_validation = false, $skip_properties = [] ) : bool {
 		$this->clear_error();
-		foreach ( $this->properties_to_validate( $alternative_validation ) as $property_name => $validations ) {
+		$properties_to_validate = $this->properties_to_validate( $alternative_validation );
+		foreach ( $properties_to_validate as $property_name => $validations ) {
 			if($skip_properties && in_array( $property_name, $skip_properties )) continue;
 			foreach ( $validations as $validation ) {
 				$validation_function = 'validates_' . $validation;

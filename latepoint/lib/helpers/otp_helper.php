@@ -110,9 +110,10 @@ class OsOTPHelper {
             $message.= '<a tabindex="0" class="latepoint-btn latepoint-btn-block latepoint-btn-primary latepoint-verify-otp-button" data-route="'.OsRouterHelper::build_route_name('auth', 'verify_otp').'"><span>'.__('Verify', 'latepoint').'</span></a>';
             $message.= '<div class="latepoint-customer-otp-sub-wrapper">';
                 $message.= '<div class="latepoint-customer-otp-sub">'.sprintf(esc_html__('The code will expire in %s minutes', 'latepoint'), OsOTPHelper::$otp_expires_in_minutes).'</div>';
-                $message.= '<a tabindex="0" href="#" class="latepoint-customer-otp-resend" data-otp-request-route="'.OsRouterHelper::build_route_name('auth', 'request_otp').'">'.esc_html__('Resend code', 'latepoint').'</a>';
+                $message.= '<a tabindex="0" href="#" class="latepoint-customer-otp-resend" data-otp-resend-route="'.OsRouterHelper::build_route_name('auth', 'resend_otp').'">'.esc_html__('Resend code', 'latepoint').'</a>';
             $message.= '</div>';
 			$message.= wp_nonce_field('otp_verify_otp_nonce', 'otp[verify_nonce]', true, false);
+			$message.= wp_nonce_field('otp_resend_otp_nonce', 'otp[resend_nonce]', true, false);
 			$message.= OsFormHelper::hidden_field('otp[contact_type]', $contact_type);
 			$message.= OsFormHelper::hidden_field('otp[contact_value]', $contact_value);
 			$message.= OsFormHelper::hidden_field('otp[delivery_method]', $delivery_method);
@@ -135,6 +136,14 @@ class OsOTPHelper {
         if($verification_info['valid'] && !empty($verification_info['data']['contact_value'])){
 			self::add_verified_contact_for_customer($customer, $verification_info['data']['contact_value'], $verification_info['data']['contact_type']);
         }
+	}
+
+	public static function is_token_matching_to_contact_value(string $verification_token, string $contact_value) : bool{
+		$verification_info = OsOTPHelper::validate_verification_token($verification_token);
+        if($verification_info['valid'] && !empty($verification_info['data']['contact_value']) && $verification_info['data']['contact_value'] == $contact_value){
+			return true;
+		}
+		return false;
 	}
 
 	public static function add_verified_contact_for_customer(OsCustomerModel $customer, string $contact_value, string $contact_type){
@@ -215,6 +224,8 @@ class OsOTPHelper {
 				if($send_result['status'] == LATEPOINT_STATUS_SUCCESS){
 					$result['processed_datetime'] = OsTimeHelper::now_datetime_in_db_format();
 					$result['status'] = LATEPOINT_STATUS_SUCCESS;
+				}else{
+					$result['message'] = __('Failed to send email', 'latepoint');
 				}
 				break;
 			case 'sms':
@@ -224,6 +235,8 @@ class OsOTPHelper {
 				if($send_result['status'] == LATEPOINT_STATUS_SUCCESS){
 					$result['processed_datetime'] = OsTimeHelper::now_datetime_in_db_format();
 					$result['status'] = LATEPOINT_STATUS_SUCCESS;
+				}else{
+					$result['message'] = __('Failed to send SMS', 'latepoint');
 				}
 				break;
 		}

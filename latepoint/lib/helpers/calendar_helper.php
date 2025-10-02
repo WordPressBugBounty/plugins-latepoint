@@ -171,7 +171,7 @@ class OsCalendarHelper {
 					$index = $i % 7;
 
 					// Output the div for the current weekday
-					echo '<div class="weekday weekday-' . esc_attr( $index + 1 ) . '">' . esc_html( mb_substr($weekdays[ $index ], 0, 1) ) . '</div>';
+					echo '<div class="weekday weekday-' . esc_attr( $index + 1 ) . '">' . esc_html( OsUtilHelper::get_first_chars($weekdays[ $index ], 1) ) . '</div>';
 				}
 				?>
             </div>
@@ -426,9 +426,11 @@ class OsCalendarHelper {
                  data-bookable-minutes="<?php echo esc_attr( $bookable_minutes_with_capacity_data ); ?>"
                  data-work-minutes="<?php echo esc_attr( implode( ',', $work_minutes ) ); ?>"
                  data-interval="<?php echo esc_attr( $selectable_time_interval ); ?>">
-				<?php if ( $settings['layout'] == 'horizontal' ) { ?>
-                    <div
-                            class="os-day-weekday"><?php echo substr(esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' ) ) ), 0, 1); ?></div><?php } ?>
+				<?php if ( $settings['layout'] == 'horizontal' ) {
+                    $weekday = esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' )));
+                    ?>
+                    <div class="os-day-weekday"><?php echo OsUtilHelper::get_first_chars($weekday, 1); ?></div>
+                <?php } ?>
                 <div class="os-day-box">
 					<?php
 					if ( $bookable_slots_count && ! $settings['hide_slot_availability_count'] ) {

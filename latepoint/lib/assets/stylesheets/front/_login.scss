@@ -36,6 +36,18 @@
 
 }
 
+.latepoint-customer-dashboard-redirecting {
+	position: relative;
+	padding-top: 30px;
+	text-align: center;
+	font-size: $body-font-size-m;
+	color: $color-faded;
+	&:before {
+        @include loading-circle($brand-primary, 24px);
+        top: 0;
+	}
+}
+
 .os-password-reset-form-w {
 	position: relative;
 	.password-reset-back-to-login {

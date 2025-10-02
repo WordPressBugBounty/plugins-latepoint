@@ -40,8 +40,10 @@ function latepoint_settings_customer_authentication_method_changed($select){
 function latepoint_settings_customer_authentication_field_type_changed($select){
     if($select.val() === 'disabled'){
       jQuery('#passwordFields, #customerStepSettings').hide();
+      jQuery('#authDefaultMergeBehavior').show();
     }else{
       jQuery('#passwordFields, #customerStepSettings').show();
+      jQuery('#authDefaultMergeBehavior').hide();
     }
     if($select.val() === 'email_or_phone'){
       jQuery('#authDefaultContactType').show();

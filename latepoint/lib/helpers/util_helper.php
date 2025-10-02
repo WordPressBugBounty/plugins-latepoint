@@ -559,4 +559,17 @@ class OsUtilHelper {
 		}
 		return $html;
 	}
+
+	public static function get_first_chars( $string, $num_letters = 1 ) : string {
+		if ( empty( $string ) ) {
+			return '';
+		}
+
+		if ( function_exists( 'mb_substr' ) ) {
+			return mb_substr( $string, 0, $num_letters, 'UTF-8' );
+		}
+
+		return substr( $string, 0, $num_letters );
+	}
+
 }

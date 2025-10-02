@@ -129,6 +129,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				if ( $response['status']['code'] == 200 ) {
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_charges_enabled' ) );
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id' ) );
+					OsStripeConnectHelper::reset_server_token($env);
 				} else {
 					OsDebugHelper::log( 'Stripe Connect Error', 'stripe_connect_disconnect_error', $response );
 				}
@@ -161,6 +162,11 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				} else {
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_charges_enabled', $env ) );
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id', $env ) );
+				}
+				if ( ! empty( $response['data']['active_site_urls'] ) ) {
+					OsSettingsHelper::save_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_duplicate_token_activations', $env ), $response['data']['active_site_urls'] );
+				}else{
+					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_duplicate_token_activations', $env ) );
 				}
 				if ( ! empty( $response['data']['error'] ) ) {
 					OsDebugHelper::log( 'Error checking status of server token', 'stripe_connect_error', [ 'error_message' => $response['data']['error'] ] );

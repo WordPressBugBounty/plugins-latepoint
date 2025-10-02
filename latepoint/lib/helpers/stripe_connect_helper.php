@@ -319,6 +319,13 @@ class OsStripeConnectHelper {
 		return $server_token;
 	}
 
+    public static function reset_server_token(string $force_env = ''): string {
+        $key = OsSettingsHelper::append_payment_env_key('server_token_for_stripe_connect', $force_env);
+        $new_server_token = OsUtilHelper::generate_uuid();
+        OsSettingsHelper::save_setting_by_name($key, $new_server_token);
+        return $new_server_token;
+    }
+
 	public static function get_connect_url(string $env = '') {
 		$url = LATEPOINT_STRIPE_CONNECT_URL . '/wp/stripe-connection/' . $env . '/start/';
 		$url .= self::get_server_token($env) . '/' . base64_encode(implode('|||', [get_bloginfo('name'), get_site_icon_url(), OsUtilHelper::get_site_url()]));
@@ -384,6 +391,14 @@ class OsStripeConnectHelper {
 	public static function get_connection_buttons_and_status(string $env = '') {
 		$stripe_connect_account_id = OsSettingsHelper::get_settings_value(OsSettingsHelper::append_payment_env_key('stripe_connect_account_id', $env), false);
 		$html = '';
+        $duplicate_token_activations = OsSettingsHelper::get_settings_value(OsSettingsHelper::append_payment_env_key( 'stripe_connect_duplicate_token_activations', $env ), '');
+        if(!empty($duplicate_token_activations)){
+            $html .= '<div class="latepoint-fix-records-warning"><i class="latepoint-icon latepoint-icon-info"></i><div>';
+            $html.= '<div>'.__('The following websites are using the same server token. This can happen if a site was cloned from one server to another. To fix this, disconnect each site and reconnect it. When you disconnect a connection, a new token is generated that can then be used safely.', 'latepoint').'</div>';
+            $html .= '<div class="latepoint-fix-records-values">'.$duplicate_token_activations.'</div>';
+            $html .= '</div></div>';
+        }
+        $html.= '<div class="payment-processor-connect-status-inner">';
 		if ($stripe_connect_account_id) {
 			$charges_enabled = OsSettingsHelper::is_on(OsSettingsHelper::append_payment_env_key('stripe_connect_charges_enabled', $env));
 			$disconnect_link = '<a class="payment-processor-disconnect-link" href="#"
@@ -415,6 +430,7 @@ class OsStripeConnectHelper {
 		} else {
 			$html .= '<a data-env="' . $env . '" data-route-name="' . OsRouterHelper::build_route_name('stripe_connect', 'start_connect_process') . '" href="#" class="payment-start-connecting"><span>' . __('Start Connecting', 'latepoint') . '</span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>';
 		}
+        $html .= '</div>';
 		return $html;
 	}
 

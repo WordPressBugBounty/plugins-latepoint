@@ -4,7 +4,7 @@ Donate link: https://latepoint.com
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.8.2
-Stable tag: 5.2.3
+Stable tag: 5.2.4
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -46,6 +46,16 @@ LatePoint generates calendar links to add event to customer's calendar on: [Goog
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.2.4 - October 2, 2025 =
+- Fix: Fixes for customer login shortcode issues + OTP via sms
+
+= 5.2.3 - September 28, 2025 =
+- New: Compact side menu
+- Fix: Fixes for customer authentication
+
+= 5.2.2 - September 27, 2025 =
+- Fix: Fixes for calendar output of blocked periods
 
 = 5.2.1 - September 25, 2025 =
 - Fix: Fixed stripe connect issue when customer authentication is disabled in settings

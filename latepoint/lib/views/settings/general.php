@@ -256,6 +256,11 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     <?php echo OsFormHelper::select_field('settings[default_contact_type_for_customer_auth]', __('Default to', 'latepoint'), OsAuthHelper::get_available_contact_types_for_customer_auth(), OsAuthHelper::get_default_contact_type_for_customer_auth()); ?>
                                 </div>
                             </div>
+                            <div class="os-col-lg-6" id="authDefaultMergeBehavior" <?php if(OsAuthHelper::get_selected_customer_authentication_field_type() != 'disabled'){ ?>style="display: none;"<?php } ?>>
+                                <div>
+                                    <?php echo OsFormHelper::select_field('settings[default_contact_merge_behavior]', __('Reuse existing customer if', 'latepoint'), ['email' => __('Email matches', 'latepoint'), 'phone' => __('Phone matches', 'latepoint'), 'none' => __('Do not reuse, always create new customer', 'latepoint')], OsSettingsHelper::get_settings_value('default_contact_merge_behavior', 'email')); ?>
+                                </div>
+                            </div>
                         </div>
                         <div id="passwordFields" <?php if(OsAuthHelper::is_customer_auth_disabled()){ ?>style="display: none;"<?php } ?>>
                             <div class="os-row os-mb-2">

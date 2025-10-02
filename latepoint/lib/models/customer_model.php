@@ -438,6 +438,18 @@ class OsCustomerModel extends OsModel {
 		return $params_to_save;
 	}
 
+	/**
+	 * Validates and constructs a set of validation rules for properties.
+	 *
+	 * The method determines the validation rules to be applied to customer properties
+	 * based on the context such as whether alternative validation is enabled, or based on
+	 * default fields and specific settings. It also provides flexibility via filters to
+	 * modify the resulting validation rules.
+	 *
+	 * @param bool $alternative_validation Indicates whether to use an alternative set of validation rules. Defaults to false.
+	 *
+	 * @return array An associative array where keys are property names and values are arrays of validation rules.
+	 */
 	protected function properties_to_validate( $alternative_validation = false ) {
 		// if alternative validation is enabled - use a different scope of rules (useful when you don't need to run all validations for example on social login)
 		if ( $alternative_validation ) {
@@ -448,7 +460,7 @@ class OsCustomerModel extends OsModel {
 			$validations = array(
 				'first_name' => array( 'presence' ),
 				'last_name'  => array( 'presence' ),
-				'email'      => array( 'presence', 'email', 'uniqueness' ),
+				'email'      => array( 'presence', 'email' ),
 			);
 
 			$default_fields = OsSettingsHelper::get_default_fields_for_customer();
@@ -460,6 +472,25 @@ class OsCustomerModel extends OsModel {
 					if ( isset( $validations[ $name ] ) ) {
 						$validations[ $name ] = array_diff( $validations[ $name ], [ 'presence' ] );
 					}
+				}
+			}
+			if(OsAuthHelper::is_customer_auth_enabled()){
+				// auth enabled
+				$auth_field = OsAuthHelper::get_selected_customer_authentication_field_type();
+				if($auth_field == 'email'){
+					$validations['email'][] = 'uniqueness';
+				}
+				if($auth_field == 'phone'){
+					$validations['phone'][] = 'uniqueness';
+				}
+			}else{
+				// auth disabled
+				$merge_data = OsSettingsHelper::get_settings_value('default_contact_merge_behavior', 'email');
+				if($merge_data == 'email'){
+					$validations['email'][] = 'uniqueness';
+				}
+				if($merge_data == 'phone'){
+					$validations['phone'][] = 'uniqueness';
 				}
 			}
 			$validations = apply_filters( 'latepoint_customer_model_validations', $validations );
