@@ -218,13 +218,13 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 				case 'customer_created':
 					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
 					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
-					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['customer_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
+					$content_html  = '<pre class="format-json">' . esc_html( wp_json_encode( $data['customer_data_vars'], JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
 					break;
 				case 'customer_updated':
 					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
 					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
 					$changes       = OsUtilHelper::compare_model_data_vars( $data['customer_data_vars']['new'], $data['customer_data_vars']['old'] );
-					$content_html  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
+					$content_html  = '<pre class="format-json">' . esc_html( wp_json_encode( $changes, JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
 					break;
 				case 'payment_request_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';

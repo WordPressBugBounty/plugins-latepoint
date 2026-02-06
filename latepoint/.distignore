@@ -1,0 +1,52 @@
+# Development files
+/.git
+/.github
+/node_modules
+/vendor
+
+# Source files
+# /lib/assets/stylesheets
+# /lib/assets/javascripts
+# /lib/assets/images
+# /lib/assets/fonts
+
+# Bash scripts and utilities
+/bin
+
+# Build artifacts
+/artifacts
+/dist
+
+# Block source files (keeping for now)
+# /blocks/src
+
+# Development configuration
+.nvmrc
+package.json
+package-lock.json
+webpack.config.js
+_webpack.config.js
+config.codekit3
+prepros.config
+
+# Build scripts
+/bin
+
+# Version control
+.gitignore
+.gitattributes
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea
+.vscode
+.nova
+.phpintel
+.zed
+
+# Other
+*.log
+*.zip

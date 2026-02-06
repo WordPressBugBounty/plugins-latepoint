@@ -181,27 +181,82 @@ class OsSettingsHelper {
 			throw new Exception( __( 'Invalid JSON file format', 'latepoint' ) );
 		}
 
+		// Get whitelist of allowed LatePoint tables.
+		$allowed_tables = OsDatabaseHelper::get_all_latepoint_tables();
+
+		// Validate all tables before processing to ensure security.
+		foreach ( $data as $table => $table_data ) {
+			// Security check: Ensure table is in whitelist.
+			if ( ! in_array( $table, $allowed_tables, true ) ) {
+				throw new Exception( sprintf( __( 'Security: Table "%s" is not allowed for import', 'latepoint' ), esc_html( $table ) ) );
+			}
+
+			// Security check: Validate required fields exist.
+			if ( ! isset( $table_data['create'] ) || ! isset( $table_data['data'] ) ) {
+				throw new Exception( sprintf( __( 'Invalid data structure for table "%s"', 'latepoint' ), esc_html( $table ) ) );
+			}
+
+			// Security check: Validate CREATE statement only creates the expected table.
+			$create_statement = $table_data['create'];
+			if ( ! preg_match( '/^\s*CREATE\s+TABLE\s+/i', $create_statement ) ) {
+				throw new Exception( sprintf( __( 'Security: Invalid CREATE statement for table "%s"', 'latepoint' ), esc_html( $table ) ) );
+			}
+
+			// Extract table name from CREATE statement and validate it matches.
+			if ( ! preg_match( '/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?[`\'"]?(' . preg_quote( $table, '/' ) . ')[`\'"]?\s+/i', $create_statement ) ) {
+				throw new Exception( sprintf( __( 'Security: CREATE statement table name mismatch for "%s"', 'latepoint' ), esc_html( $table ) ) );
+			}
+
+			// Security check: Ensure no dangerous SQL keywords in CREATE statement.
+			$dangerous_keywords = array( 'EXEC', 'EXECUTE', 'CALL', 'LOAD_FILE', 'INTO OUTFILE', 'INTO DUMPFILE' );
+			foreach ( $dangerous_keywords as $keyword ) {
+				if ( stripos( $create_statement, $keyword ) !== false ) {
+					throw new Exception( sprintf( __( 'Security: Dangerous SQL keyword "%s" detected in CREATE statement', 'latepoint' ), esc_html( $keyword ) ) );
+				}
+			}
+		}
+
+		// Process each table after validation.
 		foreach ( $data as $table => $table_data ) {
 			// Drop table if exists
-			$wpdb->query( "DROP TABLE IF EXISTS {$table}" );
+			$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', $table ) );
 
 			// Create table
-			$wpdb->query( $table_data['create'] );
+			$result = $wpdb->query( $table_data['create'] );
+			if ( $result === false ) {
+				throw new Exception( sprintf( __( 'Error creating table "%s": %s', 'latepoint' ), esc_html( $table ), $wpdb->last_error ) );
+			}
 
 			// Insert data
-			foreach ( $table_data['data'] as $row ) {
-				$wpdb->insert( $table, $row );
+			if ( is_array( $table_data['data'] ) ) {
+				foreach ( $table_data['data'] as $row ) {
+					if ( is_array( $row ) ) {
+						$insert_result = $wpdb->insert( $table, $row );
+						if ( $insert_result === false ) {
+							// Log error but continue with other rows.
+							error_log( sprintf( 'LatePoint Import: Error inserting data into %s: %s', $table, $wpdb->last_error ) );
+						}
+					}
+				}
 			}
 
 			// Find auto-increment columns and their max values
-			$columns = $wpdb->get_results( "SHOW COLUMNS FROM {$table} WHERE Extra = 'auto_increment'" );
-			foreach ( $columns as $column ) {
-				// Get the maximum value for this column
-				$max_id = $wpdb->get_var( "SELECT MAX({$column->Field}) FROM {$table}" );
+			$columns = $wpdb->get_results( $wpdb->prepare( "SHOW COLUMNS FROM %i WHERE Extra = 'auto_increment'", $table ) );
+			if ( is_array( $columns ) ) {
+				foreach ( $columns as $column ) {
+					if ( isset( $column->Field ) ) {
+						// Sanitize column name to prevent SQL injection.
+						$column_name = preg_replace( '/[^a-zA-Z0-9_]/', '', $column->Field );
 
-				// Set the auto_increment value to max + 1
-				if ( $max_id ) {
-					$wpdb->query( "ALTER TABLE {$table} AUTO_INCREMENT = " . ( $max_id + 1 ) );
+						// Get the maximum value for this column.
+						$max_id = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(%i) FROM %i", $column_name, $table ) );
+
+						// Set the auto_increment value to max + 1.
+						if ( $max_id ) {
+							$next_id = intval( $max_id ) + 1;
+							$wpdb->query( $wpdb->prepare( "ALTER TABLE %i AUTO_INCREMENT = %d", $table, $next_id ) );
+						}
+					}
 				}
 			}
 		}

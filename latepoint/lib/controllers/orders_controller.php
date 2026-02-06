@@ -130,7 +130,9 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				$customer        = new OsCustomerModel();
 				$is_new_customer = true;
 			}
-			$customer->set_data( $customer_params );
+			// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
+			// Use 'public' role to restrict which fields can be set via user input.
+			$customer->set_data( $customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
 			if ( $customer->save() ) {
 				if ( $is_new_customer ) {
 					do_action( 'latepoint_customer_created', $customer );

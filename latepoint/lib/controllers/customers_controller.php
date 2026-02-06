@@ -149,7 +149,8 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 		public function create() {
 			$this->check_nonce( 'new_customer' );
 			$customer = new OsCustomerModel();
-			$customer->set_data( $this->params['customer'] );
+			// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
+			$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_PUBLIC );
 			if ( $customer->save() ) {
 				// translators: %s is the html of a customer edit link
 				$response_html = sprintf( __( 'Customer Created ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );
@@ -178,7 +179,8 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 					$status        = LATEPOINT_STATUS_ERROR;
 				} else {
 					$old_customer_data = $customer->get_data_vars();
-					$customer->set_data( $this->params['customer'] );
+					// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
+					$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_PUBLIC );
 					if ( $customer->save() ) {
 						// translators: %s is the html of a customer edit link
 						$response_html = sprintf( __( 'Customer Updated ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );

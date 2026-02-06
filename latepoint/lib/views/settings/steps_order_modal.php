@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="os-ordered-steps-description">
 		<?php esc_html_e('Drag steps up and down to reorder. Some steps have sub steps, click on arrow to show them, they can also be reordered.', 'latepoint'); ?>
 	</div>
-	<div class="os-ordered-steps" data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name('settings', 'update_steps_order')); ?>">
+	<div class="os-ordered-steps" data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name('settings', 'update_steps_order')); ?>" data-params="<?php echo esc_attr(OsUtilHelper::build_os_params([], 'update_steps_order')); ?>">
 		<?php
 		foreach($steps as $step_name => $step_children){
 			echo '<div class="os-ordered-step" data-step-code="'.esc_attr($step_name).'">';

@@ -47,6 +47,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		}
 
 		function save_service() {
+			$this->check_nonce( 'save_service' );
 			$service = new OsServiceModel();
 			$service->set_data( $this->params['service'] );
 
@@ -69,6 +70,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		}
 
 		function save_agent() {
+			$this->check_nonce( 'save_agent' );
 			$agent = new OsAgentModel();
 			$agent->set_data( $this->params['agent'] );
 			if ( $agent->save() ) {

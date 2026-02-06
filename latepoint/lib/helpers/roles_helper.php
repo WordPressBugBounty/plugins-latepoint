@@ -274,7 +274,7 @@ class OsRolesHelper {
 
 
   public static function generate_role_id(){
-  	return 'role_'.OsUtilHelper::random_text('alnum', 8);
+  	return strtolower('role_'.OsUtilHelper::random_text('alnum', 8));
   }
 
 	public static function get_custom_roles($as_objects = false): array{

@@ -138,6 +138,7 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function update_steps_order() {
+			$this->check_nonce( 'update_steps_order' );
 			$new_order = explode( ',', $this->params['steps_order'] );
 			$errors    = [];
 
@@ -163,6 +164,7 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 
 
 		public function set_menu_layout_style() {
+			$this->check_nonce( 'set_menu_layout_style' );
 			$menu_layout_style = ( isset( $this->params['menu_layout_style'] ) && in_array( $this->params['menu_layout_style'], [ 'full', 'compact' ] ) ) ? $this->params['menu_layout_style'] : 'full';
 			OsSettingsHelper::set_menu_layout_style( $menu_layout_style );
 
@@ -216,6 +218,7 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function remove_chain_schedule() {
+			$this->check_nonce( 'remove_chain_schedule' );
 			$chain_id = $this->params['chain_id'];
 			if ( $chain_id && OsWorkPeriodsHelper::remove_periods_for_chain_id( $chain_id ) ) {
 				$response_html = __( 'Date Range Schedule Removed', 'latepoint' );
@@ -231,6 +234,7 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function remove_custom_day_schedule() {
+			$this->check_nonce( 'remove_custom_day_schedule' );
 			$target_date_string  = $this->params['date'];
 			$args                = [];
 			$args['agent_id']    = isset( $this->params['agent_id'] ) ? $this->params['agent_id'] : 0;

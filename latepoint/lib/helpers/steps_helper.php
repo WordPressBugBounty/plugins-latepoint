@@ -467,6 +467,24 @@ class OsStepsHelper {
 	public static function load_step( $step_code, $format = 'json', $params = [] ) {
 		self::$params = $params;
 
+		// Security: If loading existing booking by ID, verify ownership.
+		if ( ! empty( $params['booking']['id'] ) ) {
+			$booking_to_check = new OsBookingModel( $params['booking']['id'] );
+			if ( ! $booking_to_check->is_new_record() ) {
+				$current_customer_id = OsAuthHelper::get_logged_in_customer_id();
+				if ( ! $current_customer_id || $booking_to_check->customer_id != $current_customer_id ) {
+					// Unauthorized access - return error.
+					wp_send_json(
+						array(
+							'status' => LATEPOINT_STATUS_ERROR,
+							'message' => __( 'Not Allowed', 'latepoint' ),
+						)
+					);
+					return;
+				}
+			}
+		}
+
 		$step_code = self::check_step_code_access( $step_code );
 		if ( self::get_customer_object_id() && OsSettingsHelper::get_settings_value( 'max_future_bookings_per_customer' ) ) {
 			$customer = self::get_customer_object();
@@ -1744,13 +1762,13 @@ class OsStepsHelper {
             self::$vars_for_view['customer_verification_info'] = [];
         }
 
-        if(self::$params['auth']['action'] == 'register') {
+        if(isset(self::$params['auth']['action']) && self::$params['auth']['action'] == 'register') {
             // set customer objects from params of the submitted form
 	        self::$customer_object->set_data( self::customer_params() );
         }
 
         // logout - clear the customer
-        if(self::$params['auth']['action'] == 'logout'){
+        if(isset(self::$params['auth']['action']) && self::$params['auth']['action'] == 'logout'){
             self::$customer_object = new OsCustomerModel();
         }
 

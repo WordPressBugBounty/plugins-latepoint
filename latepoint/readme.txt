@@ -3,8 +3,8 @@ Contributors: latepoint
 Donate link: https://latepoint.com
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
-Tested up to: 6.8.2
-Stable tag: 5.2.4
+Tested up to: 6.9
+Stable tag: 5.2.7
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -13,31 +13,188 @@ Optimize your appointment scheduling with our plugin. Sync calendars, automate r
 
 == Description ==
 
-**LatePoint – The Best Appointment Scheduling Plugin for WordPress**
+**LatePoint – The Lightweight Appointment Booking Plugin for WordPress**
 
-LatePoint is a powerful and user-friendly appointment scheduling plugin for WordPress that simplifies booking management for businesses of all sizes.
+**★★★★★**
 
 [youtube https://www.youtube.com/watch?v=s5lcrXFWQcw]
 
-It offers a variety of features, including an intuitive admin dashboard, responsive design for mobile devices, and seamless integration with Stripe to accept payments. The plugin supports multiple booking methods, such as using shortcodes, block elements, or triggers attached to existing elements, allowing you to customize how bookings are made on your site.
+[What's New](https://latepoint.com/changelog/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Docs](https://wpdocs.latepoint.com/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Video Tutorial](https://www.youtube.com/watch?v=wwQ5EwEln6E&utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Get Help](https://wpdocs.latepoint.com/support/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Community](https://discord.com/invite/YN2MN7w7S8?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
 
-The plugin is highly flexible, making it suitable for developers to create custom add-ons and extend its capabilities.
+LatePoint is a simple yet lightweight and powerful appointment booking plugin for WordPress. Built for service-based businesses, it helps your customers book appointments in just a few clicks, without the back-and-forth emails or clunky booking systems.
 
-== Need Expert Support? ==
-Ask your questions on our [Discord server](https://discord.gg/SDmSUDsEKa) or [contact support](https://wpdocs.latepoint.com).
+Whether you're a coach, salon, consultant, or clinic, if your business runs on bookings, LatePoint makes it easy to manage your schedule, take payments, and let clients book online 24/7.
+
+Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LatePoint handle the heavy lifting so you can focus on your business.
+
+[Try the Live Demo](https://app.zipwp.com/blueprint/latepoint-demo-m00?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+== What You Can Do With LatePoint ==
+
+* Let customers book appointments online 24/7
+* Manage your calendar and availability with ease
+* Accept payments with Stripe (Braintree, Flutterwave, MercadoPago, Molie, PayPal, Paystack, RazorPay, Square, Woo, SureCart available in Pro)
+* Sync with Google Calendar
+* Offer in-person or virtual sessions (Zoom/Google Meet with Pro)
+* Support for multiple staff, services, and locations
+* Send automatic confirmations and reminders
+* Customize booking forms to collect the info you need
+* Provide a customers dashboard to manage bookings (Pro)
+* View and control everything from a unified admin dashboard
+* Use coupons, addons, and follow-ups to boost engagement (Pro)
+* Let customers book multiple appointments at once (Booking Cart - Pro)
+
+[LatePoint Review: Is It the Right Booking Plugin for Your Service?](https://wpastra.com/review/latepoint-review/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+== Who Is LatePoint For? ==
+
+LatePoint is trusted by freelancers, studios, agencies, and small business owners across many industries. If your business runs on appointments, LatePoint can save you time and make your life easier.
+
+**Salons & Studios**
+
+If you run a personal care studio, hair or nail salon, spa, massage therapist or tattoo studio, you'll know how important it is to avoid no-shows, double-bookings, and awkward payment moments.
+
+With LatePoint:
+
+* Customers can book online anytime
+* You can send automatic reminders so clients actually show up
+* Accept payments upfront or after the session
+* Sync your bookings with Google Calendar
+
+[▶️ How To Set Up LatePoint for Salons](https://www.youtube.com/watch?v=IWbBoEyXklI&utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+**Coaches, Consultants & Trainers**
+
+If you run 1:1 sessions, group coaching, or online workshops, LatePoint keeps your schedule organized and sessions full.
+
+* Let clients pick time slots based on availability
+* Offer in-person or Zoom sessions
+* Sell service packages and recurring appointments
+
+**Clinics, Therapists & Healthcare Pros**
+
+For medical, wellness, or therapy practices, LatePoint helps you stay professional while giving patients a smooth experience.
+
+* Collect patient information with custom fields
+* Offer multiple services with different specialists
+* Manage multiple staff calendars and locations
+
+**Education & Classes**
+
+Whether you're a tutor, language teacher, or run in-person classes, you can:
+
+* Let students book 1:1 or group sessions
+* Limit bookings to your preferred hours
+* Automate reminders and payments
+
+**Local Services & Agencies**
+
+Photographers, cleaners, auto services, repair shops, if your business depends on appointments, LatePoint makes it simple.
+
+* Show real-time availability
+* Set different schedules by service or team member
+* Let clients book 24/7, no calls or emails needed
+
+== What Makes LatePoint Unique? ==
+
+LatePoint isn't just another booking plugin, it's designed to solve real-world scheduling problems with a smart, flexible approach.
+
+* **Purpose-built for service providers:** From solo pros to teams across locations, LatePoint adapts to your business.
+* **Quick to launch, simple to manage:** The built-in onboarding wizard walks you through the entire setup. You'll go from install to taking bookings in under 10 minutes.
+* **Mobile-first booking experience:** Clients see clean, intuitive forms that work beautifully on phones, tablets, and desktops. Fewer clicks = fewer drop-offs.
+* **Automation built-in:** LatePoint handles confirmations, reminders, follow-ups, and payments. Skip the admin and focus on delivering your services.
+* **Affordable, with a forever-free plan:** You won't get trapped in expensive subscriptions. Start with the free version, and upgrade when you need advanced features.
+* **Native to WordPress:** Built to feel like a natural part of your site, LatePoint works with most popular themes and page builders out of the box.
+
+== How It Works ==
+
+1. **Install the plugin:** Download LatePoint from the WordPress plugin repository and activate it on your site.
+2. **Complete the setup wizard:** Walk through a simple onboarding process to set your timezone, services, staff, and availability.
+3. **Customize your booking form:** Add custom fields to collect the information you need before a session. Choose which details to make required or optional.
+4. **Add booking to your site:** Use a shortcode or LatePoint widget to place the booking interface into any page or post.
+5. **Start accepting bookings:** Customers can now see your real-time availability, book appointments, pay (Pro), and receive confirmation emails.
+6. **Manage everything in your dashboard:** View and manage appointments, customer information, payments, and notifications directly from your WordPress admin.
+
+[Follow the Step-by-Step Guide](https://wpdocs.latepoint.com/getting-started-with-latepoint/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+== Features You'll Love ==
+
+✅ **Visual booking form builder** - Customize steps, services, and fields without touching code
+✅ **Multi-step appointment scheduling** - Clean, intuitive customer experience
+✅ **Multiple services, agents & locations** - Set schedules, prices, and availability per agent or location
+✅ **Customer dashboard** - Customers can view and manage bookings, cancel and reschedule
+✅ **Admin dashboard** - Full calendar view with filters for appointments, agents, and locations
+✅ **Google Calendar sync** - Keep everything up to date across platforms
+✅ **Built-in notifications** - Email, SMS, and WhatsApp notifications out of the box
+✅ **Online payments** - Connect Stripe or PayPal to accept payments during booking
+✅ **Booking cart** - Let customers book multiple appointments at once
+
+== Want To Unlock More? ==
+
+LatePoint comes with a solid set of features in the free version, perfect if you're just getting started. But if you're managing multiple team members, need advanced scheduling logic, or want to offer online payments and video calls, the Pro version gives you that extra power.
+
+Here's what you unlock with LatePoint Pro:
+
+* Add unlimited agents and services
+* Accept payments using other methods, such as PayPal
+* Zoom and Google Meet integration
+* Set up advanced availability rules and service durations
+* Send custom reminders and follow-ups
+* Support for deposits, coupons, and recurring bookings
+
+[See the Full Free vs Pro Feature Comparison](https://docs.google.com/spreadsheets/d/1AcjnUEKGhM0ySAgm7ZKRt-PSqlJ05eZk1JiuL5ToGRs/edit?usp=sharing)
+[Check Out LatePoint Pro](https://latepoint.com/pricing/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+== Works With Your Stack ==
+
+* Works with most Popular WordPress themes (Astra, Kadence, GeneratePress and others)
+* Fully compatible with Elementor, Gutenberg, and page builders
+* LatePoint is compatible with WooCommerce but doesn't need it to work
+* Extendable with official LatePoint add-ons (Zoom, WhatsApp, Packages, etc.)
 
 == Screenshots ==
 
-1. Take control of your business with our helpful dashboard. Accessible anytime, anywhere - no matter if you're on the go or on your computer.
-2. Manage your appointments and schedules using our beautifully designed daily, weekly and monthly calendars.
-3. Find available slots quickly with a unique availability preview.
-4. Customers will enjoy scheduling appointments using our beautiful booking form.
-5. Various shortcodes and block elements available to output your services with a quick "Book Now" button.
+1. Modern multi-step booking form - A fast, beautiful interface your customers will actually enjoy using.
+2. Visual booking form builder - Customize booking steps with drag and drop.
+3. Admin dashboard - See all your appointments at a glance, with filters and controls.
+4. Agent panel - Each agent gets their own login and schedule management tools.
+5. Customer dashboard - Let customers manage bookings without contacting you.
+6. Setup wizard - Get up and running in minutes with our guided onboarding.
+7. Calendar view - Easily view appointments by day, week, or month.
 
-== Third Party Services ==
+== Blocks ==
 
-LatePoint offers optional payment processing through Stripe. More information about stripe: [homepage](https://stripe.com), [terms of service](https://stripe.com/legal/ssa)
-LatePoint generates calendar links to add event to customer's calendar on: [Google Calendar](https://calendar.google.com), [Microsoft Outlook](https://www.microsoft.com) and [Microsoft Office](https://outlook.office.com)
+This plugin provides 6 blocks.
+
+* **Customer dashboard:** Adds a customer dashboard for LatePoint
+* **Booking button:** Adds a booking button
+* **List of resources:** Adds a list of bookable resources by type
+* **Booking form:** Adds a LatePoint booking form
+* **Customer login:** Adds a customer login form
+* **Latepoint calendar:** Adds a calendar of events
+
+== Frequently Asked Questions ==
+
+**Does this work with Elementor or other page builders?**
+Yes! LatePoint works with Elementor, Gutenberg, and most other major builders.
+
+**Can I use this on client websites?**
+Absolutely. It's perfect for agencies or freelancers setting up client booking systems.
+
+**Can customers book multiple appointments at once?**
+Yes, the booking cart lets users add multiple services in one go.
+
+**Can I accept payments during booking?**
+Yes, Stripe and PayPal are both supported out of the box.
+
+**Is LatePoint free or paid?**
+This is the free version, perfect for simple booking needs. Want advanced features like Zoom integration, recurring appointments, or WhatsApp notifications? [Check out LatePoint Pro](https://latepoint.com/pricing/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+
+== Trusted by 21,000+ Businesses ==
+
+LatePoint has over 1,300 five-star reviews and is trusted by businesses worldwide, including the Nigerian Embassy, fitness chains, and solo freelancers.
+
+If you want a modern, effortless way to let your customers book online, give LatePoint a try today.
 
 == Installation ==
 
@@ -47,32 +204,20 @@ LatePoint generates calendar links to add event to customer's calendar on: [Goog
 
 == Changelog ==
 
+= 5.2.7 - February 3, 2026 =
+- Security: Addressed security bugs. Props to WordFence for reporting it.
+
+= 5.2.6 - January 28, 2026 =
+- Security: Addressed security bugs. Props to WordFence for reporting it.
+
+= 5.2.5 - December 3, 2025 =
+- New: WordPress 6.9 compatibility.
+
 = 5.2.4 - October 2, 2025 =
-- Fix: Fixes for customer login shortcode issues + OTP via sms
+- Fix: Fixes for customer login shortcode issues + OTP via SMS
 
 = 5.2.3 - September 28, 2025 =
 - New: Compact side menu
 - Fix: Fixes for customer authentication
-
-= 5.2.2 - September 27, 2025 =
-- Fix: Fixes for calendar output of blocked periods
-
-= 5.2.1 - September 25, 2025 =
-- Fix: Fixed stripe connect issue when customer authentication is disabled in settings
-
-= 5.2.0 - September 23, 2025 =
-
-- New: Improved UI for admin dashboard
-- New: Customers can log in using their phone number instead of email
-- New: Import customers via CSV
-- New: Ability for customers login with one-time code via SMS or email
-- New: Support for short urls in SMS
-- New: You can now disable email as a required field
-- New: Guest booking, ability for customers to make a booking without creating an account
-- New: Ability to attach files in emails through workflows
-- New: Ability to attach an .isc calendar file for an appointment in workflows
-- Improvement: Improvements to how social login buttons look
-- Improvement: Added link to customer information edit on summary panel
-- Improvement: Out of the box support for multiple languages (French, German, Spanish, Italian, Russian)
 
 Full changelog can be found on our website: [Full Changelog](https://latepoint.com/changelog/)

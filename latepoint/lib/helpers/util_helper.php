@@ -103,7 +103,19 @@ class OsUtilHelper {
   }
 
   public static function get_site_url(){
-    return network_home_url();
+	$site_url = network_home_url();
+
+	/**
+	 * Filtered site url
+	 *
+	 * @param {string} $site_url a site url
+	 * @returns {array} $site_url a filtered site_url
+	 *
+	 * @since 5.2.5
+	 * @hook latepoint_get_site_url
+	 *
+	 */
+    return apply_filters('latepoint_get_site_url', $site_url);
   }
 
   public static function is_off($value){

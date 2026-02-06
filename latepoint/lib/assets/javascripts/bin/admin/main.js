@@ -151,7 +151,7 @@ async function latepoint_build_url_for_instant_booking_page(){
 }
 
 function latepoint_build_and_save_step_order(){
-  var $steps_wrapper = jQuery('.os-ordered-steps');
+  const $steps_wrapper = jQuery('.os-ordered-steps');
   let steps_in_order = [];
   $steps_wrapper.find('.os-ordered-step').each(function(index){
     if(jQuery(this).find('.os-ordered-step-children').length){
@@ -162,7 +162,17 @@ function latepoint_build_and_save_step_order(){
       steps_in_order.push(jQuery(this).data('step-code'));
     }
   });
-  var data = { action: latepoint_helper.route_action, route_name: $steps_wrapper.data('route-name'), params: {steps_order: steps_in_order.join(',')}, return_format: 'json' }
+  const paramsQuery = $steps_wrapper.data('params') || '';
+  const params = Object.fromEntries(new URLSearchParams(paramsQuery));
+  const data = {
+    action: latepoint_helper.route_action,
+    route_name: $steps_wrapper.data('route-name'),
+    params: {
+      ...params,
+      steps_order: steps_in_order.join(','),
+    },
+    return_format: 'json'
+  }
   jQuery('.latepoint-lightbox-heading').addClass('os-loading');
   jQuery.ajax({
     type : "post",
@@ -337,6 +347,7 @@ function latepoint_update_default_form_fields_settings(){
 
 function latepoint_init_side_menu(){
   jQuery('.menu-toggler').on('click', function(){
+    let $menuToggler = jQuery(this);
     let layout_style = 'full';
     if(jQuery('.latepoint-side-menu-w').hasClass('side-menu-full')){
       layout_style = 'compact';
@@ -344,8 +355,18 @@ function latepoint_init_side_menu(){
     }else{
       jQuery('.latepoint-side-menu-w').addClass('side-menu-full').removeClass('side-menu-compact');
     }
-    let route_name = jQuery(this).data('route');
-    let data = { action: latepoint_helper.route_action, route_name: route_name, params: { menu_layout_style: layout_style }, layout: 'none', return_format: 'json' }
+    const paramsQuery = $menuToggler.data('params') || '';
+    const params = Object.fromEntries(new URLSearchParams(paramsQuery));
+    const data = {
+      action: latepoint_helper.route_action,
+      route_name: $menuToggler.data('route'),
+      params: {
+        ...params,
+        menu_layout_style: layout_style,
+      },
+      layout: 'none',
+      return_format: 'json'
+    }
     jQuery.ajax({
       type : "post",
       dataType : "json",
