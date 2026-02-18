@@ -150,7 +150,8 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$this->check_nonce( 'new_customer' );
 			$customer = new OsCustomerModel();
 			// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
-			$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_PUBLIC );
+			// Use admin scope if user is authenticated as admin, otherwise restrict to public fields.
+			$customer->set_data( $this->params['customer'], OsAuthHelper::is_admin_logged_in() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 			if ( $customer->save() ) {
 				// translators: %s is the html of a customer edit link
 				$response_html = sprintf( __( 'Customer Created ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );
@@ -180,7 +181,8 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				} else {
 					$old_customer_data = $customer->get_data_vars();
 					// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
-					$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_PUBLIC );
+					// Use admin scope if user is authenticated as admin, otherwise restrict to public fields.
+					$customer->set_data( $this->params['customer'], OsAuthHelper::is_admin_logged_in() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 					if ( $customer->save() ) {
 						// translators: %s is the html of a customer edit link
 						$response_html = sprintf( __( 'Customer Updated ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );

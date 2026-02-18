@@ -131,8 +131,8 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				$is_new_customer = true;
 			}
 			// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
-			// Use 'public' role to restrict which fields can be set via user input.
-			$customer->set_data( $customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+			// Use admin scope if user is authenticated as admin, otherwise restrict to public fields.
+			$customer->set_data( $customer_params, OsAuthHelper::is_admin_logged_in() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 			if ( $customer->save() ) {
 				if ( $is_new_customer ) {
 					do_action( 'latepoint_customer_created', $customer );

@@ -181,7 +181,7 @@ class OsCustomerImportHelper {
 					$save_data[$column_mapping[$column_index]] = $field_value;
 				}
 			}
-			$customer->set_data($save_data);
+			$customer->set_data($save_data, 'public');
 
 			if ($customer->save()) {
 				$updatedCount++;

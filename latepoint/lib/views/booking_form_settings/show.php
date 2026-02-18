@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <form class="booking-form-preview-settings"
           data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name( 'booking_form_settings', 'reload_preview' )); ?>">
+        <?php wp_nonce_field( 'reload_preview', '_wpnonce', false ); ?>
         <div class="bf-heading">
             <div class="latepoint-icon latepoint-icon-browser"></div>
             <div><?php esc_html_e( 'Appearance', 'latepoint' ); ?></div>

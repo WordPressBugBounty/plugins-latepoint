@@ -208,7 +208,7 @@ class OsSettingsHelper {
 			}
 
 			// Security check: Ensure no dangerous SQL keywords in CREATE statement.
-			$dangerous_keywords = array( 'EXEC', 'EXECUTE', 'CALL', 'LOAD_FILE', 'INTO OUTFILE', 'INTO DUMPFILE' );
+			$dangerous_keywords = array( 'SELECT', 'UNION', 'EXEC', 'EXECUTE', 'CALL', 'LOAD_FILE', 'INTO OUTFILE', 'INTO DUMPFILE' );
 			foreach ( $dangerous_keywords as $keyword ) {
 				if ( stripos( $create_statement, $keyword ) !== false ) {
 					throw new Exception( sprintf( __( 'Security: Dangerous SQL keyword "%s" detected in CREATE statement', 'latepoint' ), esc_html( $keyword ) ) );
@@ -231,6 +231,11 @@ class OsSettingsHelper {
 			if ( is_array( $table_data['data'] ) ) {
 				foreach ( $table_data['data'] as $row ) {
 					if ( is_array( $row ) ) {
+						// Security fix: Prevent mass assignment of wordpress_user_id during import.
+						if ( $table === $wpdb->prefix . 'latepoint_customers' ) {
+							unset( $row['wordpress_user_id'] );
+						}
+
 						$insert_result = $wpdb->insert( $table, $row );
 						if ( $insert_result === false ) {
 							// Log error but continue with other rows.

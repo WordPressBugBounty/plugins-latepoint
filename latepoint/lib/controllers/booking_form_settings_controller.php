@@ -23,6 +23,9 @@ if ( ! class_exists( 'OsBookingFormSettingsController' ) ) :
 		}
 
 		public function reload_preview() {
+			// Verify nonce.
+			$this->check_nonce( 'reload_preview' );
+
 			OsStepsHelper::set_cart_object();
 			OsStepsHelper::set_booking_object();
 			OsStepsHelper::set_restrictions();
