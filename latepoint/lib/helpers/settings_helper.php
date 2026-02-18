@@ -207,11 +207,12 @@ class OsSettingsHelper {
 				throw new Exception( sprintf( __( 'Security: CREATE statement table name mismatch for "%s"', 'latepoint' ), esc_html( $table ) ) );
 			}
 
-			// Security check: Ensure no dangerous SQL keywords in CREATE statement.
-			$dangerous_keywords = array( 'SELECT', 'UNION', 'EXEC', 'EXECUTE', 'CALL', 'LOAD_FILE', 'INTO OUTFILE', 'INTO DUMPFILE' );
+			// Security check: Ensure no dangerous SQL keywords in CREATE statement (whole-word match to avoid false positives on column names like "selection_image_id").
+			$dangerous_keywords = array( 'SELECT', 'UNION', 'EXEC', 'EXECUTE', 'CALL', 'LOAD_FILE', 'INTO\s+OUTFILE', 'INTO\s+DUMPFILE' );
 			foreach ( $dangerous_keywords as $keyword ) {
-				if ( stripos( $create_statement, $keyword ) !== false ) {
-					throw new Exception( sprintf( __( 'Security: Dangerous SQL keyword "%s" detected in CREATE statement', 'latepoint' ), esc_html( $keyword ) ) );
+				if ( preg_match( '/\b' . $keyword . '\b/i', $create_statement ) ) {
+					$display_keyword = str_replace( '\s+', ' ', $keyword );
+					throw new Exception( sprintf( __( 'Security: Dangerous SQL keyword "%s" detected in CREATE statement', 'latepoint' ), esc_html( $display_keyword ) ) );
 				}
 			}
 		}
