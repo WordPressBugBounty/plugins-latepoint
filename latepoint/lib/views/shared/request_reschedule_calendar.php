@@ -28,6 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		echo OsFormHelper::hidden_field( 'booking[start_date]', $booking->start_date, [ 'class' => 'latepoint_start_date', 'skip_id' => true ] );
 		echo OsFormHelper::hidden_field( 'booking[start_time]', $booking->start_time, [ 'class' => 'latepoint_start_time', 'skip_id' => true ] );
 		echo OsFormHelper::hidden_field( 'timezone_name', $timezone_name, [ 'class' => 'latepoint_timezone_name', 'skip_id' => true ] );
+		// Add CSRF protection nonce
+		wp_nonce_field( 'reschedule_booking_' . $booking->id, '_wpnonce', false );
 		?>
     </div>
 </div>

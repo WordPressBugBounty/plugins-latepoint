@@ -205,11 +205,16 @@ if (!class_exists('OsTransactionsController')) :
 
 
 		public function refund_transaction() {
-			try {
-				if ( ! filter_var( $this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT ) ) {
-					throw new Exception(esc_html__( 'Invalid Transaction', 'latepoint' ));
-				}
+			// Validate transaction ID.
+			if ( ! filter_var( $this->params['transaction_refund']['transaction_id'], FILTER_VALIDATE_INT ) ) {
+				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => esc_html__( 'Invalid Transaction', 'latepoint' ) ) );
+				return;
+			}
 
+			// Verify nonce for refunding transaction.
+			$this->check_nonce( 'refund_transaction_' . $this->params['transaction_refund']['transaction_id'] );
+
+			try {
 				$transaction = new OsTransactionModel( $this->params['transaction_refund']['transaction_id'] );
 
 				if ( empty( $transaction ) || !$transaction->can_refund() ) {

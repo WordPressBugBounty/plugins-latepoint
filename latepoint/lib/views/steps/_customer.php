@@ -35,7 +35,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="step-customer-logged-in-header-w">
                     <div><?php esc_html_e( 'Contact Information', 'latepoint' ); ?></div>
                     <span><?php esc_html_e( 'Not You?', 'latepoint' ); ?></span><a
-                            data-btn-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'auth', 'logout_customer' ) ); ?>" href="#"
+                            data-btn-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'auth', 'logout_customer' ) ); ?>"
+                            data-nonce="<?php echo esc_attr( wp_create_nonce( 'auth_nonce' ) ); ?>"
+                            href="#"
                             class="step-customer-logout-btn"><?php esc_html_e( 'Logout', 'latepoint' ); ?></a>
                 </div>
 				<?php include( 'partials/_contact_form.php' ); ?>

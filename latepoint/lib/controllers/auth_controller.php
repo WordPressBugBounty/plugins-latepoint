@@ -201,6 +201,9 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 
 		// Logs out customer and shows blank contact step
 		public function logout_customer() {
+			// Verify nonce.
+			$this->check_nonce( 'auth_nonce', $this->params['auth']['nonce'] );
+
 			OsAuthHelper::logout_customer();
 
 			if ( $this->get_return_format() == 'json' ) {
@@ -210,6 +213,9 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 
 		// Login customer and show contact step with prefilled info
 		public function login_customer() {
+			// Verify nonce.
+			$this->check_nonce( 'auth_nonce', $this->params['auth']['nonce'] );
+
 			$contact_type = $this->params['auth']['contact_type'];
 			$contact_value = ($contact_type == 'email') ? $this->params['auth']['email'] : $this->params['auth']['phone'];
 			$customer = OsAuthHelper::login_customer( $contact_value, $this->params['auth']['password'], $this->params['auth']['contact_type'] );

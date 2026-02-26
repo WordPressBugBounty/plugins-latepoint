@@ -80,7 +80,10 @@ class OsProcessJobModel extends OsModel{
 		$actions_html = '';
 
 		$process_actions = $this->get_actions();
-		$run_result = $result = json_decode($this->run_result, true);
+		$run_result = '';
+		if( ! empty($this->run_result) ) {
+			$run_result = json_decode($this->run_result, true);
+		}
 		if(empty($process_actions) && empty($run_result)) return __('No Actions', 'latepoint');
 
 		foreach($process_actions as $action){

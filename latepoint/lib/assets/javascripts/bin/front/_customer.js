@@ -217,6 +217,7 @@ function latepoint_init_reschedule() {
             start_date: $wrapper.find('input[type="hidden"].latepoint_start_date').val(),
             start_time: $wrapper.find('input[type="hidden"].latepoint_start_time').val(),
             timezone_name: $wrapper.find('input[type="hidden"].latepoint_timezone_name').val(),
+            _wpnonce: $wrapper.find('input[name="_wpnonce"]').val(),
         }
         let data = {
             action: latepoint_helper.route_action,

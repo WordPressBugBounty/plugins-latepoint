@@ -363,7 +363,13 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$customer_model  = new OsCustomerModel();
 				$customer        = $customer_model->where( [ 'email' => sanitize_email( $this->params['password_reset_email'] ) ] )->set_limit( 1 )->get_results_as_models();
 				$customer_mailer = new OsCustomerMailer();
+
+				$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
+				$customer->save();
+
 				if ( $customer && $customer_mailer->password_reset_request( $customer, $customer->account_nonse ) ) {
+					// Save timestamp for token expiration tracking (Unix timestamp for consistency)
+					OsMetaHelper::save_customer_meta_by_key( 'password_reset_token_created_at', current_time( 'timestamp' ), $customer->id );
 					return $this->format_render_return( 'password_reset_form' );
 				} else {
 					$this->vars['reset_token_error'] = ( $customer ) ? __( 'Error! Email was not sent.', 'latepoint' ) : __( 'Email does not match any customer', 'latepoint' );
@@ -420,10 +426,35 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			} elseif ( !empty($params['password_reset_token'] )) {
 				$params['password_reset_token'] = sanitize_text_field( $params['password_reset_token'] );
 				$customer = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
+
+				// Validate token expiration (15 minutes)
+				if ( $customer ) {
+					$created_at = OsMetaHelper::get_customer_meta_by_key( 'password_reset_token_created_at', $customer->id );
+
+					if ( empty( $created_at ) ) {
+						// No timestamp - reject for security (token created before fix)
+						$customer = false;
+						$status = LATEPOINT_STATUS_ERROR;
+						$response_html = __( 'Password token is invalid. Please request a new password reset.', 'latepoint' );
+					} else {
+						$age_seconds = current_time( 'timestamp' ) - intval( $created_at );
+						if ( $age_seconds > 900 ) { // 15 minutes = 900 seconds
+							// Clean up expired meta
+							OsMetaHelper::delete_customer_meta_by_key( 'password_reset_token_created_at', $customer->id );
+							$customer = false;
+							$status = LATEPOINT_STATUS_ERROR;
+							$response_html = __( 'Password token has expired. Please request a new password reset.', 'latepoint' );
+						}
+					}
+				}
 			}
 			if ( $customer ) {
 				if ( ! empty( $params['password'] ) && $params['password'] == $params['password_confirmation'] ) {
 					if ( $customer->update_password( $params['password'] ) ) {
+						// Invalidate token after successful password reset
+						if ( !empty($params['password_reset_token'] ) ) {
+							OsCustomerHelper::invalidate_password_reset_token( $customer );
+						}
 						$status        = LATEPOINT_STATUS_SUCCESS;
 						$response_html = __( 'Your password was successfully updated.', 'latepoint' );
 					} else {
@@ -476,8 +507,6 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
 			}
 		}
-
-
 	}
 
 

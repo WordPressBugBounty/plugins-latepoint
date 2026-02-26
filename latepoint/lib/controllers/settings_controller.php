@@ -73,6 +73,9 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function export_data() {
+			// Verify nonce.
+			$this->check_nonce( 'export_data' );
+
 			$this->set_layout( 'pure' );
 			$this->vars['content'] = OsSettingsHelper::export_data();
 			$this->format_render( __FUNCTION__ );
@@ -255,6 +258,9 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 
 
 		public function save_columns_for_bookings_table() {
+			// Verify nonce.
+			$this->check_nonce( 'bookings_table_columns' );
+
 			$selected_columns = [];
 			if ( isset( $this->params['selected_columns'] ) && $this->params['selected_columns'] ) {
 				foreach ( $this->params['selected_columns'] as $column_type => $columns ) {

@@ -17,6 +17,9 @@
 /artifacts
 /dist
 
+# Internal documentation (never ship in production)
+/docs
+
 # Block source files (keeping for now)
 # /blocks/src
 
@@ -24,10 +27,15 @@
 .nvmrc
 package.json
 package-lock.json
+composer.json
+composer.lock
 webpack.config.js
 _webpack.config.js
 config.codekit3
 prepros.config
+phpcs.xml
+phpstan.neon
+phpinsights.php
 
 # Build scripts
 /bin
@@ -52,3 +60,4 @@ Thumbs.db
 *.zip
 CHANGELOG.md
 CLAUDE.md
+api-cheat-sheet.txt

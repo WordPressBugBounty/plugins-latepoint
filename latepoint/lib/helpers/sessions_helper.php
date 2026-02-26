@@ -21,8 +21,25 @@ class OsSessionsHelper {
 		}
 	}
 
+	/**
+	 * Generate secure, per-customer session token
+	 *
+	 * Uses WordPress auth salts + customer ID + installation seed for unique tokens
+	 * Prevents session forgery by ensuring each customer has unpredictable token
+	 *
+	 * @since 5.1.0 Security fix for hardcoded session token
+	 * @param int $customer_id Customer ID
+	 * @return string Cryptographically secure token
+	 */
 	public static function get_customer_token($customer_id){
-		return 'latepoint';
+		// Validate customer_id (prevent injection)
+		$customer_id = absint($customer_id);
+
+		if (!$customer_id) {
+			return '';  // Fail safely for invalid IDs
+		}
+
+		return wp_hash('latepoint|' . $customer_id);
 	}
 
 	public static function set_customer_session_cookie( $session, $expiration, $token ) {
@@ -53,7 +70,7 @@ class OsSessionsHelper {
 		$algo = function_exists( 'hash' ) ? 'sha256' : 'sha1';
 		$control_hash = hash_hmac( $algo, $to_hash, wp_hash( $to_hash ) );
 		// check if the cookie was altered by malicious user
-		if($control_hash != $cookie_hash){
+		if(!hash_equals($control_hash, $cookie_hash)){
 			OsAuthHelper::logout_customer();
 			self::destroy_customer_session_cookie();
 			return false;

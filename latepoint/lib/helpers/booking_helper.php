@@ -1660,7 +1660,7 @@ class OsBookingHelper {
 					   data-os-prompt="<?php esc_attr_e('Are you sure you want to cancel this appointment?', 'latepoint'); ?>"
 					   data-os-success-action="reload"
 					   data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'request_cancellation')); ?>"
-					   data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')])); ?>">
+					   data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')], 'cancel_booking_' . $booking->id)); ?>">
 						<i class="latepoint-icon latepoint-icon-ui-24"></i>
 						<span><?php esc_html_e('Cancel', 'latepoint'); ?></span>
 					</a>

@@ -88,6 +88,9 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				return;
 			}
 
+			// Verify nonce.
+			$this->check_nonce( 'update_invoice_' . $this->params['invoice_id'] );
+
 			$invoice->charge_amount = OsParamsHelper::sanitize_param( sanitize_text_field( $this->params['invoice']['charge_amount'] ), 'money' );
 			$due_at_wp_time = sanitize_text_field( $this->params['invoice']['due_at'] ).' 23:59:59';
 			$due_at_utc_time = OsWpDateTime::os_createFromFormat(LATEPOINT_DATETIME_DB_FORMAT, $due_at_wp_time)->setTimezone(new DateTimeZone('UTC'))->format(LATEPOINT_DATETIME_DB_FORMAT);
@@ -155,7 +158,11 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 		}
 
 		public function create() {
+			// Verify nonce.
+			$this->check_nonce( 'create_invoice' );
+
 			$invoice_params = $this->get_invoice_params();
+
 			if ( is_wp_error( $invoice_params ) ) {
 				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => $invoice_params->get_error_message() ] );
 
@@ -197,6 +204,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				echo 'Invalid Invoice';
 
 				return;
+			}
+
+			// Condition for pro compatibility. Remove later.
+			if( isset( $this->params['_wpnonce'] ) ) {
+				// Verify nonce.
+				$this->check_nonce( 'change_invoice_status_' . $this->params['invoice_id'] );
 			}
 
 			if ( ! in_array( $this->params['status'], array_keys( OsInvoicesHelper::list_of_statuses_for_select() ) ) ) {

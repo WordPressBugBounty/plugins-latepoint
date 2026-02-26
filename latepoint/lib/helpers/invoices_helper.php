@@ -107,7 +107,11 @@ class OsInvoicesHelper {
 			<?php if ( $show_controls ) { ?>
                 <div class="invoice-controls">
                     <div class="ic-block">
-						<?php echo OsFormHelper::select_field( 'invoice[status]', __( 'Status', 'latepoint' ), OsInvoicesHelper::list_of_statuses_for_select(), $invoice->status, ['class' => 'invoice-change-status-selector'] ); ?>
+						<?php
+						echo OsFormHelper::select_field( 'invoice[status]', __( 'Status', 'latepoint' ), OsInvoicesHelper::list_of_statuses_for_select(), $invoice->status, ['class' => 'invoice-change-status-selector'] );
+						// Add protection nonce for status change.
+						wp_nonce_field( 'change_invoice_status_' . $invoice->id, '_wpnonce_status', false );
+						?>
                     </div>
                     <div class="ic-block">
                         <a target="_blank" href="<?php echo $invoice->get_access_url(); ?>" class="ic-external-link">

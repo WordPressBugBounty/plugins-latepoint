@@ -23,7 +23,7 @@ if($jobs){
 	      <?php
 	      if($job->status == LATEPOINT_JOB_STATUS_SCHEDULED){
 					$atts = ' data-os-prompt="'.esc_attr__('Are you sure you want to cancel this scheduled job?', 'latepoint').'"
-										data-os-params="'. esc_attr(OsUtilHelper::build_os_params(['id' => $job->id])). '"
+										data-os-params="'. esc_attr(OsUtilHelper::build_os_params(['id' => $job->id], 'cancel_job_'.$job->id)). '"
 										data-os-after-call="reload_process_jobs_table"
 										data-os-action="'.esc_attr(OsRouterHelper::build_route_name('process_jobs', 'cancel')).'" ';
 	      }else{

@@ -75,6 +75,11 @@ class OsMetaHelper {
     return $meta->save_by_key($meta_key, $meta_value, $customer_id);
   }
 
+  public static function delete_customer_meta_by_key($meta_key, $customer_id){
+    $meta = new OsCustomerMetaModel();
+    return $meta->delete_by_key($meta_key, $customer_id);
+  }
+
 	/**
 	 * Get Customers By Filter
 	 * @param $filters

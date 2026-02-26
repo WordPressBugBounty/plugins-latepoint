@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <h3 class="os-wizard-sub-header">
     <?php
     // translators: %1$d is current step, %2$d is total steps
-    echo esc_html(sprintf(__('Step %1$d of %2$d', 'latepoint'), $current_step_number, 3)); ?>
+    echo esc_html(sprintf(__('Step %1$d of %2$d', 'latepoint'), $current_step_number, 4)); ?>
 </h3>
 <h2 class="os-wizard-header"><?php esc_html_e( 'Setup Notifications', 'latepoint' ); ?></h2>
 <div class="os-wizard-desc"><?php esc_html_e( 'Who would you like to send appointment notifications to?', 'latepoint' ); ?></div>

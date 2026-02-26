@@ -79,7 +79,8 @@ function latepoint_init_manage_booking_by_key() {
         $wrapper.addClass('os-loading')
         let params = {
             key: $wrapper.data('key'),
-            status: jQuery(this).val()
+            status: jQuery(this).val(),
+            _wpnonce: jQuery(this).closest('.change-booking-status-trigger-wrapper').find('input[name="_wpnonce"]').val()
         }
         let data = {
             action: latepoint_helper.route_action,
@@ -1666,13 +1667,15 @@ function latepoint_init_step_customer($booking_form_element) {
 
     // Init Logout button
     $booking_form_element.find('.step-customer-logout-btn').on('click', function () {
-        let $booking_form_element = jQuery(this).closest('.latepoint-booking-form-element');
+        let $logout_btn = jQuery(this);
+        let $booking_form_element = $logout_btn.closest('.latepoint-booking-form-element');
         $booking_form_element.find('input[name="customer_contact_verification_token"]').val('');
         let data = {
             action: latepoint_helper.route_action,
-            route_name: jQuery(this).data('btn-action'),
+            route_name: $logout_btn.data('btn-action'),
             layout: 'none',
-            return_format: 'json'
+            return_format: 'json',
+            params: {auth: {nonce: $logout_btn.data('nonce')}}
         }
         latepoint_step_content_change_start($booking_form_element);
         jQuery.ajax({

@@ -43,7 +43,11 @@
                     </div>
                 </div>
             </div>
-            <?php echo OsFormHelper::hidden_field('invoice_id', $invoice->id); ?>
+            <?php
+            echo OsFormHelper::hidden_field('invoice_id', $invoice->id);
+            // Add protection nonce.
+            wp_nonce_field( 'update_invoice_' . $invoice->id, '_wpnonce', false );
+            ?>
 	</div>
     <?php if(empty($success)){ ?>
 	<div class="latepoint-lightbox-footer">

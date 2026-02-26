@@ -107,10 +107,31 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 
 		function process_reschedule_request() {
 			if ( empty( $this->booking->id ) || empty( $this->params['start_date'] ) || empty( $this->params['start_time'] ) ) {
+				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid request', 'latepoint' ) ] );
 				return;
 			}
 
+			// Verify CSRF nonce
+			$this->check_nonce( 'reschedule_booking_' . $this->booking->id );
+
 			$allowed = ( $this->key_for == 'agent' ) ? true : OsCustomerHelper::can_reschedule_booking( $this->booking );
+		
+			// For agent keys, verify booking belongs to this agent
+			if ( $this->key_for == 'agent' ) {
+				$key_info = OsBookingHelper::get_booking_id_and_manage_ability_by_key( $this->key );
+				if ( ! $key_info || $key_info['for'] !== 'agent' ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid agent key', 'latepoint' ) ] );
+					return;
+				}
+
+				$key_owner_booking = new OsBookingModel( $key_info['booking_id'] );
+
+				if ( $this->booking->agent_id != $key_owner_booking->agent_id ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'You cannot modify other agents\' bookings', 'latepoint' ) ] );
+					return;
+				}
+			}
+
 			if ( $allowed ) {
 				$old_booking               = clone $this->booking;
 				$this->booking->start_date = $this->params['start_date'];
@@ -178,6 +199,22 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 
 			$allowed = ( $this->key_for == 'agent' ) ? true : OsCustomerHelper::can_reschedule_booking( $this->booking );
 
+			// For agent keys, verify booking belongs to this agent
+			if ( $this->key_for == 'agent' ) {
+				$key_info = OsBookingHelper::get_booking_id_and_manage_ability_by_key( $this->key );
+				if ( ! $key_info || $key_info['for'] !== 'agent' ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid agent key', 'latepoint' ) ] );
+					return;
+				}
+
+				$key_owner_booking = new OsBookingModel( $key_info['booking_id'] );
+
+				if ( $this->booking->agent_id != $key_owner_booking->agent_id ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'You cannot modify other agents\' bookings', 'latepoint' ) ] );
+					return;
+				}
+			}
+
 			if ( $allowed ) {
 				if($this->key_for == 'customer'){
 					// change timezone for customer to the one supplied, because we can't change it using the default change timezone method as we don't have a logged in customer here
@@ -206,6 +243,25 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 				return;
 			}
 
+			// For agent keys, verify booking belongs to this agent
+			if ( $this->key_for == 'agent' ) {
+				$key_info = OsBookingHelper::get_booking_id_and_manage_ability_by_key( $this->key );
+				if ( ! $key_info || $key_info['for'] !== 'agent' ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid agent key', 'latepoint' ) ] );
+					return;
+				}
+
+				$key_owner_booking = new OsBookingModel( $key_info['booking_id'] );
+
+				if ( $this->booking->agent_id != $key_owner_booking->agent_id ) {
+					$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'You cannot modify other agents\' bookings', 'latepoint' ) ] );
+					return;
+				}
+			}
+
+			// Verify CSRF nonce
+			$this->check_nonce( 'cancel_booking_' . $this->booking->id );
+
 			if ( OsCustomerHelper::can_cancel_booking( $this->booking ) ) {
 				if ( $this->booking->update_status( LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
 					$status        = LATEPOINT_STATUS_SUCCESS;
@@ -226,13 +282,34 @@ if ( ! class_exists( 'OsManageBookingByKeyController' ) ) :
 		function change_status() {
 			// only agent key can cancel
 			if ( $this->key_for != 'agent' || empty( $this->booking->id ) || empty( $this->params['status'] ) ) {
+				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid request', 'latepoint' ) ] );
 				return;
 			}
+
+			// Verify booking belongs to this agent's key
+			$key_info = OsBookingHelper::get_booking_id_and_manage_ability_by_key( $this->key );
+			if ( ! $key_info || $key_info['for'] !== 'agent' ) {
+				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Invalid agent key', 'latepoint' ) ] );
+				return;
+			}
+
+			// Load the booking that this key belongs to
+			$key_owner_booking = new OsBookingModel( $key_info['booking_id'] );
+
+			// Verify the target booking belongs to the same agent as the key owner
+			if ( $this->booking->agent_id != $key_owner_booking->agent_id ) {
+				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'You cannot modify other agents\' bookings', 'latepoint' ) ] );
+				return;
+			}
+
+
+			// Verify CSRF nonce
+			$this->check_nonce( 'change_status_booking_' . $this->booking->id );
+
 			$statuses = OsBookingHelper::get_statuses_list();
 			if ( ! isset( $statuses[ $this->params['status'] ] ) ) {
 				return;
 			}
-
 
 			if ( $this->booking->update_status( $this->params['status'] ) ) {
 				$status        = LATEPOINT_STATUS_SUCCESS;

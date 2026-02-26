@@ -212,6 +212,9 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 		}
 
 		function action_test_run() {
+			// Verify CSRF nonce
+			$this->check_nonce( 'test_process_action' );
+
 			$action = new \LatePoint\Misc\ProcessAction();
 			$action->set_from_params( $this->params['action'] );
 
@@ -227,6 +230,13 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 		}
 
 		function test_run() {
+			// Verify CSRF nonce - reuse the nonce from the process form
+			if ( ! empty( $this->params['process']['id'] ) ) {
+				$this->check_nonce( 'edit_process_' . $this->params['process']['id'] );
+			} else {
+				$this->check_nonce( 'new_process' );
+			}
+
 			$process = new OsProcessModel();
 			$process->set_from_params( $this->params['process'] );
 

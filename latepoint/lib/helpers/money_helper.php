@@ -39,18 +39,20 @@ class OsMoneyHelper {
 	}
 
 	// amount stripped from any formatting like currency symbol, thousand separator, just numbers and decimal separator is left
-  public static function convert_amount_from_money_input_to_db_format($amount){
+	public static function convert_amount_from_money_input_to_db_format($amount){
 		$decimal_separator = OsSettingsHelper::get_settings_value('decimal_separator', '.');
-    $amount = preg_replace('/[^-\\d'.$decimal_separator.']+/', '', $amount);
+		// Ensure non-negative amount to prevent financial manipulation
+		// For non-negative ^\\d, For negative ^-\\d
+		$amount = preg_replace('/[^\\d'.$decimal_separator.']+/', '', $amount);
 		// database is using dot as a decimal separator, if latepoint is not using dot for currency input - convert it to dot to store in db
 		if($decimal_separator != '.') $amount = str_replace($decimal_separator, '.', $amount);
 		$amount = self::pad_to_db_format($amount);
-    return $amount;
-  }
+		return $amount;
+  	}
 
 	public static function convert_value_from_percent_input_to_db_format($value){
 		$decimal_separator = OsSettingsHelper::get_settings_value('decimal_separator', '.');
-    $value = preg_replace('/[^-\\d'.$decimal_separator.']+/', '', $value);
+    	$value = preg_replace('/[^-\\d'.$decimal_separator.']+/', '', $value);
 		// database is using dot as a decimal separator, if latepoint is not using dot for input - convert it to dot to store in db
 		if($decimal_separator != '.') $value = str_replace($decimal_separator, '.', $value);
 		$value = self::pad_to_db_format($value);

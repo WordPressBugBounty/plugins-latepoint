@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(npm run css*)",
+      "Bash(npm run js*)",
+      "Bash(npm run build*)",
+      "Bash(npm run blocks*)",
+      "Bash(npm run images*)",
+      "Bash(npm run clean*)",
+      "Bash(npm run dev*)",
+      "Bash(vendor/bin/phpcs:*)",
+      "Bash(vendor/bin/phpstan:*)",
+      "Bash(vendor/bin/parallel-lint:*)",
+      "Bash(gh:*)",
+      "mcp__chrome-devtools__*"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)","Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=\"$CLAUDE_TOOL_RESPONSE_FILE_PATH\"; if [[ \"$file\" == *.php ]]; then vendor/bin/phpcs --standard=WordPress --report=emacs \"$file\" 2>/dev/null | head -20; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

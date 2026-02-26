@@ -71,8 +71,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 						    esc_html_e('Guest Account', 'latepoint');
 					    }else{
 								esc_html_e('Password Protected', 'latepoint');
-								echo '<a href="#" data-os-success-action="reload" 
-															    data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['id' => $customer->id])).'" 
+								echo '<a href="#" data-os-success-action="reload"
+															    data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['id' => $customer->id], 'set_customer_as_guest_'.$customer->id)).'"
 															    data-os-prompt="'.esc_attr__('Are you sure you want to allow this customer to book without logging in?', 'latepoint').'"
 															    data-os-action="'.esc_attr(OsRouterHelper::build_route_name('customers', 'set_as_guest')).'">'.esc_html__('Convert to Guest', 'latepoint').'</a>';
 							} ?>
@@ -83,10 +83,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					    <?php
 					    if($customer->wordpress_user_id){
 					      echo '<div class="connected-note">'.esc_html__('Connected', 'latepoint').'</div>';
-								echo '<div class="connected-buttons"> <a target="_blank" href="'.esc_attr(get_edit_user_link($customer->wordpress_user_id)).'"><i class="latepoint-icon latepoint-icon-external-link"></i><span>'.esc_html__('View Profile', 'latepoint').'</span></a> <span>or</span> <a href="#" data-os-success-action="reload" data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['customer_id' => $customer->id])).'" data-os-action="'.esc_attr(OsRouterHelper::build_route_name('customers', 'disconnect_from_wp_user')).'"><i class="latepoint-icon latepoint-icon-slash"></i><span>'.esc_html__('Disconnect', 'latepoint').'</a></div>';
+								echo '<div class="connected-buttons"> <a target="_blank" href="'.esc_attr(get_edit_user_link($customer->wordpress_user_id)).'"><i class="latepoint-icon latepoint-icon-external-link"></i><span>'.esc_html__('View Profile', 'latepoint').'</span></a> <span>or</span> <a href="#" data-os-success-action="reload" data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['customer_id' => $customer->id], 'disconnect_customer_from_wp_user_'.$customer->id)).'" data-os-action="'.esc_attr(OsRouterHelper::build_route_name('customers', 'disconnect_from_wp_user')).'"><i class="latepoint-icon latepoint-icon-slash"></i><span>'.esc_html__('Disconnect', 'latepoint').'</a></div>';
 					    }else{
 					      echo '<div class="connected-note">'.esc_html__('Not Connected', 'latepoint').'</div>';
-								echo '<div class="connected-buttons"> <a href="#" data-os-success-action="reload" data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['customer_id' => $customer->id])).'" data-os-action="'.esc_attr(OsRouterHelper::build_route_name('customers', 'connect_to_wp_user')).'"><i class="latepoint-icon latepoint-icon-link-2"></i><span>'.esc_html__('Connect', 'latepoint').'</span></a></div>';
+								echo '<div class="connected-buttons"> <a href="#" data-os-success-action="reload" data-os-params="'.esc_attr(OsUtilHelper::build_os_params(['customer_id' => $customer->id], 'connect_customer_to_wp_user_'.$customer->id)).'" data-os-action="'.esc_attr(OsRouterHelper::build_route_name('customers', 'connect_to_wp_user')).'"><i class="latepoint-icon latepoint-icon-link-2"></i><span>'.esc_html__('Connect', 'latepoint').'</span></a></div>';
 					    }
 					    ?>
 					  </div>

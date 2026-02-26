@@ -30,12 +30,12 @@ if($customers){
       <div class="table-actions">
 	    <?php if (OsSettingsHelper::can_download_records_as_csv()) { ?>
             <a data-os-lightbox-classes="width-500" data-os-after-call="latepoint_init_customers_import" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customers', 'import_csv_modal')); ?>" href="#" data-os-output-target="lightbox" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Import .csv', 'latepoint'); ?></span></a>
-            <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link(OsRouterHelper::build_route_name('customers', 'index') )); ?>" target="_blank" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey download-csv-with-filters"><i class="latepoint-icon latepoint-icon-upload"></i><span><?php esc_html_e('Export .csv', 'latepoint'); ?></span></a>
+            <a href="<?php echo esc_url(wp_nonce_url(OsRouterHelper::build_admin_post_link(OsRouterHelper::build_route_name('customers', 'index')), 'customers_csv_export', '_wpnonce')); ?>" target="_blank" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey download-csv-with-filters"><i class="latepoint-icon latepoint-icon-upload"></i><span><?php esc_html_e('Export .csv', 'latepoint'); ?></span></a>
         <?php } ?>
         <?php if(OsAuthHelper::can_wp_users_login_as_customers()){ ?>
           <?php $not_connected_count = OsCustomerHelper::count_customers_not_connected_to_wp_users(); ?>
           <?php if($not_connected_count){ ?>
-            <a href="#" data-os-success-action="reload" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customers', 'connect_all_to_wp_users')); ?>" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey"><i class="latepoint-icon latepoint-icon-wordpress"></i><span><?php esc_html_e('Connect to WP Users', 'latepoint'); ?><?php echo ' ['.esc_html($not_connected_count).']'; ?></span></a>
+            <a href="#" data-os-success-action="reload" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params([], 'connect_all_customers_to_wp_users')); ?>" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customers', 'connect_all_to_wp_users')); ?>" class="latepoint-btn latepoint-btn-outline latepoint-btn-grey"><i class="latepoint-icon latepoint-icon-wordpress"></i><span><?php esc_html_e('Connect to WP Users', 'latepoint'); ?><?php echo ' ['.esc_html($not_connected_count).']'; ?></span></a>
           <?php } ?>
         <?php } ?>
         <a href="#" <?php echo OsCustomerHelper::quick_customer_btn_html(); ?> class="latepoint-btn latepoint-btn-outline latepoint-btn-grey"><i class="latepoint-icon latepoint-icon-plus"></i><span><?php esc_html_e('New Customer', 'latepoint'); ?></span></a>

@@ -23,7 +23,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	    <div class="mobile-table-actions-trigger"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></div>
       <div class="table-actions">
         <a data-os-success-action="reload" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params([], 'clear_activities')); ?>" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('activities', 'clear_all')); ?>" data-os-prompt="<?php esc_attr_e('Are you sure you want to clear the activities log?', 'latepoint'); ?>" href="#" class="latepoint-btn latepoint-btn-outline latepoint-btn-danger latepoint-btn-sm"><i class="latepoint-icon latepoint-icon-trash"></i><span><?php esc_html_e('Clear All', 'latepoint'); ?></span></a>
-        <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link(['activities', 'export'])); ?>" target="_blank" class="latepoint-btn latepoint-btn-outline latepoint-btn-sm"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Export', 'latepoint'); ?></span></a>
+		<a
+			class="latepoint-btn latepoint-btn-outline latepoint-btn-sm"
+			href="<?php echo esc_url(
+				OsRouterHelper::build_admin_post_link(
+					['activities', 'export'],
+					['_wpnonce' => wp_create_nonce('export_activities')]
+				)
+			); ?>"
+			target="_blank">
+			<i class="latepoint-icon latepoint-icon-download"></i>
+			<span><?php esc_html_e('Export', 'latepoint'); ?></span>
+		</a>
       </div>
     </div>
 	<div class="activities-index">

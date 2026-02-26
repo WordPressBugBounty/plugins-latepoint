@@ -91,6 +91,7 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			if ( ! filter_var( $this->params['id'], FILTER_VALIDATE_INT ) ) {
 				return false;
 			}
+			$this->check_nonce( 'cancel_job_' . $this->params['id'] );
 			$job = new OsProcessJobModel( $this->params['id'] );
 			if ( $job ) {
 				$job->update_attributes( [ 'status' => LATEPOINT_JOB_STATUS_CANCELLED ] );

@@ -85,6 +85,9 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 		}
 
 		public function set_as_guest() {
+			// CSRF protection
+			$this->check_nonce( 'set_customer_as_guest_' . $this->params['id'] );
+
 			if ( filter_var( $this->params['id'], FILTER_VALIDATE_INT ) ) {
 				$customer = new OsCustomerModel( $this->params['id'] );
 				if ( $customer->update_attributes( [ 'is_guest' => true ] ) ) {
@@ -244,6 +247,9 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 		}
 
 		public function connect_all_to_wp_users() {
+			// CSRF protection
+			$this->check_nonce( 'connect_all_customers_to_wp_users' );
+
 			$customers = new OsCustomerModel();
 			$customers = $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->get_results_as_models();
 			if ( $customers ) {
@@ -266,6 +272,9 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 		}
 
 		public function disconnect_from_wp_user() {
+			// CSRF protection
+			$this->check_nonce( 'disconnect_customer_from_wp_user_' . $this->params['customer_id'] );
+
 			$customer_id = $this->params['customer_id'];
 			$customer    = new OsCustomerModel();
 			$customer    = $customer->where( [ 'id' => $customer_id ] )->set_limit( 1 )->get_results_as_models();
@@ -278,6 +287,9 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 		}
 
 		public function connect_to_wp_user() {
+			// CSRF protection
+			$this->check_nonce( 'connect_customer_to_wp_user_' . $this->params['customer_id'] );
+
 			$customer_id = $this->params['customer_id'];
 			$customer    = new OsCustomerModel();
 			$customer    = $customer->where( [ 'id' => $customer_id ] )->set_limit( 1 )->get_results_as_models();
@@ -291,8 +303,6 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 
 		public function index() {
-
-
 			$this->vars['page_header'] = false;
 			$page_number               = isset( $this->params['page_number'] ) ? $this->params['page_number'] : 1;
 			$per_page                  = OsSettingsHelper::get_number_of_records_per_page();
@@ -330,6 +340,9 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 			// OUTPUT CSV IF REQUESTED
 			if ( isset( $this->params['download'] ) && $this->params['download'] == 'csv' ) {
+				// CSRF protection
+				$this->check_nonce( 'customers_csv_export' );
+
 				$csv_filename = 'customers_' . OsUtilHelper::random_text();
 
 				header( "Content-Type: text/csv" );

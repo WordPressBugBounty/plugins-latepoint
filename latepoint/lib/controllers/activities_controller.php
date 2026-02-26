@@ -36,6 +36,9 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 		}
 
 		public function export() {
+			// Verify nonce.
+			$this->check_nonce( 'export_activities' );
+
 			$csv_filename = 'activities_log_' . OsUtilHelper::random_text() . '.csv';
 
 			header( "Content-Type: text/csv" );

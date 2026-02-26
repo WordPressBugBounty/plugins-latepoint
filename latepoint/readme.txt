@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.2.9
+Stable tag: 5.2.10
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -33,7 +33,7 @@ Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LateP
 * Let customers book appointments online 24/7
 * Manage your calendar and availability with ease
 * Accept payments with Stripe (Braintree, Flutterwave, MercadoPago, Molie, PayPal, Paystack, RazorPay, Square, Woo, SureCart available in Pro)
-* Sync with Google Calendar
+* Sync with Google Calendar (Pro)
 * Offer in-person or virtual sessions (Zoom/Google Meet with Pro)
 * Support for multiple staff, services, and locations
 * Send automatic confirmations and reminders
@@ -203,6 +203,11 @@ If you want a modern, effortless way to let your customers book online, give Lat
 
 == Changelog ==
 
+= 5.2.10 - February 26, 2026 =
+- New: Added "Remove all data on plugin deletion" toggle under Settings > General > Danger Zone > Plugin Deletion to permanently delete all LatePoint data when the plugin is removed.
+- Security: Strengthen plugin security and harden against potential vulnerabilities.
+- Fix: Resolved the forgot-password form persisting when switching back to the New Customer tab in the Booking Form.
+
 = 5.2.9 - February 18, 2026 =
 - Fix: Fixed false positive SQL keyword detection during database restore for column names containing keywords (e.g., "selection_image_id").
 
@@ -215,8 +220,5 @@ If you want a modern, effortless way to let your customers book online, give Lat
 
 = 5.2.6 - January 28, 2026 =
 - Security: Addressed security bugs. Props to WordFence for reporting it.
-
-= 5.2.5 - December 3, 2025 =
-- New: WordPress 6.9 compatibility.
 
 Full changelog can be found on our website: [Full Changelog](https://latepoint.com/changelog/)

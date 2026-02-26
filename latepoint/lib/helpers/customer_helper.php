@@ -313,4 +313,27 @@ class OsCustomerHelper {
         return $customer->where(['uuid' => $uuid])->set_limit(1)->get_results_as_models();
 	}
 
+	/**
+	 * Invalidate password reset token after successful password reset
+	 *
+	 * Deletes the token creation timestamp and regenerates account_nonse
+	 * to prevent token reuse and ensure single-use password reset links.
+	 *
+	 * @since 5.1.0 Security fix for password reset token expiration
+	 * @param OsCustomerModel $customer Customer object
+	 * @return void
+	 */
+	public static function invalidate_password_reset_token( $customer ) {
+		if ( empty( $customer ) || ! $customer->id ) {
+			return;
+		}
+
+		// Delete the token creation timestamp
+		OsMetaHelper::delete_customer_meta_by_key( 'password_reset_token_created_at', $customer->id );
+
+		// Regenerate account_nonse for additional security
+		$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
+		$customer->save();
+	}
+
 }

@@ -20,7 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     <?php if($for == 'agent'){ ?>
 	    <div class="manage-booking-controls status-<?php echo esc_attr($booking->status); ?>">
 			<div class="change-booking-status-trigger-wrapper" data-route-name="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'change_status')); ?>">
-                <?php echo OsFormHelper::select_field('booking[status]', __('Status:', 'latepoint'), OsBookingHelper::get_statuses_list(), $booking->status, ['id' => 'booking_status_'.$booking->id, 'class' => 'change-booking-status-trigger']); ?>
+                <?php
+                echo OsFormHelper::select_field('booking[status]', __('Status:', 'latepoint'), OsBookingHelper::get_statuses_list(), $booking->status, ['id' => 'booking_status_'.$booking->id, 'class' => 'change-booking-status-trigger']);
+                // Add CSRF protection nonce for status change
+                wp_nonce_field( 'change_status_booking_' . $booking->id, '_wpnonce', false );
+                ?>
             </div>
 
             <?php if(OsCustomerHelper::can_reschedule_booking($booking)){ ?>

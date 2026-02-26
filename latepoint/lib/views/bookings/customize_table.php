@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <form class="latepoint-lightbox-wrapper-form" action="" data-os-success-action="reload" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('settings', 'save_columns_for_bookings_table')); ?>">
+<?php wp_nonce_field( 'bookings_table_columns' ); ?>
 <div class="latepoint-lightbox-heading">
 	<h2><?php esc_html_e('Show Additional Columns', 'latepoint'); ?></h2>
 </div>

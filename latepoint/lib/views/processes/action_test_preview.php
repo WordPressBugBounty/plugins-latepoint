@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 <div class="action-settings-wrapper">
     <?php echo $action_settings_html; ?>
+	<?php wp_nonce_field( 'test_process_action' ); ?>
 </div>
 <div class="os-form-content">
 	<div class="action-preview-wrapper type-<?php echo esc_attr($action->type); ?>">

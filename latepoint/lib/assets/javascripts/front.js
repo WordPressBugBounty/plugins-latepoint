@@ -133,6 +133,7 @@ jQuery(document).ready(function ($) {
         jQuery(this).addClass('active');
         var target = jQuery(this).data('target');
         jQuery(this).closest('.os-step-tabs-w').find('.os-step-tab-content').hide();
+        jQuery(this).closest('.os-step-tabs-w').find('.os-password-reset-form-holder').html('');
         if(jQuery(this).data('next-btn') === 'show'){
             latepoint_show_next_btn($booking_form_element);
         }else{

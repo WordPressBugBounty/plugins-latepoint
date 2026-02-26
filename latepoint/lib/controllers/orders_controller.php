@@ -265,7 +265,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				$payment_request_data['due_at'] = OsTimeHelper::custom_datetime_utc_in_db_format(sanitize_text_field($payment_request_data['due_at']).' 23:59:59');
 				$order->set_initial_payment_data_value('time', LATEPOINT_PAYMENT_TIME_NOW, false);
 				$order->set_initial_payment_data_value('portion', $payment_request_data['portion'], false);
-				$order->set_initial_payment_data_value('charge_amount', OsMoneyHelper::convert_amount_from_money_input_to_db_format($payment_request_data['charge_amount'], false));
+				$order->set_initial_payment_data_value('charge_amount', OsMoneyHelper::convert_amount_from_money_input_to_db_format($payment_request_data['charge_amount']));
 
 				$payment_request = new OsPaymentRequestModel();
 

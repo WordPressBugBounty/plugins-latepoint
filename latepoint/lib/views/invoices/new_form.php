@@ -6,8 +6,12 @@
 /* @var $invoice OsInvoiceModel */
 ?>
 <div class="invoice-settings-wrapper" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('invoices', 'create')); ?>">
-    <?php echo OsFormHelper::hidden_field('invoice[order_id]', $invoice->order_id); ?>
-    <?php echo OsFormHelper::hidden_field('invoice[payment_portion]', $invoice->payment_portion); ?>
+    <?php
+    echo OsFormHelper::hidden_field('invoice[order_id]', $invoice->order_id);
+    echo OsFormHelper::hidden_field('invoice[payment_portion]', $invoice->payment_portion);
+    // Add protection nonce.
+    wp_nonce_field( 'create_invoice', '_wpnonce', false );
+    ?>
     <div class="invoice-settings-heading">
         <div><?php esc_html_e( 'Invoice Settings', 'latepoint' ); ?></div>
         <a href="#" class="invoice-settings-close"><i class="latepoint-icon latepoint-icon-x"></i></a>

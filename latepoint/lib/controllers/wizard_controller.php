@@ -39,8 +39,12 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 					'name'             => __( 'Fill Business Info', 'latepoint' )
 				),
 				'complete'      => array( 'show_in_sidemenu' => true, 'name' => __( 'Setup Complete', 'latepoint' ) ),
+				'personal_info' => array(
+					'show_in_sidemenu' => true,
+					'name'             => __( 'Personal Info', 'latepoint' )
+				),
 			);
-			$this->steps_in_order = array( 'intro', 'default_agent', 'services', 'work_periods', 'complete' );
+			$this->steps_in_order = array( 'intro', 'default_agent', 'services', 'work_periods', 'personal_info', 'complete' );
 
 			$this->vars['steps_in_order'] = $this->steps_in_order;
 			$this->vars['steps_info']     = $this->steps_info;
@@ -131,14 +135,23 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 			$this->vars['current_step_code']   = $new_current_step_code;
 			$this->vars['current_step_number'] = array_search( $new_current_step_code, $this->steps_in_order );
-			$this->format_render( 'steps/_' . $new_current_step_code, array(), array( 'step_code'     => $new_current_step_code,
-			                                                                          'show_prev_btn' => $this->show_prev_btn,
-			                                                                          'show_next_btn' => $this->show_next_btn
-			) );
+			$this->format_render(
+				'steps/_' . $new_current_step_code,
+				array(),
+				array(
+					'step_code'     => $new_current_step_code,
+					'show_prev_btn' => $this->show_prev_btn,
+					'show_next_btn' => $this->show_next_btn
+				)
+			);
 		}
 
 		function prev_step() {
-			// Check if a valid step_code name
+
+			// For every back step there is next step.
+			$this->show_next_btn = true;
+
+			// Check if a valid step_code name.
 			if ( isset( $this->steps_info[ $this->params['current_step_code'] ] ) ) {
 				$current_step_code = $this->params['current_step_code'];
 			} else {
@@ -157,10 +170,15 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 			$this->vars['current_step_code']   = $new_current_step_code;
 			$this->vars['current_step_number'] = array_search( $new_current_step_code, $this->steps_in_order );
-			$this->format_render( 'steps/_' . $new_current_step_code, array(), array( 'step_code'     => $new_current_step_code,
-			                                                                          'show_prev_btn' => $this->show_prev_btn,
-			                                                                          'show_next_btn' => $this->show_next_btn
-			) );
+			$this->format_render(
+				'steps/_' . $new_current_step_code,
+				array(),
+				array(
+					'step_code'     => $new_current_step_code,
+					'show_prev_btn' => $this->show_prev_btn,
+					'show_next_btn' => $this->show_next_btn
+				)
+			);
 		}
 
 		function load_step() {
@@ -270,6 +288,14 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 		}
 
+		function step_personal_info() {
+			$this->vars['wizard_first_name']  = OsSettingsHelper::get_settings_value( 'wizard_first_name', '' );
+			$this->vars['wizard_last_name']   = OsSettingsHelper::get_settings_value( 'wizard_last_name', '' );
+			$this->vars['wizard_email']       = OsSettingsHelper::get_settings_value( 'wizard_email', '' );
+			$this->vars['wizard_email_optin'] = OsSettingsHelper::get_settings_value( 'wizard_email_optin', 'off' );
+			$this->show_next_btn = true;
+		}
+
 		function step_complete() {
 			$this->show_next_btn = false;
 			$this->show_prev_btn = false;
@@ -307,7 +333,42 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 		}
 
+		function process_step_personal_info() {
+			$first_name  = isset( $this->params['personal_info']['first_name'] ) ? sanitize_text_field( $this->params['personal_info']['first_name'] ) : '';
+			$last_name   = isset( $this->params['personal_info']['last_name'] ) ? sanitize_text_field( $this->params['personal_info']['last_name'] ) : '';
+			$email       = isset( $this->params['personal_info']['email'] ) ? sanitize_email( $this->params['personal_info']['email'] ) : '';
+			$email_optin = isset( $this->params['personal_info']['email_optin'] ) && $this->params['personal_info']['email_optin'] === 'on' ? 'on' : 'off';
 
+			OsSettingsHelper::save_setting_by_name( 'wizard_first_name', $first_name );
+			OsSettingsHelper::save_setting_by_name( 'wizard_last_name', $last_name );
+			OsSettingsHelper::save_setting_by_name( 'wizard_email', $email );
+			OsSettingsHelper::save_setting_by_name( 'wizard_email_optin', $email_optin );
+
+			if ( $email_optin === 'on' ) {
+				update_option( 'latepoint_usage_optin', 'yes' );
+			}
+
+			$this->send_registration_data( $first_name, $last_name, $email, $email_optin );
+		}
+
+		private function send_registration_data( $first_name, $last_name, $email, $email_optin ) {
+			$subscribe_api_url = LATEPOINT_APP_CONNECT_URL . '/api/wp/v1/subscribe';
+
+			wp_remote_post(
+				$subscribe_api_url,
+				array(
+					'body'     => array(
+						'first_name' => $first_name,
+						'last_name'  => $last_name,
+						'email'      => $email,
+						'optin'      => $email_optin,
+						'site_url'   => get_site_url(),
+					),
+					'timeout'  => 30,
+					'blocking' => false,
+				)
+			);
+		}
 	}
 
 

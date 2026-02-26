@@ -523,12 +523,44 @@ if ( ! defined( 'ABSPATH' ) ) {
                         </div>
                     </div>
                 </div>
+
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Contribute', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <div class="os-row">
+                            <div class="os-col-lg-12">
+								<?php
+                                    $ctl_sub_label = __( 'Collect non-sensitive information from your website, such as the PHP version and features used, to help us fix bugs faster, make smarter decisions, and build features that actually matter to you. %1$sLearn More%2$s', 'latepoint' );
+
+                                    $ctl_sub_label = sprintf(
+                                        $ctl_sub_label,
+                                        '<a href="https://latepoint.com/privacy-policy/" target="_blank" rel="noopener noreferrer">',
+                                        '</a>'
+                                    );
+
+                                    $ctl_option_value = get_option( 'latepoint_usage_optin', 'no' );
+                                    $ctl_is_active = $ctl_option_value === 'yes' ? true : false;
+
+                                    echo OsFormHelper::toggler_field( 'settings[contribute_to_latepoint]', __( 'Contribute to LatePoint', 'latepoint' ), $ctl_is_active, false, false, [ 'sub_label' => $ctl_sub_label ] ); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="sub-section-row">
                     <div class="sub-section-label">
                         <h3><?php esc_html_e( 'Export/Import', 'latepoint' ) ?></h3>
                     </div>
                     <div class="sub-section-content">
-                        <a class="latepoint-btn latepoint-btn-grey latepoint-btn-outline" target="_blank" href="<?php echo OsRouterHelper::build_admin_post_link( [ 'settings', 'export_data' ]); ?>">
+                        <a
+                            class="latepoint-btn latepoint-btn-grey latepoint-btn-outline"
+                            target="_blank"
+                            href="<?php echo OsRouterHelper::build_admin_post_link(
+                                [ 'settings', 'export_data' ],
+                                [ '_wpnonce' => wp_create_nonce( 'export_data' ) ]
+                            ); ?>"
+                        >
                             <i class="latepoint-icon latepoint-icon-external-link"></i>
                             <span><?php esc_html_e('Export Data'); ?></span>
                         </a>
@@ -556,6 +588,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 		 *
 		 */
 		do_action( 'latepoint_settings_general_after' ); ?>
+
+        <?php
+		/**
+		 * Hidden plugin settings
+		 *
+		 * @since 5.2.10
+		 */
+        if(isset($_GET['danger_zone'])) { ?>
+        <div class="white-box section-anchor" id="stickySectionOther">
+            <div class="white-box-header">
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Danger Zone', 'latepoint' ); ?></h3></div>
+            </div>
+            <div class="white-box-content no-padding">
+
+                <!-- Cleanup Section -->
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Plugin Deletion', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+                        <div class="os-row">
+                            <div class="os-col-lg-12">
+                                <?php
+                                echo OsFormHelper::toggler_field(
+                                    'settings[remove_data_on_plugin_delete]',
+                                    __( 'Remove all data on plugin deletion', 'latepoint' ),
+                                    OsSettingsHelper::is_on( 'remove_data_on_plugin_delete' ),
+                                    false,
+                                    false,
+                                    [ 'sub_label' => __( 'All LatePoint database tables and settings will be permanently deleted when the plugin is deleted', 'latepoint' ) ]
+                                );
+                                ?>
+                            </div>
+                        </div>
+                        <div class="latepoint-message latepoint-message-subtle">
+                            <?php esc_html_e( 'This action is irreversible. Before enabling this option, we recommend exporting your data so you have a backup.', 'latepoint' ); ?>
+                            <a
+                                target="_blank"
+                                href="<?php echo esc_url(
+                                    OsRouterHelper::build_admin_post_link(
+                                        [ 'settings', 'export_data' ],
+                                        [ '_wpnonce' => wp_create_nonce( 'export_data' ) ]
+                                    )
+                                ); ?>"
+                            >
+                                <?php esc_html_e( 'Export your data', 'latepoint' ); ?>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php } // Danger zone end. ?>
         <div class="os-form-buttons">
 			<?php echo OsFormHelper::button( 'submit', __( 'Save Settings', 'latepoint' ), 'submit', [ 'class' => 'latepoint-btn' ] ); ?>
         </div>

@@ -28,6 +28,7 @@ class OsTransactionHelper {
 			'theme' => 'simple'
 		] );
 		echo OsFormHelper::hidden_field( 'transaction_refund[transaction_id]', $transaction->id );
+		wp_nonce_field( 'refund_transaction_' . $transaction->id, '_wpnonce', false );
 		echo '</div>';
 		echo '<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-sm transaction-refund-submit-button" data-os-prompt="' . esc_attr__( 'Are you sure you want to refund this transaction?', 'latepoint' ) . '" data-route="' . esc_attr( OsRouterHelper::build_route_name( 'transactions', 'refund_transaction' ) ) . '">' . esc_html__( 'Submit', 'latepoint' ) . '</a>';
 		echo '</div>';

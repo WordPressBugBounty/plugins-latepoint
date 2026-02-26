@@ -5,6 +5,10 @@ class OsAuthHelper {
     public static ?\LatePoint\Misc\User $current_user = null;
     public static $logged_in_customer_id = false;
 
+    private static int $max_login_attempts_per_contact = 20;
+    private static int $max_login_attempts_per_ip = 20;
+    private static int $login_lockout_minutes = 5;
+
     public static function set_current_user() {
         if ( \OsWpUserHelper::is_user_logged_in() ) {
             // if wp user is logged in - load from it
@@ -79,13 +83,16 @@ class OsAuthHelper {
         update_user_caches( $user );
     }
 
-
     public static function login_customer( $contact_value, $password, $contact_type = 'email' ) {
         if ( empty( $contact_value ) || empty( $password ) || ! in_array( $contact_type, self::get_enabled_contact_types_for_customer_auth() ) ) {
             return false;
         }
         $available_contact_types = OsAuthHelper::get_available_contact_types_for_customer_auth();
         if ( ! isset( $available_contact_types[ $contact_type ] ) ) {
+            return false;
+        }
+
+        if ( ! self::check_login_rate_limit( $contact_value, $contact_type ) ) {
             return false;
         }
 
@@ -117,6 +124,7 @@ class OsAuthHelper {
                     wp_set_current_user( $wp_user->ID );
                     $customer = OsCustomerHelper::get_customer_for_wp_user( $wp_user );
                     if ( $customer->id ) {
+                        self::clear_login_rate_limits( $contact_value, $contact_type );
                         return $customer;
                     } else {
                         OsDebugHelper::log( 'Can not login because can not create LatePoint Customer from WP User', 'customer_login_error', $customer->get_error_messages() );
@@ -124,6 +132,7 @@ class OsAuthHelper {
                         return false;
                     }
                 } else {
+                    self::record_failed_login_attempt( $contact_value, $contact_type );
                     return false;
                 }
             } else {
@@ -140,12 +149,65 @@ class OsAuthHelper {
             }
             if ( $customer && OsAuthHelper::verify_password( $password, $customer->password ) ) {
                 OsAuthHelper::authorize_customer( $customer->id );
+                self::clear_login_rate_limits( $contact_value, $contact_type );
 
                 return $customer;
             } else {
+                self::record_failed_login_attempt( $contact_value, $contact_type );
                 return false;
             }
         }
+    }
+
+    private static function check_login_rate_limit( string $contact_value, string $contact_type ) : bool {
+        // Per-contact check
+        $contact_key = self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type );
+        $attempts    = absint( get_transient( $contact_key ) );
+        if ( $attempts >= self::$max_login_attempts_per_contact ) {
+            OsDebugHelper::log( 'Too many login attempts for contact', 'login_rate_limit', [ 'contact' => $contact_value, 'type' => $contact_type ] );
+            return false;
+        }
+
+        // Per-IP check
+        $client_ip = OsUtilHelper::get_user_ip();
+        if ( ! empty( $client_ip ) && $client_ip !== 'n/a' ) {
+            $ip_key      = self::get_login_rate_limit_key( 'ip', $client_ip );
+            $ip_attempts = absint( get_transient( $ip_key ) );
+            if ( $ip_attempts >= self::$max_login_attempts_per_ip ) {
+                OsDebugHelper::log( 'Too many login attempts from IP', 'login_rate_limit_ip', [ 'ip' => $client_ip ] );
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function record_failed_login_attempt( string $contact_value, string $contact_type ) : void {
+        $lockout_duration = self::$login_lockout_minutes * MINUTE_IN_SECONDS;
+        $client_ip        = OsUtilHelper::get_user_ip();
+
+        $contact_key = self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type );
+        $attempts    = absint( get_transient( $contact_key ) );
+        set_transient( $contact_key, $attempts + 1, $lockout_duration );
+
+        if ( ! empty( $client_ip ) && $client_ip !== 'n/a' ) {
+            $ip_key      = self::get_login_rate_limit_key( 'ip', $client_ip );
+            $ip_attempts = absint( get_transient( $ip_key ) );
+            set_transient( $ip_key, $ip_attempts + 1, $lockout_duration );
+        }
+    }
+
+    private static function clear_login_rate_limits( string $contact_value, string $contact_type ) : void {
+        delete_transient( self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type ) );
+
+        $client_ip = OsUtilHelper::get_user_ip();
+        if ( ! empty( $client_ip ) && $client_ip !== 'n/a' ) {
+            delete_transient( self::get_login_rate_limit_key( 'ip', $client_ip ) );
+        }
+    }
+
+    private static function get_login_rate_limit_key( string $type, string $identifier ) : string {
+        return 'latepoint_login_' . $type . '_' . substr( wp_hash( $identifier ), 0, 20 );
     }
 
     public static function can_wp_users_login_as_customers(): bool {

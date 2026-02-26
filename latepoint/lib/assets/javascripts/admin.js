@@ -419,6 +419,10 @@ jQuery(document).ready(function( $ ) {
       }
       params = latepoint_formdata_to_url_encoded_string(form_data);
     }
+    // personal info step
+    if(jQuery('.os-wizard-personal-info-form').length){
+      params+= '&'+ jQuery('.os-wizard-personal-info-form input').serialize();
+    }
 
     var data = {
       action: latepoint_helper.route_action,
@@ -727,6 +731,9 @@ jQuery(document).ready(function( $ ) {
   });
 
   jQuery('.latepoint-admin').on( 'click', '.os-form-toggler-group', function( event ){
+    if (jQuery(event.target).closest('a').length) {
+      return true;
+    }
     jQuery(this).find('.os-toggler').trigger('click');
     return false;
   });

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.2.9
+ * Version: 5.2.10
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.2.9';
+		public $version = '5.2.10';
 		public $db_version = '2.3.0';
 
 
@@ -717,9 +717,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				define( 'LATEPOINT_ALL', 'all' );
 			}
 
+			// Latepoint APP URL
+			if ( ! defined( 'LATEPOINT_APP_CONNECT_URL' ) ) {
+				define( 'LATEPOINT_APP_CONNECT_URL', 'https://app.latepoint.com' );
+			}
+
 			// Stripe Connect
 			if ( ! defined( 'LATEPOINT_STRIPE_CONNECT_URL' ) ) {
-				define( 'LATEPOINT_STRIPE_CONNECT_URL', 'https://app.latepoint.com' );
+				define( 'LATEPOINT_STRIPE_CONNECT_URL', LATEPOINT_APP_CONNECT_URL );
 			}
 		}
 
@@ -871,6 +876,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/invoices_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/support_topics_helper.php' );
 			include_once( LATEPOINT_ABSPATH . 'lib/helpers/otp_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/nps_survey_helper.php' );
+			include_once( LATEPOINT_ABSPATH . 'lib/helpers/analytics_helper.php' );
 
 			// MISC
 			include_once( LATEPOINT_ABSPATH . 'lib/misc/time_period.php' );
@@ -927,12 +934,13 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				define( 'LATEPOINT_CART_COOKIE', 'latepoint_cart_' . $siteurl_hash );
 			}
 
+			// Plugins loaded
+			add_action('plugins_loaded', array( $this, 'plugins_loaded_hook') );
 
-			// Activation hook
+			// Activation / deactivation hooks.
 			register_activation_hook( __FILE__, array( $this, 'create_required_tables' ) );
 			register_activation_hook( __FILE__, array( $this, 'on_activate' ) );
 			register_deactivation_hook( __FILE__, [ $this, 'on_deactivate' ] );
-
 
 			add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
 			add_action( 'init', array( $this, 'init' ), 0 );
@@ -1034,7 +1042,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			OsActivitiesHelper::init_hooks();
 			OsProcessJobsHelper::init_hooks();
 
+			// Initialize NPS Survey.
+			OsNpsSurveyHelper::get_instance();
+
 			do_action( 'latepoint_init_hooks' );
+		}
+
+		function plugins_loaded_hook() {
+			OsAnalyticsHelper::init();
 		}
 
 

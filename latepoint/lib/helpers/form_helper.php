@@ -119,7 +119,7 @@ class OsFormHelper {
 			$html .= '<div class="os-toggler-label-w">';
 			$html .= '<label>' . esc_html( $label ) . '</label>';
 			if ( ! empty( $atts['sub_label'] ) ) {
-				$html .= '<span>' . esc_html( $atts['sub_label'] ) . '</span>';
+				$html .= '<span>' . wp_kses_post( $atts['sub_label'] ) . '</span>';
 			}
 			$html .= '</div>';
 		}

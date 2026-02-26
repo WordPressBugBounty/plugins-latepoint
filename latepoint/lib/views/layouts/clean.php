@@ -19,6 +19,7 @@ do_action('wp_enqueue_scripts');
 // load custom css and js files to enque because we are not using wp_head and wp_footer
 
 $patterns = OsSettingsHelper::instant_page_background_patterns();
+$background_pattern_css = '';
 if(!empty($background_pattern) && !empty($patterns[$background_pattern])) {
     $background_pattern_css = $patterns[$background_pattern];
 }
