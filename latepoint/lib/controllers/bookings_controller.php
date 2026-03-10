@@ -15,8 +15,10 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 			parent::__construct();
 			$this->views_folder          = LATEPOINT_VIEWS_ABSPATH . 'bookings/';
 			$this->vars['page_header']   = OsMenuHelper::get_menu_items_by_id( 'appointments' );
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Appointments', 'latepoint' ), 'link' => OsRouterHelper::build_link( [ 'bookings', 'pending_approval' ] ) );
-
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Appointments', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( [ 'bookings', 'pending_approval' ] ),
+			);
 		}
 
 		public function view_booking_log() {
@@ -40,13 +42,15 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 			$this->vars['booking'] = $booking;
 
 			$group_bookings  = new OsBookingModel();
-			$group_bookings  = $group_bookings->where( [
-				'start_time'  => $booking->start_time,
-				'start_date'  => $booking->start_date,
-				'service_id'  => $booking->service_id,
-				'location_id' => $booking->location_id,
-				'agent_id'    => $booking->agent_id
-			] )->should_not_be_cancelled()->get_results_as_models();
+			$group_bookings  = $group_bookings->where(
+				[
+					'start_time'  => $booking->start_time,
+					'start_date'  => $booking->start_date,
+					'service_id'  => $booking->service_id,
+					'location_id' => $booking->location_id,
+					'agent_id'    => $booking->agent_id,
+				] 
+			)->should_not_be_cancelled()->get_results_as_models();
 			$total_attendees = 0;
 			if ( $group_bookings ) {
 				foreach ( $group_bookings as $group_booking ) {
@@ -60,7 +64,10 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 
 		public function pending_approval() {
 			$this->vars['page_header']   = __( 'Pending Appointments', 'latepoint' );
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Pending Appointments', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Pending Appointments', 'latepoint' ),
+				'link'  => false,
+			);
 
 			$page_number = isset( $this->params['page_number'] ) ? $this->params['page_number'] : 1;
 			$per_page    = OsSettingsHelper::get_number_of_records_per_page();
@@ -99,7 +106,10 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 		public function index() {
 
 			$this->vars['page_header']   = false;
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'All', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'All', 'latepoint' ),
+				'link'  => false,
+			);
 
 			$page_number = isset( $this->params['page_number'] ) ? $this->params['page_number'] : 1;
 			$per_page    = OsSettingsHelper::get_number_of_records_per_page();
@@ -115,7 +125,11 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 
 			$filter = $this->params['filter'] ?? false;
 
-			$order_by = [ 'key' => 'booking_id', 'direction' => 'desc', 'column' => 'id' ];
+			$order_by = [
+				'key'       => 'booking_id',
+				'direction' => 'desc',
+				'column'    => 'id',
+			];
 
 			// TABLE SEARCH FILTERS
 			if ( $filter ) {
@@ -188,15 +202,14 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					if ( ! empty( $filter['order']['payment_status'] ) ) {
 						$bookings->select( LATEPOINT_TABLE_ORDERS . '.payment_status' );
 						$query_args[ LATEPOINT_TABLE_ORDERS . '.payment_status' ] = $filter['order']['payment_status'];
-					}
-
+					}				
 				}
 				if ( ! empty( $filter['customer'] ) ) {
 					$bookings->select( LATEPOINT_TABLE_BOOKINGS . '.*' );
 					if ( ! empty( $filter['customer']['full_name'] ) ) {
 						$bookings->select( LATEPOINT_TABLE_CUSTOMERS . '.first_name, ' . LATEPOINT_TABLE_CUSTOMERS . '.last_name' );
 						$query_args[ 'concat_ws(" ", ' . LATEPOINT_TABLE_CUSTOMERS . '.first_name,' . LATEPOINT_TABLE_CUSTOMERS . '.last_name) LIKE' ] = '%' . $filter['customer']['full_name'] . '%';
-						$this->vars['customer_name_query']                                                                                             = $filter['customer']['full_name'];
+						$this->vars['customer_name_query'] = $filter['customer']['full_name'];
 					}
 					$bookings->join( LATEPOINT_TABLE_CUSTOMERS, [ 'id' => LATEPOINT_TABLE_BOOKINGS . '.customer_id' ] );
 
@@ -214,8 +227,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 								} else {
 									// meta field
 									$meta_filter[ $customer_column_key ] = $filter['customer'][ $customer_column_key ];
-								}
-
+								}							
 							}
 						}
 						if ( count( $meta_filter ) ) {
@@ -248,7 +260,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 			if ( isset( $this->params['download'] ) && $this->params['download'] == 'csv' ) {
 				$csv_filename = 'all_bookings_' . OsUtilHelper::random_text() . '.csv';
 
-				header( "Content-Type: text/csv" );
+				header( 'Content-Type: text/csv' );
 				header( "Content-Disposition: attachment; filename={$csv_filename}" );
 
 				$labels_row = [
@@ -264,7 +276,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					__( 'Agent Email', 'latepoint' ),
 					__( 'Status', 'latepoint' ),
 					__( 'Price', 'latepoint' ),
-					__( 'Booked On', 'latepoint' )
+					__( 'Booked On', 'latepoint' ),
 				];
 
 
@@ -290,12 +302,11 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 							$booking->agent->email,
 							$booking->nice_status,
 							OsMoneyHelper::format_price( $order_item->get_total(), true, false ),
-							$booking->nice_created_at
+							$booking->nice_created_at,
 						];
 						$values_row      = apply_filters( 'latepoint_booking_row_for_csv_export', $values_row, $booking, $this->params );
 						$bookings_data[] = $values_row;
-					}
-
+					}				
 				}
 
 				$bookings_data = apply_filters( 'latepoint_bookings_data_for_csv_export', $bookings_data, $this->params );
@@ -321,11 +332,19 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 			$this->vars['showing_from'] = ( ( $page_number - 1 ) * $per_page ) ? ( ( $page_number - 1 ) * $per_page ) : 1;
 			$this->vars['showing_to']   = min( $page_number * $per_page, $this->vars['total_bookings'] );
 
-			$this->format_render( [ 'json_view_name' => '_table_body', 'html_view_name' => __FUNCTION__ ], [], [ 'total_pages'   => $total_pages,
-			                                                                                                     'showing_from'  => $this->vars['showing_from'],
-			                                                                                                     'showing_to'    => $this->vars['showing_to'],
-			                                                                                                     'total_records' => $total_bookings
-			] );
+			$this->format_render(
+				[
+					'json_view_name' => '_table_body',
+					'html_view_name' => __FUNCTION__,
+				],
+				[],
+				[
+					'total_pages'   => $total_pages,
+					'showing_from'  => $this->vars['showing_from'],
+					'showing_to'    => $this->vars['showing_to'],
+					'total_records' => $total_bookings,
+				] 
+			);
 		}
 
 		function quick_availability() {
@@ -352,13 +371,17 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 				$booking->agent_id = OsRolesHelper::get_allowed_records( 'agent' )[0];
 			}
 
-			$work_periods   = OsWorkPeriodsHelper::get_work_periods( new \LatePoint\Misc\Filter( [
-				'date_from'   => $calendar_start_date->format( 'Y-m-d' ),
-				'date_to'     => $calendar_end_date->format( 'Y-m-d' ),
-				'service_id'  => $booking->service_id,
-				'agent_id'    => $booking->agent_id,
-				'location_id' => $booking->location_id
-			] ) );
+			$work_periods   = OsWorkPeriodsHelper::get_work_periods(
+				new \LatePoint\Misc\Filter(
+					[
+						'date_from'   => $calendar_start_date->format( 'Y-m-d' ),
+						'date_to'     => $calendar_end_date->format( 'Y-m-d' ),
+						'service_id'  => $booking->service_id,
+						'agent_id'    => $booking->agent_id,
+						'location_id' => $booking->location_id,
+					] 
+				) 
+			);
 			$work_start_end = OsWorkPeriodsHelper::get_work_start_end_time( $work_periods );
 
 			$booking_request                   = \LatePoint\Misc\BookingRequest::create_from_booking_model( $booking );
@@ -414,10 +437,14 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
-
 	}
 
 endif;

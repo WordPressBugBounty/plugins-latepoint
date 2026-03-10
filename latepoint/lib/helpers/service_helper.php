@@ -39,9 +39,9 @@ class OsServiceHelper {
 			return '';
 		}
 		if ( ( $duration >= 60 ) && ! OsSettingsHelper::is_on( 'steps_show_duration_in_minutes' ) ) {
-			$hours                  = floor( $duration / 60 );
-			$minutes                = $duration % 60;
-			$summary_duration_label = $hours . ' ';
+			$hours                   = floor( $duration / 60 );
+			$minutes                 = $duration % 60;
+			$summary_duration_label  = $hours . ' ';
 			$summary_duration_label .= ( $hours > 1 ) ? __( 'Hours', 'latepoint' ) : __( 'Hour', 'latepoint' );
 			if ( $minutes ) {
 				$summary_duration_label .= ', ' . $minutes . ' ' . __( 'Minutes', 'latepoint' );
@@ -88,20 +88,20 @@ class OsServiceHelper {
 
 	public static function service_option_html_for_select( $service, $selected = false ) {
 		?>
-        <div class="service-option <?php if ( $selected ) {
+		<div class="service-option <?php if ( $selected ) {
 			echo 'selected';
-		} ?>"
-             data-extra-durations="<?php echo esc_attr( wp_json_encode( $service->get_extra_durations() ) ); ?>"
-             data-id="<?php echo esc_attr( $service->id ); ?>"
-             data-buffer-before="<?php echo esc_attr( $service->buffer_before ); ?>"
-             data-buffer-after="<?php echo esc_attr( $service->buffer_after ); ?>"
-             data-capacity-min="<?php echo esc_attr( $service->capacity_min ); ?>"
-             data-capacity-max="<?php echo esc_attr( $service->capacity_max ); ?>"
-             data-duration-name="<?php echo esc_attr( $service->duration_name ); ?>"
-             data-duration="<?php echo esc_attr( $service->duration ); ?>">
-            <div class="service-color" style="background-color: <?php echo esc_attr( $service->bg_color ); ?>"></div>
-            <span><?php echo esc_html( $service->name ); ?></span>
-        </div>
+								   } ?>"
+			 data-extra-durations="<?php echo esc_attr( wp_json_encode( $service->get_extra_durations() ) ); ?>"
+			 data-id="<?php echo esc_attr( $service->id ); ?>"
+			 data-buffer-before="<?php echo esc_attr( $service->buffer_before ); ?>"
+			 data-buffer-after="<?php echo esc_attr( $service->buffer_after ); ?>"
+			 data-capacity-min="<?php echo esc_attr( $service->capacity_min ); ?>"
+			 data-capacity-max="<?php echo esc_attr( $service->capacity_max ); ?>"
+			 data-duration-name="<?php echo esc_attr( $service->duration_name ); ?>"
+			 data-duration="<?php echo esc_attr( $service->duration ); ?>">
+			<div class="service-color" style="background-color: <?php echo esc_attr( $service->bg_color ); ?>"></div>
+			<span><?php echo esc_html( $service->name ); ?></span>
+		</div>
 		<?php
 	}
 
@@ -140,12 +140,15 @@ class OsServiceHelper {
 			$services->where( [ 'status' => LATEPOINT_SERVICE_STATUS_ACTIVE ] );
 		}
 
-		$services      = $services->order_by('status asc, name asc')->get_results_as_models();
+		$services      = $services->order_by( 'status asc, name asc' )->get_results_as_models();
 		$services_list = [];
 		if ( $services ) {
 			foreach ( $services as $service ) {
 				$label           = ( $service->status == LATEPOINT_LOCATION_STATUS_DISABLED ) ? ( $service->name . ' [' . esc_html__( 'Disabled', 'latepoint' ) . ']' ) : $service->name;
-				$services_list[] = [ 'value' => $service->id, 'label' => $label ];
+				$services_list[] = [
+					'value' => $service->id,
+					'label' => $label,
+				];
 			}
 		}
 
@@ -158,5 +161,4 @@ class OsServiceHelper {
 
 		return ! empty( $extra_durations );
 	}
-
 }

@@ -4,22 +4,21 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-  exit; // Exit if accessed directly.
+	exit; // Exit if accessed directly.
 }
 
 
 if ( ! class_exists( 'OsAgentMailer' ) ) :
 
 
-  class OsAgentMailer extends OsMailer {
+	class OsAgentMailer extends OsMailer {
 
 
 
-    function __construct(){
-      parent::__construct();
-      $this->views_folder = LATEPOINT_VIEWS_MAILERS_ABSPATH . 'agent/';
-    }
-
+		function __construct() {
+			parent::__construct();
+			$this->views_folder = LATEPOINT_VIEWS_MAILERS_ABSPATH . 'agent/';
+		}
 	}
 
 endif;

@@ -6,10 +6,13 @@
 class OsOrderIntentHelper {
 
 	public static function generate_continue_intent_url( $order_intent_key ) {
-		return OsRouterHelper::build_admin_post_link( [
-			'orders',
-			'continue_order_intent'
-		], [ 'order_intent_key' => $order_intent_key ] );
+		return OsRouterHelper::build_admin_post_link(
+			[
+				'orders',
+				'continue_order_intent',
+			],
+			[ 'order_intent_key' => $order_intent_key ] 
+		);
 	}
 
 	public static function get_order_id_from_intent_key( $intent_key ) {
@@ -38,13 +41,13 @@ class OsOrderIntentHelper {
 
 
 			$cart_items_data[] = [
-				'variant'   => $cart_item->variant,
-				'item_data' => $cart_item_data,
-				'subtotal' => $cart_item->get_subtotal(),
-				'total' => $cart_item->get_total(),
+				'variant'         => $cart_item->variant,
+				'item_data'       => $cart_item_data,
+				'subtotal'        => $cart_item->get_subtotal(),
+				'total'           => $cart_item->get_total(),
 				'coupon_discount' => $cart_item->get_coupon_discount(),
-				'coupon_code' => $cart_item->get_coupon_code(),
-				'tax_total' => $cart_item->get_tax_total(),
+				'coupon_code'     => $cart_item->get_coupon_code(),
+				'tax_total'       => $cart_item->get_tax_total(),
 			];
 		}
 
@@ -63,13 +66,15 @@ class OsOrderIntentHelper {
 		// hide "payments & credits" row if we are not accepting payments
 		$rows_to_hide                  = ( ! OsPaymentsHelper::is_accepting_payments() ) ? [ 'payments' ] : [];
 		$order_intent->price_breakdown = wp_json_encode( $cart->generate_price_breakdown_rows( $rows_to_hide ) );
-		$order_intent->payment_data    = wp_json_encode( [
-			'processor' => $cart->payment_processor,
-			'time'      => $cart->payment_time,
-			'method'    => $cart->payment_method,
-			'portion'   => $cart->payment_portion,
-			'token'     => $cart->payment_token
-		] );
+		$order_intent->payment_data    = wp_json_encode(
+			[
+				'processor' => $cart->payment_processor,
+				'time'      => $cart->payment_time,
+				'method'    => $cart->payment_method,
+				'portion'   => $cart->payment_portion,
+				'token'     => $cart->payment_token,
+			] 
+		);
 
 		/**
 		 * Sets order intent from a cart
@@ -104,20 +109,22 @@ class OsOrderIntentHelper {
 		$is_new = $order_intent->is_new_record();
 
 		if ( ! $is_new ) {
-			if($order_intent->is_converted()){
+			if ( $order_intent->is_converted() ) {
 				return $order_intent;
 			}
 			$old_order_intent = clone $order_intent;
 		}
 
-		$order_intent->restrictions_data     = wp_json_encode( $restrictions_data );
-		$order_intent->presets_data          = wp_json_encode( $presets_data );
+		$order_intent->restrictions_data = wp_json_encode( $restrictions_data );
+		$order_intent->presets_data      = wp_json_encode( $presets_data );
 		// override only if not empty
-		if(!empty($booking_form_page_url)) $order_intent->booking_form_page_url = urldecode( $booking_form_page_url );
+		if ( ! empty( $booking_form_page_url ) ) {
+			$order_intent->booking_form_page_url = urldecode( $booking_form_page_url );
+		}
 
-		if(empty($customer_id)){
+		if ( empty( $customer_id ) ) {
 			$order_intent->customer_id = OsAuthHelper::get_logged_in_customer_id();
-		}else{
+		} else {
 			$order_intent->customer_id = $customer_id;
 		}
 
@@ -169,13 +176,15 @@ class OsOrderIntentHelper {
 		return $order_intent;
 	}
 
-	public static function get_order_intent_by_intent_key( string $intent_key ) : OsOrderIntentModel {
+	public static function get_order_intent_by_intent_key( string $intent_key ): OsOrderIntentModel {
 		$order_intent = new OsOrderIntentModel();
-		if(empty($intent_key)) return $order_intent;
-		$order_intent = $order_intent->where( [ 'intent_key' => $intent_key ] )->set_limit( 1 )->get_results_as_models();
-		if(!empty($order_intent)){
+		if ( empty( $intent_key ) ) {
 			return $order_intent;
-		}else{
+		}
+		$order_intent = $order_intent->where( [ 'intent_key' => $intent_key ] )->set_limit( 1 )->get_results_as_models();
+		if ( ! empty( $order_intent ) ) {
+			return $order_intent;
+		} else {
 			return new OsOrderIntentModel();
 		}
 	}
@@ -188,5 +197,4 @@ class OsOrderIntentHelper {
 			return false;
 		}
 	}
-
 }

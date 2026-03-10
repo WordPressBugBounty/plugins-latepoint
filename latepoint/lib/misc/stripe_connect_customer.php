@@ -5,18 +5,20 @@
 
 namespace LatePoint\Misc;
 
-class StripeConnectCustomer{
+class StripeConnectCustomer {
 	public string $id;
 
-	function __construct($args = []){
+	function __construct( $args = [] ) {
 		$allowed_props = self::allowed_props();
-		foreach($args as $key => $arg){
-			if(in_array($key, $allowed_props)) $this->$key = $arg;
+		foreach ( $args as $key => $arg ) {
+			if ( in_array( $key, $allowed_props ) ) {
+				$this->$key = $arg;
+			}
 		}
 	}
 
 
-	public static function allowed_props(): array{
-		return ['id', 'type', 'settings', 'status'];
+	public static function allowed_props(): array {
+		return [ 'id', 'type', 'settings', 'status' ];
 	}
 }

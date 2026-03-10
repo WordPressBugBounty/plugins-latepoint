@@ -47,17 +47,24 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 
 
 				if ( $this->get_return_format() == 'json' ) {
-					$this->send_json( [
-						'status'                          => LATEPOINT_STATUS_SUCCESS,
-						'continue_transaction_intent_url' => OsTransactionIntentHelper::generate_continue_intent_url( $transaction_intent->intent_key ),
-						'payment_intent_id'               => $payment_intent_id,
-						'payment_intent_secret'           => $payment_intent_client_secret,
-						'transaction_intent_key'          => $transaction_intent->intent_key
-					] );
+					$this->send_json(
+						[
+							'status'                 => LATEPOINT_STATUS_SUCCESS,
+							'continue_transaction_intent_url' => OsTransactionIntentHelper::generate_continue_intent_url( $transaction_intent->intent_key ),
+							'payment_intent_id'      => $payment_intent_id,
+							'payment_intent_secret'  => $payment_intent_client_secret,
+							'transaction_intent_key' => $transaction_intent->intent_key,
+						] 
+					);
 				}
 			} catch ( Exception $e ) {
 				if ( $this->get_return_format() == 'json' ) {
-					$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
+					$this->send_json(
+						array(
+							'status'  => LATEPOINT_STATUS_ERROR,
+							'message' => $e->getMessage(),
+						) 
+					);
 				}
 			}
 		}
@@ -108,17 +115,28 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 		}
 
 		private function get_env_from_params(): string {
-			return ( ! empty( $this->params['env'] && in_array( $this->params['env'], [
-					LATEPOINT_PAYMENTS_ENV_LIVE,
-					LATEPOINT_PAYMENTS_ENV_DEV
-				] ) ) ) ? $this->params['env'] : OsSettingsHelper::get_payments_environment();
+			return ( ! empty(
+				$this->params['env'] && in_array(
+					$this->params['env'],
+					[
+						LATEPOINT_PAYMENTS_ENV_LIVE,
+						LATEPOINT_PAYMENTS_ENV_DEV,
+					] 
+				) 
+			) ) ? $this->params['env'] : OsSettingsHelper::get_payments_environment();
 		}
 
 		public function start_connect_process() {
 			$env = $this->get_env_from_params();
 			OsSettingsHelper::save_setting_by_name( OsSettingsHelper::append_payment_env_key( 'enable_payment_processor_stripe_connect', $env ), LATEPOINT_VALUE_ON );
 			$url = OsStripeConnectHelper::get_connect_url( $env );
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'url' => $url, 'message' => __( 'Redirecting to Stripe', 'latepoint' ) ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'url'     => $url,
+					'message' => __( 'Redirecting to Stripe', 'latepoint' ),
+				) 
+			);
 		}
 
 		public function disconnect_connect_account() {
@@ -129,15 +147,25 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				if ( $response['status']['code'] == 200 ) {
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_charges_enabled' ) );
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_account_id' ) );
-					OsStripeConnectHelper::reset_server_token($env);
+					OsStripeConnectHelper::reset_server_token( $env );
 				} else {
 					OsDebugHelper::log( 'Stripe Connect Error', 'stripe_connect_disconnect_error', $response );
 				}
 			} catch ( Exception $e ) {
 				OsDebugHelper::log( 'Error getting status of a stripe connection', 'stripe', [ 'error_message' => $e->getMessage() ] );
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => $e->getMessage(),
+					) 
+				);
 			}
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ) ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ),
+				) 
+			);
 		}
 
 
@@ -145,10 +173,10 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$env = $this->get_env_from_params();
 			try {
 				$response = OsStripeConnectHelper::do_request( 'server-tokens/' . OsStripeConnectHelper::get_server_token( $env ) . '/status', '', 'GET', [], [], $env );
-				if($env == 'live'){
-					if(empty($response['data']['transaction_fee_info'])){
+				if ( $env == 'live' ) {
+					if ( empty( $response['data']['transaction_fee_info'] ) ) {
 						OsSettingsHelper::save_setting_by_name( 'stripe_connect_transaction_fee_info', '0' );
-					}else{
+					} else {
 						OsSettingsHelper::save_setting_by_name( 'stripe_connect_transaction_fee_info', $response['data']['transaction_fee_info'] );
 					}
 				}
@@ -165,7 +193,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				}
 				if ( ! empty( $response['data']['active_site_urls'] ) ) {
 					OsSettingsHelper::save_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_duplicate_token_activations', $env ), $response['data']['active_site_urls'] );
-				}else{
+				} else {
 					OsSettingsHelper::remove_setting_by_name( OsSettingsHelper::append_payment_env_key( 'stripe_connect_duplicate_token_activations', $env ) );
 				}
 				if ( ! empty( $response['data']['error'] ) ) {
@@ -173,9 +201,19 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				}
 			} catch ( Exception $e ) {
 				OsDebugHelper::log( 'Error getting status of a stripe connection', 'stripe_connect_error', [ 'error_message' => $e->getMessage() ] );
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => $e->getMessage(),
+					) 
+				);
 			}
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ) ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ),
+				) 
+			);
 		}
 
 
@@ -184,13 +222,31 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 			$data    = json_decode( $payload, true );
 
 			if ( empty( $data['wp_latepoint_server_token'] ) ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => 'Token is missing' ), 404 );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => 'Token is missing',
+					),
+					404 
+				);
 			}
 			if ( $data['wp_latepoint_server_token'] != OsStripeConnectHelper::get_server_token() ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => 'Invalid Token' ), 404 );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => 'Invalid Token',
+					),
+					404 
+				);
 			}
 
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => 'Heartbeat detected' ), 200 );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => 'Heartbeat detected',
+				),
+				200 
+			);
 		}
 
 		public function create_payment_intent() {
@@ -221,25 +277,33 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 				$payment_data    = json_decode( $order_intent->payment_data, true );
 
 				$payment_data['token'] = $payment_intent_id;
-				$order_intent->update_attributes( [
-					'cart_items_data' => wp_json_encode( $cart_items_data ),
-					'payment_data'    => wp_json_encode( $payment_data )
-				] );
+				$order_intent->update_attributes(
+					[
+						'cart_items_data' => wp_json_encode( $cart_items_data ),
+						'payment_data'    => wp_json_encode( $payment_data ),
+					] 
+				);
 				if ( $this->get_return_format() == 'json' ) {
-					$this->send_json( [
-						'status'                    => LATEPOINT_STATUS_SUCCESS,
-						'continue_order_intent_url' => OsOrderIntentHelper::generate_continue_intent_url( $order_intent->intent_key ),
-						'payment_intent_id'         => $payment_intent_id,
-						'payment_intent_secret'     => $payment_intent_client_secret,
-						'order_intent_key'          => $order_intent->intent_key
-					] );
+					$this->send_json(
+						[
+							'status'                    => LATEPOINT_STATUS_SUCCESS,
+							'continue_order_intent_url' => OsOrderIntentHelper::generate_continue_intent_url( $order_intent->intent_key ),
+							'payment_intent_id'         => $payment_intent_id,
+							'payment_intent_secret'     => $payment_intent_client_secret,
+							'order_intent_key'          => $order_intent->intent_key,
+						] 
+					);
 				}
 			} catch ( Exception $e ) {
 				if ( $this->get_return_format() == 'json' ) {
-					$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => $e->getMessage() ) );
+					$this->send_json(
+						array(
+							'status'  => LATEPOINT_STATUS_ERROR,
+							'message' => $e->getMessage(),
+						) 
+					);
 				}
 			}
-
 		}
 	}
 

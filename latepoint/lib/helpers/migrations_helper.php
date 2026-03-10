@@ -13,9 +13,9 @@ class OsMigrationsHelper {
 
 		$bookings            = new OsBookingModel();
 		$bookings_to_migrate = $bookings->where( [ 'order_item_id' => 'IS NOT NULL' ] )->get_results_as_models();
-		$report = '';
+		$report              = '';
 		foreach ( $bookings_to_migrate as $booking ) {
-			$report     .= '<div>Start migrating totals for Booking ID:' . $booking->id . '</div>';
+			$report    .= '<div>Start migrating totals for Booking ID:' . $booking->id . '</div>';
 			$order_item = new OsOrderItemModel( $booking->order_item_id );
 			if ( $order_item->is_new_record() ) {
 				$report .= '<div>Skipping as there is no associated order item</div>';
@@ -41,7 +41,7 @@ class OsMigrationsHelper {
 		$bookings    = new OsBookingModel();
 		$v4_bookings = $bookings->where( [ 'order_item_id' => 'IS NULL' ] )->get_results_as_models();
 		foreach ( $v4_bookings as $booking ) {
-			$report                 .= '<div>Start migrating Booking ID:' . $booking->id . '</div>';
+			$report                .= '<div>Start migrating Booking ID:' . $booking->id . '</div>';
 			$order                  = new OsOrderModel();
 			$order->total           = $booking->price;
 			$order->subtotal        = $booking->subtotal;
@@ -52,7 +52,7 @@ class OsMigrationsHelper {
 				$tax_total        = $booking->total - $booking->subtotal - $booking->coupon_discount;
 				$order->tax_total = ( $tax_total > 0 ) ? $tax_total : 0;
 			} catch ( Exception $e ) {
-				$report           .= '<div>Error calculating Total Tax:' . $booking->id . '</div>';
+				$report          .= '<div>Error calculating Total Tax:' . $booking->id . '</div>';
 				$order->tax_total = 0;
 			}
 			$order->ip_address       = $booking->ip_address;
@@ -70,7 +70,7 @@ class OsMigrationsHelper {
 			$order->fulfillment_status = ( $order->status == LATEPOINT_ORDER_STATUS_COMPLETED ) ? LATEPOINT_ORDER_FULFILLMENT_STATUS_FULFILLED : LATEPOINT_ORDER_FULFILLMENT_STATUS_NOT_FULFILLED;
 			$order->payment_status     = $booking->payment_status;
 			if ( $order->save() ) {
-				$report                      .= '<div>Created Order ID:' . $order->id . '</div>';
+				$report                     .= '<div>Created Order ID:' . $order->id . '</div>';
 				$order_item                  = new OsOrderItemModel();
 				$order_item->order_id        = $order->id;
 				$order_item->total           = $order->total;
@@ -83,7 +83,7 @@ class OsMigrationsHelper {
 				$order_item->created_at      = $booking->created_at;
 				$order_item->item_data       = wp_json_encode( $booking->generate_params_for_booking_form(), true );
 				if ( $order_item->save() ) {
-					$report                 .= '<div>Created Order Item ID:' . $order_item->id . '</div>';
+					$report                .= '<div>Created Order Item ID:' . $order_item->id . '</div>';
 					$booking->order_item_id = $order_item->id;
 					if ( $booking->save() ) {
 						$report .= '<div>Migration Finished Booking ID:' . $booking->id . '</div>';
@@ -150,7 +150,7 @@ class OsMigrationsHelper {
 		$report = '';
 
 		$steps_table = $wpdb->prefix . 'latepoint_step_settings';
-		$steps_rows  = $wpdb->get_results( $wpdb->prepare('SELECT label, value, step FROM %i', esc_sql($steps_table) ));
+		$steps_rows  = $wpdb->get_results( $wpdb->prepare( 'SELECT label, value, step FROM %i', esc_sql( $steps_table ) ) );
 		$steps       = [];
 
 		$conversions = [
@@ -158,7 +158,7 @@ class OsMigrationsHelper {
 			'title'            => 'side_panel_heading',
 			'description'      => 'side_panel_description',
 			'icon_image_id'    => 'side_panel_custom_image_id',
-			'use_custom_image' => 'use_custom_image'
+			'use_custom_image' => 'use_custom_image',
 		];
 
 		foreach ( $steps_rows as $step ) {
@@ -186,7 +186,7 @@ class OsMigrationsHelper {
 		$steps_support_text = OsSettingsHelper::get_settings_value( 'steps_support_text', '' );
 		if ( ! empty( $steps_support_text ) ) {
 			$steps_settings['shared']['steps_support_text'] = $steps_support_text;
-			$report                                         .= '<div>- Support Text</div>';
+			$report                                        .= '<div>- Support Text</div>';
 		}
 		OsStepsHelper::save_steps_settings( $steps_settings );
 
@@ -212,10 +212,10 @@ class OsMigrationsHelper {
 				'payment__portions',
 				'payment__methods',
 				'payment__processors',
-				'payment__pay'
+				'payment__pay',
 			],
 			'verify'                    => [ 'verify' ],
-			'confirmation'              => [ 'confirmation' ]
+			'confirmation'              => [ 'confirmation' ],
 		];
 
 		return $steps[ $step_code ] ?? [];

@@ -1,6 +1,7 @@
 # Development files
 /.git
 /.github
+/.wordpress-org
 /node_modules
 /vendor
 
@@ -19,6 +20,7 @@
 
 # Internal documentation (never ship in production)
 /docs
+/tmp
 
 # Block source files (keeping for now)
 # /blocks/src
@@ -39,16 +41,19 @@ phpinsights.php
 
 # Build scripts
 /bin
+/scripts
 
 # Version control
 .gitignore
 .gitattributes
+.editorconfig
 
 # OS files
 .DS_Store
 Thumbs.db
 
 # IDE files
+.claude
 .idea
 .vscode
 .nova

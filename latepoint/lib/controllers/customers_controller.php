@@ -15,7 +15,10 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 			$this->views_folder          = LATEPOINT_VIEWS_ABSPATH . 'customers/';
 			$this->vars['page_header']   = OsMenuHelper::get_menu_items_by_id( 'customers' );
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Customers', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'customers', 'index' ) ) );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Customers', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'customers', 'index' ) ),
+			);
 		}
 
 		public function destroy() {
@@ -35,7 +38,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -103,7 +111,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -113,7 +126,10 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 		public function edit_form() {
 			$this->vars['page_header']   = __( 'Edit Customer', 'latepoint' );
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Edit Customer', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Edit Customer', 'latepoint' ),
+				'link'  => false,
+			);
 
 			if ( filter_var( $this->params['id'], FILTER_VALIDATE_INT ) ) {
 				// check if allowed to access
@@ -133,13 +149,15 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$query                   = $this->params['query'];
 			$customers               = new OsCustomerModel();
 			$this->vars['query']     = $query;
-			$this->vars['customers'] = $customers->where( array(
-				'OR' => array(
-					'CONCAT (first_name, " ", last_name) LIKE ' => $sql_query,
-					'email LIKE'                                => $sql_query,
-					'phone LIKE'                                => $sql_query
-				)
-			) )->set_limit( 20 )->order_by( 'first_name asc, last_name asc' )->get_results_as_models();
+			$this->vars['customers'] = $customers->where(
+				array(
+					'OR' => array(
+						'CONCAT (first_name, " ", last_name) LIKE ' => $sql_query,
+						'email LIKE' => $sql_query,
+						'phone LIKE' => $sql_query,
+					),
+				) 
+			)->set_limit( 20 )->order_by( 'first_name asc, last_name asc' )->get_results_as_models();
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -165,7 +183,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -201,7 +224,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -215,23 +243,33 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$pie_labels     = [];
 				$pie_colors     = [];
 				$pie_values     = [];
-				$pie_chart_data = OsBookingHelper::get_stat( 'bookings', [ 'group_by' => 'status', 'customer_id' => $customer->id ] );
+				$pie_chart_data = OsBookingHelper::get_stat(
+					'bookings',
+					[
+						'group_by'    => 'status',
+						'customer_id' => $customer->id,
+					] 
+				);
 				$colors         = [ '#2752E4', '#C066F1', '#26B7DD', '#E8C634', '#19CED6', '#2FEAA3', '#252a3e', '#8d87a5', '#b9b784' ];
 				$status_colors  = [
-					LATEPOINT_BOOKING_STATUS_APPROVED        => '#35d893',
-					LATEPOINT_BOOKING_STATUS_PENDING         => '#e6b935',
+					LATEPOINT_BOOKING_STATUS_APPROVED  => '#35d893',
+					LATEPOINT_BOOKING_STATUS_PENDING   => '#e6b935',
 					LATEPOINT_BOOKING_STATUS_PAYMENT_PENDING => '#4ca4ef',
-					LATEPOINT_BOOKING_STATUS_CANCELLED       => '#f1585d'
+					LATEPOINT_BOOKING_STATUS_CANCELLED => '#f1585d',
 				];
 				$i              = 0;
 				foreach ( $pie_chart_data as $pie_data ) {
 					$pie_labels[] = $pie_data['status'];
 					$pie_colors[] = isset( $status_colors[ $pie_data['status'] ] ) ? $status_colors[ $pie_data['status'] ] : $colors[ $i ];
 					$pie_values[] = $pie_data['stat'];
-					$i ++;
+					$i++;
 				}
 
-				$this->vars['pie_chart_data'] = [ 'labels' => $pie_labels, 'colors' => $pie_colors, 'values' => $pie_values ];
+				$this->vars['pie_chart_data'] = [
+					'labels' => $pie_labels,
+					'colors' => $pie_colors,
+					'values' => $pie_values,
+				];
 
 
 				$this->set_layout( 'none' );
@@ -242,7 +280,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -267,7 +310,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => __( 'Customers Connected', 'latepoint' ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Customers Connected', 'latepoint' ),
+					) 
+				);
 			}
 		}
 
@@ -282,7 +330,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$customer->update_attributes( [ 'wordpress_user_id' => null ] );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => __( 'Customer Disconnected', 'latepoint' ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Customer Disconnected', 'latepoint' ),
+					) 
+				);
 			}
 		}
 
@@ -297,7 +350,12 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$wp_user = OsCustomerHelper::create_wp_user_for_customer( $customer );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => __( 'Customer Connected', 'latepoint' ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Customer Connected', 'latepoint' ),
+					) 
+				);
 			}
 		}
 
@@ -325,7 +383,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				}
 				if ( $filter['customer'] ) {
 					$query_args[ 'concat_ws(" ", ' . LATEPOINT_TABLE_CUSTOMERS . '.first_name,' . LATEPOINT_TABLE_CUSTOMERS . '.last_name) LIKE' ] = '%' . $filter['customer'] . '%';
-					$this->vars['customer_name_query']                                                                                             = $filter['customer'];
+					$this->vars['customer_name_query'] = $filter['customer'];
 				}
 				if ( $filter['phone'] ) {
 					$query_args['phone LIKE']  = '%' . $filter['phone'] . '%';
@@ -345,7 +403,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 				$csv_filename = 'customers_' . OsUtilHelper::random_text();
 
-				header( "Content-Type: text/csv" );
+				header( 'Content-Type: text/csv' );
 				header( "Content-Disposition: attachment; filename={$csv_filename}.csv" );
 
 				$labels_row = [
@@ -355,7 +413,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 					__( 'Email', 'latepoint' ),
 					__( 'Total Appointments', 'latepoint' ),
 					__( 'Next Appointment', 'latepoint' ),
-					__( 'Registered On', 'latepoint' )
+					__( 'Registered On', 'latepoint' ),
 				];
 
 
@@ -374,7 +432,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 							$customer->email,
 							$customer->total_bookings_count,
 							$next_booking ? $next_booking->nice_start_datetime : 'n/a',
-							$customer->formatted_created_date()
+							$customer->formatted_created_date(),
 						];
 						$values_row       = apply_filters( 'latepoint_customer_row_for_csv_export', $values_row, $customer, $this->params );
 						$customers_data[] = $values_row;
@@ -405,12 +463,19 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$this->vars['showing_from'] = ( ( $page_number - 1 ) * $per_page ) ? ( ( $page_number - 1 ) * $per_page ) : 1;
 			$this->vars['showing_to']   = min( $page_number * $per_page, $this->vars['total_customers'] );
 
-			$this->format_render( [ 'json_view_name' => '_table_body', 'html_view_name' => __FUNCTION__ ], [], [
-				'total_pages'   => $total_pages,
-				'showing_from'  => $this->vars['showing_from'],
-				'showing_to'    => $this->vars['showing_to'],
-				'total_records' => $total_customers
-			] );
+			$this->format_render(
+				[
+					'json_view_name' => '_table_body',
+					'html_view_name' => __FUNCTION__,
+				],
+				[],
+				[
+					'total_pages'   => $total_pages,
+					'showing_from'  => $this->vars['showing_from'],
+					'showing_to'    => $this->vars['showing_to'],
+					'total_records' => $total_customers,
+				] 
+			);
 		}
 
 
@@ -452,16 +517,25 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 
-			$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+			$this->send_json(
+				array(
+					'status'  => $status,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		private function _handle_upload_step(): string {
 			$file_path = OsCSVHelper::upload_csv_file( $this->files, 'latepoint_customers_csv' );
 			$csv_data  = OsCSVHelper::get_csv_data( $file_path, 1 );
 
-			return $this->render( $this->views_folder . 'import_steps/step_mapping.php', 'none', [
-				'csv_data' => $csv_data,
-			] );
+			return $this->render(
+				$this->views_folder . 'import_steps/step_mapping.php',
+				'none',
+				[
+					'csv_data' => $csv_data,
+				] 
+			);
 		}
 
 		private function _handle_mapping_step(): string {
@@ -474,11 +548,15 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$csv_data          = OsCSVHelper::get_csv_data( OsCustomerImportHelper::get_import_tmp_filepath() );
 			$validation_result = OsCustomerImportHelper::validate_csv_data( $csv_data, $columnMapping );
 
-			return $this->render( $this->views_folder . 'import_steps/step_confirmation.php', 'none', [
-				'conflicts'                => $validation_result['conflicts'],
-				'can_be_imported'          => $validation_result['importable_count'],
-				'latepoint_column_mapping' => $columnMapping
-			] );
+			return $this->render(
+				$this->views_folder . 'import_steps/step_confirmation.php',
+				'none',
+				[
+					'conflicts'                => $validation_result['conflicts'],
+					'can_be_imported'          => $validation_result['importable_count'],
+					'latepoint_column_mapping' => $columnMapping,
+				] 
+			);
 		}
 
 
@@ -494,13 +572,15 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			// Cleanup after successful import
 			OsCustomerImportHelper::cleanup_stored_file();
 
-			return $this->render( $this->views_folder . 'import_steps/step_done.php', 'none', [
-				'skipped_records' => $importResult['skipped_count'],
-				'updated_records' => $importResult['updated_count'],
-			] );
+			return $this->render(
+				$this->views_folder . 'import_steps/step_done.php',
+				'none',
+				[
+					'skipped_records' => $importResult['skipped_count'],
+					'updated_records' => $importResult['updated_count'],
+				] 
+			);
 		}
-
-
 	}
 
 

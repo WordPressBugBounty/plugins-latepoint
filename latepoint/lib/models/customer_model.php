@@ -31,7 +31,7 @@ class OsCustomerModel extends OsModel {
 			'first_name' => __( 'Customer First Name', 'latepoint' ),
 			'email'      => __( 'Email Address', 'latepoint' ),
 			'phone'      => __( 'Phone Number', 'latepoint' ),
-			'last_name'  => __( 'Customer Last Name', 'latepoint' )
+			'last_name'  => __( 'Customer Last Name', 'latepoint' ),
 		);
 
 		parent::__construct( $id );
@@ -44,7 +44,7 @@ class OsCustomerModel extends OsModel {
 			'last_name'  => $this->last_name,
 			'full_name'  => $this->full_name,
 			'email'      => $this->email,
-			'phone'      => $this->phone
+			'phone'      => $this->phone,
 		];
 	}
 
@@ -108,9 +108,9 @@ class OsCustomerModel extends OsModel {
 	}
 
 	public function get_selected_timezone_name() {
-		if(OsSettingsHelper::is_on('steps_show_timezone_selector')){
+		if ( OsSettingsHelper::is_on( 'steps_show_timezone_selector' ) ) {
 			return $this->get_meta_by_key( 'timezone_name', OsTimeHelper::get_timezone_name_from_session() );
-		}else{
+		} else {
 			return OsTimeHelper::get_wp_timezone_name();
 		}
 	}
@@ -180,16 +180,18 @@ class OsCustomerModel extends OsModel {
 			$bookings->filter_allowed_records();
 		}
 
-		return $bookings->should_not_be_cancelled()->where( array(
-			'customer_id' => $this->id,
-			'OR'          => array(
-				'start_date <' => OsTimeHelper::today_date( 'Y-m-d' ),
-				'AND'          => array(
-					'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
-					'start_time <' => OsTimeHelper::get_current_minutes()
-				)
-			)
-		) )->get_results_as_models();
+		return $bookings->should_not_be_cancelled()->where(
+			array(
+				'customer_id' => $this->id,
+				'OR'          => array(
+					'start_date <' => OsTimeHelper::today_date( 'Y-m-d' ),
+					'AND'          => array(
+						'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
+						'start_time <' => OsTimeHelper::get_current_minutes(),
+					),
+				),
+			) 
+		)->get_results_as_models();
 	}
 
 	/**
@@ -207,7 +209,12 @@ class OsCustomerModel extends OsModel {
 						$bundle_services = $bundle->get_services();
 						foreach ( $bundle_services as $bundle_service ) {
 							$bookings                 = new OsBookingModel();
-							$total_scheduled_bookings = $bookings->where( [ 'order_item_id' => $order_item_id, 'service_id' => $bundle_service->id ] )->should_not_be_cancelled()->count();
+							$total_scheduled_bookings = $bookings->where(
+								[
+									'order_item_id' => $order_item_id,
+									'service_id'    => $bundle_service->id,
+								] 
+							)->should_not_be_cancelled()->count();
 							if ( $total_scheduled_bookings < $bundle_service->join_attributes['quantity'] ) {
 								$non_scheduled_bundles[ $order_item_id ] = $bundle;
 								break;
@@ -252,16 +259,18 @@ class OsCustomerModel extends OsModel {
 			$bookings->filter_allowed_records();
 		}
 
-		return $bookings->should_not_be_cancelled()->where( array(
-			'customer_id' => $this->id,
-			'OR'          => array(
-				'start_date >' => OsTimeHelper::today_date( 'Y-m-d' ),
-				'AND'          => array(
-					'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
-					'start_time >' => OsTimeHelper::get_current_minutes()
-				)
-			)
-		) )->count();
+		return $bookings->should_not_be_cancelled()->where(
+			array(
+				'customer_id' => $this->id,
+				'OR'          => array(
+					'start_date >' => OsTimeHelper::today_date( 'Y-m-d' ),
+					'AND'          => array(
+						'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
+						'start_time >' => OsTimeHelper::get_current_minutes(),
+					),
+				),
+			) 
+		)->count();
 	}
 
 	public function get_total_bookings_count( $filter_allowed_records = false ) {
@@ -291,9 +300,9 @@ class OsCustomerModel extends OsModel {
 		return $this;
 	}
 
-	public function primary_contact_type(){
+	public function primary_contact_type() {
 		$contact_type = OsAuthHelper::get_selected_customer_authentication_field_type();
-		switch($contact_type){
+		switch ( $contact_type ) {
 			case 'phone':
 				return $this->phone;
 			break;
@@ -306,15 +315,22 @@ class OsCustomerModel extends OsModel {
 	public function update_password( $password ) {
 		// update connected wp user password
 		if ( OsAuthHelper::can_wp_users_login_as_customers() && $this->wordpress_user_id ) {
-			$is_logged_in = OsWpUserHelper::get_current_user_id() == $this->wordpress_user_id;
+			$is_logged_in      = OsWpUserHelper::get_current_user_id() == $this->wordpress_user_id;
 			$logged_in_wp_user = $is_logged_in ? OsWpUserHelper::get_current_user() : false;
 
 			// user is getting logged out after changing a password - we need to check if the user that we are changing password for is currently logged in, if it is - make sure to log them back in after password change
-			wp_set_password($password, $this->wordpress_user_id);
-			if($is_logged_in && $logged_in_wp_user) OsAuthHelper::login_wp_user($logged_in_wp_user);
+			wp_set_password( $password, $this->wordpress_user_id );
+			if ( $is_logged_in && $logged_in_wp_user ) {
+				OsAuthHelper::login_wp_user( $logged_in_wp_user );
+			}
 		}
 
-		return $this->update_attributes( [ 'password' => wp_hash_password($password), 'is_guest' => false ] );
+		return $this->update_attributes(
+			[
+				'password' => wp_hash_password( $password ),
+				'is_guest' => false,
+			] 
+		);
 	}
 
 	protected function get_full_name() {
@@ -372,9 +388,9 @@ class OsCustomerModel extends OsModel {
 		}
 	}
 
-	public function get_uuid() : string{
-		if ( !$this->is_new_record() && empty( $this->uuid ) ) {
-			$this->update_attributes(['uuid' => OsUtilHelper::generate_uuid()]);
+	public function get_uuid(): string {
+		if ( ! $this->is_new_record() && empty( $this->uuid ) ) {
+			$this->update_attributes( [ 'uuid' => OsUtilHelper::generate_uuid() ] );
 		}
 		return $this->uuid ?? '';
 	}
@@ -394,7 +410,7 @@ class OsCustomerModel extends OsModel {
 					'notes',
 					'admin_notes',
 					'wordpress_user_id',
-					'password'
+					'password',
 				];
 				break;
 			case 'customer':
@@ -406,7 +422,7 @@ class OsCustomerModel extends OsModel {
 					'phone',
 					'avatar_image_id',
 					'notes',
-					'password'
+					'password',
 				];
 				break;
 		}
@@ -432,7 +448,7 @@ class OsCustomerModel extends OsModel {
 			'admin_notes',
 			'wordpress_user_id',
 			'google_user_id',
-			'facebook_user_id'
+			'facebook_user_id',
 		);
 
 		return $params_to_save;
@@ -474,22 +490,22 @@ class OsCustomerModel extends OsModel {
 					}
 				}
 			}
-			if(OsAuthHelper::is_customer_auth_enabled()){
+			if ( OsAuthHelper::is_customer_auth_enabled() ) {
 				// auth enabled
 				$auth_field = OsAuthHelper::get_selected_customer_authentication_field_type();
-				if($auth_field == 'email'){
+				if ( $auth_field == 'email' ) {
 					$validations['email'][] = 'uniqueness';
 				}
-				if($auth_field == 'phone'){
+				if ( $auth_field == 'phone' ) {
 					$validations['phone'][] = 'uniqueness';
 				}
-			}else{
+			} else {
 				// auth disabled
-				$merge_data = OsSettingsHelper::get_settings_value('default_contact_merge_behavior', 'email');
-				if($merge_data == 'email'){
+				$merge_data = OsSettingsHelper::get_settings_value( 'default_contact_merge_behavior', 'email' );
+				if ( $merge_data == 'email' ) {
 					$validations['email'][] = 'uniqueness';
 				}
-				if($merge_data == 'phone'){
+				if ( $merge_data == 'phone' ) {
 					$validations['phone'][] = 'uniqueness';
 				}
 			}

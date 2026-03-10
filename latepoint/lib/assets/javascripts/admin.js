@@ -570,7 +570,8 @@ jQuery(document).ready(function( $ ) {
     var data = { action: latepoint_helper.route_action,
                   route_name: $draggable_form_blocks_wrapper.data('order-update-route'),
                   params: {ordered_fields: blocks_order_data,
-                  fields_for: $draggable_form_blocks_wrapper.data('fields-for')},
+                  fields_for: $draggable_form_blocks_wrapper.data('fields-for'),
+                  _wpnonce: $draggable_form_blocks_wrapper.data('order-update-nonce')},
                   return_format: 'json' } 
     $draggable_form_blocks_wrapper.addClass('os-loading');
     jQuery.ajax({

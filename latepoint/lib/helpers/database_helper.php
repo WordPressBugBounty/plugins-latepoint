@@ -64,8 +64,8 @@ class OsDatabaseHelper {
 		$active_addons          = OsSettingsHelper::get_active_addons();
 		$verified_active_addons = [];
 
-		if (!function_exists('plugin_main_function')) {
-		    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( ! function_exists( 'plugin_main_function' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 		foreach ( $active_addons as $active_addon ) {
 			if ( ( $active_addon != $name ) && is_plugin_active( $active_addon . '/' . $active_addon . '.php' ) ) {
@@ -79,7 +79,7 @@ class OsDatabaseHelper {
 	// Install queries for addons
 	public static function install_database_for_addons() {
 		$sqls = self::get_table_queries_for_addons();
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		foreach ( $sqls as $sql ) {
 			error_log( print_r( dbDelta( $sql ), true ) );
 		}
@@ -88,7 +88,7 @@ class OsDatabaseHelper {
 
 	public static function install_database() {
 		$sqls = self::get_initial_table_queries();
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		foreach ( $sqls as $sql ) {
 			error_log( print_r( dbDelta( $sql ), true ) );
 		}
@@ -124,11 +124,11 @@ class OsDatabaseHelper {
 		} else {
 			global $wp_filesystem;
 			foreach ( [ 'agent', 'customer' ] as $user_type ) {
-				$action                                                  = [];
-				$action['type']                                          = 'send_email';
-				$action['settings']['to_email']                          = '{{' . $user_type . '_full_name}} <{{' . $user_type . '_email}}>';
-				$action['settings']['subject']                           = ( $user_type == 'agent' ) ? "New Appointment Received" : "Appointment Confirmation";
-				$action['settings']['content']                           = OsEmailHelper::get_email_layout( $wp_filesystem->get_contents( LATEPOINT_VIEWS_ABSPATH . 'mailers/' . $user_type . '/booking_created.html' ) );
+				$action                         = [];
+				$action['type']                 = 'send_email';
+				$action['settings']['to_email'] = '{{' . $user_type . '_full_name}} <{{' . $user_type . '_email}}>';
+				$action['settings']['subject']  = ( $user_type == 'agent' ) ? 'New Appointment Received' : 'Appointment Confirmation';
+				$action['settings']['content']  = OsEmailHelper::get_email_layout( $wp_filesystem->get_contents( LATEPOINT_VIEWS_ABSPATH . 'mailers/' . $user_type . '/booking_created.html' ) );
 				$actions[ \LatePoint\Misc\ProcessAction::generate_id() ] = $action;
 			}
 		}
@@ -149,7 +149,6 @@ class OsDatabaseHelper {
 		 */
 		do_action( 'latepoint_seed_initial_data' );
 		OsSettingsHelper::save_setting_by_name( 'is_database_seeded', true );
-
 	}
 
 	public static function run_query( string $sql ) {
@@ -231,7 +230,6 @@ class OsDatabaseHelper {
 		 *
 		 */
 		return apply_filters( 'get_all_latepoint_tables', $tables );
-
 	}
 
 	public static function get_initial_table_queries() {
@@ -244,7 +242,7 @@ class OsDatabaseHelper {
 
 
 			/* OTP Codes */
-			$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOMER_OTP_CODES . " (
+			$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CUSTOMER_OTP_CODES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       contact_value varchar(255) NOT NULL,
       contact_type varchar(30) NOT NULL,
@@ -263,7 +261,7 @@ class OsDatabaseHelper {
 
 
 			/* Recurrences */
-			$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_RECURRENCES . " (
+			$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_RECURRENCES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       rules text,
       overrides text,
@@ -278,7 +276,7 @@ class OsDatabaseHelper {
 		// ---------------
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_STEPS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_STEPS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       title text,
       before_content text,
@@ -299,7 +297,7 @@ class OsDatabaseHelper {
 		// CART
 		// ---------------
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CARTS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CARTS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       uuid varchar(36),
       order_intent_id int(11),
@@ -313,7 +311,7 @@ class OsDatabaseHelper {
       KEY order_intent_id_index (order_intent_id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CART_ITEMS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CART_ITEMS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       cart_id int(11) NOT NULL,
       variant varchar(55),
@@ -331,7 +329,7 @@ class OsDatabaseHelper {
 		// ORDERS
 		// ---------------
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ORDERS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ORDERS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       subtotal decimal(20,4),
       total decimal(20,4),
@@ -355,7 +353,7 @@ class OsDatabaseHelper {
       KEY customer_id_index (customer_id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ORDER_ITEMS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ORDER_ITEMS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       order_id int(11) NOT NULL,
       variant varchar(55),
@@ -372,7 +370,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ORDER_INTENTS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ORDER_INTENTS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       intent_key varchar(55) NOT NULL,
       customer_id int(11) NOT NULL,
@@ -399,7 +397,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ORDER_INVOICES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ORDER_INVOICES . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       order_id int(11) NOT NULL,
       invoice_number varchar(10),
@@ -417,7 +415,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_PAYMENT_REQUESTS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_PAYMENT_REQUESTS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       order_id int(11) NOT NULL,
       invoice_id int(11) NOT NULL,
@@ -432,7 +430,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_PROCESS_JOBS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_PROCESS_JOBS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       process_id int(11) NOT NULL,
       object_id int(11) NOT NULL,
@@ -448,7 +446,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SESSIONS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_SESSIONS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       session_key varchar(55) NOT NULL,
       session_value longtext NOT NULL,
@@ -458,7 +456,7 @@ class OsDatabaseHelper {
       UNIQUE KEY session_key (session_key)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BOOKINGS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_BOOKINGS . " (
       id int(11) NOT NULL AUTO_INCREMENT,
       booking_code varchar(10),
       start_date date,
@@ -494,7 +492,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BLOCKED_PERIODS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_BLOCKED_PERIODS . " (
       id int(11) NOT NULL AUTO_INCREMENT,
       summary text,
       start_date date,
@@ -518,7 +516,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CART_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CART_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -530,20 +528,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ORDER_META . " (
-      id mediumint(9) NOT NULL AUTO_INCREMENT,
-      object_id mediumint(9) NOT NULL,
-      meta_key varchar(110) NOT NULL,
-      meta_value text,
-      created_at datetime,
-      updated_at datetime,
-      KEY meta_key_index (meta_key),
-      KEY object_id_index (object_id),
-      PRIMARY KEY  (id)
-    ) $charset_collate;";
-
-
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BOOKING_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ORDER_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -556,7 +541,20 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_PROCESSES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_BOOKING_META . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      object_id mediumint(9) NOT NULL,
+      meta_key varchar(110) NOT NULL,
+      meta_value text,
+      created_at datetime,
+      updated_at datetime,
+      KEY meta_key_index (meta_key),
+      KEY object_id_index (object_id),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_PROCESSES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(110) NOT NULL,
       event_type varchar(110) NOT NULL,
@@ -567,7 +565,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SERVICE_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_SERVICE_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -579,7 +577,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOMER_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CUSTOMER_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -591,7 +589,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_AGENT_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_AGENT_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -603,7 +601,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BUNDLE_META . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_BUNDLE_META . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       object_id mediumint(9) NOT NULL,
       meta_key varchar(110) NOT NULL,
@@ -616,7 +614,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SETTINGS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_SETTINGS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(110) NOT NULL,
       value longtext,
@@ -627,7 +625,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_LOCATIONS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_LOCATIONS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(255) NOT NULL,
       full_address text,
@@ -642,7 +640,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_LOCATION_CATEGORIES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_LOCATION_CATEGORIES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(100) NOT NULL,
       short_description text,
@@ -657,7 +655,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_BUNDLES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_BUNDLES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(255) NOT NULL,
       short_description text,
@@ -674,7 +672,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_JOIN_BUNDLES_SERVICES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_JOIN_BUNDLES_SERVICES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       bundle_id mediumint(9),
       service_id mediumint(9),
@@ -688,7 +686,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SERVICES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_SERVICES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(255) NOT NULL,
       short_description text,
@@ -723,7 +721,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_AGENTS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_AGENTS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       avatar_image_id int(11),
       bio_image_id int(11),
@@ -747,7 +745,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_STEP_SETTINGS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_STEP_SETTINGS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       label varchar(50) NOT NULL,
       value text,
@@ -760,7 +758,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOMERS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CUSTOMERS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       uuid varchar(36),
       first_name varchar(255),
@@ -787,7 +785,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_SERVICE_CATEGORIES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_SERVICE_CATEGORIES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       name varchar(100) NOT NULL,
       short_description text,
@@ -801,7 +799,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_CUSTOM_PRICES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_CUSTOM_PRICES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       agent_id int(11) NOT NULL,
       service_id int(11) NOT NULL,
@@ -820,7 +818,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_WORK_PERIODS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_WORK_PERIODS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       agent_id int(11) NOT NULL,
       service_id int(11) NOT NULL,
@@ -840,7 +838,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_AGENTS_SERVICES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_AGENTS_SERVICES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       agent_id int(11) NOT NULL,
       service_id int(11) NOT NULL,
@@ -856,7 +854,7 @@ class OsDatabaseHelper {
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_ACTIVITIES . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_ACTIVITIES . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       agent_id int(11),
       booking_id int(11),
@@ -876,7 +874,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_TRANSACTION_INTENTS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_TRANSACTION_INTENTS . " (
       id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
       intent_key varchar(55) NOT NULL,
       order_id int(11) NOT NULL,
@@ -894,7 +892,7 @@ class OsDatabaseHelper {
       UNIQUE KEY intent_key_index (intent_key)
     ) $charset_collate;";
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_TRANSACTIONS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_TRANSACTIONS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       token text,
       invoice_id int(11),
@@ -915,7 +913,7 @@ class OsDatabaseHelper {
     ) $charset_collate;";
 
 
-		$sqls[] = "CREATE TABLE " . LATEPOINT_TABLE_TRANSACTION_REFUNDS . " (
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_TRANSACTION_REFUNDS . " (
       id mediumint(9) NOT NULL AUTO_INCREMENT,
       token text,
       transaction_id int(11),
@@ -927,6 +925,4 @@ class OsDatabaseHelper {
 
 		return $sqls;
 	}
-
-
 }

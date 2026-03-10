@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.2.10
+ * Version: 5.2.11
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version = '5.2.10';
+		public $version    = '5.2.11';
 		public $db_version = '2.3.0';
 
 
@@ -46,7 +46,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 
 			$GLOBALS['latepoint_settings'] = new OsSettingsHelper();
-
 		}
 
 
@@ -735,172 +734,171 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		public function includes() {
 
 			// CONTROLLERS
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/pro_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/default_agent_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/activities_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/search_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/customers_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/services_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/carts_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/transactions_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/orders_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/auth_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/processes_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/process_jobs_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/settings_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/form_fields_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/bookings_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/dashboard_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/wizard_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/notifications_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/steps_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/calendars_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/booking_form_settings_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/integrations_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/customer_cabinet_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/manage_booking_by_key_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/manage_order_by_key_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/events_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/stripe_connect_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/invoices_controller.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/controllers/support_topics_controller.php' );
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/pro_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/default_agent_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/activities_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/search_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/customers_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/services_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/carts_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/transactions_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/orders_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/auth_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/processes_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/process_jobs_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/settings_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/form_fields_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/bookings_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/dashboard_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/wizard_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/notifications_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/steps_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/calendars_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/booking_form_settings_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/integrations_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/customer_cabinet_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/manage_booking_by_key_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/manage_order_by_key_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/events_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/stripe_connect_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/invoices_controller.php';
+			include_once LATEPOINT_ABSPATH . 'lib/controllers/support_topics_controller.php';
 
 
 			// MODELS
-			include_once( LATEPOINT_ABSPATH . 'lib/models/model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/bundle_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/cart_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/cart_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/cart_item_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/order_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/order_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/order_item_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/activity_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/work_period_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/agent_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/service_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/connector_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/service_category_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/customer_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/settings_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/booking_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/step_settings_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/transaction_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/transaction_intent_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/transaction_refund_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/booking_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/customer_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/agent_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/service_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/bundle_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/location_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/location_category_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/session_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/order_intent_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/order_intent_meta_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/process_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/process_job_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/join_bundles_services_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/invoice_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/payment_request_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/recurrence_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/off_period_model.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/models/otp_model.php' );
+			include_once LATEPOINT_ABSPATH . 'lib/models/model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/bundle_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/cart_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/cart_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/cart_item_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/order_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/order_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/order_item_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/activity_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/work_period_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/agent_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/service_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/connector_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/service_category_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/customer_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/settings_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/booking_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/step_settings_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/transaction_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/transaction_intent_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/transaction_refund_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/booking_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/customer_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/agent_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/service_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/bundle_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/location_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/location_category_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/session_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/order_intent_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/order_intent_meta_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/process_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/process_job_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/join_bundles_services_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/invoice_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/payment_request_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/recurrence_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/off_period_model.php';
+			include_once LATEPOINT_ABSPATH . 'lib/models/otp_model.php';
 
 
 			// HELPERS
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/wp_datetime.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/router_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/sessions_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/auth_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/encrypt_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/license_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/form_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/migrations_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/util_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/debug_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/wp_user_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/menu_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/image_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/events_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/icalendar_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/version_specific_updates_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/calendar_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/meeting_systems_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/marketing_systems_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/short_links_systems_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/timeline_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/booking_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/order_intent_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/activities_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/settings_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/customer_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/customer_import_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/processes_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/agent_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/service_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/database_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/money_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/time_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/notifications_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/email_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/sms_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/whatsapp_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/styles_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/work_periods_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/bundles_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/carts_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/orders_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/replacer_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/payments_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/resource_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/meta_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/shortcodes_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/connector_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/location_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/csv_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/steps_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/params_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/process_jobs_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/blocks_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/roles_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/price_breakdown_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/stripe_connect_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/pages_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/elementor_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/bricks_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/transaction_intent_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/transaction_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/invoices_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/support_topics_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/otp_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/nps_survey_helper.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/helpers/analytics_helper.php' );
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/wp_datetime.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/router_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/sessions_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/auth_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/encrypt_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/license_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/form_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/migrations_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/util_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/debug_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/wp_user_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/menu_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/image_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/events_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/icalendar_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/version_specific_updates_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/calendar_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/meeting_systems_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/marketing_systems_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/short_links_systems_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/timeline_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/booking_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/order_intent_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/activities_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/settings_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/customer_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/customer_import_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/processes_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/agent_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/service_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/database_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/money_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/time_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/notifications_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/email_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/sms_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/whatsapp_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/styles_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/work_periods_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/bundles_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/carts_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/orders_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/replacer_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/payments_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/resource_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/meta_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/shortcodes_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/connector_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/location_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/csv_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/steps_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/params_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/process_jobs_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/blocks_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/roles_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/price_breakdown_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/stripe_connect_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/pages_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/elementor_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/bricks_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/transaction_intent_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/transaction_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/invoices_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/support_topics_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/otp_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/nps_survey_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/analytics_helper.php';
 
 			// MISC
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/time_period.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/blocked_period.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/booked_period.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/stripe_connect_customer.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/booking_request.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/booking_resource.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/work_period.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/filter.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/booking_slot.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/process_event.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/process_action.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/role.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/user.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/step.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/misc/router.php' );
+			include_once LATEPOINT_ABSPATH . 'lib/misc/time_period.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/blocked_period.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/booked_period.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/stripe_connect_customer.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/booking_request.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/booking_resource.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/work_period.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/filter.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/booking_slot.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/process_event.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/process_action.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/role.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/user.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/step.php';
+			include_once LATEPOINT_ABSPATH . 'lib/misc/router.php';
 
 			// MAILERS
-			include_once( LATEPOINT_ABSPATH . 'lib/mailers/mailer.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/mailers/agent_mailer.php' );
-			include_once( LATEPOINT_ABSPATH . 'lib/mailers/customer_mailer.php' );
-
+			include_once LATEPOINT_ABSPATH . 'lib/mailers/mailer.php';
+			include_once LATEPOINT_ABSPATH . 'lib/mailers/agent_mailer.php';
+			include_once LATEPOINT_ABSPATH . 'lib/mailers/customer_mailer.php';
 
 			do_action( 'latepoint_includes' );
 		}
@@ -910,7 +908,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * Hook into actions and filters.
 		 */
 		public function init_hooks() {
-			if(isset( $_GET['latepoint'] ) && $_GET['latepoint'] == 'instant' ){
+			if ( isset( $_GET['latepoint'] ) && $_GET['latepoint'] == 'instant' ) {
 				add_action( 'init', array( $this, 'public_route_call' ), 100 );
 			}
 			$siteurl = get_site_option( 'siteurl' );
@@ -935,7 +933,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 
 			// Plugins loaded
-			add_action('plugins_loaded', array( $this, 'plugins_loaded_hook') );
+			add_action( 'plugins_loaded', array( $this, 'plugins_loaded_hook' ) );
 
 			// Activation / deactivation hooks.
 			register_activation_hook( __FILE__, array( $this, 'create_required_tables' ) );
@@ -1006,10 +1004,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			add_filter( 'display_post_states', 'OsPagesHelper::add_display_post_states', 10, 2 );
 
 			// allow agents to access admin when woocommerce plugin is installed
-			add_filter( 'woocommerce_prevent_admin_access', [
-				$this,
-				'woocommerce_allow_agent_to_access_admin'
-			], 20, 1 );
+			add_filter( 'woocommerce_prevent_admin_access', [ $this, 'woocommerce_allow_agent_to_access_admin' ], 20, 1 );
 
 			// plugin related hooks
 			add_action( 'latepoint_model_save', [ $this, 'save_connected_wordpress_user' ] );
@@ -1057,7 +1052,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			if ( ! isset( $schedules['latepoint_5_minutes'] ) ) {
 				$schedules['latepoint_5_minutes'] = array(
 					'interval' => 5 * 60,
-					'display'  => __( 'Once every 5 minutes', 'latepoint' )
+					'display'  => __( 'Once every 5 minutes', 'latepoint' ),
 				);
 			}
 
@@ -1066,8 +1061,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 		function add_upgrade_link( $links, $plugin_file ) {
 			if ( plugin_basename( __FILE__ ) == $plugin_file ) {
-				if(apply_filters('latepoint_show_upgrade_link_on_plugins_page', true, $plugin_file) ) {
-					$custom_link = '<a class="latepoint-plugin-upgrade-premium-link" href="' . LATEPOINT_UPGRADE_URL . '">'.esc_html__('Get LatePoint Pro').'</a>';
+				if ( apply_filters( 'latepoint_show_upgrade_link_on_plugins_page', true, $plugin_file ) ) {
+					$custom_link = '<a class="latepoint-plugin-upgrade-premium-link" href="' . LATEPOINT_UPGRADE_URL . '">' . esc_html__( 'Get LatePoint Pro' ) . '</a>';
 					$links[]     = $custom_link;
 				}
 			}
@@ -1155,14 +1150,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 
 		public function clear_old_activity_logs() {
-			if(OsSettingsHelper::is_on('should_clear_old_activity_log')){
+			if ( OsSettingsHelper::is_on( 'should_clear_old_activity_log' ) ) {
 				global $wpdb;
 				$activity = new OsActivityModel();
 
 				$now_datetime = OsTimeHelper::now_datetime_object();
 
-				$cutoff   = $now_datetime->modify(  '-6 months' )->format( LATEPOINT_DATETIME_DB_FORMAT );
-				$wpdb->query( $wpdb->prepare( "DELETE FROM %i WHERE `created_at` < %s", [ esc_sql( $activity->table_name ), $cutoff ] ) );
+				$cutoff = $now_datetime->modify( '-6 months' )->format( LATEPOINT_DATETIME_DB_FORMAT );
+				$wpdb->query( $wpdb->prepare( 'DELETE FROM %i WHERE `created_at` < %s', [ esc_sql( $activity->table_name ), $cutoff ] ) );
 			}
 		}
 
@@ -1241,7 +1236,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		}
 
 		public function public_route_call() {
-			OsRouterHelper::call_by_route_name( OsRouterHelper::build_route_name('steps', 'start_instant'), OsRouterHelper::get_request_param( 'return_format', 'html' ) );
+			OsRouterHelper::call_by_route_name( OsRouterHelper::build_route_name( 'steps', 'start_instant' ), OsRouterHelper::get_request_param( 'return_format', 'html' ) );
 		}
 
 		public function pre_route_call() {
@@ -1291,8 +1286,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				[ $this, 'route_call' ],
 				'none'
 			);
-
-
 		}
 
 
@@ -1303,7 +1296,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 					'id'    => 'latepoint_top_link',
 					'title' => '<span class="latepoint-icon latepoint-icon-lp-logo" style="margin-right: 7px;"></span><span style="">' . __( 'LatePoint', 'latepoint' ) . '</span>',
 					'href'  => OsRouterHelper::build_link( [ 'dashboard', 'index' ] ),
-					'meta'  => array( 'class' => '' )
+					'meta'  => array( 'class' => '' ),
 				];
 				$wp_admin_bar->add_node( $args );
 			}
@@ -1316,14 +1309,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		public function register_shortcodes() {
 			add_shortcode( 'latepoint_book_button', array( 'OsShortcodesHelper', 'shortcode_latepoint_book_button' ) );
 			add_shortcode( 'latepoint_book_form', array( 'OsShortcodesHelper', 'shortcode_latepoint_book_form' ) );
-			add_shortcode( 'latepoint_customer_dashboard', array(
-				'OsShortcodesHelper',
-				'shortcode_latepoint_customer_dashboard'
-			) );
-			add_shortcode( 'latepoint_customer_login', array(
-				'OsShortcodesHelper',
-				'shortcode_latepoint_customer_login'
-			) );
+			add_shortcode( 'latepoint_customer_dashboard', array( 'OsShortcodesHelper', 'shortcode_latepoint_customer_dashboard' ) );
+			add_shortcode( 'latepoint_customer_login', array( 'OsShortcodesHelper', 'shortcode_latepoint_customer_login' ) );
 			add_shortcode( 'latepoint_resources', array( 'OsShortcodesHelper', 'shortcode_latepoint_resources' ) );
 			add_shortcode( 'latepoint_calendar', array( 'OsShortcodesHelper', 'shortcode_latepoint_calendar' ) );
 		}
@@ -1363,7 +1350,10 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		public function load_front_scripts_and_styles() {
 			$localized_vars = [
 				'route_action'                          => 'latepoint_route_call',
-				'response_status'                       => [ 'success' => 'success', 'error' => 'error' ],
+				'response_status'                       => [
+					'success' => 'success',
+					'error'   => 'error',
+				],
 				'ajaxurl'                               => admin_url( 'admin-ajax.php' ),
 				'time_pick_style'                       => OsStepsHelper::get_time_pick_style(),
 				'string_today'                          => __( 'Today', 'latepoint' ),
@@ -1404,7 +1394,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				'datepicker_timeslot_selected_label'    => __( 'Selected', 'latepoint' ),
 				'invoices_payment_form_route'           => OsRouterHelper::build_route_name( 'invoices', 'payment_form' ),
 				'invoices_summary_before_payment_route' => OsRouterHelper::build_route_name( 'invoices', 'summary_before_payment' ),
-				'reset_presets_when_adding_new_item'    => OsSettingsHelper::is_on( 'reset_presets_when_adding_new_item' )
+				'reset_presets_when_adding_new_item'    => OsSettingsHelper::is_on( 'reset_presets_when_adding_new_item' ),
 			];
 
 			$localized_vars['start_from_transaction_access_key'] = '';
@@ -1423,7 +1413,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			$localized_vars['stripe_connect_route_create_payment_intent_for_transaction_intent'] = OsRouterHelper::build_route_name( 'stripe_connect', 'create_payment_intent_for_transaction' );
 
 			// Stylesheets
-			wp_enqueue_style('latepoint-main-front', $this->public_stylesheets() . 'front.css', false, $this->version);
+			wp_enqueue_style( 'latepoint-main-front', $this->public_stylesheets() . 'front.css', false, $this->version );
 
 			// add styles from options if gutenberg blocks exists
 			OsBlockHelper::add_block_styles_to_page();
@@ -1438,11 +1428,16 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			}
 
 			wp_register_script( 'latepoint-vendor-front', $this->public_javascripts() . 'vendor-front.js', [ 'jquery' ], $this->version );
-			wp_register_script( 'latepoint-main-front', $this->public_javascripts() . 'front.js', [
-				'jquery',
-				'latepoint-vendor-front',
-				'wp-i18n'
-			], $this->version );
+			wp_register_script(
+				'latepoint-main-front',
+				$this->public_javascripts() . 'front.js',
+				[
+					'jquery',
+					'latepoint-vendor-front',
+					'wp-i18n',
+				],
+				$this->version
+			);
 
 
 			$localized_vars = apply_filters( 'latepoint_localized_vars_front', $localized_vars );
@@ -1483,18 +1478,26 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 
 			wp_enqueue_script( 'latepoint-vendor-admin', $this->public_javascripts() . 'vendor-admin.js', [ 'jquery' ], $this->version );
-			wp_enqueue_script( 'latepoint-main-admin', $this->public_javascripts() . 'admin.js', [
-				'jquery',
-				'latepoint-vendor-admin',
-				'wp-i18n'
-			], $this->version );
+			wp_enqueue_script(
+				'latepoint-main-admin',
+				$this->public_javascripts() . 'admin.js',
+				[
+					'jquery',
+					'latepoint-vendor-admin',
+					'wp-i18n',
+				],
+				$this->version
+			);
 
 
 			do_action( 'latepoint_admin_enqueue_scripts' );
 
 			$localized_vars = [
 				'route_action'                        => 'latepoint_route_call',
-				'response_status'                     => [ 'success' => 'success', 'error' => 'error' ],
+				'response_status'                     => [
+					'success' => 'success',
+					'error'   => 'error',
+				],
 				'ajaxurl'                             => admin_url( 'admin-ajax.php' ),
 				'value_all'                           => LATEPOINT_ALL,
 				'value_on'                            => LATEPOINT_VALUE_ON,
@@ -1530,7 +1533,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				'msg_validation_invalid'              => __( 'is invalid', 'latepoint' ),
 				'msg_minutes_suffix'                  => __( ' minutes', 'latepoint' ),
 				'order_item_variant_booking'          => LATEPOINT_ITEM_VARIANT_BOOKING,
-				'order_item_variant_bundle'           => LATEPOINT_ITEM_VARIANT_BUNDLE
+				'order_item_variant_bundle'           => LATEPOINT_ITEM_VARIANT_BUNDLE,
 			];
 
 			// Add block related variables
@@ -1553,9 +1556,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			$latepoint_css_variables = OsStylesHelper::generate_css_variables();
 			wp_add_inline_style( 'latepoint-main-admin', $latepoint_css_variables );
-
 		}
-
 	}
 endif;
 

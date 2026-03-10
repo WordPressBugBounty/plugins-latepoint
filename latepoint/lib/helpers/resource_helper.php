@@ -34,8 +34,8 @@ class OsResourceHelper {
 			'now'                   => OsTimeHelper::now_datetime_object(),
 			'exclude_booking_ids'   => [],
 			'accessed_from_backend' => false,
-			'consider_cart_items' => false,
-			'timezone_name' => OsTimeHelper::get_wp_timezone_name()
+			'consider_cart_items'   => false,
+			'timezone_name'         => OsTimeHelper::get_wp_timezone_name(),
 		];
 		$settings = array_merge( $defaults, $settings );
 
@@ -50,17 +50,19 @@ class OsResourceHelper {
 
 
 		// all resource management is done in WP timezone, if requested timezone is different - make sure to include couple days on each end to accommodate for timezone differences, which could be up to 26 hours
-		if($settings['timezone_name'] != OsTimeHelper::get_wp_timezone_name()) {
+		if ( $settings['timezone_name'] != OsTimeHelper::get_wp_timezone_name() ) {
 			$date_from->modify( '-2 days' );
 			$date_to->modify( '+2 days' );
 		}
 
-		$filter          = new \LatePoint\Misc\Filter( [
-			'service_id' => $booking_request->service_id,
-			'connections' => $connections,
-			'date_from'   => $date_from->format( 'Y-m-d' ),
-			'date_to'     => $date_to->format( 'Y-m-d' )
-		] );
+		$filter          = new \LatePoint\Misc\Filter(
+			[
+				'service_id'  => $booking_request->service_id,
+				'connections' => $connections,
+				'date_from'   => $date_from->format( 'Y-m-d' ),
+				'date_to'     => $date_to->format( 'Y-m-d' ),
+			] 
+		);
 		$weekday_periods = OsWorkPeriodsHelper::get_work_periods_grouped_by_weekday( $filter );
 		$daily_resources = [];
 		// loop through the requested days and fill in array with work periods that are applicable to that day
@@ -102,7 +104,7 @@ class OsResourceHelper {
 							}
 							if ( ( $last_added_period->service_id != $period->service_id ) || ( $last_added_period->agent_id != $period->agent_id ) || ( $last_added_period->location_id != $period->location_id ) ) {
 								// same weight NOT same exact properties, create a new group of work periods, which will later be used to find intersections
-								$group_index ++;
+								$group_index++;
 							}
 							if ( ( $period->start_time == 0 ) && ( $period->end_time == 0 ) ) {
 								$available_work_periods_groups = [];
@@ -187,9 +189,12 @@ class OsResourceHelper {
 			$booking_slots = array_merge( $booking_slots, $resource->slots );
 		}
 
-		usort( $booking_slots, function ( $first, $second ) {
-			return $first->start_time <=> $second->start_time;
-		} );
+		usort(
+			$booking_slots,
+			function ( $first, $second ) {
+				return $first->start_time <=> $second->start_time;
+			} 
+		);
 
 		if ( count( $resources ) > 1 ) {
 			$squashed_booking_slots = [];
@@ -198,7 +203,7 @@ class OsResourceHelper {
 				if ( $last_added_slot && ( $last_added_slot->start_time == $booking_slot->start_time ) ) {
 					if ( $last_added_slot->available_capacity() < $booking_slot->available_capacity() ) {
 						$squashed_booking_slots[ count( $squashed_booking_slots ) - 1 ] = $booking_slot;
-						$last_added_slot                                                = $booking_slot;
+						$last_added_slot = $booking_slot;
 					}
 				} else {
 					$squashed_booking_slots[] = $booking_slot;
@@ -236,12 +241,19 @@ class OsResourceHelper {
 			}
 		}
 		if ( $times ) {
-			$boundary_time_period = new \LatePoint\Misc\TimePeriod( [
-				'start_time' => min( $times ),
-				'end_time'   => max( $times )
-			] );
+			$boundary_time_period = new \LatePoint\Misc\TimePeriod(
+				[
+					'start_time' => min( $times ),
+					'end_time'   => max( $times ),
+				] 
+			);
 		} else {
-			$boundary_time_period = new \LatePoint\Misc\TimePeriod( [ 'start_time' => 0, 'end_time' => 0 ] );
+			$boundary_time_period = new \LatePoint\Misc\TimePeriod(
+				[
+					'start_time' => 0,
+					'end_time'   => 0,
+				] 
+			);
 		}
 
 		return $boundary_time_period;
@@ -262,16 +274,21 @@ class OsResourceHelper {
 			}
 		}
 		if ( $times ) {
-			$boundary_time_period = new \LatePoint\Misc\TimePeriod( [
-				'start_time' => min( $times ),
-				'end_time'   => max( $times )
-			] );
+			$boundary_time_period = new \LatePoint\Misc\TimePeriod(
+				[
+					'start_time' => min( $times ),
+					'end_time'   => max( $times ),
+				] 
+			);
 		} else {
-			$boundary_time_period = new \LatePoint\Misc\TimePeriod( [ 'start_time' => 0, 'end_time' => 0 ] );
+			$boundary_time_period = new \LatePoint\Misc\TimePeriod(
+				[
+					'start_time' => 0,
+					'end_time'   => 0,
+				] 
+			);
 		}
 
 		return $boundary_time_period;
 	}
-
-
 }

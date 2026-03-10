@@ -7,8 +7,8 @@ class OsOrderModel extends OsModel {
 	public $items;
 
 	public $id,
-		$subtotal = 0,
-		$total = 0,
+		$subtotal             = 0,
+		$total                = 0,
 		$confirmation_code,
 		$status,
 		$fulfillment_status,
@@ -21,10 +21,10 @@ class OsOrderModel extends OsModel {
 		$initial_payment_data = '',
 		$initial_payment_data_arr,
 		$coupon_code,
-		$coupon_discount = 0,
+		$coupon_discount      = 0,
 		$ip_address,
-		$tax_total = 0,
-		$keys_to_manage = [],
+		$tax_total            = 0,
+		$keys_to_manage       = [],
 		$created_at,
 		$updated_at;
 
@@ -85,7 +85,7 @@ class OsOrderModel extends OsModel {
 		$this->initial_payment_data_arr         = json_decode( $this->initial_payment_data, true );
 		$this->initial_payment_data_arr[ $key ] = $value;
 		$this->initial_payment_data             = wp_json_encode( $this->initial_payment_data_arr );
-		if ( $save && !$this->is_new_record() ) {
+		if ( $save && ! $this->is_new_record() ) {
 			$this->update_attributes( [ 'initial_payment_data' => $this->initial_payment_data ] );
 		}
 	}
@@ -118,9 +118,9 @@ class OsOrderModel extends OsModel {
 	/**
 	 * @return OsBundleModel[]
 	 */
-	public function get_bundles_from_order_items(bool $force_db_call = false): array {
+	public function get_bundles_from_order_items( bool $force_db_call = false ): array {
 		$order_bundles = [];
-		foreach ( $this->get_items($force_db_call) as $order_item ) {
+		foreach ( $this->get_items( $force_db_call ) as $order_item ) {
 			if ( $order_item->is_bundle() ) {
 				$order_bundles[ $order_item->id ] = $order_item->build_original_object_from_item_data();
 			}
@@ -132,9 +132,9 @@ class OsOrderModel extends OsModel {
 	/**
 	 * @return OsBookingModel[]
 	 */
-	public function get_bookings_from_order_items(bool $force_db_call = false): array {
+	public function get_bookings_from_order_items( bool $force_db_call = false ): array {
 		$order_bookings = [];
-		foreach ( $this->get_items($force_db_call) as $order_item ) {
+		foreach ( $this->get_items( $force_db_call ) as $order_item ) {
 			if ( $order_item->is_booking() ) {
 				$item_data = json_decode( $order_item->item_data, true );
 				if ( ! empty( $item_data['id'] ) ) {
@@ -150,7 +150,7 @@ class OsOrderModel extends OsModel {
 	}
 
 
-	public function get_total_amount_paid_from_transactions($in_database_format = false) {
+	public function get_total_amount_paid_from_transactions( $in_database_format = false ) {
 		if ( $this->is_new_record() ) {
 			return 0;
 		}
@@ -161,7 +161,7 @@ class OsOrderModel extends OsModel {
 			$total += (float) $transaction->amount;
 		}
 
-		if($in_database_format){
+		if ( $in_database_format ) {
 			$total = OsMoneyHelper::pad_to_db_format( $total );
 		}
 
@@ -210,7 +210,12 @@ class OsOrderModel extends OsModel {
 		$order_metas->delete_where( [ 'object_id' => $id ] );
 
 		$process_jobs = new OsProcessJobModel();
-		$process_jobs->delete_where( [ 'object_id' => $id, 'object_model_type' => 'order' ] );
+		$process_jobs->delete_where(
+			[
+				'object_id'         => $id,
+				'object_model_type' => 'order',
+			] 
+		);
 
 
 		return parent::delete( $id );
@@ -251,7 +256,7 @@ class OsOrderModel extends OsModel {
 			$total_paid = $this->get_total_amount_paid_from_transactions();
 			if ( empty( $total_paid ) ) {
 				$this->update_attributes( [ 'payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_NOT_PAID ] );
-			} else if ( $total_paid < $this->total ) {
+			} elseif ( $total_paid < $this->total ) {
 				$this->update_attributes( [ 'payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID ] );
 			} else {
 				$this->update_attributes( [ 'payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID ] );
@@ -296,7 +301,7 @@ class OsOrderModel extends OsModel {
 		if ( empty( $this->status ) ) {
 			$this->status = $this->get_default_order_status();
 		}
-		if ( empty( $this->ip_address ) && OsSettingsHelper::is_on('log_customer_ip_address') ) {
+		if ( empty( $this->ip_address ) && OsSettingsHelper::is_on( 'log_customer_ip_address' ) ) {
 			$this->ip_address = OsUtilHelper::get_user_ip();
 		}
 	}
@@ -310,10 +315,11 @@ class OsOrderModel extends OsModel {
 	}
 
 	public function get_total(
-		bool $recalculate = false, array $options = [
-		'apply_taxes'   => true,
-		'apply_coupons' => true
-	]
+		bool $recalculate = false,
+		array $options = [
+			'apply_taxes'   => true,
+			'apply_coupons' => true,
+		]
 	) {
 		if ( $recalculate ) {
 			$this->total = $this->recalculate_total();
@@ -416,15 +422,19 @@ class OsOrderModel extends OsModel {
 	}
 
 
-	public function get_key_to_manage_for(string $for): string {
-		if($this->is_new_record()) return '';
-		if(!empty($this->keys_to_manage[$for])) return $this->keys_to_manage[$for];
+	public function get_key_to_manage_for( string $for ): string {
+		if ( $this->is_new_record() ) {
+			return '';
+		}
+		if ( ! empty( $this->keys_to_manage[ $for ] ) ) {
+			return $this->keys_to_manage[ $for ];
+		}
 		$key = OsMetaHelper::get_order_meta_by_key( 'key_to_manage_for_' . $for, $this->id );
 		if ( empty( $key ) ) {
 			$key = OsUtilHelper::generate_key_to_manage();
 			OsMetaHelper::save_order_meta_by_key( 'key_to_manage_for_' . $for, $key, $this->id );
 		}
-		$this->keys_to_manage[$for] = $key;
+		$this->keys_to_manage[ $for ] = $key;
 		return $key;
 	}
 
@@ -460,7 +470,7 @@ class OsOrderModel extends OsModel {
 			'after_subtotal'  => [],
 			'total'           => [],
 			'payments'        => [],
-			'balance'         => []
+			'balance'         => [],
 		];
 
 		$existing_rows = [];
@@ -490,8 +500,8 @@ class OsOrderModel extends OsModel {
 					'label'     => __( 'Payments and Credits', 'latepoint' ),
 					'raw_value' => OsMoneyHelper::pad_to_db_format( $total_payments_amount ),
 					'value'     => ( ( $total_payments_amount > 0 ) ? '-' : '' ) . OsMoneyHelper::format_price( $total_payments_amount, true, false ),
-					'type'      => ( $total_payments_amount > 0 ) ? 'credit' : ''
-				]
+					'type'      => ( $total_payments_amount > 0 ) ? 'credit' : '',
+				],
 			];
 		}
 		if ( ! in_array( 'balance', $rows_to_hide ) ) {
@@ -500,7 +510,7 @@ class OsOrderModel extends OsModel {
 				'label'     => __( 'Balance Due', 'latepoint' ),
 				'raw_value' => OsMoneyHelper::pad_to_db_format( $balance_due_amount ),
 				'value'     => OsMoneyHelper::format_price( $balance_due_amount, true, false ),
-				'style'     => 'total'
+				'style'     => 'total',
 			];
 		}
 
@@ -521,7 +531,7 @@ class OsOrderModel extends OsModel {
 	}
 
 
-	public function get_customer() : OsCustomerModel {
+	public function get_customer(): OsCustomerModel {
 		if ( $this->customer_id ) {
 			if ( ! isset( $this->customer ) || ( isset( $this->customer ) && ( $this->customer->id != $this->customer_id ) ) ) {
 				$this->customer = new OsCustomerModel( $this->customer_id );
@@ -550,13 +560,19 @@ class OsOrderModel extends OsModel {
 	}
 
 	public function get_print_link( $key = false ) {
-		return ( $key ) ? OsRouterHelper::build_admin_post_link( [
-			'manage_order_by_key',
-			'print'
-		], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [
-			'customer_cabinet',
-			'print_order_info'
-		], [ 'latepoint_order_id' => $this->id ] );
+		return ( $key ) ? OsRouterHelper::build_admin_post_link(
+			[
+				'manage_order_by_key',
+				'print',
+			],
+			[ 'key' => $key ] 
+		) : OsRouterHelper::build_admin_post_link(
+			[
+				'customer_cabinet',
+				'print_order_info',
+			],
+			[ 'latepoint_order_id' => $this->id ] 
+		);
 	}
 
 
@@ -579,7 +595,7 @@ class OsOrderModel extends OsModel {
 			'tax_total',
 			'ip_address',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $allowed_params;
@@ -606,7 +622,7 @@ class OsOrderModel extends OsModel {
 			'tax_total',
 			'ip_address',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $params_to_save;

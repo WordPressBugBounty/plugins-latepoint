@@ -7,10 +7,13 @@ class OsTransactionIntentHelper {
 
 
 	public static function generate_continue_intent_url( $transaction_intent_key ) {
-		return OsRouterHelper::build_admin_post_link( [
-			'orders',
-			'continue_transaction_intent'
-		], [ 'transaction_intent_key' => $transaction_intent_key ] );
+		return OsRouterHelper::build_admin_post_link(
+			[
+				'orders',
+				'continue_transaction_intent',
+			],
+			[ 'transaction_intent_key' => $transaction_intent_key ] 
+		);
 	}
 
 
@@ -53,7 +56,12 @@ class OsTransactionIntentHelper {
 	public static function create_or_update_transaction_intent( OsInvoiceModel $invoice, array $payment_params ): OsTransactionIntentModel {
 		$transaction_intent = new OsTransactionIntentModel();
 
-		$transaction_intent = $transaction_intent->where( [ 'status' => LATEPOINT_TRANSACTION_INTENT_STATUS_NEW, 'invoice_id' => $invoice->id ] )->set_limit( 1 )->get_results_as_models();
+		$transaction_intent = $transaction_intent->where(
+			[
+				'status'     => LATEPOINT_TRANSACTION_INTENT_STATUS_NEW,
+				'invoice_id' => $invoice->id,
+			] 
+		)->set_limit( 1 )->get_results_as_models();
 		if ( empty( $transaction_intent ) ) {
 			$transaction_intent = new OsTransactionIntentModel();
 		}
@@ -80,5 +88,4 @@ class OsTransactionIntentHelper {
 
 		return $transaction_intent;
 	}
-
 }

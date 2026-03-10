@@ -25,7 +25,7 @@ class OsReplacerHelper {
 					break;
 				case 'old_order':
 					$old_order = $data_object['model_ready'] ?? new OsOrderModel( $data_object['id'] );
-					$temp_vars   = self::generate_replacement_vars_from_order( $old_order );
+					$temp_vars = self::generate_replacement_vars_from_order( $old_order );
 					foreach ( $temp_vars as $key => $data ) {
 						$vars[ 'old_' . $key ] = $data;
 					}
@@ -48,7 +48,7 @@ class OsReplacerHelper {
 					break;
 				case 'payment_request':
 					$payment_request = $data_object['model_ready'] ?? new OsPaymentRequestModel( $data_object['id'] );
-					$vars        = array_merge( $vars, self::generate_replacement_vars_from_payment_request( $payment_request ) );
+					$vars            = array_merge( $vars, self::generate_replacement_vars_from_payment_request( $payment_request ) );
 					break;
 			}
 		}
@@ -115,7 +115,7 @@ class OsReplacerHelper {
 	public static function generate_replacement_vars_from_transaction( OsTransactionModel $transaction, array $other_vars = [] ): array {
 		$vars                = [];
 		$vars['transaction'] = $transaction;
-		$vars['order']     = $transaction->order;
+		$vars['order']       = $transaction->order;
 		$vars['customer']    = $transaction->order->customer;
 		if ( ! empty( $other_vars ) ) {
 			$vars = array_merge( $vars, $other_vars );
@@ -135,10 +135,10 @@ class OsReplacerHelper {
 	 * @return array
 	 */
 	public static function generate_replacement_vars_from_payment_request( OsPaymentRequestModel $payment_request, array $other_vars = [] ): array {
-		$vars                = [];
+		$vars                    = [];
 		$vars['payment_request'] = $payment_request;
-		$vars['order']     = $payment_request->get_order();
-		$vars['customer']    = $payment_request->get_customer();
+		$vars['order']           = $payment_request->get_order();
+		$vars['customer']        = $payment_request->get_customer();
 		if ( ! empty( $other_vars ) ) {
 			$vars = array_merge( $vars, $other_vars );
 		}
@@ -262,7 +262,7 @@ class OsReplacerHelper {
 			'{{customer_last_name}}',
 			'{{customer_email}}',
 			'{{customer_phone}}',
-			'{{customer_notes}}'
+			'{{customer_notes}}',
 		);
 		$replacements  = array(
 			$customer->full_name,
@@ -270,7 +270,7 @@ class OsReplacerHelper {
 			$customer->last_name,
 			$customer->email,
 			$customer->phone,
-			$customer->notes
+			$customer->notes,
 		);
 		$original_text = $text;
 		$text          = str_replace( $needles, $replacements, $text );
@@ -298,13 +298,13 @@ class OsReplacerHelper {
 			'{{payment_request_amount}}',
 			'{{payment_request_due_at}}',
 			'{{payment_request_portion}}',
-			'{{payment_request_pay_url}}'
+			'{{payment_request_pay_url}}',
 		];
 		$replacements = [
-			OsMoneyHelper::format_price($payment_request->charge_amount, true, false),
+			OsMoneyHelper::format_price( $payment_request->charge_amount, true, false ),
 			$payment_request->get_readable_due_at(),
 			$payment_request->portion,
-			$payment_request->get_invoice()->get_pay_url()
+			$payment_request->get_invoice()->get_pay_url(),
 		];
 		$text         = str_replace( $needles, $replacements, $text );
 
@@ -319,7 +319,7 @@ class OsReplacerHelper {
 		 * @hook latepoint_replace_payment_request_vars
 		 *
 		 */
-		$text         = apply_filters( 'latepoint_replace_payment_request_vars', $text, $payment_request );
+		$text = apply_filters( 'latepoint_replace_payment_request_vars', $text, $payment_request );
 
 		return $text;
 	}
@@ -333,17 +333,17 @@ class OsReplacerHelper {
 			'{{transaction_kind}}',
 			'{{transaction_status}}',
 			'{{transaction_notes}}',
-			'{{transaction_payment_portion}}'
+			'{{transaction_payment_portion}}',
 		];
 		$replacements = [
 			$transaction->token,
-			OsMoneyHelper::format_price($transaction->amount),
+			OsMoneyHelper::format_price( $transaction->amount ),
 			$transaction->processor,
 			$transaction->payment_method,
 			$transaction->kind,
 			$transaction->status,
 			$transaction->notes,
-			$transaction->payment_portion
+			$transaction->payment_portion,
 		];
 		$text         = str_replace( $needles, $replacements, $text );
 
@@ -358,7 +358,7 @@ class OsReplacerHelper {
 		 * @hook latepoint_replace_transaction_vars
 		 *
 		 */
-		$text         = apply_filters( 'latepoint_replace_transaction_vars', $text, $transaction );
+		$text = apply_filters( 'latepoint_replace_transaction_vars', $text, $transaction );
 
 		return $text;
 	}
@@ -372,7 +372,7 @@ class OsReplacerHelper {
 			'{{agent_email}}',
 			'{{agent_phone}}',
 			'{{agent_additional_emails}}',
-			'{{agent_additional_phones}}'
+			'{{agent_additional_phones}}',
 		);
 		$replacements  = array(
 			$agent->first_name,
@@ -382,7 +382,7 @@ class OsReplacerHelper {
 			$agent->email,
 			$agent->phone,
 			$agent->extra_emails,
-			$agent->extra_phones
+			$agent->extra_phones,
 		);
 		$original_text = $text;
 		$text          = str_replace( $needles, $replacements, $text );
@@ -419,7 +419,7 @@ class OsReplacerHelper {
 			OsSettingsHelper::get_settings_value( 'business_address', '' ),
 			OsSettingsHelper::get_settings_value( 'business_phone', '' ),
 			OsSettingsHelper::get_settings_value( 'business_name', '' ),
-			OsSettingsHelper::get_customer_dashboard_url()
+			OsSettingsHelper::get_customer_dashboard_url(),
 		];
 		$original_text = $text;
 		$text          = str_replace( $needles, $replacements, $text );
@@ -441,7 +441,7 @@ class OsReplacerHelper {
 	}
 
 	public static function replace_tracking_vars( $text, $order ) {
-		$needles = [
+		$needles       = [
 			'{{order_id}}',
 			'{{customer_id}}',
 			'{{order_total}}',
@@ -453,11 +453,11 @@ class OsReplacerHelper {
 		$replacements  = [
 			$order->id,
 			$order->customer_id,
-			OsMoneyHelper::format_price($order->get_total()),
-			OsOrdersHelper::extract_property_by_name($order, 'service_ids'),
-			OsOrdersHelper::extract_property_by_name($order, 'agent_ids'),
-			OsOrdersHelper::extract_property_by_name($order, 'bundle_ids'),
-			OsOrdersHelper::extract_property_by_name($order, 'location_ids'),
+			OsMoneyHelper::format_price( $order->get_total() ),
+			OsOrdersHelper::extract_property_by_name( $order, 'service_ids' ),
+			OsOrdersHelper::extract_property_by_name( $order, 'agent_ids' ),
+			OsOrdersHelper::extract_property_by_name( $order, 'bundle_ids' ),
+			OsOrdersHelper::extract_property_by_name( $order, 'location_ids' ),
 		];
 		$original_text = $text;
 		$text          = str_replace( $needles, $replacements, $text );
@@ -500,21 +500,21 @@ class OsReplacerHelper {
 			'{{order_agents_emails}}',
 			'{{order_agents_full_names}}',
 			'{{manage_order_url_agent}}',
-			'{{manage_order_url_customer}}'
+			'{{manage_order_url_customer}}',
 		];
 		$replacements  = [
 			$order->id,
 			$order->confirmation_code,
 			$order->coupon_code,
 			$order->tax_total,
-			OsMoneyHelper::format_price($order->coupon_discount),
-			OsMoneyHelper::format_price($order->get_subtotal()),
-			OsMoneyHelper::format_price($order->get_total()),
+			OsMoneyHelper::format_price( $order->coupon_discount ),
+			OsMoneyHelper::format_price( $order->get_subtotal() ),
+			OsMoneyHelper::format_price( $order->get_total() ),
 			OsOrdersHelper::get_nice_order_status_name( $order->status ),
 			OsOrdersHelper::get_nice_order_fulfillment_status_name( $order->fulfillment_status ),
 			OsOrdersHelper::get_nice_order_payment_status_name( $order->payment_status ),
-			OsMoneyHelper::format_price($order->get_total_amount_paid_from_transactions()),
-			OsMoneyHelper::format_price($order->get_total_balance_due()),
+			OsMoneyHelper::format_price( $order->get_total_amount_paid_from_transactions() ),
+			OsMoneyHelper::format_price( $order->get_total_balance_due() ),
 			OsOrdersHelper::generate_transactions_breakdown_html( $order ),
 			OsOrdersHelper::generate_summary_breakdown_html( $order ),
 			OsOrdersHelper::generate_order_items_html( $order ),
@@ -558,14 +558,14 @@ class OsReplacerHelper {
 			'{{location_full_address}}',
 			'{{booking_duration}}',
 			'{{manage_booking_url_agent}}',
-			'{{manage_booking_url_customer}}'
+			'{{manage_booking_url_customer}}',
 		];
 		$total_duration = ( $booking->get_total_duration() > 0 ) ? $booking->get_total_duration() . ' ' . __( 'minutes', 'latepoint' ) : __( 'n/a', 'latepoint' );
 		$order_item     = new OsOrderItemModel( $booking->order_item_id );
 		$replacements   = [
 			$booking->id,
 			$booking->booking_code,
-			OsMoneyHelper::format_price($order_item->get_total()),
+			OsMoneyHelper::format_price( $order_item->get_total() ),
 			$booking->service->name,
 			$booking->service->category_name,
 			$booking->format_start_date_and_time( OsSettingsHelper::get_readable_date_format(), false ),
@@ -598,7 +598,7 @@ class OsReplacerHelper {
 		return apply_filters( 'latepoint_replace_booking_vars', $text, $booking, $original_text, $needles, $replacements );
 	}
 
-	public static function replace_other_vars( $text, $other_vars ) : string {
+	public static function replace_other_vars( $text, $other_vars ): string {
 		if ( isset( $other_vars['old_status'] ) ) {
 			$text = str_replace( '{{booking_old_status}}', $other_vars['old_status'], $text );
 		}
@@ -609,7 +609,7 @@ class OsReplacerHelper {
 		return $text;
 	}
 
-	public static function replace_all_vars( string $text, array $vars ) : string {
+	public static function replace_all_vars( string $text, array $vars ): string {
 		$original_text = $text;
 		if ( isset( $vars['order'] ) ) {
 			$text = self::replace_order_vars( $text, $vars['order'] );

@@ -6,11 +6,11 @@
 class OsMeetingSystemsHelper {
 
 
-	public static function is_external_meeting_system_enabled(string $external_meeting_system_code): bool {
-		return OsSettingsHelper::is_on('enable_' . $external_meeting_system_code);
+	public static function is_external_meeting_system_enabled( string $external_meeting_system_code ): bool {
+		return OsSettingsHelper::is_on( 'enable_' . $external_meeting_system_code );
 	}
 
-	public static function get_list_of_external_meeting_systems($enabled_only = false) {
+	public static function get_list_of_external_meeting_systems( $enabled_only = false ) {
 		$external_meeting_systems = [];
 		/**
 		 * Returns an array of external meeting systems
@@ -24,6 +24,6 @@ class OsMeetingSystemsHelper {
 		 * @returns {array} The array of external meeting systems
 		 *
 		 */
-		return apply_filters('latepoint_list_of_external_meeting_systems', $external_meeting_systems, $enabled_only);
+		return apply_filters( 'latepoint_list_of_external_meeting_systems', $external_meeting_systems, $enabled_only );
 	}
 }

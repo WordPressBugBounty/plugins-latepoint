@@ -95,7 +95,8 @@ jQuery(document).ready(function( $ ) {
     var $install_btn = jQuery(this);
     $install_btn.addClass('os-loading');
 
-    var data = { action: 'latepoint_route_call', route_name: $install_btn.data('route-name'), params: { addon_name: $install_btn.data('addon-name'), addon_path: $install_btn.data('addon-path') }, layout: 'none', return_format: 'json'};
+    var nonce = $install_btn.closest('.addons-boxes-w').data('addons-nonce') || '';
+    var data = { action: 'latepoint_route_call', route_name: $install_btn.data('route-name'), params: { addon_name: $install_btn.data('addon-name'), addon_path: $install_btn.data('addon-path'), _wpnonce: nonce }, layout: 'none', return_format: 'json'};
     jQuery.ajax({
       type : "post",
       dataType : "json",

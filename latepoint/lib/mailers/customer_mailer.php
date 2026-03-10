@@ -23,8 +23,20 @@ if ( ! class_exists( 'OsCustomerMailer' ) ) :
 			$to                     = $customer->email;
 			$subject                = $this->password_reset_request_subject();
 			$message                = $this->password_reset_request_content();
-			$subject                = OsReplacerHelper::replace_all_vars( $subject, array( 'customer' => $customer, 'other_vars' => [ 'token' => $token ] ) );
-			$message                = OsReplacerHelper::replace_all_vars( $message, array( 'customer' => $customer, 'other_vars' => [ 'token' => $token ] ) );
+			$subject                = OsReplacerHelper::replace_all_vars(
+				$subject,
+				array(
+					'customer'   => $customer,
+					'other_vars' => [ 'token' => $token ],
+				) 
+			);
+			$message                = OsReplacerHelper::replace_all_vars(
+				$message,
+				array(
+					'customer'   => $customer,
+					'other_vars' => [ 'token' => $token ],
+				) 
+			);
 
 			return wp_mail( $to, $subject, $message, $this->headers );
 		}

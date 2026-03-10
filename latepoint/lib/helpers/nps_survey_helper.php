@@ -69,7 +69,7 @@ if ( ! class_exists( 'OsNpsSurveyHelper' ) ) {
 				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 				$file_data = json_decode( file_get_contents( $file ), true );
 				global $nps_survey_version, $nps_survey_init;
-				$path = realpath( LATEPOINT_ABSPATH . '/lib/kit/nps-survey/nps-survey.php' );
+				$path    = realpath( LATEPOINT_ABSPATH . '/lib/kit/nps-survey/nps-survey.php' );
 				$version = isset( $file_data['nps-survey'] ) ? $file_data['nps-survey'] : 0;
 
 				if ( null === $nps_survey_version ) {
@@ -79,7 +79,7 @@ if ( ! class_exists( 'OsNpsSurveyHelper' ) ) {
 				// Compare versions.
 				if ( version_compare( $version, $nps_survey_version, '>=' ) ) {
 					$nps_survey_version = $version;
-					$nps_survey_init = $path;
+					$nps_survey_init    = $path;
 				}
 			}
 		}

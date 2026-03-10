@@ -12,21 +12,37 @@ class OsTransactionHelper {
 	 * @return void
 	 */
 	public static function output_refund_button( OsTransactionModel $transaction ) {
-		if (!$transaction->can_refund()) return;
+		if ( ! $transaction->can_refund() ) {
+			return;
+		}
 
 		echo '<div class="transaction-refund-settings">';
 		echo '<div class="refund-settings-heading"><div>' . esc_html__( 'Refund Amount', 'latepoint' ) . '</div><div class="refund-settings-close"><i class="latepoint-icon latepoint-icon-x"></i></div></div>';
 		echo '<div class="refund-settings-fields">';
 		$full_amount_label = sprintf( __( 'Full [%s]' ), OsMoneyHelper::format_price( ( $transaction->amount - $transaction->get_total_refunded_amount() ), true, false ) );
-		echo OsFormHelper::select_field( 'transaction_refund[portion]', false, [
-			'full'   => $full_amount_label,
-			'custom' => __( 'Custom', 'latepoint' )
-		], 'full', [ 'class' => 'size-small refund-portion-selector', 'theme' => 'simple' ] );
+		echo OsFormHelper::select_field(
+			'transaction_refund[portion]',
+			false,
+			[
+				'full'   => $full_amount_label,
+				'custom' => __( 'Custom', 'latepoint' ),
+			],
+			'full',
+			[
+				'class' => 'size-small refund-portion-selector',
+				'theme' => 'simple',
+			] 
+		);
 		echo '<div class="custom-charge-amount-wrapper" style="display: none;">';
-		echo OsFormHelper::money_field( 'transaction_refund[custom_amount]', false, ( $transaction->amount - $transaction->get_total_refunded_amount() ), [
-			'class' => 'size-small',
-			'theme' => 'simple'
-		] );
+		echo OsFormHelper::money_field(
+			'transaction_refund[custom_amount]',
+			false,
+			( $transaction->amount - $transaction->get_total_refunded_amount() ),
+			[
+				'class' => 'size-small',
+				'theme' => 'simple',
+			] 
+		);
 		echo OsFormHelper::hidden_field( 'transaction_refund[transaction_id]', $transaction->id );
 		wp_nonce_field( 'refund_transaction_' . $transaction->id, '_wpnonce', false );
 		echo '</div>';

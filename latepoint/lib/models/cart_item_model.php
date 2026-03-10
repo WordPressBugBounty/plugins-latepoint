@@ -9,14 +9,14 @@ class OsCartItemModel extends OsModel {
 		$updated_at,
 		$created_at,
 		$cart_id,
-		$subtotal = 0,
-		$total = 0,
-		$coupon_code = '',
+		$subtotal        = 0,
+		$total           = 0,
+		$coupon_code     = '',
 		$coupon_discount = 0,
-		$tax_total = 0,
+		$tax_total       = 0,
 		$variant,
 		$item_data,
-$connected_cart_item_id;
+	$connected_cart_item_id;
 
 	function __construct( $id = false ) {
 		parent::__construct();
@@ -101,7 +101,7 @@ $connected_cart_item_id;
 		 * @param {OsCartItemModel} $cart_item Cart Item that coupon code is requested for
 		 * @returns {string} The filtered "coupon code" value
 		 */
-		return apply_filters('latepoint_cart_item_get_coupon_code', $this->coupon_code, $this);
+		return apply_filters( 'latepoint_cart_item_get_coupon_code', $this->coupon_code, $this );
 	}
 
 	public function get_tax_total() {
@@ -117,7 +117,7 @@ $connected_cart_item_id;
 		 * @returns {float} The filtered "tax_total" amount
 		 */
 		$amount = apply_filters( 'latepoint_cart_item_get_tax_total', $this->tax_total, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
 	public function get_coupon_discount() {
@@ -132,11 +132,11 @@ $connected_cart_item_id;
 		 * @param {OsCartItemModel} $cart_item Cart Item that coupon discount is assessed on
 		 * @returns {float} The filtered "coupon discount" amount
 		 */
-		$amount = apply_filters('latepoint_cart_item_get_coupon_discount', $this->coupon_discount, $this);
-		return OsMoneyHelper::pad_to_db_format($amount);
+		$amount = apply_filters( 'latepoint_cart_item_get_coupon_discount', $this->coupon_discount, $this );
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
-	public function get_total(){
+	public function get_total() {
 
 		/**
 		 * Get total of a cart item
@@ -149,11 +149,11 @@ $connected_cart_item_id;
 		 * @returns {float} The filtered "total" amount
 		 */
 		$amount = apply_filters( 'latepoint_cart_item_get_total', $this->total, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
 
-	public function get_subtotal(){
+	public function get_subtotal() {
 
 		/**
 		 * Get subtotal of a cart item
@@ -166,7 +166,7 @@ $connected_cart_item_id;
 		 * @returns {float} The filtered "subtotal" amount
 		 */
 		$amount = apply_filters( 'latepoint_cart_item_get_subtotal', $this->subtotal, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
 
@@ -233,7 +233,7 @@ $connected_cart_item_id;
 		return $amount;
 	}
 
-	public function deposit_amount_to_charge(  ) {
+	public function deposit_amount_to_charge() {
 		$amount = 0;
 		switch ( $this->variant ) {
 			case LATEPOINT_ITEM_VARIANT_BOOKING:
@@ -269,7 +269,7 @@ $connected_cart_item_id;
 			'item_data',
 			'connected_cart_item_id',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $allowed_params;
@@ -284,7 +284,7 @@ $connected_cart_item_id;
 			'item_data',
 			'connected_cart_item_id',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $params_to_save;

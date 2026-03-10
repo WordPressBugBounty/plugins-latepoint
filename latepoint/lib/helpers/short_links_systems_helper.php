@@ -3,11 +3,11 @@
 class OsShortLinksSystemsHelper {
 
 
-	public static function is_external_short_links_system_enabled(string $external_short_links_system_code): bool {
-		return OsSettingsHelper::is_on('enable_' . $external_short_links_system_code);
+	public static function is_external_short_links_system_enabled( string $external_short_links_system_code ): bool {
+		return OsSettingsHelper::is_on( 'enable_' . $external_short_links_system_code );
 	}
 
-	public static function get_list_of_external_short_links_systems($enabled_only = false) {
+	public static function get_list_of_external_short_links_systems( $enabled_only = false ) {
 		$external_short_links_systems = [];
 		/**
 		 * Returns an array of external short links systems
@@ -21,6 +21,6 @@ class OsShortLinksSystemsHelper {
 		 * @returns {array} The array of external short links systems
 		 *
 		 */
-		return apply_filters('latepoint_list_of_external_short_links_systems', $external_short_links_systems, $enabled_only);
+		return apply_filters( 'latepoint_list_of_external_short_links_systems', $external_short_links_systems, $enabled_only );
 	}
 }

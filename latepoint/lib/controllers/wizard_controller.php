@@ -12,7 +12,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		var $steps_info, $steps_in_order;
 
 		protected $show_next_btn = false,
-			$show_prev_btn = false;
+			$show_prev_btn       = false;
 
 
 		function __construct() {
@@ -25,23 +25,35 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 			$this->steps_info     = array(
 				'default_agent' => array(
 					'show_in_sidemenu' => true,
-					'name'             => __( 'Setup Notifications', 'latepoint' )
+					'name'             => __( 'Setup Notifications', 'latepoint' ),
 				),
-				'agents'        => array( 'show_in_sidemenu' => true, 'name' => __( 'Create Agents', 'latepoint' ) ),
-				'intro'         => array( 'show_in_sidemenu' => false, 'name' => __( 'Intro', 'latepoint' ) ),
-				'services'      => array( 'show_in_sidemenu' => true, 'name' => __( 'Add Services', 'latepoint' ) ),
+				'agents'        => array(
+					'show_in_sidemenu' => true,
+					'name'             => __( 'Create Agents', 'latepoint' ),
+				),
+				'intro'         => array(
+					'show_in_sidemenu' => false,
+					'name'             => __( 'Intro', 'latepoint' ),
+				),
+				'services'      => array(
+					'show_in_sidemenu' => true,
+					'name'             => __( 'Add Services', 'latepoint' ),
+				),
 				'work_periods'  => array(
 					'show_in_sidemenu' => true,
-					'name'             => __( 'Set Working Hours', 'latepoint' )
+					'name'             => __( 'Set Working Hours', 'latepoint' ),
 				),
 				'info'          => array(
 					'show_in_sidemenu' => true,
-					'name'             => __( 'Fill Business Info', 'latepoint' )
+					'name'             => __( 'Fill Business Info', 'latepoint' ),
 				),
-				'complete'      => array( 'show_in_sidemenu' => true, 'name' => __( 'Setup Complete', 'latepoint' ) ),
+				'complete'      => array(
+					'show_in_sidemenu' => true,
+					'name'             => __( 'Setup Complete', 'latepoint' ),
+				),
 				'personal_info' => array(
 					'show_in_sidemenu' => true,
-					'name'             => __( 'Personal Info', 'latepoint' )
+					'name'             => __( 'Personal Info', 'latepoint' ),
 				),
 			);
 			$this->steps_in_order = array( 'intro', 'default_agent', 'services', 'work_periods', 'personal_info', 'complete' );
@@ -65,11 +77,14 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status'        => $status,
-				                         'message'       => $response_html,
-				                         'show_prev_btn' => true,
-				                         'show_next_btn' => $this->show_next_btn
-				) );
+				$this->send_json(
+					array(
+						'status'        => $status,
+						'message'       => $response_html,
+						'show_prev_btn' => true,
+						'show_next_btn' => $this->show_next_btn,
+					) 
+				);
 			}
 		}
 
@@ -87,11 +102,14 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status'        => $status,
-				                         'message'       => $response_html,
-				                         'show_prev_btn' => $this->show_prev_btn,
-				                         'show_next_btn' => $this->show_next_btn
-				) );
+				$this->send_json(
+					array(
+						'status'        => $status,
+						'message'       => $response_html,
+						'show_prev_btn' => $this->show_prev_btn,
+						'show_next_btn' => $this->show_next_btn,
+					) 
+				);
 			}
 		}
 
@@ -141,7 +159,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 				array(
 					'step_code'     => $new_current_step_code,
 					'show_prev_btn' => $this->show_prev_btn,
-					'show_next_btn' => $this->show_next_btn
+					'show_next_btn' => $this->show_next_btn,
 				)
 			);
 		}
@@ -176,7 +194,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 				array(
 					'step_code'     => $new_current_step_code,
 					'show_prev_btn' => $this->show_prev_btn,
-					'show_next_btn' => $this->show_next_btn
+					'show_next_btn' => $this->show_next_btn,
 				)
 			);
 		}
@@ -235,8 +253,8 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 			$this->show_prev_btn    = false;
 			$this->vars['services'] = $services;
 			$this->vars['location'] = OsLocationHelper::get_default_location();
-			$agents                = new OsAgentModel();
-			$this->vars['agents']  = $agents->get_results_as_models();
+			$agents                 = new OsAgentModel();
+			$this->vars['agents']   = $agents->get_results_as_models();
 			if ( ! $services ) {
 				$service               = new OsServiceModel();
 				$this->vars['service'] = $service;
@@ -262,11 +280,11 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		}
 
 
-		function step_default_agent(){
+		function step_default_agent() {
 
 			$this->vars['agent'] = OsAgentHelper::get_default_agent();
 			$this->show_next_btn = true;
-	}
+		}
 
 		function step_work_periods() {
 			$work_periods                  = OsWorkPeriodsHelper::get_work_periods( new \LatePoint\Misc\Filter() );
@@ -285,7 +303,6 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 
 		function step_settings() {
-
 		}
 
 		function step_personal_info() {
@@ -293,7 +310,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 			$this->vars['wizard_last_name']   = OsSettingsHelper::get_settings_value( 'wizard_last_name', '' );
 			$this->vars['wizard_email']       = OsSettingsHelper::get_settings_value( 'wizard_email', '' );
 			$this->vars['wizard_email_optin'] = OsSettingsHelper::get_settings_value( 'wizard_email_optin', 'off' );
-			$this->show_next_btn = true;
+			$this->show_next_btn              = true;
 		}
 
 		function step_complete() {
@@ -303,15 +320,12 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 
 		function process_step_agents() {
-
 		}
 
 		function process_step_services() {
-
 		}
 
 		function process_step_intro() {
-
 		}
 
 		function process_step_default_agent() {
@@ -321,7 +335,6 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 				$default_agent->set_data( $this->params['agent'] );
 				$default_agent->save();
 			}
-
 		}
 
 		function process_step_work_periods() {
@@ -330,7 +343,6 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		}
 
 		function process_step_info() {
-
 		}
 
 		function process_step_personal_info() {

@@ -18,20 +18,21 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'processes' );
 			$this->vars['breadcrumbs'][]   = array(
 				'label' => __( 'Activities', 'latepoint' ),
-				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'activities', 'index' ) )
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'activities', 'index' ) ),
 			);
-
 		}
 
 		public function clear_all() {
 			$this->check_nonce( 'clear_activities' );
 			global $wpdb;
-			$wpdb->query( $wpdb->prepare("TRUNCATE TABLE %i", esc_sql(LATEPOINT_TABLE_ACTIVITIES) ));
+			$wpdb->query( $wpdb->prepare( 'TRUNCATE TABLE %i', esc_sql( LATEPOINT_TABLE_ACTIVITIES ) ) );
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array(
-					'status'  => LATEPOINT_STATUS_SUCCESS,
-					'message' => __( 'Activities log cleared', 'latepoint' )
-				) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Activities log cleared', 'latepoint' ),
+					) 
+				);
 			}
 		}
 
@@ -41,7 +42,7 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 
 			$csv_filename = 'activities_log_' . OsUtilHelper::random_text() . '.csv';
 
-			header( "Content-Type: text/csv" );
+			header( 'Content-Type: text/csv' );
 			header( "Content-Disposition: attachment; filename={$csv_filename}" );
 
 			$labels_row = [
@@ -54,7 +55,7 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 				__( 'Action By User Type', 'latepoint' ),
 				__( 'Action By User ID', 'latepoint' ),
 				__( 'Date, Time', 'latepoint' ),
-				__( 'Description', 'latepoint' )
+				__( 'Description', 'latepoint' ),
 			];
 
 
@@ -79,8 +80,7 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 						$activity['description'],
 					];
 					$activities_data[] = $values_row;
-				}
-
+				}			
 			}
 
 			OsCSVHelper::array_to_csv( $activities_data );
@@ -96,8 +96,8 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 			$per_page    = OsSettingsHelper::get_number_of_records_per_page();
 			$page_number = isset( $this->params['page_number'] ) ? $this->params['page_number'] : 1;
 
-			$activities                = new OsActivityModel();
-			$count_activities          = new OsActivityModel();
+			$activities       = new OsActivityModel();
+			$count_activities = new OsActivityModel();
 
 			// TABLE SEARCH FILTERS
 			$filter = isset( $this->params['filter'] ) ? $this->params['filter'] : false;
@@ -136,17 +136,24 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 			$this->vars['showing_to']   = min( $page_number * $per_page, $total_activities );
 
 
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Index', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Index', 'latepoint' ),
+				'link'  => false,
+			);
 
-			$this->format_render( [
-				'json_view_name' => '_table_body',
-				'html_view_name' => __FUNCTION__
-			], [], [
-				'total_pages'   => $total_pages,
-				'showing_from'  => $this->vars['showing_from'],
-				'showing_to'    => $this->vars['showing_to'],
-				'total_records' => $total_activities
-			] );
+			$this->format_render(
+				[
+					'json_view_name' => '_table_body',
+					'html_view_name' => __FUNCTION__,
+				],
+				[],
+				[
+					'total_pages'   => $total_pages,
+					'showing_from'  => $this->vars['showing_from'],
+					'showing_to'    => $this->vars['showing_to'],
+					'total_records' => $total_activities,
+				] 
+			);
 		}
 
 		public function destroy() {
@@ -167,7 +174,12 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -182,7 +194,7 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 
 			$status_html = '';
 			if ( ! empty( $data['status'] ) ) {
-				$status_html = '<div class="status-item">' . __( 'Status:', 'latepoint' ) . ' <strong>' . $data['status'] . '</strong></div>';
+				$status_html  = '<div class="status-item">' . __( 'Status:', 'latepoint' ) . ' <strong>' . $data['status'] . '</strong></div>';
 				$status_html .= '<div class="status-item">' . __( 'Processed on:', 'latepoint' ) . ' <strong>' . $data['processed_datetime'] . '</strong></div>';
 				if ( ! empty( $data['errors'] ) ) {
 					$status_html .= '<div class="status-item">' . __( 'Errors:', 'latepoint' ) . '<strong>' . ( is_array( $data['errors'] ) ? implode( ', ', $data['errors'] ) : $data['errors'] ) . '</strong></div>';
@@ -208,26 +220,26 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 					break;
 				case 'order_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $data['order_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'order_updated':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_order . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
 					$changes       = OsUtilHelper::compare_model_data_vars( $data['order_data_vars']['new'], $data['order_data_vars']['old'] );
 					$content_html  = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 
 				case 'customer_created':
 					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
-					$content_html  = '<pre class="format-json">' . esc_html( wp_json_encode( $data['customer_data_vars'], JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
+					$meta_html        = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
+					$content_html     = '<pre class="format-json">' . esc_html( wp_json_encode( $data['customer_data_vars'], JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
 					break;
 				case 'customer_updated':
 					$link_to_customer = '<a href="#" ' . OsCustomerHelper::quick_customer_btn_html( $activity->customer_id ) . '>' . __( 'View Customer', 'latepoint' ) . '</a>';
-					$meta_html     = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
-					$changes       = OsUtilHelper::compare_model_data_vars( $data['customer_data_vars']['new'], $data['customer_data_vars']['old'] );
-					$content_html  = '<pre class="format-json">' . esc_html( wp_json_encode( $changes, JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
+					$meta_html        = '<div class="activity-preview-to"><span class="os-value">' . $link_to_customer . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
+					$changes          = OsUtilHelper::compare_model_data_vars( $data['customer_data_vars']['new'], $data['customer_data_vars']['old'] );
+					$content_html     = '<pre class="format-json">' . esc_html( wp_json_encode( $changes, JSON_PRETTY_PRINT | JSON_HEX_TAG ) ) . '</pre>';
 					break;
 				case 'payment_request_created':
 					$link_to_order = '<a href="#" ' . OsOrdersHelper::quick_order_btn_html( $activity->order_id ) . '>' . __( 'View Order', 'latepoint' ) . '</a>';
@@ -238,23 +250,23 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 				// bookings
 				case 'booking_change_status':
 					$link_to_order = $activity->order_id ? '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>' : '';
-					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$meta_html     = '<div class="activity-preview-to">' . ( $link_to_order ? ( '<span class="os-value">' . $link_to_order . '</span>' ) : '' ) . '<span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
 					$content_html  = '<div class="activity-preview-content">' . $activity->description . '</div>';
 					break;
 				case 'booking_created':
 					$link_to_booking = '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>';
-					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Created On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
 					$content_html    = '<pre class="format-json">' . wp_json_encode( $data['booking_data_vars'], JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'booking_updated':
 					$link_to_booking = '<a href="#" ' . OsBookingHelper::quick_booking_btn_html( $activity->booking_id ) . '>' . __( 'View Booking', 'latepoint' ) . '</a>';
-					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__('by:','latepoint') . '</span><span class="os-value">' . $activity->get_user_link()  . '</span></div>';
+					$meta_html       = '<div class="activity-preview-to"><span class="os-value">' . $link_to_booking . '</span><span class="os-label">' . __( 'Updated On:', 'latepoint' ) . '</span><span class="os-value">' . $activity->nice_created_at . '</span><span class="os-label">' . esc_html__( 'by:', 'latepoint' ) . '</span><span class="os-value">' . $activity->get_user_link() . '</span></div>';
 					$changes         = OsUtilHelper::compare_model_data_vars( $data['booking_data_vars']['new'], $data['booking_data_vars']['old'] );
 					$content_html    = '<pre class="format-json">' . wp_json_encode( $changes, JSON_PRETTY_PRINT ) . '</pre>';
 					break;
 				case 'email_sent':
 					$meta_html    = '<div class="activity-preview-subject">' . esc_html( $data['extra_data']['subject'] ) . '</div>';
-					$meta_html    .= '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</span></div>';
+					$meta_html   .= '<div class="activity-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $data['to'] ) . '</span></div>';
 					$content_html = '<div class="activity-preview-content">' . $data['content'] . '</div>';
 					break;
 				case 'sms_sent':
@@ -288,13 +300,13 @@ if ( ! class_exists( 'OsActivitiesController' ) ) :
 					 *
 					 * @returns {array}  The array of meta and content HTML
 					 */
-					$custom_activity_html = apply_filters('latepoint_custom_activity_html', false, $activity, $data);
-					if ($custom_activity_html !== false) {
-						$meta_html = $custom_activity_html['meta_html'] ?? '';
+					$custom_activity_html = apply_filters( 'latepoint_custom_activity_html', false, $activity, $data );
+					if ( $custom_activity_html !== false ) {
+						$meta_html    = $custom_activity_html['meta_html'] ?? '';
 						$content_html = $custom_activity_html['content_html'] ?? '';
 						break;
 					}
-				break;
+					break;
 			}
 
 			$this->vars['content_html'] = $content_html ?? '';

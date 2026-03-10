@@ -9,19 +9,19 @@ class OsCartModel extends OsModel {
 	public $id,
 		$uuid,
 		$order_id,
-		$coupon_code = '',
+		$coupon_code              = '',
 		$order_intent_id,
 		$payment_method,
 		$payment_portion,
 		$payment_time,
 		$payment_token,
 		$payment_processor,
-		$source_id = '',
+		$source_id                = '',
 		$order_forced_customer_id = false, // only used for when you creating a cart from an order
-		$subtotal = 0,
-		$total = 0,
-		$coupon_discount = 0,
-		$tax_total = 0,
+		$subtotal                 = 0,
+		$total                    = 0,
+		$coupon_discount          = 0,
+		$tax_total                = 0,
 		$updated_at,
 		$created_at;
 
@@ -53,8 +53,8 @@ class OsCartModel extends OsModel {
 		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
-	public function get_order_intent() : OsOrderIntentModel {
-		return new OsOrderIntentModel($this->order_intent_id);
+	public function get_order_intent(): OsOrderIntentModel {
+		return new OsOrderIntentModel( $this->order_intent_id );
 	}
 
 
@@ -245,7 +245,7 @@ class OsCartModel extends OsModel {
 			'subtotal'        => [],
 			'after_subtotal'  => [],
 			'total'           => [],
-			'balance'         => []
+			'balance'         => [],
 		];
 
 		$items = $this->get_items();
@@ -258,7 +258,7 @@ class OsCartModel extends OsModel {
 				'label'     => __( 'Balance Due', 'latepoint' ),
 				'raw_value' => OsMoneyHelper::pad_to_db_format( $balance_due_amount ),
 				'value'     => OsMoneyHelper::format_price( $balance_due_amount, true, false ),
-				'style'     => 'total'
+				'style'     => 'total',
 			];
 		}
 
@@ -270,13 +270,13 @@ class OsCartModel extends OsModel {
 					// recalculations are below this point
 					$service_row               = [
 						'heading' => __( 'Service', 'latepoint' ),
-						'items'   => []
+						'items'   => [],
 					];
 					$item_subtotal             = OsBookingHelper::calculate_full_amount_for_service( $booking );
 					$service_row_item          = [
 						'label'     => $booking->service->name,
 						'raw_value' => OsMoneyHelper::pad_to_db_format( $item_subtotal ),
-						'value'     => OsMoneyHelper::format_price( $item_subtotal, true, false )
+						'value'     => OsMoneyHelper::format_price( $item_subtotal, true, false ),
 					];
 					$service_row['items'][]    = $service_row_item;
 					$service_row               = apply_filters( 'latepoint_price_breakdown_service_row_for_booking', $service_row, $booking );
@@ -288,13 +288,13 @@ class OsCartModel extends OsModel {
 					$bundle                    = $item->build_original_object_from_item_data();
 					$service_row               = [
 						'heading' => __( 'Bundle', 'latepoint' ),
-						'items'   => []
+						'items'   => [],
 					];
 					$item_subtotal             = OsBundlesHelper::calculate_full_amount_for_bundle( $bundle );
 					$service_row_item          = [
 						'label'     => $bundle->name,
 						'raw_value' => OsMoneyHelper::pad_to_db_format( $item_subtotal ),
-						'value'     => OsMoneyHelper::format_price( $item_subtotal, true, false )
+						'value'     => OsMoneyHelper::format_price( $item_subtotal, true, false ),
 					];
 					$service_row['items'][]    = $service_row_item;
 					$service_row               = apply_filters( 'latepoint_price_breakdown_service_row_for_bundle', $service_row, $bundle );
@@ -310,7 +310,7 @@ class OsCartModel extends OsModel {
 				'label'     => __( 'Sub Total', 'latepoint' ),
 				'style'     => 'strong',
 				'raw_value' => OsMoneyHelper::pad_to_db_format( $subtotal_amount ),
-				'value'     => OsMoneyHelper::format_price( $subtotal_amount, true, false )
+				'value'     => OsMoneyHelper::format_price( $subtotal_amount, true, false ),
 			];
 		}
 
@@ -320,7 +320,7 @@ class OsCartModel extends OsModel {
 				'label'     => __( 'Total Price', 'latepoint' ),
 				'style'     => in_array( 'balance', $rows_to_hide ) ? 'total' : 'strong',
 				'raw_value' => OsMoneyHelper::pad_to_db_format( $total_amount ),
-				'value'     => OsMoneyHelper::format_price( $total_amount, true, false )
+				'value'     => OsMoneyHelper::format_price( $total_amount, true, false ),
 			];
 		}
 
@@ -353,7 +353,10 @@ class OsCartModel extends OsModel {
 	 *
 	 */
 	public function deposit_amount_to_charge( array $options = [] ) {
-		$default_options = [ 'apply_coupons' => false, 'apply_taxes' => false ];
+		$default_options = [
+			'apply_coupons' => false,
+			'apply_taxes'   => false,
+		];
 		$options         = array_merge( $default_options, $options );
 		$amount          = 0;
 		$items           = $this->get_items();
@@ -478,14 +481,14 @@ class OsCartModel extends OsModel {
 
 	public function remove_item( OsCartItemModel $item, bool $remove_connected_items = true ) {
 		if ( $item->id && $this->id == $item->cart_id ) {
-			if($remove_connected_items){
-				if(!empty($item->connected_cart_item_id)){
+			if ( $remove_connected_items ) {
+				if ( ! empty( $item->connected_cart_item_id ) ) {
 					$cart_items = new OsCartItemModel();
-					$cart_items->delete_where(['id' => $item->connected_cart_item_id]);
+					$cart_items->delete_where( [ 'id' => $item->connected_cart_item_id ] );
 				}
 				// search for connected cart items
 				$cart_items = new OsCartItemModel();
-				$cart_items->delete_where(['connected_cart_item_id' => $item->id]);
+				$cart_items->delete_where( [ 'connected_cart_item_id' => $item->id ] );
 			}
 			$item->delete();
 			$this->items = OsCartsHelper::get_items_for_cart_id( $this->id );
@@ -552,7 +555,6 @@ class OsCartModel extends OsModel {
 		 *
 		 */
 		do_action( 'latepoint_cart_calculate_prices', $this );
-
 	}
 
 
@@ -564,7 +566,7 @@ class OsCartModel extends OsModel {
 			'payment_time',
 			'coupon_code',
 			'payment_token',
-			'source_id'
+			'source_id',
 		);
 
 		return $allowed_params;
@@ -579,7 +581,7 @@ class OsCartModel extends OsModel {
 			'order_id',
 			'coupon_code',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $params_to_save;

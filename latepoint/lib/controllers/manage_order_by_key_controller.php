@@ -20,7 +20,7 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			if ( empty( $this->params['key'] ) ) {
 				return;
 			}
-			$key = sanitize_text_field( $this->params['key'] );
+			$key  = sanitize_text_field( $this->params['key'] );
 			$data = OsOrdersHelper::get_order_id_and_manage_ability_by_key( $key );
 			if ( empty( $data ) ) {
 				return;
@@ -37,28 +37,30 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			parent::__construct();
 			$this->views_folder = LATEPOINT_VIEWS_ABSPATH . 'manage_order_by_key/';
 
-			$this->action_access['public'] = array_merge( $this->action_access['public'], [
-				'show',
-				'print',
-				'list_payments'
-			] );
+			$this->action_access['public'] = array_merge(
+				$this->action_access['public'],
+				[
+					'show',
+					'print',
+					'list_payments',
+				] 
+			);
 
 			$this->set_order_by_key();
-
 		}
 
-		function list_payments(){
+		function list_payments() {
 			if ( empty( $this->order->id ) ) {
 				return;
 			}
 
 			$transactions = $this->order->get_transactions();
 
-			$this->vars['order'] = $this->order;
+			$this->vars['order']        = $this->order;
 			$this->vars['transactions'] = $transactions;
 
 				$this->set_layout( 'clean' );
-			$this->format_render(__FUNCTION__);
+			$this->format_render( __FUNCTION__ );
 		}
 
 
@@ -68,17 +70,22 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			}
 
 
-			$this->vars['key']     = $this->key;
-			$this->vars['for']     = $this->key_for;
-			$this->vars['order']   = $this->order;
-			$this->vars['viewer']   = $this->key_for == 'agent' ? 'agent' : 'customer';
+			$this->vars['key']    = $this->key;
+			$this->vars['for']    = $this->key_for;
+			$this->vars['order']  = $this->order;
+			$this->vars['viewer'] = $this->key_for == 'agent' ? 'agent' : 'customer';
 
 			$this->vars['timezone_name'] = $this->key_for == 'agent' ? OsTimeHelper::get_wp_timezone_name() : $this->order->customer->get_selected_timezone_name();
 
 			if ( $this->get_return_format() == 'json' ) {
 				$this->set_layout( 'none' );
 				$response_html = $this->format_render_return( __FUNCTION__ );
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					) 
+				);
 			} else {
 				$this->set_layout( 'clean' );
 				$content = $this->format_render_return( __FUNCTION__ );
@@ -98,7 +105,5 @@ if ( ! class_exists( 'OsManageOrderByKeyController' ) ) :
 			$content = $this->format_render_return( 'print_order_info', [], [], true );
 			echo $content;
 		}
-
-
 	}
 endif;

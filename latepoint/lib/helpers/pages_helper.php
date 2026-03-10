@@ -9,16 +9,16 @@ class OsPagesHelper {
 	public static function create_predefined_pages(): void {
 		$pages = [
 			'customer-cabinet' => array(
-				'slug'    => _x( 'customer-cabinet', 'Customer cabinet', 'latepoint' ),
-				'title'   => _x( 'Customer Cabinet', 'Customer cabinet', 'latepoint' ),
-				'content' => '<!-- wp:latepoint/customer-dashboard --><div class="wp-block-latepoint-customer-dashboard">Customer Dashboard</div><!-- /wp:latepoint/customer-dashboard -->',
-				'settings' => ['page_url_customer_dashboard', 'page_url_customer_login']
-			)
+				'slug'     => _x( 'customer-cabinet', 'Customer cabinet', 'latepoint' ),
+				'title'    => _x( 'Customer Cabinet', 'Customer cabinet', 'latepoint' ),
+				'content'  => '<!-- wp:latepoint/customer-dashboard --><div class="wp-block-latepoint-customer-dashboard">Customer Dashboard</div><!-- /wp:latepoint/customer-dashboard -->',
+				'settings' => [ 'page_url_customer_dashboard', 'page_url_customer_login' ],
+			),
 		];
 		foreach ( $pages as $key => $page_settings ) {
-			$option = 'latepoint_page_' . $key;
-			$page_id = self::create_page( $page_settings, $option);
-			if ($page_id) {
+			$option  = 'latepoint_page_' . $key;
+			$page_id = self::create_page( $page_settings, $option );
+			if ( $page_id ) {
 				update_option( $option, $page_id );
 			}
 		}
@@ -41,13 +41,13 @@ class OsPagesHelper {
 			}
 		}
 
-		$page = self::get_page_by_slug($page_settings['slug']);
+		$page = self::get_page_by_slug( $page_settings['slug'] );
 
 		if ( $page ) {
 			return $page;
 		}
 
-		$page_data = array(
+		$page_data   = array(
 			'post_status'    => 'publish',
 			'post_type'      => 'page',
 			'post_author'    => 1,
@@ -59,7 +59,7 @@ class OsPagesHelper {
 		$new_page_id = wp_insert_post( $page_data );
 
 		# if page is created - Set Page URLs in settings
-		if ($new_page_id && count($page_settings['settings'])) {
+		if ( $new_page_id && count( $page_settings['settings'] ) ) {
 			self::save_default_pages_settings( $page_settings['settings'], "/{$page_settings['slug']}" );
 		}
 
@@ -73,8 +73,8 @@ class OsPagesHelper {
 	 *
 	 * @return array
 	 */
-	public static function add_display_post_states($post_states, $page): array {
-		if ( get_option( 'latepoint_page_customer-cabinet') == $page->ID ) {
+	public static function add_display_post_states( $post_states, $page ): array {
+		if ( get_option( 'latepoint_page_customer-cabinet' ) == $page->ID ) {
 			$post_states['latepoint_customer_cabinet'] = 'Latepoint Customer Cabinet';
 		}
 		return $post_states;
@@ -85,7 +85,7 @@ class OsPagesHelper {
 	 * @param $slug
 	 * @return string|null
 	 */
-	public static function get_page_by_slug($slug) {
+	public static function get_page_by_slug( $slug ) {
 		global $wpdb;
 		return $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status NOT IN ( 'pending', 'trash', 'future', 'auto-draft' )  AND post_name = %s LIMIT 1;", $slug ) );
 	}
@@ -104,6 +104,4 @@ class OsPagesHelper {
 			}
 		}
 	}
-
-
 }

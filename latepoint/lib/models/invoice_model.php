@@ -24,7 +24,12 @@ class OsInvoiceModel extends OsModel {
 
 	public function get_receipt_url(): string {
 		$transaction = new OsTransactionModel();
-		$transaction = $transaction->where( [ 'invoice_id' => $this->id, 'status' => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED ] )->set_limit( 1 )->get_results_as_models();
+		$transaction = $transaction->where(
+			[
+				'invoice_id' => $this->id,
+				'status'     => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED,
+			] 
+		)->set_limit( 1 )->get_results_as_models();
 		if ( $transaction && ! $transaction->is_new_record() ) {
 			return $transaction->get_receipt_url();
 		} else {
@@ -46,15 +51,15 @@ class OsInvoiceModel extends OsModel {
 
 	public function generate_data_vars(): array {
 
-		$vars['id'] = $this->id;
-		$vars['order_id'] = $this->order_id;
-		$vars['invoice_number'] = $this->get_invoice_number();
+		$vars['id']              = $this->id;
+		$vars['order_id']        = $this->order_id;
+		$vars['invoice_number']  = $this->get_invoice_number();
 		$vars['payment_portion'] = $this->payment_portion;
-		$vars['status'] = $this->status;
-		$vars['data'] = $this->data;
-		$vars['charge_amount'] = $this->charge_amount;
-		$vars['access_key'] = $this->access_key;
-		$vars['due_at'] = $this->due_at;
+		$vars['status']          = $this->status;
+		$vars['data']            = $this->data;
+		$vars['charge_amount']   = $this->charge_amount;
+		$vars['access_key']      = $this->access_key;
+		$vars['due_at']          = $this->due_at;
 
 		$vars['customer']     = $this->get_customer()->get_data_vars();
 		$vars['order']        = $this->get_order()->get_first_level_data_vars();
@@ -84,7 +89,12 @@ class OsInvoiceModel extends OsModel {
 
 	public function get_successful_payments(): array {
 		$transactions = new OsTransactionModel();
-		$transactions = $transactions->where( [ 'status' => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED, 'invoice_id' => $this->id ] )->get_results_as_models();
+		$transactions = $transactions->where(
+			[
+				'status'     => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED,
+				'invoice_id' => $this->id,
+			] 
+		)->get_results_as_models();
 
 		return $transactions;
 	}
@@ -102,7 +112,7 @@ class OsInvoiceModel extends OsModel {
 	 * @return bool
 	 */
 	public function change_status( string $new_status ): bool {
-		$old_status = $this->status;
+		$old_status  = $this->status;
 		$old_invoice = clone $this;
 		if ( $old_status == $new_status ) {
 			return true;
@@ -136,14 +146,17 @@ class OsInvoiceModel extends OsModel {
 		} else {
 			return false;
 		}
-
 	}
 
 	public function get_invoice_number(): string {
-		if(!empty($this->invoice_number)) return $this->invoice_number;
-		if(empty($this->id)) return '';
-		$this->invoice_number = OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ).sprintf('1%06d', $this->id);
-		$this->update_attributes(['invoice_number' => $this->invoice_number]);
+		if ( ! empty( $this->invoice_number ) ) {
+			return $this->invoice_number;
+		}
+		if ( empty( $this->id ) ) {
+			return '';
+		}
+		$this->invoice_number = OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ) . sprintf( '1%06d', $this->id );
+		$this->update_attributes( [ 'invoice_number' => $this->invoice_number ] );
 		return $this->invoice_number;
 	}
 

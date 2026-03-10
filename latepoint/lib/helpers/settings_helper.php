@@ -12,7 +12,7 @@ class OsSettingsHelper {
 		'google_client_secret',
 		'braintree_secret_key',
 		'braintree_merchant_id',
-		'paypal_client_secret'
+		'paypal_client_secret',
 	];
 
 	private static $settings_to_autoload = [
@@ -45,13 +45,13 @@ class OsSettingsHelper {
 		'thousand_separator',
 		'decimal_separator',
 		'number_of_decimals',
-		'default_phone_country'
+		'default_phone_country',
 	];
 
 	private static $defaults = [
 		'date_format'            => LATEPOINT_DEFAULT_DATE_FORMAT,
 		'time_system'            => LATEPOINT_DEFAULT_TIME_SYSTEM,
-		'currency_symbol_before' => '$'
+		'currency_symbol_before' => '$',
 	];
 
 	public static function get_business_logo_url() {
@@ -77,35 +77,35 @@ class OsSettingsHelper {
 		return json_decode( OsSettingsHelper::get_settings_value( 'active_addons', '' ) ) ?? [];
 	}
 
-    public static function get_earliest_possible_booking_restriction($service_id = 0) {
-        if(!empty($service_id)) {
-            $service = new OsServiceModel($service_id);
-            if(!$service->is_new_record() && !empty($service->earliest_possible_booking) && OsTimeHelper::is_valid_date($service->earliest_possible_booking)) {
-                return $service->earliest_possible_booking;
-            }
-        }
-        $restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', '' );
-        if(OsTimeHelper::is_valid_date($restriction_from_general_settings)) {
-            return $restriction_from_general_settings;
-        }else{
-            return '';
-        }
-    }
+	public static function get_earliest_possible_booking_restriction( $service_id = 0 ) {
+		if ( ! empty( $service_id ) ) {
+			$service = new OsServiceModel( $service_id );
+			if ( ! $service->is_new_record() && ! empty( $service->earliest_possible_booking ) && OsTimeHelper::is_valid_date( $service->earliest_possible_booking ) ) {
+				return $service->earliest_possible_booking;
+			}
+		}
+		$restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'earliest_possible_booking', '' );
+		if ( OsTimeHelper::is_valid_date( $restriction_from_general_settings ) ) {
+			return $restriction_from_general_settings;
+		} else {
+			return '';
+		}
+	}
 
-    public static function get_latest_possible_booking_restriction($service_id = 0) {
-        if(!empty($service_id)) {
-            $service = new OsServiceModel($service_id);
-            if(!$service->is_new_record() && !empty($service->latest_possible_booking) && OsTimeHelper::is_valid_date($service->latest_possible_booking)) {
-                return $service->latest_possible_booking;
-            }
-        }
-        $restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'latest_possible_booking', '' );
-        if(OsTimeHelper::is_valid_date($restriction_from_general_settings)) {
-            return $restriction_from_general_settings;
-        }else{
-            return '';
-        }
-    }
+	public static function get_latest_possible_booking_restriction( $service_id = 0 ) {
+		if ( ! empty( $service_id ) ) {
+			$service = new OsServiceModel( $service_id );
+			if ( ! $service->is_new_record() && ! empty( $service->latest_possible_booking ) && OsTimeHelper::is_valid_date( $service->latest_possible_booking ) ) {
+				return $service->latest_possible_booking;
+			}
+		}
+		$restriction_from_general_settings = OsSettingsHelper::get_settings_value( 'latest_possible_booking', '' );
+		if ( OsTimeHelper::is_valid_date( $restriction_from_general_settings ) ) {
+			return $restriction_from_general_settings;
+		} else {
+			return '';
+		}
+	}
 
 	/**
 	 * @param array $tables
@@ -135,13 +135,13 @@ class OsSettingsHelper {
 			if ( $rows ) {
 				// Get table create statement
 				$create_table = $wpdb->get_row( "SHOW CREATE TABLE {$table}", ARRAY_N );
-                $var_table = str_replace($wpdb->prefix, '{{TABLE_PREFIX}}', $table);
-                $create_table = str_replace($table, $var_table, $create_table);
+				$var_table    = str_replace( $wpdb->prefix, '{{TABLE_PREFIX}}', $table );
+				$create_table = str_replace( $table, $var_table, $create_table );
 
 				$output[ $var_table ] = [
 					'create' => $create_table[1],
-                    'prefix' => $wpdb->prefix,
-					'data'   => $rows
+					'prefix' => $wpdb->prefix,
+					'data'   => $rows,
 				];
 			}
 		}
@@ -149,7 +149,7 @@ class OsSettingsHelper {
 		// Generate filename
 		$filename = 'latepoint_backup_' . date( 'Y-m-d_H-i-s' ) . '.json';
 
-        $json = wp_json_encode($output, JSON_PRETTY_PRINT);
+		$json = wp_json_encode( $output, JSON_PRETTY_PRINT );
 
 		// Send headers for file download
 		header( 'Content-Type: application/json' );
@@ -173,8 +173,8 @@ class OsSettingsHelper {
 			throw new Exception( __( 'Error reading uploaded file', 'latepoint' ) );
 		}
 
-        // update table name from original to new prefix
-        $data = str_replace('{{TABLE_PREFIX}}', $wpdb->prefix, $data);
+		// update table name from original to new prefix
+		$data = str_replace( '{{TABLE_PREFIX}}', $wpdb->prefix, $data );
 
 		$data = json_decode( $data, true );
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
@@ -255,12 +255,12 @@ class OsSettingsHelper {
 						$column_name = preg_replace( '/[^a-zA-Z0-9_]/', '', $column->Field );
 
 						// Get the maximum value for this column.
-						$max_id = $wpdb->get_var( $wpdb->prepare( "SELECT MAX(%i) FROM %i", $column_name, $table ) );
+						$max_id = $wpdb->get_var( $wpdb->prepare( 'SELECT MAX(%i) FROM %i', $column_name, $table ) );
 
 						// Set the auto_increment value to max + 1.
 						if ( $max_id ) {
 							$next_id = intval( $max_id ) + 1;
-							$wpdb->query( $wpdb->prepare( "ALTER TABLE %i AUTO_INCREMENT = %d", $table, $next_id ) );
+							$wpdb->query( $wpdb->prepare( 'ALTER TABLE %i AUTO_INCREMENT = %d', $table, $next_id ) );
 						}
 					}
 				}
@@ -376,18 +376,18 @@ class OsSettingsHelper {
 	}
 
 	public static function set_menu_layout_style( $layout ) {
-        $layout = in_array($layout, ['compact', 'full']) ? $layout : 'full';
-        update_user_meta(get_current_user_id(), 'latepoint_admin_menu_style', $layout);
+		$layout = in_array( $layout, [ 'compact', 'full' ] ) ? $layout : 'full';
+		update_user_meta( get_current_user_id(), 'latepoint_admin_menu_style', $layout );
 	}
 
-	public static function get_menu_layout_style() : string {
-        $menu_style = get_user_meta(get_current_user_id(), 'latepoint_admin_menu_style', true);
+	public static function get_menu_layout_style(): string {
+		$menu_style = get_user_meta( get_current_user_id(), 'latepoint_admin_menu_style', true );
 
-        // Set default if not set
-        if (empty($menu_style)) {
-            $menu_style = 'full'; // default value
-        }
-        return $menu_style;
+		// Set default if not set
+		if ( empty( $menu_style ) ) {
+			$menu_style = 'full'; // default value
+		}
+		return $menu_style;
 	}
 
 	public static function get_time_system() {
@@ -414,7 +414,7 @@ class OsSettingsHelper {
 			LATEPOINT_ANY_AGENT_ORDER_PRICE_HIGH => __( 'Most expensive agent', 'latepoint' ),
 			LATEPOINT_ANY_AGENT_ORDER_PRICE_LOW  => __( 'Least expensive agent', 'latepoint' ),
 			LATEPOINT_ANY_AGENT_ORDER_BUSY_HIGH  => __( 'Agent with the most bookings on that day', 'latepoint' ),
-			LATEPOINT_ANY_AGENT_ORDER_BUSY_LOW   => __( 'Agent with the least bookings on that day', 'latepoint' )
+			LATEPOINT_ANY_AGENT_ORDER_BUSY_LOW   => __( 'Agent with the least bookings on that day', 'latepoint' ),
 		];
 
 		/**
@@ -455,10 +455,10 @@ class OsSettingsHelper {
 				$format = ( $no_year ) ? 'F j' : 'Y, M j';
 				break;
 		}
-        if($short_month){
-            // if short month is requested - use month shorthand;
-            $format = str_replace('F', 'M', $format);
-        }
+		if ( $short_month ) {
+			// if short month is requested - use month shorthand;
+			$format = str_replace( 'F', 'M', $format );
+		}
 
 		return $format;
 	}
@@ -478,7 +478,7 @@ class OsSettingsHelper {
 
 		$available_columns['customer'] = [
 			'email' => __( 'Email', 'latepoint' ),
-			'phone' => __( 'Phone', 'latepoint' )
+			'phone' => __( 'Phone', 'latepoint' ),
 		];
 
 		$available_columns['booking'] = [
@@ -487,7 +487,7 @@ class OsSettingsHelper {
 			'source_id'       => __( 'Source ID', 'latepoint' ),
 			'payment_method'  => __( 'Payment Method', 'latepoint' ),
 			'payment_portion' => __( 'Payment Portion', 'latepoint' ),
-			'formatted_price' => __( 'Price', 'latepoint' )
+			'formatted_price' => __( 'Price', 'latepoint' ),
 		];
 
 		$available_columns = apply_filters( 'latepoint_bookings_table_columns', $available_columns );
@@ -533,11 +533,36 @@ class OsSettingsHelper {
 
 	public static function get_default_fields_for_customer() {
 		$default_fields = [
-			'first_name' => [ 'label' => __( 'First Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'last_name'  => [ 'label' => __( 'Last Name', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'email'      => [ 'label' => __( 'Email Address', 'latepoint' ), 'required' => true, 'width' => 'os-col-6', 'active' => true ],
-			'phone'      => [ 'label' => __( 'Phone Number', 'latepoint' ), 'required' => false, 'width' => 'os-col-6', 'active' => true ],
-			'notes'      => [ 'label' => __( 'Comments', 'latepoint' ), 'required' => false, 'width' => 'os-col-12', 'active' => true ]
+			'first_name' => [
+				'label'    => __( 'First Name', 'latepoint' ),
+				'required' => true,
+				'width'    => 'os-col-6',
+				'active'   => true,
+			],
+			'last_name'  => [
+				'label'    => __( 'Last Name', 'latepoint' ),
+				'required' => true,
+				'width'    => 'os-col-6',
+				'active'   => true,
+			],
+			'email'      => [
+				'label'    => __( 'Email Address', 'latepoint' ),
+				'required' => true,
+				'width'    => 'os-col-6',
+				'active'   => true,
+			],
+			'phone'      => [
+				'label'    => __( 'Phone Number', 'latepoint' ),
+				'required' => false,
+				'width'    => 'os-col-6',
+				'active'   => true,
+			],
+			'notes'      => [
+				'label'    => __( 'Comments', 'latepoint' ),
+				'required' => false,
+				'width'    => 'os-col-12',
+				'active'   => true,
+			],
 		];
 
 		$fields_from_db     = OsSettingsHelper::get_settings_value( 'default_fields_for_customer', '' );
@@ -691,32 +716,37 @@ class OsSettingsHelper {
 
 	public static function generate_default_form_fields( array $default_fields ) {
 		?>
-        <div class="os-default-fields" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'form_fields', 'update_default_fields' ) ); ?>">
-            <form>
+		<div class="os-default-fields" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'form_fields', 'update_default_fields' ) ); ?>">
+			<form>
 				<?php foreach ( $default_fields as $name => $default_field ) {
 					$atts = [];
 					?>
-                    <div class="os-default-field <?php echo $default_field['active'] ? '' : 'is-disabled'; ?>">
+					<div class="os-default-field <?php echo $default_field['active'] ? '' : 'is-disabled'; ?>">
 						<?php
-                            $active     = $default_field['active'] ? 'on' : 'off';
+							$active     = $default_field['active'] ? 'on' : 'off';
 							$field_name = 'default_fields[' . $name . '][active]';
 							echo '<div class="os-toggler ' . esc_attr( $active ) . '" data-for="' . esc_attr( OsFormHelper::name_to_id( $field_name ) ) . '"><div class="toggler-rail"><div class="toggler-pill"></div></div></div>';
 							echo OsFormHelper::hidden_field( $field_name, $default_field['active'] );
-                            ?>
-                        <div class="os-field-name"><?php echo esc_html( $default_field['label'] ); ?></div>
-                        <div class="os-field-setting">
+						?>
+						<div class="os-field-name"><?php echo esc_html( $default_field['label'] ); ?></div>
+						<div class="os-field-setting">
 							<?php echo OsFormHelper::checkbox_field( 'default_fields[' . $name . '][required]', __( 'Required?', 'latepoint' ), 'on', $default_field['required'], $atts ); ?>
-                        </div>
-                        <div class="os-field-setting">
-							<?php echo OsFormHelper::select_field( 'default_fields[' . $name . '][width]', false, array(
-								'os-col-12' => __( 'Full Width', 'latepoint' ),
-								'os-col-6'  => __( 'Half Width', 'latepoint' )
-							), $default_field['width'] ); ?>
-                        </div>
-                    </div>
+						</div>
+						<div class="os-field-setting">
+							<?php echo OsFormHelper::select_field(
+								'default_fields[' . $name . '][width]',
+								false,
+								array(
+									'os-col-12' => __( 'Full Width', 'latepoint' ),
+									'os-col-6'  => __( 'Half Width', 'latepoint' ),
+								),
+								$default_field['width'] 
+							); ?>
+						</div>
+					</div>
 				<?php } ?>
-            </form>
-        </div>
+			</form>
+		</div>
 		<?php
 	}
 
@@ -739,46 +769,45 @@ class OsSettingsHelper {
 		return OsAuthHelper::is_admin_logged_in() || self::is_on( 'allow_non_admins_download_csv' );
 	}
 
-	public static function get_link_attributes_for_premium_features() : string {
-        return ' data-os-action="'.OsRouterHelper::build_route_name('settings', 'premium_modal').'" data-os-lightbox-classes="width-600" data-os-output-target="lightbox" ';
+	public static function get_link_attributes_for_premium_features(): string {
+		return ' data-os-action="' . OsRouterHelper::build_route_name( 'settings', 'premium_modal' ) . '" data-os-lightbox-classes="width-600" data-os-output-target="lightbox" ';
 	}
 
-	public static function generate_instant_booking_page_url( array $url_settings ) : string {
-        $url_settings['latepoint'] = 'instant';
-        return OsUtilHelper::get_site_url().'/?'.http_build_query($url_settings);
+	public static function generate_instant_booking_page_url( array $url_settings ): string {
+		$url_settings['latepoint'] = 'instant';
+		return OsUtilHelper::get_site_url() . '/?' . http_build_query( $url_settings );
 	}
 
-    public static function instant_page_background_patterns(): array{
-        return [
-            'pattern_1' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);',
-            'pattern_2' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);',
-            'pattern_3' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);',
-            'pattern_4' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);',
-            'pattern_5' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);',
-            'pattern_6' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);',
-            'pattern_7' => 'background-color: transparent; background-size: auto; background-color: #DCD9D4; background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%); background-blend-mode: soft-light,screen;',
-            'pattern_8' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%);',
-            'pattern_9' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);',
-            'pattern_10' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #09203f 0%, #537895 100%);',
-            'pattern_11' => 'background-color: transparent; background-size: auto; background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%); background-blend-mode: screen;',
-            'pattern_12' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%);',
-            'pattern_13' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);',
-            'pattern_14' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);',
-            'pattern_15' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);',
-            'pattern_16' => 'background-color: transparent; background-size: auto; background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;background-blend-mode: multiply,multiply;',
-            'pattern_17' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);',
-            'pattern_18' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #222 0%, #111 100%);',
-            'pattern_19' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%);',
-        ];
-    }
-
-	public static function get_default_wp_role_for_new_customers() : string {
-        if(!wp_roles()->is_role( LATEPOINT_WP_CUSTOMER_ROLE )){
-            OsRolesHelper::register_customer_role();
-        }
-        return OsSettingsHelper::get_settings_value('default_wp_role_for_customer', LATEPOINT_WP_CUSTOMER_ROLE);
+	public static function instant_page_background_patterns(): array {
+		return [
+			'pattern_1'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);',
+			'pattern_2'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);',
+			'pattern_3'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);',
+			'pattern_4'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);',
+			'pattern_5'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);',
+			'pattern_6'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);',
+			'pattern_7'  => 'background-color: transparent; background-size: auto; background-color: #DCD9D4; background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%); background-blend-mode: soft-light,screen;',
+			'pattern_8'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%);',
+			'pattern_9'  => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #00c6fb 0%, #005bea 100%);',
+			'pattern_10' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #09203f 0%, #537895 100%);',
+			'pattern_11' => 'background-color: transparent; background-size: auto; background-image: radial-gradient(73% 147%, #EADFDF 59%, #ECE2DF 100%), radial-gradient(91% 146%, rgba(255,255,255,0.50) 47%, rgba(0,0,0,0.50) 100%); background-blend-mode: screen;',
+			'pattern_12' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, lightgrey 0%, lightgrey 1%, #e0e0e0 26%, #efefef 48%, #d9d9d9 75%, #bcbcbc 100%);',
+			'pattern_13' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);',
+			'pattern_14' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);',
+			'pattern_15' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);',
+			'pattern_16' => 'background-color: transparent; background-size: auto; background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;background-blend-mode: multiply,multiply;',
+			'pattern_17' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to top, #f43b47 0%, #453a94 100%);',
+			'pattern_18' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(to right, #222 0%, #111 100%);',
+			'pattern_19' => 'background-color: transparent; background-size: auto; background-image: linear-gradient(-20deg, #d558c8 0%, #24d292 100%);',
+		];
 	}
 
+	public static function get_default_wp_role_for_new_customers(): string {
+		if ( ! wp_roles()->is_role( LATEPOINT_WP_CUSTOMER_ROLE ) ) {
+			OsRolesHelper::register_customer_role();
+		}
+		return OsSettingsHelper::get_settings_value( 'default_wp_role_for_customer', LATEPOINT_WP_CUSTOMER_ROLE );
+	}
 }
 
 ?>

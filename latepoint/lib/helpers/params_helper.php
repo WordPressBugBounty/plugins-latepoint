@@ -3,7 +3,7 @@
 class OsParamsHelper {
 
 	private static $params = [];
-	private static $files = [];
+	private static $files  = [];
 
 	public static function load_params() {
 		$params      = array();

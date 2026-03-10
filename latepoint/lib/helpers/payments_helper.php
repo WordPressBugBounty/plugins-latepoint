@@ -74,12 +74,12 @@ class OsPaymentsHelper {
 	}
 
 	public static function should_processor_handle_payment_for_transaction_intent( string $processor_code, OsTransactionIntentModel $transaction_intent ): bool {
-		if ( $transaction_intent->get_payment_data_value('processor') != $processor_code ) {
+		if ( $transaction_intent->get_payment_data_value( 'processor' ) != $processor_code ) {
 			return false;
 		}
 		$payment_times = self::get_enabled_payment_times();
 
-		return ! empty( $payment_times[ LATEPOINT_PAYMENT_TIME_NOW ][ $transaction_intent->get_payment_data_value('method') ][ $transaction_intent->get_payment_data_value('processor' )] );
+		return ! empty( $payment_times[ LATEPOINT_PAYMENT_TIME_NOW ][ $transaction_intent->get_payment_data_value( 'method' ) ][ $transaction_intent->get_payment_data_value( 'processor' ) ] );
 	}
 
 	public static function should_processor_handle_payment_for_cart( string $processor_code, OsCartModel $cart ): bool {
@@ -137,7 +137,7 @@ class OsPaymentsHelper {
 		return [
 			'code'      => LATEPOINT_PAYMENT_METHOD_LOCAL,
 			'label'     => __( 'Pay Locally', 'latepoint' ),
-			'image_url' => LATEPOINT_IMAGES_URL . 'payment_later.png'
+			'image_url' => LATEPOINT_IMAGES_URL . 'payment_later.png',
 		];
 	}
 
@@ -189,9 +189,9 @@ class OsPaymentsHelper {
 
 
 	public static function get_all_payment_times(): array {
-		$payment_times                                                                                = [
+		$payment_times = [
 			LATEPOINT_PAYMENT_TIME_NOW   => [],
-			LATEPOINT_PAYMENT_TIME_LATER => []
+			LATEPOINT_PAYMENT_TIME_LATER => [],
 		];
 		$payment_times[ LATEPOINT_PAYMENT_TIME_LATER ][ LATEPOINT_PAYMENT_METHOD_LOCAL ]['latepoint'] = self::get_local_payment_method_info();
 
@@ -241,7 +241,10 @@ class OsPaymentsHelper {
 		$transactions_options = [];
 		foreach ( $transactions as $transaction ) {
 			$name                   = $transaction->token . ', ' . OsMoneyHelper::format_price( $transaction->amount, true, false ) . ' [' . $transaction->processor . '/' . $transaction->payment_method . ' ' . $transaction->status . ']';
-			$transactions_options[] = [ 'value' => $transaction->id, 'label' => $name ];
+			$transactions_options[] = [
+				'value' => $transaction->id,
+				'label' => $name,
+			];
 		}
 
 		return $transactions_options;
@@ -253,7 +256,7 @@ class OsPaymentsHelper {
 			LATEPOINT_PAYMENT_PORTION_FULL      => __( 'Full Balance', 'latepoint' ),
 			LATEPOINT_PAYMENT_PORTION_REMAINING => __( 'Remaining Balance', 'latepoint' ),
 			LATEPOINT_PAYMENT_PORTION_DEPOSIT   => __( 'Deposit', 'latepoint' ),
-			LATEPOINT_PAYMENT_PORTION_CUSTOM   => __( 'Custom', 'latepoint' )
+			LATEPOINT_PAYMENT_PORTION_CUSTOM    => __( 'Custom', 'latepoint' ),
 		];
 
 		return apply_filters( 'latepoint_payment_portions', $payment_portions );
@@ -279,7 +282,7 @@ class OsPaymentsHelper {
 		$statuses = [
 			LATEPOINT_TRANSACTION_STATUS_SUCCEEDED  => __( 'Succeeded', 'latepoint' ),
 			LATEPOINT_TRANSACTION_STATUS_PROCESSING => __( 'Processing', 'latepoint' ),
-			LATEPOINT_TRANSACTION_STATUS_FAILED     => __( 'Failed', 'latepoint' )
+			LATEPOINT_TRANSACTION_STATUS_FAILED     => __( 'Failed', 'latepoint' ),
 		];
 
 		return apply_filters( 'latepoint_transaction_statuses', $statuses );
@@ -396,5 +399,4 @@ class OsPaymentsHelper {
 		 */
 		return apply_filters( 'latepoint_convert_charge_amount_to_requirements', $charge_amount, $cart );
 	}
-
 }

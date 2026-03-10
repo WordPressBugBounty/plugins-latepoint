@@ -16,29 +16,35 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 		function __construct() {
 			parent::__construct();
 
-			$this->action_access['customer'] = array_merge( $this->action_access['customer'], [
-				'update',
-				'request_cancellation',
-				'print_booking_info',
-				'print_order_info',
-				'ical_download',
-				'process_reschedule_request',
-				'request_reschedule_calendar',
-				'view_order_summary_in_lightbox',
-				'view_booking_summary_in_lightbox',
-				'scheduling_summary_for_bundle',
-				'reload_booking_tile'
-			] );
-			$this->action_access['public']   = array_merge( $this->action_access['public'], [
-				'logout',
-				'dashboard',
-				'login',
-				'do_login',
-				'password_reset_form',
-				'request_password_reset_token',
-				'change_password',
-				'set_account_password_on_booking_completion'
-			] );
+			$this->action_access['customer'] = array_merge(
+				$this->action_access['customer'],
+				[
+					'update',
+					'request_cancellation',
+					'print_booking_info',
+					'print_order_info',
+					'ical_download',
+					'process_reschedule_request',
+					'request_reschedule_calendar',
+					'view_order_summary_in_lightbox',
+					'view_booking_summary_in_lightbox',
+					'scheduling_summary_for_bundle',
+					'reload_booking_tile',
+				] 
+			);
+			$this->action_access['public']   = array_merge(
+				$this->action_access['public'],
+				[
+					'logout',
+					'dashboard',
+					'login',
+					'do_login',
+					'password_reset_form',
+					'request_password_reset_token',
+					'change_password',
+					'set_account_password_on_booking_completion',
+				] 
+			);
 			$this->views_folder              = LATEPOINT_VIEWS_ABSPATH . 'customer_cabinet/';
 		}
 
@@ -47,11 +53,16 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			if ( ! filter_var( $this->params['order_item_id'], FILTER_VALIDATE_INT ) ) {
 				exit();
 			}
-			$order_item               = new OsOrderItemModel( $this->params['order_item_id'] );
-			$order                    = new OsOrderModel( $order_item->order_id );
+			$order_item = new OsOrderItemModel( $this->params['order_item_id'] );
+			$order      = new OsOrderModel( $order_item->order_id );
 
 			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Not Allowed', 'latepoint' ),
+					) 
+				);
 			}
 
 			$bundle                   = $order_item->build_original_object_from_item_data();
@@ -64,10 +75,15 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			if ( ! filter_var( $this->params['order_id'], FILTER_VALIDATE_INT ) ) {
 				exit();
 			}
-			$order                              = new OsOrderModel( $this->params['order_id'] );
+			$order = new OsOrderModel( $this->params['order_id'] );
 
 			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Not Allowed', 'latepoint' ),
+					) 
+				);
 			}
 
 			$this->vars['order']                = $order;
@@ -79,12 +95,17 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			if ( ! filter_var( $this->params['booking_id'], FILTER_VALIDATE_INT ) ) {
 				exit();
 			}
-			$booking                  = new OsBookingModel( $this->params['booking_id'] );
-			$order_item               = new OsOrderItemModel( $booking->order_item_id );
-			$order                    = new OsOrderModel( $order_item->order_id );
+			$booking    = new OsBookingModel( $this->params['booking_id'] );
+			$order_item = new OsOrderItemModel( $booking->order_item_id );
+			$order      = new OsOrderModel( $order_item->order_id );
 
 			if ( $order->is_new_record() || ( $order->customer_id != OsAuthHelper::get_logged_in_customer_id() ) ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Not Allowed', 'latepoint') ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Not Allowed', 'latepoint' ),
+					) 
+				);
 			}
 
 			$this->vars['booking']    = $booking;
@@ -166,7 +187,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$booking->start_date = $this->params['start_date'];
 				$booking->start_time = $this->params['start_time'];
 
-				$booking->convert_start_datetime_into_server_timezone($booking->get_customer_timezone_name());
+				$booking->convert_start_datetime_into_server_timezone( $booking->get_customer_timezone_name() );
 
 				if ( $booking->is_start_date_and_time_set() ) {
 					$booking->calculate_end_date_and_time();
@@ -214,7 +235,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -236,7 +262,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$response_html = __( 'Reschedule is not allowed', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -260,7 +291,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$response_html = __( 'Not allowed to cancel', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -270,13 +306,13 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 
 		public function update() {
 			$customer = OsAuthHelper::get_logged_in_customer();
-			if( !$customer ) {
+			if ( ! $customer ) {
 				exit();
 			}
-			$this->check_nonce('update_customer_'.$customer->get_uuid());
+			$this->check_nonce( 'update_customer_' . $customer->get_uuid() );
 
 
-			if($customer){
+			if ( $customer ) {
 				$old_customer_data = $customer->get_data_vars();
 				$customer->set_data( $this->params['customer'], LATEPOINT_PARAMS_SCOPE_CUSTOMER );
 				if ( $customer->save() ) {
@@ -287,12 +323,17 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					$response_html = $customer->get_error_messages();
 					$status        = LATEPOINT_STATUS_ERROR;
 				}
-			}else{
-				$response_html = __('Customer not found', 'latepoint');
+			} else {
+				$response_html = __( 'Customer not found', 'latepoint' );
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -316,9 +357,13 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
-
 		}
 
 		public function logout() {
@@ -343,7 +388,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$response_html = __( 'Invalid password or email', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -407,25 +457,33 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 		}
 
 		public function change_password() {
-			$params = OsParamsHelper::permit_params( $this->params, [
-				'password_reset_token',
-				'password',
-				'password_confirmation',
-				'change_password_nonce'
-			] );
+			$params = OsParamsHelper::permit_params(
+				$this->params,
+				[
+					'password_reset_token',
+					'password',
+					'password_confirmation',
+					'change_password_nonce',
+				] 
+			);
 
-			if(empty($params['password'])){
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Password can not be blank', 'latepoint') ) );
+			if ( empty( $params['password'] ) ) {
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Password can not be blank', 'latepoint' ),
+					) 
+				);
 			}
 
 
 			$customer = false;
 			if ( OsAuthHelper::is_customer_logged_in() ) {
-				$this->check_nonce('change_password_'.OsAuthHelper::get_logged_in_customer_uuid(), $params['change_password_nonce']);
+				$this->check_nonce( 'change_password_' . OsAuthHelper::get_logged_in_customer_uuid(), $params['change_password_nonce'] );
 				$customer = OsAuthHelper::get_logged_in_customer();
-			} elseif ( !empty($params['password_reset_token'] )) {
+			} elseif ( ! empty( $params['password_reset_token'] ) ) {
 				$params['password_reset_token'] = sanitize_text_field( $params['password_reset_token'] );
-				$customer = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
+				$customer                       = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
 
 				// Validate token expiration (15 minutes)
 				if ( $customer ) {
@@ -433,16 +491,16 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 
 					if ( empty( $created_at ) ) {
 						// No timestamp - reject for security (token created before fix)
-						$customer = false;
-						$status = LATEPOINT_STATUS_ERROR;
+						$customer      = false;
+						$status        = LATEPOINT_STATUS_ERROR;
 						$response_html = __( 'Password token is invalid. Please request a new password reset.', 'latepoint' );
 					} else {
 						$age_seconds = current_time( 'timestamp' ) - intval( $created_at );
 						if ( $age_seconds > 900 ) { // 15 minutes = 900 seconds
 							// Clean up expired meta
 							OsMetaHelper::delete_customer_meta_by_key( 'password_reset_token_created_at', $customer->id );
-							$customer = false;
-							$status = LATEPOINT_STATUS_ERROR;
+							$customer      = false;
+							$status        = LATEPOINT_STATUS_ERROR;
 							$response_html = __( 'Password token has expired. Please request a new password reset.', 'latepoint' );
 						}
 					}
@@ -452,7 +510,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				if ( ! empty( $params['password'] ) && $params['password'] == $params['password_confirmation'] ) {
 					if ( $customer->update_password( $params['password'] ) ) {
 						// Invalidate token after successful password reset
-						if ( !empty($params['password_reset_token'] ) ) {
+						if ( ! empty( $params['password_reset_token'] ) ) {
 							OsCustomerHelper::invalidate_password_reset_token( $customer );
 						}
 						$status        = LATEPOINT_STATUS_SUCCESS;
@@ -472,7 +530,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -480,11 +543,14 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			$customer = OsAuthHelper::get_logged_in_customer();
 
 			if ( $customer ) {
-				$params = OsParamsHelper::permit_params( $this->params, [
-					'password',
-					'password_nonce'
-				] );
-				$this->check_nonce('set_initial_password_for_customer_'.$customer->get_uuid(), $params['password_nonce']);
+				$params = OsParamsHelper::permit_params(
+					$this->params,
+					[
+						'password',
+						'password_nonce',
+					] 
+				);
+				$this->check_nonce( 'set_initial_password_for_customer_' . $customer->get_uuid(), $params['password_nonce'] );
 				if ( ! empty( $params['password'] ) ) {
 					if ( $customer->update_password( $params['password'] ) ) {
 						$status        = LATEPOINT_STATUS_SUCCESS;
@@ -504,7 +570,12 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 	}

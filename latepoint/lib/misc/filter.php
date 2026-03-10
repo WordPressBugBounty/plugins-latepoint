@@ -6,23 +6,23 @@
 namespace LatePoint\Misc;
 
 class Filter {
-	public $service_id = 0;
-	public $agent_id = 0;
+	public $service_id  = 0;
+	public $agent_id    = 0;
 	public $location_id = 0;
 
 	public $connections = [];
 
-	public ?int $week_day = null;
+	public ?int $week_day     = null;
 	public ?string $date_from = null;
-	public ?string $date_to = null;
+	public ?string $date_to   = null;
 
 	public ?int $start_time = null;
-	public ?int $end_time = null;
+	public ?int $end_time   = null;
 
-	public array $statuses = [];
+	public array $statuses            = [];
 	public array $exclude_booking_ids = [];
-	public bool $consider_cart_items = false;
-	public bool $exact_match = false;
+	public bool $consider_cart_items  = false;
+	public bool $exact_match          = false;
 
 	function __construct( array $args = [] ) {
 		$allowed_args = [
@@ -37,7 +37,7 @@ class Filter {
 			'week_day',
 			'statuses',
 			'exclude_booking_ids',
-			'exact_match'
+			'exact_match',
 		];
 		foreach ( $args as $key => $arg ) {
 			if ( in_array( $key, $allowed_args ) ) {
@@ -54,10 +54,12 @@ class Filter {
 		if ( $this->connections ) {
 			$connection_conditions = [];
 			foreach ( $this->connections as $connection ) {
-				$connection_conditions[] = [ 'AND' => [ 'agent_id'    => [ 0, $connection->agent_id ],
-				                                        'service_id'  => [ 0, $connection->service_id ],
-				                                        'location_id' => [ 0, $connection->location_id ]
-				]
+				$connection_conditions[] = [
+					'AND' => [
+						'agent_id'    => [ 0, $connection->agent_id ],
+						'service_id'  => [ 0, $connection->service_id ],
+						'location_id' => [ 0, $connection->location_id ],
+					],
 				];
 			}
 			$query_args['AND'][] = [ 'OR' => $connection_conditions ];
@@ -97,14 +99,15 @@ class Filter {
 	}
 
 	public static function create_from_booking_request( BookingRequest $booking_request ): Filter {
-		return new self( [
-			'date_from'   => $booking_request->start_date,
-			'start_time'  => $booking_request->start_time,
-			'end_time'    => $booking_request->end_time,
-			'agent_id'    => $booking_request->agent_id,
-			'location_id' => $booking_request->location_id,
-			'service_id'  => $booking_request->service_id
-		] );
+		return new self(
+			[
+				'date_from'   => $booking_request->start_date,
+				'start_time'  => $booking_request->start_time,
+				'end_time'    => $booking_request->end_time,
+				'agent_id'    => $booking_request->agent_id,
+				'location_id' => $booking_request->location_id,
+				'service_id'  => $booking_request->service_id,
+			] 
+		);
 	}
-
 }

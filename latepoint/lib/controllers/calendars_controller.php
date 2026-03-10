@@ -15,10 +15,13 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 			parent::__construct();
 			$this->views_folder          = LATEPOINT_VIEWS_ABSPATH . 'calendars/';
 			$this->vars['page_header']   = OsMenuHelper::get_menu_items_by_id( 'calendar' );
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Appointments', 'latepoint' ), 'link' => OsRouterHelper::build_link( [ 'calendars', 'pending_approval' ] ) );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Appointments', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( [ 'calendars', 'pending_approval' ] ),
+			);
 		}
 
-		public function delete_blocked_period(){
+		public function delete_blocked_period() {
 
 			if ( filter_var( $this->params['id'], FILTER_VALIDATE_INT ) ) {
 				$this->check_nonce( 'delete_blocked_period_' . $this->params['id'] );
@@ -35,14 +38,19 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 				$response_html = __( 'Error Removing Blocked Period', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
 		public function apply_period_block() {
 			$blocked_period_settings = $this->params['blocked_period_settings'];
-			$blocked_period_id = $blocked_period_settings['id'] ?? false;
-			$this->check_nonce( 'save_custom_day_schedule_'.($blocked_period_id ? $blocked_period_id : 'new') );
+			$blocked_period_id       = $blocked_period_settings['id'] ?? false;
+			$this->check_nonce( 'save_custom_day_schedule_' . ( $blocked_period_id ? $blocked_period_id : 'new' ) );
 
 			try {
 				$day_date = new OsWpDateTime( $blocked_period_settings['date'] );
@@ -62,9 +70,11 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 
 					if ( $work_period_obj->save() ) {
 						// delete old blocked period
-						if($blocked_period_id){
-							$blocked_period = new OsOffPeriodModel($blocked_period_id);
-							if(!$blocked_period->is_new_record()) $blocked_period->delete();
+						if ( $blocked_period_id ) {
+							$blocked_period = new OsOffPeriodModel( $blocked_period_id );
+							if ( ! $blocked_period->is_new_record() ) {
+								$blocked_period->delete();
+							}
 						}
 						$status        = LATEPOINT_STATUS_SUCCESS;
 						$response_html = sprintf( esc_html__( '%s marked as a day off', 'latepoint' ), OsTimeHelper::get_readable_date( $day_date ) );
@@ -72,8 +82,8 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 						throw new Exception( implode( ',', $work_period_obj->get_error_messages() ?? esc_html__( 'Error', 'latepoint' ) ) );
 					}
 				} else {
-					$blocked_period             = $blocked_period_id ?  new OsOffPeriodModel($blocked_period_id) : new OsOffPeriodModel();
-					$blocked_period->summary = sanitize_text_field($blocked_period_settings['summary'] ?? esc_html__('Off Duty', 'latepoint'));
+					$blocked_period             = $blocked_period_id ? new OsOffPeriodModel( $blocked_period_id ) : new OsOffPeriodModel();
+					$blocked_period->summary    = sanitize_text_field( $blocked_period_settings['summary'] ?? esc_html__( 'Off Duty', 'latepoint' ) );
 					$blocked_period->start_date = $day_date->format( 'Y-m-d' );
 					$blocked_period->end_date   = $day_date->format( 'Y-m-d' );
 
@@ -100,27 +110,36 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 					} else {
 						throw new Exception( implode( ',', $blocked_period->get_error_messages() ?? esc_html__( 'Error', 'latepoint' ) ) );
 					}
-				}
-
+				}			
 			} catch ( Exception $e ) {
 				$status        = LATEPOINT_STATUS_ERROR;
 				$response_html = $e->getMessage();
 			}
-			wp_send_json( array( 'status' => $status, 'message' => $response_html ) );
+			wp_send_json(
+				array(
+					'status'  => $status,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		public function quick_actions() {
-			if(!empty($this->params['blocked_period_id'])){
-				$blocked_period = new OsOffPeriodModel(sanitize_text_field($this->params['blocked_period_id']));
-				if($blocked_period->is_new_record()){
-					wp_send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __('Invalid Blocked Period', 'latepoint') ) );
+			if ( ! empty( $this->params['blocked_period_id'] ) ) {
+				$blocked_period = new OsOffPeriodModel( sanitize_text_field( $this->params['blocked_period_id'] ) );
+				if ( $blocked_period->is_new_record() ) {
+					wp_send_json(
+						array(
+							'status'  => LATEPOINT_STATUS_ERROR,
+							'message' => __( 'Invalid Blocked Period', 'latepoint' ),
+						) 
+					);
 				}
-				$start_date = new OsWpDateTime($blocked_period->start_date);
-			}else{
+				$start_date = new OsWpDateTime( $blocked_period->start_date );
+			} else {
 				$blocked_period = new OsOffPeriodModel();
 
-				$start_date = new OsWpDateTime(sanitize_text_field( $this->params['target_date'] ));
-				$blocked_period->start_date = $start_date->format( 'Y-m-d' );
+				$start_date                  = new OsWpDateTime( sanitize_text_field( $this->params['target_date'] ) );
+				$blocked_period->start_date  = $start_date->format( 'Y-m-d' );
 				$blocked_period->start_time  = sanitize_text_field( $this->params['start_time'] ?? 600 );
 				$blocked_period->agent_id    = sanitize_text_field( $this->params['agent_id'] ?? 0 );
 				$blocked_period->service_id  = sanitize_text_field( $this->params['service_id'] ?? 0 );
@@ -128,16 +147,21 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 
 			}
 
-			$this->vars['blocked_period'] = $blocked_period;
-			$this->vars['start_date'] = $start_date;
-			$this->vars['readable_start_date'] = OsTimeHelper::get_readable_date($start_date);
+			$this->vars['blocked_period']      = $blocked_period;
+			$this->vars['start_date']          = $start_date;
+			$this->vars['readable_start_date'] = OsTimeHelper::get_readable_date( $start_date );
 
 			$this->vars['agents_list']    = OsAgentHelper::get_agents_list( true, [], true );
 			$this->vars['services_list']  = OsServiceHelper::get_services_list( true, [], true );
 			$this->vars['locations_list'] = OsLocationHelper::get_locations_list( true, [], true );
 
 			$response_html = $this->render( $this->views_folder . __FUNCTION__, 'none' );
-			wp_send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+			wp_send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		public function view() {
@@ -155,11 +179,17 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 			$service_categories        = $service_categories->get_results_as_models();
 			$categorized_services_list = [];
 			// uncategorized
-			$categorized_services_list['category_none'] = [ 'name' => __( 'Uncategorized', 'latepoint' ), 'items' => [] ];
+			$categorized_services_list['category_none'] = [
+				'name'  => __( 'Uncategorized', 'latepoint' ),
+				'items' => [],
+			];
 
 			if ( $service_categories ) {
 				foreach ( $service_categories as $service_category ) {
-					$categorized_services_list[ 'category_' . $service_category->id ] = [ 'name' => $service_category->name, 'items' => [] ];
+					$categorized_services_list[ 'category_' . $service_category->id ] = [
+						'name'  => $service_category->name,
+						'items' => [],
+					];
 				}
 			}
 			foreach ( $services as $service ) {
@@ -180,7 +210,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 				'show_location_ids'            => OsUtilHelper::get_array_of_ids_from_array_of_models( $locations ),
 				'overlay_service_availability' => LATEPOINT_VALUE_OFF,
 				'availability_service_id'      => '',
-				'selected_agent_id'            => '' // used for weekly calendar only
+				'selected_agent_id'            => '', // used for weekly calendar only
 			];
 			$calendar_settings         = ! empty( $this->params['calendar_settings'] ) ? array_merge( $default_calendar_settings, $this->params['calendar_settings'] ) : $default_calendar_settings;
 			if ( $default_calendar_settings['view'] != $calendar_settings['view'] ) {
@@ -191,10 +221,13 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 
 			if ( $agents ) {
 				// show only agents that offer services and locations that are selected to be shown
-				$connected_agent_ids       = OsConnectorHelper::get_connected_object_ids( 'agent_id', [
-					'service_id'  => $calendar_settings['show_service_ids'],
-					'location_id' => $calendar_settings['show_location_ids']
-				] );
+				$connected_agent_ids       = OsConnectorHelper::get_connected_object_ids(
+					'agent_id',
+					[
+						'service_id'  => $calendar_settings['show_service_ids'],
+						'location_id' => $calendar_settings['show_location_ids'],
+					] 
+				);
 				$connected_agents          = [];
 				$connected_show_agents_ids = [];
 				foreach ( $agents as $agent ) {
@@ -215,7 +248,12 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 			if ( empty( $services ) || empty( $agents ) || empty( $locations ) ) {
 				if ( $this->get_return_format() == 'json' ) {
 					$response_html = $this->render( $this->views_folder . 'missing_resources.php', 'none' );
-					$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ] );
+					$this->send_json(
+						[
+							'status'  => LATEPOINT_STATUS_SUCCESS,
+							'message' => $response_html,
+						] 
+					);
 				} else {
 					$this->format_render( 'missing_resources' );
 					exit();
@@ -254,12 +292,12 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 						$top_date_label                             = OsUtilHelper::translate_months( $calendar_start->format( 'F j' ), false );
 						break;
 					case 'week':
-						$calendar_start   = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'monday this week' );
-						$calendar_end     = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'sunday this week' );
-						if($calendar_start->format( 'M' ) == $calendar_end->format( 'M' )){
-							$top_date_label   = OsUtilHelper::translate_months( $calendar_start->format( 'F' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . $calendar_end->format( 'j' );
-						}else{
-							$top_date_label   = OsUtilHelper::translate_months( $calendar_start->format( 'M' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . OsUtilHelper::translate_months( $calendar_end->format( 'M' ), false ) . ' ' . $calendar_end->format( 'j' );
+						$calendar_start = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'monday this week' );
+						$calendar_end   = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( 'sunday this week' );
+						if ( $calendar_start->format( 'M' ) == $calendar_end->format( 'M' ) ) {
+							$top_date_label = OsUtilHelper::translate_months( $calendar_start->format( 'F' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . $calendar_end->format( 'j' );
+						} else {
+							$top_date_label = OsUtilHelper::translate_months( $calendar_start->format( 'M' ), false ) . ' ' . $calendar_start->format( 'j' ) . ' - ' . OsUtilHelper::translate_months( $calendar_end->format( 'M' ), false ) . ' ' . $calendar_end->format( 'j' );
 						}
 						$prev_target_date = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( '-7 days' );
 						$next_target_date = ( new OsWpDateTime( $calendar_settings['target_date_string'] ) )->modify( '+7 days' );
@@ -286,7 +324,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 				}
 
 
-				$resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $calendar_start, $calendar_end, ['accessed_from_backend' => true] );
+				$resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $calendar_start, $calendar_end, [ 'accessed_from_backend' => true ] );
 
 				// if user wants to overlay availability for a specific service - we need to create a separate set of resources
 				// for the work boundaries, since the original one is only querying that service and not all other "shown" services,
@@ -311,14 +349,16 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 						$work_boundaries_grouped_by_date_and_agent[ $day_date->format( 'Y-m-d' ) ][ $agent->id ]   = OsResourceHelper::get_work_boundaries_for_groups_of_resources( [ $resources[ $day_date->format( 'Y-m-d' ) ] ] );
 					}
 				}
-				$filter = new \LatePoint\Misc\Filter( [
-					'date_from'   => $calendar_start->format( 'Y-m-d' ),
-					'date_to'     => $calendar_end->format( 'Y-m-d' ),
-					'service_id'  => $calendar_settings['show_service_ids'],
-					'agent_id'    => $calendar_settings['show_agent_ids'],
-					'location_id' => $calendar_settings['show_location_ids'],
-					'statuses'    => OsCalendarHelper::get_booking_statuses_to_display_on_calendar()
-				] );
+				$filter = new \LatePoint\Misc\Filter(
+					[
+						'date_from'   => $calendar_start->format( 'Y-m-d' ),
+						'date_to'     => $calendar_end->format( 'Y-m-d' ),
+						'service_id'  => $calendar_settings['show_service_ids'],
+						'agent_id'    => $calendar_settings['show_agent_ids'],
+						'location_id' => $calendar_settings['show_location_ids'],
+						'statuses'    => OsCalendarHelper::get_booking_statuses_to_display_on_calendar(),
+					] 
+				);
 				$filter = OsRolesHelper::filter_allowed_records_from_arguments_or_filter( $filter );
 
 				// loop bookings to fill in array
@@ -366,7 +406,14 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 
 			if ( $this->get_return_format() == 'json' ) {
 				$response_html = $this->render( $this->views_folder . 'scopes/_' . $calendar_settings['view'], 'none' );
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html, 'top_date_label' => $top_date_label, 'top_date_year' => $top_date_year ] );
+				$this->send_json(
+					[
+						'status'         => LATEPOINT_STATUS_SUCCESS,
+						'message'        => $response_html,
+						'top_date_label' => $top_date_label,
+						'top_date_year'  => $top_date_year,
+					] 
+				);
 			} else {
 				$this->format_render( __FUNCTION__ );
 			}
@@ -380,8 +427,6 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 			$this->set_layout( 'none' );
 			$this->format_render( __FUNCTION__ );
 		}
-
-
 	}
 
 endif;

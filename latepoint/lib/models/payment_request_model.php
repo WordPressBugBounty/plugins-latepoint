@@ -68,14 +68,14 @@ class OsPaymentRequestModel extends OsModel {
 
 	public function generate_data_vars(): array {
 
-		$vars['id'] = $this->id;
-		$vars['portion'] = $this->portion;
+		$vars['id']            = $this->id;
+		$vars['portion']       = $this->portion;
 		$vars['charge_amount'] = $this->charge_amount;
-		$vars['due_at'] = $this->due_at;
-		$vars['invoice_id'] = $this->invoice_id;
-		$vars['order_id'] = $this->order_id;
-		$vars['customer'] = $this->get_customer()->get_data_vars();
-		$vars['order']    = $this->get_order()->get_data_vars();
+		$vars['due_at']        = $this->due_at;
+		$vars['invoice_id']    = $this->invoice_id;
+		$vars['order_id']      = $this->order_id;
+		$vars['customer']      = $this->get_customer()->get_data_vars();
+		$vars['order']         = $this->get_order()->get_data_vars();
 
 		return $vars;
 	}
@@ -94,7 +94,7 @@ class OsPaymentRequestModel extends OsModel {
 			'charge_amount',
 			'due_at',
 			'invoice_id',
-			'order_id'
+			'order_id',
 		];
 
 		return $params_to_save;
@@ -107,7 +107,7 @@ class OsPaymentRequestModel extends OsModel {
 			'charge_amount',
 			'due_at',
 			'invoice_id',
-			'order_id'
+			'order_id',
 		];
 
 		return $allowed_params;

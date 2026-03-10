@@ -20,7 +20,10 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'process_jobs/';
 			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'processes' );
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'processes' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Process Jobs', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'process_jobs', 'index' ) ) );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Process Jobs', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'process_jobs', 'index' ) ),
+			);
 		}
 
 		public function view_job_run_result() {
@@ -33,7 +36,7 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			$this->vars['content_html'] = '<pre class="format-json">' . $job->run_result . '</pre>';
 			$this->vars['process_name'] = __( 'Job Results', 'latepoint' );
 			$this->vars['status_html']  = '<div class="status-item">' . __( 'Status:', 'latepoint' ) . ' <strong>' . $data->status . '</strong></div>';
-			$this->vars['status_html']  .= '<div class="status-item">' . __( 'Processed on (UTC):', 'latepoint' ) . ' <strong>' . $data->run_datetime_utc . '</strong></div>';
+			$this->vars['status_html'] .= '<div class="status-item">' . __( 'Processed on (UTC):', 'latepoint' ) . ' <strong>' . $data->run_datetime_utc . '</strong></div>';
 			$this->vars['status']       = $data->status;
 
 			$this->format_render( __FUNCTION__ );
@@ -51,7 +54,7 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			if ( ! empty( $result_data['ran_actions_info'] ) ) {
 				foreach ( $result_data['ran_actions_info'] as $ran_action_info ) {
 					if ( $ran_action_info['id'] == $action->id ) {
-						$status_html = '<div class="activity-status-wrapper status-' . $ran_action_info['run_status'] . '"><div class="activity-status-content">';
+						$status_html  = '<div class="activity-status-wrapper status-' . $ran_action_info['run_status'] . '"><div class="activity-status-content">';
 						$status_html .= '<div class="status-item">' . __( 'Status:', 'latepoint' ) . ' <strong>' . $ran_action_info['run_status'] . '</strong></div>';
 						$status_html .= '<div class="status-item">' . __( 'Processed on:', 'latepoint' ) . ' <strong>' . $ran_action_info['run_datetime_utc'] . '</strong></div>';
 						if ( $ran_action_info['run_status'] == 'error' ) {
@@ -83,7 +86,12 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			$result = json_decode( $job->run_result, true );
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( [ 'status' => $result['status'], 'message' => $result['message'] ] );
+				$this->send_json(
+					[
+						'status'  => $result['status'],
+						'message' => $result['message'],
+					] 
+				);
 			}
 		}
 
@@ -97,7 +105,12 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 				$job->update_attributes( [ 'status' => LATEPOINT_JOB_STATUS_CANCELLED ] );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => __( 'Job cancelled', 'latepoint' ) ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Job cancelled', 'latepoint' ),
+					] 
+				);
 			}
 		}
 
@@ -158,13 +171,20 @@ if ( ! class_exists( 'OsProcessJobsController' ) ) :
 			$this->vars['showing_to']   = min( $page_number * $per_page, $total_jobs );
 
 
-			$this->format_render( [ 'json_view_name' => '_table_body', 'html_view_name' => __FUNCTION__ ], [], [ 'total_pages'   => $total_pages,
-			                                                                                                     'showing_from'  => $this->vars['showing_from'],
-			                                                                                                     'showing_to'    => $this->vars['showing_to'],
-			                                                                                                     'total_records' => $total_jobs
-			] );
+			$this->format_render(
+				[
+					'json_view_name' => '_table_body',
+					'html_view_name' => __FUNCTION__,
+				],
+				[],
+				[
+					'total_pages'   => $total_pages,
+					'showing_from'  => $this->vars['showing_from'],
+					'showing_to'    => $this->vars['showing_to'],
+					'total_records' => $total_jobs,
+				] 
+			);
 		}
-
 	}
 
 endif;

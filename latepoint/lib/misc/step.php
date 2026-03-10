@@ -25,10 +25,10 @@ class Step {
 		}
 	}
 
-	public function get_image_url_for_side_panel() : string {
+	public function get_image_url_for_side_panel(): string {
 		if ( $this->is_using_custom_image_for_side_panel() ) {
 			return \OsImageHelper::get_image_url_by_id( $this->side_panel_custom_image_id, 'thumbnail', '' );
-		}else{
+		} else {
 			return '';
 		}
 	}
@@ -43,16 +43,18 @@ class Step {
 	}
 
 	public static function create_from_settings( string $step_code, array $step_settings ): Step {
-		return new Step( [
-			'code'                      => $step_code,
-			'label'                     => \OsStepsHelper::get_step_label_by_code( $step_code ),
-			'side_panel_heading'        => $step_settings['side_panel_heading'] ?? '',
-			'side_panel_description'    => $step_settings['side_panel_description'] ?? '',
-			'main_panel_heading'        => $step_settings['main_panel_heading'] ?? '',
-			'main_panel_content_before' => $step_settings['main_panel_content_before'] ?? '',
-			'main_panel_content_after'  => $step_settings['main_panel_content_after'] ?? '',
-			'side_panel_custom_image_id'   => $step_settings['side_panel_custom_image_id'] ?? '',
-		] );
+		return new Step(
+			[
+				'code'                       => $step_code,
+				'label'                      => \OsStepsHelper::get_step_label_by_code( $step_code ),
+				'side_panel_heading'         => $step_settings['side_panel_heading'] ?? '',
+				'side_panel_description'     => $step_settings['side_panel_description'] ?? '',
+				'main_panel_heading'         => $step_settings['main_panel_heading'] ?? '',
+				'main_panel_content_before'  => $step_settings['main_panel_content_before'] ?? '',
+				'main_panel_content_after'   => $step_settings['main_panel_content_after'] ?? '',
+				'side_panel_custom_image_id' => $step_settings['side_panel_custom_image_id'] ?? '',
+			] 
+		);
 	}
 
 	public static function allowed_props(): array {

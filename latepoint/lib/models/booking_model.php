@@ -14,8 +14,8 @@ class OsBookingModel extends OsModel {
 		$agent_id,
 		$location_id,
 		$recurrence_id,
-		$buffer_before = 0,
-		$buffer_after = 0,
+		$buffer_before               = 0,
+		$buffer_after                = 0,
 		$status,
 		$start_date,
 		$end_date,
@@ -24,15 +24,15 @@ class OsBookingModel extends OsModel {
 		$start_datetime_utc,
 		$end_datetime_utc,
 		$duration,
-		$total_attendees = 1,
-		$total_attendees_sum = 1,
-		$total_customers = 1,
-		$cart_item_id = null,
+		$total_attendees             = 1,
+		$total_attendees_sum         = 1,
+		$total_customers             = 1,
+		$cart_item_id                = null,
 		$order_item_id,
 		$server_timezone,
 		$customer_timezone,
-		$meta_class = 'OsBookingMetaModel',
-		$keys_to_manage = [],
+		$meta_class                  = 'OsBookingMetaModel',
+		$keys_to_manage              = [],
 		$generate_recurrent_sequence = [],
 		$updated_at,
 		$created_at;
@@ -42,7 +42,7 @@ class OsBookingModel extends OsModel {
 		$this->table_name = LATEPOINT_TABLE_BOOKINGS;
 		$this->nice_names = array(
 			'service_id' => __( 'Service', 'latepoint' ),
-			'agent_id'   => __( 'Agent', 'latepoint' )
+			'agent_id'   => __( 'Agent', 'latepoint' ),
 		);
 
 		if ( $id ) {
@@ -72,20 +72,24 @@ class OsBookingModel extends OsModel {
 	}
 
 
-	public function get_key_to_manage_for(string $for): string {
-		if($this->is_new_record()) return '';
-		if(!empty($this->keys_to_manage[$for])) return $this->keys_to_manage[$for];
+	public function get_key_to_manage_for( string $for ): string {
+		if ( $this->is_new_record() ) {
+			return '';
+		}
+		if ( ! empty( $this->keys_to_manage[ $for ] ) ) {
+			return $this->keys_to_manage[ $for ];
+		}
 		$key = OsMetaHelper::get_booking_meta_by_key( 'key_to_manage_for_' . $for, $this->id );
 		if ( empty( $key ) ) {
 			$key = OsUtilHelper::generate_key_to_manage();
 			OsMetaHelper::save_booking_meta_by_key( 'key_to_manage_for_' . $for, $key, $this->id );
 		}
-		$this->keys_to_manage[$for] = $key;
+		$this->keys_to_manage[ $for ] = $key;
 		return $key;
 	}
 
-	public function manage_by_key_url(string $for = 'customer'): string{
-		return OsBookingHelper::generate_direct_manage_booking_url($this, $for);
+	public function manage_by_key_url( string $for = 'customer' ): string {
+		return OsBookingHelper::generate_direct_manage_booking_url( $this, $for );
 	}
 
 	public function get_service_name_for_summary() {
@@ -120,8 +124,8 @@ class OsBookingModel extends OsModel {
 		return $this->order;
 	}
 
-	public function get_order_item(  ) {
-		if (!isset( $this->order_item )) {
+	public function get_order_item() {
+		if ( ! isset( $this->order_item ) ) {
 			$this->order_item = new OsOrderItemModel( $this->order_item_id );
 		}
 		return $this->order_item;
@@ -159,21 +163,21 @@ class OsBookingModel extends OsModel {
 
 	public function generate_params_for_booking_form() {
 		$params = [
-			"id"            => $this->id,
-			"customer_id"   => $this->customer_id,
-			"agent_id"      => $this->agent_id,
-			"location_id"   => $this->location_id,
-			"service_id"    => $this->service_id,
-			"recurrence_id"    => $this->recurrence_id,
-			"start_date"    => $this->start_date,
-			"start_time"    => $this->start_time,
-			"end_date"      => $this->end_date,
-			"end_time"      => $this->end_time,
-			"status"        => $this->status,
-			"buffer_before" => $this->buffer_before,
-			"buffer_after"  => $this->buffer_after,
-			"duration"      => $this->duration,
-			"generate_recurrent_sequence" => $this->generate_recurrent_sequence,
+			'id'                          => $this->id,
+			'customer_id'                 => $this->customer_id,
+			'agent_id'                    => $this->agent_id,
+			'location_id'                 => $this->location_id,
+			'service_id'                  => $this->service_id,
+			'recurrence_id'               => $this->recurrence_id,
+			'start_date'                  => $this->start_date,
+			'start_time'                  => $this->start_time,
+			'end_date'                    => $this->end_date,
+			'end_time'                    => $this->end_time,
+			'status'                      => $this->status,
+			'buffer_before'               => $this->buffer_before,
+			'buffer_after'                => $this->buffer_after,
+			'duration'                    => $this->duration,
+			'generate_recurrent_sequence' => $this->generate_recurrent_sequence,
 		];
 
 		/**
@@ -190,27 +194,27 @@ class OsBookingModel extends OsModel {
 		return apply_filters( 'latepoint_generated_params_for_booking_form', $params, $this );
 	}
 
-	public function get_formatted_price(){
-      $order_item     = new OsOrderItemModel( $this->order_item_id );
-	  return OsMoneyHelper::format_price($order_item->get_total());
+	public function get_formatted_price() {
+		$order_item = new OsOrderItemModel( $this->order_item_id );
+		return OsMoneyHelper::format_price( $order_item->get_total() );
 	}
 
-	public function generate_first_level_data_vars() : array{
-		$vars         = [
-			'id'               => $this->id,
-			'booking_code'     => $this->booking_code,
-			'start_datetime'   => $this->format_start_date_and_time_rfc3339(),
-			'end_datetime'     => $this->format_end_date_and_time_rfc3339(),
-			'service_name'     => $this->service->name,
-			'duration'         => $this->duration,
-			'customer_comment' => $this->order->customer_comment,
-			'status'           => $this->status,
-			'start_date'       => $this->format_start_date(),
-			'start_time'       => OsTimeHelper::minutes_to_hours_and_minutes( $this->start_time ),
-			'timezone'         => OsTimeHelper::get_wp_timezone_name(),
-			'agent'            => $this->agent->get_data_vars(),
-			'created_datetime' => $this->format_created_datetime_rfc3339(),
-			'manage_booking_for_agent' => OsBookingHelper::generate_direct_manage_booking_url( $this, 'agent' ),
+	public function generate_first_level_data_vars(): array {
+		$vars = [
+			'id'                          => $this->id,
+			'booking_code'                => $this->booking_code,
+			'start_datetime'              => $this->format_start_date_and_time_rfc3339(),
+			'end_datetime'                => $this->format_end_date_and_time_rfc3339(),
+			'service_name'                => $this->service->name,
+			'duration'                    => $this->duration,
+			'customer_comment'            => $this->order->customer_comment,
+			'status'                      => $this->status,
+			'start_date'                  => $this->format_start_date(),
+			'start_time'                  => OsTimeHelper::minutes_to_hours_and_minutes( $this->start_time ),
+			'timezone'                    => OsTimeHelper::get_wp_timezone_name(),
+			'agent'                       => $this->agent->get_data_vars(),
+			'created_datetime'            => $this->format_created_datetime_rfc3339(),
+			'manage_booking_for_agent'    => OsBookingHelper::generate_direct_manage_booking_url( $this, 'agent' ),
 			'manage_booking_for_customer' => OsBookingHelper::generate_direct_manage_booking_url( $this, 'customer' ),
 		];
 		return $vars;
@@ -219,9 +223,9 @@ class OsBookingModel extends OsModel {
 	public function generate_data_vars(): array {
 		$vars = $this->get_first_level_data_vars();
 
-		$vars['customer'] = $this->customer->get_data_vars();
+		$vars['customer']     = $this->customer->get_data_vars();
 		$vars['transactions'] = [];
-		$vars['order'] = $this->order->get_first_level_data_vars();
+		$vars['order']        = $this->order->get_first_level_data_vars();
 
 		$transactions = $this->order->get_transactions();
 		if ( $transactions ) {
@@ -258,14 +262,19 @@ class OsBookingModel extends OsModel {
 		return ( $start_time_utc > $now_time_utc );
 	}
 
-	public function set_utc_datetimes(bool $save = false) {
+	public function set_utc_datetimes( bool $save = false ) {
 		if ( empty( $this->start_date ) || empty( $this->end_date ) || empty( $this->start_time ) || empty( $this->end_time ) ) {
 			return;
 		}
-		$this->start_datetime_utc = $this->get_start_datetime('UTC')->format(LATEPOINT_DATETIME_DB_FORMAT);
-		$this->end_datetime_utc   = $this->get_end_datetime('UTC')->format(LATEPOINT_DATETIME_DB_FORMAT);
+		$this->start_datetime_utc = $this->get_start_datetime( 'UTC' )->format( LATEPOINT_DATETIME_DB_FORMAT );
+		$this->end_datetime_utc   = $this->get_end_datetime( 'UTC' )->format( LATEPOINT_DATETIME_DB_FORMAT );
 		if ( $save ) {
-			$this->update_attributes(['start_datetime_utc' => $this->start_datetime_utc, 'end_datetime_utc' => $this->end_datetime_utc]);
+			$this->update_attributes(
+				[
+					'start_datetime_utc' => $this->start_datetime_utc,
+					'end_datetime_utc'   => $this->end_datetime_utc,
+				] 
+			);
 		}
 	}
 
@@ -278,7 +287,12 @@ class OsBookingModel extends OsModel {
 		$booking_metas = new OsBookingMetaModel();
 		$booking_metas->delete_where( [ 'object_id' => $id ] );
 		$process_jobs = new OsProcessJobModel();
-		$process_jobs->delete_where( [ 'object_id' => $id, 'object_model_type' => 'booking' ] );
+		$process_jobs->delete_where(
+			[
+				'object_id'         => $id,
+				'object_model_type' => 'booking',
+			] 
+		);
 
 
 		return parent::delete( $id );
@@ -301,7 +315,7 @@ class OsBookingModel extends OsModel {
 				$params = [
 					'action' => 'TEMPLATE',
 					'text'   => $this->service->name,
-					'dates'  => $this->get_start_datetime_object( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' ) . '/' . $this->get_end_datetime_object( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' )
+					'dates'  => $this->get_start_datetime_object( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' ) . '/' . $this->get_end_datetime_object( new DateTimeZone( 'UTC' ) )->format( 'Ymd\THis\Z' ),
 				];
 				if ( ! empty( $this->location->full_address ) ) {
 					$params['location'] = $this->location->full_address;
@@ -350,17 +364,23 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function get_ical_download_link( $key = false ) {
-		return ( $key ) ? OsRouterHelper::build_admin_post_link( [
-			'manage_booking_by_key',
-			'ical_download'
-		], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [
-			'customer_cabinet',
-			'ical_download'
-		], [ 'latepoint_booking_id' => $this->id ] );
+		return ( $key ) ? OsRouterHelper::build_admin_post_link(
+			[
+				'manage_booking_by_key',
+				'ical_download',
+			],
+			[ 'key' => $key ] 
+		) : OsRouterHelper::build_admin_post_link(
+			[
+				'customer_cabinet',
+				'ical_download',
+			],
+			[ 'latepoint_booking_id' => $this->id ] 
+		);
 	}
 
 	public function get_print_link( $key = false ) {
-		return ( $key ) ? OsRouterHelper::build_admin_post_link( [ 'manage_booking_by_key', 'print'], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_booking_info' ], [ 'latepoint_booking_id' => $this->id ] );
+		return ( $key ) ? OsRouterHelper::build_admin_post_link( [ 'manage_booking_by_key', 'print' ], [ 'key' => $key ] ) : OsRouterHelper::build_admin_post_link( [ 'customer_cabinet', 'print_booking_info' ], [ 'latepoint_booking_id' => $this->id ] );
 	}
 
 	public function get_meta_by_key( $meta_key, $default = false ) {
@@ -373,15 +393,15 @@ class OsBookingModel extends OsModel {
 		return $meta->get_by_key( $meta_key, $this->id, $default );
 	}
 
-	public function get_coupon_code(  ) {
+	public function get_coupon_code() {
 		$order = $this->get_order();
 		return $order->coupon_code;
 	}
 
-	public function get_coupon_discount(  ): string {
-		$order_item = $this->get_order_item();
+	public function get_coupon_discount(): string {
+		$order_item      = $this->get_order_item();
 		$coupon_discount = $order_item->get_coupon_discount();
-		return $coupon_discount > 0 ? OsMoneyHelper::format_price($order_item->get_coupon_discount()) : '';
+		return $coupon_discount > 0 ? OsMoneyHelper::format_price( $order_item->get_coupon_discount() ) : '';
 	}
 
 	public function save_meta_by_key( $meta_key, $meta_value ) {
@@ -466,9 +486,9 @@ class OsBookingModel extends OsModel {
 
 
 	public function get_nice_created_at( $include_time = true ) {
-		$format = $include_time ? OsSettingsHelper::get_readable_date_format() . ' ' . OsSettingsHelper::get_readable_time_format() : OsSettingsHelper::get_readable_date_format();
-		$utc_date = date_create_from_format( LATEPOINT_DATETIME_DB_FORMAT, $this->created_at );
-		$wp_timezone_date = $utc_date->setTimezone(OsTimeHelper::get_wp_timezone());
+		$format           = $include_time ? OsSettingsHelper::get_readable_date_format() . ' ' . OsSettingsHelper::get_readable_time_format() : OsSettingsHelper::get_readable_date_format();
+		$utc_date         = date_create_from_format( LATEPOINT_DATETIME_DB_FORMAT, $this->created_at );
+		$wp_timezone_date = $utc_date->setTimezone( OsTimeHelper::get_wp_timezone() );
 
 		return date_format( $wp_timezone_date, $format );
 	}
@@ -477,34 +497,36 @@ class OsBookingModel extends OsModel {
 
 		$defaults = [
 			'skip_customer_check' => false,
-			'log_errors' => true
+			'log_errors'          => true,
 		];
 
 		$settings = OsUtilHelper::merge_default_atts( $defaults, $settings );
 
 		$customer = $this->customer_id ? new OsCustomerModel( $this->customer_id ) : false;
 		// check if customer has to be assigned to a booking, or a guest booking is fine at this point
-		if($settings['skip_customer_check']){
+		if ( $settings['skip_customer_check'] ) {
 			$customer_requirement_satisfied = true;
-		}else{
-			$customer_requirement_satisfied = ($this->customer_id && $customer && $customer->id && ( $this->customer_id == $customer->id ));
+		} else {
+			$customer_requirement_satisfied = ( $this->customer_id && $customer && $customer->id && ( $this->customer_id == $customer->id ) );
 		}
 
 		// agent, service and customer should be set
-		if ( $this->service_id && $this->agent_id &&  $customer_requirement_satisfied) {
+		if ( $this->service_id && $this->agent_id && $customer_requirement_satisfied ) {
 
 			if ( $this->agent_id == LATEPOINT_ANY_AGENT && $this->location_id == LATEPOINT_ANY_LOCATION ) {
 				// both location and agent are set to any
 				$connections       = new OsConnectorModel();
 				$connection_groups = $connections->select( LATEPOINT_TABLE_AGENTS_SERVICES . '.agent_id, ' . LATEPOINT_TABLE_AGENTS_SERVICES . '.location_id' )
-				                                 ->where( [
-					                                 'service_id'                          => $this->service_id,
-					                                 LATEPOINT_TABLE_AGENTS . '.status'    => LATEPOINT_AGENT_STATUS_ACTIVE,
-					                                 LATEPOINT_TABLE_LOCATIONS . '.status' => LATEPOINT_LOCATION_STATUS_ACTIVE
-				                                 ] )
-				                                 ->join( LATEPOINT_TABLE_AGENTS, [ 'id' => LATEPOINT_TABLE_AGENTS_SERVICES . '.agent_id' ] )
-				                                 ->join( LATEPOINT_TABLE_LOCATIONS, [ 'id' => LATEPOINT_TABLE_AGENTS_SERVICES . '.location_id' ] )
-				                                 ->get_results( ARRAY_A );
+												->where(
+													[
+														'service_id'                          => $this->service_id,
+														LATEPOINT_TABLE_AGENTS . '.status'    => LATEPOINT_AGENT_STATUS_ACTIVE,
+														LATEPOINT_TABLE_LOCATIONS . '.status' => LATEPOINT_LOCATION_STATUS_ACTIVE,
+													] 
+												)
+												 ->join( LATEPOINT_TABLE_AGENTS, [ 'id' => LATEPOINT_TABLE_AGENTS_SERVICES . '.agent_id' ] )
+												 ->join( LATEPOINT_TABLE_LOCATIONS, [ 'id' => LATEPOINT_TABLE_AGENTS_SERVICES . '.location_id' ] )
+												 ->get_results( ARRAY_A );
 				if ( empty( $connection_groups ) ) {
 					// no active locations and agents are connected to this service
 					$this->add_error( 'send_to_step', __( 'Unfortunately there are no active resources that can offer selected service, please select another service.', 'latepoint' ), 'booking__service' );
@@ -524,9 +546,7 @@ class OsBookingModel extends OsModel {
 
 						return false;
 					}
-				}
-
-
+				}			
 			} elseif ( $this->agent_id == LATEPOINT_ANY_AGENT ) {
 				$this->agent_id = OsBookingHelper::get_any_agent_for_booking_by_rule( $this );
 				if ( ! $this->agent_id ) {
@@ -553,7 +573,7 @@ class OsBookingModel extends OsModel {
 				}
 			}
 
-			if(!$this->validate(false, ['order_item_id', 'status', 'customer_id'])){
+			if ( ! $this->validate( false, [ 'order_item_id', 'status', 'customer_id' ] ) ) {
 				return false;
 			}
 
@@ -565,19 +585,19 @@ class OsBookingModel extends OsModel {
 			if ( ! $this->agent_id ) {
 				$this->add_error( 'missing_agent', __( 'You have to select an agent', 'latepoint' ) );
 			}
-			if ( ! $this->customer_id && !$settings['skip_customer_check'] ) {
+			if ( ! $this->customer_id && ! $settings['skip_customer_check'] ) {
 				$this->add_error( 'missing_customer', __( 'Customer Not Found', 'latepoint' ) );
-				if($settings['log_errors']){
+				if ( $settings['log_errors'] ) {
 					OsDebugHelper::log( 'Customer not found', 'customer_error', print_r( $customer, true ) );
 				}
 			}
-			if ( ! $customer && !$settings['skip_customer_check'] ) {
+			if ( ! $customer && ! $settings['skip_customer_check'] ) {
 				$this->add_error( 'missing_customer', __( 'You have to be logged in', 'latepoint' ) );
-				if($settings['log_errors']){
+				if ( $settings['log_errors'] ) {
 					OsDebugHelper::log( 'Customer not logged in', 'customer_error', print_r( $customer, true ) );
 				}
 			}
-			if($settings['log_errors']){
+			if ( $settings['log_errors'] ) {
 				OsDebugHelper::log( 'Error saving booking', 'booking_error', 'Agent: ' . $this->agent_id . ', Service: ' . $this->service_id . ', Booking Customer: ' . $this->customer_id );
 			}
 
@@ -591,14 +611,17 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function get_latest_bookings_sorted_by_status( $args = array() ) {
-		$args = array_merge( array(
-			'service_id'  => false,
-			'customer_id' => false,
-			'agent_id'    => false,
-			'location_id' => false,
-			'limit'       => false,
-			'offset'      => false
-		), $args );
+		$args = array_merge(
+			array(
+				'service_id'  => false,
+				'customer_id' => false,
+				'agent_id'    => false,
+				'location_id' => false,
+				'limit'       => false,
+				'offset'      => false,
+			),
+			$args 
+		);
 
 		$bookings   = new OsBookingModel();
 		$query_args = array();
@@ -622,7 +645,6 @@ class OsBookingModel extends OsModel {
 		}
 
 		return $bookings->where( $query_args )->should_not_be_cancelled()->order_by( "status != '" . LATEPOINT_BOOKING_STATUS_PENDING . "' asc, start_date asc, start_time asc" )->get_results_as_models();
-
 	}
 
 
@@ -639,15 +661,17 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function should_be_in_future() {
-		return $this->where( [
-			'OR' => [
-				'start_date >' => OsTimeHelper::today_date( 'Y-m-d' ),
-				'AND'          => [
-					'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
-					'start_time >' => OsTimeHelper::get_current_minutes()
-				]
-			]
-		] );
+		return $this->where(
+			[
+				'OR' => [
+					'start_date >' => OsTimeHelper::today_date( 'Y-m-d' ),
+					'AND'          => [
+						'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
+						'start_time >' => OsTimeHelper::get_current_minutes(),
+					],
+				],
+			] 
+		);
 	}
 
 
@@ -658,9 +682,9 @@ class OsBookingModel extends OsModel {
 				'start_date >' => OsTimeHelper::today_date( 'Y-m-d' ),
 				'AND'          => array(
 					'start_date'   => OsTimeHelper::today_date( 'Y-m-d' ),
-					'start_time >' => OsTimeHelper::get_current_minutes()
-				)
-			)
+					'start_time >' => OsTimeHelper::get_current_minutes(),
+				),
+			),
 		);
 		if ( $service_id ) {
 			$args['service_id'] = $service_id;
@@ -675,20 +699,19 @@ class OsBookingModel extends OsModel {
 			$args['location_id'] = $location_id;
 		}
 
-		$args = OsAuthHelper::get_current_user()->clean_query_args( $args );
+		$args             = OsAuthHelper::get_current_user()->clean_query_args( $args );
 		$allowed_statuses = OsCalendarHelper::get_booking_statuses_to_display_on_calendar();
-		if (empty($allowed_statuses)) {
+		if ( empty( $allowed_statuses ) ) {
 			return [];
 		}
 
 		return $bookings->select( '*, count(id) as total_customers, sum(total_attendees) as total_attendees_sum' )
-		                ->where_in('status', $allowed_statuses )
-		                ->group_by( 'start_datetime_utc, agent_id, service_id, location_id' )
-		                ->where( $args )
-		                ->set_limit( $limit )
-		                ->order_by( 'start_datetime_utc asc' )
-		                ->get_results_as_models();
-
+						->where_in( 'status', $allowed_statuses )
+						->group_by( 'start_datetime_utc, agent_id, service_id, location_id' )
+						->where( $args )
+						->set_limit( $limit )
+						->order_by( 'start_datetime_utc asc' )
+						->get_results_as_models();
 	}
 
 	public function get_nice_start_time_for_customer() {
@@ -699,34 +722,38 @@ class OsBookingModel extends OsModel {
 		return $this->format_end_date_and_time( OsTimeHelper::get_time_format(), false, $this->get_customer_timezone() );
 	}
 
-	public function get_nice_start_date_for_customer($customer_timezone = false, $hide_year = false) {
-		if(!$customer_timezone) $customer_timezone = $this->get_customer_timezone();
-		return OsUtilHelper::translate_months($this->format_start_date_and_time( OsSettingsHelper::get_readable_date_format($hide_year), false, $customer_timezone ));
+	public function get_nice_start_date_for_customer( $customer_timezone = false, $hide_year = false ) {
+		if ( ! $customer_timezone ) {
+			$customer_timezone = $this->get_customer_timezone();
+		}
+		return OsUtilHelper::translate_months( $this->format_start_date_and_time( OsSettingsHelper::get_readable_date_format( $hide_year ), false, $customer_timezone ) );
 	}
 
-	public function get_nice_start_datetime_for_customer($customer_timezone = false) {
-		if(!$customer_timezone) $customer_timezone = $this->get_customer_timezone();
-		return OsUtilHelper::translate_months($this->format_start_date_and_time( OsSettingsHelper::get_readable_datetime_format(), false, $customer_timezone ));
+	public function get_nice_start_datetime_for_customer( $customer_timezone = false ) {
+		if ( ! $customer_timezone ) {
+			$customer_timezone = $this->get_customer_timezone();
+		}
+		return OsUtilHelper::translate_months( $this->format_start_date_and_time( OsSettingsHelper::get_readable_datetime_format(), false, $customer_timezone ) );
 	}
 
-	public function get_start_datetime_for_customer() : OsWpDateTime{
-		return $this->get_start_datetime($this->get_customer_timezone_name());
+	public function get_start_datetime_for_customer(): OsWpDateTime {
+		return $this->get_start_datetime( $this->get_customer_timezone_name() );
 	}
-	public function get_end_datetime_for_customer() : OsWpDateTime{
-		return $this->get_end_datetime($this->get_customer_timezone_name());
+	public function get_end_datetime_for_customer(): OsWpDateTime {
+		return $this->get_end_datetime( $this->get_customer_timezone_name() );
 	}
 
-	public function get_customer_timezone() : DateTimeZone{
-		if(OsSettingsHelper::is_on('steps_show_timezone_selector')){
-			return ($this->customer_id) ? $this->customer->get_selected_timezone_obj() : OsTimeHelper::get_timezone_from_session();
-		}else{
+	public function get_customer_timezone(): DateTimeZone {
+		if ( OsSettingsHelper::is_on( 'steps_show_timezone_selector' ) ) {
+			return ( $this->customer_id ) ? $this->customer->get_selected_timezone_obj() : OsTimeHelper::get_timezone_from_session();
+		} else {
 			return OsTimeHelper::get_wp_timezone();
 		}
 	}
-	public function get_customer_timezone_name() : string{
-		if(OsSettingsHelper::is_on('steps_show_timezone_selector')) {
+	public function get_customer_timezone_name(): string {
+		if ( OsSettingsHelper::is_on( 'steps_show_timezone_selector' ) ) {
 			return ( $this->customer_id ) ? $this->customer->get_selected_timezone_name() : OsTimeHelper::get_timezone_name_from_session();
-		}else{
+		} else {
 			return OsTimeHelper::get_wp_timezone_name();
 		}
 	}
@@ -758,8 +785,8 @@ class OsBookingModel extends OsModel {
 	 * @return string|null
 	 */
 	public function get_nice_end_date( $hide_year_if_current = false ) {
-		$datetime = OsWpDateTime::os_createFromFormat( "Y-m-d", $this->end_date );
-		OsTimeHelper::format_to_nice_date($datetime, $hide_year_if_current);
+		$datetime = OsWpDateTime::os_createFromFormat( 'Y-m-d', $this->end_date );
+		OsTimeHelper::format_to_nice_date( $datetime, $hide_year_if_current );
 	}
 
 	/**
@@ -768,9 +795,9 @@ class OsBookingModel extends OsModel {
 	 *
 	 * @return string|null
 	 */
-	public function get_nice_start_date( $hide_year_if_current = false ) : string {
-		$datetime = OsWpDateTime::os_createFromFormat( "Y-m-d", $this->start_date );
-		return OsTimeHelper::format_to_nice_date($datetime, $hide_year_if_current);
+	public function get_nice_start_date( $hide_year_if_current = false ): string {
+		$datetime = OsWpDateTime::os_createFromFormat( 'Y-m-d', $this->start_date );
+		return OsTimeHelper::format_to_nice_date( $datetime, $hide_year_if_current );
 	}
 
 
@@ -795,22 +822,29 @@ class OsBookingModel extends OsModel {
 	}
 
 
-	public function is_bundle_scheduling() : bool {
+	public function is_bundle_scheduling(): bool {
 		return ! empty( $this->order_item_id );
 	}
 
-	public function get_connected_recurring_bookings() : array{
-		if(empty($this->recurrence_id) || $this->is_new_record()) return [];
+	public function get_connected_recurring_bookings(): array {
+		if ( empty( $this->recurrence_id ) || $this->is_new_record() ) {
+			return [];
+		}
 		$bookings = new OsBookingModel();
-		return $bookings->where(['recurrence_id' => $this->recurrence_id, 'id !=' => $this->id])->order_by('start_datetime_utc asc')->get_results_as_models();
+		return $bookings->where(
+			[
+				'recurrence_id' => $this->recurrence_id,
+				'id !='         => $this->id,
+			] 
+		)->order_by( 'start_datetime_utc asc' )->get_results_as_models();
 	}
 
-	public function get_nice_datetime_for_summary(string $viewer = 'customer'){
+	public function get_nice_datetime_for_summary( string $viewer = 'customer' ) {
 		$nice_datetime = '';
-		if($this->start_date){
-			$nice_datetime = $this->get_nice_start_datetime(false);
-			if(OsSettingsHelper::is_on( 'show_booking_end_time') && !empty($this->end_time) && !empty($this->start_time)){
-				$nice_datetime = $nice_datetime.' - '.$this->get_nice_end_time();
+		if ( $this->start_date ) {
+			$nice_datetime = $this->get_nice_start_datetime( false );
+			if ( OsSettingsHelper::is_on( 'show_booking_end_time' ) && ! empty( $this->end_time ) && ! empty( $this->start_time ) ) {
+				$nice_datetime = $nice_datetime . ' - ' . $this->get_nice_end_time();
 			}
 		}
 		/**
@@ -824,7 +858,7 @@ class OsBookingModel extends OsModel {
 		 *
 		 * @returns {string} Filtered nice datetime
 		 */
-		$nice_datetime = apply_filters('latepoint_get_nice_datetime_for_summary', $nice_datetime, $this, $viewer);
+		$nice_datetime = apply_filters( 'latepoint_get_nice_datetime_for_summary', $nice_datetime, $this, $viewer );
 		return $nice_datetime;
 	}
 
@@ -848,7 +882,7 @@ class OsBookingModel extends OsModel {
 			$date             = new OsWpDateTime();
 			$this->start_date = $date->format( 'Y-m-d' );
 		} else {
-			$date = OsWpDateTime::os_createFromFormat( "Y-m-d", $this->start_date );
+			$date = OsWpDateTime::os_createFromFormat( 'Y-m-d', $this->start_date );
 		}
 
 		return $date->format( OsSettingsHelper::get_date_format() );
@@ -864,7 +898,7 @@ class OsBookingModel extends OsModel {
 
 		if ( is_null( $this->start_time ) || $this->start_time === '' ) {
 			// no time set yet (could be because summary is reloaded when date is picked, before the time is picked)
-			$date = OsWpDateTime::os_createFromFormat( "Y-m-d", $this->start_date );
+			$date = OsWpDateTime::os_createFromFormat( 'Y-m-d', $this->start_date );
 			if ( $date ) {
 				return OsUtilHelper::translate_months( $date->format( OsSettingsHelper::get_readable_date_format() ) );
 			} else {
@@ -904,9 +938,9 @@ class OsBookingModel extends OsModel {
 	 */
 	public function time_status() {
 		try {
-			$now_datetime  = OsTimeHelper::now_datetime_utc();
-			if(empty($this->start_datetime_utc) || empty($this->end_datetime_utc)){
-				$this->set_utc_datetimes(true);
+			$now_datetime = OsTimeHelper::now_datetime_utc();
+			if ( empty( $this->start_datetime_utc ) || empty( $this->end_datetime_utc ) ) {
+				$this->set_utc_datetimes( true );
 			}
 			$booking_start = new OsWpDateTime( $this->start_datetime_utc, new DateTimeZone( 'UTC' ) );
 			$booking_end   = new OsWpDateTime( $this->end_datetime_utc, new DateTimeZone( 'UTC' ) );
@@ -920,18 +954,19 @@ class OsBookingModel extends OsModel {
 		} catch ( Exception $e ) {
 			return 'past';
 		}
-
 	}
 
-	public function start_datetime_in_format( string $format, string $output_in_timezone_name ) : string {
-		if(empty($this->start_datetime_utc)) return '';
+	public function start_datetime_in_format( string $format, string $output_in_timezone_name ): string {
+		if ( empty( $this->start_datetime_utc ) ) {
+			return '';
+		}
 		$booking_start_datetime = OsTimeHelper::date_from_db( $this->start_datetime_utc );
-		$booking_start_datetime->setTimezone( new DateTimeZone($output_in_timezone_name) );
+		$booking_start_datetime->setTimezone( new DateTimeZone( $output_in_timezone_name ) );
 		return $booking_start_datetime->format( $format );
 	}
 
-	public function is_start_date_and_time_set() : bool {
-		return ($this->start_date != '' && $this->start_time != '');
+	public function is_start_date_and_time_set(): bool {
+		return ( $this->start_date != '' && $this->start_time != '' );
 	}
 
 	protected function get_time_left() {
@@ -956,7 +991,7 @@ class OsBookingModel extends OsModel {
 			$left = 'n/a';
 		}
 
-		return '<span class="time-left ' . esc_attr($css_class) . '">' . esc_html($left) . '</span>';
+		return '<span class="time-left ' . esc_attr( $css_class ) . '">' . esc_html( $left ) . '</span>';
 	}
 
 
@@ -1019,24 +1054,24 @@ class OsBookingModel extends OsModel {
 		return $this->service;
 	}
 
-	public function get_nice_start_date_in_timezone(string $timezone_name = '', $hide_year_if_current = false) : string{
-		$datetime = $this->get_start_datetime($timezone_name);
-		return OsTimeHelper::format_to_nice_date($datetime, $hide_year_if_current);
+	public function get_nice_start_date_in_timezone( string $timezone_name = '', $hide_year_if_current = false ): string {
+		$datetime = $this->get_start_datetime( $timezone_name );
+		return OsTimeHelper::format_to_nice_date( $datetime, $hide_year_if_current );
 	}
 
-	public function get_nice_end_date_in_timezone(string $timezone_name = '', $hide_year_if_current = false) : string{
-		$datetime = $this->get_end_datetime($timezone_name);
-		return OsTimeHelper::format_to_nice_date($datetime, $hide_year_if_current);
+	public function get_nice_end_date_in_timezone( string $timezone_name = '', $hide_year_if_current = false ): string {
+		$datetime = $this->get_end_datetime( $timezone_name );
+		return OsTimeHelper::format_to_nice_date( $datetime, $hide_year_if_current );
 	}
 
-	public function get_nice_start_time_in_timezone(string $timezone_name = '') : string{
-		$datetime = $this->get_start_datetime($timezone_name);
-		return OsTimeHelper::format_to_nice_time($datetime);
+	public function get_nice_start_time_in_timezone( string $timezone_name = '' ): string {
+		$datetime = $this->get_start_datetime( $timezone_name );
+		return OsTimeHelper::format_to_nice_time( $datetime );
 	}
 
-	public function get_nice_end_time_in_timezone(string $timezone_name = '') : string{
-		$datetime = $this->get_end_datetime($timezone_name);
-		return OsTimeHelper::format_to_nice_time($datetime);
+	public function get_nice_end_time_in_timezone( string $timezone_name = '' ): string {
+		$datetime = $this->get_end_datetime( $timezone_name );
+		return OsTimeHelper::format_to_nice_time( $datetime );
 	}
 
 	public function get_start_datetime_object( ?DateTimeZone $timezone = null ) {
@@ -1075,43 +1110,47 @@ class OsBookingModel extends OsModel {
 		return $booking_end_datetime;
 	}
 
-	public function get_start_datetime( string $set_timezone = 'UTC') : OsWpDateTime{
-		try{
+	public function get_start_datetime( string $set_timezone = 'UTC' ): OsWpDateTime {
+		try {
 			// start_time and start_date is legacy stored in wordpress timezone
 			$dateTime = new OsWpDateTime( $this->start_date . ' 00:00:00', OsTimeHelper::get_wp_timezone() );
-			if($this->start_time > 0){
+			if ( $this->start_time > 0 ) {
 				$dateTime->modify( '+' . $this->start_time . ' minutes' );
 			}
-			if($set_timezone) $dateTime->setTimezone( new DateTimeZone( $set_timezone ) );
+			if ( $set_timezone ) {
+				$dateTime->setTimezone( new DateTimeZone( $set_timezone ) );
+			}
 			return $dateTime;
-		}catch(Exception $e){
-			return new OsWpDateTime('now');
+		} catch ( Exception $e ) {
+			return new OsWpDateTime( 'now' );
 		}
 	}
 
-	public function get_end_datetime( string $set_timezone = 'UTC') : OsWpDateTime{
-		try{
+	public function get_end_datetime( string $set_timezone = 'UTC' ): OsWpDateTime {
+		try {
 			// start_time and start_date is legacy stored in wordpress timezone
 			$dateTime = new OsWpDateTime( $this->end_date . ' 00:00:00', OsTimeHelper::get_wp_timezone() );
-			if($this->end_time > 0){
+			if ( $this->end_time > 0 ) {
 				$dateTime->modify( '+' . $this->end_time . ' minutes' );
 			}
-			if($set_timezone) $dateTime->setTimezone( new DateTimeZone( $set_timezone ) );
+			if ( $set_timezone ) {
+				$dateTime->setTimezone( new DateTimeZone( $set_timezone ) );
+			}
 			return $dateTime;
-		}catch(Exception $e){
-			return new OsWpDateTime('now');
+		} catch ( Exception $e ) {
+			return new OsWpDateTime( 'now' );
 		}
 	}
 
 	public function generate_start_datetime_in_db_format( string $timezone = 'UTC' ): string {
-		$dateTime = $this->get_start_datetime($timezone);
+		$dateTime = $this->get_start_datetime( $timezone );
 
 		return $dateTime->format( LATEPOINT_DATETIME_DB_FORMAT );
 	}
 
 
 	public function generate_end_datetime_in_db_format( string $timezone = 'UTC' ): string {
-		$dateTime = $this->get_end_datetime($timezone);
+		$dateTime = $this->get_end_datetime( $timezone );
 
 		return $dateTime->format( LATEPOINT_DATETIME_DB_FORMAT );
 	}
@@ -1163,9 +1202,11 @@ class OsBookingModel extends OsModel {
 		}
 	}
 
-	public function convert_start_datetime_into_server_timezone(string $input_timezone, bool $set_as_customer_timezone = true){
-		$this->server_timezone   = OsTimeHelper::get_wp_timezone_name();
-		if($set_as_customer_timezone) $this->customer_timezone = $input_timezone;
+	public function convert_start_datetime_into_server_timezone( string $input_timezone, bool $set_as_customer_timezone = true ) {
+		$this->server_timezone = OsTimeHelper::get_wp_timezone_name();
+		if ( $set_as_customer_timezone ) {
+			$this->customer_timezone = $input_timezone;
+		}
 		if ( $this->is_start_date_and_time_set() && $this->server_timezone != $input_timezone ) {
 
 			try {
@@ -1179,8 +1220,7 @@ class OsBookingModel extends OsModel {
 				$this->start_time = OsTimeHelper::convert_datetime_to_minutes( $start_datetime );
 
 			} catch ( Exception $e ) {
-			}
-
+			}		
 		}
 	}
 
@@ -1223,7 +1263,7 @@ class OsBookingModel extends OsModel {
 			'server_timezone',
 			'customer_timezone',
 			'generate_recurrent_sequence',
-			'recurrence_id'
+			'recurrence_id',
 		);
 
 		return $allowed_params;
@@ -1251,7 +1291,7 @@ class OsBookingModel extends OsModel {
 			'order_item_id',
 			'server_timezone',
 			'customer_timezone',
-			'recurrence_id'
+			'recurrence_id',
 		);
 
 		return $params_to_save;

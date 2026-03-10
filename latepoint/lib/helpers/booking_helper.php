@@ -53,10 +53,10 @@ class OsBookingHelper {
 		if ( ! $booking->service_id ) {
 			return 0;
 		}
-		$service            = new OsServiceModel( $booking->service_id );
-		$amount = $service->get_deposit_amount_for_duration( $booking->duration );
-		$amount = apply_filters( 'latepoint_deposit_amount_for_service', $amount, $booking );
-		$amount             = OsMoneyHelper::pad_to_db_format( $amount );
+		$service = new OsServiceModel( $booking->service_id );
+		$amount  = $service->get_deposit_amount_for_duration( $booking->duration );
+		$amount  = apply_filters( 'latepoint_deposit_amount_for_service', $amount, $booking );
+		$amount  = OsMoneyHelper::pad_to_db_format( $amount );
 
 		return $amount;
 	}
@@ -92,14 +92,20 @@ class OsBookingHelper {
 	}
 
 	public static function get_booking_id_and_manage_ability_by_key( string $key ) {
-		$booking_id = OsMetaHelper::get_booking_id_by_meta_value( "key_to_manage_for_agent", $key );
+		$booking_id = OsMetaHelper::get_booking_id_by_meta_value( 'key_to_manage_for_agent', $key );
 		if ( $booking_id ) {
-			return [ 'booking_id' => $booking_id, 'for' => 'agent' ];
+			return [
+				'booking_id' => $booking_id,
+				'for'        => 'agent',
+			];
 		}
 
-		$booking_id = OsMetaHelper::get_booking_id_by_meta_value( "key_to_manage_for_customer", $key );
+		$booking_id = OsMetaHelper::get_booking_id_by_meta_value( 'key_to_manage_for_customer', $key );
 		if ( $booking_id ) {
-			return [ 'booking_id' => $booking_id, 'for' => 'customer' ];
+			return [
+				'booking_id' => $booking_id,
+				'for'        => 'customer',
+			];
 		}
 
 		return false;
@@ -146,19 +152,19 @@ class OsBookingHelper {
 								<div class="atc-heading">' . esc_html__( 'Calendar Type', 'latepoint' ) . '</div>
 								<div class="close-calendar-types"></div>
 							</div>
-							<a href="' . esc_url($booking->get_ical_download_link( $key )) . '" target="_blank" class="atc-type atc-type-apple">
+							<a href="' . esc_url( $booking->get_ical_download_link( $key ) ) . '" target="_blank" class="atc-type atc-type-apple">
 								<div class="atc-type-image"></div>
 								<div class="atc-type-name">' . esc_html__( 'Apple Calendar', 'latepoint' ) . '</div>
 							</a>
-							<a href="' . esc_url($booking->get_url_for_add_to_calendar_button( 'google' )) . '" target="_blank" class="atc-type atc-type-google">
+							<a href="' . esc_url( $booking->get_url_for_add_to_calendar_button( 'google' ) ) . '" target="_blank" class="atc-type atc-type-google">
 								<div class="atc-type-image"></div>
 								<div class="atc-type-name">' . esc_html__( 'Google Calendar', 'latepoint' ) . '</div>
 							</a>
-							<a href="' . esc_url($booking->get_url_for_add_to_calendar_button( 'outlook' )) . '" target="_blank" class="atc-type atc-type-outlook">
+							<a href="' . esc_url( $booking->get_url_for_add_to_calendar_button( 'outlook' ) ) . '" target="_blank" class="atc-type atc-type-outlook">
 								<div class="atc-type-image"></div>
 								<div class="atc-type-name">' . esc_html__( 'Outlook.com', 'latepoint' ) . '</div>
 							</a>
-							<a href="' . esc_url($booking->get_url_for_add_to_calendar_button( 'outlook' )) . '" target="_blank" class="atc-type atc-type-office-365">
+							<a href="' . esc_url( $booking->get_url_for_add_to_calendar_button( 'outlook' ) ) . '" target="_blank" class="atc-type atc-type-office-365">
 								<div class="atc-type-image"></div>
 								<div class="atc-type-name">' . esc_html__( 'Microsoft 365', 'latepoint' ) . '</div>
 							</a>
@@ -177,7 +183,10 @@ class OsBookingHelper {
 		$bookings_options = [];
 		foreach ( $bookings as $booking ) {
 			$name               = $booking->service->name . ', ' . $booking->agent->full_name . ', ' . $booking->customer->full_name . ' [' . $booking->booking_code . ' : ' . $booking->id . ']';
-			$bookings_options[] = [ 'value' => $booking->id, 'label' => esc_html( $name ) ];
+			$bookings_options[] = [
+				'value' => $booking->id,
+				'label' => esc_html( $name ),
+			];
 		}
 
 		return $bookings_options;
@@ -225,7 +234,7 @@ class OsBookingHelper {
 	public static function output_price_breakdown_row( $row ) {
 		if ( ! empty( $row['items'] ) ) {
 			if ( ! empty( $row['heading'] ) ) {
-				echo '<div class="summary-box-heading"><div class="sbh-item">' . esc_html($row['heading']) . '</div><div class="sbh-line"></div></div>';
+				echo '<div class="summary-box-heading"><div class="sbh-item">' . esc_html( $row['heading'] ) . '</div><div class="sbh-line"></div></div>';
 			}
 			foreach ( $row['items'] as $row_item ) {
 				self::output_price_breakdown_row( $row_item );
@@ -242,18 +251,18 @@ class OsBookingHelper {
 				$extra_class .= ' spi-positive';
 			}
 			?>
-            <div class="summary-price-item-w <?php echo esc_attr($extra_class); ?>">
-                <div class="spi-name">
+			<div class="summary-price-item-w <?php echo esc_attr( $extra_class ); ?>">
+				<div class="spi-name">
 					<?php echo $row['label']; ?>
 					<?php if ( ! empty( $row['note'] ) ) {
-						echo '<span class="pi-note">' . esc_html($row['note']) . '</span>';
+						echo '<span class="pi-note">' . esc_html( $row['note'] ) . '</span>';
 					} ?>
 					<?php if ( ! empty( $row['badge'] ) ) {
-						echo '<span class="pi-badge">' . esc_html($row['badge']) . '</span>';
+						echo '<span class="pi-badge">' . esc_html( $row['badge'] ) . '</span>';
 					} ?>
-                </div>
-                <div class="spi-price"><?php echo esc_html($row['value']); ?></div>
-            </div>
+				</div>
+				<div class="spi-price"><?php echo esc_html( $row['value'] ); ?></div>
+			</div>
 			<?php
 		}
 	}
@@ -305,9 +314,9 @@ class OsBookingHelper {
 		}
 		if ( ! $accessed_from_backend ) {
 			$today                     = new OsWpDateTime( 'today' );
-            $earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction($filter->service_id);
+			$earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction( $filter->service_id );
 
-			$block_end_datetime        = OsTimeHelper::now_datetime_object();
+			$block_end_datetime = OsTimeHelper::now_datetime_object();
 			if ( $earliest_possible_booking ) {
 				try {
 					$block_end_datetime->modify( $earliest_possible_booking );
@@ -318,15 +327,17 @@ class OsBookingHelper {
 			for ( $day = clone $today; $day->format( 'Y-m-d' ) <= $block_end_datetime->format( 'Y-m-d' ); $day->modify( '+1 day' ) ) {
 				// loop days from now to the earliest possible booking and block timeslots if these days were actually requested
 				if ( isset( $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ] ) ) {
-					$grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod( [
-						'start_time' => 0,
-						'end_time'   => ( $day->format( 'Y-m-d' ) < $block_end_datetime->format( 'Y-m-d' ) ) ? 24 * 60 : OsTimeHelper::convert_datetime_to_minutes( $block_end_datetime ),
-						'start_date' => $day->format( 'Y-m-d' ),
-						'end_date'   => $day->format( 'Y-m-d' )
-					] );
+					$grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod(
+						[
+							'start_time' => 0,
+							'end_time'   => ( $day->format( 'Y-m-d' ) < $block_end_datetime->format( 'Y-m-d' ) ) ? 24 * 60 : OsTimeHelper::convert_datetime_to_minutes( $block_end_datetime ),
+							'start_date' => $day->format( 'Y-m-d' ),
+							'end_date'   => $day->format( 'Y-m-d' ),
+						] 
+					);
 				}
 			}
-            $latest_possible_booking = OsSettingsHelper::get_latest_possible_booking_restriction($filter->service_id);
+			$latest_possible_booking = OsSettingsHelper::get_latest_possible_booking_restriction( $filter->service_id );
 			if ( $latest_possible_booking ) {
 				try {
 					$latest_booking_datetime = OsTimeHelper::now_datetime_object();
@@ -334,22 +345,23 @@ class OsBookingHelper {
 				} catch ( Exception $e ) {
 					$latest_booking_datetime = null;
 				}
-                if ( $latest_booking_datetime && $filter->date_from) {
-                    $date_to   = ( $filter->date_to ) ? OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_to ) : OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_from );
-                    // Start from the latest_booking_datetime day
-                    for ( $day = clone $latest_booking_datetime; $day->format( 'Y-m-d' ) <= $date_to->format( 'Y-m-d' ); $day->modify( '+1 day' ) ) {
-                        if ( isset( $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ] ) ) {
-	                        $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod( [
-		                        'start_time' => ( $day->format( 'Y-m-d' ) == $latest_booking_datetime->format( 'Y-m-d' ) ) ? OsTimeHelper::convert_datetime_to_minutes( $latest_booking_datetime ) : 0,
-		                        'end_time'   => 24 * 60,
-		                        'start_date' => $day->format( 'Y-m-d' ),
-		                        'end_date'   => $day->format( 'Y-m-d' )
-	                        ] );
-                        }
-                    }
-                }
-			}
-
+				if ( $latest_booking_datetime && $filter->date_from ) {
+					$date_to = ( $filter->date_to ) ? OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_to ) : OsWpDateTime::os_createFromFormat( 'Y-m-d', $filter->date_from );
+					// Start from the latest_booking_datetime day
+					for ( $day = clone $latest_booking_datetime; $day->format( 'Y-m-d' ) <= $date_to->format( 'Y-m-d' ); $day->modify( '+1 day' ) ) {
+						if ( isset( $grouped_blocked_periods[ $day->format( 'Y-m-d' ) ] ) ) {
+							$grouped_blocked_periods[ $day->format( 'Y-m-d' ) ][] = new \LatePoint\Misc\BlockedPeriod(
+								[
+									'start_time' => ( $day->format( 'Y-m-d' ) == $latest_booking_datetime->format( 'Y-m-d' ) ) ? OsTimeHelper::convert_datetime_to_minutes( $latest_booking_datetime ) : 0,
+									'end_time'   => 24 * 60,
+									'start_date' => $day->format( 'Y-m-d' ),
+									'end_date'   => $day->format( 'Y-m-d' ),
+								] 
+							);
+						}
+					}
+				}
+			}		
 		}
 
 		$grouped_blocked_periods = apply_filters( 'latepoint_blocked_periods_for_range', $grouped_blocked_periods, $filter );
@@ -402,14 +414,14 @@ class OsBookingHelper {
 		}
 
 
-        if($filter->consider_cart_items){
-            $cart = OsCartsHelper::get_or_create_cart();
-            $bookings_in_cart = $cart->get_bookings_from_cart_items();
+		if ( $filter->consider_cart_items ) {
+			$cart             = OsCartsHelper::get_or_create_cart();
+			$bookings_in_cart = $cart->get_bookings_from_cart_items();
 
-            foreach ( $bookings_in_cart as $cart_booking ) {
-                $booked_periods[] = \LatePoint\Misc\BookedPeriod::create_from_booking_model( $cart_booking );
-            }
-        }
+			foreach ( $bookings_in_cart as $cart_booking ) {
+				$booked_periods[] = \LatePoint\Misc\BookedPeriod::create_from_booking_model( $cart_booking );
+			}
+		}
 
 		// TODO Update all filters to accept new "filter" variable (In Google Calendar addon)
 		$booked_periods = apply_filters( 'latepoint_get_booked_periods', $booked_periods, $filter );
@@ -429,7 +441,12 @@ class OsBookingHelper {
 		if ( $filter->date_from ) {
 			if ( $filter->date_from && $filter->date_to ) {
 				# both start and end date provided - means it's a range
-				$bookings->where( [ 'start_date >=' => $filter->date_from, 'start_date <=' => $filter->date_to ] );
+				$bookings->where(
+					[
+						'start_date >=' => $filter->date_from,
+						'start_date <=' => $filter->date_to,
+					] 
+				);
 			} else {
 				# only start_date provided - means it's a specific date requested
 				$bookings->where( [ 'start_date' => $filter->date_from ] );
@@ -445,8 +462,8 @@ class OsBookingHelper {
 						[
 							'agent_id'    => $connection->agent_id,
 							'service_id'  => $connection->service_id,
-							'location_id' => $connection->location_id
-						]
+							'location_id' => $connection->location_id,
+						],
 				];
 			}
 			$bookings->where( [ 'OR' => $connection_conditions ] );
@@ -479,17 +496,19 @@ class OsBookingHelper {
 	}
 
 	public static function generate_ical_event_string( $booking ) {
-        // translators: %1$s is agent name, %2$s is service name
+		// translators: %1$s is agent name, %2$s is service name
 		$booking_description = sprintf( __( 'Appointment with %1$s for %2$s', 'latepoint' ), $booking->agent->full_name, $booking->service->name );
 
-		$ics = new ICS( array(
-			'location'    => $booking->location->full_address,
-			'description' => '',
-			'dtstart'     => $booking->format_start_date_and_time_for_google(),
-			'dtend'       => $booking->format_end_date_and_time_for_google(),
-			'summary'     => $booking_description,
-			'url'         => get_site_url()
-		) );
+		$ics = new ICS(
+			array(
+				'location'    => $booking->location->full_address,
+				'description' => '',
+				'dtstart'     => $booking->format_start_date_and_time_for_google(),
+				'dtend'       => $booking->format_end_date_and_time_for_google(),
+				'summary'     => $booking_description,
+				'url'         => get_site_url(),
+			) 
+		);
 
 		return $ics->to_string();
 	}
@@ -502,47 +521,47 @@ class OsBookingHelper {
 	 * Checks if requested booking slot is available, loads work periods and booked periods from database and checks availability against them
 	 */
 	public static function is_booking_request_available( \LatePoint\Misc\BookingRequest $booking_request, $settings = [] ): bool {
-        try{
-            $requested_date = new OsWpDateTime( $booking_request->start_date );
-        }catch(Exception $e){
-            return false;
-        }
-		$resources      = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $requested_date, $requested_date, $settings );
+		try {
+			$requested_date = new OsWpDateTime( $booking_request->start_date );
+		} catch ( Exception $e ) {
+			return false;
+		}
+		$resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $requested_date, $requested_date, $settings );
 		if ( empty( $resources[ $requested_date->format( 'Y-m-d' ) ] ) ) {
 			return false;
 		}
 		$is_available = false;
 
 
-        // check if satisfies earliest and latest bookings - check per-service settings first, then global
-        $earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction($booking_request->service_id);
-        $latest_possible_booking = OsSettingsHelper::get_latest_possible_booking_restriction($booking_request->service_id);
+		// check if satisfies earliest and latest bookings - check per-service settings first, then global
+		$earliest_possible_booking = OsSettingsHelper::get_earliest_possible_booking_restriction( $booking_request->service_id );
+		$latest_possible_booking   = OsSettingsHelper::get_latest_possible_booking_restriction( $booking_request->service_id );
 
 
-        if($earliest_possible_booking || $latest_possible_booking){
-            // check earliest
-            if(!empty($earliest_possible_booking)) {
-	            try {
-		            $earliest_possible_booking_date = new OsWpDateTime( $earliest_possible_booking );
-		            if ( $earliest_possible_booking_date > $booking_request->get_start_datetime() ) {
-			            return false;
-		            }
-	            } catch ( Exception $e ) {
+		if ( $earliest_possible_booking || $latest_possible_booking ) {
+			// check earliest
+			if ( ! empty( $earliest_possible_booking ) ) {
+				try {
+					$earliest_possible_booking_date = new OsWpDateTime( $earliest_possible_booking );
+					if ( $earliest_possible_booking_date > $booking_request->get_start_datetime() ) {
+						return false;
+					}
+				} catch ( Exception $e ) {
 
-	            }
-            }
-            if(!empty($latest_possible_booking)) {
-	            // check latest
-	            try {
-		            $latest_possible_booking_date = new OsWpDateTime( $latest_possible_booking );
-		            if ( $latest_possible_booking_date < $booking_request->get_start_datetime() ) {
-			            return false;
-		            }
-	            } catch ( Exception $e ) {
+				}
+			}
+			if ( ! empty( $latest_possible_booking ) ) {
+				// check latest
+				try {
+					$latest_possible_booking_date = new OsWpDateTime( $latest_possible_booking );
+					if ( $latest_possible_booking_date < $booking_request->get_start_datetime() ) {
+						return false;
+					}
+				} catch ( Exception $e ) {
 
-	            }
-            }
-        }
+				}
+			}
+		}
 
 		foreach ( $resources[ $requested_date->format( 'Y-m-d' ) ] as $resource ) {
 			foreach ( $resource->slots as $slot ) {
@@ -595,7 +614,7 @@ class OsBookingHelper {
 	public static function get_quick_availability_days( DateTime $start_date, DateTime $end_date, \LatePoint\Misc\BookingRequest $booking_request, array $resources = [], array $settings = [] ) {
 		$default_settings = [
 			'work_boundaries'     => false,
-			'exclude_booking_ids' => []
+			'exclude_booking_ids' => [],
 		];
 		$settings         = array_merge( $default_settings, $settings );
 
@@ -608,9 +627,9 @@ class OsBookingHelper {
 			$settings['work_boundaries'] = OsResourceHelper::get_work_boundaries_for_groups_of_resources( $resources );
 		}
 
-        if ( $start_date->format( 'j' ) != '1' ) {
-            $html .= '<div class="ma-month-label">' . OsUtilHelper::get_month_name_by_number( $start_date->format( 'n' ) ) . '</div>';
-        }
+		if ( $start_date->format( 'j' ) != '1' ) {
+			$html .= '<div class="ma-month-label">' . OsUtilHelper::get_month_name_by_number( $start_date->format( 'n' ) ) . '</div>';
+		}
 
 		for ( $day_date = clone $start_date; $day_date <= $end_date; $day_date->modify( '+1 day' ) ) {
 			// first day of month, output month name
@@ -642,63 +661,64 @@ class OsBookingHelper {
 
 		if ( $bundles ) {
 			?>
-            <div class="os-item-category-w os-items os-as-rows os-animated-child">
-                <div class="os-item-category-info-w os-item os-animated-self with-plus">
-                    <div class="os-item-category-info os-item-i" tabindex="0">
-                        <div class="os-item-img-w"><i class="latepoint-icon latepoint-icon-shopping-bag"></i></div>
-                        <div class="os-item-name-w">
-                            <div class="os-item-name"><?php echo esc_html__( 'Bundle & Save', 'latepoint' ); ?></div>
-                        </div>
-						<?php if (OsSettingsHelper::is_on('show_service_categories_count') && count( $bundles ) ) { ?>
-                            <div class="os-item-child-count">
-                                <span><?php echo count( $bundles ); ?></span> <?php esc_html_e( 'Bundles', 'latepoint' ); ?>
-                            </div>
+			<div class="os-item-category-w os-items os-as-rows os-animated-child">
+				<div class="os-item-category-info-w os-item os-animated-self with-plus">
+					<div class="os-item-category-info os-item-i" tabindex="0">
+						<div class="os-item-img-w"><i class="latepoint-icon latepoint-icon-shopping-bag"></i></div>
+						<div class="os-item-name-w">
+							<div class="os-item-name"><?php echo esc_html__( 'Bundle & Save', 'latepoint' ); ?></div>
+						</div>
+						<?php if ( OsSettingsHelper::is_on( 'show_service_categories_count' ) && count( $bundles ) ) { ?>
+							<div class="os-item-child-count">
+								<span><?php echo count( $bundles ); ?></span> <?php esc_html_e( 'Bundles', 'latepoint' ); ?>
+							</div>
 						<?php } ?>
-                    </div>
-                </div>
-                <div class="os-bundles os-animated-parent os-items os-as-rows os-selectable-items">
+					</div>
+				</div>
+				<div class="os-bundles os-animated-parent os-items os-as-rows os-selectable-items">
 					<?php
 					foreach ( $bundles as $bundle ) { ?>
-                        <div class="os-animated-child os-item os-selectable-item <?php echo ( $bundle->charge_amount ) ? 'os-priced-item' : ''; ?> <?php if ( $bundle->short_description ) { echo 'with-description'; } ?>"
-                                tabindex="0"
-                                data-item-price="<?php echo esc_attr($bundle->charge_amount); ?>"
-                                data-priced-item-type="bundle"
-                                data-summary-field-name="bundle"
-                                data-summary-value="<?php echo esc_attr( $bundle->name ); ?>"
-                                data-item-id="<?php echo esc_attr($bundle->id); ?>"
-                                data-cart-item-item-data-key="bundle_id"
-                                data-os-call-func="latepoint_bundle_selected">
-                            <div class="os-service-selector os-item-i os-animated-self"
-                                 data-bundle-id="<?php echo esc_attr($bundle->id); ?>">
-                                <span class="os-item-img-w"><i class="latepoint-icon latepoint-icon-shopping-bag"></i></span>
-                                <span class="os-item-name-w">
-		                <span class="os-item-name"><?php echo esc_html($bundle->name); ?></span>
-		                <?php if ( $bundle->short_description ) { ?>
-                            <span class="os-item-desc"><?php echo wp_kses_post($bundle->short_description); ?></span>
-		                <?php } ?>
-		              </span>
+						<div class="os-animated-child os-item os-selectable-item <?php echo ( $bundle->charge_amount ) ? 'os-priced-item' : ''; ?> <?php if ( $bundle->short_description ) {
+							echo 'with-description'; } ?>"
+								tabindex="0"
+								data-item-price="<?php echo esc_attr( $bundle->charge_amount ); ?>"
+								data-priced-item-type="bundle"
+								data-summary-field-name="bundle"
+								data-summary-value="<?php echo esc_attr( $bundle->name ); ?>"
+								data-item-id="<?php echo esc_attr( $bundle->id ); ?>"
+								data-cart-item-item-data-key="bundle_id"
+								data-os-call-func="latepoint_bundle_selected">
+							<div class="os-service-selector os-item-i os-animated-self"
+								 data-bundle-id="<?php echo esc_attr( $bundle->id ); ?>">
+								<span class="os-item-img-w"><i class="latepoint-icon latepoint-icon-shopping-bag"></i></span>
+								<span class="os-item-name-w">
+						<span class="os-item-name"><?php echo esc_html( $bundle->name ); ?></span>
+						<?php if ( $bundle->short_description ) { ?>
+							<span class="os-item-desc"><?php echo wp_kses_post( $bundle->short_description ); ?></span>
+						<?php } ?>
+					  </span>
 
 							<?php if ( $bundle->charge_amount > 0 ) { ?>
-                                <span class="os-item-price-w">
-                  <span class="os-item-price">
-                    <?php echo esc_html(OsMoneyHelper::format_price($bundle->charge_amount)); ?>
-                  </span>
-                </span>
+								<span class="os-item-price-w">
+				  <span class="os-item-price">
+								<?php echo esc_html( OsMoneyHelper::format_price( $bundle->charge_amount ) ); ?>
+				  </span>
+				</span>
 							<?php } ?>
-                            </div>
-                        </div>
+							</div>
+						</div>
 						<?php
 					}
 					?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 		}
 	}
 
 	public static function generate_services_list( $services = false, $preselected_service = false ) {
 		if ( $services && is_array( $services ) && ! empty( $services ) ) { ?>
-            <div class="os-services os-animated-parent os-items os-as-rows os-selectable-items">
+			<div class="os-services os-animated-parent os-items os-as-rows os-selectable-items">
 				<?php foreach ( $services as $service ) {
 					// if service is preselected - only output that service, skip the rest
 					if ( $preselected_service && $service->id != $preselected_service->id ) {
@@ -707,53 +727,54 @@ class OsBookingHelper {
 					$service_durations = $service->get_all_durations_arr();
 					$is_priced         = ( ! ( count( $service_durations ) > 1 ) && $service->charge_amount ) ? true : false;
 					?>
-                    <div class="os-animated-child os-item os-selectable-item <?php echo ( $preselected_service && $service->id == $preselected_service->id ) ? 'selected is-preselected' : ''; ?> <?php echo ( $is_priced ) ? 'os-priced-item' : ''; ?> <?php if ( $service->short_description ) { echo 'with-description'; } ?>"
-                            tabindex="0"
-                            data-item-price="<?php echo esc_attr($service->charge_amount); ?>"
-                            data-priced-item-type="service"
-                            data-summary-field-name="service"
-                            data-summary-value="<?php echo esc_attr( $service->name ); ?>"
-                            data-item-id="<?php echo esc_attr($service->id); ?>"
-                            data-cart-item-item-data-key="service_id"
-                            data-os-call-func="latepoint_service_selected"
-                            data-id-holder=".latepoint_service_id">
-                        <div class="os-service-selector os-item-i os-animated-self" data-service-id="<?php echo esc_attr($service->id); ?>">
+					<div class="os-animated-child os-item os-selectable-item <?php echo ( $preselected_service && $service->id == $preselected_service->id ) ? 'selected is-preselected' : ''; ?> <?php echo ( $is_priced ) ? 'os-priced-item' : ''; ?> <?php if ( $service->short_description ) {
+						echo 'with-description'; } ?>"
+							tabindex="0"
+							data-item-price="<?php echo esc_attr( $service->charge_amount ); ?>"
+							data-priced-item-type="service"
+							data-summary-field-name="service"
+							data-summary-value="<?php echo esc_attr( $service->name ); ?>"
+							data-item-id="<?php echo esc_attr( $service->id ); ?>"
+							data-cart-item-item-data-key="service_id"
+							data-os-call-func="latepoint_service_selected"
+							data-id-holder=".latepoint_service_id">
+						<div class="os-service-selector os-item-i os-animated-self" data-service-id="<?php echo esc_attr( $service->id ); ?>">
 							<?php if ( $service->selection_image_id ) { ?>
-                                <span class="os-item-img-w" style="background-image: url(<?php echo esc_url($service->selection_image_url); ?>);"></span>
+								<span class="os-item-img-w" style="background-image: url(<?php echo esc_url( $service->selection_image_url ); ?>);"></span>
 							<?php } ?>
-                            <span class="os-item-name-w">
-                <span class="os-item-name"><?php echo esc_html($service->name); ?></span>
-                <?php if ( $service->short_description ) { ?>
-                    <span class="os-item-desc"><?php echo wp_kses_post($service->short_description); ?></span>
-                <?php } ?>
-              </span>
-							<?php if ( $service->price_min > 0 ) { ?>
-                                <span class="os-item-price-w">
-                  <span class="os-item-price">
-                    <?php
-                    /**
-                     * Filters the display price value shown on the service tile on a booking form
-                     *
-                     * @since 5.1.94
-                     * @hook latepoint_booking_form_display_service_price
-                     *
-                     * @param {string} $price displayed price that will be outputted
-                     * @param {OsServiceModel} $service Service that the price is displayed for
-                     *
-                     * @returns {string} Filtered displayed price
-                     */
-                    $display_price = apply_filters('latepoint_booking_form_display_service_price', $service->price_min_formatted, $service);
-                      echo esc_html($display_price) ?>
-                  </span>
-                  <?php if ( $service->price_min != $service->price_max ) { ?>
-                      <span class="os-item-price-label"><?php esc_html_e( 'Starts From', 'latepoint' ); ?></span>
-                  <?php } ?>
-                </span>
-							<?php } ?>
-                        </div>
-                    </div>
+							<span class="os-item-name-w">
+				<span class="os-item-name"><?php echo esc_html( $service->name ); ?></span>
+					<?php if ( $service->short_description ) { ?>
+					<span class="os-item-desc"><?php echo wp_kses_post( $service->short_description ); ?></span>
 				<?php } ?>
-            </div>
+			  </span>
+							<?php if ( $service->price_min > 0 ) { ?>
+								<span class="os-item-price-w">
+				  <span class="os-item-price">
+								<?php
+								/**
+								 * Filters the display price value shown on the service tile on a booking form
+								 *
+								 * @since 5.1.94
+								 * @hook latepoint_booking_form_display_service_price
+								 *
+								 * @param {string} $price displayed price that will be outputted
+								 * @param {OsServiceModel} $service Service that the price is displayed for
+								 *
+								 * @returns {string} Filtered displayed price
+								 */
+								$display_price = apply_filters( 'latepoint_booking_form_display_service_price', $service->price_min_formatted, $service );
+								echo esc_html( $display_price ) ?>
+				  </span>
+								<?php if ( $service->price_min != $service->price_max ) { ?>
+					  <span class="os-item-price-label"><?php esc_html_e( 'Starts From', 'latepoint' ); ?></span>
+				  <?php } ?>
+				</span>
+							<?php } ?>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
 		<?php }
 	}
 
@@ -782,14 +803,16 @@ class OsBookingHelper {
 					$service_categories->where( [ 'id' => $settings['preselected_category'] ] );
 				} else {
 					$service_categories->where_in( 'id', $settings['show_service_categories_arr'] );
-					$service_categories->where( [
-						'parent_id' => [
-							'OR' => [
-								'IS NULL',
-								' NOT IN' => $settings['show_service_categories_arr']
-							]
-						]
-					] );
+					$service_categories->where(
+						[
+							'parent_id' => [
+								'OR' => [
+									'IS NULL',
+									' NOT IN' => $settings['show_service_categories_arr'],
+								],
+							],
+						] 
+					);
 				}
 			}
 		} else {
@@ -803,7 +826,7 @@ class OsBookingHelper {
 
 		$main_parent_class = ( $parent_id ) ? 'os-animated-parent' : 'os-item-categories-main-parent os-animated-parent';
 		if ( ! $settings['preselected_category'] ) {
-			echo '<div class="os-item-categories-holder ' . esc_attr($main_parent_class) . '">';
+			echo '<div class="os-item-categories-holder ' . esc_attr( $main_parent_class ) . '">';
 		}
 
 		// generate services that have no category
@@ -845,28 +868,28 @@ class OsBookingHelper {
 						OsBookingHelper::generate_services_list( $services, false );
 						OsBookingHelper::generate_services_bundles_and_categories_list( $service_category->id, array_merge( $settings, [ 'preselected_category' => false ] ) );
 					} else { ?>
-                    <div class="os-item-category-w os-items os-as-rows os-animated-child"
-                         data-id="<?php echo esc_attr($service_category->id); ?>">
-                        <div class="os-item-category-info-w os-item os-animated-self with-plus">
-                            <div class="os-item-category-info os-item-i">
-                                <div class="os-item-img-w"
-                                     style="background-image: url(<?php echo esc_url($service_category->selection_image_url); ?>);"></div>
-                                <div class="os-item-name-w">
-                                    <div class="os-item-name"><?php echo esc_html($service_category->name); ?></div>
-                                    <?php if (!empty($service_category->short_description)) { ?>
-                                        <div class="os-item-desc"><?php echo $service_category->short_description; ?></div>
-                                    <?php } ?>
-                                </div>
-								<?php if (OsSettingsHelper::is_on('show_service_categories_count') && count( $services ) ) { ?>
-                                    <div class="os-item-child-count">
-                                        <span><?php echo count( $services ); ?></span> <?php esc_html_e( 'Services', 'latepoint' ); ?>
-                                    </div>
+					<div class="os-item-category-w os-items os-as-rows os-animated-child"
+						 data-id="<?php echo esc_attr( $service_category->id ); ?>">
+						<div class="os-item-category-info-w os-item os-animated-self with-plus">
+							<div class="os-item-category-info os-item-i">
+								<div class="os-item-img-w"
+									 style="background-image: url(<?php echo esc_url( $service_category->selection_image_url ); ?>);"></div>
+								<div class="os-item-name-w">
+									<div class="os-item-name"><?php echo esc_html( $service_category->name ); ?></div>
+									<?php if ( ! empty( $service_category->short_description ) ) { ?>
+										<div class="os-item-desc"><?php echo $service_category->short_description; ?></div>
+									<?php } ?>
+								</div>
+								<?php if ( OsSettingsHelper::is_on( 'show_service_categories_count' ) && count( $services ) ) { ?>
+									<div class="os-item-child-count">
+										<span><?php echo count( $services ); ?></span> <?php esc_html_e( 'Services', 'latepoint' ); ?>
+									</div>
 								<?php } ?>
-                            </div>
-                        </div>
+							</div>
+						</div>
 						<?php OsBookingHelper::generate_services_list( $services, false ); ?>
 						<?php OsBookingHelper::generate_services_bundles_and_categories_list( $service_category->id, array_merge( $settings, [ 'preselected_category' => false ] ) ); ?>
-                        </div><?php
+						</div><?php
 					}
 				}
 			}
@@ -880,8 +903,8 @@ class OsBookingHelper {
 	}
 
 	public static function group_booking_btn_html( $booking_id = false ) {
-		$html = 'data-os-params="' . esc_attr(http_build_query( [ 'booking_id' => $booking_id ] )) . '" 
-                  data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'bookings', 'grouped_bookings_quick_view' )) . '" 
+		$html = 'data-os-params="' . esc_attr( http_build_query( [ 'booking_id' => $booking_id ] ) ) . '" 
+                  data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'bookings', 'grouped_bookings_quick_view' ) ) . '" 
                   data-os-output-target="lightbox"
                   data-os-lightbox-classes="width-500"
                   data-os-after-call="latepoint_init_grouped_bookings_form"';
@@ -897,8 +920,8 @@ class OsBookingHelper {
 		$route = OsRouterHelper::build_route_name( 'orders', 'quick_edit' );
 
 		$params_str = http_build_query( $params );
-		$html       = 'data-os-params="' . esc_attr($params_str) . '" 
-    data-os-action="' . esc_attr($route) . '" 
+		$html       = 'data-os-params="' . esc_attr( $params_str ) . '" 
+    data-os-action="' . esc_attr( $route ) . '" 
     data-os-output-target="side-panel"
     data-os-after-call="latepoint_init_quick_order_form"';
 
@@ -1167,8 +1190,10 @@ class OsBookingHelper {
 	 */
 	public static function get_non_cancelled_booking_statuses(): array {
 		$statuses = self::get_statuses_list();
-        if(isset($statuses[LATEPOINT_BOOKING_STATUS_CANCELLED])) unset($statuses[LATEPOINT_BOOKING_STATUS_CANCELLED]);
-        $statuses = array_keys($statuses);
+		if ( isset( $statuses[ LATEPOINT_BOOKING_STATUS_CANCELLED ] ) ) {
+			unset( $statuses[ LATEPOINT_BOOKING_STATUS_CANCELLED ] );
+		}
+		$statuses = array_keys( $statuses );
 
 		/**
 		 * Get list of statuses that are not cancelled
@@ -1357,7 +1382,7 @@ class OsBookingHelper {
 				__( 'Thursday', 'latepoint' ),
 				__( 'Friday', 'latepoint' ),
 				__( 'Saturday', 'latepoint' ),
-				__( 'Sunday', 'latepoint' )
+				__( 'Sunday', 'latepoint' ),
 			);
 		} else {
 			$weekdays = array(
@@ -1367,7 +1392,7 @@ class OsBookingHelper {
 				__( 'Thu', 'latepoint' ),
 				__( 'Fri', 'latepoint' ),
 				__( 'Sat', 'latepoint' ),
-				__( 'Sun', 'latepoint' )
+				__( 'Sun', 'latepoint' ),
 			);
 		}
 
@@ -1395,7 +1420,7 @@ class OsBookingHelper {
 			'date_from'      => false,
 			'date_to'        => false,
 			'group_by'       => false,
-			'exclude_status' => false
+			'exclude_status' => false,
 		];
 		$args       = array_merge( $defaults, $args );
 		$bookings   = new OsBookingModel();
@@ -1456,10 +1481,12 @@ class OsBookingHelper {
 		// TODO make sure filter is respected
 		$customers = new OsCustomerModel();
 
-		return $customers->filter_allowed_records()->where( [
-			'created_at >=' => $date_from->format( 'Y-m-d' ),
-			'created_at <=' => $date_to->format( 'Y-m-d' )
-		] )->count();
+		return $customers->filter_allowed_records()->where(
+			[
+				'created_at >=' => $date_from->format( 'Y-m-d' ),
+				'created_at <=' => $date_to->format( 'Y-m-d' ),
+			] 
+		)->count();
 	}
 
 	public static function get_stat_for_period( $stat, $date_from, $date_to, \LatePoint\Misc\Filter $filter, $group_by = false ) {
@@ -1487,7 +1514,12 @@ class OsBookingHelper {
 		if ( $group_by ) {
 			$select_query .= ',' . $group_by;
 		}
-		$bookings->select( $select_query )->where( [ 'start_date >=' => $date_from, 'start_date <= ' => $date_to ] );
+		$bookings->select( $select_query )->where(
+			[
+				'start_date >='  => $date_from,
+				'start_date <= ' => $date_to,
+			] 
+		);
 
 		if ( $filter->service_id ) {
 			$bookings->where( [ 'service_id' => $filter->service_id ] );
@@ -1516,8 +1548,13 @@ class OsBookingHelper {
 	public static function get_total_bookings_per_day_for_period( $date_from, $date_to, \LatePoint\Misc\Filter $filter ) {
 		$bookings = new OsBookingModel();
 		$bookings->select( 'count(id) as bookings_per_day, start_date' )
-		         ->where( [ 'start_date >=' => $date_from, 'start_date <=' => $date_to ] )
-		         ->where( [ 'status NOT IN' => OsCalendarHelper::get_booking_statuses_hidden_from_calendar() ] );
+				->where(
+					[
+						'start_date >=' => $date_from,
+						'start_date <=' => $date_to,
+					] 
+				)
+				 ->where( [ 'status NOT IN' => OsCalendarHelper::get_booking_statuses_hidden_from_calendar() ] );
 		if ( $filter->service_id ) {
 			$bookings->where( [ 'service_id' => $filter->service_id ] );
 		}
@@ -1537,7 +1574,10 @@ class OsBookingHelper {
 		$select_string = 'MIN(start_time) as start_time, MAX(end_time) as end_time';
 		$work_periods  = new OsWorkPeriodModel();
 		$work_periods  = $work_periods->select( $select_string );
-		$query_args    = array( 'service_id' => 0, 'agent_id' => 0 );
+		$query_args    = array(
+			'service_id' => 0,
+			'agent_id'   => 0,
+		);
 		if ( $service_id ) {
 			$query_args['service_id'] = $service_id;
 		}
@@ -1632,59 +1672,59 @@ class OsBookingHelper {
 		if ( ! in_array( $for, [ 'agent', 'customer' ] ) ) {
 			return '';
 		}
-		$key = $booking->get_key_to_manage_for($for);
+		$key = $booking->get_key_to_manage_for( $for );
 		$url = OsRouterHelper::build_admin_post_link( [ 'manage_booking_by_key', 'show' ], [ 'key' => $key ] );
 
 		return $url;
 	}
 
-    public static function generate_summary_actions_for_booking(OsBookingModel $booking, ?string $key = null){
-        ?>
-        <div class="booking-full-summary-actions">
+	public static function generate_summary_actions_for_booking( OsBookingModel $booking, ?string $key = null ) {
+		?>
+		<div class="booking-full-summary-actions">
 		  <div class="add-to-calendar-wrapper">
-		    <a href="#" class="open-calendar-types booking-summary-action-btn"><i class="latepoint-icon latepoint-icon-calendar"></i><span><?php esc_html_e('Add to Calendar', 'latepoint'); ?></span></a>
-			  <?php echo OsBookingHelper::generate_add_to_calendar_links($booking, $key ?? $booking->get_key_to_manage_for('customer')); ?>
+			<a href="#" class="open-calendar-types booking-summary-action-btn"><i class="latepoint-icon latepoint-icon-calendar"></i><span><?php esc_html_e( 'Add to Calendar', 'latepoint' ); ?></span></a>
+			  <?php echo OsBookingHelper::generate_add_to_calendar_links( $booking, $key ?? $booking->get_key_to_manage_for( 'customer' ) ); ?>
 		  </div>
-	    <a href="<?php echo esc_url($booking->get_print_link($key ?? $booking->get_key_to_manage_for('customer'))); ?>" class="print-booking-btn booking-summary-action-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e('Print', 'latepoint'); ?></span></a>
-          <?php
-			if($booking->is_upcoming()){
-				if(OsCustomerHelper::can_reschedule_booking($booking)){ ?>
-					<a href="#" class="latepoint-request-booking-reschedule booking-summary-action-btn" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-450 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'request_reschedule_calendar')); ?>" data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')])); ?>" data-os-output-target="lightbox">
+		<a href="<?php echo esc_url( $booking->get_print_link( $key ?? $booking->get_key_to_manage_for( 'customer' ) ) ); ?>" class="print-booking-btn booking-summary-action-btn" target="_blank"><i class="latepoint-icon latepoint-icon-printer"></i><span><?php esc_html_e( 'Print', 'latepoint' ); ?></span></a>
+		  <?php
+			if ( $booking->is_upcoming() ) {
+				if ( OsCustomerHelper::can_reschedule_booking( $booking ) ) { ?>
+					<a href="#" class="latepoint-request-booking-reschedule booking-summary-action-btn" data-os-after-call="latepoint_init_reschedule" data-os-lightbox-classes="width-450 reschedule-calendar-wrapper" data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'manage_booking_by_key', 'request_reschedule_calendar' ) ); ?>" data-os-params="<?php echo esc_attr( OsUtilHelper::build_os_params( [ 'key' => $key ?? $booking->get_key_to_manage_for( 'customer' ) ] ) ); ?>" data-os-output-target="lightbox">
 						<i class="latepoint-icon latepoint-icon-calendar"></i>
-						<span><?php esc_html_e('Reschedule', 'latepoint'); ?></span>
+						<span><?php esc_html_e( 'Reschedule', 'latepoint' ); ?></span>
 					</a>
 					<?php
 				}
-				if(OsCustomerHelper::can_cancel_booking($booking)){ ?>
+				if ( OsCustomerHelper::can_cancel_booking( $booking ) ) { ?>
 					<a href="#" class="booking-summary-action-btn cancel-appointment-btn"
-					   data-os-prompt="<?php esc_attr_e('Are you sure you want to cancel this appointment?', 'latepoint'); ?>"
+					   data-os-prompt="<?php esc_attr_e( 'Are you sure you want to cancel this appointment?', 'latepoint' ); ?>"
 					   data-os-success-action="reload"
-					   data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('manage_booking_by_key', 'request_cancellation')); ?>"
-					   data-os-params="<?php echo esc_attr(OsUtilHelper::build_os_params(['key' => $key ?? $booking->get_key_to_manage_for('customer')], 'cancel_booking_' . $booking->id)); ?>">
+					   data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'manage_booking_by_key', 'request_cancellation' ) ); ?>"
+					   data-os-params="<?php echo esc_attr( OsUtilHelper::build_os_params( [ 'key' => $key ?? $booking->get_key_to_manage_for( 'customer' ) ], 'cancel_booking_' . $booking->id ) ); ?>">
 						<i class="latepoint-icon latepoint-icon-ui-24"></i>
-						<span><?php esc_html_e('Cancel', 'latepoint'); ?></span>
+						<span><?php esc_html_e( 'Cancel', 'latepoint' ); ?></span>
 					</a>
 					<?php
 				}
 			}
-            do_action('latepoint_booking_summary_after_booking_actions', $booking);
-            ?>
+			do_action( 'latepoint_booking_summary_after_booking_actions', $booking );
+			?>
 	  </div>
-        <?php
-    }
+		<?php
+	}
 
 	public static function generate_summary_for_booking( OsBookingModel $booking, $cart_item_id = false, ?string $viewer = 'customer' ): string {
-        $summary_html = '';
-        $summary_html.= apply_filters( 'latepoint_booking_summary_before_summary_box', '', $booking );
-		$summary_html.= '<div class="summary-box main-box" ' . ( ( $cart_item_id ) ? 'data-cart-item-id="' . $cart_item_id . '"' : '' ) . '>';
-        $output_timezone_name = $viewer == 'customer' ? $booking->get_customer_timezone_name() : OsTimeHelper::get_wp_timezone_name();
-        if(!empty($booking->start_datetime_utc)) {
-	        $summary_html .= '<div class="summary-box-booking-date-box">';
-	        $summary_html .= '<div class="summary-box-booking-date-day">' . $booking->start_datetime_in_format( 'j', $output_timezone_name ) . '</div>';
-	        $summary_html .= '<div class="summary-box-booking-date-month">' . OsUtilHelper::get_month_name_by_number( $booking->start_datetime_in_format( 'n', $output_timezone_name ), true ) . '</div>';
-            $summary_html .= '</div>';
-        }
-        $summary_html.= '<div class="summary-box-inner">';
+		$summary_html         = '';
+		$summary_html        .= apply_filters( 'latepoint_booking_summary_before_summary_box', '', $booking );
+		$summary_html        .= '<div class="summary-box main-box" ' . ( ( $cart_item_id ) ? 'data-cart-item-id="' . $cart_item_id . '"' : '' ) . '>';
+		$output_timezone_name = $viewer == 'customer' ? $booking->get_customer_timezone_name() : OsTimeHelper::get_wp_timezone_name();
+		if ( ! empty( $booking->start_datetime_utc ) ) {
+			$summary_html .= '<div class="summary-box-booking-date-box">';
+			$summary_html .= '<div class="summary-box-booking-date-day">' . $booking->start_datetime_in_format( 'j', $output_timezone_name ) . '</div>';
+			$summary_html .= '<div class="summary-box-booking-date-month">' . OsUtilHelper::get_month_name_by_number( $booking->start_datetime_in_format( 'n', $output_timezone_name ), true ) . '</div>';
+			$summary_html .= '</div>';
+		}
+		$summary_html    .= '<div class="summary-box-inner">';
 		$service_headings = [];
 		$service_headings = apply_filters( 'latepoint_booking_summary_service_headings', $service_headings, $booking );
 		if ( $service_headings ) {
@@ -1703,22 +1743,22 @@ class OsBookingHelper {
 		}
 		$summary_html .= '<div class="sbc-big-item">' . $booking->get_service_name_for_summary() . '</div>';
 		if ( $booking->start_date ) {
-            $summary_html .= '<div class="sbc-highlighted-item">' . $booking->get_nice_datetime_for_summary($viewer) . '</div>';
+			$summary_html .= '<div class="sbc-highlighted-item">' . $booking->get_nice_datetime_for_summary( $viewer ) . '</div>';
 		}
-        /**
-         * Output summary of the booking data after a start date and time
-         *
-         * @since 5.2.0
-         * @hook latepoint_summary_booking_info_after_start_date
-         *
-         * @param {string} $summary_html HTML of the summary
-         * @param {OsBookingModel} $booking Booking object that is being outputted
-         * @param {string} $cart_item_id ID of a cart item this booking belongs to
-         * @param {string} $viewer determines who is viewing this summary, can be customer or agent
-         *
-         * @returns {string} Filtered HTML
-         */
-        $summary_html = apply_filters('latepoint_summary_booking_info_after_start_date', $summary_html, $booking, $cart_item_id, $viewer);
+		/**
+		 * Output summary of the booking data after a start date and time
+		 *
+		 * @since 5.2.0
+		 * @hook latepoint_summary_booking_info_after_start_date
+		 *
+		 * @param {string} $summary_html HTML of the summary
+		 * @param {OsBookingModel} $booking Booking object that is being outputted
+		 * @param {string} $cart_item_id ID of a cart item this booking belongs to
+		 * @param {string} $viewer determines who is viewing this summary, can be customer or agent
+		 *
+		 * @returns {string} Filtered HTML
+		 */
+		$summary_html  = apply_filters( 'latepoint_summary_booking_info_after_start_date', $summary_html, $booking, $cart_item_id, $viewer );
 		$summary_html .= '</div>';
 
 		$service_attributes = [];
@@ -1733,7 +1773,7 @@ class OsBookingHelper {
 		$summary_html .= '</div>';
 		$summary_html .= apply_filters( 'latepoint_booking_summary_after_summary_box_inner', '', $booking );
 		$summary_html .= '</div>';
-        $summary_html.= apply_filters( 'latepoint_booking_summary_after_summary_box', '', $booking );
+		$summary_html .= apply_filters( 'latepoint_booking_summary_after_summary_box', '', $booking );
 
 		return $summary_html;
 	}
@@ -1803,6 +1843,4 @@ class OsBookingHelper {
 
 		return $booking;
 	}
-
-
 }

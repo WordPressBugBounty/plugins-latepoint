@@ -13,11 +13,11 @@ class OsAgentHelper {
 		if ( $agent_id ) {
 			$params['agent_id'] = $agent_id;
 		}
-		$route = OsRouterHelper::build_route_name( 'agents', !empty($agent_id) ? 'quick_edit' : 'quick_new' );
+		$route = OsRouterHelper::build_route_name( 'agents', ! empty( $agent_id ) ? 'quick_edit' : 'quick_new' );
 
 		$params_str = http_build_query( $params );
-		$html       = 'data-os-params="' . esc_attr($params_str) . '" 
-    data-os-action="' . esc_attr($route) . '" 
+		$html       = 'data-os-params="' . esc_attr( $params_str ) . '" 
+    data-os-action="' . esc_attr( $route ) . '" 
     data-os-output-target="side-panel"
     data-os-after-call="latepoint_init_quick_agent_form"';
 
@@ -66,9 +66,9 @@ class OsAgentHelper {
 
 
 	public static function create_default_agent() {
-		$agent_model             = new OsAgentModel();
+		$agent_model = new OsAgentModel();
 
-        $current_user = wp_get_current_user();
+		$current_user = wp_get_current_user();
 
 		$agent_model->first_name = $current_user->user_firstname ?? '';
 		$agent_model->last_name  = $current_user->user_lastname ?? '';
@@ -96,17 +96,17 @@ class OsAgentHelper {
 
 	public static function get_default_agent(): OsAgentModel {
 		$agent_model = new OsAgentModel();
-		$agent = $agent_model->should_be_active()->set_limit( 1 )->get_results_as_models();
+		$agent       = $agent_model->should_be_active()->set_limit( 1 )->get_results_as_models();
 		if ( $agent && $agent->id ) {
 			return $agent;
 		} else {
-            // no active agents found, try searching disabled agent
-            $disabled_agent = $agent_model->set_limit( 1 )->get_results_as_models();
+			// no active agents found, try searching disabled agent
+			$disabled_agent = $agent_model->set_limit( 1 )->get_results_as_models();
 			// create agent only if we truly haven't found anything unfiltered
 			if ( $disabled_agent && $disabled_agent->id ) {
-                return $disabled_agent;
+				return $disabled_agent;
 			} else {
-                return self::create_default_agent();
+				return self::create_default_agent();
 			}
 		}
 	}
@@ -120,80 +120,80 @@ class OsAgentHelper {
 
 	public static function generate_summary_for_agent( OsBookingModel $booking ): void {
 		if ( OsAgentHelper::count_agents() > 1 && OsSettingsHelper::is_off( 'steps_hide_agent_info' ) && $booking->agent_id && $booking->agent_id != LATEPOINT_ANY_AGENT ) { ?>
-            <div class="summary-box summary-box-agent-info">
-                <div class="summary-box-heading">
-                    <div class="sbh-item"><?php esc_html_e( 'Agent', 'latepoint' ) ?></div>
-                    <div class="sbh-line"></div>
-                </div>
-                <div class="summary-box-content with-media">
-                    <div class="os-avatar-w"
-                         style="background-image: url(<?php echo ( $booking->agent->avatar_image_id ) ? esc_url($booking->agent->get_avatar_url()) : ''; ?>)">
+			<div class="summary-box summary-box-agent-info">
+				<div class="summary-box-heading">
+					<div class="sbh-item"><?php esc_html_e( 'Agent', 'latepoint' ) ?></div>
+					<div class="sbh-line"></div>
+				</div>
+				<div class="summary-box-content with-media">
+					<div class="os-avatar-w"
+						 style="background-image: url(<?php echo ( $booking->agent->avatar_image_id ) ? esc_url( $booking->agent->get_avatar_url() ) : ''; ?>)">
 						<?php if ( ! $booking->agent->avatar_image_id ) {
-							echo '<div class="os-avatar"><span>' . esc_html($booking->agent->get_initials()) . '</span></div>';
+							echo '<div class="os-avatar"><span>' . esc_html( $booking->agent->get_initials() ) . '</span></div>';
 						} ?>
-                    </div>
-                    <div class="sbc-content-i">
-                        <div class="sbc-main-item"><?php echo esc_html($booking->agent->full_name); ?></div>
+					</div>
+					<div class="sbc-content-i">
+						<div class="sbc-main-item"><?php echo esc_html( $booking->agent->full_name ); ?></div>
 						<?php
 						if ( OsSettingsHelper::steps_show_agent_bio() ) {
-							echo '<div class="os-trigger-item-details-popup sbc-link-item" data-item-details-popup-id="osItemDetailsPopupAgent_' . esc_attr($booking->agent_id) . '">' . esc_html__( 'Learn More', 'latepoint' ) . '</div>';
+							echo '<div class="os-trigger-item-details-popup sbc-link-item" data-item-details-popup-id="osItemDetailsPopupAgent_' . esc_attr( $booking->agent_id ) . '">' . esc_html__( 'Learn More', 'latepoint' ) . '</div>';
 							echo OsAgentHelper::generate_bio( $booking->agent );
 						}
 						?>
-                    </div>
-                </div>
-            </div>
+					</div>
+				</div>
+			</div>
 			<?php
 		}
 	}
 
 	public static function generate_agents_list( array $agents ): void {
 		if ( ! empty( $agents ) ) { ?>
-            <div class="os-agents os-animated-parent os-items os-selectable-items os-as-grid os-three-columns">
+			<div class="os-agents os-animated-parent os-items os-selectable-items os-as-grid os-three-columns">
 				<?php $show_agent_bio = OsSettingsHelper::steps_show_agent_bio(); ?>
 				<?php if ( OsSettingsHelper::is_on( 'allow_any_agent' ) ) { ?>
-                    <div class="os-animated-child os-item os-selectable-item"
-                         data-summary-field-name="agent"
-                         data-summary-value="<?php esc_attr_e( 'Any Agent', 'latepoint' ); ?>"
-                         data-id-holder=".latepoint_agent_id"
-                         data-cart-item-item-data-key="agent_id"
-                         data-item-id="<?php echo esc_attr(LATEPOINT_ANY_AGENT); ?>">
-                        <div class="os-animated-self os-item-i">
-                            <div class="os-item-img-w os-with-avatar">
-                                <div class="os-avatar"
-                                     style="background-image: url(<?php echo esc_url(LATEPOINT_IMAGES_URL . 'default-avatar.jpg'); ?>);"></div>
-                            </div>
-                            <div class="os-item-name-w">
-                                <div class="os-item-name"><?php esc_html_e( 'Any Agent', 'latepoint' ); ?></div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="os-animated-child os-item os-selectable-item"
+						 data-summary-field-name="agent"
+						 data-summary-value="<?php esc_attr_e( 'Any Agent', 'latepoint' ); ?>"
+						 data-id-holder=".latepoint_agent_id"
+						 data-cart-item-item-data-key="agent_id"
+						 data-item-id="<?php echo esc_attr( LATEPOINT_ANY_AGENT ); ?>">
+						<div class="os-animated-self os-item-i">
+							<div class="os-item-img-w os-with-avatar">
+								<div class="os-avatar"
+									 style="background-image: url(<?php echo esc_url( LATEPOINT_IMAGES_URL . 'default-avatar.jpg' ); ?>);"></div>
+							</div>
+							<div class="os-item-name-w">
+								<div class="os-item-name"><?php esc_html_e( 'Any Agent', 'latepoint' ); ?></div>
+							</div>
+						</div>
+					</div>
 				<?php } ?>
 				<?php foreach ( $agents as $agent ) { ?>
-                    <div class="os-animated-child os-item os-selectable-item <?php echo $show_agent_bio ? 'with-details' : ''; ?>"
-                         tabindex="0"
-                         data-summary-field-name="agent"
-                         data-summary-value="<?php echo esc_attr( $agent->name_for_front ); ?>"
-                         data-id-holder=".latepoint_agent_id"
-                         data-cart-item-item-data-key="agent_id"
-                         data-item-id="<?php echo esc_attr($agent->id); ?>">
-                        <div class="os-animated-self os-item-i">
-                            <div class="os-item-img-w os-with-avatar">
-                                <div class="os-avatar"
-                                     style="background-image: url(<?php echo esc_url($agent->avatar_url); ?>);"></div>
-                            </div>
-                            <div class="os-item-name-w">
-                                <div class="os-item-name"><?php echo esc_html($agent->name_for_front); ?></div>
-                            </div>
+					<div class="os-animated-child os-item os-selectable-item <?php echo $show_agent_bio ? 'with-details' : ''; ?>"
+						 tabindex="0"
+						 data-summary-field-name="agent"
+						 data-summary-value="<?php echo esc_attr( $agent->name_for_front ); ?>"
+						 data-id-holder=".latepoint_agent_id"
+						 data-cart-item-item-data-key="agent_id"
+						 data-item-id="<?php echo esc_attr( $agent->id ); ?>">
+						<div class="os-animated-self os-item-i">
+							<div class="os-item-img-w os-with-avatar">
+								<div class="os-avatar"
+									 style="background-image: url(<?php echo esc_url( $agent->avatar_url ); ?>);"></div>
+							</div>
+							<div class="os-item-name-w">
+								<div class="os-item-name"><?php echo esc_html( $agent->name_for_front ); ?></div>
+							</div>
 							<?php if ( $show_agent_bio ) { ?>
-                                <div class="os-item-details-popup-btn os-trigger-item-details-popup"
-                                     data-item-details-popup-id="osItemDetailsPopupAgent_<?php echo esc_attr($agent->id); ?>">
-                                    <span><?php esc_html_e( 'Learn More', 'latepoint' ); ?></span></div>
+								<div class="os-item-details-popup-btn os-trigger-item-details-popup"
+									 data-item-details-popup-id="osItemDetailsPopupAgent_<?php echo esc_attr( $agent->id ); ?>">
+									<span><?php esc_html_e( 'Learn More', 'latepoint' ); ?></span></div>
 							<?php } ?>
-                        </div>
-                    </div>
+						</div>
+					</div>
 				<?php } ?>
-            </div>
+			</div>
 			<?php
 			if ( $show_agent_bio ) {
 				foreach ( $agents as $agent ) {
@@ -235,9 +235,9 @@ class OsAgentHelper {
 	public static function generate_day_schedule_info( $filter ) {
 		$today_date  = new OsWpDateTime( 'today' );
 		$target_date = new OsWpDateTime( $filter->date_from ); ?>
-        <div class="agent-schedule-info">
-            <div class="agent-today-info">
-				<?php echo ( $target_date->format( 'Y-m-d' ) == $today_date->format( 'Y-m-d' ) ) ? esc_html__( 'Today', 'latepoint' ) : esc_html($target_date->format( OsSettingsHelper::get_readable_date_format() )); ?>
+		<div class="agent-schedule-info">
+			<div class="agent-today-info">
+				<?php echo ( $target_date->format( 'Y-m-d' ) == $today_date->format( 'Y-m-d' ) ) ? esc_html__( 'Today', 'latepoint' ) : esc_html( $target_date->format( OsSettingsHelper::get_readable_date_format() ) ); ?>
 				<?php
 
 				$booking_request             = new \LatePoint\Misc\BookingRequest();
@@ -269,22 +269,22 @@ class OsAgentHelper {
 
 				$is_working_today = ! empty( $day_work_periods );
 				?>
-                <span class="today-status <?php echo ( $is_working_today ) ? 'is-on-duty' : 'is-off-duty'; ?>"><?php echo ( $is_working_today ) ? esc_html__( 'On Duty', 'latepoint' ) : esc_html__( 'Off Duty', 'latepoint' ); ?></span>
-                <div class="today-schedule">
+				<span class="today-status <?php echo ( $is_working_today ) ? 'is-on-duty' : 'is-off-duty'; ?>"><?php echo ( $is_working_today ) ? esc_html__( 'On Duty', 'latepoint' ) : esc_html__( 'Off Duty', 'latepoint' ); ?></span>
+				<div class="today-schedule">
 					<?php if ( $is_working_today ) { ?>
 						<?php foreach ( $day_work_periods as $period ) {
-							echo '<span>' . esc_html(OsTimeHelper::minutes_to_hours_and_minutes( $period->start_time ) . ' - ' . OsTimeHelper::minutes_to_hours_and_minutes( $period->end_time )) . '</span>';
+							echo '<span>' . esc_html( OsTimeHelper::minutes_to_hours_and_minutes( $period->start_time ) . ' - ' . OsTimeHelper::minutes_to_hours_and_minutes( $period->end_time ) ) . '</span>';
 						} ?>
 					<?php } else {
 						esc_html_e( 'Not Available', 'latepoint' );
 					} ?>
-                </div>
-            </div>
-            <div class="today-bookings">
+				</div>
+			</div>
+			<div class="today-bookings">
 				<?php esc_html_e( 'Bookings', 'latepoint' ); ?>
-                <div class="today-bookings-count"><?php echo esc_html(OsBookingHelper::count_bookings( $filter )); ?></div>
-            </div>
-        </div>
+				<div class="today-bookings-count"><?php echo esc_html( OsBookingHelper::count_bookings( $filter ) ); ?></div>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -294,10 +294,13 @@ class OsAgentHelper {
 
 
 	public static function get_agent_ids_for_service_and_location( $service_id = false, $location_id = false ): array {
-		$all_agent_ids    = OsConnectorHelper::get_connected_object_ids( 'agent_id', [
-			'service_id'  => $service_id,
-			'location_id' => $location_id
-		] );
+		$all_agent_ids    = OsConnectorHelper::get_connected_object_ids(
+			'agent_id',
+			[
+				'service_id'  => $service_id,
+				'location_id' => $location_id,
+			] 
+		);
 		$agents           = new OsAgentModel();
 		$active_agent_ids = $agents->select( 'id' )->should_be_active()->get_results( ARRAY_A );
 		if ( $active_agent_ids ) {
@@ -323,20 +326,23 @@ class OsAgentHelper {
 			$agents->filter_allowed_records();
 		}
 
-        if (!empty($agent_ids)) {
-        	$agents->where_in( 'id', $agent_ids );
-        }
+		if ( ! empty( $agent_ids ) ) {
+			$agents->where_in( 'id', $agent_ids );
+		}
 
-        if($exclude_disabled){
-            $agents->where(['status' => LATEPOINT_AGENT_STATUS_ACTIVE]);
-        }
+		if ( $exclude_disabled ) {
+			$agents->where( [ 'status' => LATEPOINT_AGENT_STATUS_ACTIVE ] );
+		}
 
-		$agents      = $agents->order_by('status asc, first_name asc, last_name asc')->get_results_as_models();
+		$agents      = $agents->order_by( 'status asc, first_name asc, last_name asc' )->get_results_as_models();
 		$agents_list = [];
 		if ( $agents ) {
 			foreach ( $agents as $agent ) {
-                $label = ($agent->status == LATEPOINT_LOCATION_STATUS_DISABLED) ? ($agent->full_name.' ['.esc_html__('Disabled', 'latepoint').']') : $agent->full_name;
-				$agents_list[] = [ 'value' => $agent->id, 'label' => $label ];
+				$label         = ( $agent->status == LATEPOINT_LOCATION_STATUS_DISABLED ) ? ( $agent->full_name . ' [' . esc_html__( 'Disabled', 'latepoint' ) . ']' ) : $agent->full_name;
+				$agents_list[] = [
+					'value' => $agent->id,
+					'label' => $label,
+				];
 			}
 		}
 

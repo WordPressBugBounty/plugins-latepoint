@@ -6,39 +6,39 @@
 
 class OsCalendarHelper {
 
-    public static function generate_dates_and_times_picker(OsBookingModel $booking, OsWpDateTime $target_date, $auto_search = false, array $calendar_settings = []) : string{
-        $is_recurring_supported = apply_filters('latepoint_is_feature_recurring_bookings_on', false);
-        $can_service_be_recurring = $is_recurring_supported && ($booking->service->get_meta_by_key('allow_recurring_bookings') == 'on');
-        ob_start(); ?>
-        <div class="os-dates-and-times-w <?php echo $auto_search ? 'auto-search is-searching' : '' ; ?> calendar-style-<?php echo OsStepsHelper::get_calendar_style(); ?>" data-route="<?php echo esc_attr(OsRouterHelper::build_route_name('steps', 'load_datepicker_month')); ?>" data-allow-recurring="<?php echo $can_service_be_recurring ? 'yes' : 'no'; ?>">
-            <div class="os-dates-w" data-time-pick-style="<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
-                <?php if($auto_search){ ?>
-                    <div class="os-calendar-searching-info"><?php echo sprintf(esc_html__( 'Searching %s for available dates', 'latepoint' ), '<span></span>'); ?></div>
-                <?php } ?>
-                <div class="os-calendar-while-searching-wrapper">
-                    <?php OsCalendarHelper::generate_calendar_for_datepicker_step( \LatePoint\Misc\BookingRequest::create_from_booking_model( $booking ), $target_date, $calendar_settings ); ?>
-                </div>
-            </div>
+	public static function generate_dates_and_times_picker( OsBookingModel $booking, OsWpDateTime $target_date, $auto_search = false, array $calendar_settings = [] ): string {
+		$is_recurring_supported   = apply_filters( 'latepoint_is_feature_recurring_bookings_on', false );
+		$can_service_be_recurring = $is_recurring_supported && ( $booking->service->get_meta_by_key( 'allow_recurring_bookings' ) == 'on' );
+		ob_start(); ?>
+		<div class="os-dates-and-times-w <?php echo $auto_search ? 'auto-search is-searching' : ''; ?> calendar-style-<?php echo OsStepsHelper::get_calendar_style(); ?>" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'steps', 'load_datepicker_month' ) ); ?>" data-allow-recurring="<?php echo $can_service_be_recurring ? 'yes' : 'no'; ?>">
+			<div class="os-dates-w" data-time-pick-style="<?php echo esc_attr( OsStepsHelper::get_time_pick_style() ); ?>">
+				<?php if ( $auto_search ) { ?>
+					<div class="os-calendar-searching-info"><?php echo sprintf( esc_html__( 'Searching %s for available dates', 'latepoint' ), '<span></span>' ); ?></div>
+				<?php } ?>
+				<div class="os-calendar-while-searching-wrapper">
+					<?php OsCalendarHelper::generate_calendar_for_datepicker_step( \LatePoint\Misc\BookingRequest::create_from_booking_model( $booking ), $target_date, $calendar_settings ); ?>
+				</div>
+			</div>
 
-            <div class="time-selector-w <?php echo OsStepsHelper::hide_unavailable_slots() ? 'hide-not-available-slots' : ''; ?> <?php echo 'time-system-' . esc_attr(OsTimeHelper::get_time_system()); ?> <?php echo ( OsSettingsHelper::is_on( 'show_booking_end_time' ) ) ? 'with-end-time' : 'without-end-time'; ?> style-<?php echo esc_attr(OsStepsHelper::get_time_pick_style()); ?>">
-                <div class="times-header">
-                    <div class="th-line"></div>
-                    <div class="times-header-label">
-                        <?php esc_html_e( 'Pick a slot for', 'latepoint' ); ?> <span></span>
-                        <?php do_action( 'latepoint_step_datepicker_appointment_time_header_label', $booking, $calendar_settings ); ?>
-                    </div>
-                    <div class="th-line"></div>
-                </div>
-                <div class="os-times-w">
-                    <div class="timeslots"></div>
-                </div>
-            </div>
-            <?php do_action( 'latepoint_dates_and_times_picker_after', $booking, $target_date, $calendar_settings ); ?>
-        </div>
-        <?php
-        $html = ob_get_clean();
-        return $html;
-    }
+			<div class="time-selector-w <?php echo OsStepsHelper::hide_unavailable_slots() ? 'hide-not-available-slots' : ''; ?> <?php echo 'time-system-' . esc_attr( OsTimeHelper::get_time_system() ); ?> <?php echo ( OsSettingsHelper::is_on( 'show_booking_end_time' ) ) ? 'with-end-time' : 'without-end-time'; ?> style-<?php echo esc_attr( OsStepsHelper::get_time_pick_style() ); ?>">
+				<div class="times-header">
+					<div class="th-line"></div>
+					<div class="times-header-label">
+						<?php esc_html_e( 'Pick a slot for', 'latepoint' ); ?> <span></span>
+						<?php do_action( 'latepoint_step_datepicker_appointment_time_header_label', $booking, $calendar_settings ); ?>
+					</div>
+					<div class="th-line"></div>
+				</div>
+				<div class="os-times-w">
+					<div class="timeslots"></div>
+				</div>
+			</div>
+			<?php do_action( 'latepoint_dates_and_times_picker_after', $booking, $target_date, $calendar_settings ); ?>
+		</div>
+		<?php
+		$html = ob_get_clean();
+		return $html;
+	}
 
 	/**
 	 * Get list of statuses which should not appear on calendar
@@ -123,13 +123,13 @@ class OsCalendarHelper {
 	 */
 	public static function generate_calendar_for_datepicker_step( \LatePoint\Misc\BookingRequest $booking_request, DateTime $target_date, array $settings = [] ) {
 		$defaults = [
-			'exclude_booking_ids'         => [],
-			'number_of_months_to_preload' => 1,
-			'timezone_name'               => false,
-			'layout'                      => 'classic',
-			'highlight_target_date'       => false,
-			'consider_cart_items'         => false,
-            'output_target_date_in_header' => false
+			'exclude_booking_ids'          => [],
+			'number_of_months_to_preload'  => 1,
+			'timezone_name'                => false,
+			'layout'                       => 'classic',
+			'highlight_target_date'        => false,
+			'consider_cart_items'          => false,
+			'output_target_date_in_header' => false,
 		];
 
 		$settings = OsUtilHelper::merge_default_atts( $defaults, $settings );
@@ -139,59 +139,59 @@ class OsCalendarHelper {
 
 
 		?>
-        <div class="os-current-month-label-w calendar-mobile-controls">
-            <div class="os-current-month-label">
-                <div class="current-month">
+		<div class="os-current-month-label-w calendar-mobile-controls">
+			<div class="os-current-month-label">
+				<div class="current-month">
 					<?php if ( $settings['highlight_target_date'] && $settings['output_target_date_in_header'] ) {
 						echo esc_html( OsTimeHelper::get_nice_date_with_optional_year( $target_date->format( 'Y-m-d' ), false ) );
 					} else {
 						echo esc_html( OsUtilHelper::get_month_name_by_number( $target_date->format( 'n' ) ) );
 					} ?>
-                </div>
-                <div class="current-year"><?php echo esc_html( $target_date->format( 'Y' ) ); ?></div>
-            </div>
-            <div class="os-month-control-buttons-w">
-                <button type="button" class="os-month-prev-btn" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'steps', 'load_datepicker_month' ) ); ?>">
-                    <i class="latepoint-icon latepoint-icon-arrow-left"></i></button>
+				</div>
+				<div class="current-year"><?php echo esc_html( $target_date->format( 'Y' ) ); ?></div>
+			</div>
+			<div class="os-month-control-buttons-w">
+				<button type="button" class="os-month-prev-btn" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'steps', 'load_datepicker_month' ) ); ?>">
+					<i class="latepoint-icon latepoint-icon-arrow-left"></i></button>
 				<?php if ( $settings['layout'] == 'horizontal' ) {
 					echo '<button class="latepoint-btn latepoint-btn-outline os-month-today-btn" data-year="' . esc_attr( $today_date->format( 'Y' ) ) . '" data-month="' . esc_attr( $today_date->format( 'n' ) ) . '" data-date="' . esc_attr( $today_date->format( 'Y-m-d' ) ) . '">' . esc_html__( 'Today', 'latepoint' ) . '</button>';
 				} ?>
-                <button type="button" class="os-month-next-btn" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'steps', 'load_datepicker_month' ) ); ?>">
-                    <i class="latepoint-icon latepoint-icon-arrow-right"></i></button>
-            </div>
-        </div>
+				<button type="button" class="os-month-next-btn" data-route="<?php echo esc_attr( OsRouterHelper::build_route_name( 'steps', 'load_datepicker_month' ) ); ?>">
+					<i class="latepoint-icon latepoint-icon-arrow-right"></i></button>
+			</div>
+		</div>
 		<?php if ( $settings['layout'] == 'classic' ) { ?>
-            <div class="os-weekdays">
+			<div class="os-weekdays">
 				<?php
 				$start_of_week = OsSettingsHelper::get_start_of_week();
 
 				// Output the divs for each weekday
-				for ( $i = $start_of_week - 1; $i < $start_of_week - 1 + 7; $i ++ ) {
+				for ( $i = $start_of_week - 1; $i < $start_of_week - 1 + 7; $i++ ) {
 					// Calculate the index within the range of 0-6
 					$index = $i % 7;
 
 					// Output the div for the current weekday
-					echo '<div class="weekday weekday-' . esc_attr( $index + 1 ) . '">' . esc_html( OsUtilHelper::get_first_chars($weekdays[ $index ], 1) ) . '</div>';
+					echo '<div class="weekday weekday-' . esc_attr( $index + 1 ) . '">' . esc_html( OsUtilHelper::get_first_chars( $weekdays[ $index ], 1 ) ) . '</div>';
 				}
 				?>
-            </div>
+			</div>
 		<?php } ?>
-        <div class="os-months">
+		<div class="os-months">
 		<?php
 		$month_settings = [
 			'active'                => true,
 			'timezone_name'         => $settings['timezone_name'],
 			'highlight_target_date' => $settings['highlight_target_date'],
 			'exclude_booking_ids'   => $settings['exclude_booking_ids'],
-			'consider_cart_items'   => $settings['consider_cart_items']
+			'consider_cart_items'   => $settings['consider_cart_items'],
 		];
 
 		// if it's not from admin - blackout dates that are not available to select due to date restrictions in settings
-        $month_settings['earliest_possible_booking'] = OsSettingsHelper::get_earliest_possible_booking_restriction($booking_request->service_id);
-        $month_settings['latest_possible_booking']   = OsSettingsHelper::get_latest_possible_booking_restriction($booking_request->service_id);
+		$month_settings['earliest_possible_booking'] = OsSettingsHelper::get_earliest_possible_booking_restriction( $booking_request->service_id );
+		$month_settings['latest_possible_booking']   = OsSettingsHelper::get_latest_possible_booking_restriction( $booking_request->service_id );
 
 		OsCalendarHelper::generate_single_month( $booking_request, $target_date, $month_settings );
-		for ( $i = 1; $i <= $settings['number_of_months_to_preload']; $i ++ ) {
+		for ( $i = 1; $i <= $settings['number_of_months_to_preload']; $i++ ) {
 			$next_month_target_date = clone $target_date;
 			$next_month_target_date->modify( 'first day of next month' );
 			$month_settings['active']                = false;
@@ -199,19 +199,19 @@ class OsCalendarHelper {
 			OsCalendarHelper::generate_single_month( $booking_request, $next_month_target_date, $month_settings );
 		}
 		?>
-        </div><?php
-        /**
-         * Fired after a datepicker calendar months are generated
-         *
-         * @param {BookingRequest} $booking_request instance of a booking request
-         * @param {DateTime} $target_date target date that is being loaded
-         * @param {array} $settings array of settings for the calendar
-         *
-         * @since 5.1.7
-         * @hook latepoint_after_datepicker_months
-         *
-         */
-        do_action('latepoint_after_datepicker_months', $booking_request, $target_date, $settings);
+		</div><?php
+		/**
+		 * Fired after a datepicker calendar months are generated
+		 *
+		 * @param {BookingRequest} $booking_request instance of a booking request
+		 * @param {DateTime} $target_date target date that is being loaded
+		 * @param {array} $settings array of settings for the calendar
+		 *
+		 * @since 5.1.7
+		 * @hook latepoint_after_datepicker_months
+		 *
+		 */
+		do_action( 'latepoint_after_datepicker_months', $booking_request, $target_date, $settings );
 	}
 
 	public static function generate_single_month( \LatePoint\Misc\BookingRequest $booking_request, DateTime $target_date, array $settings = [] ) {
@@ -225,7 +225,7 @@ class OsCalendarHelper {
 			'latest_possible_booking'      => false,
 			'exclude_booking_ids'          => [],
 			'consider_cart_items'          => false,
-			'hide_slot_availability_count' => OsStepsHelper::hide_slot_availability_count()
+			'hide_slot_availability_count' => OsStepsHelper::hide_slot_availability_count(),
 		];
 		$settings = OsUtilHelper::merge_default_atts( $defaults, $settings );
 
@@ -263,33 +263,33 @@ class OsCalendarHelper {
 
 			if ( $weekday_for_first_day_of_month != $week_starts_on ) {
 				$days_to_subtract = ( $weekday_for_first_day_of_month - $week_starts_on + 7 ) % 7;
-				if($days_to_subtract > 0){
-                    $calendar_start->modify( '-' . $days_to_subtract . ' days' );
+				if ( $days_to_subtract > 0 ) {
+					$calendar_start->modify( '-' . $days_to_subtract . ' days' );
 				}
 			}
 
 			if ( $weekday_for_last_day_of_month != $week_ends_on ) {
 				$days_to_add = ( $weekday_for_last_day_of_month > $week_ends_on ) ? abs( 7 - $weekday_for_last_day_of_month + $week_ends_on ) : ( $week_ends_on - $weekday_for_last_day_of_month );
-                if($days_to_add > 0){
-                    $calendar_end->modify( '+' . $days_to_add . ' days' );
-                }
+				if ( $days_to_add > 0 ) {
+					$calendar_end->modify( '+' . $days_to_add . ' days' );
+				}
 			}
 		}
 
 		$now_datetime = OsTimeHelper::now_datetime_object();
 
 		// figure out when the earliest and latest bookings can be placed
-        try{
-            $earliest_possible_booking = ( $settings['earliest_possible_booking'] ) ? new OsWpDateTime( $settings['earliest_possible_booking'] ) : clone $now_datetime;
-            $latest_possible_booking   = ( $settings['latest_possible_booking'] ) ? new OsWpDateTime( $settings['latest_possible_booking'] ) : clone $calendar_end;
-        }catch(Exception $e){
+		try {
+			$earliest_possible_booking = ( $settings['earliest_possible_booking'] ) ? new OsWpDateTime( $settings['earliest_possible_booking'] ) : clone $now_datetime;
+			$latest_possible_booking   = ( $settings['latest_possible_booking'] ) ? new OsWpDateTime( $settings['latest_possible_booking'] ) : clone $calendar_end;
+		} catch ( Exception $e ) {
 
-        }
+		}
 		// make sure they are set correctly
-		if ( empty($earliest_possible_booking) ) {
+		if ( empty( $earliest_possible_booking ) ) {
 			$earliest_possible_booking = clone $now_datetime;
 		}
-		if ( empty($latest_possible_booking) ) {
+		if ( empty( $latest_possible_booking ) ) {
 			$latest_possible_booking = clone $calendar_end;
 		}
 
@@ -298,14 +298,19 @@ class OsCalendarHelper {
 
 		// make sure date range is within the requested calendar range
 		if ( ( $date_range_start->format( 'Y-m-d' ) >= $calendar_start->format( 'Y-m-d' ) )
-		     && ( $date_range_end->format( 'Y-m-d' ) <= $calendar_end->format( 'Y-m-d' ) )
-		     && ( $date_range_start->format( 'Y-m-d' ) <= $date_range_end->format( 'Y-m-d' ) ) ) {
-			$daily_resources = OsResourceHelper::get_resources_grouped_by_day( $booking_request, $date_range_start, $date_range_end, [
-				'accessed_from_backend' => $settings['accessed_from_backend'],
-				'exclude_booking_ids'   => $settings['exclude_booking_ids'],
-				'consider_cart_items'   => $settings['consider_cart_items'],
-                'timezone_name' => $settings['timezone_name'],
-			] );
+			 && ( $date_range_end->format( 'Y-m-d' ) <= $calendar_end->format( 'Y-m-d' ) )
+			 && ( $date_range_start->format( 'Y-m-d' ) <= $date_range_end->format( 'Y-m-d' ) ) ) {
+			$daily_resources = OsResourceHelper::get_resources_grouped_by_day(
+				$booking_request,
+				$date_range_start,
+				$date_range_end,
+				[
+					'accessed_from_backend' => $settings['accessed_from_backend'],
+					'exclude_booking_ids'   => $settings['exclude_booking_ids'],
+					'consider_cart_items'   => $settings['consider_cart_items'],
+					'timezone_name'         => $settings['timezone_name'],
+				] 
+			);
 		} else {
 			$daily_resources = [];
 		}
@@ -313,7 +318,7 @@ class OsCalendarHelper {
 		$active_class           = $settings['active'] ? 'active' : '';
 		$hide_single_slot_class = OsStepsHelper::hide_timepicker_when_one_slot_available() ? 'hide-if-single-slot' : '';
 		echo '<div class="os-monthly-calendar-days-w ' . esc_attr( $hide_single_slot_class . ' ' . $active_class ) . '" data-calendar-layout="' . esc_attr( $settings['layout'] ) . '" data-calendar-year="' . esc_attr( $target_date->format( 'Y' ) ) . '" data-calendar-month="' . esc_attr( $target_date->format( 'n' ) ) . '" data-calendar-month-label="' . esc_attr( OsUtilHelper::get_month_name_by_number( $target_date->format( 'n' ) ) ) . '">';
-        echo '<div class="os-monthly-calendar-days">';
+		echo '<div class="os-monthly-calendar-days">';
 		// DAYS LOOP START
 		for ( $day_date = clone $calendar_start; $day_date <= $calendar_end; $day_date->modify( '+1 day' ) ) {
 			if ( ! isset( $daily_resources[ $day_date->format( 'Y-m-d' ) ] ) ) {
@@ -336,17 +341,17 @@ class OsCalendarHelper {
 
 			$work_minutes = [];
 
-            if($settings['accessed_from_backend'] || !$not_in_allowed_period ){
-                // only do this if is in allowed period or accessed from backend
-                foreach ( $daily_resources[ $day_date->format( 'Y-m-d' ) ] as $resource ) {
-                    if ( $is_day_in_past && $not_in_allowed_period ) {
-                        continue;
-                    }
-                    $work_minutes = array_merge( $work_minutes, $resource->work_minutes );
-                }
-                $work_minutes = array_unique( $work_minutes, SORT_NUMERIC );
-                sort( $work_minutes, SORT_NUMERIC );
-            }
+			if ( $settings['accessed_from_backend'] || ! $not_in_allowed_period ) {
+				// only do this if is in allowed period or accessed from backend
+				foreach ( $daily_resources[ $day_date->format( 'Y-m-d' ) ] as $resource ) {
+					if ( $is_day_in_past && $not_in_allowed_period ) {
+						continue;
+					}
+					$work_minutes = array_merge( $work_minutes, $resource->work_minutes );
+				}
+				$work_minutes = array_unique( $work_minutes, SORT_NUMERIC );
+				sort( $work_minutes, SORT_NUMERIC );
+			}
 
 
 
@@ -356,15 +361,15 @@ class OsCalendarHelper {
 			$booking_slots = OsResourceHelper::get_ordered_booking_slots_from_resources( $daily_resources[ $day_date->format( 'Y-m-d' ) ] );
 
 			$bookable_minutes = [];
-            if($settings['accessed_from_backend'] || !$not_in_allowed_period ) {
-	            // only do this if is in allowed period or accessed from backend
-	            foreach ( $booking_slots as $booking_slot ) {
-		            if ( $booking_slot->can_accomodate( $booking_request->total_attendees ) ) {
-			            $bookable_minutes[ $booking_slot->start_time ] = isset( $bookable_minutes[ $booking_slot->start_time ] ) ? max( $booking_slot->available_capacity(), $bookable_minutes[ $booking_slot->start_time ] ) : $booking_slot->available_capacity();
-		            }
-	            }
-	            ksort( $bookable_minutes );
-            }
+			if ( $settings['accessed_from_backend'] || ! $not_in_allowed_period ) {
+				// only do this if is in allowed period or accessed from backend
+				foreach ( $booking_slots as $booking_slot ) {
+					if ( $booking_slot->can_accomodate( $booking_request->total_attendees ) ) {
+						$bookable_minutes[ $booking_slot->start_time ] = isset( $bookable_minutes[ $booking_slot->start_time ] ) ? max( $booking_slot->available_capacity(), $bookable_minutes[ $booking_slot->start_time ] ) : $booking_slot->available_capacity();
+					}
+				}
+				ksort( $bookable_minutes );
+			}
 			$bookable_minutes_with_capacity_data = '';
 			// this is a group service
 			if ( $service->is_group_service() && ! $settings['hide_slot_availability_count'] ) {
@@ -382,18 +387,18 @@ class OsCalendarHelper {
 			$bookable_slots_count = count( $bookable_minutes );
 			// TODO use work minutes instead to calculate minimum gap
 			$minimum_slot_gap = \LatePoint\Misc\BookingSlot::find_minimum_gap_between_slots( $booking_slots );
-			$day_class = 'os-day os-day-current week-day-' . strtolower( $day_date->format( 'N' ) );
-            $tabbable = true;
+			$day_class        = 'os-day os-day-current week-day-' . strtolower( $day_date->format( 'N' ) );
+			$tabbable         = true;
 			if ( empty( $bookable_minutes ) ) {
 				$day_class .= ' os-not-available';
-                $tabbable = false;
+				$tabbable   = false;
 			}
 			if ( $is_today ) {
 				$day_class .= ' os-today';
 			}
 			if ( $is_day_in_past ) {
 				$day_class .= ' os-day-passed';
-                $tabbable = false;
+				$tabbable   = false;
 			}
 			if ( $is_target_month ) {
 				$day_class .= ' os-month-current';
@@ -406,7 +411,7 @@ class OsCalendarHelper {
 			}
 			if ( $not_in_allowed_period ) {
 				$day_class .= ' os-not-in-allowed-period';
-                $tabbable = false;
+				$tabbable   = false;
 			}
 			if ( count( $bookable_minutes ) == 1 && OsStepsHelper::hide_timepicker_when_one_slot_available() ) {
 				$day_class .= ' os-one-slot-only';
@@ -416,30 +421,31 @@ class OsCalendarHelper {
 			}
 			?>
 
-            <div <?php if($tabbable) echo 'tabindex="0"'; ?> role="button" class="<?php echo esc_attr( $day_class ); ?>"
-                 data-date="<?php echo esc_attr( $day_date->format( 'Y-m-d' ) ); ?>"
-                 data-nice-date="<?php echo esc_attr( OsTimeHelper::get_nice_date_with_optional_year( $day_date->format( 'Y-m-d' ), false ) ); ?>"
-                 data-service-duration="<?php echo esc_attr( $booking_request->duration ); ?>"
-                 data-total-work-minutes="<?php echo esc_attr( $total_work_minutes ); ?>"
-                 data-work-start-time="<?php echo esc_attr( $work_boundaries->start_time ); ?>"
-                 data-work-end-time="<?php echo esc_attr( $work_boundaries->end_time ); ?>"
-                 data-bookable-minutes="<?php echo esc_attr( $bookable_minutes_with_capacity_data ); ?>"
-                 data-work-minutes="<?php echo esc_attr( implode( ',', $work_minutes ) ); ?>"
-                 data-interval="<?php echo esc_attr( $selectable_time_interval ); ?>">
+			<div <?php if ( $tabbable ) {
+				echo 'tabindex="0"';} ?> role="button" class="<?php echo esc_attr( $day_class ); ?>"
+				 data-date="<?php echo esc_attr( $day_date->format( 'Y-m-d' ) ); ?>"
+				 data-nice-date="<?php echo esc_attr( OsTimeHelper::get_nice_date_with_optional_year( $day_date->format( 'Y-m-d' ), false ) ); ?>"
+				 data-service-duration="<?php echo esc_attr( $booking_request->duration ); ?>"
+				 data-total-work-minutes="<?php echo esc_attr( $total_work_minutes ); ?>"
+				 data-work-start-time="<?php echo esc_attr( $work_boundaries->start_time ); ?>"
+				 data-work-end-time="<?php echo esc_attr( $work_boundaries->end_time ); ?>"
+				 data-bookable-minutes="<?php echo esc_attr( $bookable_minutes_with_capacity_data ); ?>"
+				 data-work-minutes="<?php echo esc_attr( implode( ',', $work_minutes ) ); ?>"
+				 data-interval="<?php echo esc_attr( $selectable_time_interval ); ?>">
 				<?php if ( $settings['layout'] == 'horizontal' ) {
-                    $weekday = esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' )));
-                    ?>
-                    <div class="os-day-weekday"><?php echo OsUtilHelper::get_first_chars($weekday, 1); ?></div>
-                <?php } ?>
-                <div class="os-day-box">
+					$weekday = esc_html( OsBookingHelper::get_weekday_name_by_number( $day_date->format( 'N' ) ) );
+					?>
+					<div class="os-day-weekday"><?php echo OsUtilHelper::get_first_chars( $weekday, 1 ); ?></div>
+				<?php } ?>
+				<div class="os-day-box">
 					<?php
 					if ( $bookable_slots_count && ! $settings['hide_slot_availability_count'] ) {
-                        // translators: %d is the number of slots available
-                        echo '<div class="os-available-slots-tooltip">' . esc_html( sprintf( __( '%d Available', 'latepoint' ), $bookable_slots_count ) ) . '</div>';
+						// translators: %d is the number of slots available
+						echo '<div class="os-available-slots-tooltip">' . esc_html( sprintf( __( '%d Available', 'latepoint' ), $bookable_slots_count ) ) . '</div>';
 					} ?>
-                    <div class="os-day-number"><?php echo esc_html( $day_date->format( 'j' ) ); ?></div>
+					<div class="os-day-number"><?php echo esc_html( $day_date->format( 'j' ) ); ?></div>
 					<?php if ( ! $is_day_in_past && ! $not_in_allowed_period ) { ?>
-                        <div class="os-day-status">
+						<div class="os-day-status">
 							<?php
 							if ( $total_work_minutes > 0 && $bookable_slots_count ) {
 								$available_blocks_count      = 0;
@@ -450,7 +456,7 @@ class OsCalendarHelper {
 								$last_available_slot_time    = false;
 								$bookable_ranges             = [];
 								$loop_availability_status    = false;
-								for ( $i = 0; $i < count( $booking_slots ); $i ++ ) {
+								for ( $i = 0; $i < count( $booking_slots ); $i++ ) {
 									if ( $booking_slots[ $i ]->can_accomodate( $booking_request->total_attendees ) ) {
 										// AVAILABLE SLOT
 										if ( $loop_availability_status && $i > 0 && ( ( $booking_slots[ $i ]->start_time - $booking_slots[ $i - 1 ]->start_time ) > $minimum_slot_gap ) ) {
@@ -489,10 +495,10 @@ class OsCalendarHelper {
 								}
 							}
 							?>
-                        </div>
+						</div>
 					<?php } ?>
-                </div>
-            </div>
+				</div>
+			</div>
 
 			<?php
 
@@ -519,15 +525,15 @@ class OsCalendarHelper {
 
 		if ( $weekday_for_last_day_of_month < 6 ) {
 			$days_to_add = 6 - $weekday_for_last_day_of_month;
-            if($days_to_add > 0){
-                $calendar_end->modify( '+' . $days_to_add . ' days' );
-            }
+			if ( $days_to_add > 0 ) {
+				$calendar_end->modify( '+' . $days_to_add . ' days' );
+			}
 		}
 
-        $active_class = $is_active ? 'active' : '';
+		$active_class = $is_active ? 'active' : '';
 
-		echo '<div class="os-monthly-calendar-days-w '.$active_class.'" data-calendar-year="' . esc_attr( $target_date->format( 'Y' ) ) . '" data-calendar-month="' . esc_attr( $target_date->format( 'n' ) ) . '" data-calendar-month-label="' . esc_attr( OsUtilHelper::get_month_name_by_number( $target_date->format( 'n' ) ) ) . '">';
-            echo '<div class="os-monthly-calendar-days">';
+		echo '<div class="os-monthly-calendar-days-w ' . $active_class . '" data-calendar-year="' . esc_attr( $target_date->format( 'Y' ) ) . '" data-calendar-month="' . esc_attr( $target_date->format( 'n' ) ) . '" data-calendar-month-label="' . esc_attr( OsUtilHelper::get_month_name_by_number( $target_date->format( 'n' ) ) ) . '">';
+			echo '<div class="os-monthly-calendar-days">';
 		for ( $day_date = clone $calendar_start; $day_date <= $calendar_end; $day_date->modify( '+1 day' ) ) {
 			$is_today       = ( $day_date->format( 'Y-m-d' ) == OsTimeHelper::today_date() ) ? true : false;
 			$is_day_in_past = ( $day_date->format( 'Y-m-d' ) < OsTimeHelper::today_date() ) ? true : false;
@@ -549,27 +555,33 @@ class OsCalendarHelper {
 			if ( $is_day_in_past ) {
 				$day_class .= ' os-day-passed';
 			} ?>
-        <div class="<?php echo esc_attr( $day_class ); ?>" data-date="<?php echo esc_attr( $day_date->format( 'Y-m-d' ) ); ?>">
-            <div class="os-day-box">
-                <div class="os-day-number"><?php echo esc_html( $day_date->format( 'j' ) ); ?></div>
-            </div>
-            </div><?php
+		<div class="<?php echo esc_attr( $day_class ); ?>" data-date="<?php echo esc_attr( $day_date->format( 'Y-m-d' ) ); ?>">
+			<div class="os-day-box">
+				<div class="os-day-number"><?php echo esc_html( $day_date->format( 'j' ) ); ?></div>
+			</div>
+			</div><?php
 		}
 		echo '</div></div>';
 	}
 
-	public static function generate_calendar_quick_actions_link( OsWpDateTime $day_date, array $settings = [] ) : string {
-        $defaults = [
-            'agent_id' => 0,
-            'location_id' => 0,
-            'service_id' => 0,
-            'start_time' => 600
-        ];
+	public static function generate_calendar_quick_actions_link( OsWpDateTime $day_date, array $settings = [] ): string {
+		$defaults = [
+			'agent_id'    => 0,
+			'location_id' => 0,
+			'service_id'  => 0,
+			'start_time'  => 600,
+		];
 
 		$settings = OsUtilHelper::merge_default_atts( $defaults, $settings );
 
-        return '<a href="#" data-os-after-call="latepoint_init_calendar_quick_actions" data-os-lightbox-classes="width-400" class="day-action-trigger" data-os-output-target="lightbox" data-os-params="'.OsUtilHelper::build_os_params(['target_date' => $day_date->format('Y-m-d'), 'start_time' => $settings['start_time'], 'agent_id' => $settings['agent_id'], 'location_id' => $settings['location_id'], 'service_id' => $settings['service_id']]).'" data-os-action="'.OsRouterHelper::build_route_name('calendars', 'quick_actions').'"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></a>';
+		return '<a href="#" data-os-after-call="latepoint_init_calendar_quick_actions" data-os-lightbox-classes="width-400" class="day-action-trigger" data-os-output-target="lightbox" data-os-params="' . OsUtilHelper::build_os_params(
+			[
+				'target_date' => $day_date->format( 'Y-m-d' ),
+				'start_time'  => $settings['start_time'],
+				'agent_id'    => $settings['agent_id'],
+				'location_id' => $settings['location_id'],
+				'service_id'  => $settings['service_id'],
+			] 
+		) . '" data-os-action="' . OsRouterHelper::build_route_name( 'calendars', 'quick_actions' ) . '"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></a>';
 	}
-
-
 }

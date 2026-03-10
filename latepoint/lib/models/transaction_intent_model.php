@@ -47,7 +47,7 @@ class OsTransactionIntentModel extends OsModel {
 
 	protected function params_to_sanitize() {
 		return [
-			'charge_amount'        => 'money',
+			'charge_amount' => 'money',
 		];
 	}
 
@@ -77,20 +77,20 @@ class OsTransactionIntentModel extends OsModel {
 		return $this->status == LATEPOINT_TRANSACTION_INTENT_STATUS_FAILED;
 	}
 
-	public function wait_for_transaction_completion() : OsTransactionIntentModel {
-		$attempts = 0;
-		$max_attempts = 6;
+	public function wait_for_transaction_completion(): OsTransactionIntentModel {
+		$attempts      = 0;
+		$max_attempts  = 6;
 		$delay_seconds = 2;
 
-		while ($attempts < $max_attempts) {
-			if (!$this->is_processing()) {
+		while ( $attempts < $max_attempts ) {
+			if ( ! $this->is_processing() ) {
 				return $this;
 			}
-			sleep($delay_seconds);
+			sleep( $delay_seconds );
 			$attempts++;
-			$this->load_by_id($this->id);
+			$this->load_by_id( $this->id );
 		}
-		if($this->is_processing()){
+		if ( $this->is_processing() ) {
 			// if it's still processing after waiting - mark as failed
 			$this->mark_as_failed();
 		}
@@ -98,15 +98,15 @@ class OsTransactionIntentModel extends OsModel {
 	}
 
 	public function convert_to_transaction() {
-		if($this->is_processing()){
+		if ( $this->is_processing() ) {
 			$this->wait_for_transaction_completion();
-			if($this->is_failed()){
-				$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
+			if ( $this->is_failed() ) {
+				$this->add_error( 'transaction_intent_error', __( 'Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint' ) );
 				return false;
 			}
 		}
 
-		if($this->is_converted()){
+		if ( $this->is_converted() ) {
 			return $this->transaction_id;
 		}
 
@@ -117,12 +117,12 @@ class OsTransactionIntentModel extends OsModel {
 
 			// process payment if there is amount due
 			$transaction = OsPaymentsHelper::process_payment_for_transaction_intent( $this );
-			if(!$transaction || $transaction->status != LATEPOINT_TRANSACTION_STATUS_SUCCEEDED){
-				if(!$transaction){
-					$this->add_error('transaction_intent_error', __('No payment processor available to process this transaction intent', 'latepoint'));
-				}else{
+			if ( ! $transaction || $transaction->status != LATEPOINT_TRANSACTION_STATUS_SUCCEEDED ) {
+				if ( ! $transaction ) {
+					$this->add_error( 'transaction_intent_error', __( 'No payment processor available to process this transaction intent', 'latepoint' ) );
+				} else {
 					if ( $transaction->get_error() ) {
-						$this->add_error('transaction_intent_error', $transaction->get_error_messages());
+						$this->add_error( 'transaction_intent_error', $transaction->get_error_messages() );
 					}
 				}
 				$this->mark_as_new();
@@ -156,11 +156,11 @@ class OsTransactionIntentModel extends OsModel {
 				 */
 				do_action( 'latepoint_transaction_created', $transaction );
 
-				if($transaction->invoice_id){
-					$invoice = new OsInvoiceModel($transaction->invoice_id);
-					if($invoice && !$invoice->is_new_record()){
-						$invoice->change_status(LATEPOINT_INVOICE_STATUS_PAID);
-						OsOrdersHelper::check_if_order_invoices_paid_full_balance($this->order_id);
+				if ( $transaction->invoice_id ) {
+					$invoice = new OsInvoiceModel( $transaction->invoice_id );
+					if ( $invoice && ! $invoice->is_new_record() ) {
+						$invoice->change_status( LATEPOINT_INVOICE_STATUS_PAID );
+						OsOrdersHelper::check_if_order_invoices_paid_full_balance( $this->order_id );
 					}
 				}
 
@@ -174,7 +174,7 @@ class OsTransactionIntentModel extends OsModel {
 		} catch ( Exception $e ) {
 			$this->mark_as_new();
 			// translators: %s is the error description
-			$this->add_error( 'transaction_intent_error', sprintf(__('Error: %s', 'latepoint'), $e->getMessage() ));
+			$this->add_error( 'transaction_intent_error', sprintf( __( 'Error: %s', 'latepoint' ), $e->getMessage() ) );
 			OsDebugHelper::log( 'Error converting transaction intent to a transaction', 'transaction_intent_error', $e->getMessage() );
 			return false;
 		}
@@ -184,15 +184,15 @@ class OsTransactionIntentModel extends OsModel {
 		return $this->where( [ 'intent_key' => $intent_key ] )->set_limit( 1 )->get_results_as_models();
 	}
 
-	public function mark_as_converted( OsTransactionModel $transaction ) : bool {
+	public function mark_as_converted( OsTransactionModel $transaction ): bool {
 		if ( empty( $transaction->id ) ) {
 			return false;
 		}
 
 		$this->transaction_id = $transaction->id;
-		$this->status = LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED;
+		$this->status         = LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED;
 
-		if($this->save()){
+		if ( $this->save() ) {
 			/**
 			 * Transaction intent is converted to transaction
 			 *
@@ -205,7 +205,7 @@ class OsTransactionIntentModel extends OsModel {
 			 */
 			do_action( 'latepoint_transaction_intent_converted', $this, $transaction );
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -253,7 +253,7 @@ class OsTransactionIntentModel extends OsModel {
 	}
 
 	// Determines if order intent has been converted into a order already
-	public function is_converted() : bool {
+	public function is_converted(): bool {
 		if ( empty( $this->transaction_id ) ) {
 			return false;
 		} else {
@@ -263,21 +263,21 @@ class OsTransactionIntentModel extends OsModel {
 
 	public function generate_data_vars(): array {
 		$vars = [
-			'id'                    => $this->id,
-			'intent_key'            => $this->intent_key,
-			'payment_data'          => !empty($this->payment_data) ? json_decode( $this->payment_data, true ) : [],
-			'order_id'              => $this->order_id,
-			'transaction_id'              => $this->transaction_id,
+			'id'                  => $this->id,
+			'intent_key'          => $this->intent_key,
+			'payment_data'        => ! empty( $this->payment_data ) ? json_decode( $this->payment_data, true ) : [],
+			'order_id'            => $this->order_id,
+			'transaction_id'      => $this->transaction_id,
 			'order_form_page_url' => $this->order_form_page_url,
-			'updated_at'            => $this->updated_at,
-			'created_at'            => $this->created_at,
+			'updated_at'          => $this->updated_at,
+			'created_at'          => $this->created_at,
 		];
 
 		return $vars;
 	}
 
 	public function get_page_url_with_intent() {
-		$order_form_page_url      = $this->order_form_page_url;
+		$order_form_page_url   = $this->order_form_page_url;
 		$existing_var_position = strpos( $order_form_page_url, 'latepoint_transaction_intent_key=' );
 		if ( $existing_var_position === false ) {
 			// no intent variable in url
@@ -312,7 +312,7 @@ class OsTransactionIntentModel extends OsModel {
 	}
 
 
-	public function get_customer() : OsCustomerModel {
+	public function get_customer(): OsCustomerModel {
 		if ( $this->customer_id ) {
 			if ( ! isset( $this->customer ) || ( isset( $this->customer ) && ( $this->customer->id != $this->customer_id ) ) ) {
 				$this->customer = new OsCustomerModel( $this->customer_id );

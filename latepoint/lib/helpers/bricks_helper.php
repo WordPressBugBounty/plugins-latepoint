@@ -3,8 +3,8 @@
 class OsBricksHelper {
 
 	private static ?OsBricksHelper $_instance = null;
-	private string $min_php_version = '7.4';
-	private static array $data = [];
+	private string $min_php_version           = '7.4';
+	private static array $data                = [];
 
 	private array $widgets = [
 		'book_button',
@@ -16,7 +16,7 @@ class OsBricksHelper {
 	];
 
 	public static function init(): OsBricksHelper {
-		if ( is_null(self::$_instance)) {
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
@@ -24,7 +24,7 @@ class OsBricksHelper {
 	}
 
 	public function __construct() {
-		if ($this->check_requirements()) {
+		if ( $this->check_requirements() ) {
 			self::set_data();
 			$this->register_widgets();
 		}
@@ -32,7 +32,7 @@ class OsBricksHelper {
 
 
 	private function check_requirements(): bool {
-		if(!class_exists( '\Bricks\Elements' )){
+		if ( ! class_exists( '\Bricks\Elements' ) ) {
 			return false;
 		}
 		if ( ! $this->check_php_version() ) {
@@ -60,29 +60,28 @@ class OsBricksHelper {
 		}
 	}
 
-	public static function get_data( $key = false) {
-		if (!$key) {
+	public static function get_data( $key = false ) {
+		if ( ! $key ) {
 			return self::$data;
 		}
-		if (!empty(self::$data[$key])) {
-			return self::$data[$key];
+		if ( ! empty( self::$data[ $key ] ) ) {
+			return self::$data[ $key ];
 		}
-		return  [];
+		return [];
 	}
 
 	private function set_data() {
-		$localized_vars = OsBlockHelper::localized_vars_for_blocks();
-		self::$data['agents'] = array_column($localized_vars['agents'], 'name', 'id');
-		self::$data['services'] = array_column($localized_vars['services'], 'name', 'id');;
-		self::$data['locations'] = array_column($localized_vars['locations'], 'name', 'id');
-		self::$data['bundles'] = array_column($localized_vars['bundles'], 'name', 'id');
-		self::$data['location_categories'] = OsLocationHelper::get_location_categories();
-		self::$data['service_categories'] = array_column($localized_vars['service_categories'], 'name', 'id');
-		self::$data['selected_agents'] = array_column($localized_vars['selected_agents_options'], 'label', 'value');
-		self::$data['selected_services'] = array_column($localized_vars['selected_services_options'], 'label', 'value');
-		self::$data['selected_service_categories'] = array_column($localized_vars['selected_service_categories_options'], 'label', 'value');
-		self::$data['selected_locations'] = array_column($localized_vars['selected_locations_options'], 'label', 'value');
-		self::$data['selected_bundles'] = array_column($localized_vars['selected_bundles_options'], 'label', 'value');
+		$localized_vars                            = OsBlockHelper::localized_vars_for_blocks();
+		self::$data['agents']                      = array_column( $localized_vars['agents'], 'name', 'id' );
+		self::$data['services']                    = array_column( $localized_vars['services'], 'name', 'id' );
+		self::$data['locations']                   = array_column( $localized_vars['locations'], 'name', 'id' );
+		self::$data['bundles']                     = array_column( $localized_vars['bundles'], 'name', 'id' );
+		self::$data['location_categories']         = OsLocationHelper::get_location_categories();
+		self::$data['service_categories']          = array_column( $localized_vars['service_categories'], 'name', 'id' );
+		self::$data['selected_agents']             = array_column( $localized_vars['selected_agents_options'], 'label', 'value' );
+		self::$data['selected_services']           = array_column( $localized_vars['selected_services_options'], 'label', 'value' );
+		self::$data['selected_service_categories'] = array_column( $localized_vars['selected_service_categories_options'], 'label', 'value' );
+		self::$data['selected_locations']          = array_column( $localized_vars['selected_locations_options'], 'label', 'value' );
+		self::$data['selected_bundles']            = array_column( $localized_vars['selected_bundles_options'], 'label', 'value' );
 	}
-
 }

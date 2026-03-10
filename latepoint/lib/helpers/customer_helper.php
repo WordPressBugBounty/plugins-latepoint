@@ -8,11 +8,11 @@ class OsCustomerHelper {
 		if ( $customer_id ) {
 			$params['customer_id'] = $customer_id;
 		}
-		$route = OsRouterHelper::build_route_name( 'customers', !empty($customer_id) ? 'quick_edit' : 'quick_new' );
+		$route = OsRouterHelper::build_route_name( 'customers', ! empty( $customer_id ) ? 'quick_edit' : 'quick_new' );
 
 		$params_str = http_build_query( $params );
-		$html       = 'data-os-params="' . esc_attr($params_str) . '" 
-    data-os-action="' . esc_attr($route) . '" 
+		$html       = 'data-os-params="' . esc_attr( $params_str ) . '" 
+    data-os-action="' . esc_attr( $route ) . '" 
     data-os-output-target="side-panel"
     data-os-after-call="latepoint_init_quick_customer_form"';
 
@@ -21,24 +21,24 @@ class OsCustomerHelper {
 
 	public static function generate_summary_for_customer( OsCustomerModel $customer, bool $editable = false ): void {
 		?>
-        <div class="summary-box summary-box-customer-info">
-            <div class="summary-box-heading">
-                <div class="sbh-item"><?php esc_html_e( 'Customer', 'latepoint' ) ?></div>
-                <div class="sbh-line"></div>
-            </div>
-            <div class="summary-box-content with-media">
-                <div class="os-avatar-w">
-                    <div class="os-avatar"><span><?php echo esc_html( $customer->get_initials() ); ?></span></div>
-                </div>
-                <div class="sbc-content-i">
-                    <?php if($editable){ ?>
-                    <div class="sbc-main-item sbc-with-action"><div class="sbc-label"><?php echo esc_html( $customer->full_name ); ?></div><div class="sbc-action load-customer-step-trigger"><i class="latepoint-icon latepoint-icon-edit-3"></i></div></div>
-                    <?php }else{ ?>
-                    <div class="sbc-main-item"><?php echo esc_html( $customer->full_name ); ?></div>
-                    <?php } ?>
-                    <div class="sbc-sub-item"><?php echo esc_html( $customer->primary_contact_type() ); ?></div>
-                </div>
-            </div>
+		<div class="summary-box summary-box-customer-info">
+			<div class="summary-box-heading">
+				<div class="sbh-item"><?php esc_html_e( 'Customer', 'latepoint' ) ?></div>
+				<div class="sbh-line"></div>
+			</div>
+			<div class="summary-box-content with-media">
+				<div class="os-avatar-w">
+					<div class="os-avatar"><span><?php echo esc_html( $customer->get_initials() ); ?></span></div>
+				</div>
+				<div class="sbc-content-i">
+					<?php if ( $editable ) { ?>
+					<div class="sbc-main-item sbc-with-action"><div class="sbc-label"><?php echo esc_html( $customer->full_name ); ?></div><div class="sbc-action load-customer-step-trigger"><i class="latepoint-icon latepoint-icon-edit-3"></i></div></div>
+					<?php } else { ?>
+					<div class="sbc-main-item"><?php echo esc_html( $customer->full_name ); ?></div>
+					<?php } ?>
+					<div class="sbc-sub-item"><?php echo esc_html( $customer->primary_contact_type() ); ?></div>
+				</div>
+			</div>
 			<?php
 			$customer_attributes = [];
 			$customer_attributes = apply_filters( 'latepoint_booking_summary_customer_attributes', $customer_attributes, $customer );
@@ -50,7 +50,7 @@ class OsCustomerHelper {
 				echo '</div>';
 			}
 			?>
-        </div>
+		</div>
 		<?php
 	}
 
@@ -59,7 +59,10 @@ class OsCustomerHelper {
 		$customers         = $customers->set_limit( 100 )->get_results_as_models();
 		$customers_options = [];
 		foreach ( $customers as $customer ) {
-			$customers_options[] = [ 'value' => $customer->id, 'label' => esc_html( $customer->full_name ) ];
+			$customers_options[] = [
+				'value' => $customer->id,
+				'label' => esc_html( $customer->full_name ),
+			];
 		}
 
 		return $customers_options;
@@ -97,43 +100,45 @@ class OsCustomerHelper {
 		return $customers->count();
 	}
 
-    public static function can_cancel_booking( OsBookingModel $booking ): bool {
-        $can_cancel = false;
+	public static function can_cancel_booking( OsBookingModel $booking ): bool {
+		$can_cancel = false;
 
-        if ( OsSettingsHelper::is_on( 'allow_customer_booking_cancellation' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
-            if ( OsSettingsHelper::is_on( 'limit_when_customer_can_cancel' ) ) {
-                // check if there is a limit on when they can cancel
-                $limit_value = OsSettingsHelper::get_settings_value( 'cancellation_limit_value' );
-                $limit_unit  = OsSettingsHelper::get_settings_value( 'cancellation_limit_unit' );
-                if ( $limit_value && $limit_unit ) {
-                    $now = new OsWpDateTime( 'now' );
-                    if ( $now <= $booking->get_start_datetime_object()->modify( '-' . $limit_value . ' ' . $limit_unit ) ) {
-                        $can_cancel = true;
-                    }
-                }
-            } else {
-                $can_cancel = true;
-            }
-        }
+		if ( OsSettingsHelper::is_on( 'allow_customer_booking_cancellation' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
+			if ( OsSettingsHelper::is_on( 'limit_when_customer_can_cancel' ) ) {
+				// check if there is a limit on when they can cancel
+				$limit_value = OsSettingsHelper::get_settings_value( 'cancellation_limit_value' );
+				$limit_unit  = OsSettingsHelper::get_settings_value( 'cancellation_limit_unit' );
+				if ( $limit_value && $limit_unit ) {
+					$now = new OsWpDateTime( 'now' );
+					if ( $now <= $booking->get_start_datetime_object()->modify( '-' . $limit_value . ' ' . $limit_unit ) ) {
+						$can_cancel = true;
+					}
+				}
+			} else {
+				$can_cancel = true;
+			}
+		}
 
-        /**
-         * Filter to allow to modify the can_cancel booking status
-         *
-         * @param bool $can_cancel
-         * @param OsBookingModel $booking
-         * @returns bool
-         *
-         * @since 5.2.0
-         * @hook latepoint_can_cancel_booking
-         *
-         */
-        $can_cancel = apply_filters('latepoint_can_cancel_booking', $can_cancel, $booking);
+		/**
+		 * Filter to allow to modify the can_cancel booking status
+		 *
+		 * @param bool $can_cancel
+		 * @param OsBookingModel $booking
+		 * @returns bool
+		 *
+		 * @since 5.2.0
+		 * @hook latepoint_can_cancel_booking
+		 *
+		 */
+		$can_cancel = apply_filters( 'latepoint_can_cancel_booking', $can_cancel, $booking );
 
-        return $can_cancel;
-    }
+		return $can_cancel;
+	}
 
 	public static function can_reschedule_booking( OsBookingModel $booking ): bool {
-        if(!apply_filters('latepoint_is_feature_reschedule_available', false)) return false;
+		if ( ! apply_filters( 'latepoint_is_feature_reschedule_available', false ) ) {
+			return false;
+		}
 		if ( OsSettingsHelper::is_on( 'allow_customer_booking_reschedule' ) && ( $booking->status != LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
 			if ( OsSettingsHelper::is_on( 'limit_when_customer_can_reschedule' ) ) {
 				// check if there is a limit on when they can reschedule
@@ -161,11 +166,16 @@ class OsCustomerHelper {
 			if ( $customer->email != $wp_user->user_email ) {
 
 				$email_already_assigned = new OsCustomerModel();
-                $email_already_assigned = $email_already_assigned->where([ 'email' => $wp_user->user_email, 'id !=' => $customer->id ])->set_limit( 1 )->get_results_as_models();
+				$email_already_assigned = $email_already_assigned->where(
+					[
+						'email' => $wp_user->user_email,
+						'id !=' => $customer->id,
+					] 
+				)->set_limit( 1 )->get_results_as_models();
 
-                if (!$email_already_assigned) {
-				    $customer->update_attributes( [ 'email' => $wp_user->user_email ] );
-                }
+				if ( ! $email_already_assigned ) {
+					$customer->update_attributes( [ 'email' => $wp_user->user_email ] );
+				}
 			}
 
 			return $customer;
@@ -199,26 +209,28 @@ class OsCustomerHelper {
 		return $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->count();
 	}
 
-    public static function get_by_contact($contact_value, $contact_type){
-        if(empty($contact_value) || empty($contact_type)) return false;
-        $customer = new OsCustomerModel();
-        switch($contact_type){
-            case 'email':
-                $customer = $customer->where(['email' => $contact_value])->set_limit(1)->get_results_as_models();
-                break;
-            case 'phone':
-                $customer = $customer->where(['phone' => $contact_value])->set_limit(1)->get_results_as_models();
-                break;
-        }
-        return $customer;
-    }
+	public static function get_by_contact( $contact_value, $contact_type ) {
+		if ( empty( $contact_value ) || empty( $contact_type ) ) {
+			return false;
+		}
+		$customer = new OsCustomerModel();
+		switch ( $contact_type ) {
+			case 'email':
+				$customer = $customer->where( [ 'email' => $contact_value ] )->set_limit( 1 )->get_results_as_models();
+				break;
+			case 'phone':
+				$customer = $customer->where( [ 'phone' => $contact_value ] )->set_limit( 1 )->get_results_as_models();
+				break;
+		}
+		return $customer;
+	}
 
 	public static function get_by_account_nonse( $account_nonse ) {
 		if ( empty( $account_nonse ) ) {
 			return false;
 		}
-        $account_nonse = sanitize_text_field( $account_nonse );
-		$customer = new OsCustomerModel();
+		$account_nonse = sanitize_text_field( $account_nonse );
+		$customer      = new OsCustomerModel();
 
 		return $customer->where( [ 'account_nonse' => $account_nonse ] )->set_limit( 1 )->get_results_as_models();
 	}
@@ -238,11 +250,16 @@ class OsCustomerHelper {
 				// wp user with this email exists and is linked already to a different latepoint customer
 				$customer->add_error( 'customer_exists', __( 'Customer with this email already exists', 'latepoint' ) );
 			} else {
-				$customer->update_attributes( [ 'wordpress_user_id' => $wp_user_id, 'is_guest' => false ] );
+				$customer->update_attributes(
+					[
+						'wordpress_user_id' => $wp_user_id,
+						'is_guest'          => false,
+					] 
+				);
 			}
 		} else {
 
-			$userdata   = [
+			$userdata = [
 				'user_email' => $customer->email,
 				'first_name' => $customer->first_name,
 				'last_name'  => $customer->last_name,
@@ -250,10 +267,10 @@ class OsCustomerHelper {
 				'user_pass'  => $customer->password,
 			];
 
-            $default_role = OsSettingsHelper::get_default_wp_role_for_new_customers();
-            if(wp_roles()->is_role( $default_role )){
-                $userdata['role'] = $default_role;
-            }
+			$default_role = OsSettingsHelper::get_default_wp_role_for_new_customers();
+			if ( wp_roles()->is_role( $default_role ) ) {
+				$userdata['role'] = $default_role;
+			}
 
 			$wp_user_id = wp_insert_user( $userdata );
 			if ( ! is_wp_error( $wp_user_id ) ) {
@@ -278,8 +295,8 @@ class OsCustomerHelper {
 
 	public static function generate_booking_summary_preview_btn( int $booking_id ): string {
 		$html = 'data-os-after-call="latepoint_init_booking_summary_lightbox"
-			   data-os-params="' . esc_attr(OsUtilHelper::build_os_params( [ 'booking_id' => $booking_id ] )) . '"
-			   data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'customer_cabinet', 'view_booking_summary_in_lightbox' )) . '"
+			   data-os-params="' . esc_attr( OsUtilHelper::build_os_params( [ 'booking_id' => $booking_id ] ) ) . '"
+			   data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'customer_cabinet', 'view_booking_summary_in_lightbox' ) ) . '"
 			   data-os-output-target="lightbox"
 				data-os-lightbox-classes="width-500 customer-dashboard-booking-summary-lightbox"';
 
@@ -289,8 +306,8 @@ class OsCustomerHelper {
 
 	public static function generate_bundle_scheduling_btn( int $order_item_id ): string {
 		$html = 'data-os-after-call="latepoint_init_bundle_scheduling_summary"
-			   data-os-params="' . esc_attr(OsUtilHelper::build_os_params( [ 'order_item_id' => $order_item_id ] )) . '"
-			   data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'customer_cabinet', 'scheduling_summary_for_bundle' )) . '"
+			   data-os-params="' . esc_attr( OsUtilHelper::build_os_params( [ 'order_item_id' => $order_item_id ] ) ) . '"
+			   data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'customer_cabinet', 'scheduling_summary_for_bundle' ) ) . '"
 			   data-os-output-target="lightbox"
 				data-os-lightbox-classes="width-500 customer-dashboard-bundle-scheduling-summary"';
 
@@ -299,8 +316,8 @@ class OsCustomerHelper {
 
 	public static function generate_order_summary_btn( int $order_id ): string {
 		$html = 'data-os-after-call="latepoint_init_order_summary_lightbox"
-			   data-os-params="' . esc_attr(OsUtilHelper::build_os_params( [ 'order_id' => $order_id ] )) . '"
-			   data-os-action="' . esc_attr(OsRouterHelper::build_route_name( 'customer_cabinet', 'view_order_summary_in_lightbox' )) . '"
+			   data-os-params="' . esc_attr( OsUtilHelper::build_os_params( [ 'order_id' => $order_id ] ) ) . '"
+			   data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'customer_cabinet', 'view_order_summary_in_lightbox' ) ) . '"
 			   data-os-output-target="lightbox"
 				data-os-lightbox-classes="width-500 customer-dashboard-order-summary-lightbox"';
 
@@ -308,9 +325,11 @@ class OsCustomerHelper {
 	}
 
 	public static function get_by_uuid( string $uuid ) {
-        if(empty($uuid)) return false;
-        $customer = new OsCustomerModel();
-        return $customer->where(['uuid' => $uuid])->set_limit(1)->get_results_as_models();
+		if ( empty( $uuid ) ) {
+			return false;
+		}
+		$customer = new OsCustomerModel();
+		return $customer->where( [ 'uuid' => $uuid ] )->set_limit( 1 )->get_results_as_models();
 	}
 
 	/**
@@ -335,5 +354,4 @@ class OsCustomerHelper {
 		$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
 		$customer->save();
 	}
-
 }

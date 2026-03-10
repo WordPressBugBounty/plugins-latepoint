@@ -18,7 +18,7 @@ if ( ! class_exists( 'OsBookingFormSettingsController' ) ) :
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'settings' );
 			$this->vars['breadcrumbs'][]   = array(
 				'label' => __( 'Booking Form Settings', 'latepoint' ),
-				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'booking_form_settings', 'preview' ) )
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'booking_form_settings', 'preview' ) ),
 			);
 		}
 
@@ -40,8 +40,12 @@ if ( ! class_exists( 'OsBookingFormSettingsController' ) ) :
 						if ( in_array( $step_setting_value, [ '<p><br></p>', '<br>', '<br/>' ] ) ) {
 							$step_setting_value = '';
 						}
-						if(in_array($step_setting_key, ['side_panel_heading', 'main_panel_heading'])) $step_setting_value = wp_strip_all_tags($step_setting_value);
-						if(in_array($step_setting_key, ['side_panel_description'])) $step_setting_value = strip_tags($step_setting_value, ['a', 'i', 'u', 'b', 'br']);
+						if ( in_array( $step_setting_key, [ 'side_panel_heading', 'main_panel_heading' ] ) ) {
+							$step_setting_value = wp_strip_all_tags( $step_setting_value );
+						}
+						if ( in_array( $step_setting_key, [ 'side_panel_description' ] ) ) {
+							$step_setting_value = strip_tags( $step_setting_value, [ 'a', 'i', 'u', 'b', 'br' ] );
+						}
 						$steps_settings[ $step_code ][ $step_setting_key ] = trim( $step_setting_value );
 					}
 				}
@@ -53,7 +57,9 @@ if ( ! class_exists( 'OsBookingFormSettingsController' ) ) :
 					if ( in_array( $step_setting_value, [ '<p><br></p>', '<br>', '<br/>' ] ) ) {
 						$step_setting_value = '';
 					}
-					if(in_array($step_setting_key, ['steps_support_text'])) $step_setting_value = strip_tags($step_setting_value, ['a', 'i', 'u', 'b', 'h3', 'h4', 'h5', 'br']);
+					if ( in_array( $step_setting_key, [ 'steps_support_text' ] ) ) {
+						$step_setting_value = strip_tags( $step_setting_value, [ 'a', 'i', 'u', 'b', 'h3', 'h4', 'h5', 'br' ] );
+					}
 					// shared settings are saved in general settings
 					OsSettingsHelper::save_setting_by_name( $step_setting_key, trim( $step_setting_value ) );
 				}
@@ -118,6 +124,5 @@ if ( ! class_exists( 'OsBookingFormSettingsController' ) ) :
 
 			$this->format_render( __FUNCTION__ );
 		}
-
 	}
 endif;

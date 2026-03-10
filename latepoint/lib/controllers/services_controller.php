@@ -16,7 +16,10 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'services/';
 			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'services' );
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'services' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Services', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'services', 'index' ) ) );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Services', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'services', 'index' ) ),
+			);
 		}
 
 		/*
@@ -28,7 +31,10 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 
 			$this->vars['pre_page_header'] = '';
 			$this->vars['page_header']     = __( 'Edit Service', 'latepoint' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Edit Service', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Edit Service', 'latepoint' ),
+				'link'  => false,
+			);
 
 
 			$service            = new OsServiceModel( $service_id );
@@ -42,7 +48,15 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 			$this->vars['agents']                        = $agents->get_results_as_models();
 			$this->vars['locations']                     = $locations->get_results_as_models();
 
-			$custom_work_periods               = OsWorkPeriodsHelper::get_work_periods( new \LatePoint\Misc\Filter( [ 'service_id' => $service_id, 'exact_match' => true ] ), true );
+			$custom_work_periods               = OsWorkPeriodsHelper::get_work_periods(
+				new \LatePoint\Misc\Filter(
+					[
+						'service_id'  => $service_id,
+						'exact_match' => true,
+					] 
+				),
+				true 
+			);
 			$this->vars['custom_work_periods'] = $custom_work_periods;
 			$this->vars['is_custom_schedule']  = ( $custom_work_periods && ( count( $custom_work_periods ) > 0 ) );
 
@@ -57,7 +71,10 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 		public function new_form() {
 			$this->vars['pre_page_header'] = '';
 			$this->vars['page_header']     = __( 'New Service', 'latepoint' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Create New Service', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Create New Service', 'latepoint' ),
+				'link'  => false,
+			);
 
 
 			$service            = new OsServiceModel();
@@ -96,18 +113,20 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 
 			$this->vars['service_categories'] = $service_categories;
 
-			$uncategorized_services                             = new OsServiceModel();
-			$this->vars['uncategorized_services'] = $uncategorized_services->filter_allowed_records()->should_be_active()->where( array(
-				'category_id' => [
-					'OR' => [
-						0,
-						'IS NULL'
-					]
-				]
-			) )->order_by( 'order_number asc' )->get_results_as_models();
+			$uncategorized_services               = new OsServiceModel();
+			$this->vars['uncategorized_services'] = $uncategorized_services->filter_allowed_records()->should_be_active()->where(
+				array(
+					'category_id' => [
+						'OR' => [
+							0,
+							'IS NULL',
+						],
+					],
+				) 
+			)->order_by( 'order_number asc' )->get_results_as_models();
 
-			$disabled_services                             = new OsServiceModel();
-			$this->vars['disabled_services']      = $disabled_services->filter_allowed_records()->where( [ 'status' => LATEPOINT_SERVICE_STATUS_DISABLED ] )->get_results_as_models();
+			$disabled_services               = new OsServiceModel();
+			$this->vars['disabled_services'] = $disabled_services->filter_allowed_records()->where( [ 'status' => LATEPOINT_SERVICE_STATUS_DISABLED ] )->get_results_as_models();
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -140,10 +159,20 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 			if ( $service->save() && $service->save_durations( $this->params['service']['durations'] ) && $service->save_agents_and_locations( $this->params['service']['agents'] ) ) {
 				if ( $is_new_record ) {
 					$response_html = __( 'Service Created. ID:', 'latepoint' ) . $service->id;
-					OsActivitiesHelper::create_activity( array( 'code' => 'service_created', 'service_id' => $service->id ) );
+					OsActivitiesHelper::create_activity(
+						array(
+							'code'       => 'service_created',
+							'service_id' => $service->id,
+						) 
+					);
 				} else {
 					$response_html = __( 'Service Updated. ID:', 'latepoint' ) . $service->id;
-					OsActivitiesHelper::create_activity( array( 'code' => 'service_updated', 'service_id' => $service->id ) );
+					OsActivitiesHelper::create_activity(
+						array(
+							'code'       => 'service_updated',
+							'service_id' => $service->id,
+						) 
+					);
 				}
 				$status = LATEPOINT_STATUS_SUCCESS;
 				// save schedules
@@ -159,7 +188,12 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 				$status        = LATEPOINT_STATUS_ERROR;
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) + $extra_response_vars );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) + $extra_response_vars 
+				);
 			}
 		}
 
@@ -185,76 +219,90 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
-		public function duplicate(  ) {
-			if(filter_var($this->params['id'], FILTER_VALIDATE_INT)) {
+		public function duplicate() {
+			if ( filter_var( $this->params['id'], FILTER_VALIDATE_INT ) ) {
 				$this->check_nonce( 'duplicate_service_' . $this->params['id'] );
 
-				$original_service = new OsServiceModel( $this->params['id'] );
-				$cloned_service = clone $original_service;
-				$cloned_service->id = null; // reset ID to create a new record
-				$cloned_service->name = $cloned_service->name . ' - ' . __('Copy', 'latepoint');
+				$original_service     = new OsServiceModel( $this->params['id'] );
+				$cloned_service       = clone $original_service;
+				$cloned_service->id   = null; // reset ID to create a new record
+				$cloned_service->name = $cloned_service->name . ' - ' . __( 'Copy', 'latepoint' );
 
-				if($cloned_service->save()){
-					$status = LATEPOINT_STATUS_SUCCESS;
-					$response_html = OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'services', 'edit_form' ), array('id' => $cloned_service->id) );
-					OsActivitiesHelper::create_activity( array( 'code' => 'service_created', 'service_id' => $cloned_service->id ) );
+				if ( $cloned_service->save() ) {
+					$status        = LATEPOINT_STATUS_SUCCESS;
+					$response_html = OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'services', 'edit_form' ), array( 'id' => $cloned_service->id ) );
+					OsActivitiesHelper::create_activity(
+						array(
+							'code'       => 'service_created',
+							'service_id' => $cloned_service->id,
+						) 
+					);
 
 					$work_periods = new OsWorkPeriodModel();
-					$work_periods = $work_periods->where(['service_id' => $original_service->id])->get_results_as_models();
-					foreach($work_periods as $work_period){
-						$new_period = clone $work_period;
-						$new_period->id = null; // reset ID to create a new record
+					$work_periods = $work_periods->where( [ 'service_id' => $original_service->id ] )->get_results_as_models();
+					foreach ( $work_periods as $work_period ) {
+						$new_period             = clone $work_period;
+						$new_period->id         = null; // reset ID to create a new record
 						$new_period->service_id = $cloned_service->id; // set new service ID
 						$new_period->save();
 					}
 
 					$connection_model = new OsConnectorModel();
-					$connectors = $connection_model->where(['service_id' => $original_service->id])->get_results_as_models();
+					$connectors       = $connection_model->where( [ 'service_id' => $original_service->id ] )->get_results_as_models();
 
-					foreach($connectors as $connector){
-						$new_connector = clone $connector;
-						$new_connector->id = null;
+					foreach ( $connectors as $connector ) {
+						$new_connector             = clone $connector;
+						$new_connector->id         = null;
 						$new_connector->service_id = $cloned_service->id; // set new location ID
 						$new_connector->save();
 					}
 
-					$meta = new OsServiceMetaModel();
-					$meta_items = $meta->where(['object_id' => $original_service->id])
-					                   ->where_not_in('meta_key', ['woocommerce_product_id', 'surecart_product_id'])
-					                   ->get_results_as_models();
-					foreach($meta_items as $meta_item){
-						$new_meta_item = clone $meta_item;
-						$new_meta_item->id = null;
+					$meta       = new OsServiceMetaModel();
+					$meta_items = $meta->where( [ 'object_id' => $original_service->id ] )
+									   ->where_not_in( 'meta_key', [ 'woocommerce_product_id', 'surecart_product_id' ] )
+									   ->get_results_as_models();
+					foreach ( $meta_items as $meta_item ) {
+						$new_meta_item            = clone $meta_item;
+						$new_meta_item->id        = null;
 						$new_meta_item->object_id = $cloned_service->id;
 						$new_meta_item->save();
 					}
 
 					#available in pro version only
-					if (class_exists('OsServiceExtraConnectorModel')) {
+					if ( class_exists( 'OsServiceExtraConnectorModel' ) ) {
 						$extras = new OsServiceExtraConnectorModel();
-						$extras = $extras->where(['service_id' => $original_service->id])->get_results_as_models();
-						foreach($extras as $extra){
-							$new_extra = clone $extra;
-							$new_extra->id = null;
+						$extras = $extras->where( [ 'service_id' => $original_service->id ] )->get_results_as_models();
+						foreach ( $extras as $extra ) {
+							$new_extra             = clone $extra;
+							$new_extra->id         = null;
 							$new_extra->service_id = $cloned_service->id;
 							$new_extra->save();
 						}
 					}
 				}
 			} else {
-				$status = LATEPOINT_STATUS_ERROR;
-				$response_html = __('Error Creating Service', 'latepoint');
+				$status        = LATEPOINT_STATUS_ERROR;
+				$response_html = __( 'Error Creating Service', 'latepoint' );
 			}
 
-			if($this->get_return_format() == 'json'){
-				$this->send_json(array('status' => $status, 'message' => $response_html));
+			if ( $this->get_return_format() == 'json' ) {
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
-
 	}
 
 

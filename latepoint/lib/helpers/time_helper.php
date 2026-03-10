@@ -12,7 +12,9 @@ class OsTimeHelper {
 	}
 
 	public static function is_valid_date( $date_string ) {
-		if(empty($date_string)) return false;
+		if ( empty( $date_string ) ) {
+			return false;
+		}
 		return (bool) strtotime( $date_string );
 	}
 
@@ -35,7 +37,9 @@ class OsTimeHelper {
 	public static function date_from_db( $date_string, $format = false, string $output_timezone_name = 'UTC' ) {
 		$timezone = new DateTimeZone( 'UTC' );
 		$date_obj = OsWpDateTime::os_createFromFormat( LATEPOINT_DATETIME_DB_FORMAT, $date_string, $timezone );
-		if(empty($date_obj)) $date_obj = self::now_datetime_object();
+		if ( empty( $date_obj ) ) {
+			$date_obj = self::now_datetime_object();
+		}
 		$date_obj->setTimezone( new DateTimeZone( $output_timezone_name ) );
 		if ( $format ) {
 			return $date_obj->format( $format );
@@ -52,14 +56,14 @@ class OsTimeHelper {
 
 	public static function now_datetime_in_format( $date_format = LATEPOINT_DATETIME_DB_FORMAT, string $timezone = 'UTC' ) {
 		$now = self::now_datetime_object();
-		$now->setTimezone( new DateTimeZone( "UTC" ) );
+		$now->setTimezone( new DateTimeZone( 'UTC' ) );
 
 		return $now->format( $date_format );
 	}
 
 	public static function now_datetime_utc() {
 		$now = self::now_datetime_object();
-		$now->setTimezone( new DateTimeZone( "UTC" ) );
+		$now->setTimezone( new DateTimeZone( 'UTC' ) );
 
 		return $now;
 	}
@@ -123,23 +127,47 @@ class OsTimeHelper {
 
 	public static function get_time_systems_list_for_select() {
 		return array(
-			array( 'value' => '12', 'label' => __( '12-hour clock', 'latepoint' ) ),
-			array( 'value' => '24', 'label' => __( '24-hour clock', 'latepoint' ) )
+			array(
+				'value' => '12',
+				'label' => __( '12-hour clock', 'latepoint' ),
+			),
+			array(
+				'value' => '24',
+				'label' => __( '24-hour clock', 'latepoint' ),
+			),
 		);
 	}
 
 	public static function get_date_formats_list_for_select() {
 		return array(
-			array( 'value' => 'm/d/Y', 'label' => __( 'MM/DD/YYYY', 'latepoint' ) ),
-			array( 'value' => 'm.d.Y', 'label' => __( 'MM.DD.YYYY', 'latepoint' ) ),
-			array( 'value' => 'd/m/Y', 'label' => __( 'DD/MM/YYYY', 'latepoint' ) ),
-			array( 'value' => 'd.m.Y', 'label' => __( 'DD.MM.YYYY', 'latepoint' ) ),
-			array( 'value' => 'Y-m-d', 'label' => __( 'YYYY-MM-DD', 'latepoint' ) )
+			array(
+				'value' => 'm/d/Y',
+				'label' => __( 'MM/DD/YYYY', 'latepoint' ),
+			),
+			array(
+				'value' => 'm.d.Y',
+				'label' => __( 'MM.DD.YYYY', 'latepoint' ),
+			),
+			array(
+				'value' => 'd/m/Y',
+				'label' => __( 'DD/MM/YYYY', 'latepoint' ),
+			),
+			array(
+				'value' => 'd.m.Y',
+				'label' => __( 'DD.MM.YYYY', 'latepoint' ),
+			),
+			array(
+				'value' => 'Y-m-d',
+				'label' => __( 'YYYY-MM-DD', 'latepoint' ),
+			),
 		);
 	}
 
 	public static function get_time_systems_list() {
-		return array( '12' => __( '12-hour clock', 'latepoint' ), '24' => __( '24-hour clock', 'latepoint' ) );
+		return array(
+			'12' => __( '12-hour clock', 'latepoint' ),
+			'24' => __( '24-hour clock', 'latepoint' ),
+		);
 	}
 
 
@@ -149,14 +177,14 @@ class OsTimeHelper {
 
 
 	public static function get_nice_date_with_optional_year( $date, $show_year_if_not_current = true, $short_month = false ) {
-		$d = OsWpDateTime::os_createFromFormat( "Y-m-d", $date );
+		$d = OsWpDateTime::os_createFromFormat( 'Y-m-d', $date );
 		if ( ! $d ) {
 			return $date;
 		}
 		if ( ! $show_year_if_not_current || ( $d->format( 'Y' ) == OsTimeHelper::today_date( 'Y' ) ) ) {
 			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( true, $short_month ) ) );
 		} else {
-			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( false, $short_month) ) );
+			return OsUtilHelper::translate_months( $d->format( OsSettingsHelper::get_readable_date_format( false, $short_month ) ) );
 		}
 	}
 
@@ -186,7 +214,7 @@ class OsTimeHelper {
 		if ( self::$timezone ) {
 			return self::$timezone;
 		}
-		try{
+		try {
 			$timezone_string = get_option( 'timezone_string' );
 			if ( ! empty( $timezone_string ) ) {
 				return new DateTimeZone( $timezone_string );
@@ -196,8 +224,8 @@ class OsTimeHelper {
 			$minutes        = abs( ( $offset - (int) $offset ) * 60 );
 			$offset         = sprintf( '%+03d:%02d', $hours, $minutes );
 			self::$timezone = new DateTimeZone( $offset );
-		}catch(Exception $e){
-			return new DateTimeZone('UTC');
+		} catch ( Exception $e ) {
+			return new DateTimeZone( 'UTC' );
 		}
 
 		return self::$timezone;
@@ -243,7 +271,7 @@ class OsTimeHelper {
 		return $datetime->format( 'i' ) + ( $datetime->format( 'G' ) * 60 );
 	}
 
-	public static function get_current_minutes(  ) {
+	public static function get_current_minutes() {
 		$now = new OsWpDateTime( 'now' );
 		return $now->format( 'i' ) + ( $now->format( 'G' ) * 60 );
 	}
@@ -386,7 +414,7 @@ class OsTimeHelper {
 				// Continent optgroup
 				if ( ! isset( $zonen[ $key - 1 ] ) || $zonen[ $key - 1 ]['continent'] !== $zone['continent'] ) {
 					$label       = $zone['t_continent'];
-					$structure[] = '<div class="os-timezone-group"><div class="os-timezone-group-header">'.esc_html( $label ).'</div>';
+					$structure[] = '<div class="os-timezone-group"><div class="os-timezone-group-header">' . esc_html( $label ) . '</div>';
 				}
 
 				// Add the city to the value
@@ -395,7 +423,7 @@ class OsTimeHelper {
 				$display = $zone['t_city'];
 				if ( ! empty( $zone['subcity'] ) ) {
 					// Add the subcity to the value
-					$value[] = $zone['subcity'];
+					$value[]  = $zone['subcity'];
 					$display .= ' - ' . $zone['t_subcity'];
 				}
 			}
@@ -407,12 +435,12 @@ class OsTimeHelper {
 				$selected = 'selected';
 			}
 			try {
-				$local_time = new OsWpDateTime('now', new DateTimeZone($value));
-				$local_time_value = $local_time->format($time_format);
-			}catch(Exception $e){
+				$local_time       = new OsWpDateTime( 'now', new DateTimeZone( $value ) );
+				$local_time_value = $local_time->format( $time_format );
+			} catch ( Exception $e ) {
 				$local_time_value = '';
 			}
-			$structure[] = '<div class="os-timezone-selector-option ' . $selected . '" data-value="' . esc_attr( $value ) . '"><div>' . esc_html( $display ) . '</div><div class="os-timezone-selector-option-local-time">'.$local_time_value.'</div></div>';
+			$structure[] = '<div class="os-timezone-selector-option ' . $selected . '" data-value="' . esc_attr( $value ) . '"><div>' . esc_html( $display ) . '</div><div class="os-timezone-selector-option-local-time">' . $local_time_value . '</div></div>';
 
 			// Close continent optgroup
 			if ( ! empty( $zone['city'] ) && ( ! isset( $zonen[ $key + 1 ] ) || ( isset( $zonen[ $key + 1 ] ) && $zonen[ $key + 1 ]['continent'] !== $zone['continent'] ) ) ) {
@@ -421,7 +449,7 @@ class OsTimeHelper {
 		}
 
 		// Do UTC
-		$structure[] = '<div class="os-timezone-group"><div class="os-timezone-group-header">'.esc_attr__( 'UTC', 'latepoint' ).'</div>';
+		$structure[] = '<div class="os-timezone-group"><div class="os-timezone-group-header">' . esc_attr__( 'UTC', 'latepoint' ) . '</div>';
 		$selected    = '';
 		if ( 'UTC' === $selected_zone ) {
 			$selected = 'selected';
@@ -504,7 +532,7 @@ class OsTimeHelper {
 				$display = $zone['t_city'];
 				if ( ! empty( $zone['subcity'] ) ) {
 					// Add the subcity to the value
-					$value[] = $zone['subcity'];
+					$value[]  = $zone['subcity'];
 					$display .= ' - ' . $zone['t_subcity'];
 				}
 			}
@@ -557,7 +585,5 @@ class OsTimeHelper {
 		} else {
 			return 'n/a';
 		}
-
 	}
-
 }

@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.2.10
+Stable tag: 5.2.11
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -18,7 +18,7 @@ Optimize your appointment scheduling with our plugin. Sync calendars, automate r
 
 [youtube https://www.youtube.com/watch?v=s5lcrXFWQcw]
 
-[What's New](https://latepoint.com/changelog/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Docs](https://wpdocs.latepoint.com/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Video Tutorial](https://www.youtube.com/watch?v=wwQ5EwEln6E&utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Get Help](https://wpdocs.latepoint.com/support/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Community](https://discord.com/invite/YN2MN7w7S8?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
+[What's New](https://latepoint.com/changelog/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Docs](https://wpdocs.latepoint.com/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Video Tutorial](https://www.youtube.com/watch?v=wwQ5EwEln6E&utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin) | [Get Help](https://wpdocs.latepoint.com/support/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
 
 LatePoint is a simple yet lightweight and powerful appointment booking plugin for WordPress. Built for service-based businesses, it helps your customers book appointments in just a few clicks, without the back-and-forth emails or clunky booking systems.
 
@@ -202,6 +202,10 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.2.11 - March 10, 2026 =
+- Fix: Fixed calendar month names displaying duplicated characters (e.g., "Marss", "Aprilil") when both short and full month names are translated to the same value via Loco Translate.
+- Security: Strengthen plugin security and harden against potential vulnerabilities.
 
 = 5.2.10 - February 26, 2026 =
 - New: Added "Remove all data on plugin deletion" toggle under Settings > General > Danger Zone > Plugin Deletion to permanently delete all LatePoint data when the plugin is removed.

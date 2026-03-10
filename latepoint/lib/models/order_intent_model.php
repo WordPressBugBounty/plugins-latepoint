@@ -39,10 +39,10 @@ class OsOrderIntentModel extends OsModel {
 
 	protected function params_to_sanitize() {
 		return [
-			'charge_amount'        => 'money',
-			'total'        => 'money',
-			'subtotal'        => 'money',
-			'tax_total'        => 'money',
+			'charge_amount' => 'money',
+			'total'         => 'money',
+			'subtotal'      => 'money',
+			'tax_total'     => 'money',
 		];
 	}
 
@@ -131,14 +131,14 @@ class OsOrderIntentModel extends OsModel {
 		}
 	}
 
-	public function is_bookable( array $settings = []): bool {
+	public function is_bookable( array $settings = [] ): bool {
 		$cart = $this->build_cart_object();
 		// loop items and check if bookings are still available
 		foreach ( $cart->get_items() as $cart_item ) {
 			switch ( $cart_item->variant ) {
 				case LATEPOINT_ITEM_VARIANT_BOOKING:
 					$booking = $cart_item->build_original_object_from_item_data();
-					if ( ! $booking->is_bookable($settings) ) {
+					if ( ! $booking->is_bookable( $settings ) ) {
 						$this->add_error( 'send_to_step', $booking->get_error_messages(), 'booking__datepicker' );
 
 						return false;
@@ -175,20 +175,20 @@ class OsOrderIntentModel extends OsModel {
 		do_action( 'latepoint_order_intent_failed', $this );
 	}
 
-	public function wait_for_transaction_completion() : OsOrderIntentModel {
-		$attempts = 0;
-		$max_attempts = 6;
+	public function wait_for_transaction_completion(): OsOrderIntentModel {
+		$attempts      = 0;
+		$max_attempts  = 6;
 		$delay_seconds = 2;
 
-		while ($attempts < $max_attempts) {
-			if (!$this->is_processing()) {
+		while ( $attempts < $max_attempts ) {
+			if ( ! $this->is_processing() ) {
 				return $this;
 			}
-			sleep($delay_seconds);
+			sleep( $delay_seconds );
 			$attempts++;
-			$this->load_by_id($this->id);
+			$this->load_by_id( $this->id );
 		}
-		if($this->is_processing()){
+		if ( $this->is_processing() ) {
 			// if it's still processing after waiting - mark as failed
 			$this->mark_as_failed();
 		}
@@ -196,17 +196,17 @@ class OsOrderIntentModel extends OsModel {
 	}
 
 	public function convert_to_order() {
-		if($this->is_converted()){
+		if ( $this->is_converted() ) {
 			return $this->order_id;
 		}
 
-		if($this->is_processing()){
+		if ( $this->is_processing() ) {
 
 			$this->wait_for_transaction_completion();
-			if($this->is_failed()){
-				$this->add_error( 'transaction_intent_error', __('Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint') );
+			if ( $this->is_failed() ) {
+				$this->add_error( 'transaction_intent_error', __( 'Can not convert to transaction, because transaction intent conversion is being processed', 'latepoint' ) );
 				return false;
-			}else if($this->is_converted()){
+			} elseif ( $this->is_converted() ) {
 				return $this->order_id;
 			}
 		}
@@ -227,8 +227,8 @@ class OsOrderIntentModel extends OsModel {
 			// payment processing can take a while, make sure to check if the intent wasn't converted already in the meantime
 			$converted_order_id = OsOrderIntentHelper::is_converted( $this->id );
 			if ( $converted_order_id ) {
-				$order = new OsOrderModel($converted_order_id);
-				$this->mark_as_converted($order);
+				$order = new OsOrderModel( $converted_order_id );
+				$this->mark_as_converted( $order );
 				return $converted_order_id;
 			}
 
@@ -242,20 +242,20 @@ class OsOrderIntentModel extends OsModel {
 
 			$cart_from_intent = $this->build_cart_object();
 
-			$order                      = new OsOrderModel();
-			$order->customer_id         = $this->customer_id;
-			$order->total               = $this->total;
-			$order->subtotal            = $this->subtotal;
-			$order->coupon_code         = $this->coupon_code;
-			$order->coupon_discount     = $this->coupon_discount;
-			$order->tax_total           = $this->tax_total;
-			$order->source_url          = $this->booking_form_page_url;
-			$order->customer_comment    = $this->customer->notes;
+			$order                          = new OsOrderModel();
+			$order->customer_id             = $this->customer_id;
+			$order->total                   = $this->total;
+			$order->subtotal                = $this->subtotal;
+			$order->coupon_code             = $this->coupon_code;
+			$order->coupon_discount         = $this->coupon_discount;
+			$order->tax_total               = $this->tax_total;
+			$order->source_url              = $this->booking_form_page_url;
+			$order->customer_comment        = $this->customer->notes;
 			$order_initial_payment_data_arr = json_decode( $this->payment_data, true );
 			$order_initial_payment_data_arr['charge_amount'] = $this->charge_amount;
-			$order->initial_payment_data        = wp_json_encode($order_initial_payment_data_arr);
+			$order->initial_payment_data                     = wp_json_encode( $order_initial_payment_data_arr );
 			// order's price breakdown should only hold cart items, and never holds total, subtotal, balance variables because those are stored on order model itself and/or generated on the fly
-			$order->price_breakdown = wp_json_encode( $cart_from_intent->generate_price_breakdown_rows(['balance', 'total', 'subtotal']));
+			$order->price_breakdown = wp_json_encode( $cart_from_intent->generate_price_breakdown_rows( [ 'balance', 'total', 'subtotal' ] ) );
 
 			/**
 			 * Filters order right before it's about to be saved when converting from an order intent
@@ -272,7 +272,7 @@ class OsOrderIntentModel extends OsModel {
 
 			if ( $order->save() ) {
 				$this->mark_as_converted( $order );
-				OsInvoicesHelper::create_invoices_for_new_order($order);
+				OsInvoicesHelper::create_invoices_for_new_order( $order );
 
 
 				foreach ( $cart_from_intent->get_items() as $cart_item ) {
@@ -283,8 +283,10 @@ class OsOrderIntentModel extends OsModel {
 
 				if ( $transaction ) {
 					$transaction->order_id = $order->id;
-					$invoice = OsInvoicesHelper::get_matching_invoice_for_transaction($transaction);
-					if(!$invoice->is_new_record()) $transaction->invoice_id = $invoice->id;
+					$invoice               = OsInvoicesHelper::get_matching_invoice_for_transaction( $transaction );
+					if ( ! $invoice->is_new_record() ) {
+						$transaction->invoice_id = $invoice->id;
+					}
 					if ( $transaction->save() ) {
 
 						/**
@@ -297,9 +299,9 @@ class OsOrderIntentModel extends OsModel {
 						 *
 						 */
 						do_action( 'latepoint_transaction_created', $transaction );
-						if(!$invoice->is_new_record()){
+						if ( ! $invoice->is_new_record() ) {
 							$old_invoice = clone $invoice;
-							$invoice->update_attributes(['status' => LATEPOINT_INVOICE_STATUS_PAID]);
+							$invoice->update_attributes( [ 'status' => LATEPOINT_INVOICE_STATUS_PAID ] );
 							/**
 							 * Invoice was updated
 							 *
@@ -313,22 +315,25 @@ class OsOrderIntentModel extends OsModel {
 							do_action( 'latepoint_invoice_updated', $invoice, $old_invoice );
 							// update other invoices with this paid amount, for example if we charge a deposit - then this transaction should also be reflected in draft invoices for the remaining amount that were created earlier
 							$other_invoices = new OsInvoiceModel();
-							$other_invoices = $other_invoices->where(['status' => LATEPOINT_INVOICE_STATUS_DRAFT, 'order_id' => $order->id])->get_results_as_models();
-							if($other_invoices){
-								foreach($other_invoices as $invoice){
-									$data = json_decode($invoice->data, true);
-									$data['totals']['payments'] = $order->get_total_amount_paid_from_transactions(true);
-									$invoice->update_attributes(['data' => json_encode($data)]);
+							$other_invoices = $other_invoices->where(
+								[
+									'status'   => LATEPOINT_INVOICE_STATUS_DRAFT,
+									'order_id' => $order->id,
+								] 
+							)->get_results_as_models();
+							if ( $other_invoices ) {
+								foreach ( $other_invoices as $invoice ) {
+									$data                       = json_decode( $invoice->data, true );
+									$data['totals']['payments'] = $order->get_total_amount_paid_from_transactions( true );
+									$invoice->update_attributes( [ 'data' => json_encode( $data ) ] );
 								}
-							}
-
-						}
-
+							}						
+						}					
 					} else {
 						OsDebugHelper::log( 'Error creating transaction', 'transaction_error', $transaction->get_error_messages() );
 					}
 				}
-				$order_bookings = $order->get_bookings_from_order_items(true);
+				$order_bookings = $order->get_bookings_from_order_items( true );
 				if ( $order_bookings ) {
 					foreach ( $order_bookings as $order_item_id => $order_booking ) {
 						$order_booking->order_item_id = $order_item_id;
@@ -366,7 +371,7 @@ class OsOrderIntentModel extends OsModel {
 				$this->mark_cart_converted();
 				$order->determine_payment_status();
 				// update with latest info
-				$order->get_items(true);
+				$order->get_items( true );
 
 				/**
 				 * Order was created
@@ -389,7 +394,7 @@ class OsOrderIntentModel extends OsModel {
 		} catch ( Exception $e ) {
 			$this->mark_as_new();
 			// translators: %s is the error description
-			$this->add_error( 'order_error', sprintf(__('Error: %s', 'latepoint'), $e->getMessage() ));
+			$this->add_error( 'order_error', sprintf( __( 'Error: %s', 'latepoint' ), $e->getMessage() ) );
 			OsDebugHelper::log( 'Error converting intent to an order', 'order_error', $e->getMessage() );
 			return false;
 		}
@@ -404,7 +409,12 @@ class OsOrderIntentModel extends OsModel {
 			return false;
 		}
 
-		$this->update_attributes( [ 'order_id' => $order->id, 'status' => LATEPOINT_ORDER_INTENT_STATUS_CONVERTED ] );
+		$this->update_attributes(
+			[
+				'order_id' => $order->id,
+				'status'   => LATEPOINT_ORDER_INTENT_STATUS_CONVERTED,
+			] 
+		);
 		/**
 		 * Order intent is converted to order
 		 *
@@ -447,7 +457,7 @@ class OsOrderIntentModel extends OsModel {
 	}
 
 	// Determines if order intent has been converted into a order already
-	public function is_converted() : bool {
+	public function is_converted(): bool {
 		if ( empty( $this->order_id ) ) {
 			return false;
 		} else {
@@ -461,11 +471,11 @@ class OsOrderIntentModel extends OsModel {
 			'intent_key'            => $this->intent_key,
 			'customer_id'           => $this->customer_id,
 			'booking_form_page_url' => $this->booking_form_page_url,
-			'cart_items_data'       => !empty($this->cart_items_data) ? json_decode( $this->cart_items_data, true ) : [],
-			'restrictions_data'     => !empty($this->restrictions_data) ? json_decode( $this->restrictions_data, true ) : [],
-			'presets_data'          => !empty($this->presets_data) ? json_decode( $this->presets_data, true ) : [],
-			'payment_data'          => !empty($this->payment_data) ? json_decode( $this->payment_data, true ) : [],
-			'other_data'            => !empty($this->other_data) ? json_decode( $this->other_data, true ) : [],
+			'cart_items_data'       => ! empty( $this->cart_items_data ) ? json_decode( $this->cart_items_data, true ) : [],
+			'restrictions_data'     => ! empty( $this->restrictions_data ) ? json_decode( $this->restrictions_data, true ) : [],
+			'presets_data'          => ! empty( $this->presets_data ) ? json_decode( $this->presets_data, true ) : [],
+			'payment_data'          => ! empty( $this->payment_data ) ? json_decode( $this->payment_data, true ) : [],
+			'other_data'            => ! empty( $this->other_data ) ? json_decode( $this->other_data, true ) : [],
 			'order_id'              => $this->order_id,
 			'coupon_code'           => $this->coupon_code,
 			'coupon_discount'       => $this->coupon_discount,
@@ -573,14 +583,14 @@ class OsOrderIntentModel extends OsModel {
 		return $validations;
 	}
 
-	public function mark_cart_converted(?OsCartModel $cart = null) : bool {
-		if($this->is_new_record() || empty($this->order_id)){
+	public function mark_cart_converted( ?OsCartModel $cart = null ): bool {
+		if ( $this->is_new_record() || empty( $this->order_id ) ) {
 			return false;
 		}
-		if(!empty($cart)){
+		if ( ! empty( $cart ) ) {
 			$cart->order_id = $this->order_id;
 			$cart->save();
-		}else{
+		} else {
 			$carts = new OsCartModel();
 			$carts = $carts->where( [ 'order_intent_id' => $this->id ] )->get_results_as_models();
 			if ( ! empty( $carts ) ) {

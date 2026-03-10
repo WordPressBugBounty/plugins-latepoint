@@ -20,7 +20,10 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'processes/';
 			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'processes' );
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'processes' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Workflows', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'processes', 'index' ) ) );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Workflows', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'processes', 'index' ) ),
+			);
 		}
 
 		public function new_form() {
@@ -34,7 +37,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$trigger_conditions_form_section_html = OsProcessesHelper::trigger_conditions_html_for_event( $event );
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $trigger_conditions_form_section_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $trigger_conditions_form_section_html,
+					) 
+				);
 			}
 		}
 
@@ -47,7 +55,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 				$html .= '<option value="' . $property['value'] . '">' . $property['label'] . '</option>';
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $html,
+					) 
+				);
 			}
 		}
 
@@ -61,7 +74,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 				$html .= '<option value="' . $value . '">' . $label . '</option>';
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $html,
+					) 
+				);
 			}
 		}
 
@@ -72,9 +90,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$trigger_condition_id = $this->params['trigger_condition_id'];
 			$values               = OsProcessesHelper::values_for_trigger_condition_property( $property );
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status'  => LATEPOINT_STATUS_SUCCESS,
-				                         'message' => OsFormHelper::multi_select_field( 'process[event][trigger_conditions][' . $trigger_condition_id . '][value]', false, $values, false, [] )
-				) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => OsFormHelper::multi_select_field( 'process[event][trigger_conditions][' . $trigger_condition_id . '][value]', false, $values, false, [] ),
+					) 
+				);
 			}
 		}
 
@@ -94,7 +115,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 				$response_html = __( 'Process Removed', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -136,7 +162,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 				if ( ! $new_process ) {
 					// remove previously created jobs for this process that hasn't run yet
 					$jobs = new OsProcessJobModel();
-					$jobs->delete_where( [ 'process_id' => $process->id, 'status' => LATEPOINT_JOB_STATUS_SCHEDULED ] );
+					$jobs->delete_where(
+						[
+							'process_id' => $process->id,
+							'status'     => LATEPOINT_JOB_STATUS_SCHEDULED,
+						] 
+					);
 					/**
 					 * Process was updated
 					 *
@@ -170,7 +201,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $message ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $message,
+					) 
+				);
 			}
 		}
 
@@ -178,22 +214,37 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$process_event          = new \LatePoint\Misc\ProcessEvent( [ 'type' => $this->params['event_type'] ] );
 			$trigger_condition_html = $process_event->generate_trigger_condition_form_html();
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $trigger_condition_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $trigger_condition_html,
+					) 
+				);
 			}
 		}
 
 		function new_action() {
 			$action        = new \LatePoint\Misc\ProcessAction();
-			$process_id = !empty($this->params['process_id']) ? sanitize_text_field($this->params['process_id']) : '';
+			$process_id    = ! empty( $this->params['process_id'] ) ? sanitize_text_field( $this->params['process_id'] ) : '';
 			$response_html = \LatePoint\Misc\ProcessAction::generate_form( $action, $process_id );
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
 		function load_action_settings() {
-			$action = new \LatePoint\Misc\ProcessAction( [ 'type' => $this->params['action_type'], 'id' => $this->params['action_id'] ] );
+			$action = new \LatePoint\Misc\ProcessAction(
+				[
+					'type' => $this->params['action_type'],
+					'id'   => $this->params['action_id'],
+				] 
+			);
 
 			$template_id = $this->params['template_id'] ?? false;
 			if ( $template_id ) {
@@ -201,7 +252,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => \LatePoint\Misc\ProcessAction::generate_settings_fields( $action ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => \LatePoint\Misc\ProcessAction::generate_settings_fields( $action ),
+					) 
+				);
 			}
 		}
 
@@ -220,12 +276,20 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 
 			$available_data_sources = $action->event->get_available_data_sources();
 			foreach ( $available_data_sources as $data_source ) {
-				$action->selected_data_objects[] = [ 'model' => $data_source['model'], 'id' => $this->params['data_source'][ $data_source['name'] ] ];
+				$action->selected_data_objects[] = [
+					'model' => $data_source['model'],
+					'id'    => $this->params['data_source'][ $data_source['name'] ],
+				];
 			}
 
 			$result = $action->run();
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( [ 'status' => $result['status'], 'message' => $result['message'] ] );
+				$this->send_json(
+					[
+						'status'  => $result['status'],
+						'message' => $result['message'],
+					] 
+				);
 			}
 		}
 
@@ -246,7 +310,7 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$selected_data_objects = [];
 			foreach ( $data_sources as $source_id => $data_source_value ) {
 				$object_data = OsProcessesHelper::get_object_data_by_source( $source_id, $data_source_value );
-				if(!empty($object_data)){
+				if ( ! empty( $object_data ) ) {
 					$selected_data_objects[] = $object_data;
 				}
 			}
@@ -271,7 +335,12 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( [ 'status' => $status, 'message' => $message ] );
+				$this->send_json(
+					[
+						'status'  => $status,
+						'message' => $message,
+					] 
+				);
 			}
 		}
 
@@ -284,9 +353,16 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 
 
 			foreach ( $available_data_sources as $data_source ) {
-				$action_settings_html .= OsFormHelper::select_field( 'data_source[' . $data_source['name'] . ']', $data_source['label'], $data_source['values'], $data_source['values']['0']['value'], [ 'class'      => 'process-test-data-source-selector',
-				                                                                                                                                                                                         'data-route' => OsRouterHelper::build_route_name( 'processes', 'reload_action_test_preview' )
-				] );
+				$action_settings_html .= OsFormHelper::select_field(
+					'data_source[' . $data_source['name'] . ']',
+					$data_source['label'],
+					$data_source['values'],
+					$data_source['values']['0']['value'],
+					[
+						'class'      => 'process-test-data-source-selector',
+						'data-route' => OsRouterHelper::build_route_name( 'processes', 'reload_action_test_preview' ),
+					] 
+				);
 			}
 			$this->vars['action_settings_html'] = $action_settings_html;
 			$this->vars['process']              = $process;
@@ -302,16 +378,25 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$action_settings_html   = '';
 			$available_data_sources = $action->event->get_available_data_sources();
 			foreach ( $available_data_sources as $data_source ) {
-				$action_settings_html            .= OsFormHelper::select_field( 'data_source[' . $data_source['name'] . ']', $data_source['label'], $data_source['values'], $data_source['values']['0']['value'], [
-					'class'      => 'process-action-test-data-source-selector',
-					'data-route' => OsRouterHelper::build_route_name( 'processes', 'reload_action_test_preview' )
-				] );
-				$action->selected_data_objects[] = [ 'model' => $data_source['model'], 'id' => $data_source['values'][0]['value'] ];
+				$action_settings_html           .= OsFormHelper::select_field(
+					'data_source[' . $data_source['name'] . ']',
+					$data_source['label'],
+					$data_source['values'],
+					$data_source['values']['0']['value'],
+					[
+						'class'      => 'process-action-test-data-source-selector',
+						'data-route' => OsRouterHelper::build_route_name( 'processes', 'reload_action_test_preview' ),
+					] 
+				);
+				$action->selected_data_objects[] = [
+					'model' => $data_source['model'],
+					'id'    => $data_source['values'][0]['value'],
+				];
 			}
 			$action_settings_html .= OsFormHelper::hidden_field( 'action[type]', $action->type );
 			$action_settings_html .= OsFormHelper::hidden_field( 'action[event][type]', $action->event->type );
-			$action_settings_html.= OsFormHelper::get_hidden_fields_for_array($action->settings, 'action[settings]');
-			$preview_html = $action->generate_preview();
+			$action_settings_html .= OsFormHelper::get_hidden_fields_for_array( $action->settings, 'action[settings]' );
+			$preview_html          = $action->generate_preview();
 
 			$this->vars['action']               = $action;
 			$this->vars['preview_html']         = $preview_html;
@@ -326,13 +411,20 @@ if ( ! class_exists( 'OsProcessesController' ) ) :
 			$action->set_from_params( $this->params['action'] );
 			$available_data_sources = $action->event->get_available_data_sources();
 			foreach ( $available_data_sources as $data_source ) {
-				$action->selected_data_objects[] = [ 'model' => $data_source['model'], 'id' => $this->params['data_source'][ $data_source['name'] ] ];
+				$action->selected_data_objects[] = [
+					'model' => $data_source['model'],
+					'id'    => $this->params['data_source'][ $data_source['name'] ],
+				];
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $action->generate_preview() ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $action->generate_preview(),
+					] 
+				);
 			}
 		}
-
 	}
 
 endif;

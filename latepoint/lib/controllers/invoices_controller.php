@@ -48,11 +48,11 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 		}
 
 		private function get_invoice_params() {
-			$invoice_params                    = $this->params['invoice'];
+			$invoice_params = $this->params['invoice'];
 
 			// input date is in WP format (or in viewer's format), we need to make it "end of the day" and also convert to UTC timezone
-			$due_at_wp_time = sanitize_text_field( $invoice_params['due_at'] ).' 23:59:59';
-			$invoice_params['due_at'] = OsWpDateTime::os_createFromFormat(LATEPOINT_DATETIME_DB_FORMAT, $due_at_wp_time)->setTimezone(new DateTimeZone('UTC'))->format(LATEPOINT_DATETIME_DB_FORMAT);
+			$due_at_wp_time           = sanitize_text_field( $invoice_params['due_at'] ) . ' 23:59:59';
+			$invoice_params['due_at'] = OsWpDateTime::os_createFromFormat( LATEPOINT_DATETIME_DB_FORMAT, $due_at_wp_time )->setTimezone( new DateTimeZone( 'UTC' ) )->format( LATEPOINT_DATETIME_DB_FORMAT );
 
 			$invoice_params['order_id']        = absint( sanitize_text_field( $this->params['invoice']['order_id'] ) );
 			$invoice_params['payment_portion'] = sanitize_text_field( $this->params['invoice']['payment_portion'] );
@@ -79,7 +79,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 
 				return;
 			}
-			$invoice = new OsInvoiceModel( $this->params['invoice_id'] );
+			$invoice     = new OsInvoiceModel( $this->params['invoice_id'] );
 			$old_invoice = clone $invoice;
 
 			if ( empty( $invoice ) || $invoice->is_new_record() ) {
@@ -92,8 +92,8 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			$this->check_nonce( 'update_invoice_' . $this->params['invoice_id'] );
 
 			$invoice->charge_amount = OsParamsHelper::sanitize_param( sanitize_text_field( $this->params['invoice']['charge_amount'] ), 'money' );
-			$due_at_wp_time = sanitize_text_field( $this->params['invoice']['due_at'] ).' 23:59:59';
-			$due_at_utc_time = OsWpDateTime::os_createFromFormat(LATEPOINT_DATETIME_DB_FORMAT, $due_at_wp_time)->setTimezone(new DateTimeZone('UTC'))->format(LATEPOINT_DATETIME_DB_FORMAT);
+			$due_at_wp_time         = sanitize_text_field( $this->params['invoice']['due_at'] ) . ' 23:59:59';
+			$due_at_utc_time        = OsWpDateTime::os_createFromFormat( LATEPOINT_DATETIME_DB_FORMAT, $due_at_wp_time )->setTimezone( new DateTimeZone( 'UTC' ) )->format( LATEPOINT_DATETIME_DB_FORMAT );
 			$invoice->due_at        = $due_at_utc_time;
 			$invoice->status        = sanitize_text_field( $this->params['invoice']['status'] );
 
@@ -120,7 +120,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				$message = $invoice->get_error_messages();
 			}
 
-			$this->send_json( [ 'status' => $status, 'message' => $message ] );
+			$this->send_json(
+				[
+					'status'  => $status,
+					'message' => $message,
+				] 
+			);
 		}
 
 		public function edit_data() {
@@ -154,7 +159,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				return;
 			}
 
-			$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => OsInvoicesHelper::generate_invoice_tile_on_order_edit_form( $invoice ) ] );
+			$this->send_json(
+				[
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => OsInvoicesHelper::generate_invoice_tile_on_order_edit_form( $invoice ),
+				] 
+			);
 		}
 
 		public function create() {
@@ -164,7 +174,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			$invoice_params = $this->get_invoice_params();
 
 			if ( is_wp_error( $invoice_params ) ) {
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => $invoice_params->get_error_message() ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => $invoice_params->get_error_message(),
+					] 
+				);
 
 				return;
 			}
@@ -192,11 +207,20 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				 */
 				do_action( 'latepoint_invoice_created', $invoice );
 				$response_html = OsInvoicesHelper::generate_invoice_tile_on_order_edit_form( $invoice );
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					] 
+				);
 			} else {
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'Error: ', 'latepoint' ) . $invoice->get_error_messages() ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Error: ', 'latepoint' ) . $invoice->get_error_messages(),
+					] 
+				);
 			}
-
 		}
 
 		public function change_status() {
@@ -207,7 +231,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			}
 
 			// Condition for pro compatibility. Remove later.
-			if( isset( $this->params['_wpnonce'] ) ) {
+			if ( isset( $this->params['_wpnonce'] ) ) {
 				// Verify nonce.
 				$this->check_nonce( 'change_invoice_status_' . $this->params['invoice_id'] );
 			}
@@ -229,7 +253,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 
 			if ( $this->get_return_format() == 'json' ) {
 
-				$this->send_json( [ 'status' => $status, 'message' => $response_html ] );
+				$this->send_json(
+					[
+						'status'  => $status,
+						'message' => $response_html,
+					] 
+				);
 			}
 		}
 
@@ -258,9 +287,30 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				$customer = new OsCustomerModel( $order->customer_id );
 
 				$original_to = $to;
-				$to          = OsReplacerHelper::replace_all_vars( $to, [ 'order' => $order, 'customer' => $customer, 'invoice' => $invoice ] );
-				$subject     = OsReplacerHelper::replace_all_vars( $subject, [ 'order' => $order, 'customer' => $customer, 'invoice' => $invoice ] );
-				$content     = OsReplacerHelper::replace_all_vars( $content, [ 'order' => $order, 'customer' => $customer, 'invoice' => $invoice ] );
+				$to          = OsReplacerHelper::replace_all_vars(
+					$to,
+					[
+						'order'    => $order,
+						'customer' => $customer,
+						'invoice'  => $invoice,
+					] 
+				);
+				$subject     = OsReplacerHelper::replace_all_vars(
+					$subject,
+					[
+						'order'    => $order,
+						'customer' => $customer,
+						'invoice'  => $invoice,
+					] 
+				);
+				$content     = OsReplacerHelper::replace_all_vars(
+					$content,
+					[
+						'order'    => $order,
+						'customer' => $customer,
+						'invoice'  => $invoice,
+					] 
+				);
 				if ( OsUtilHelper::is_valid_email( $to ) ) {
 					$mailer = new OsMailer();
 					wp_mail( $to, $subject, $content, $mailer->get_headers() );
@@ -269,8 +319,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					$this->vars['success'] = __( 'Invoice email sent', 'latepoint' );
 				} else {
 					$errors[] = __( 'Please enter a valid email address.', 'latepoint' );
-				}
-
+				}			
 			}
 
 			$this->vars['errors']  = $errors;
@@ -302,11 +351,16 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			// find an existing transaction intent for this invoice
 
 			$transaction_intent = new OsTransactionIntentModel();
-			$transaction_intent = $transaction_intent->where( [ 'status' => [
-					LATEPOINT_TRANSACTION_INTENT_STATUS_NEW,
-					LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING,
-					LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED
-				], 'invoice_id' => $invoice->id ] )->set_limit( 1 )->get_results_as_models();
+			$transaction_intent = $transaction_intent->where(
+				[
+					'status'     => [
+						LATEPOINT_TRANSACTION_INTENT_STATUS_NEW,
+						LATEPOINT_TRANSACTION_INTENT_STATUS_PROCESSING,
+						LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED,
+					],
+					'invoice_id' => $invoice->id,
+				] 
+			)->set_limit( 1 )->get_results_as_models();
 			if ( empty( $transaction_intent ) ) {
 				$transaction_intent = new OsTransactionIntentModel();
 			}
@@ -434,7 +488,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				$this->vars['in_lightbox'] = true;
 				$this->set_layout( 'none' );
 				$response_html = $this->format_render_return( __FUNCTION__ );
-				$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ] );
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					] 
+				);
 			} else {
 				$this->vars['in_lightbox'] = false;
 				$this->set_layout( 'clean' );
@@ -469,7 +528,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 
 			if ( $this->get_return_format() == 'json' ) {
 
-				$this->send_json( [ 'status' => $status, 'message' => $response_html ] );
+				$this->send_json(
+					[
+						'status'  => $status,
+						'message' => $response_html,
+					] 
+				);
 			}
 		}
 	}

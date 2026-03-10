@@ -34,7 +34,7 @@ class OsCSVHelper {
 	}
 
 	public static function array_to_csv( $data ) {
-		$output = fopen( "php://output", "wb" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		$output = fopen( 'php://output', 'wb' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
 		foreach ( $data as $row ) {
 			// Escape each cell to prevent CSV formula injection
 			$escaped_row = array_map( [ self::class, 'escape_csv_formula' ], $row );
@@ -59,26 +59,26 @@ class OsCSVHelper {
 		return $upload_dir;
 	}
 
-	public static function upload_csv_file($files,  $file_name ) {
-		if(empty($files[$file_name])){
-			throw new \Exception('File not selected');
+	public static function upload_csv_file( $files, $file_name ) {
+		if ( empty( $files[ $file_name ] ) ) {
+			throw new \Exception( 'File not selected' );
 		}
 
-		$file = $files[$file_name];
+		$file = $files[ $file_name ];
 
 		// Security: Validate file before upload (defense-in-depth)
-		if (!self::validate_csv_upload($file)) {
-			throw new \Exception('Invalid CSV file format');
+		if ( ! self::validate_csv_upload( $file ) ) {
+			throw new \Exception( 'Invalid CSV file format' );
 		}
 
 		$upload_dir = OsCsvHelper::get_import_dir();
-		$tmp_name = uniqid('latepoint_customers_csv_') . '.csv';
-		$filepath = $upload_dir . '/' . $tmp_name;
+		$tmp_name   = uniqid( 'latepoint_customers_csv_' ) . '.csv';
+		$filepath   = $upload_dir . '/' . $tmp_name;
 
-		if (!move_uploaded_file($file['tmp_name'][0], $filepath)) {
-			throw new \Exception('Error uploading file');
+		if ( ! move_uploaded_file( $file['tmp_name'][0], $filepath ) ) {
+			throw new \Exception( 'Error uploading file' );
 		}
-		set_transient('csv_import_file_' . OsWpUserHelper::get_current_user_id(), $filepath, 3600);
+		set_transient( 'csv_import_file_' . OsWpUserHelper::get_current_user_id(), $filepath, 3600 );
 		return $filepath;
 	}
 
@@ -89,11 +89,11 @@ class OsCSVHelper {
 	 * @param array $file Uploaded file array from $_FILES
 	 * @return bool True if file is valid CSV, false otherwise
 	 */
-	public static function validate_csv_upload($file): bool {
-		$file_name = is_array($file['name']) ? $file['name'][0] : $file['name'];
-		$tmp_name  = is_array($file['tmp_name']) ? $file['tmp_name'][0] : $file['tmp_name'];
+	public static function validate_csv_upload( $file ): bool {
+		$file_name = is_array( $file['name'] ) ? $file['name'][0] : $file['name'];
+		$tmp_name  = is_array( $file['tmp_name'] ) ? $file['tmp_name'][0] : $file['tmp_name'];
 
-		if (!file_exists($tmp_name)) {
+		if ( ! file_exists( $tmp_name ) ) {
 			return false;
 		}
 
@@ -101,21 +101,21 @@ class OsCSVHelper {
 		$allowed_mimes = [
 			'csv' => 'text/csv',
 		];
-		$validated = wp_check_filetype_and_ext($tmp_name, $file_name, $allowed_mimes);
-		if (!$validated['ext'] || !$validated['type']) {
+		$validated     = wp_check_filetype_and_ext( $tmp_name, $file_name, $allowed_mimes );
+		if ( ! $validated['ext'] || ! $validated['type'] ) {
 			return false;
 		}
 
 		// Step 2: Validate CSV structure by attempting to read first line
-		$handle = fopen($tmp_name, 'r'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
-		if ($handle === false) {
+		$handle = fopen( $tmp_name, 'r' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_fopen
+		if ( $handle === false ) {
 			return false;
 		}
 
-		$first_line = fgetcsv($handle);
-		fclose($handle); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
+		$first_line = fgetcsv( $handle );
+		fclose( $handle ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
-		if (!is_array($first_line) || empty($first_line)) {
+		if ( ! is_array( $first_line ) || empty( $first_line ) ) {
 			return false;
 		}
 
@@ -139,29 +139,28 @@ class OsCSVHelper {
 	}
 
 	public static function get_csv_data( $file_path, $limit = false ) {
-		if (!file_exists($file_path)) {
-			throw new \Exception('File does not exist');
+		if ( ! file_exists( $file_path ) ) {
+			throw new \Exception( 'File does not exist' );
 		}
 
-		if (!OsCSVHelper::is_valid_csv($file_path)) {
-			throw new \Exception('Invalid file format');
+		if ( ! OsCSVHelper::is_valid_csv( $file_path ) ) {
+			throw new \Exception( 'Invalid file format' );
 		}
 
 		$data = [];
-		$i = 0;
-		if (($handle = fopen($file_path, 'r')) !== false) {
-			while (($row = fgetcsv($handle)) !== false) {
+		$i    = 0;
+		if ( ( $handle = fopen( $file_path, 'r' ) ) !== false ) {
+			while ( ( $row = fgetcsv( $handle ) ) !== false ) {
 				$data[] = $row;
 				$i++;
-				if ($limit && $i >= $limit) {
+				if ( $limit && $i >= $limit ) {
 					break;
 				}
 			}
-			fclose($handle);
+			fclose( $handle );
 		} else {
-			throw new \Exception('Error reading file');
+			throw new \Exception( 'Error reading file' );
 		}
 		return $data;
 	}
-
 }

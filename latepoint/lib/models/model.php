@@ -6,24 +6,24 @@ class OsModel {
 	protected $error,
 		$db;
 
-	public $nice_names = [];
-	protected $comparisons = array( '>=', '<=', '<', '>', '!=', 'LIKE' );
-	protected $conditions = [];
-	protected $limit = false;
-	protected $offset = false;
-	protected $select_args = [];
-	protected $order_args = false;
-	protected $group_args = false;
-	protected $having_args = false;
-	protected $joins = [];
-	public $data_vars = [];
+	public $nice_names            = [];
+	protected $comparisons        = array( '>=', '<=', '<', '>', '!=', 'LIKE' );
+	protected $conditions         = [];
+	protected $limit              = false;
+	protected $offset             = false;
+	protected $select_args        = [];
+	protected $order_args         = false;
+	protected $group_args         = false;
+	protected $having_args        = false;
+	protected $joins              = [];
+	public $data_vars             = [];
 	public $first_level_data_vars = [];
-	public $form_id = false;
-	public $last_query = '';
-	protected $meta_class = false;
-	public $meta = false;
-	public $table_name = '';
-	public $join_attributes = [];
+	public $form_id               = false;
+	public $last_query            = '';
+	protected $meta_class         = false;
+	public $meta                  = false;
+	public $table_name            = '';
+	public $join_attributes       = [];
 
 	function __construct( $id = false ) {
 		$this->error = false;
@@ -50,17 +50,17 @@ class OsModel {
 			$format = OsSettingsHelper::get_readable_date_format();
 		}
 		if ( property_exists( $this, 'created_at' ) && isset( $this->created_at ) && ! empty( $this->created_at ) ) {
-			$date = new OsWpDateTime( $this->created_at, new DateTimeZone('UTC') );
+			$date = new OsWpDateTime( $this->created_at, new DateTimeZone( 'UTC' ) );
 
 			return $date->format( $format );
 		} else {
 			return $default;
 		}
 	}
-	public function readable_created_date() : string {
-		try{
-			return OsTimeHelper::get_readable_date( new OsWpDateTime( $this->created_at, new DateTimeZone('UTC') ) );
-		}catch( Exception $e ) {
+	public function readable_created_date(): string {
+		try {
+			return OsTimeHelper::get_readable_date( new OsWpDateTime( $this->created_at, new DateTimeZone( 'UTC' ) ) );
+		} catch ( Exception $e ) {
 			return 'n/a';
 		}
 	}
@@ -149,9 +149,12 @@ class OsModel {
 	public static function where_in_array_to_string( $array_of_values ) {
 		$clean_string = '';
 		if ( is_array( $array_of_values ) ) {
-			$array_of_values = array_map( function ( $v ) {
-				return "'" . esc_sql( $v ) . "'";
-			}, $array_of_values );
+			$array_of_values = array_map(
+				function ( $v ) {
+					return "'" . esc_sql( $v ) . "'";
+				},
+				$array_of_values 
+			);
 			$clean_string    = ' (' . implode( ',', $array_of_values ) . ') ';
 		}
 
@@ -206,7 +209,7 @@ class OsModel {
 		$this->joins[] = [
 			'join_table'   => $table,
 			'join_on_args' => $on_args,
-			'join_type'    => in_array( $type, [ 'left', 'right' ] ) ? $type : ''
+			'join_type'    => in_array( $type, [ 'left', 'right' ] ) ? $type : '',
 		];
 
 		return $this;
@@ -332,10 +335,13 @@ class OsModel {
 	}
 
 	protected function with_table_name( $column ) {
-		if ( ! is_numeric( $column ) && ! in_array( $column, [
+		if ( ! is_numeric( $column ) && ! in_array(
+			$column,
+			[
 				'AND',
-				'OR'
-			] ) && ( strpos( $column, '(' ) === false ) && ( strpos( $column, '.' ) === false ) ) {
+				'OR',
+			] 
+		) && ( strpos( $column, '(' ) === false ) && ( strpos( $column, '.' ) === false ) ) {
 			return $this->table_name . '.' . $column;
 		} else {
 			return $column;
@@ -351,11 +357,11 @@ class OsModel {
 			foreach ( $conditions as $column => $value ) {
 				$temp_query = false;
 				if ( $column == 'OR' || $column == 'AND' ) {
-					$sql_query             .= '(';
+					$sql_query            .= '(';
 					$conditions_and_values = $this->build_conditions_query( $value, $column );
-					$sql_query             .= $conditions_and_values[0];
+					$sql_query            .= $conditions_and_values[0];
 					$where_values          = array_merge( $where_values, $conditions_and_values[1] );
-					$sql_query             .= ')';
+					$sql_query            .= ')';
 				} else {
 					// Check if its a comparison condition e.g. <, >, <=, >= etc...
 					foreach ( $this->comparisons as $comparison ) {
@@ -374,7 +380,7 @@ class OsModel {
 						// IS ARRAY AND OR
 						foreach ( $value as $condition_and_or => $condition_values ) {
 
-							$temp_query  .= '(';
+							$temp_query .= '(';
 							$sub_queries = [];
 							foreach ( $condition_values as $condition_key => $condition_value ) {
 								if ( is_string( $condition_key ) && is_string( $column ) ) {
@@ -414,7 +420,7 @@ class OsModel {
 						$sql_query .= $this->with_table_name( $column ) . '= %s';
 					}
 				}
-				$index ++;
+				$index++;
 				if ( $index < count( $conditions ) ) {
 					$sql_query .= ' ' . $logical_operator . ' ';
 				}
@@ -457,8 +463,9 @@ class OsModel {
 		OsDebugHelper::log_query( $this->last_query );
 
 		$items = $this->db->get_results(
-			$this->prepare( $query, $conditions_and_values[1] )
-			, $results_type );
+			$this->prepare( $query, $conditions_and_values[1] ),
+			$results_type 
+		);
 
 		if ( ( $this->limit == 1 ) && isset( $items[0] ) ) {
 			$items = $items[0];
@@ -471,8 +478,9 @@ class OsModel {
 	public function get_query_results( $query, $values = [], $results_type = OBJECT ) {
 		$this->last_query = $query;
 		$items            = $this->db->get_results(
-			$this->prepare( $query, $values )
-			, $results_type );
+			$this->prepare( $query, $values ),
+			$results_type 
+		);
 		OsDebugHelper::log_query( $query );
 
 		return $items;
@@ -600,7 +608,6 @@ class OsModel {
 	 * Useful for child classes, to do something after a data is set
 	 */
 	public function after_data_was_set( $data ) {
-
 	}
 
 
@@ -722,11 +729,9 @@ class OsModel {
 	}
 
 	protected function before_save() {
-
 	}
 
 	protected function before_create() {
-
 	}
 
 	// updates array of attributes
@@ -771,7 +776,6 @@ class OsModel {
 	}
 
 	protected function set_defaults() {
-
 	}
 
 	// searches list of params that need to be sanitised and returns sanitised value
@@ -783,13 +787,13 @@ class OsModel {
 		return $value;
 	}
 
-	public function prepare_and_validate($alternative_validation = false, $skip_properties = [] ) : bool{
+	public function prepare_and_validate( $alternative_validation = false, $skip_properties = [] ): bool {
 		try {
 			$this->set_defaults();
 			$this->before_save();
-			if($this->validate( $alternative_validation, $skip_properties )){
+			if ( $this->validate( $alternative_validation, $skip_properties ) ) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		} catch ( Exception $e ) {
@@ -858,7 +862,7 @@ class OsModel {
 		if ( isset( $this->nice_names[ $property ] ) ) {
 			return $this->nice_names[ $property ];
 		} else {
-			return ucwords( str_replace( "_", " ", $property ) );
+			return ucwords( str_replace( '_', ' ', $property ) );
 		}
 	}
 
@@ -910,7 +914,7 @@ class OsModel {
 		return [];
 	}
 
-	public function generate_first_level_data_vars() : array{
+	public function generate_first_level_data_vars(): array {
 		return [];
 	}
 
@@ -1058,11 +1062,13 @@ class OsModel {
 	// Validations
 	// -------------------------
 
-	public function validate( $alternative_validation = false, $skip_properties = [] ) : bool {
+	public function validate( $alternative_validation = false, $skip_properties = [] ): bool {
 		$this->clear_error();
 		$properties_to_validate = $this->properties_to_validate( $alternative_validation );
 		foreach ( $properties_to_validate as $property_name => $validations ) {
-			if($skip_properties && in_array( $property_name, $skip_properties )) continue;
+			if ( $skip_properties && in_array( $property_name, $skip_properties ) ) {
+				continue;
+			}
 			foreach ( $validations as $validation ) {
 				$validation_function = 'validates_' . $validation;
 				if ( ! method_exists( $this, $validation_function ) ) {
@@ -1119,20 +1125,26 @@ class OsModel {
 	protected function validates_uniqueness( $property ) {
 		if ( isset( $this->$property ) && ! empty( $this->$property ) ) {
 			if ( $this->is_new_record() ) {
-				$query = $this->prepare( 'SELECT %i FROM %i WHERE %i = %s LIMIT 1', [
-					$property,
-					$this->table_name,
-					$property,
-					$this->$property
-				] );
+				$query = $this->prepare(
+					'SELECT %i FROM %i WHERE %i = %s LIMIT 1',
+					[
+						$property,
+						$this->table_name,
+						$property,
+						$this->$property,
+					] 
+				);
 			} else {
-				$query = $this->prepare( 'SELECT %i FROM %i WHERE %i = %s AND id != %d LIMIT 1', [
-					$property,
-					$this->table_name,
-					$property,
-					$this->$property,
-					$this->id
-				] );
+				$query = $this->prepare(
+					'SELECT %i FROM %i WHERE %i = %s AND id != %d LIMIT 1',
+					[
+						$property,
+						$this->table_name,
+						$property,
+						$this->$property,
+						$this->id,
+					] 
+				);
 			}
 			$items = $this->db->get_results( $query, ARRAY_A );
 			if ( $items ) {
@@ -1156,9 +1168,8 @@ class OsModel {
 		if ( ! $datetime ) {
 			return 'invalid date';
 		}
-		$datetime->setTimezone( new DateTimeZone( "UTC" ) );
+		$datetime->setTimezone( new DateTimeZone( 'UTC' ) );
 
 		return $datetime->format( \DateTime::RFC3339 );
 	}
-
 }

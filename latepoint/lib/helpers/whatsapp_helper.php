@@ -26,7 +26,6 @@ class OsWhatsappHelper {
 		}
 
 		return $holders;
-
 	}
 
 	public static function get_template_component_value_by_key( array $template, string $component_type, string $component_key ) {
@@ -60,10 +59,10 @@ class OsWhatsappHelper {
 	public static function get_template_preview( string $template_id, \LatePoint\Misc\ProcessAction $action ): string {
 		$html              = '';
 		$selected_template = \OsWhatsappHelper::get_template( $template_id );
-		$html              .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_language]', $selected_template['language'] );
-		$html              .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_parameter_format]', $selected_template['parameter_format'] );
-		$html              .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_category]', $selected_template['category'] );
-		$html              .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_name]', $selected_template['name'] );
+		$html             .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_language]', $selected_template['language'] );
+		$html             .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_parameter_format]', $selected_template['parameter_format'] );
+		$html             .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_category]', $selected_template['category'] );
+		$html             .= \OsFormHelper::hidden_field( 'process[actions][' . $action->id . '][settings][template_name]', $selected_template['name'] );
 
 		$variables_by_type['header']  = \OsWhatsappHelper::extract_variables_from_template( \OsWhatsappHelper::get_template_component_value_by_key( $selected_template, 'HEADER', 'text' ) );
 		$variables_by_type['body']    = \OsWhatsappHelper::extract_variables_from_template( \OsWhatsappHelper::get_template_component_value_by_key( $selected_template, 'BODY', 'text' ) );
@@ -71,7 +70,7 @@ class OsWhatsappHelper {
 
 		$html .= '<div class="latepoint-whatsapp-template-preview-wrapper">';
 		$html .= '<div class="latepoint-whatsapp-template-preview-content-wrapper">';
-		$html .= '<div class="latepoint-whatsapp-template-preview-heading">' . __( 'Message Preview', 'latepoint' ) . '</div>';;
+		$html .= '<div class="latepoint-whatsapp-template-preview-heading">' . __( 'Message Preview', 'latepoint' ) . '</div>';
 		$html .= '<div class="latepoint-whatsapp-template-preview-messages">';
 		if ( $selected_template ) {
 			$html .= '<div class="latepoint-whatsapp-template-preview-message">';
@@ -88,10 +87,10 @@ class OsWhatsappHelper {
 				case 'LOCATION':
 					break;
 			}
-			$html    .= '<div class="latepoint-whatsapp-template-preview-message-body">' . \OsWhatsappHelper::colorize_variables( esc_html( \OsWhatsappHelper::get_template_component_value_by_key( $selected_template, 'BODY', 'text' ) ), count( $variables_by_type['header'] ) ) . '</div>';
+			$html   .= '<div class="latepoint-whatsapp-template-preview-message-body">' . \OsWhatsappHelper::colorize_variables( esc_html( \OsWhatsappHelper::get_template_component_value_by_key( $selected_template, 'BODY', 'text' ) ), count( $variables_by_type['header'] ) ) . '</div>';
 			$buttons = \OsWhatsappHelper::get_template_component_value_by_key( $selected_template, 'BUTTONS', 'buttons' );
 			if ( $buttons ) {
-				$html        .= '<div class="latepoint-whatsapp-template-preview-message-buttons">';
+				$html       .= '<div class="latepoint-whatsapp-template-preview-message-buttons">';
 				$start_index = count( $variables_by_type['header'] ) + count( $variables_by_type['body'] );
 				foreach ( $buttons as $button ) {
 					$html .= '<div class="latepoint-whatsapp-template-preview-message-button latepoint-whatsapp-button-type-' . esc_attr( $button['type'] ) . '">';
@@ -113,24 +112,29 @@ class OsWhatsappHelper {
 		$html .= '</div>';
 		if ( ! empty( $variables_by_type['header'] ) || ! empty( $variables_by_type['body'] ) || ! empty( $variables_by_type['buttons'] ) ) {
 
-			$html                 .= '<div class="latepoint-whatsapp-template-preview-variables-wrapper parameter-format-'.esc_attr(strtolower($selected_template['parameter_format'])).'">';
-			$html                 .= '<div class="latepoint-whatsapp-template-preview-heading">';
-			$html                 .= '<div>' . __( 'Assign Variables', 'latepoint' ) . '</div>';
-			$html                 .= '</div>';
-			$html                 .= '<div class="latepoint-whatsapp-template-preview-variables-inner">';
+			$html                .= '<div class="latepoint-whatsapp-template-preview-variables-wrapper parameter-format-' . esc_attr( strtolower( $selected_template['parameter_format'] ) ) . '">';
+			$html                .= '<div class="latepoint-whatsapp-template-preview-heading">';
+			$html                .= '<div>' . __( 'Assign Variables', 'latepoint' ) . '</div>';
+			$html                .= '</div>';
+			$html                .= '<div class="latepoint-whatsapp-template-preview-variables-inner">';
 			$smart_variables_link = '<a href="#" class="open-template-variables-panel">' . esc_html__( 'Click here', 'latepoint' ) . '</a>';
-			$html                 .= '<div class="latepoint-whatsapp-note">' . sprintf( __( 'You have to assign values for each variable that is used in this template. %s to show smart variables that you can use.' ), $smart_variables_link ) . '</div>';
+			$html                .= '<div class="latepoint-whatsapp-note">' . sprintf( __( 'You have to assign values for each variable that is used in this template. %s to show smart variables that you can use.' ), $smart_variables_link ) . '</div>';
 			$color_index          = 0;
 			foreach ( $variables_by_type as $variable_type => $variables ) {
 				if ( ! empty( $variables ) ) {
 					$html .= '<div class="latepoint-whatsapp-variables-header"><div>' . $variable_type . '</div><div class="latepoint-whatsapp-header-line"></div></div>';
 					foreach ( $variables as $variable ) {
-						$html .= '<div class="latepoint-whatsapp-variable-value"><div style="background-color: ' . \OsUtilHelper::get_color_for_variable_by_index( $color_index ) . '">' . $variable . '</div><div>' . \OsFormHelper::text_field( 'process[actions][' . $action->id . '][settings][variables][' . $variable_type . '][' . $variable . ']', false, $action->settings['variables'][ $variable_type ][ $variable ] ?? '', [
+						$html .= '<div class="latepoint-whatsapp-variable-value"><div style="background-color: ' . \OsUtilHelper::get_color_for_variable_by_index( $color_index ) . '">' . $variable . '</div><div>' . \OsFormHelper::text_field(
+							'process[actions][' . $action->id . '][settings][variables][' . $variable_type . '][' . $variable . ']',
+							false,
+							$action->settings['variables'][ $variable_type ][ $variable ] ?? '',
+							[
 								'theme'       => 'simple',
 								'class'       => 'size-small',
-								'placeholder' => sprintf( __( 'Enter value for %s', 'latepoint' ), $variable )
-							] ) . '</div></div>';
-						$color_index ++;
+								'placeholder' => sprintf( __( 'Enter value for %s', 'latepoint' ), $variable ),
+							]
+						) . '</div></div>';
+						$color_index++;
 					}
 				}
 			}
@@ -148,7 +152,10 @@ class OsWhatsappHelper {
 			$templates_list = [];
 			foreach ( $templates as $template ) {
 				$name             = $template['name'] . '-' . $template['language'] . ' [' . $template['status'] . ']';
-				$templates_list[] = [ 'value' => $template['id'], 'label' => $name ];
+				$templates_list[] = [
+					'value' => $template['id'],
+					'label' => $name,
+				];
 			}
 
 			return $templates_list;
@@ -198,9 +205,9 @@ class OsWhatsappHelper {
 			'processor_name'     => '',
 			'processed_datetime' => '',
 			'extra_data'         => [
-				'activity_data' => $activity_data
+				'activity_data' => $activity_data,
 			],
-			'errors'             => []
+			'errors'             => [],
 		];
 
 		if ( OsSettingsHelper::is_whatsapp_allowed() && OsNotificationsHelper::is_notification_type_enabled( 'whatsapp' ) ) {
@@ -270,7 +277,7 @@ class OsWhatsappHelper {
 		}
 		$data = [
 			'code'        => 'whatsapp_sent',
-			'description' => wp_json_encode( $result )
+			'description' => wp_json_encode( $result ),
 		];
 		if ( ! empty( $result['extra_data']['activity_data'] ) ) {
 			$data = array_merge( $data, $result['extra_data']['activity_data'] );
@@ -286,20 +293,25 @@ class OsWhatsappHelper {
 		// Create a map to store color assignments for each variable number
 		$variableColors = [];
 
-		return preg_replace_callback( '/\{\{([a-zA-Z0-9_]+)\}\}/', function ( $match ) use ( $colors, &$variableColors, $starting_index ) {
-			$varNumber = $match[1];
+		return preg_replace_callback(
+			'/\{\{([a-zA-Z0-9_]+)\}\}/',
+			function ( $match ) use ( $colors, &$variableColors, $starting_index ) {
+				$varNumber = $match[1];
 
-			// If this variable hasn't been assigned a color yet, assign the next color
-			if ( ! isset( $variableColors[ $varNumber ] ) ) {
-				$variableColors[ $varNumber ] = $colors[ ( count( $variableColors ) % count( $colors ) ) + $starting_index ];
-			}
+				// If this variable hasn't been assigned a color yet, assign the next color
+				if ( ! isset( $variableColors[ $varNumber ] ) ) {
+					$variableColors[ $varNumber ] = $colors[ ( count( $variableColors ) % count( $colors ) ) + $starting_index ];
+				}
 
-			return sprintf( '<span class="latepoint-whatsapp-template-variable" style="background-color: %s" data-variable="{{%s}}">{{%s}}</span>',
-				$variableColors[ $varNumber ],
-				$varNumber,
-				$varNumber
-			);
-		}, $text );
+				return sprintf(
+					'<span class="latepoint-whatsapp-template-variable" style="background-color: %s" data-variable="{{%s}}">{{%s}}</span>',
+					$variableColors[ $varNumber ],
+					$varNumber,
+					$varNumber
+				);
+			},
+			$text
+		);
 	}
 
 	public static function extract_variables_from_template( ?string $text ): array {

@@ -20,7 +20,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			$this->vars['page_header']   = OsMenuHelper::get_menu_items_by_id( 'orders' );
 			$this->vars['breadcrumbs'][] = array(
 				'label' => __( 'Orders', 'latepoint' ),
-				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'orders', 'index' ) )
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'orders', 'index' ) ),
 			);
 
 			$this->action_access['public'] = array_merge( $this->action_access['public'], [ 'continue_order_intent', 'continue_transaction_intent' ] );
@@ -29,7 +29,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 
 		public function view_order_log() {
 			$activities = new OsActivityModel();
-			$activities = $activities->where( [ 'order_id' => absint($this->params['order_id']) ] )->order_by( 'id desc' )->get_results_as_models();
+			$activities = $activities->where( [ 'order_id' => absint( $this->params['order_id'] ) ] )->order_by( 'id desc' )->get_results_as_models();
 
 			$order = new OsOrderModel( $this->params['order_id'] );
 
@@ -42,13 +42,13 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 
 		public function continue_order_intent() {
 			$order_intent_key = $this->params['order_intent_key'];
-			$order_intent = OsOrderIntentHelper::get_order_intent_by_intent_key($order_intent_key);
+			$order_intent     = OsOrderIntentHelper::get_order_intent_by_intent_key( $order_intent_key );
 
-			if($order_intent->is_new_record()){
+			if ( $order_intent->is_new_record() ) {
 				http_response_code( 400 );
-				OsDebugHelper::log('Order intent not found, id:'. $order_intent_key);
+				OsDebugHelper::log( 'Order intent not found, id:' . $order_intent_key );
 				exit();
-			}else{
+			} else {
 
 				$order_intent->convert_to_order();
 
@@ -57,19 +57,18 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					wp_redirect( $order_intent->get_page_url_with_intent(), 302 );
 				}
 			}
-
 		}
 
 
 		public function continue_transaction_intent() {
-			$intent_key = $this->params['transaction_intent_key'];
-			$transaction_intent = OsTransactionIntentHelper::get_transaction_intent_by_intent_key($intent_key);
+			$intent_key         = $this->params['transaction_intent_key'];
+			$transaction_intent = OsTransactionIntentHelper::get_transaction_intent_by_intent_key( $intent_key );
 
-			if($transaction_intent->is_new_record()){
+			if ( $transaction_intent->is_new_record() ) {
 				http_response_code( 400 );
-				OsDebugHelper::log('Transaction intent not found, id:'. $intent_key);
+				OsDebugHelper::log( 'Transaction intent not found, id:' . $intent_key );
 				exit();
-			}else{
+			} else {
 				$transaction_intent->convert_to_transaction();
 
 				if ( $transaction_intent ) {
@@ -142,11 +141,12 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				}
 
 				$order->customer_id = $customer->id;
-			}else{
-				$this->send_json( [
-					'status' => LATEPOINT_STATUS_ERROR,
-					// translators: %s is the description of an error
-					'message' => sprintf(__( 'Error: %s', 'latepoint'), implode( ', ', $customer->get_error_messages() ) ),
+			} else {
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_ERROR,
+						// translators: %s is the description of an error
+						'message' => sprintf( __( 'Error: %s', 'latepoint' ), implode( ', ', $customer->get_error_messages() ) ),
 					]
 				);
 			}
@@ -154,18 +154,23 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			// validate order items
 			foreach ( $order_items_params as $order_item_id => $order_item ) {
 				foreach ( $order_item['bookings'] as $booking_id => $booking_params ) {
-					$booking                = OsOrdersHelper::create_booking_object_from_booking_data_form( $booking_params );
-					$booking->customer_id   = $order->customer_id;
-					if ( !$booking->validate(false, ['order_item_id']) ) {
-						$validation_errors = array_merge($validation_errors, $booking->get_error_messages());
+					$booking              = OsOrdersHelper::create_booking_object_from_booking_data_form( $booking_params );
+					$booking->customer_id = $order->customer_id;
+					if ( ! $booking->validate( false, [ 'order_item_id' ] ) ) {
+						$validation_errors = array_merge( $validation_errors, $booking->get_error_messages() );
 					}
 				}
 			}
 
 			// check if there are errors saving bookings
-			if($validation_errors){
+			if ( $validation_errors ) {
 				// translators: %s is the description of an error
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => sprintf(__( 'Error: %s', 'latepoint'), implode( ', ', $validation_errors ) ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => sprintf( __( 'Error: %s', 'latepoint' ), implode( ', ', $validation_errors ) ),
+					) 
+				);
 			}
 
 			if ( $old_order ) {
@@ -197,7 +202,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 						 *
 						 */
 						do_action( 'latepoint_order_item_deleted', $order_item_id_to_delete );
-						OsActivitiesHelper::log_order_item_deleted($order_item);
+						OsActivitiesHelper::log_order_item_deleted( $order_item );
 					} else {
 						// it's a bundle order item - search for bookings that are attached to this bundle and remove them if not found in passed params list
 						if ( $order_item->is_bundle() ) {
@@ -231,7 +236,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 											 *
 											 */
 											do_action( 'latepoint_booking_deleted', $booking_id_to_delete );
-											OsActivitiesHelper::log_booking_deleted($old_bundle_booking);
+											OsActivitiesHelper::log_booking_deleted( $old_bundle_booking );
 										} else {
 											OsDebugHelper::log( 'Not allowed: Deleting Booking', 'permissions_error' );
 										}
@@ -253,26 +258,26 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 
 			// save price breakdown, we only need to save before and after subtotal, as total and subtotal values are stored on the Order record itself
 			if ( ! empty( $this->params['price_breakdown'] ) ) {
-				$order->price_breakdown = wp_json_encode( OsOrdersHelper::generate_price_breakdown_from_params($this->params['price_breakdown']) );
+				$order->price_breakdown = wp_json_encode( OsOrdersHelper::generate_price_breakdown_from_params( $this->params['price_breakdown'] ) );
 			}
 
 			// Check if we have to create a payment request
-			$create_payment_request = (sanitize_text_field($this->params['create_payment_request'] ?? '') == LATEPOINT_VALUE_ON);
-			if($create_payment_request){
-				$payment_request_data = $this->params['payment_request'];
-				$payment_request_data['portion'] = sanitize_text_field($payment_request_data['portion']);
-				$payment_request_data['charge_amount'] = sanitize_text_field($payment_request_data['charge_amount_'.$payment_request_data['portion']]);
-				$payment_request_data['due_at'] = OsTimeHelper::custom_datetime_utc_in_db_format(sanitize_text_field($payment_request_data['due_at']).' 23:59:59');
-				$order->set_initial_payment_data_value('time', LATEPOINT_PAYMENT_TIME_NOW, false);
-				$order->set_initial_payment_data_value('portion', $payment_request_data['portion'], false);
-				$order->set_initial_payment_data_value('charge_amount', OsMoneyHelper::convert_amount_from_money_input_to_db_format($payment_request_data['charge_amount']));
+			$create_payment_request = ( sanitize_text_field( $this->params['create_payment_request'] ?? '' ) == LATEPOINT_VALUE_ON );
+			if ( $create_payment_request ) {
+				$payment_request_data                  = $this->params['payment_request'];
+				$payment_request_data['portion']       = sanitize_text_field( $payment_request_data['portion'] );
+				$payment_request_data['charge_amount'] = sanitize_text_field( $payment_request_data[ 'charge_amount_' . $payment_request_data['portion'] ] );
+				$payment_request_data['due_at']        = OsTimeHelper::custom_datetime_utc_in_db_format( sanitize_text_field( $payment_request_data['due_at'] ) . ' 23:59:59' );
+				$order->set_initial_payment_data_value( 'time', LATEPOINT_PAYMENT_TIME_NOW, false );
+				$order->set_initial_payment_data_value( 'portion', $payment_request_data['portion'], false );
+				$order->set_initial_payment_data_value( 'charge_amount', OsMoneyHelper::convert_amount_from_money_input_to_db_format( $payment_request_data['charge_amount'] ) );
 
 				$payment_request = new OsPaymentRequestModel();
 
-				$payment_request = $payment_request->set_data($payment_request_data);
+				$payment_request = $payment_request->set_data( $payment_request_data );
 
-			}else{
-				$order->set_initial_payment_data_value('time', LATEPOINT_PAYMENT_TIME_LATER);
+			} else {
+				$order->set_initial_payment_data_value( 'time', LATEPOINT_PAYMENT_TIME_LATER );
 				$payment_request = null;
 			}
 
@@ -347,9 +352,9 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 								}
 								if ( $old_booking ) {
 									do_action( 'latepoint_booking_updated', $booking, $old_booking );
-									if($old_booking->status != $booking->status){
+									if ( $old_booking->status != $booking->status ) {
 										do_action( 'latepoint_booking_change_status', $booking, $old_booking );
-										OsActivitiesHelper::log_booking_change_status($booking, $old_booking);
+										OsActivitiesHelper::log_booking_change_status( $booking, $old_booking );
 									}
 								} else {
 									do_action( 'latepoint_booking_created', $booking );
@@ -378,7 +383,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					 */
 					do_action( 'latepoint_order_updated', $order, $old_order );
 				} else {
-					OsInvoicesHelper::create_invoices_for_new_order($order, $payment_request);
+					OsInvoicesHelper::create_invoices_for_new_order( $order, $payment_request );
 					/**
 					 * Order was created
 					 *
@@ -391,21 +396,25 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					do_action( 'latepoint_order_created', $order );
 				}
 
-				$status        = LATEPOINT_STATUS_SUCCESS;
+				$status = LATEPOINT_STATUS_SUCCESS;
 				// translators: %s is a link to the updated order
 				$response_html = sprintf( ( ( $old_order ) ? __( 'Order Updated ID: %s', 'latepoint' ) : __( 'Order Created ID: %s', 'latepoint' ) ), '<span class="os-notification-link" ' . OsOrdersHelper::quick_order_btn_html( $order->id ) . '>' . $order->id . '</span>' );
 			} else {
 				OsDebugHelper::log( 'Error saving order (admin)', 'order_save_error', $order->get_error_messages() );
-				$status        = LATEPOINT_STATUS_ERROR;
+				$status = LATEPOINT_STATUS_ERROR;
 
 				// translators: %s is an error message
-				$response_html = sprintf(__( 'Error: %s', 'latepoint'), implode( ', ', $order->get_error_messages() ));
+				$response_html = sprintf( __( 'Error: %s', 'latepoint' ), implode( ', ', $order->get_error_messages() ) );
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
-
 		}
 
 
@@ -431,7 +440,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			 * @param {OsOrderModel} $order Order for which to reload price breakdown
 			 * @returns {OsOrderModel} Filtered order with updated price breakdown rows
 			 */
-			$order           = apply_filters( 'latepoint_order_reload_price_breakdown', $order );
+			$order = apply_filters( 'latepoint_order_reload_price_breakdown', $order );
 
 			// we don't need to generate balance and payments info as it is printed in a separate block
 			$this->vars['price_breakdown_rows'] = $order->generate_price_breakdown_rows( [ 'balance', 'payments' ], true );
@@ -441,7 +450,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 		}
 
 		function reload_balance_and_payments() {
-			$order_params = $this->params['order'];
+			$order_params       = $this->params['order'];
 			$order_items_params = $this->params['order_items'] ?? [];
 
 			$order = new OsOrderModel();
@@ -469,13 +478,18 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 		function generate_bundle_order_item_block() {
 			$bundle = new OsBundleModel( $this->params['bundle_id'] );
 
-			$order_item_id = OsUtilHelper::generate_form_id();
-			$response_html = '<div class="order-item order-item-variant-bundle" data-order-item-id="' . $order_item_id . '">';
+			$order_item_id  = OsUtilHelper::generate_form_id();
+			$response_html  = '<div class="order-item order-item-variant-bundle" data-order-item-id="' . $order_item_id . '">';
 			$response_html .= OsOrdersHelper::generate_order_item_pill_for_bundle( $bundle, $order_item_id );
 			$response_html .= '</div>';
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -487,16 +501,21 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				$response_html = OsOrdersHelper::booking_data_form_for_order_item_id( $this->params['order_item_id'], $booking, LATEPOINT_ITEM_VARIANT_BUNDLE, false );
 			} else {
 				// regular booking
-				$booking       = OsBookingHelper::prepare_new_from_params( $this->params );
-				$order_item_id = OsUtilHelper::generate_form_id();
-				$response_html = '<div class="order-item order-item-variant-booking" data-order-item-id="' . $order_item_id . '">';
+				$booking        = OsBookingHelper::prepare_new_from_params( $this->params );
+				$order_item_id  = OsUtilHelper::generate_form_id();
+				$response_html  = '<div class="order-item order-item-variant-booking" data-order-item-id="' . $order_item_id . '">';
 				$response_html .= OsOrdersHelper::booking_data_form_for_order_item_id( $order_item_id, $booking, LATEPOINT_ITEM_VARIANT_BOOKING, false );
 				$response_html .= '</div>';
 			}
 
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -513,7 +532,12 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			} else {
 				$response_html = OsOrdersHelper::generate_order_item_pill_for_booking( $booking, $order_item_id );
 			}
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		function generate_order_item_booking_data_form() {
@@ -539,7 +563,12 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			}
 
 			$response_html = OsOrdersHelper::booking_data_form_for_order_item_id( $order_item->get_form_id(), $booking, $order_item->variant );
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		function quick_edit() {
@@ -571,9 +600,9 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				// EDITING EXISTING ORDER
 				$order = new OsOrderModel( $order_id );
 				// TODO add this check for order
-//				if(!OsRolesHelper::can_user_make_action_on_model_record($order, 'view')){
-//					$this->send_json(array('status' => LATEPOINT_STATUS_ERROR, 'message' => 'Not Allowed'));
-//				}
+				//              if(!OsRolesHelper::can_user_make_action_on_model_record($order, 'view')){
+				//                  $this->send_json(array('status' => LATEPOINT_STATUS_ERROR, 'message' => 'Not Allowed'));
+				//              }
 
 				$transactions = $order->get_transactions();
 
@@ -659,7 +688,12 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 				$response_html = __( 'Error Removing Order', 'latepoint' );
 			}
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -669,8 +703,8 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 
 		public function index() {
 
-			$per_page = OsSettingsHelper::get_number_of_records_per_page();
-			$page_number = isset($this->params['page_number']) ? $this->params['page_number'] : 1;
+			$per_page    = OsSettingsHelper::get_number_of_records_per_page();
+			$page_number = isset( $this->params['page_number'] ) ? $this->params['page_number'] : 1;
 
 			$this->vars['page_header'] = false;
 
@@ -705,7 +739,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					$orders->join( LATEPOINT_TABLE_CUSTOMERS, [ 'id' => LATEPOINT_TABLE_ORDERS . '.customer_id' ] );
 
 					$query_args[ 'concat_ws(" ", ' . LATEPOINT_TABLE_CUSTOMERS . '.first_name,' . LATEPOINT_TABLE_CUSTOMERS . '.last_name) LIKE' ] = '%' . $filter['customer']['full_name'] . '%';
-					$this->vars['customer_name_query']                                                                                             = $filter['customer']['full_name'];
+					$this->vars['customer_name_query'] = $filter['customer']['full_name'];
 
 				}
 
@@ -720,7 +754,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			if ( isset( $this->params['download'] ) && $this->params['download'] == 'csv' ) {
 				$csv_filename = 'payments_' . OsUtilHelper::random_text() . '.csv';
 
-				header( "Content-Type: text/csv" );
+				header( 'Content-Type: text/csv' );
 				header( "Content-Disposition: attachment; filename={$csv_filename}" );
 
 				$labels_row = [
@@ -733,7 +767,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					__( 'Amount', 'latepoint' ),
 					__( 'Status', 'latepoint' ),
 					__( 'Type', 'latepoint' ),
-					__( 'Date', 'latepoint' )
+					__( 'Date', 'latepoint' ),
 				];
 
 
@@ -759,8 +793,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 						];
 						$values_row    = apply_filters( 'latepoint_order_row_for_csv_export', $values_row, $order, $this->params );
 						$orders_data[] = $values_row;
-					}
-
+					}				
 				}
 
 				$orders_data = apply_filters( 'latepoint_orders_data_for_csv_export', $orders_data, $this->params );
@@ -794,18 +827,20 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			$this->vars['showing_from'] = ( ( $page_number - 1 ) * $per_page ) ? ( ( $page_number - 1 ) * $per_page ) : 1;
 			$this->vars['showing_to']   = min( $page_number * $per_page, $total_orders );
 
-			$this->format_render( [
-				'json_view_name' => '_table_body',
-				'html_view_name' => __FUNCTION__
-			], [], [
-				'total_pages'   => $total_pages,
-				'showing_from'  => $this->vars['showing_from'],
-				'showing_to'    => $this->vars['showing_to'],
-				'total_records' => $total_orders
-			] );
+			$this->format_render(
+				[
+					'json_view_name' => '_table_body',
+					'html_view_name' => __FUNCTION__,
+				],
+				[],
+				[
+					'total_pages'   => $total_pages,
+					'showing_from'  => $this->vars['showing_from'],
+					'showing_to'    => $this->vars['showing_to'],
+					'total_records' => $total_orders,
+				] 
+			);
 		}
-
-
 	}
 
 

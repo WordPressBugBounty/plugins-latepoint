@@ -16,58 +16,74 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			$this->views_folder            = LATEPOINT_VIEWS_ABSPATH . 'settings/';
 			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'settings' );
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'settings' );
-			$this->vars['breadcrumbs'][]   = array( 'label' => __( 'Settings', 'latepoint' ), 'link' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'settings', 'general' ) ) );
+			$this->vars['breadcrumbs'][]   = array(
+				'label' => __( 'Settings', 'latepoint' ),
+				'link'  => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'settings', 'general' ) ),
+			);
 		}
 
-		public function generate_instant_booking_page_url(){
-			$url_settings = [];
+		public function generate_instant_booking_page_url() {
+			$url_settings             = [];
 			$instant_booking_settings = $this->params['instant_booking'] ?? [];
-			if(!empty($instant_booking_settings['selected_agent'])) $url_settings['selected_agent'] = $instant_booking_settings['selected_agent'];
-			if(!empty($instant_booking_settings['selected_location'])) $url_settings['selected_location'] = $instant_booking_settings['selected_location'];
-			if(!empty($instant_booking_settings['selected_service'])) $url_settings['selected_service'] = $instant_booking_settings['selected_service'];
-			if(!empty($instant_booking_settings['background_pattern'])) $url_settings['background_pattern'] = $instant_booking_settings['background_pattern'];
-			if(!empty($instant_booking_settings['hide_side_panel']) && $instant_booking_settings['hide_side_panel'] == LATEPOINT_VALUE_ON){
+			if ( ! empty( $instant_booking_settings['selected_agent'] ) ) {
+				$url_settings['selected_agent'] = $instant_booking_settings['selected_agent'];
+			}
+			if ( ! empty( $instant_booking_settings['selected_location'] ) ) {
+				$url_settings['selected_location'] = $instant_booking_settings['selected_location'];
+			}
+			if ( ! empty( $instant_booking_settings['selected_service'] ) ) {
+				$url_settings['selected_service'] = $instant_booking_settings['selected_service'];
+			}
+			if ( ! empty( $instant_booking_settings['background_pattern'] ) ) {
+				$url_settings['background_pattern'] = $instant_booking_settings['background_pattern'];
+			}
+			if ( ! empty( $instant_booking_settings['hide_side_panel'] ) && $instant_booking_settings['hide_side_panel'] == LATEPOINT_VALUE_ON ) {
 				$url_settings['hide_side_panel'] = 'yes';
 			}
-			if(!empty($instant_booking_settings['hide_summary']) && $instant_booking_settings['hide_summary'] == LATEPOINT_VALUE_ON){
+			if ( ! empty( $instant_booking_settings['hide_summary'] ) && $instant_booking_settings['hide_summary'] == LATEPOINT_VALUE_ON ) {
 				$url_settings['hide_summary'] = 'yes';
 			}
 
 
-			$url = OsSettingsHelper::generate_instant_booking_page_url($url_settings);
+			$url = OsSettingsHelper::generate_instant_booking_page_url( $url_settings );
 
-			$this->send_json( [ 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $url ] );
+			$this->send_json(
+				[
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => $url,
+				] 
+			);
 		}
 
-		public function generate_instant_booking_page(){
-			$agents = new OsAgentModel();
-			$this->vars['agents'] = $agents->should_be_active()->get_results_as_models();
-			$services = new OsServiceModel();
-			$this->vars['services'] = $services->should_be_active()->get_results_as_models();
-			$locations = new OsLocationModel();
+		public function generate_instant_booking_page() {
+			$agents                  = new OsAgentModel();
+			$this->vars['agents']    = $agents->should_be_active()->get_results_as_models();
+			$services                = new OsServiceModel();
+			$this->vars['services']  = $services->should_be_active()->get_results_as_models();
+			$locations               = new OsLocationModel();
 			$this->vars['locations'] = $locations->should_be_active()->get_results_as_models();
 
 			$url_settings = [];
-			if(!empty($this->params['agent_id'])){
-				$this->vars['selected_agent_id'] = sanitize_text_field($this->params['agent_id']);
-				$url_settings['selected_agent'] = sanitize_text_field($this->params['agent_id']);
+			if ( ! empty( $this->params['agent_id'] ) ) {
+				$this->vars['selected_agent_id'] = sanitize_text_field( $this->params['agent_id'] );
+				$url_settings['selected_agent']  = sanitize_text_field( $this->params['agent_id'] );
 			}
-			if(!empty($this->params['location_id'])){
-				$this->vars['selected_location_id'] = sanitize_text_field($this->params['location_id']);
-				$url_settings['selected_location'] = sanitize_text_field($this->params['location_id']);
+			if ( ! empty( $this->params['location_id'] ) ) {
+				$this->vars['selected_location_id'] = sanitize_text_field( $this->params['location_id'] );
+				$url_settings['selected_location']  = sanitize_text_field( $this->params['location_id'] );
 			}
-			if(!empty($this->params['service_id'])){
-				$this->vars['selected_service_id'] = sanitize_text_field($this->params['service_id']);
-				$url_settings['selected_service'] = sanitize_text_field($this->params['service_id']);
-			}
-
-			if(!empty($this->params['background_pattern'])){
-				$this->vars['background_pattern'] = sanitize_text_field($this->params['background_pattern']);
-				$url_settings['background_pattern'] = sanitize_text_field($this->params['background_pattern']);
+			if ( ! empty( $this->params['service_id'] ) ) {
+				$this->vars['selected_service_id'] = sanitize_text_field( $this->params['service_id'] );
+				$url_settings['selected_service']  = sanitize_text_field( $this->params['service_id'] );
 			}
 
-			$this->vars['instant_booking_page_url'] = OsSettingsHelper::generate_instant_booking_page_url($url_settings);
-			$this->vars['patterns'] = OsSettingsHelper::instant_page_background_patterns();
+			if ( ! empty( $this->params['background_pattern'] ) ) {
+				$this->vars['background_pattern']   = sanitize_text_field( $this->params['background_pattern'] );
+				$url_settings['background_pattern'] = sanitize_text_field( $this->params['background_pattern'] );
+			}
+
+			$this->vars['instant_booking_page_url'] = OsSettingsHelper::generate_instant_booking_page_url( $url_settings );
+			$this->vars['patterns']                 = OsSettingsHelper::instant_page_background_patterns();
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -98,10 +114,15 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		public function start_import() {
 			$this->check_nonce( 'import_json_data' );
 			if ( $this->params['latepoint_data_erase_acknowledgement'] != 'on' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_ERROR, 'message' => __( 'You have to acknowledge the data erase warning', 'latepoint' ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'You have to acknowledge the data erase warning', 'latepoint' ),
+					) 
+				);
 			}
 
-			if ( !empty( $this->files['latepoint_json_data']['tmp_name'][0] )) {
+			if ( ! empty( $this->files['latepoint_json_data']['tmp_name'][0] ) ) {
 				WP_Filesystem();
 				global $wp_filesystem;
 
@@ -112,13 +133,13 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 					$status  = LATEPOINT_STATUS_ERROR;
 					$message = __( 'Error reading import file', 'latepoint' );
 				} else {
-					try{
+					try {
 						if ( OsSettingsHelper::import_data( $content ) ) {
 							$status  = LATEPOINT_STATUS_SUCCESS;
 							$message = __( 'Data imported', 'latepoint' );
 
 						}
-					}catch(Exception $e){
+					} catch ( Exception $e ) {
 						$status  = LATEPOINT_STATUS_ERROR;
 						$message = $e->getMessage();
 					}
@@ -130,8 +151,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 
-			$this->send_json( array( 'status' => $status, 'message' => $message ) );
-
+			$this->send_json(
+				array(
+					'status'  => $status,
+					'message' => $message,
+				) 
+			);
 		}
 
 		public function steps_order_modal() {
@@ -161,7 +186,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $message ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $message,
+					) 
+				);
 			}
 		}
 
@@ -172,7 +202,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			OsSettingsHelper::set_menu_layout_style( $menu_layout_style );
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => '' ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => '',
+					) 
+				);
 			}
 		}
 
@@ -183,7 +218,10 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 
 
 		public function pages() {
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Pages Setup', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Pages Setup', 'latepoint' ),
+				'link'  => false,
+			);
 
 			$pages = get_pages();
 
@@ -193,7 +231,10 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function payments() {
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Payment Processing', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Payment Processing', 'latepoint' ),
+				'link'  => false,
+			);
 
 			$pages = get_pages();
 
@@ -206,7 +247,10 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 
 		public function work_periods() {
 
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'Work Schedule Settings', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'Work Schedule Settings', 'latepoint' ),
+				'link'  => false,
+			);
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -214,7 +258,10 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 
 		public function general() {
 
-			$this->vars['breadcrumbs'][] = array( 'label' => __( 'General', 'latepoint' ), 'link' => false );
+			$this->vars['breadcrumbs'][] = array(
+				'label' => __( 'General', 'latepoint' ),
+				'link'  => false,
+			);
 
 
 			$this->format_render( __FUNCTION__ );
@@ -232,7 +279,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -252,7 +304,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -273,15 +330,25 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 			OsSettingsHelper::save_setting_by_name( 'bookings_table_columns', $selected_columns );
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => __( 'Columns Saved', 'latepoint' ) ) );
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_SUCCESS,
+						'message' => __( 'Columns Saved', 'latepoint' ),
+					) 
+				);
 			}
 		}
 
-		public function premium_modal(){
+		public function premium_modal() {
 
 			$this->set_layout( 'none' );
 			$response_html = $this->format_render_return( __FUNCTION__ );
-			$this->send_json( array( 'status' => LATEPOINT_STATUS_SUCCESS, 'message' => $response_html ) );
+			$this->send_json(
+				array(
+					'status'  => LATEPOINT_STATUS_SUCCESS,
+					'message' => $response_html,
+				) 
+			);
 		}
 
 		public function save_custom_day_schedule() {
@@ -330,7 +397,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -366,7 +438,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			$status        = LATEPOINT_STATUS_SUCCESS;
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
@@ -412,17 +489,26 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			}
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
 
 		public function load_step_settings() {
-
 		}
 
 
 		public function load_work_period_form() {
-			$args = [ 'week_day' => 1, 'agent_id' => 0, 'service_id' => 0, 'location_id' => 0 ];
+			$args = [
+				'week_day'    => 1,
+				'agent_id'    => 0,
+				'service_id'  => 0,
+				'location_id' => 0,
+			];
 
 			if ( isset( $this->params['week_day'] ) ) {
 				$args['week_day'] = $this->params['week_day'];
@@ -441,10 +527,14 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			$status        = LATEPOINT_STATUS_SUCCESS;
 
 			if ( $this->get_return_format() == 'json' ) {
-				$this->send_json( array( 'status' => $status, 'message' => $response_html ) );
+				$this->send_json(
+					array(
+						'status'  => $status,
+						'message' => $response_html,
+					) 
+				);
 			}
 		}
-
 	}
 
 

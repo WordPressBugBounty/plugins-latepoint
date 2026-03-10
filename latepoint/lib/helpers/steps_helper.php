@@ -2,27 +2,27 @@
 
 class OsStepsHelper {
 
-	public static array $steps = [];
+	public static array $steps          = [];
 	public static array $steps_settings = [];
 	/**
 	 * @var array
 	 */
 	public static array $step_codes_in_order = [];
-	public static array $preset_fields = [];
-	public static string $step_to_prepare = '';
-	public static string $step_to_process = '';
+	public static array $preset_fields       = [];
+	public static string $step_to_prepare    = '';
+	public static string $step_to_process    = '';
 
 	public static OsOrderModel $order_object;
 	public static OsBookingModel $booking_object;
 	public static OsCustomerModel $customer_object;
 	public static OsCartModel $cart_object;
 	public static OsCartItemModel $active_cart_item;
-	public static $vars_for_view = [];
+	public static $vars_for_view    = [];
 	public static $fields_to_update = [];
-	public static $restrictions = [];
-	public static $presets = [];
+	public static $restrictions     = [];
+	public static $presets          = [];
 
-	public static $params = [];
+	public static $params                               = [];
 	public static string $customer_contact_verified_via = '';
 
 
@@ -39,7 +39,10 @@ class OsStepsHelper {
 			'payment__methods'    => [ 'after' => 'portions' ],
 			'payment__processors' => [ 'after' => 'methods' ],
 			'payment__pay'        => [ 'after' => 'processors' ],
-			'verify'              => [ 'before' => 'payment', 'after' => 'booking' ],
+			'verify'              => [
+				'before' => 'payment',
+				'after'  => 'booking',
+			],
 			'confirmation'        => [ 'after' => 'payment' ],
 		];
 
@@ -105,7 +108,7 @@ class OsStepsHelper {
 
 			if ( isset( $graph[ $current ] ) ) {
 				foreach ( $graph[ $current ] as $neighbor ) {
-					$in_degree[ $neighbor ] --;
+					$in_degree[ $neighbor ]--;
 					if ( $in_degree[ $neighbor ] === 0 ) {
 						$queue[] = $neighbor;
 					}
@@ -184,7 +187,7 @@ class OsStepsHelper {
 					$before_step_full = $parents[ $step ] ? $parents[ $step ] . '__' . $before_step : $before_step;
 					if ( $parents[ $step ] === $parents[ $before_step_full ] ) {
 						$graph[ $step ][] = $before_step_full;
-						$in_degree[ $before_step_full ] ++;
+						$in_degree[ $before_step_full ]++;
 					}
 				}
 			}
@@ -193,7 +196,7 @@ class OsStepsHelper {
 					$after_step_full = $parents[ $step ] ? $parents[ $step ] . '__' . $after_step : $after_step;
 					if ( $parents[ $step ] === $parents[ $after_step_full ] ) {
 						$graph[ $after_step_full ][] = $step;
-						$in_degree[ $step ] ++;
+						$in_degree[ $step ]++;
 					}
 				}
 			}
@@ -251,7 +254,7 @@ class OsStepsHelper {
 			'payment__methods'    => 'Payment Method',
 			'payment__processors' => 'Payment Processors',
 			'payment__pay'        => 'Payment Form',
-			'confirmation'        => 'Confirmation'
+			'confirmation'        => 'Confirmation',
 		];
 
 		/**
@@ -276,25 +279,39 @@ class OsStepsHelper {
 	public static function init_step_actions() {
 		add_action( 'latepoint_process_step', 'OsStepsHelper::process_step', 10, 3 );
 		add_action( 'latepoint_load_step', 'OsStepsHelper::load_step', 10, 3 );
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'latepoint', '/booking/bite-force/', array(
-				'methods'             => 'POST',
-				'callback'            => 'OsSettingsHelper::force_bite',
-				'permission_callback' => '__return_true'
-			) );
-		} );
-		add_action( 'rest_api_init', function () {
-			register_rest_route( 'latepoint', '/booking/release-force/', array(
-				'methods'             => 'POST',
-				'callback'            => 'OsSettingsHelper::force_release',
-				'permission_callback' => '__return_true'
-			) );
-		} );
+		add_action(
+			'rest_api_init',
+			function () {
+				register_rest_route(
+					'latepoint',
+					'/booking/bite-force/',
+					array(
+						'methods'             => 'POST',
+						'callback'            => 'OsSettingsHelper::force_bite',
+						'permission_callback' => '__return_true',
+					) 
+				);
+			} 
+		);
+		add_action(
+			'rest_api_init',
+			function () {
+				register_rest_route(
+					'latepoint',
+					'/booking/release-force/',
+					array(
+						'methods'             => 'POST',
+						'callback'            => 'OsSettingsHelper::force_release',
+						'permission_callback' => '__return_true',
+					) 
+				);
+			} 
+		);
 		self::confirm_hash();
 	}
 
 	public static function process_step( $step_code, $booking_object, $params = [] ) {
-		self::$params = $params;
+		self::$params          = $params;
 		self::$step_to_process = $step_code;
 		if ( strpos( $step_code, '__' ) !== false ) {
 			// process parent step (used to run shared code between child steps)
@@ -304,33 +321,36 @@ class OsStepsHelper {
 				$result = self::$parent_step_function_name();
 				if ( is_wp_error( $result ) ) {
 					$error_data   = $result->get_error_data();
-					$send_to_step = !empty($error_data['send_to_step'])  ? $error_data['send_to_step'] : false;
-					wp_send_json( array(
-						'status'       => LATEPOINT_STATUS_ERROR,
-						'message'      => $result->get_error_message(),
-						'send_to_step' => $send_to_step,
-                        'fields_to_update' => self::$fields_to_update,
-                        'callback' => $error_data['callback'] ?? '',
-                        'callback_data' => $error_data['callback_data'] ?? '',
-					) );
-				}
-
+					$send_to_step = ! empty( $error_data['send_to_step'] ) ? $error_data['send_to_step'] : false;
+					wp_send_json(
+						array(
+							'status'           => LATEPOINT_STATUS_ERROR,
+							'message'          => $result->get_error_message(),
+							'send_to_step'     => $send_to_step,
+							'fields_to_update' => self::$fields_to_update,
+							'callback'         => $error_data['callback'] ?? '',
+							'callback_data'    => $error_data['callback_data'] ?? '',
+						) 
+					);
+				}			
 			}
 		}
 		$step_function_name = 'process_step_' . $step_code;
 		if ( method_exists( 'OsStepsHelper', $step_function_name ) ) {
 			$result = self::$step_function_name();
 			if ( is_wp_error( $result ) ) {
-                $error_data   = $result->get_error_data();
-                $send_to_step = !empty($error_data['send_to_step'])  ? $error_data['send_to_step'] : false;
-                wp_send_json( array(
-                    'status'       => LATEPOINT_STATUS_ERROR,
-                    'message'      => $result->get_error_message(),
-                    'send_to_step' => $send_to_step,
-                    'fields_to_update' => self::$fields_to_update,
-                    'callback' => $error_data['callback'] ?? '',
-                    'callback_data' => $error_data['callback_data'] ?? '',
-                ) );
+				$error_data   = $result->get_error_data();
+				$send_to_step = ! empty( $error_data['send_to_step'] ) ? $error_data['send_to_step'] : false;
+				wp_send_json(
+					array(
+						'status'           => LATEPOINT_STATUS_ERROR,
+						'message'          => $result->get_error_message(),
+						'send_to_step'     => $send_to_step,
+						'fields_to_update' => self::$fields_to_update,
+						'callback'         => $error_data['callback'] ?? '',
+						'callback_data'    => $error_data['callback_data'] ?? '',
+					) 
+				);
 			}
 		}
 	}
@@ -342,103 +362,123 @@ class OsStepsHelper {
 			$can_reorder = true;
 		}
 		?>
-        <div class="step-w" data-step-code="<?php echo esc_attr( $step->code ); ?>"
-             data-step-order-number="<?php echo esc_attr( $step->order_number ); ?>">
-            <div class="step-head">
-                <div class="step-drag <?php echo ( $can_reorder ) ? '' : 'disabled'; ?>">
+		<div class="step-w" data-step-code="<?php echo esc_attr( $step->code ); ?>"
+			 data-step-order-number="<?php echo esc_attr( $step->order_number ); ?>">
+			<div class="step-head">
+				<div class="step-drag <?php echo ( $can_reorder ) ? '' : 'disabled'; ?>">
 					<?php if ( ! $can_reorder ) {
 						echo '<span>' . esc_html__( 'Order of this step can not be changed.', 'latepoint' ) . '</span>';
 					} ?>
-                </div>
-                <div class="step-code"><?php echo esc_html( $step->title ); ?></div>
-                <div class="step-type"><?php echo esc_html( str_replace( '_', ' ', $step->code ) ); ?></div>
+				</div>
+				<div class="step-code"><?php echo esc_html( $step->title ); ?></div>
+				<div class="step-type"><?php echo esc_html( str_replace( '_', ' ', $step->code ) ); ?></div>
 				<?php if ( $step->code == 'locations' && ( OsLocationHelper::count_locations() <= 1 ) ) { ?>
-                    <a href="<?php echo esc_url( OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'locations', 'index' ) ) ); ?>"
-                       class="step-message"><?php esc_html_e( 'Since you only have one location, this step will be skipped', 'latepoint' ); ?></a>
+					<a href="<?php echo esc_url( OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'locations', 'index' ) ) ); ?>"
+					   class="step-message"><?php esc_html_e( 'Since you only have one location, this step will be skipped', 'latepoint' ); ?></a>
 				<?php } ?>
 				<?php if ( $step->code == 'payment' && ! OsPaymentsHelper::is_accepting_payments() ) { ?>
-                    <a href="<?php echo esc_url( OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'settings', 'payments' ) ) ); ?>"
-                       class="step-message"><?php esc_html_e( 'Payment processing is disabled. Click to setup.', 'latepoint' ); ?></a>
+					<a href="<?php echo esc_url( OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'settings', 'payments' ) ) ); ?>"
+					   class="step-message"><?php esc_html_e( 'Payment processing is disabled. Click to setup.', 'latepoint' ); ?></a>
 				<?php } ?>
 				<?php do_action( 'latepoint_custom_step_info', $step->code ); ?>
-                <button class="step-edit-btn"><i class="latepoint-icon latepoint-icon-edit-3"></i></button>
-            </div>
-            <div class="step-body">
-                <div class="os-form-w">
-                    <form data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'settings', 'update_step' ) ); ?>" action="">
+				<button class="step-edit-btn"><i class="latepoint-icon latepoint-icon-edit-3"></i></button>
+			</div>
+			<div class="step-body">
+				<div class="os-form-w">
+					<form data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'settings', 'update_step' ) ); ?>" action="">
 
-                        <div class="sub-section-row">
-                            <div class="sub-section-label">
-                                <h3><?php esc_html_e( 'Step Title', 'latepoint' ); ?></h3>
-                            </div>
-                            <div class="sub-section-content">
-								<?php echo OsFormHelper::text_field( 'step[title]', false, $step->title, [
-									'add_string_to_id' => $step->code,
-									'theme'            => 'bordered'
-								] ); ?>
-                            </div>
-                        </div>
+						<div class="sub-section-row">
+							<div class="sub-section-label">
+								<h3><?php esc_html_e( 'Step Title', 'latepoint' ); ?></h3>
+							</div>
+							<div class="sub-section-content">
+								<?php echo OsFormHelper::text_field(
+									'step[title]',
+									false,
+									$step->title,
+									[
+										'add_string_to_id' => $step->code,
+										'theme'            => 'bordered',
+									] 
+								); ?>
+							</div>
+						</div>
 
-                        <div class="sub-section-row">
-                            <div class="sub-section-label">
-                                <h3><?php esc_html_e( 'Step Sub Title', 'latepoint' ); ?></h3>
-                            </div>
-                            <div class="sub-section-content">
-								<?php echo OsFormHelper::text_field( 'step[sub_title]', false, $step->sub_title, [
-									'add_string_to_id' => $step->code,
-									'theme'            => 'bordered'
-								] ); ?>
-                            </div>
-                        </div>
+						<div class="sub-section-row">
+							<div class="sub-section-label">
+								<h3><?php esc_html_e( 'Step Sub Title', 'latepoint' ); ?></h3>
+							</div>
+							<div class="sub-section-content">
+								<?php echo OsFormHelper::text_field(
+									'step[sub_title]',
+									false,
+									$step->sub_title,
+									[
+										'add_string_to_id' => $step->code,
+										'theme'            => 'bordered',
+									] 
+								); ?>
+							</div>
+						</div>
 
-                        <div class="sub-section-row">
-                            <div class="sub-section-label">
-                                <h3><?php esc_html_e( 'Short Description', 'latepoint' ); ?></h3>
-                            </div>
-                            <div class="sub-section-content">
-								<?php echo OsFormHelper::textarea_field( 'step[description]', false, $step->description, [
-									'add_string_to_id' => $step->code,
-									'theme'            => 'bordered'
-								] ); ?>
-                            </div>
-                        </div>
-                        <div class="sub-section-row">
-                            <div class="sub-section-label">
-                                <h3><?php esc_html_e( 'Step Image', 'latepoint' ); ?></h3>
-                            </div>
-                            <div class="sub-section-content">
+						<div class="sub-section-row">
+							<div class="sub-section-label">
+								<h3><?php esc_html_e( 'Short Description', 'latepoint' ); ?></h3>
+							</div>
+							<div class="sub-section-content">
+								<?php echo OsFormHelper::textarea_field(
+									'step[description]',
+									false,
+									$step->description,
+									[
+										'add_string_to_id' => $step->code,
+										'theme'            => 'bordered',
+									] 
+								); ?>
+							</div>
+						</div>
+						<div class="sub-section-row">
+							<div class="sub-section-label">
+								<h3><?php esc_html_e( 'Step Image', 'latepoint' ); ?></h3>
+							</div>
+							<div class="sub-section-content">
 								<?php echo OsFormHelper::toggler_field( 'step[use_custom_image]', __( 'Use Custom Step Image', 'latepoint' ), $step->is_using_custom_image(), 'custom-step-image-w-' . $step->code ); ?>
-                                <div id="custom-step-image-w-<?php echo esc_attr( $step->code ); ?>"
-                                     class="custom-step-image-w-<?php echo esc_attr( $step->code ); ?>"
-                                     style="<?php echo ( $step->is_using_custom_image() ) ? '' : 'display: none;'; ?>">
+								<div id="custom-step-image-w-<?php echo esc_attr( $step->code ); ?>"
+									 class="custom-step-image-w-<?php echo esc_attr( $step->code ); ?>"
+									 style="<?php echo ( $step->is_using_custom_image() ) ? '' : 'display: none;'; ?>">
 									<?php echo OsFormHelper::media_uploader_field( 'step[icon_image_id]', 0, __( 'Step Image', 'latepoint' ), __( 'Remove Image', 'latepoint' ), $step->icon_image_id ); ?>
-                                </div>
-                            </div>
-                        </div>
+								</div>
+							</div>
+						</div>
 
 						<?php echo OsFormHelper::hidden_field( 'step[name]', $step->code, [ 'add_string_to_id' => $step->code ] ); ?>
 						<?php echo OsFormHelper::hidden_field( 'step[order_number]', $step->order_number, [ 'add_string_to_id' => $step->code ] ); ?>
-                        <div class="os-step-form-buttons">
-                            <a href="#"
-                               class="latepoint-btn latepoint-btn-secondary step-edit-cancel-btn"><?php esc_html_e( 'Cancel', 'latepoint' ); ?></a>
-							<?php echo OsFormHelper::button( 'submit', __( 'Save Step', 'latepoint' ), 'submit', [
-								'class'            => 'latepoint-btn',
-								'add_string_to_id' => $step->code
-							] ); ?>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+						<div class="os-step-form-buttons">
+							<a href="#"
+							   class="latepoint-btn latepoint-btn-secondary step-edit-cancel-btn"><?php esc_html_e( 'Cancel', 'latepoint' ); ?></a>
+							<?php echo OsFormHelper::button(
+								'submit',
+								__( 'Save Step', 'latepoint' ),
+								'submit',
+								[
+									'class'            => 'latepoint-btn',
+									'add_string_to_id' => $step->code,
+								] 
+							); ?>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<?php
 	}
 
 	public static function confirm_hash() {
-//		if (OsSettingsHelper::get_settings_value('booking_hash')) add_action(OsSettingsHelper::read_encoded('d3BfZm9vdGVy'), 'OsStepsHelper::force_hash');
+		//      if (OsSettingsHelper::get_settings_value('booking_hash')) add_action(OsSettingsHelper::read_encoded('d3BfZm9vdGVy'), 'OsStepsHelper::force_hash');
 	}
 
 	public static function force_hash() {
-//		echo OsSettingsHelper::read_encoded('PGRpdiBzdHlsZT0icG9zaXRpb246IGZpeGVkIWltcG9ydGFudDsgYm90dG9tOiA1cHghaW1wb3J0YW50OyBib3JkZXItcmFkaXVzOiA2cHghaW1wb3J0YW50O2JvcmRlcjogMXB4IHNvbGlkICNkODE3MmEhaW1wb3J0YW50O2JveC1zaGFkb3c6IDBweCAxcHggMnB4IHJnYmEoMCwwLDAsMC4yKSFpbXBvcnRhbnQ7bGVmdDogNXB4IWltcG9ydGFudDsgei1pbmRleDogMTAwMDAhaW1wb3J0YW50OyBiYWNrZ3JvdW5kLWNvbG9yOiAjZmY2ODc2IWltcG9ydGFudDsgdGV4dC1hbGlnbjogY2VudGVyIWltcG9ydGFudDsgY29sb3I6ICNmZmYhaW1wb3J0YW50OyBwYWRkaW5nOiA4cHggMTVweCFpbXBvcnRhbnQ7Ij5UaGlzIGlzIGEgdHJpYWwgdmVyc2lvbiBvZiA8YSBocmVmPSJodHRwczovL2xhdGVwb2ludC5jb20vcHVyY2hhc2UvP3NvdXJjZT10cmlhbCIgc3R5bGU9ImNvbG9yOiAjZmZmIWltcG9ydGFudDsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmUhaW1wb3J0YW50OyBib3JkZXI6IG5vbmUhaW1wb3J0YW50OyI+TGF0ZVBvaW50IEFwcG9pbnRtZW50IEJvb2tpbmcgcGx1Z2luPC9hPiwgYWN0aXZhdGUgYnkgZW50ZXJpbmcgdGhlIGxpY2Vuc2Uga2V5IDxhIGhyZWY9Ii93cC1hZG1pbi9hZG1pbi5waHA/cGFnZT1sYXRlcG9pbnQmcm91dGVfbmFtZT11cGRhdGVzX19zdGF0dXMiIHN0eWxlPSJjb2xvcjogI2ZmZiFpbXBvcnRhbnQ7IHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lIWltcG9ydGFudDsgYm9yZGVyOiBub25lIWltcG9ydGFudDsiPmhlcmU8L2E+PC9kaXY+');
+		//      echo OsSettingsHelper::read_encoded('PGRpdiBzdHlsZT0icG9zaXRpb246IGZpeGVkIWltcG9ydGFudDsgYm90dG9tOiA1cHghaW1wb3J0YW50OyBib3JkZXItcmFkaXVzOiA2cHghaW1wb3J0YW50O2JvcmRlcjogMXB4IHNvbGlkICNkODE3MmEhaW1wb3J0YW50O2JveC1zaGFkb3c6IDBweCAxcHggMnB4IHJnYmEoMCwwLDAsMC4yKSFpbXBvcnRhbnQ7bGVmdDogNXB4IWltcG9ydGFudDsgei1pbmRleDogMTAwMDAhaW1wb3J0YW50OyBiYWNrZ3JvdW5kLWNvbG9yOiAjZmY2ODc2IWltcG9ydGFudDsgdGV4dC1hbGlnbjogY2VudGVyIWltcG9ydGFudDsgY29sb3I6ICNmZmYhaW1wb3J0YW50OyBwYWRkaW5nOiA4cHggMTVweCFpbXBvcnRhbnQ7Ij5UaGlzIGlzIGEgdHJpYWwgdmVyc2lvbiBvZiA8YSBocmVmPSJodHRwczovL2xhdGVwb2ludC5jb20vcHVyY2hhc2UvP3NvdXJjZT10cmlhbCIgc3R5bGU9ImNvbG9yOiAjZmZmIWltcG9ydGFudDsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmUhaW1wb3J0YW50OyBib3JkZXI6IG5vbmUhaW1wb3J0YW50OyI+TGF0ZVBvaW50IEFwcG9pbnRtZW50IEJvb2tpbmcgcGx1Z2luPC9hPiwgYWN0aXZhdGUgYnkgZW50ZXJpbmcgdGhlIGxpY2Vuc2Uga2V5IDxhIGhyZWY9Ii93cC1hZG1pbi9hZG1pbi5waHA/cGFnZT1sYXRlcG9pbnQmcm91dGVfbmFtZT11cGRhdGVzX19zdGF0dXMiIHN0eWxlPSJjb2xvcjogI2ZmZiFpbXBvcnRhbnQ7IHRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lIWltcG9ydGFudDsgYm9yZGVyOiBub25lIWltcG9ydGFudDsiPmhlcmU8L2E+PC9kaXY+');
 	}
 
 	/**
@@ -449,18 +489,18 @@ class OsStepsHelper {
 	 */
 	public static function show_step_progress( array $steps, \LatePoint\Misc\Step $current_step ) {
 		?>
-        <div class="latepoint-progress">
-            <ul>
+		<div class="latepoint-progress">
+			<ul>
 				<?php foreach ( $steps as $step ) { ?>
-                    <li data-step-code="<?php echo $step->code; ?>"
-                        class="<?php if ( $current_step->code == $step->code ) {
-						    echo ' active ';
-					    } ?>">
-                        <div class="progress-item"><?php echo '<span> ' . esc_html( $step->main_panel_heading ) . '</span>'; ?></div>
-                    </li>
+					<li data-step-code="<?php echo $step->code; ?>"
+						class="<?php if ( $current_step->code == $step->code ) {
+							echo ' active ';
+							   } ?>">
+						<div class="progress-item"><?php echo '<span> ' . esc_html( $step->main_panel_heading ) . '</span>'; ?></div>
+					</li>
 				<?php } ?>
-            </ul>
-        </div>
+			</ul>
+		</div>
 		<?php
 	}
 
@@ -476,7 +516,7 @@ class OsStepsHelper {
 					// Unauthorized access - return error.
 					wp_send_json(
 						array(
-							'status' => LATEPOINT_STATUS_ERROR,
+							'status'  => LATEPOINT_STATUS_ERROR,
 							'message' => __( 'Not Allowed', 'latepoint' ),
 						)
 					);
@@ -492,13 +532,17 @@ class OsStepsHelper {
 				$steps_controller = new OsStepsController();
 				$steps_controller->set_layout( 'none' );
 				$steps_controller->set_return_format( $format );
-				$steps_controller->format_render( 'partials/_limit_reached', [], [
-					'show_next_btn'    => false,
-					'show_prev_btn'    => false,
-					'is_first_step'    => true,
-					'is_last_step'     => true,
-					'is_pre_last_step' => false
-				] );
+				$steps_controller->format_render(
+					'partials/_limit_reached',
+					[],
+					[
+						'show_next_btn'    => false,
+						'show_prev_btn'    => false,
+						'is_first_step'    => true,
+						'is_last_step'     => true,
+						'is_pre_last_step' => false,
+					] 
+				);
 
 				return;
 			}
@@ -515,12 +559,14 @@ class OsStepsHelper {
 				if ( is_wp_error( $result ) ) {
 					$error_data   = $result->get_error_data();
 					$send_to_step = ( isset( $error_data['send_to_step'] ) && ! empty( $error_data['send_to_step'] ) ) ? $error_data['send_to_step'] : false;
-					wp_send_json( array(
-						'status'       => LATEPOINT_STATUS_ERROR,
-						'message'      => $result->get_error_message(),
-						'send_to_step' => $send_to_step,
-                        'fields_to_update' => self::$fields_to_update,
-					) );
+					wp_send_json(
+						array(
+							'status'           => LATEPOINT_STATUS_ERROR,
+							'message'          => $result->get_error_message(),
+							'send_to_step'     => $send_to_step,
+							'fields_to_update' => self::$fields_to_update,
+						) 
+					);
 
 					return;
 				}
@@ -535,12 +581,14 @@ class OsStepsHelper {
 			if ( is_wp_error( $result ) ) {
 				$error_data   = $result->get_error_data();
 				$send_to_step = ( isset( $error_data['send_to_step'] ) && ! empty( $error_data['send_to_step'] ) ) ? $error_data['send_to_step'] : false;
-				wp_send_json( array(
-					'status'       => LATEPOINT_STATUS_ERROR,
-					'message'      => $result->get_error_message(),
-					'send_to_step' => $send_to_step,
-                    'fields_to_update' => self::$fields_to_update,
-				) );
+				wp_send_json(
+					array(
+						'status'           => LATEPOINT_STATUS_ERROR,
+						'message'          => $result->get_error_message(),
+						'send_to_step'     => $send_to_step,
+						'fields_to_update' => self::$fields_to_update,
+					) 
+				);
 
 				return;
 			}
@@ -558,15 +606,19 @@ class OsStepsHelper {
 			$steps_controller->vars['presets']           = self::$presets;
 			$steps_controller->set_layout( 'none' );
 			$steps_controller->set_return_format( $format );
-			$steps_controller->format_render( 'load_step', [], [
-				'fields_to_update' => self::$fields_to_update,
-				'step_code'        => self::$step_to_prepare,
-				'show_next_btn'    => self::can_step_show_next_btn( self::$step_to_prepare ),
-				'show_prev_btn'    => self::can_step_show_prev_btn( self::$step_to_prepare ),
-				'is_first_step'    => self::is_first_step( self::$step_to_prepare ),
-				'is_last_step'     => self::is_last_step( self::$step_to_prepare ),
-				'is_pre_last_step' => self::is_pre_last_step( self::$step_to_prepare )
-			] );
+			$steps_controller->format_render(
+				'load_step',
+				[],
+				[
+					'fields_to_update' => self::$fields_to_update,
+					'step_code'        => self::$step_to_prepare,
+					'show_next_btn'    => self::can_step_show_next_btn( self::$step_to_prepare ),
+					'show_prev_btn'    => self::can_step_show_prev_btn( self::$step_to_prepare ),
+					'is_first_step'    => self::is_first_step( self::$step_to_prepare ),
+					'is_last_step'     => self::is_last_step( self::$step_to_prepare ),
+					'is_pre_last_step' => self::is_pre_last_step( self::$step_to_prepare ),
+				] 
+			);
 		}
 	}
 
@@ -670,9 +722,12 @@ class OsStepsHelper {
 	}
 
 	public static function remove_steps_for_parent( $parent_step_code ) {
-		self::$step_codes_in_order = array_filter( self::$step_codes_in_order, function ( $step ) use ( $parent_step_code ) {
-			return strpos( $step, $parent_step_code . '__' ) !== 0;
-		} );
+		self::$step_codes_in_order = array_filter(
+			self::$step_codes_in_order,
+			function ( $step ) use ( $parent_step_code ) {
+				return strpos( $step, $parent_step_code . '__' ) !== 0;
+			} 
+		);
 	}
 
 	public static function validate_presence( array $steps, array $rules ): array {
@@ -685,7 +740,7 @@ class OsStepsHelper {
 				// sometimes a rule is defined by the parent name, search for unflat list for parents
 				if ( ! in_array( $step_code, array_keys( self::unflatten_steps( $steps ) ) ) ) {
 					// translators: %s is the name of a step
-					$errors[] = sprintf( __( "Step %s is missing from steps array.", 'latepoint' ), $step_code );
+					$errors[] = sprintf( __( 'Step %s is missing from steps array.', 'latepoint' ), $step_code );
 				}
 			}
 		}
@@ -694,7 +749,7 @@ class OsStepsHelper {
 		foreach ( $steps as $step_code ) {
 			if ( ! array_key_exists( $step_code, $rules ) ) {
 				// translators: %s is the name of a step
-				$errors[] = sprintf( __( "Step %s is not defined in the rules.", 'latepoint' ), $step_code );
+				$errors[] = sprintf( __( 'Step %s is not defined in the rules.', 'latepoint' ), $step_code );
 			}
 		}
 
@@ -726,7 +781,6 @@ class OsStepsHelper {
 		 *
 		 */
 		return apply_filters( 'latepoint_check_steps_for_errors', $errors, $steps, $steps_rules );
-
 	}
 
 	public static function loop_step_rules_check( array $steps, array $steps_rules, string $parent = '' ): array {
@@ -927,7 +981,7 @@ class OsStepsHelper {
 			'selected_start_date'       => false,
 			'selected_start_time'       => false,
 			'order_item_id'             => false,
-			'source_id'                 => false
+			'source_id'                 => false,
 		];
 
 		/**
@@ -1068,9 +1122,7 @@ class OsStepsHelper {
 			// preselected calendar start date
 			if ( isset( $restrictions['calendar_start_date'] ) && OsTimeHelper::is_valid_date( $restrictions['calendar_start_date'] ) ) {
 				self::$restrictions['calendar_start_date'] = $restrictions['calendar_start_date'];
-			}
-
-
+			}		
 		}
 
 		/**
@@ -1110,47 +1162,47 @@ class OsStepsHelper {
 	}
 
 	public static function set_customer_object( $customer_params = [] ): OsCustomerModel {
-        self::$customer_object = new OsCustomerModel();
-        if(OsAuthHelper::is_customer_auth_disabled()){
+		self::$customer_object = new OsCustomerModel();
+		if ( OsAuthHelper::is_customer_auth_disabled() ) {
 
-            if(!empty($customer_params['uuid'])){
-                $customer = new OsCustomerModel();
-                $customer = $customer->where(['uuid' => $customer_params['uuid']])->set_limit(1)->get_results_as_models();
-                if($customer){
-                    self::$customer_object = $customer;
-                }
-            }
-            // login is disabled, get data from submitted form, do not save in DB as it will be saved on the confirmation step
-            if(!empty($customer_params)){
-                unset($customer_params['password']); // make sure we don't set password
-                self::$customer_object->set_data($customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC);
-            }
-        }else{
-            // customer is updated and logged in on "process_step_customer" action, so we just need to load it from db if
-            if(OsAuthHelper::is_customer_logged_in()){
-                self::$customer_object = OsAuthHelper::get_logged_in_customer();
-            }
-        }
-        return self::$customer_object;
+			if ( ! empty( $customer_params['uuid'] ) ) {
+				$customer = new OsCustomerModel();
+				$customer = $customer->where( [ 'uuid' => $customer_params['uuid'] ] )->set_limit( 1 )->get_results_as_models();
+				if ( $customer ) {
+					self::$customer_object = $customer;
+				}
+			}
+			// login is disabled, get data from submitted form, do not save in DB as it will be saved on the confirmation step
+			if ( ! empty( $customer_params ) ) {
+				unset( $customer_params['password'] ); // make sure we don't set password
+				self::$customer_object->set_data( $customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+			}
+		} else {
+			// customer is updated and logged in on "process_step_customer" action, so we just need to load it from db if
+			if ( OsAuthHelper::is_customer_logged_in() ) {
+				self::$customer_object = OsAuthHelper::get_logged_in_customer();
+			}
+		}
+		return self::$customer_object;
 	}
 
-    public static function get_customer_object_id(){
-        $customer = self::get_customer_object();
-        return $customer->is_new_record() ? false : $customer->id;
-    }
+	public static function get_customer_object_id() {
+		$customer = self::get_customer_object();
+		return $customer->is_new_record() ? false : $customer->id;
+	}
 
-    public static function get_customer_object() : OsCustomerModel{
-        if (!isset(self::$customer_object)) {
-            self::$customer_object = new OsCustomerModel();
-        }
-        return self::$customer_object;
-    }
+	public static function get_customer_object(): OsCustomerModel {
+		if ( ! isset( self::$customer_object ) ) {
+			self::$customer_object = new OsCustomerModel();
+		}
+		return self::$customer_object;
+	}
 
 	public static function set_booking_object( $booking_object_params = [] ): OsBookingModel {
 		self::$booking_object = new OsBookingModel();
 		self::$booking_object->set_data( $booking_object_params );
 
-        self::$booking_object->convert_start_datetime_into_server_timezone(OsTimeHelper::get_timezone_name_from_session());
+		self::$booking_object->convert_start_datetime_into_server_timezone( OsTimeHelper::get_timezone_name_from_session() );
 
 		if ( ! empty( $booking_object_params['intent_key'] ) ) {
 			self::$booking_object->intent_key = $booking_object_params['intent_key'];
@@ -1228,7 +1280,7 @@ class OsStepsHelper {
 		}
 	}
 
-	public static function is_bundle_scheduling() : bool {
+	public static function is_bundle_scheduling(): bool {
 		return self::$booking_object->is_bundle_scheduling();
 	}
 
@@ -1314,8 +1366,8 @@ class OsStepsHelper {
 									// try to check if one only available and preset it
 									$enabled_payment_times = OsPaymentsHelper::get_enabled_payment_times();
 									if ( count( $enabled_payment_times ) == 1 ) {
-										$skip                                                = true;
-										self::$cart_object->payment_time                     = array_key_first( $enabled_payment_times );
+										$skip                            = true;
+										self::$cart_object->payment_time = array_key_first( $enabled_payment_times );
 										self::$preset_fields['verify']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
 										// assign preset field value for next step
 										self::$preset_fields['payment__portions']['cart[payment_time]'] = OsFormHelper::hidden_field( 'cart[payment_time]', self::$cart_object->payment_time, [ 'skip_id' => true ] );
@@ -1335,7 +1387,7 @@ class OsStepsHelper {
 									}
 
 									if ( ! empty( self::$cart_object->payment_portion ) ) {
-										$skip                                                             = true;
+										$skip = true;
 										self::$preset_fields['verify']['cart[payment_portion]']           = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
 										self::$preset_fields['payment__methods']['cart[payment_portion]'] = OsFormHelper::hidden_field( 'cart[payment_portion]', self::$cart_object->payment_portion, [ 'skip_id' => true ] );
 
@@ -1350,8 +1402,8 @@ class OsStepsHelper {
 									if ( self::$cart_object->payment_time ) {
 										$enabled_payment_methods = OsPaymentsHelper::get_enabled_payment_methods_for_payment_time( self::$cart_object->payment_time );
 										if ( count( $enabled_payment_methods ) <= 1 ) {
-											$skip                                                               = true;
-											self::$cart_object->payment_method                                  = array_key_first( $enabled_payment_methods );
+											$skip                              = true;
+											self::$cart_object->payment_method = array_key_first( $enabled_payment_methods );
 											self::$preset_fields['verify']['cart[payment_method]']              = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
 											self::$preset_fields['payment__processors']['cart[payment_method]'] = OsFormHelper::hidden_field( 'cart[payment_method]', self::$cart_object->payment_method, [ 'skip_id' => true ] );
 
@@ -1367,8 +1419,8 @@ class OsStepsHelper {
 									if ( self::$cart_object->payment_time && self::$cart_object->payment_method ) {
 										$enabled_payment_processors = OsPaymentsHelper::get_enabled_payment_processors_for_payment_time_and_method( self::$cart_object->payment_time, self::$cart_object->payment_method );
 										if ( count( $enabled_payment_processors ) <= 1 ) {
-											$skip                                                           = true;
-											self::$cart_object->payment_processor                           = array_key_first( $enabled_payment_processors );
+											$skip                                 = true;
+											self::$cart_object->payment_processor = array_key_first( $enabled_payment_processors );
 											self::$preset_fields['verify']['cart[payment_processor]']       = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
 											self::$preset_fields['payment__pay']['cart[payment_processor]'] = OsFormHelper::hidden_field( 'cart[payment_processor]', self::$cart_object->payment_processor, [ 'skip_id' => true ] );
 
@@ -1502,7 +1554,7 @@ class OsStepsHelper {
 		$label         = __( 'Next', 'latepoint' );
 		$custom_labels = [
 			'payment__pay' => __( 'Submit', 'latepoint' ),
-			'verify'       => OsStepsHelper::should_step_be_skipped( 'payment__pay' ) ? __( 'Submit', 'latepoint' ) : __( 'Checkout', 'latepoint' )
+			'verify'       => OsStepsHelper::should_step_be_skipped( 'payment__pay' ) ? __( 'Submit', 'latepoint' ) : __( 'Checkout', 'latepoint' ),
 		];
 
 
@@ -1535,13 +1587,13 @@ class OsStepsHelper {
 			'payment__methods'    => false,
 			'payment__pay'        => false,
 			'verify'              => true,
-			'confirmation'        => false
+			'confirmation'        => false,
 		];
 
-        if($step_code == 'customer'){
-            // customer is set, or we are not using login/register tabs, allow to go next
-            $step_show_btn_rules['customer'] = self::get_customer_object_id() || OsAuthHelper::is_classic_auth_flow() || OsAuthHelper::is_customer_auth_disabled() || !empty(self::$customer_contact_verified_via);
-        }
+		if ( $step_code == 'customer' ) {
+			// customer is set, or we are not using login/register tabs, allow to go next
+			$step_show_btn_rules['customer'] = self::get_customer_object_id() || OsAuthHelper::is_classic_auth_flow() || OsAuthHelper::is_customer_auth_disabled() || ! empty( self::$customer_contact_verified_via );
+		}
 
 		/**
 		 * Returns an array of rules of whether to show a next button on not, step codes are keys in this array
@@ -1568,7 +1620,7 @@ class OsStepsHelper {
 				self::$cart_object->add_item( self::$active_cart_item );
 				self::$fields_to_update['active_cart_item[id]'] = self::$active_cart_item->id;
 			} elseif ( self::$active_cart_item->is_booking() ) {
-                $original_booking = clone self::$booking_object; // we need to clone it, because is_bookable will set location and agent to set values from ANY, and we don't want that for our recurring bookings
+				$original_booking = clone self::$booking_object; // we need to clone it, because is_bookable will set location and agent to set values from ANY, and we don't want that for our recurring bookings
 				if ( self::$booking_object->is_bookable( [ 'skip_customer_check' => true ] ) ) {
 					// create recurring record and assign it to this booking
 					if ( ! empty( $original_booking->generate_recurrent_sequence ) ) {
@@ -1580,27 +1632,31 @@ class OsStepsHelper {
 							$original_booking->recurrence_id = $recurrence->id;
 							// we don't need these attributes anymore as we will get them from the recurrence model by ID
 							$original_booking->generate_recurrent_sequence = [];
-							$customer_timezone                                 = $original_booking->get_customer_timezone();
-							$recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( $original_booking, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
-                            $main_cart_item_id = false;
+							$customer_timezone                             = $original_booking->get_customer_timezone();
+							$recurring_bookings_data_and_errors            = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( $original_booking, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
+							$main_cart_item_id                             = false;
 							foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
-								if ( $recurrence_bookings_datum['unchecked'] == 'yes' || !$recurrence_bookings_datum['is_bookable'] ) {
+								if ( $recurrence_bookings_datum['unchecked'] == 'yes' || ! $recurrence_bookings_datum['is_bookable'] ) {
 									continue;
 								}
 								self::$booking_object = $recurrence_bookings_datum['booking'];
 								// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
 								self::set_active_cart_item_object();
-                                if(!empty($main_cart_item_id)){
-                                    self::$active_cart_item->connected_cart_item_id = $main_cart_item_id;
-                                }
+								if ( ! empty( $main_cart_item_id ) ) {
+									self::$active_cart_item->connected_cart_item_id = $main_cart_item_id;
+								}
 								self::$cart_object->add_item( self::$active_cart_item );
-                                if(empty($main_cart_item_id)) $main_cart_item_id = self::$active_cart_item->id;
+								if ( empty( $main_cart_item_id ) ) {
+									$main_cart_item_id = self::$active_cart_item->id;
+								}
 							}
-                            if($main_cart_item_id) self::$fields_to_update['active_cart_item[id]'] = $main_cart_item_id;
+							if ( $main_cart_item_id ) {
+								self::$fields_to_update['active_cart_item[id]'] = $main_cart_item_id;
+							}
 						}
 					} else {
 						// Single time booking
-                        // only do this for new cart item, if modifying existing one - then the set_active_cart_item method will take care of updating it
+						// only do this for new cart item, if modifying existing one - then the set_active_cart_item method will take care of updating it
 						// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
 						self::set_active_cart_item_object();
 						if ( self::is_bundle_scheduling() ) {
@@ -1638,8 +1694,6 @@ class OsStepsHelper {
 				}
 			}
 		}
-
-
 	}
 
 	public static function reset_booking_object() {
@@ -1647,7 +1701,6 @@ class OsStepsHelper {
 	}
 
 	public static function prepare_step_booking() {
-
 	}
 
 
@@ -1667,10 +1720,13 @@ class OsStepsHelper {
 		$preselected_duration        = self::$presets['selected_duration'];
 		$preselected_total_attendees = self::$presets['selected_total_attendees'];
 
-		$connected_ids = OsConnectorHelper::get_connected_object_ids( 'service_id', [
-			'agent_id'    => self::$booking_object->agent_id,
-			'location_id' => self::$booking_object->location_id
-		] );
+		$connected_ids = OsConnectorHelper::get_connected_object_ids(
+			'service_id',
+			[
+				'agent_id'    => self::$booking_object->agent_id,
+				'location_id' => self::$booking_object->location_id,
+			] 
+		);
 		// if "show only specific services" is selected (restrictions) - remove ids that are not found in connection
 		$show_services_arr = ( ! empty( $show_selected_services_arr ) && ! empty( $connected_ids ) ) ? array_intersect( $connected_ids, $show_selected_services_arr ) : $connected_ids;
 		if ( ! empty( $show_services_arr ) ) {
@@ -1698,10 +1754,13 @@ class OsStepsHelper {
 
 		$show_selected_agents_arr = ( self::$restrictions['show_agents'] ) ? explode( ',', self::$restrictions['show_agents'] ) : false;
 		// Find agents that actually offer selected service (if selected) at selected location (if selected)
-		$connected_ids = OsConnectorHelper::get_connected_object_ids( 'agent_id', [
-			'service_id'  => self::$booking_object->service_id,
-			'location_id' => self::$booking_object->location_id
-		] );
+		$connected_ids = OsConnectorHelper::get_connected_object_ids(
+			'agent_id',
+			[
+				'service_id'  => self::$booking_object->service_id,
+				'location_id' => self::$booking_object->location_id,
+			] 
+		);
 
 		// If date/time is selected - filter agents who are available at that time
 		if ( self::$booking_object->start_date && self::$booking_object->start_time ) {
@@ -1736,10 +1795,10 @@ class OsStepsHelper {
 		if ( empty( self::$booking_object->agent_id ) ) {
 			self::$booking_object->agent_id = LATEPOINT_ANY_AGENT;
 		}
-        if ( OsTimeHelper::is_valid_date( OsSettingsHelper::get_earliest_possible_booking_restriction(self::$booking_object->service_id ?? false) ) ) {
-            self::$restrictions['calendar_start_date'] = OsSettingsHelper::get_earliest_possible_booking_restriction(self::$booking_object->service_id ?? false);
-        }
-		self::$vars_for_view['calendar_start_date'] = (!empty(self::$restrictions['calendar_start_date']) && OsTimeHelper::is_valid_date(self::$restrictions['calendar_start_date'])) ? self::$restrictions['calendar_start_date'] : 'today';
+		if ( OsTimeHelper::is_valid_date( OsSettingsHelper::get_earliest_possible_booking_restriction( self::$booking_object->service_id ?? false ) ) ) {
+			self::$restrictions['calendar_start_date'] = OsSettingsHelper::get_earliest_possible_booking_restriction( self::$booking_object->service_id ?? false );
+		}
+		self::$vars_for_view['calendar_start_date'] = ( ! empty( self::$restrictions['calendar_start_date'] ) && OsTimeHelper::is_valid_date( self::$restrictions['calendar_start_date'] ) ) ? self::$restrictions['calendar_start_date'] : 'today';
 	}
 
 
@@ -1752,82 +1811,82 @@ class OsStepsHelper {
 
 	public static function prepare_step_customer() {
 
-        if(!empty(self::$params['customer_contact_verification_token'])){
-            self::set_customer_object_from_verification_token(self::$params['customer_contact_verification_token']);
-            if(self::get_customer_object_id()){
-                OsOTPHelper::add_verified_contact_for_customer_from_verification_token(self::get_customer_object(), self::$params['customer_contact_verification_token']);
-            }
-            self::$vars_for_view['customer_verification_info'] = OsOTPHelper::validate_verification_token(self::$params['customer_contact_verification_token']);
-        }else{
-            self::$vars_for_view['customer_verification_info'] = [];
-        }
+		if ( ! empty( self::$params['customer_contact_verification_token'] ) ) {
+			self::set_customer_object_from_verification_token( self::$params['customer_contact_verification_token'] );
+			if ( self::get_customer_object_id() ) {
+				OsOTPHelper::add_verified_contact_for_customer_from_verification_token( self::get_customer_object(), self::$params['customer_contact_verification_token'] );
+			}
+			self::$vars_for_view['customer_verification_info'] = OsOTPHelper::validate_verification_token( self::$params['customer_contact_verification_token'] );
+		} else {
+			self::$vars_for_view['customer_verification_info'] = [];
+		}
 
-        if(isset(self::$params['auth']['action']) && self::$params['auth']['action'] == 'register') {
-            // set customer objects from params of the submitted form
-	        self::$customer_object->set_data( self::customer_params() );
-        }
+		if ( isset( self::$params['auth']['action'] ) && self::$params['auth']['action'] == 'register' ) {
+			// set customer objects from params of the submitted form
+			self::$customer_object->set_data( self::customer_params() );
+		}
 
-        // logout - clear the customer
-        if(isset(self::$params['auth']['action']) && self::$params['auth']['action'] == 'logout'){
-            self::$customer_object = new OsCustomerModel();
-        }
+		// logout - clear the customer
+		if ( isset( self::$params['auth']['action'] ) && self::$params['auth']['action'] == 'logout' ) {
+			self::$customer_object = new OsCustomerModel();
+		}
 
-        self::$booking_object->customer_id = self::get_customer_object_id();
+		self::$booking_object->customer_id                  = self::get_customer_object_id();
 		self::$vars_for_view['default_fields_for_customer'] = OsSettingsHelper::get_default_fields_for_customer();
-        // if customer params are present - prefill customer object with them (do not save)
-		self::$vars_for_view['customer']                    = self::get_customer_object();
-        self::$vars_for_view['customer_contact_verified_via'] = self::$customer_contact_verified_via;
+		// if customer params are present - prefill customer object with them (do not save)
+		self::$vars_for_view['customer']                      = self::get_customer_object();
+		self::$vars_for_view['customer_contact_verified_via'] = self::$customer_contact_verified_via;
 
 
-        self::$vars_for_view['enabled_auth_methods'] = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
-        self::$vars_for_view['selected_auth_method'] = OsAuthHelper::get_default_contact_type_for_customer_auth();
-        self::$vars_for_view['enabled_contact_types_for_customer_auth'] = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
+		self::$vars_for_view['enabled_auth_methods']                    = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
+		self::$vars_for_view['selected_auth_method']                    = OsAuthHelper::get_default_contact_type_for_customer_auth();
+		self::$vars_for_view['enabled_contact_types_for_customer_auth'] = OsAuthHelper::get_enabled_contact_types_for_customer_auth();
 
-        self::$vars_for_view['auth_action'] = self::$params['auth']['action'] ?? '';
+		self::$vars_for_view['auth_action'] = self::$params['auth']['action'] ?? '';
 	}
 
-    public static function set_customer_object_from_verification_token(string $token){
-        // preset customer contact value based on a verification token if customer is not logged in yet and token exists
-        $verification_info = OsOTPHelper::validate_verification_token(self::$params['customer_contact_verification_token']);
-        if($verification_info['valid'] && !empty($verification_info['data']['contact_value'])){
-            switch($verification_info['data']['contact_type']){
-                case 'email':
-                    if(!OsUtilHelper::is_valid_email($verification_info['data']['contact_value'])){
-                        // invalid email value in validation token
-                        return false;
-                    }
-                    self::$customer_object->email = $verification_info['data']['contact_value'];
-                    self::$customer_contact_verified_via = 'email';
-                    break;
-                case 'phone':
-                    $phone_number = OsUtilHelper::sanitize_phone_number($verification_info['data']['contact_value']);
-                    if(empty($phone_number)){
-                        return false;
-                    }
+	public static function set_customer_object_from_verification_token( string $token ) {
+		// preset customer contact value based on a verification token if customer is not logged in yet and token exists
+		$verification_info = OsOTPHelper::validate_verification_token( self::$params['customer_contact_verification_token'] );
+		if ( $verification_info['valid'] && ! empty( $verification_info['data']['contact_value'] ) ) {
+			switch ( $verification_info['data']['contact_type'] ) {
+				case 'email':
+					if ( ! OsUtilHelper::is_valid_email( $verification_info['data']['contact_value'] ) ) {
+						// invalid email value in validation token
+						return false;
+					}
+					self::$customer_object->email        = $verification_info['data']['contact_value'];
+					self::$customer_contact_verified_via = 'email';
+					break;
+				case 'phone':
+					$phone_number = OsUtilHelper::sanitize_phone_number( $verification_info['data']['contact_value'] );
+					if ( empty( $phone_number ) ) {
+						return false;
+					}
 
-                    self::$customer_object->phone = $phone_number;
-                    self::$customer_contact_verified_via = 'phone';
-                    break;
-            }
-            if(OsAuthHelper::is_customer_auth_enabled()){
-                // need to login this customer if it exists
-                switch($verification_info['data']['contact_type']){
-                    case 'email':
-                        // find customer with this email
-                        $customer = new OsCustomerModel();
-                        $customer = $customer->where(['email' => $verification_info['data']['contact_value']])->set_limit(1)->get_results_as_models();
-                        if($customer && OsAuthHelper::authorize_customer($customer->id)){
-                            self::$customer_object = $customer;
-                        }
-                        break;
-                    case 'phone':
-                        self::$customer_object->phone = $verification_info['data']['contact_value'];
-                        self::$customer_contact_verified_via = 'phone';
-                        break;
-                }
-            }
-        }
-    }
+					self::$customer_object->phone        = $phone_number;
+					self::$customer_contact_verified_via = 'phone';
+					break;
+			}
+			if ( OsAuthHelper::is_customer_auth_enabled() ) {
+				// need to login this customer if it exists
+				switch ( $verification_info['data']['contact_type'] ) {
+					case 'email':
+						// find customer with this email
+						$customer = new OsCustomerModel();
+						$customer = $customer->where( [ 'email' => $verification_info['data']['contact_value'] ] )->set_limit( 1 )->get_results_as_models();
+						if ( $customer && OsAuthHelper::authorize_customer( $customer->id ) ) {
+							self::$customer_object = $customer;
+						}
+						break;
+					case 'phone':
+						self::$customer_object->phone        = $verification_info['data']['contact_value'];
+						self::$customer_contact_verified_via = 'phone';
+						break;
+				}
+			}
+		}
+	}
 
 	private static function customer_params(): array {
 		$params = OsParamsHelper::get_param( 'customer' );
@@ -1835,15 +1894,18 @@ class OsStepsHelper {
 			return [];
 		}
 
-		$customer_params = OsParamsHelper::permit_params( $params, [
-			'first_name',
-			'last_name',
-			'email',
-			'phone',
-			'notes',
-			'password',
-			'password_confirmation'
-		] );
+		$customer_params = OsParamsHelper::permit_params(
+			$params,
+			[
+				'first_name',
+				'last_name',
+				'email',
+				'phone',
+				'notes',
+				'password',
+				'password_confirmation',
+			] 
+		);
 
 		if ( ! empty( $customer_params['first_name'] ) ) {
 			$customer_params['first_name'] = sanitize_text_field( $customer_params['first_name'] );
@@ -1881,35 +1943,35 @@ class OsStepsHelper {
 		$sanitized_customer_params = self::customer_params();
 
 
-        if(OsAuthHelper::is_customer_auth_disabled()){
-            // if login and register tabs are hidden - means we don't have to log in a customer and can just reuse the customer with that email
-            // we don't care about wordpress users connected to this email because we don't need to log them into their account
-            $customer       = new OsCustomerModel();
+		if ( OsAuthHelper::is_customer_auth_disabled() ) {
+			// if login and register tabs are hidden - means we don't have to log in a customer and can just reuse the customer with that email
+			// we don't care about wordpress users connected to this email because we don't need to log them into their account
+			$customer = new OsCustomerModel();
 
-            $contact_merge = OsSettingsHelper::get_settings_value('default_contact_merge_behavior', 'email');
-            if($contact_merge == 'email' && !empty($sanitized_customer_params['email'])){
-                $customer = $customer->where( array( 'email' => $sanitized_customer_params['email']) )->set_limit( 1 )->get_results_as_models();
-            }elseif($contact_merge == 'phone' && !empty($sanitized_customer_params['phone'])){
-                $customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone']) )->set_limit( 1 )->get_results_as_models();
-            }else{
-                // do not merge, always create new record
-                $customer = false;
-            }
+			$contact_merge = OsSettingsHelper::get_settings_value( 'default_contact_merge_behavior', 'email' );
+			if ( $contact_merge == 'email' && ! empty( $sanitized_customer_params['email'] ) ) {
+				$customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+			} elseif ( $contact_merge == 'phone' && ! empty( $sanitized_customer_params['phone'] ) ) {
+				$customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone'] ) )->set_limit( 1 )->get_results_as_models();
+			} else {
+				// do not merge, always create new record
+				$customer = false;
+			}
 
-            if ( $customer ) {
-                $is_new_customer = false;
-                $old_customer_data = $customer->get_data_vars();
-            }else{
-                $is_new_customer = true;
-                $customer = new OsCustomerModel();
-                $old_customer_data = [];
-            }
+			if ( $customer ) {
+				$is_new_customer   = false;
+				$old_customer_data = $customer->get_data_vars();
+			} else {
+				$is_new_customer   = true;
+				$customer          = new OsCustomerModel();
+				$old_customer_data = [];
+			}
 
-            if(!empty($sanitized_customer_params)){
-                unset($sanitized_customer_params['password']); // make sure we don't set password
-                $customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
-            }
-            // validate customer data
+			if ( ! empty( $sanitized_customer_params ) ) {
+				unset( $sanitized_customer_params['password'] ); // make sure we don't set password
+				$customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+			}
+			// validate customer data
 			if ( $customer->save() ) {
 				if ( $is_new_customer ) {
 					do_action( 'latepoint_customer_created', $customer );
@@ -1917,186 +1979,216 @@ class OsStepsHelper {
 					do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
 				}
 
-				self::$booking_object->customer_id = $customer->id;
-                self::$customer_object = $customer;
-                self::$fields_to_update['customer[uuid]'] = $customer->get_uuid();
-            } else {
+				self::$booking_object->customer_id        = $customer->id;
+				self::$customer_object                    = $customer;
+				self::$fields_to_update['customer[uuid]'] = $customer->get_uuid();
+			} else {
 				$status        = LATEPOINT_STATUS_ERROR;
 				$response_html = $customer->get_error_messages();
 				if ( is_array( $response_html ) ) {
 					$response_html = implode( ', ', $response_html );
 				}
 			}
-        }else{
-            $logged_in_customer = OsAuthHelper::get_logged_in_customer();
+		} else {
+			$logged_in_customer = OsAuthHelper::get_logged_in_customer();
 
 
-            if ( $logged_in_customer ) {
-                // LOGGED IN ALREADY
-                // Check if they are changing the email or phone on file
-                switch(OsAuthHelper::get_selected_customer_authentication_field_type()){
-                    case 'email':
-                        if ( $logged_in_customer->email != $sanitized_customer_params['email'] ) {
-                            // Check if other customer already has this email
-                            $customer                  = new OsCustomerModel();
-                            $customer_with_email_exist = $customer->where( array(
-                                'email' => $sanitized_customer_params['email'],
-                                'id !=' => $logged_in_customer->id
-                            ) )->set_limit( 1 )->get_results_as_models();
-                            // check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
-                            if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
-                                $status        = LATEPOINT_STATUS_ERROR;
-                                $response_html = __( 'Another customer is registered with this email.', 'latepoint' );
-                            }else{
-                                if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['email'], 'email')){
-                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
-                                    $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
-                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
-                                }
-                            }
-                        }
-                        break;
-                    case 'phone':
-                        if ( $logged_in_customer->phone != $sanitized_customer_params['phone'] ) {
-                            // Check if other customer already has this phone
-                            $customer                  = new OsCustomerModel();
-                            $customer_with_phone_exist = $customer->where( array(
-                                'phone' => $sanitized_customer_params['phone'],
-                                'id !=' => $logged_in_customer->id
-                            ) )->set_limit( 1 )->get_results_as_models();
-                            // check if another customer (or if wp user login enabled - another wp user) exists with the phone that this user tries to update to
-                            if ( $customer_with_phone_exist ) {
-                                $status        = LATEPOINT_STATUS_ERROR;
-                                $response_html = __( 'Another customer is already registered with this phone number.', 'latepoint' );
-                            }else{
-                                if(OsSettingsHelper::is_on('require_otp_for_new_contacts') && !OsOTPHelper::is_customer_contact_verified($logged_in_customer, $sanitized_customer_params['phone'], 'phone')){
-                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['phone'], 'phone', 'sms');
-                                    $otp_form_html = OsOTPHelper::otp_input_box_html('phone', $sanitized_customer_params['phone'], 'sms');
-                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
-                                }
-                            }
-                        }
-                        break;
-                }
-            } else {
-                // NEW REGISTRATION (NOT LOGGED IN)
+			if ( $logged_in_customer ) {
+				// LOGGED IN ALREADY
+				// Check if they are changing the email or phone on file
+				switch ( OsAuthHelper::get_selected_customer_authentication_field_type() ) {
+					case 'email':
+						if ( $logged_in_customer->email != $sanitized_customer_params['email'] ) {
+							// Check if other customer already has this email
+							$customer                  = new OsCustomerModel();
+							$customer_with_email_exist = $customer->where(
+								array(
+									'email' => $sanitized_customer_params['email'],
+									'id !=' => $logged_in_customer->id,
+								) 
+							)->set_limit( 1 )->get_results_as_models();
+							// check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
+							if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
+								$status        = LATEPOINT_STATUS_ERROR;
+								$response_html = __( 'Another customer is registered with this email.', 'latepoint' );
+							} else {
+								if ( OsSettingsHelper::is_on( 'require_otp_for_new_contacts' ) && ! OsOTPHelper::is_customer_contact_verified( $logged_in_customer, $sanitized_customer_params['email'], 'email' ) ) {
+									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['email'], 'email', 'email' );
+									$otp_form_html = OsOTPHelper::otp_input_box_html( 'email', $sanitized_customer_params['email'], 'email' );
+									return new WP_Error(
+										LATEPOINT_STATUS_ERROR,
+										'',
+										[
+											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
+											'callback_data' => $otp_form_html,
+										] 
+									);
+								}
+							}
+						}
+						break;
+					case 'phone':
+						if ( $logged_in_customer->phone != $sanitized_customer_params['phone'] ) {
+							// Check if other customer already has this phone
+							$customer                  = new OsCustomerModel();
+							$customer_with_phone_exist = $customer->where(
+								array(
+									'phone' => $sanitized_customer_params['phone'],
+									'id !=' => $logged_in_customer->id,
+								) 
+							)->set_limit( 1 )->get_results_as_models();
+							// check if another customer (or if wp user login enabled - another wp user) exists with the phone that this user tries to update to
+							if ( $customer_with_phone_exist ) {
+								$status        = LATEPOINT_STATUS_ERROR;
+								$response_html = __( 'Another customer is already registered with this phone number.', 'latepoint' );
+							} else {
+								if ( OsSettingsHelper::is_on( 'require_otp_for_new_contacts' ) && ! OsOTPHelper::is_customer_contact_verified( $logged_in_customer, $sanitized_customer_params['phone'], 'phone' ) ) {
+									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['phone'], 'phone', 'sms' );
+									$otp_form_html = OsOTPHelper::otp_input_box_html( 'phone', $sanitized_customer_params['phone'], 'sms' );
+									return new WP_Error(
+										LATEPOINT_STATUS_ERROR,
+										'',
+										[
+											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
+											'callback_data' => $otp_form_html,
+										] 
+									);
+								}
+							}
+						}
+						break;
+				}
+			} else {
+				// NEW REGISTRATION (NOT LOGGED IN)
 
-                if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
-                    // WordPress users as customers
-                    if ( email_exists( $sanitized_customer_params['email'] ) ) {
-                        // wordpress user with this email already exists, ask to login
-                        $status        = LATEPOINT_STATUS_ERROR;
-                        $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-                    } else {
-                        // wp user does not exist - search for latepoint customer
-                        $customer = new OsCustomerModel();
-                        $customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
-                        if ( $customer ) {
-                            // latepoint customer with this email exits, create wp user for them
-                            $wp_user       = OsCustomerHelper::create_wp_user_for_customer( $customer );
-                            $status        = LATEPOINT_STATUS_ERROR;
-                            $response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
-                        } else {
-                            // no latepoint customer or wp user with this email found, can proceed
-                        }
-                    }
-                } else {
-                    // Check if a customer with the same auth field value already exists or we require OTP for new contacts
-                    $require_otp_for_new_contacts = OsSettingsHelper::is_on('require_otp_for_new_contacts');
-                    switch(OsAuthHelper::get_selected_customer_authentication_field_type()){
-                        case 'email':
-                            if(!empty($sanitized_customer_params['email'])){
-                                // search if existing customer with this email exists
-                                $customer       = new OsCustomerModel();
-                                $existing_customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+				if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
+					// WordPress users as customers
+					if ( email_exists( $sanitized_customer_params['email'] ) ) {
+						// wordpress user with this email already exists, ask to login
+						$status        = LATEPOINT_STATUS_ERROR;
+						$response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
+					} else {
+						// wp user does not exist - search for latepoint customer
+						$customer = new OsCustomerModel();
+						$customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
+						if ( $customer ) {
+							// latepoint customer with this email exits, create wp user for them
+							$wp_user       = OsCustomerHelper::create_wp_user_for_customer( $customer );
+							$status        = LATEPOINT_STATUS_ERROR;
+							$response_html = __( 'An account with that email address already exists. Please try signing in.', 'latepoint' );
+						} else {
+							// no latepoint customer or wp user with this email found, can proceed
+						}
+					}
+				} else {
+					// Check if a customer with the same auth field value already exists or we require OTP for new contacts
+					$require_otp_for_new_contacts = OsSettingsHelper::is_on( 'require_otp_for_new_contacts' );
+					switch ( OsAuthHelper::get_selected_customer_authentication_field_type() ) {
+						case 'email':
+							if ( ! empty( $sanitized_customer_params['email'] ) ) {
+								// search if existing customer with this email exists
+								$customer          = new OsCustomerModel();
+								$existing_customer = $customer->where( array( 'email' => $sanitized_customer_params['email'] ) )->set_limit( 1 )->get_results_as_models();
 
-                                // send otp if customer with this email already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
-                                if ( $existing_customer || ($require_otp_for_new_contacts && (empty(self::$params['customer_contact_verification_token']) || !OsOTPHelper::is_token_matching_to_contact_value(self::$params['customer_contact_verification_token'], $sanitized_customer_params['email'])) )){
-                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['email'], 'email', 'email');
-                                    $otp_form_html = OsOTPHelper::otp_input_box_html('email', $sanitized_customer_params['email'], 'email');
-                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
-                                }
-                            }
-                            break;
-                        case 'phone':
-                            if(!empty($sanitized_customer_params['phone'])){
-                                // search if existing customer with this phone exists
-                                $customer       = new OsCustomerModel();
-                                $existing_customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone'] ) )->set_limit( 1 )->get_results_as_models();
+								// send otp if customer with this email already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
+								if ( $existing_customer || ( $require_otp_for_new_contacts && ( empty( self::$params['customer_contact_verification_token'] ) || ! OsOTPHelper::is_token_matching_to_contact_value( self::$params['customer_contact_verification_token'], $sanitized_customer_params['email'] ) ) ) ) {
+									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['email'], 'email', 'email' );
+									$otp_form_html = OsOTPHelper::otp_input_box_html( 'email', $sanitized_customer_params['email'], 'email' );
+									return new WP_Error(
+										LATEPOINT_STATUS_ERROR,
+										'',
+										[
+											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
+											'callback_data' => $otp_form_html,
+										] 
+									);
+								}
+							}
+							break;
+						case 'phone':
+							if ( ! empty( $sanitized_customer_params['phone'] ) ) {
+								// search if existing customer with this phone exists
+								$customer          = new OsCustomerModel();
+								$existing_customer = $customer->where( array( 'phone' => $sanitized_customer_params['phone'] ) )->set_limit( 1 )->get_results_as_models();
 
-                                // send otp if customer with this phone already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
-                                if ( $existing_customer || ($require_otp_for_new_contacts && (empty(self::$params['customer_contact_verification_token']) || !OsOTPHelper::is_token_matching_to_contact_value(self::$params['customer_contact_verification_token'], $sanitized_customer_params['phone'])) )){
-                                    $otp = OsOTPHelper::generateAndSendOTP($sanitized_customer_params['phone'], 'phone', 'phone');
-                                    $otp_form_html = OsOTPHelper::otp_input_box_html('phone', $sanitized_customer_params['phone'], 'sms');
-                                    return new WP_Error( LATEPOINT_STATUS_ERROR, '', [ 'callback' => 'latepoint_show_verify_contact_form_with_otp_code', 'callback_data' =>  $otp_form_html] );
-                                }
-                            }
-                        break;
-                    }
-                }
-                // if not logged in - check if password has to be set
-                if ( ! OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) {
-                    if ( ! empty( $sanitized_customer_params['password'] ) && $sanitized_customer_params['password'] == $sanitized_customer_params['password_confirmation'] ) {
-                        $sanitized_customer_params['password'] = OsAuthHelper::hash_password( $sanitized_customer_params['password'] );
-                        $sanitized_customer_params['is_guest'] = false;
-                    } else {
-                        // Password is blank or does not match the confirmation
-                        $status        = LATEPOINT_STATUS_ERROR;
-                        $response_html = __( 'Setting password is required and should match password confirmation', 'latepoint' );
-                    }
-                }
-            }
-            // If no errors, proceed
-            if ( $status == LATEPOINT_STATUS_SUCCESS ) {
-                if ( OsAuthHelper::is_customer_logged_in() ) {
-                    $customer        = OsAuthHelper::get_logged_in_customer();
-                    $is_new_customer = $customer->is_new_record();
-                } else {
-                    $customer        = new OsCustomerModel();
-                    $is_new_customer = true;
-                }
-                $old_customer_data = $is_new_customer ? [] : $customer->get_data_vars();
-                $customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
-                if ( $customer->save() ) {
+								// send otp if customer with this phone already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
+								if ( $existing_customer || ( $require_otp_for_new_contacts && ( empty( self::$params['customer_contact_verification_token'] ) || ! OsOTPHelper::is_token_matching_to_contact_value( self::$params['customer_contact_verification_token'], $sanitized_customer_params['phone'] ) ) ) ) {
+									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['phone'], 'phone', 'phone' );
+									$otp_form_html = OsOTPHelper::otp_input_box_html( 'phone', $sanitized_customer_params['phone'], 'sms' );
+									return new WP_Error(
+										LATEPOINT_STATUS_ERROR,
+										'',
+										[
+											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
+											'callback_data' => $otp_form_html,
+										] 
+									);
+								}
+							}
+							break;
+					}
+				}
+				// if not logged in - check if password has to be set
+				if ( ! OsAuthHelper::is_customer_logged_in() && OsSettingsHelper::is_on( 'steps_require_setting_password' ) ) {
+					if ( ! empty( $sanitized_customer_params['password'] ) && $sanitized_customer_params['password'] == $sanitized_customer_params['password_confirmation'] ) {
+						$sanitized_customer_params['password'] = OsAuthHelper::hash_password( $sanitized_customer_params['password'] );
+						$sanitized_customer_params['is_guest'] = false;
+					} else {
+						// Password is blank or does not match the confirmation
+						$status        = LATEPOINT_STATUS_ERROR;
+						$response_html = __( 'Setting password is required and should match password confirmation', 'latepoint' );
+					}
+				}
+			}
+			// If no errors, proceed
+			if ( $status == LATEPOINT_STATUS_SUCCESS ) {
+				if ( OsAuthHelper::is_customer_logged_in() ) {
+					$customer        = OsAuthHelper::get_logged_in_customer();
+					$is_new_customer = $customer->is_new_record();
+				} else {
+					$customer        = new OsCustomerModel();
+					$is_new_customer = true;
+				}
+				$old_customer_data = $is_new_customer ? [] : $customer->get_data_vars();
+				$customer->set_data( $sanitized_customer_params, LATEPOINT_PARAMS_SCOPE_PUBLIC );
+				if ( $customer->save() ) {
 
-                    if ( $is_new_customer ) {
-                        do_action( 'latepoint_customer_created', $customer );
-                    } else {
-                        do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
-                    }
+					if ( $is_new_customer ) {
+						do_action( 'latepoint_customer_created', $customer );
+					} else {
+						do_action( 'latepoint_customer_updated', $customer, $old_customer_data );
+					}
 
-                    self::$booking_object->customer_id = $customer->id;
-                    if ( ! OsAuthHelper::is_customer_logged_in() ) {
-                        OsAuthHelper::authorize_customer( $customer->id );
-                    }
-                    $customer->set_timezone_name();
-                    self::$customer_object = $customer;
+					self::$booking_object->customer_id = $customer->id;
+					if ( ! OsAuthHelper::is_customer_logged_in() ) {
+						OsAuthHelper::authorize_customer( $customer->id );
+					}
+					$customer->set_timezone_name();
+					self::$customer_object = $customer;
 
 
-                    if(!empty(self::$params['customer_contact_verification_token'])){
-                        OsOTPHelper::add_verified_contact_for_customer_from_verification_token(self::get_customer_object(), self::$params['customer_contact_verification_token']);
-                    }
-                } else {
-                    $status        = LATEPOINT_STATUS_ERROR;
-                    $response_html = $customer->get_error_messages();
-                    if ( is_array( $response_html ) ) {
-                        $response_html = implode( ', ', $response_html );
-                    }
-                }
-            }
-        }
+					if ( ! empty( self::$params['customer_contact_verification_token'] ) ) {
+						OsOTPHelper::add_verified_contact_for_customer_from_verification_token( self::get_customer_object(), self::$params['customer_contact_verification_token'] );
+					}
+				} else {
+					$status        = LATEPOINT_STATUS_ERROR;
+					$response_html = $customer->get_error_messages();
+					if ( is_array( $response_html ) ) {
+						$response_html = implode( ', ', $response_html );
+					}
+				}
+			}
+		}
 
 		if ( $status == LATEPOINT_STATUS_ERROR ) {
 			return new WP_Error( LATEPOINT_STATUS_ERROR, $response_html );
 		}
-
 	}
 
 
 	// VERIFICATION STEP
 
 	public static function process_step_verify() {
-
 	}
 
 	public static function prepare_step_verify() {
@@ -2178,59 +2270,57 @@ class OsStepsHelper {
 				self::$vars_for_view['order_bundles']        = $order->get_bundles_from_order_items();
 				self::$vars_for_view['price_breakdown_rows'] = self::$cart_object->generate_price_breakdown_rows();
 
-                if(!empty(self::$booking_object->generate_recurrent_sequence)){
-                    $recurrence            = new OsRecurrenceModel();
-                    $recurrence->rules     = wp_json_encode( self::$booking_object->generate_recurrent_sequence['rules'] );
-                    $recurrence->overrides = wp_json_encode( self::$booking_object->generate_recurrent_sequence['overrides'] );
-                    if ( $recurrence->save() ) {
-                        self::$booking_object->recurrence_id = $recurrence->id;
-                        // we don't need these attributes anymore as we will get them from the recurrence model by ID
-                        self::$booking_object->generate_recurrent_sequence = [];
-                        $customer_timezone                                 = self::$booking_object->get_customer_timezone();
-                        $recurring_bookings_data_and_errors                          = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( self::$booking_object, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
-                        foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
-                            if ( $recurrence_bookings_datum['unchecked'] == 'yes' ) {
-                                continue;
-                            }
-                            self::$booking_object = $recurrence_bookings_datum['booking'];
-                            // set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
-                            self::set_active_cart_item_object();
-                            if ( self::$booking_object->is_bookable() ) {
+				if ( ! empty( self::$booking_object->generate_recurrent_sequence ) ) {
+					$recurrence            = new OsRecurrenceModel();
+					$recurrence->rules     = wp_json_encode( self::$booking_object->generate_recurrent_sequence['rules'] );
+					$recurrence->overrides = wp_json_encode( self::$booking_object->generate_recurrent_sequence['overrides'] );
+					if ( $recurrence->save() ) {
+						self::$booking_object->recurrence_id = $recurrence->id;
+						// we don't need these attributes anymore as we will get them from the recurrence model by ID
+						self::$booking_object->generate_recurrent_sequence = [];
+						$customer_timezone                                 = self::$booking_object->get_customer_timezone();
+						$recurring_bookings_data_and_errors                = OsFeatureRecurringBookingsHelper::generate_recurring_bookings_data( self::$booking_object, $recurrence->get_rules(), $recurrence->get_overrides(), $customer_timezone );
+						foreach ( $recurring_bookings_data_and_errors['bookings_data'] as $recurrence_bookings_datum ) {
+							if ( $recurrence_bookings_datum['unchecked'] == 'yes' ) {
+								continue;
+							}
+							self::$booking_object = $recurrence_bookings_datum['booking'];
+							// set it again as booking object might have changed if agent or location were set to ANY, they are assigned now
+							self::set_active_cart_item_object();
+							if ( self::$booking_object->is_bookable() ) {
 
-                                if ( self::$booking_object->save() ) {
-                                    do_action( 'latepoint_booking_created', self::$booking_object );
-                                } else {
-                                    // error saving booking
-                                    self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-                                }
-                            } else {
-                                // is not bookable
-                                self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-                            }
-                        }
-                    }
-                }else{
-                    if ( self::$booking_object->is_bookable() ) {
-                        self::$booking_object->calculate_end_time();
-                        self::$booking_object->calculate_end_date();
-                        self::$booking_object->set_utc_datetimes();
-                        $service                             = new OsServiceModel( self::$booking_object->service_id );
-                        self::$booking_object->buffer_before = $service->buffer_before;
-                        self::$booking_object->buffer_after  = $service->buffer_after;
+								if ( self::$booking_object->save() ) {
+									do_action( 'latepoint_booking_created', self::$booking_object );
+								} else {
+									// error saving booking
+									self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+								}
+							} else {
+								// is not bookable
+								self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+							}
+						}
+					}
+				} else {
+					if ( self::$booking_object->is_bookable() ) {
+						self::$booking_object->calculate_end_time();
+						self::$booking_object->calculate_end_date();
+						self::$booking_object->set_utc_datetimes();
+						$service                             = new OsServiceModel( self::$booking_object->service_id );
+						self::$booking_object->buffer_before = $service->buffer_before;
+						self::$booking_object->buffer_after  = $service->buffer_after;
 
-                        if ( self::$booking_object->save() ) {
-                            do_action( 'latepoint_booking_created', self::$booking_object );
-                        } else {
-                            // error saving booking
-                            self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-                        }
-                    } else {
-                        // is not bookable
-                        self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
-                    }
-                }
-
-
+						if ( self::$booking_object->save() ) {
+							do_action( 'latepoint_booking_created', self::$booking_object );
+						} else {
+							// error saving booking
+							self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+						}
+					} else {
+						// is not bookable
+						self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
+					}
+				}			
 			} else {
 				$order_intent = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, '', self::get_customer_object_id() );
 				if ( $order_intent->is_processing() ) {
@@ -2256,7 +2346,7 @@ class OsStepsHelper {
 	}
 
 	public static function output_list_option( $option ) {
-		$html = '';
+		$html  = '';
 		$html .= '<div tabindex="0" class="lp-option ' . esc_attr( $option['css_class'] ) . '" ' . $option['attrs'] . '>';
 		$html .= '<div class="lp-option-image-w"><div class="lp-option-image" style="background-image: url(' . esc_url( $option['image_url'] ) . ')"></div></div>';
 		$html .= '<div class="lp-option-label">' . esc_html( $option['label'] ) . '</div>';
@@ -2306,8 +2396,8 @@ class OsStepsHelper {
 		if ( empty( $steps_settings_from_db ) ) {
 			$steps_settings = [
 				'shared' => [
-					'steps_support_text' => '<h5>Questions?</h5><p>Call (858) 939-3746 for help</p>'
-				]
+					'steps_support_text' => '<h5>Questions?</h5><p>Call (858) 939-3746 for help</p>',
+				],
 			];
 			foreach ( $step_codes as $step_code ) {
 				$steps_settings[ $step_code ] = self::get_default_value_for_step_settings( $step_code );
@@ -2356,7 +2446,7 @@ class OsStepsHelper {
 		switch ( $selected_step_code ) {
 			case 'booking__services':
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[steps_show_service_categories]', __( 'Show service categories', 'latepoint' ), OsSettingsHelper::steps_show_service_categories(), false, false, [ 'sub_label' => __( 'If turned on, services will be displayed in categories', 'latepoint' ) ] );
-				$step_settings_html .= OsFormHelper::toggler_field( 'settings[show_service_categories_count]', __( 'Show service count for categories', 'latepoint' ), OsSettingsHelper::is_on('show_service_categories_count'), false, false, [ 'sub_label' => __( 'If turned on, category tile will display a count of services', 'latepoint' ) ] );
+				$step_settings_html .= OsFormHelper::toggler_field( 'settings[show_service_categories_count]', __( 'Show service count for categories', 'latepoint' ), OsSettingsHelper::is_on( 'show_service_categories_count' ), false, false, [ 'sub_label' => __( 'If turned on, category tile will display a count of services', 'latepoint' ) ] );
 				break;
 			case 'booking__agents':
 				$step_settings_html .= OsFormHelper::toggler_field( 'settings[steps_show_agent_bio]', __( 'Show Learn More about agents', 'latepoint' ), OsSettingsHelper::is_on( 'steps_show_agent_bio' ), false, false, [ 'sub_label' => __( 'A link to open information about agent will be added to each agent tile', 'latepoint' ) ] );
@@ -2367,23 +2457,39 @@ class OsStepsHelper {
 				$step_settings_html .= '</div>';
 				break;
 			case 'booking__datepicker':
-				$step_settings_html .= OsFormHelper::select_field( 'steps_settings[booking__datepicker][time_pick_style]', __( 'Show Time Slots as', 'latepoint' ), [
-					'timebox'  => 'Time Boxes',
-					'timeline' => 'Timeline'
-				], OsStepsHelper::get_time_pick_style() );
-				$step_settings_html .= OsFormHelper::select_field( 'steps_settings[booking__datepicker][calendar_style]', __( 'Style of Datepicker', 'latepoint' ), [
-					'modern'  => 'Modern',
-					'classic' => 'Classic'
-				], OsStepsHelper::get_calendar_style() );
+				$step_settings_html .= OsFormHelper::select_field(
+					'steps_settings[booking__datepicker][time_pick_style]',
+					__( 'Show Time Slots as', 'latepoint' ),
+					[
+						'timebox'  => 'Time Boxes',
+						'timeline' => 'Timeline',
+					],
+					OsStepsHelper::get_time_pick_style() 
+				);
+				$step_settings_html .= OsFormHelper::select_field(
+					'steps_settings[booking__datepicker][calendar_style]',
+					__( 'Style of Datepicker', 'latepoint' ),
+					[
+						'modern'  => 'Modern',
+						'classic' => 'Classic',
+					],
+					OsStepsHelper::get_calendar_style() 
+				);
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_timepicker_when_one_slot_available]', __( 'Hide time picker if single slot', 'latepoint' ), OsUtilHelper::is_on( self::get_step_setting_value( $selected_step_code, 'hide_timepicker_when_one_slot_available' ) ), false, false, [ 'sub_label' => __( 'If a single slot is available in a day, it will be preselected.', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_slot_availability_count]', __( 'Hide slot availability count', 'latepoint' ), OsStepsHelper::hide_slot_availability_count(), false, false, [ 'sub_label' => __( 'Slot counter tooltip will not appear when hovering a day.', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_unavailable_slots]', __( 'Hide slots that are not available', 'latepoint' ), OsStepsHelper::hide_unavailable_slots(), false, false, [ 'sub_label' => __( 'Hides time boxes that are not available, instead of showing them in gray.', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][disable_searching_first_available_slot]', __( 'Disable auto searching for first available slot', 'latepoint' ), OsStepsHelper::disable_searching_first_available_slot(), false, false, [ 'sub_label' => __( 'If checked, this will stop calendar from automatically scrolling to a first available slot', 'latepoint' ) ] );
 				break;
 			case 'confirmation':
-				$step_settings_html .= OsFormHelper::select_field( 'steps_settings[confirmation][order_confirmation_message_style]', __( 'Message Style', 'latepoint' ), [ 'green'  => __( 'Green', 'latepoint' ),
-				                                                                                                                                                           'yellow' => __( 'Yellow', 'latepoint' )
-				], self::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) );
+				$step_settings_html .= OsFormHelper::select_field(
+					'steps_settings[confirmation][order_confirmation_message_style]',
+					__( 'Message Style', 'latepoint' ),
+					[
+						'green'  => __( 'Green', 'latepoint' ),
+						'yellow' => __( 'Yellow', 'latepoint' ),
+					],
+					self::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) 
+				);
 				break;
 		}
 		/**
@@ -2410,27 +2516,27 @@ class OsStepsHelper {
 			'booking__services'   => [
 				'side_panel_heading'     => 'Service Selection',
 				'side_panel_description' => 'Please select a service for which you want to schedule an appointment',
-				'main_panel_heading'     => 'Available Services'
+				'main_panel_heading'     => 'Available Services',
 			],
 			'booking__locations'  => [
 				'side_panel_heading'     => 'Location Selection',
 				'side_panel_description' => 'Please select a location where you want to schedule an appointment',
-				'main_panel_heading'     => 'Available Locations'
+				'main_panel_heading'     => 'Available Locations',
 			],
 			'booking__agents'     => [
 				'side_panel_heading'     => 'Agent Selection',
 				'side_panel_description' => 'Please select an agent that will be providing you a service',
-				'main_panel_heading'     => 'Available Agents'
+				'main_panel_heading'     => 'Available Agents',
 			],
 			'booking__datepicker' => [
 				'side_panel_heading'     => 'Select Date & Time',
 				'side_panel_description' => 'Please select date and time for your appointment',
-				'main_panel_heading'     => 'Date & Time Selection'
+				'main_panel_heading'     => 'Date & Time Selection',
 			],
 			'customer'            => [
 				'side_panel_heading'     => 'Enter Your Information',
 				'side_panel_description' => 'Please enter your contact information',
-				'main_panel_heading'     => 'Customer Information'
+				'main_panel_heading'     => 'Customer Information',
 			],
 			'verify'              => [
 				'side_panel_heading'     => 'Verify Order Details',
@@ -2440,33 +2546,33 @@ class OsStepsHelper {
 			'payment__times'      => [
 				'side_panel_heading'     => 'Payment Time Selection',
 				'side_panel_description' => 'Please choose when you would like to pay for your appointment',
-				'main_panel_heading'     => 'When would you like to pay?'
+				'main_panel_heading'     => 'When would you like to pay?',
 			],
 			'payment__portions'   => [
 				'side_panel_heading'     => 'Payment Portion Selection',
 				'side_panel_description' => 'Please select how much you would like to pay now',
-				'main_panel_heading'     => 'How much would you like to pay now?'
+				'main_panel_heading'     => 'How much would you like to pay now?',
 			],
 			'payment__methods'    => [
 				'side_panel_heading'     => 'Payment Method Selection',
 				'side_panel_description' => 'Please select a payment method you would like to make a payment with',
-				'main_panel_heading'     => 'Select payment method'
+				'main_panel_heading'     => 'Select payment method',
 			],
 			'payment__processors' => [
 				'side_panel_heading'     => 'Payment Processor Selection',
 				'side_panel_description' => 'Please select a payment processor you want to process the payment with',
-				'main_panel_heading'     => 'Select payment processor'
+				'main_panel_heading'     => 'Select payment processor',
 			],
 			'payment__pay'        => [
 				'side_panel_heading'     => 'Make a Payment',
 				'side_panel_description' => 'Please enter your payment information so we can process the payment',
-				'main_panel_heading'     => 'Enter your payment information'
+				'main_panel_heading'     => 'Enter your payment information',
 			],
 			'confirmation'        => [
 				'side_panel_heading'     => 'Confirmation',
 				'side_panel_description' => 'Your order has been placed. Please retain this confirmation for your record.',
-				'main_panel_heading'     => 'Order Confirmation'
-			]
+				'main_panel_heading'     => 'Order Confirmation',
+			],
 		];
 
 
@@ -2505,7 +2611,7 @@ class OsStepsHelper {
 				</svg>';
 				break;
 			case 'booking__datepicker':
-                $svg = '
+				$svg = '
 <svg viewBox="0 0 73 73" xmlns="http://www.w3.org/2000/svg">
 <g transform="translate(7, 3)">
 <path d="M47.1718107,7.89381679 C52.9692893,8.00426143 55.2548263,8.16319441 55.8494015,8.78729154 C56.4084714,9.37436038 56.5587457,10.674785 56.5666362,18.6433642 L56.5667377,19.9578431 C56.5650641,22.2438919 56.5545013,25.0134286 56.5399042,28.3749748 C56.5247567,31.8632889 56.5174289,34.0063099 56.5157441,36.1120925 L56.5157866,38.0618721 C56.5223513,45.1710523 56.6058792,50.5892505 56.8057041,54.9084638 C56.8223695,55.3636597 56.8466881,55.7161849 56.9339613,56.8569807 C56.9488267,57.0515949 56.9488267,57.0515949 56.9635497,57.2475642 C57.1832093,60.1912764 57.1716188,61.1249641 56.5086328,61.7648729 C55.7178576,62.5281228 45.6780796,62.8940745 30.9900717,63.1124957 C28.4622528,63.1350156 26.0088374,63.1481854 23.6671818,63.1508875 L21.8184079,63.1508875 C10.573398,63.1361917 2.29081835,62.8595769 1.45589946,62.1867853 C0.422616649,61.3542409 0.176522348,56.743858 0.16272311,45.9171016 L0.162529532,43.9997362 C0.162998255,43.5049435 0.163835403,42.9984771 0.164997296,42.480145 C0.184719254,40.5900502 0.226987464,39.0029005 0.302213993,37.0682843 C0.323509476,36.520624 0.448910299,33.5345954 0.486126906,32.5610155 C0.530581302,31.3980964 0.56856845,30.2710758 0.603192323,29.054251 C0.609036029,28.8902091 0.614311564,28.728081 0.618994017,28.5667498 L0.634501665,27.9230284 C0.636539405,27.8155674 0.63829879,27.7077988 0.639772438,27.5993917 L0.643328791,27.2719236 L0.645126437,26.9386387 L0.645121089,26.5975514 C0.63897703,24.2932156 0.509680772,21.3363512 0.198181591,15.0795876 C0.11360591,13.380803 0.0560703546,12.1764262 0.00285028545,10.9612006 C-0.0710615129,9.27366985 1.30221783,7.87966142 2.9908793,7.92240124 L11.1998347,8.12849971 L11.1509194,10.0768074 L2.94176608,9.87070395 C2.38030589,9.85649346 1.92547718,10.3181876 1.94990546,10.8759262 C2.00292105,12.0864828 2.0602936,13.2874473 2.14469237,14.9826787 C2.45885226,21.292885 2.58909134,24.2704493 2.59452484,26.6106565 L2.59441121,26.9572443 L2.59246984,27.2962932 L2.58874505,27.6298247 L2.57991096,28.1241987 C2.57275052,28.4526755 2.56308122,28.7804566 2.55110258,29.1166387 C2.51651469,30.3330822 2.47831474,31.4664162 2.43362616,32.6354617 C2.39623022,33.6137329 2.27079341,36.6006183 2.24966392,37.1440099 C2.17511322,39.0612455 2.13332707,40.6302943 2.11386345,42.4924943 C2.09223299,52.15266 2.33067923,59.7135207 2.63602735,60.5908947 L2.64080943,60.6033321 L2.72722307,60.6210499 C2.82936816,60.6402001 2.95513892,60.6597074 3.10286495,60.6791131 L3.25784753,60.6984679 C3.81084169,60.7642327 4.58818592,60.824499 5.57046689,60.87833 C7.41400289,60.9793596 9.94954807,61.0563146 13.0322269,61.1091984 C18.3503337,61.2004314 25.171572,61.2153329 30.9669002,61.1637204 C32.4730262,61.1413215 34.0420274,61.1135131 35.6220724,61.0812071 L37.5201101,61.0403394 C40.6812837,60.9688229 43.8037015,60.8807747 46.4727101,60.7834888 C49.137361,60.6863619 51.3142024,60.5819179 52.8844672,60.4724191 C53.7218228,60.4140281 54.3791334,60.3546652 54.8391526,60.2954909 C54.9280418,60.2840567 55.0086179,60.2727368 55.0803586,60.2616787 L55.093112,60.2593474 L55.1050753,60.1555813 C55.1130251,60.0659089 55.1189359,59.964694 55.122671,59.8525766 L55.1266247,59.6763035 C55.1334678,59.1250416 55.0992775,58.454585 55.0200315,57.3925894 C55.0055018,57.1991931 55.0055018,57.1991931 54.9907178,57.0056427 C54.9010702,55.8338088 54.8761058,55.4719226 54.8584765,54.9891608 C54.6504368,50.4933722 54.5678124,44.8241074 54.5664588,37.3207349 L54.5668227,36.1107338 C54.5685089,34.0021415 54.5758432,31.8571901 54.591001,28.3665119 C54.6051508,25.1079543 54.6137277,22.7715891 54.6158244,20.9432538 L54.6157275,19.2689224 C54.6139566,18.0988906 54.6082485,17.1436294 54.5982019,16.2199609 L54.5942303,15.8747084 C54.5935342,15.8172939 54.5928209,15.7599133 54.5920905,15.702522 L54.5874999,15.3576873 C54.562925,13.5875286 54.5209008,12.2399822 54.4581817,11.2896609 C54.4260113,10.8022147 54.3886288,10.4249837 54.3474329,10.1659418 L54.3554452,10.2217587 L54.257178,10.2054082 C53.9357194,10.1549451 53.489879,10.1078562 52.9280578,10.0652057 L52.6802009,10.0472018 C51.3584329,9.9552879 49.494176,9.88733418 47.1346896,9.84238488 L47.1718107,7.89381679 Z M39.7566461,7.82743714 L40.4560543,7.82893932 L40.4508301,9.77785396 C40.2202657,9.77723591 39.9876287,9.77673679 39.7529527,9.77635537 L37.5867229,9.77606707 C31.9147477,9.78328085 25.2174608,9.85079506 17.9036566,9.96357131 L17.8736085,8.01488132 C25.1965684,7.90196389 31.9029228,7.83435897 37.5859747,7.82714445 L39.7566461,7.82743714 Z" id="Shape" fill-rule="nonzero"></path>
@@ -2520,7 +2626,7 @@ class OsStepsHelper {
             <path d="M49.5802303,35.3309928 L49.598769,37.2798262 L49.5439287,37.2803632 C49.5121701,37.2806857 49.458121,37.2812475 49.3320065,37.2825583 C49.0298119,37.2858224 48.861178,37.2877188 48.5762808,37.2911107 C47.7620828,37.3008044 46.8547498,37.312943 45.8775915,37.3276945 C43.0859821,37.3698377 40.2944933,37.4244484 37.6899084,37.4928542 C33.5462411,37.6016818 30.2781598,37.7350911 28.2383983,37.8936471 C25.5103329,38.1333211 23.9026387,38.1744193 22.0145718,38.0942393 C21.8006018,38.0851527 21.5805191,38.0746666 21.2975611,38.0603306 C21.2019167,38.0554848 20.7030132,38.0297764 20.5571007,38.0224251 C19.019186,37.9449428 17.8360443,37.9111878 16.1712138,37.9157997 C13.6960432,37.9226565 11.6627218,37.9785618 10.0401755,38.0672817 C9.43571544,38.1003333 8.93305258,38.1356196 8.52757631,38.1707263 C8.28931146,38.1913556 8.13897287,38.206976 8.07195142,38.2151688 L7.83547287,36.2806472 C7.92555209,36.2696358 8.09866806,36.2516489 8.35946494,36.2290687 C8.78575822,36.1921597 9.30897856,36.1554302 9.93376856,36.1212671 C11.5907736,36.030663 13.6577033,35.9738336 16.1658149,35.9668855 C17.8686942,35.9621682 19.0851984,35.9968751 20.6551657,36.0759722 C20.8024843,36.0833943 21.3017583,36.1091218 21.3961763,36.1139055 C21.674276,36.1279954 21.8894473,36.1382475 22.0972615,36.1470726 C23.8988638,36.2235808 25.4221422,36.1846405 28.0775728,35.9513971 C30.1697219,35.7887184 33.4634267,35.6542632 37.6387403,35.5446044 C40.2514195,35.475986 43.0498567,35.4212394 45.8481732,35.3789949 C46.827489,35.3642108 47.7368819,35.3520446 48.553079,35.3423272 C48.83882,35.3389252 49.0079108,35.3370237 49.3112916,35.3337468 C49.3746731,35.333088 49.4199456,35.3326174 49.4533818,35.3322708 L49.5244536,35.3315388 C49.5324716,35.3314574 49.5390987,35.3313909 49.5451189,35.3313314 L49.5802303,35.3309928 Z" id="Path" fill-rule="nonzero"></path>
             <path d="M49.5206906,45.5122569 L49.5392295,47.4610903 L49.4843891,47.4616273 C49.4526304,47.4619498 49.3985811,47.4625116 49.272466,47.4638225 C48.9702702,47.4670867 48.8016356,47.4689832 48.516737,47.4723753 C47.7025355,47.4820695 46.7951985,47.4942091 45.818036,47.5089621 C43.0264143,47.5511095 40.2349134,47.6057274 37.6303172,47.6741443 C33.4867023,47.7829878 30.2186468,47.9164202 28.1691189,48.0758151 C25.3921036,48.2917467 23.7846821,48.327805 21.8952618,48.2546316 C21.6892184,48.2466519 21.4773823,48.2375101 21.2039696,48.2250095 C21.1187894,48.221115 20.6340644,48.1986087 20.4899724,48.1920662 C18.9603562,48.1226137 17.7815302,48.0925357 16.1117716,48.0971613 C13.6365435,48.1040181 11.6032053,48.1599414 9.98067367,48.2486911 C9.376235,48.2817529 8.87359444,48.3170501 8.46814028,48.3521675 C8.22989084,48.3728029 8.07956521,48.3884277 8.01255319,48.3966224 L7.77598689,46.4621116 C7.86606607,46.4510961 8.0391783,46.4331029 8.29996885,46.4105151 C8.726248,46.373594 9.24945384,46.3368527 9.87423009,46.3026785 C11.5312332,46.2120432 13.5981919,46.1551952 16.1063727,46.1482471 C17.8105503,46.1435261 19.0196635,46.174377 20.5783725,46.2451504 C20.7237066,46.2517493 21.2088472,46.2742749 21.2929826,46.2781216 C21.5622497,46.2904327 21.7699015,46.299394 21.9706831,46.3071699 C23.7825454,46.3773396 25.3145403,46.3429733 28.0180189,46.1327597 C30.1101887,45.9700485 33.4038735,45.8355696 37.579141,45.7258947 C40.1918334,45.6572651 42.9902845,45.6025112 45.7886149,45.5602625 C46.7679355,45.545477 47.6773329,45.5333098 48.4935341,45.5235918 C48.7792765,45.5201896 48.9483681,45.518288 49.2517505,45.515011 C49.3785142,45.5136933 49.4328415,45.5131286 49.4649136,45.5128029 L49.5206906,45.5122569 Z" id="Path" fill-rule="nonzero"></path>
             </g></svg>';
-                break;
+				break;
 			case 'customer':
 				$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 73 73">
 					<path class="latepoint-step-svg-highlight" d="M36.270771,27.7026501h16.8071289c0.4140625,0,0.75-0.3359375,0.75-0.75s-0.3359375-0.75-0.75-0.75H36.270771 c-0.4140625,0-0.75,0.3359375-0.75,0.75S35.8567085,27.7026501,36.270771,27.7026501z"/>
@@ -2635,16 +2741,16 @@ class OsStepsHelper {
 				include LATEPOINT_VIEWS_ABSPATH . 'booking_form_settings/previews/_customer.php';
 				break;
 			case 'payment__times':
-				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "If you have both a payment processor and pay locally enabled, customer will make a selection here.", 'latepoint' ) . '</div>';
+				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( 'If you have both a payment processor and pay locally enabled, customer will make a selection here.', 'latepoint' ) . '</div>';
 				break;
 			case 'payment__portions':
-				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "If selected service has both deposit and charge amount set, customer will have to pick how much they want to pay now.", 'latepoint' ) . '</div>';
+				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( 'If selected service has both deposit and charge amount set, customer will have to pick how much they want to pay now.', 'latepoint' ) . '</div>';
 				break;
 			case 'payment__methods':
-				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "If you have multiple payment processors enabled, customer will be able to select how they want to pay", 'latepoint' ) . '</div>';
+				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( 'If you have multiple payment processors enabled, customer will be able to select how they want to pay', 'latepoint' ) . '</div>';
 				break;
 			case 'payment__pay':
-				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "Payment form generated by selected payment processor will appear here", 'latepoint' ) . '</div>';
+				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( 'Payment form generated by selected payment processor will appear here', 'latepoint' ) . '</div>';
 				break;
 			case 'confirmation':
 				echo '<div class="summary-status-wrapper summary-status-style-' . esc_attr( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) ) . '">';
@@ -2655,7 +2761,7 @@ class OsStepsHelper {
 				echo '<div class="ss-confirmation-number"><span>' . esc_html__( 'Order #', 'latepoint' ) . '</span><strong>KDFJ934K</strong></div>';
 				echo '</div>';
 				echo '</div>';
-				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( "Order information will appear here.", 'latepoint' ) . '</div>';
+				echo '<div class="booking-preview-step-skipped-message">' . esc_html__( 'Order information will appear here.', 'latepoint' ) . '</div>';
 				break;
 		}
 		do_action( 'latepoint_get_step_content_preview', $selected_step_code );
@@ -2754,7 +2860,7 @@ class OsStepsHelper {
 				</div>';
 		}
 		if ( $booking->customer_id ) {
-			$html                .= '<div class="summary-box summary-box-customer-info">
+			$html               .= '<div class="summary-box summary-box-customer-info">
 					<div class="summary-box-heading">
 						<div class="sbh-item">' . __( 'Customer', 'latepoint' ) . '</div>
 						<div class="sbh-line"></div>
@@ -2905,7 +3011,7 @@ class OsStepsHelper {
 			return $step_code_to_access;
 		}
 		// loops through all steps and checks if they satisfy condition to be skipped
-		for ( $i = 0; $i < count( self::$step_codes_in_order ); $i ++ ) {
+		for ( $i = 0; $i < count( self::$step_codes_in_order ); $i++ ) {
 			$code        = self::$step_codes_in_order[ $i ];
 			$parent_code = explode( '__', $code )[0];
 
@@ -2925,8 +3031,8 @@ class OsStepsHelper {
 					break;
 				case 'booking':
 					if ( $next_parent_code && $next_parent_code != $parent_code && self::$cart_object->is_empty() ) {
-//						$step_code_to_access = self::get_first_step_for_parent_code($parent_code);
-//						break 2;
+						//                      $step_code_to_access = self::get_first_step_for_parent_code($parent_code);
+						//                      break 2;
 					}
 					break;
 			}
@@ -2978,12 +3084,12 @@ class OsStepsHelper {
 
 	public static function set_cart_object( array $params = [] ): OsCartModel {
 		self::$cart_object = OsCartsHelper::get_or_create_cart();
-        if( self::$cart_object->order_intent_id ){
-            $order_intent = new OsOrderIntentModel(self::$cart_object->order_intent_id);
-            if($order_intent->is_converted()){
-                $order_intent->mark_cart_converted(self::$cart_object);
-            }
-        }
+		if ( self::$cart_object->order_intent_id ) {
+			$order_intent = new OsOrderIntentModel( self::$cart_object->order_intent_id );
+			if ( $order_intent->is_converted() ) {
+				$order_intent->mark_cart_converted( self::$cart_object );
+			}
+		}
 		if ( self::$cart_object->order_id ) {
 			self::load_order_object( self::$cart_object->order_id );
 		} else {
@@ -3033,7 +3139,10 @@ class OsStepsHelper {
 
 	private static function set_recurring_booking_properties( array $params ) {
 		if ( ! empty( $params['is_recurring'] ) && $params['is_recurring'] == LATEPOINT_VALUE_ON ) {
-			self::$booking_object->generate_recurrent_sequence = [ 'rules' => $params['recurrence']['rules'] ?? [], 'overrides' => $params['recurrence']['overrides'] ?? [] ];
+			self::$booking_object->generate_recurrent_sequence = [
+				'rules'     => $params['recurrence']['rules'] ?? [],
+				'overrides' => $params['recurrence']['overrides'] ?? [],
+			];
 		}
 	}
 }

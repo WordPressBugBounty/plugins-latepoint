@@ -9,11 +9,11 @@ class OsOrderItemModel extends OsModel {
 		$order_id,
 		$variant,
 		$item_data,
-		$subtotal = 0,
-		$total = 0,
+		$subtotal        = 0,
+		$total           = 0,
 		$coupon_code,
 		$coupon_discount = 0,
-		$tax_total = 0,
+		$tax_total       = 0,
 		$updated_at,
 		$created_at;
 
@@ -46,7 +46,7 @@ class OsOrderItemModel extends OsModel {
 		 * @param {OsOrderItemModel} $order_item Order Item that coupon code is requested for
 		 * @returns {string} The filtered "coupon code" value
 		 */
-		return apply_filters('latepoint_order_item_get_coupon_code', $this->coupon_code, $this);
+		return apply_filters( 'latepoint_order_item_get_coupon_code', $this->coupon_code, $this );
 	}
 
 	public function get_tax_total() {
@@ -62,7 +62,7 @@ class OsOrderItemModel extends OsModel {
 		 * @returns {float} The filtered "tax_total" amount
 		 */
 		$amount = apply_filters( 'latepoint_order_item_get_tax_total', $this->tax_total, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
 	public function get_coupon_discount() {
@@ -77,11 +77,11 @@ class OsOrderItemModel extends OsModel {
 		 * @param {OsOrderItemModel} $order_item Order Item that coupon discount is assessed on
 		 * @returns {float} The filtered "coupon discount" amount
 		 */
-		$amount = apply_filters('latepoint_order_item_get_coupon_discount', $this->coupon_discount, $this);
-		return OsMoneyHelper::pad_to_db_format($amount);
+		$amount = apply_filters( 'latepoint_order_item_get_coupon_discount', $this->coupon_discount, $this );
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
-	public function get_total(){
+	public function get_total() {
 
 		/**
 		 * Get total of a order item
@@ -94,11 +94,11 @@ class OsOrderItemModel extends OsModel {
 		 * @returns {float} The filtered "total" amount
 		 */
 		$amount = apply_filters( 'latepoint_order_item_get_total', $this->total, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
 
-	public function get_subtotal(){
+	public function get_subtotal() {
 
 		/**
 		 * Get subtotal of a order item
@@ -111,11 +111,11 @@ class OsOrderItemModel extends OsModel {
 		 * @returns {float} The filtered "subtotal" amount
 		 */
 		$amount = apply_filters( 'latepoint_order_item_get_subtotal', $this->subtotal, $this );
-		return OsMoneyHelper::pad_to_db_format($amount);
+		return OsMoneyHelper::pad_to_db_format( $amount );
 	}
 
-	public function recalculate_prices(){
-		$this->total = $this->full_amount_to_charge();
+	public function recalculate_prices() {
+		$this->total    = $this->full_amount_to_charge();
 		$this->subtotal = $this->total;
 
 
@@ -127,7 +127,7 @@ class OsOrderItemModel extends OsModel {
 		 *
 		 * @param {OsOrderItemModel} $order_item Order item for which prices are being recalculated
 		 */
-		do_action('latepoint_order_item_recalculate_prices', $this);
+		do_action( 'latepoint_order_item_recalculate_prices', $this );
 	}
 
 
@@ -174,17 +174,17 @@ class OsOrderItemModel extends OsModel {
 
 	public function generate_data_vars(): array {
 		$vars = [
-			'id' => $this->id,
-			'variant' => $this->variant,
+			'id'       => $this->id,
+			'variant'  => $this->variant,
 			'subtotal' => $this->get_subtotal(),
-			'total' => $this->get_total(),
+			'total'    => $this->get_total(),
 		];
-		if($this->is_booking()){
-			$booking = $this->build_original_object_from_item_data();
+		if ( $this->is_booking() ) {
+			$booking           = $this->build_original_object_from_item_data();
 			$vars['item_data'] = $booking->get_first_level_data_vars();
 		}
-		if($this->is_bundle()){
-			$bundle = $this->build_original_object_from_item_data();
+		if ( $this->is_bundle() ) {
+			$bundle            = $this->build_original_object_from_item_data();
 			$vars['item_data'] = $bundle->get_data_vars();
 		}
 		return $vars;
@@ -271,7 +271,7 @@ class OsOrderItemModel extends OsModel {
 			'coupon_discount',
 			'tax_total',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $allowed_params;
@@ -291,7 +291,7 @@ class OsOrderItemModel extends OsModel {
 			'coupon_discount',
 			'tax_total',
 			'updated_at',
-			'created_at'
+			'created_at',
 		);
 
 		return $params_to_save;

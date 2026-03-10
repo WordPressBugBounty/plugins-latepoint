@@ -19,7 +19,7 @@ class OsOTPModel extends OsModel {
 		if ( $id ) {
 			$this->load_by_id( $id );
 		}
-		$this->nice_names = [ 'contact_value' => __('Contact', 'latepoint') ];
+		$this->nice_names = [ 'contact_value' => __( 'Contact', 'latepoint' ) ];
 	}
 
 
@@ -59,7 +59,7 @@ class OsOTPModel extends OsModel {
 	protected function properties_to_validate(): array {
 		$validations = [
 			'contact_value' => [ 'presence' ],
-			'otp_hash'   => [ 'presence' ],
+			'otp_hash'      => [ 'presence' ],
 		];
 
 		return $validations;

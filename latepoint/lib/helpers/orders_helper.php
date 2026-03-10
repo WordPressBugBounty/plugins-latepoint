@@ -44,7 +44,7 @@ class OsOrdersHelper {
 		$statuses = [
 			LATEPOINT_ORDER_STATUS_OPEN      => __( 'Open', 'latepoint' ),
 			LATEPOINT_ORDER_STATUS_CANCELLED => __( 'Cancelled', 'latepoint' ),
-			LATEPOINT_ORDER_STATUS_COMPLETED => __( 'Completed', 'latepoint' )
+			LATEPOINT_ORDER_STATUS_COMPLETED => __( 'Completed', 'latepoint' ),
 		];
 
 		/**
@@ -94,9 +94,9 @@ class OsOrdersHelper {
 
 	public static function get_fulfillment_statuses_list(): array {
 		$statuses = [
-			LATEPOINT_ORDER_FULFILLMENT_STATUS_NOT_FULFILLED       => __( 'Not Fulfilled', 'latepoint' ),
-			LATEPOINT_ORDER_FULFILLMENT_STATUS_FULFILLED           => __( 'Fulfilled', 'latepoint' ),
-			LATEPOINT_ORDER_FULFILLMENT_STATUS_PARTIALLY_FULFILLED => __( 'Partially Fulfilled', 'latepoint' )
+			LATEPOINT_ORDER_FULFILLMENT_STATUS_NOT_FULFILLED => __( 'Not Fulfilled', 'latepoint' ),
+			LATEPOINT_ORDER_FULFILLMENT_STATUS_FULFILLED => __( 'Fulfilled', 'latepoint' ),
+			LATEPOINT_ORDER_FULFILLMENT_STATUS_PARTIALLY_FULFILLED => __( 'Partially Fulfilled', 'latepoint' ),
 		];
 
 		/**
@@ -233,14 +233,20 @@ class OsOrdersHelper {
 	}
 
 	public static function get_order_id_and_manage_ability_by_key( string $key ) {
-		$order_id = OsMetaHelper::get_order_id_by_meta_value( "key_to_manage_for_agent", $key );
+		$order_id = OsMetaHelper::get_order_id_by_meta_value( 'key_to_manage_for_agent', $key );
 		if ( $order_id ) {
-			return [ 'order_id' => $order_id, 'for' => 'agent' ];
+			return [
+				'order_id' => $order_id,
+				'for'      => 'agent',
+			];
 		}
 
-		$order_id = OsMetaHelper::get_order_id_by_meta_value( "key_to_manage_for_customer", $key );
+		$order_id = OsMetaHelper::get_order_id_by_meta_value( 'key_to_manage_for_customer', $key );
 		if ( $order_id ) {
-			return [ 'order_id' => $order_id, 'for' => 'customer' ];
+			return [
+				'order_id' => $order_id,
+				'for'      => 'customer',
+			];
 		}
 
 		return false;
@@ -298,7 +304,7 @@ class OsOrdersHelper {
 		data-order-item-variant="' . $order_item_variant . '" 
 		data-order-item-id="' . $order_item_id . '" 
 		data-booking-id="' . $booking->get_form_id() . '">';
-		$html            .= self::loading_tile_for_order_item( $order_item_id );
+		$html           .= self::loading_tile_for_order_item( $order_item_id );
 		switch ( $order_item_variant ) {
 			case LATEPOINT_ITEM_VARIANT_BOOKING:
 				$html .= OsOrdersHelper::generate_order_item_pill_for_booking( $booking, $order_item_id );
@@ -322,7 +328,7 @@ class OsOrdersHelper {
 		$html .= '<div class="order-item-booking-data-form-inner">';
 		$html .= OsFormHelper::hidden_field( 'order_items[' . $order_item_id . '][variant]', $order_item_variant );
 		ob_start();
-		include( LATEPOINT_VIEWS_ABSPATH . 'bookings/_booking_data.php' );
+		include LATEPOINT_VIEWS_ABSPATH . 'bookings/_booking_data.php';
 		$html .= ob_get_clean();
 		$html .= '</div>';
 		$html .= '</div>';
@@ -331,13 +337,16 @@ class OsOrdersHelper {
 	}
 
 
-	public static function get_orders_for_select() : array {
+	public static function get_orders_for_select(): array {
 		$order         = new OsOrderModel();
 		$order         = $order->order_by( 'id desc' )->set_limit( 100 )->get_results_as_models();
 		$order_options = [];
 		foreach ( $order as $order ) {
 			$name            = $order->customer->full_name . ' [' . $order->confirmation_code . ' : ' . $order->id . ']';
-			$order_options[] = [ 'value' => $order->id, 'label' => esc_html( $name ) ];
+			$order_options[] = [
+				'value' => $order->id,
+				'label' => esc_html( $name ),
+			];
 		}
 
 		return $order_options;
@@ -346,18 +355,18 @@ class OsOrdersHelper {
 	public static function generate_order_item_pill_for_bundle( OsBundleModel $bundle, $order_item_id = false, $preselected_booking_id = false ): string {
 		$html               = '';
 		$order_item_form_id = $order_item_id ? $order_item_id : OsUtilHelper::generate_form_id();
-		$html               .= '<div class="order-item-pill order-item-pill-variant-bundle" data-order-item-id="' . $order_item_form_id . '">';
-		$html               .= '<input name="order_items[' . $order_item_form_id . '][id]" class="order_item_id" value="' . $order_item_form_id . '" type="hidden"/>';
-		$html               .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BUNDLE . '" type="hidden"/>';
-		$html               .= '<input name="order_items[' . $order_item_form_id . '][item_data]" class="order_item_item_data" value="' . base64_encode( wp_json_encode( $bundle->generate_params_for_booking_form() ) ) . '" type="hidden"/>';
-		$html               .= '<div class="order-item-pill-inner">';
-		$html               .= '<div class="order-item-remove-btn remove-order-item-btn" 
+		$html              .= '<div class="order-item-pill order-item-pill-variant-bundle" data-order-item-id="' . $order_item_form_id . '">';
+		$html              .= '<input name="order_items[' . $order_item_form_id . '][id]" class="order_item_id" value="' . $order_item_form_id . '" type="hidden"/>';
+		$html              .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BUNDLE . '" type="hidden"/>';
+		$html              .= '<input name="order_items[' . $order_item_form_id . '][item_data]" class="order_item_item_data" value="' . base64_encode( wp_json_encode( $bundle->generate_params_for_booking_form() ) ) . '" type="hidden"/>';
+		$html              .= '<div class="order-item-pill-inner">';
+		$html              .= '<div class="order-item-remove-btn remove-order-item-btn" 
 																	data-os-prompt="' . __( 'Are you sure you want to remove this item from the order? All associated appointments will be removed as well.', 'latepoint' ) . '"></div>';
-		$html               .= OsBundlesHelper::generate_order_summary_for_bundle( $bundle, $order_item_form_id, $preselected_booking_id );
-		$html               .= '<div class="bundle-icon"><i class="latepoint-icon latepoint-icon-chevron-down"></i></div>';
-		$html               .= '</div>';
-		$html               .= '<div class="order-item-shadow"></div><div class="order-item-shadow"></div>';
-		$html               .= '</div>';
+		$html              .= OsBundlesHelper::generate_order_summary_for_bundle( $bundle, $order_item_form_id, $preselected_booking_id );
+		$html              .= '<div class="bundle-icon"><i class="latepoint-icon latepoint-icon-chevron-down"></i></div>';
+		$html              .= '</div>';
+		$html              .= '<div class="order-item-shadow"></div><div class="order-item-shadow"></div>';
+		$html              .= '</div>';
 
 		return $html;
 	}
@@ -366,18 +375,18 @@ class OsOrdersHelper {
 		$html               = '';
 		$order_item_form_id = $order_item_id ? $order_item_id : OsUtilHelper::generate_form_id();
 		$is_past            = ( ! $booking->is_upcoming() ) ? 'is-past' : '';
-		$html               .= '<div class="order-item-pill order-item-pill-variant-' . LATEPOINT_ITEM_VARIANT_BOOKING . ' ' . $is_past . ' status-' . $booking->status . '" data-order-item-id="' . $order_item_form_id . '">';
-		$html               .= '<input name="order_items[' . $order_item_form_id . '][id]" class="order_item_id" value="' . $order_item_form_id . '" type="hidden"/>';
-		$html               .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BOOKING . '" type="hidden"/>';
-		$html               .= '<div class="order-item-pill-inner">';
-		if($booking->recurrence_id){
-			$html.= '<div class="order-item-pill-recurring-mark"><div class="popover-message">'.esc_html__('Part of recurring sequence', 'latepoint').'</div><i class="latepoint-icon latepoint-icon-refresh"></i></div>';
+		$html              .= '<div class="order-item-pill order-item-pill-variant-' . LATEPOINT_ITEM_VARIANT_BOOKING . ' ' . $is_past . ' status-' . $booking->status . '" data-order-item-id="' . $order_item_form_id . '">';
+		$html              .= '<input name="order_items[' . $order_item_form_id . '][id]" class="order_item_id" value="' . $order_item_form_id . '" type="hidden"/>';
+		$html              .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BOOKING . '" type="hidden"/>';
+		$html              .= '<div class="order-item-pill-inner">';
+		if ( $booking->recurrence_id ) {
+			$html .= '<div class="order-item-pill-recurring-mark"><div class="popover-message">' . esc_html__( 'Part of recurring sequence', 'latepoint' ) . '</div><i class="latepoint-icon latepoint-icon-refresh"></i></div>';
 		}
-		$html               .= '<div class="order-item-remove-btn remove-order-item-btn" 
+		$html .= '<div class="order-item-remove-btn remove-order-item-btn" 
 																	data-os-prompt="' . __( 'Are you sure you want to remove this item from the order?', 'latepoint' ) . '"></div>';
-		$html               .= '<div class="booking-item-status-pill"></div>';
-		$html               .= OsBookingHelper::generate_summary_for_booking( $booking, false, 'agent' );
-		$html               .= '<div class="os-avatar-w" style="background-image: url(' . ( ( $booking->agent->avatar_image_id ) ? $booking->agent->get_avatar_url() : '' ) . ')">';
+		$html .= '<div class="booking-item-status-pill"></div>';
+		$html .= OsBookingHelper::generate_summary_for_booking( $booking, false, 'agent' );
+		$html .= '<div class="os-avatar-w" style="background-image: url(' . ( ( $booking->agent->avatar_image_id ) ? $booking->agent->get_avatar_url() : '' ) . ')">';
 		if ( ! $booking->agent->avatar_image_id ) {
 			$html .= '<div class="os-avatar"><span>' . $booking->agent->get_initials() . '</span></div>';
 		}
@@ -391,11 +400,11 @@ class OsOrdersHelper {
 	public static function generate_order_item_pill_for_bundle_booking( OsBookingModel $booking, $order_item_id ): string {
 		$is_past = ( ! $booking->is_upcoming() ) ? 'is-past' : '';
 		$html    = '<div class="bundle-booking-item-pill ' . $is_past . ' status-' . $booking->status . '">';
-		$html    .= '<div class="bundle-booking-item-pill-inner">';
-		$html    .= '<div class="booking-item-status-pill"></div>';
-		$html    .= '<div class="bib-datetime">' . $booking->get_nice_start_datetime() . '</div>';
-		$html    .= '</div>';
-		$html    .= '</div>';
+		$html   .= '<div class="bundle-booking-item-pill-inner">';
+		$html   .= '<div class="booking-item-status-pill"></div>';
+		$html   .= '<div class="bib-datetime">' . $booking->get_nice_start_datetime() . '</div>';
+		$html   .= '</div>';
+		$html   .= '</div>';
 
 		return $html;
 	}
@@ -432,7 +441,11 @@ class OsOrdersHelper {
 			if ( ! empty( $price_breakdown_params[ $key ] ) ) {
 				foreach ( $price_breakdown_params[ $key ] as $row ) {
 					if ( ! empty( $row['items'] ) ) {
-						$group = [ 'heading' => '', 'items' => [], 'sub_items' => [] ];
+						$group = [
+							'heading'   => '',
+							'items'     => [],
+							'sub_items' => [],
+						];
 						if ( ! empty( $row['heading'] ) ) {
 							$group['heading'] = $row['heading'];
 						}
@@ -510,28 +523,28 @@ class OsOrdersHelper {
 	public static function generate_order_items_html( OsOrderModel $order ) {
 		$html        = '';
 		$order_items = $order->get_items();
-		$html        .= '<table style="width: 100%;">';
+		$html       .= '<table style="width: 100%;">';
 		$total_items = count( $order_items );
 		$i           = 0;
 		foreach ( $order_items as $order_item ) {
-			$i ++;
-			$html       .= '<tr>';
+			$i++;
+			$html      .= '<tr>';
 			$data_style = ( $i < $total_items ) ? 'border-bottom: 1px solid #eee;' : '';
-			$html       .= '<td style="' . $data_style . ' padding: 10px 0;">';
+			$html      .= '<td style="' . $data_style . ' padding: 10px 0;">';
 			if ( $order_item->is_bundle() ) {
 				$bundle          = $order_item->build_original_object_from_item_data();
-				$html            .= '<div>' . $bundle->name . '</div>';
+				$html           .= '<div>' . $bundle->name . '</div>';
 				$bundle_services = $bundle->get_services();
 				foreach ( $bundle_services as $service ) {
 					$qty      = $service->join_attributes['quantity'];
 					$qty_html = $qty > 1 ? ' [' . $qty . ']' : '';
-					$html     .= '<div style="color: #999; font-size: 14px;">' . esc_html( $service->name . $qty_html ) . '</div>';
+					$html    .= '<div style="color: #999; font-size: 14px;">' . esc_html( $service->name . $qty_html ) . '</div>';
 				}
 			} else {
 				$booking = $order_item->build_original_object_from_item_data();
-				$html    .= '<div style="font-weight: bold;">' . $booking->service->name . '</div>';
-				$html    .= '<div>' . $booking->get_nice_start_datetime() . '</div>';
-				$html    .= '<div>' . $booking->agent->get_full_name() . '</div>';
+				$html   .= '<div style="font-weight: bold;">' . $booking->service->name . '</div>';
+				$html   .= '<div>' . $booking->get_nice_start_datetime() . '</div>';
+				$html   .= '<div>' . $booking->agent->get_full_name() . '</div>';
 			}
 			$html .= '</td>';
 			$html .= '</tr>';
@@ -595,20 +608,20 @@ class OsOrdersHelper {
 		$order_items     = $order->get_items();
 
 		$property_map = [
-			'service_ids' => 'service_id',
+			'service_ids'  => 'service_id',
 			'location_ids' => 'location_id',
-			'agent_ids' => 'agent_id',
-			'bundle_ids' => 'bundle_id'
+			'agent_ids'    => 'agent_id',
+			'bundle_ids'   => 'bundle_id',
 		];
 
-		if(empty($property_map[$property])){
-		   return '';
+		if ( empty( $property_map[ $property ] ) ) {
+			return '';
 		}
-		$mapped_property = $property_map[$property];
+		$mapped_property = $property_map[ $property ];
 
 		foreach ( $order_items as $order_item ) {
 			if ( $order_item->is_bundle() ) {
-				if ($mapped_property == 'bundle_id') {
+				if ( $mapped_property == 'bundle_id' ) {
 					$property_values[] = $order_item->get_item_data_value_by_key( 'bundle_id' );
 				} else {
 					$bundle_bookings = OsOrdersHelper::get_bookings_for_order_item( $order_item->id );
@@ -626,26 +639,31 @@ class OsOrdersHelper {
 	}
 
 	public static function check_if_order_invoices_paid_full_balance( $order_id ) {
-		$order = new OsOrderModel( $order_id );
-		$invoices = new OsInvoiceModel();
-		$paid_invoices = $invoices->where(['status' => LATEPOINT_INVOICE_STATUS_PAID, 'order_id' => $order_id])->get_results_as_models();
-		$total_paid = 0;
-		$updated = false;
+		$order         = new OsOrderModel( $order_id );
+		$invoices      = new OsInvoiceModel();
+		$paid_invoices = $invoices->where(
+			[
+				'status'   => LATEPOINT_INVOICE_STATUS_PAID,
+				'order_id' => $order_id,
+			] 
+		)->get_results_as_models();
+		$total_paid    = 0;
+		$updated       = false;
 		foreach ( $paid_invoices as $invoice ) {
 			$total_paid += $invoice->charge_amount;
 		}
-		if($total_paid > 0){
+		if ( $total_paid > 0 ) {
 			$old_order = clone $order;
-			if($total_paid < $order->get_total()){
-				if($order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID){
-					$updated = $order->update_attributes(['payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID]);
+			if ( $total_paid < $order->get_total() ) {
+				if ( $order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID ) {
+					$updated = $order->update_attributes( [ 'payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_PARTIALLY_PAID ] );
 				}
-			}else{
-				if($order->get_total() > 0 && $order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID){
-					$updated = $order->update_attributes(['payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID]);
+			} else {
+				if ( $order->get_total() > 0 && $order->payment_status != LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID ) {
+					$updated = $order->update_attributes( [ 'payment_status' => LATEPOINT_ORDER_PAYMENT_STATUS_FULLY_PAID ] );
 				}
 			}
-			if($updated){
+			if ( $updated ) {
 				/**
 				 * Order was updated
 				 *
@@ -660,5 +678,4 @@ class OsOrdersHelper {
 			}
 		}
 	}
-
 }

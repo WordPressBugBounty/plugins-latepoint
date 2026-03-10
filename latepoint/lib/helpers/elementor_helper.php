@@ -3,10 +3,10 @@
 class OsElementorHelper {
 
 	private static ?OsElementorHelper $_instance = null;
-	public static string $category = "latepoint_builder";
+	public static string $category               = 'latepoint_builder';
 
 	private string $min_elementor_version = '3.5.0';
-	private string $min_php_version = '7.0';
+	private string $min_php_version       = '7.0';
 
 	private array $widgets = [
 		'book_button',
@@ -22,7 +22,7 @@ class OsElementorHelper {
 	 * Ensures only one instance of the class is loaded or can be loaded.
 	 */
 	public static function init(): OsElementorHelper {
-		if ( is_null(self::$_instance)) {
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
@@ -87,26 +87,26 @@ class OsElementorHelper {
 	 * @return array
 	 */
 	private function get_data_for_blocks(): array {
-		$result = [];
+		$result         = [];
 		$localized_vars = OsBlockHelper::localized_vars_for_blocks();
 
-		$result['selected_agents_options'] = $this->prepare_data_for_select($localized_vars['selected_agents_options']);
-		$result['selected_services_options'] = $this->prepare_data_for_select($localized_vars['selected_services_options']);
-		$result['selected_service_categories_options'] = $this->prepare_data_for_select($localized_vars['selected_service_categories_options']);
-		$result['selected_locations_options'] = $this->prepare_data_for_select($localized_vars['selected_locations_options']);
-		$result['selected_bundles_options'] = $this->prepare_data_for_select($localized_vars['selected_bundles_options']);
+		$result['selected_agents_options']             = $this->prepare_data_for_select( $localized_vars['selected_agents_options'] );
+		$result['selected_services_options']           = $this->prepare_data_for_select( $localized_vars['selected_services_options'] );
+		$result['selected_service_categories_options'] = $this->prepare_data_for_select( $localized_vars['selected_service_categories_options'] );
+		$result['selected_locations_options']          = $this->prepare_data_for_select( $localized_vars['selected_locations_options'] );
+		$result['selected_bundles_options']            = $this->prepare_data_for_select( $localized_vars['selected_bundles_options'] );
 
-		$result['services'] = array_column($localized_vars['services'], 'name', 'id');
-		$result['agents'] = array_column($localized_vars['agents'], 'name', 'id');;
-		$result['locations'] = array_column($localized_vars['locations'], 'name', 'id');
+		$result['services']            = array_column( $localized_vars['services'], 'name', 'id' );
+		$result['agents']              = array_column( $localized_vars['agents'], 'name', 'id' );
+		$result['locations']           = array_column( $localized_vars['locations'], 'name', 'id' );
 		$result['location_categories'] = OsLocationHelper::get_location_categories();
-		$result['service_categories'] = array_column($localized_vars['service_categories'], 'name', 'id');
-		$result['bundles'] = array_column($localized_vars['bundles'], 'name', 'id');
+		$result['service_categories']  = array_column( $localized_vars['service_categories'], 'name', 'id' );
+		$result['bundles']             = array_column( $localized_vars['bundles'], 'name', 'id' );
 		return $result;
 	}
 
 	private function prepare_data_for_select( array $options ): array {
-		return array_column($options, 'label', 'value');
+		return array_column( $options, 'label', 'value' );
 	}
 
 	/**
@@ -120,11 +120,11 @@ class OsElementorHelper {
 		foreach ( $this->widgets as $widget ) {
 			$path = LATEPOINT_ABSPATH . 'blocks/elementor/elementor_widget_' . $widget . '.php';
 			if ( file_exists( $path ) ) {
-				include_once( $path );
+				include_once $path;
 				# class name should be in format: Latepoint_Elementor_Widget_Book_Button
 				$class_name = 'Latepoint_Elementor_Widget_' . str_replace( [ '-', ' ' ], [ '_', '_' ], ucfirst( $widget ) );
 				if ( class_exists( $class_name ) ) {
-					\Elementor\Plugin::instance()->widgets_manager->register( new $class_name([], $data_for_blocks) );
+					\Elementor\Plugin::instance()->widgets_manager->register( new $class_name( [], $data_for_blocks ) );
 				}
 			}
 		}
@@ -140,11 +140,11 @@ class OsElementorHelper {
 	 */
 	public function register_widgets_category( $elements_manager ): void {
 		$elements_manager->add_category(
-			self::$category, [
+			self::$category,
+			[
 				'title' => __( 'Latepoint', 'latepoint' ),
 				'icon'  => 'fa fa-plug',
 			]
 		);
 	}
-
 }
