@@ -234,23 +234,24 @@ class OsAgentModel extends OsModel {
 		return $features_arr;
 	}
 
-	public function save_custom_schedule( $work_periods ) {
+	public function save_custom_schedule( $work_periods, int $location_id = 0 ) {
 		foreach ( $work_periods as &$work_period ) {
-			$work_period['agent_id'] = $this->id;
+			$work_period['agent_id']    = $this->id;
+			$work_period['location_id'] = $location_id;
 		}
 		unset( $work_period );
 		OsWorkPeriodsHelper::save_work_periods( $work_periods );
 	}
 
-	public function delete_custom_schedule() {
+	public function delete_custom_schedule( int $location_id = 0 ) {
 		$work_periods_model = new OsWorkPeriodModel();
 		$work_periods       = $work_periods_model->where(
 			array(
 				'agent_id'    => $this->id,
 				'service_id'  => 0,
-				'location_id' => 0,
+				'location_id' => $location_id,
 				'custom_date' => 'IS NULL',
-			) 
+			)
 		)->get_results_as_models();
 		if ( is_array( $work_periods ) ) {
 			foreach ( $work_periods as $work_period ) {
@@ -347,6 +348,24 @@ class OsAgentModel extends OsModel {
 		if ( ! empty( $connections_to_remove ) ) {
 			foreach ( $connections_to_remove as $connection_to_remove ) {
 				OsConnectorHelper::remove_connection( $connection_to_remove );
+			}
+			// Clean up location-specific schedules for fully disconnected locations
+			$cleaned_location_ids = [];
+			foreach ( $connections_to_remove as $conn ) {
+				$loc_id = (int) $conn['location_id'];
+				if ( $loc_id > 0 && ! in_array( $loc_id, $cleaned_location_ids ) ) {
+					if ( ! $this->has_location( $loc_id ) ) {
+						$this->delete_custom_schedule( $loc_id );
+						$wp_model = new OsWorkPeriodModel();
+						$wp_model->delete_where(
+							[
+								'agent_id'    => $this->id,
+								'location_id' => $loc_id,
+							] 
+						);
+						$cleaned_location_ids[] = $loc_id;
+					}
+				}
 			}
 		}
 		return true;

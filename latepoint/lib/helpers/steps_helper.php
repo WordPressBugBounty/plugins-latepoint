@@ -2113,7 +2113,7 @@ class OsStepsHelper {
 
 								// send otp if customer with this phone already exists, or if we require otp for new contacts and this contact hasn't been tokenized yet
 								if ( $existing_customer || ( $require_otp_for_new_contacts && ( empty( self::$params['customer_contact_verification_token'] ) || ! OsOTPHelper::is_token_matching_to_contact_value( self::$params['customer_contact_verification_token'], $sanitized_customer_params['phone'] ) ) ) ) {
-									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['phone'], 'phone', 'phone' );
+									$otp           = OsOTPHelper::generateAndSendOTP( $sanitized_customer_params['phone'], 'phone', 'sms' );
 									$otp_form_html = OsOTPHelper::otp_input_box_html( 'phone', $sanitized_customer_params['phone'], 'sms' );
 									return new WP_Error(
 										LATEPOINT_STATUS_ERROR,

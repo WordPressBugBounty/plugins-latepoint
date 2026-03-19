@@ -523,7 +523,12 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 				$args['location_id'] = $this->params['location_id'];
 			}
 
-			$response_html = OsWorkPeriodsHelper::generate_work_period_form( $args );
+			$field_prefix = 'work_periods';
+			if ( isset( $this->params['field_prefix'] ) ) {
+				$field_prefix = preg_replace( '/[^a-zA-Z0-9_\[\]]/', '', $this->params['field_prefix'] );
+			}
+
+			$response_html = OsWorkPeriodsHelper::generate_work_period_form( $args, true, $field_prefix );
 			$status        = LATEPOINT_STATUS_SUCCESS;
 
 			if ( $this->get_return_format() == 'json' ) {

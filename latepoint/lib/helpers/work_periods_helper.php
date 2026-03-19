@@ -263,7 +263,7 @@ class OsWorkPeriodsHelper {
 
 
 	// args: period_id, week_day, is_active, start_time, end_time, custom_date, agent_id, service_id
-	public static function generate_work_period_form( $args = array(), $allow_remove = true ) {
+	public static function generate_work_period_form( $args = array(), $allow_remove = true, string $field_prefix = 'work_periods' ) {
 		$default_args = array(
 			'period_id'    => false,
 			'week_day'     => 1,
@@ -278,15 +278,15 @@ class OsWorkPeriodsHelper {
 
 		$period_id    = ( ! $args['period_id'] ) ? 'new_' . $args['week_day'] . '_' . OsUtilHelper::random_text() : $args['period_id'];
 		$period_html  = '<div class="ws-period">';
-		$period_html .= OsFormHelper::time_field( 'work_periods[' . $period_id . '][start_time]', __( 'Start', 'latepoint' ), $args['start_time'], true );
-		$period_html .= OsFormHelper::time_field( 'work_periods[' . $period_id . '][end_time]', __( 'Finish', 'latepoint' ), $args['end_time'], true );
-		$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][week_day]', $args['week_day'] );
-		$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][is_active]', self::is_period_active( $args['start_time'], $args['end_time'] ), array( 'class' => 'is-active' ) );
-		$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][agent_id]', $args['agent_id'] );
-		$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][location_id]', $args['location_id'] );
-		$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][service_id]', $args['service_id'] );
+		$period_html .= OsFormHelper::time_field( $field_prefix . '[' . $period_id . '][start_time]', __( 'Start', 'latepoint' ), $args['start_time'], true );
+		$period_html .= OsFormHelper::time_field( $field_prefix . '[' . $period_id . '][end_time]', __( 'Finish', 'latepoint' ), $args['end_time'], true );
+		$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][week_day]', $args['week_day'] );
+		$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][is_active]', self::is_period_active( $args['start_time'], $args['end_time'] ), array( 'class' => 'is-active' ) );
+		$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][agent_id]', $args['agent_id'] );
+		$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][location_id]', $args['location_id'] );
+		$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][service_id]', $args['service_id'] );
 		if ( isset( $args['custom_date'] ) ) {
-			$period_html .= OsFormHelper::hidden_field( 'work_periods[' . $period_id . '][custom_date]', $args['custom_date'] );
+			$period_html .= OsFormHelper::hidden_field( $field_prefix . '[' . $period_id . '][custom_date]', $args['custom_date'] );
 		}
 		if ( $allow_remove ) {
 			$period_html .= '<button class="ws-period-remove"><i class="latepoint-icon latepoint-icon-x"></i></button>';
@@ -742,7 +742,7 @@ class OsWorkPeriodsHelper {
 	 * @param bool $is_new_record
 	 * @return void
 	 */
-	public static function generate_work_periods( array $work_periods, \LatePoint\Misc\Filter $filter, bool $is_new_record = false ) {
+	public static function generate_work_periods( array $work_periods, \LatePoint\Misc\Filter $filter, bool $is_new_record = false, string $field_prefix = 'work_periods' ) {
 		if ( ! $work_periods ) {
 			$work_periods = OsWorkPeriodsHelper::get_work_periods( $filter, true );
 		}
@@ -781,15 +781,16 @@ class OsWorkPeriodsHelper {
 					$period_forms_html .= OsWorkPeriodsHelper::generate_work_period_form(
 						array(
 							'period_id'   => $work_period->id,
-							'week_day'    => $i, 
-							'is_active'   => $work_period->is_active, 
-							'agent_id'    => $work_period->agent_id, 
-							'service_id'  => $work_period->service_id, 
-							'location_id' => $work_period->location_id, 
-							'start_time'  => $work_period->start_time, 
+							'week_day'    => $i,
+							'is_active'   => $work_period->is_active,
+							'agent_id'    => $work_period->agent_id,
+							'service_id'  => $work_period->service_id,
+							'location_id' => $work_period->location_id,
+							'start_time'  => $work_period->start_time,
 							'end_time'    => $work_period->end_time,
 						),
-						$allow_remove
+						$allow_remove,
+						$field_prefix
 					);
 					  $allow_remove     = true;
 				}
@@ -797,12 +798,13 @@ class OsWorkPeriodsHelper {
 				// NEW WORK PERIOD
 				$period_forms_html .= OsWorkPeriodsHelper::generate_work_period_form(
 					array(
-						'period_id'  => false, 
+						'period_id'  => false,
 						'week_day'   => $i,
 						'start_time' => 0,
 						'end_time'   => 0,
 					),
-					false
+					false,
+					$field_prefix
 				);
 			} ?>
 	  <div class="weekday-schedule-w <?php echo $is_day_off ? 'day-off' : ''; ?>">
@@ -835,8 +837,8 @@ class OsWorkPeriodsHelper {
 		  </div>
 		</div>
 		<div class="weekday-schedule-form">
-			  <?php 
-				echo $period_forms_html; 
+			  <?php
+				echo $period_forms_html;
 				$params = [ 'week_day' => $i ];
 				if ( $filter->agent_id ) {
 					$params['agent_id'] = $filter->agent_id;
@@ -846,6 +848,9 @@ class OsWorkPeriodsHelper {
 				}
 				if ( $filter->location_id ) {
 					$params['location_id'] = $filter->location_id;
+				}
+				if ( $field_prefix !== 'work_periods' ) {
+					$params['field_prefix'] = $field_prefix;
 				}
 				?>
 		  <div class="ws-period-add"

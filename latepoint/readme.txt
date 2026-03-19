@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.2.11
+Stable tag: 5.3.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -202,6 +202,12 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.3.0 - March 19, 2026 =
+- Improvement: Added foundational support for upcoming pro features related to location based agent schedules.
+- Improvements: Improved compatibility checks between Free and Pro plugins.
+- Fix: Fixed SMS OTP not being sent when verifying existing customers by phone due to incorrect delivery method
+- Fix: Fixed OTP verification box showing incorrect label — now displays “Verify your phone number” when SMS OTP is enabled.
 
 = 5.2.11 - March 10, 2026 =
 - Fix: Fixed calendar month names displaying duplicated characters (e.g., "Marss", "Aprilil") when both short and full month names are translated to the same value via Loco Translate.

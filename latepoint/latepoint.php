@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.2.11
+ * Version: 5.3.0
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.2.11';
+		public $version    = '5.3.0';
 		public $db_version = '2.3.0';
 
 
@@ -256,6 +256,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			if ( ! defined( 'LATEPOINT_VERSION' ) ) {
 				define( 'LATEPOINT_VERSION', $this->version );
+			}
+			if ( ! defined( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION' ) ) {
+				define( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION', '1.2.5' );
 			}
 			if ( ! defined( 'LATEPOINT_ENCRYPTION_KEY' ) ) {
 				define( 'LATEPOINT_ENCRYPTION_KEY', 'oiaf(*Ufdsoh2ie7QEy,R@6(I9H/VoX^r4}SHC_7W-<$S!,/kd)OSw?.Y9lcd105cu$' );
@@ -900,6 +903,11 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once LATEPOINT_ABSPATH . 'lib/mailers/agent_mailer.php';
 			include_once LATEPOINT_ABSPATH . 'lib/mailers/customer_mailer.php';
 
+			// ABILITIES (WordPress 6.9+ Abilities API)
+			if ( function_exists( 'wp_register_ability' ) ) {
+				include_once LATEPOINT_ABSPATH . 'lib/abilities/class-latepoint-abilities.php';
+			}
+
 			do_action( 'latepoint_includes' );
 		}
 
@@ -934,6 +942,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			// Plugins loaded
 			add_action( 'plugins_loaded', array( $this, 'plugins_loaded_hook' ) );
+
+			// Addon version compatibility checks.
+			add_action( 'admin_init', array( $this, 'check_addon_versions' ) );
 
 			// Activation / deactivation hooks.
 			register_activation_hook( __FILE__, array( $this, 'create_required_tables' ) );
@@ -1047,6 +1058,43 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			OsAnalyticsHelper::init();
 		}
 
+		function check_addon_versions() {
+			if ( ! current_user_can( 'update_plugins' ) ) {
+				return;
+			}
+
+			if (
+				defined( 'LATEPOINT_ADDON_PRO_VERSION' )
+				&& defined( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION' )
+				&& version_compare( LATEPOINT_ADDON_PRO_VERSION, LATEPOINT_MIN_REQUIRED_PRO_VERSION, '<' )
+			) {
+				add_action( 'admin_notices', array( $this, 'pro_version_outdated_notice' ) );
+			}
+		}
+
+		function pro_version_outdated_notice() {
+			$screen = get_current_screen();
+			if ( isset( $screen->parent_file ) && 'plugins.php' === $screen->parent_file && 'update' === $screen->id ) {
+				return;
+			}
+
+			$message = sprintf(
+				/* translators: 1: bold open tag, 2: bold close tag, 3: required version, 4: current version */
+				__( 'You are using an older version of the %1$sLatePoint Pro Features%2$s plugin (v%4$s). Please update the %1$sLatePoint Pro Features%2$s plugin to version %1$s%3$s or later%2$s.', 'latepoint' ),
+				'<strong>',
+				'</strong>',
+				esc_html( LATEPOINT_MIN_REQUIRED_PRO_VERSION ),
+				esc_html( LATEPOINT_ADDON_PRO_VERSION )
+			);
+			$button = '<p><a href="' . esc_url( self_admin_url( 'plugins.php' ) ) . '" class="button-primary">'
+				. esc_html__( 'Update Now', 'latepoint' ) . '</a></p>';
+
+			printf(
+				'<div class="notice notice-warning"><p>%1$s</p>%2$s</div>',
+				wp_kses_post( $message ),
+				wp_kses_post( $button )
+			);
+		}
 
 		function add_custom_cron_schedules( $schedules ) {
 			if ( ! isset( $schedules['latepoint_5_minutes'] ) ) {

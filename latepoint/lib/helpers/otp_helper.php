@@ -117,10 +117,13 @@ class OsOTPHelper {
 
 
 	public static function otp_input_box_html( string $contact_type, string $contact_value, string $delivery_method ): string {
+
+		$title = ( 'email' === $contact_type ) ? esc_html__( 'Verify your email', 'latepoint' ) : esc_html__( 'Verify your phone number', 'latepoint' );
+
 		$message          = '';
 		$message         .= '<div class="latepoint-customer-otp-input-wrapper os-customer-wrapped-box">';
 			$message     .= '<div class="latepoint-customer-otp-close"><i class="latepoint-icon latepoint-icon-common-01"></i></div>';
-			$message     .= '<div class="latepoint-customer-box-title">' . esc_html__( 'Verify your email', 'latepoint' ) . '</div>';
+			$message     .= '<div class="latepoint-customer-box-title">' . $title . '</div>';
 			$message     .= '<div class="latepoint-customer-box-desc">' . sprintf( esc_html__( 'Enter the code we sent to %s', 'latepoint' ), $contact_value ) . '</div>';
 			$message     .= '<div class="latepoint-customer-otp-input-code-wrapper">';
 				$message .= OsFormHelper::otp_code_field( 'otp[otp_code]' );
@@ -208,7 +211,7 @@ class OsOTPHelper {
 				[
 					'contact_value' => $contact_value,
 					'status'        => LATEPOINT_CUSTOMER_OTP_CODE_STATUS_ACTIVE,
-				] 
+				]
 			)->get_results_as_models();
 			if ( $other_otps ) {
 				foreach ( $other_otps as $otp ) {
@@ -251,7 +254,7 @@ class OsOTPHelper {
 						'to'      => $otp->contact_value,
 						'subject' => $subject,
 						'content' => $content,
-					] 
+					]
 				);
 				if ( $send_result['status'] == LATEPOINT_STATUS_SUCCESS ) {
 					$result['processed_datetime'] = OsTimeHelper::now_datetime_in_db_format();
@@ -269,7 +272,7 @@ class OsOTPHelper {
 						'to'      => $otp->contact_value,
 						'subject' => $subject,
 						'content' => $content,
-					] 
+					]
 				);
 				if ( $send_result['status'] == LATEPOINT_STATUS_SUCCESS ) {
 					$result['processed_datetime'] = OsTimeHelper::now_datetime_in_db_format();
@@ -321,7 +324,7 @@ class OsOTPHelper {
 			[
 				'contact_value' => $contact_value,
 				'status'        => 'active',
-			] 
+			]
 		)->get_results_as_models();
 		if ( $old_otps ) {
 			foreach ( $old_otps as $otp ) {
