@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.3.0
+Stable tag: 5.3.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -202,6 +202,9 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.3.1 - March 26, 2026 =
+- Security: Addressed security bugs. Props to WordFence for reporting it.
 
 = 5.3.0 - March 19, 2026 =
 - Improvement: Added foundational support for upcoming pro features related to location based agent schedules.

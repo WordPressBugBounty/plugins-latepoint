@@ -12,7 +12,7 @@ class OsShortcodesHelper {
 				'show_locations' => false,
 				'view'           => 'month',
 			],
-			$atts 
+			$atts
 		);
 		$output = '';
 		try {
@@ -75,7 +75,7 @@ class OsShortcodesHelper {
 				'btn_classes'               => false,
 				'btn_wrapper_classes'       => false,
 			),
-			$atts 
+			$atts
 		);
 
 		if ( $atts['items'] == 'bundles' && $atts['selected_service'] ) {
@@ -269,13 +269,13 @@ class OsShortcodesHelper {
 						<?php } ?>
 
 						<?php if ( $atts['hide_description'] !== 'yes' && $description = $bundle->short_description ) { ?>
-							<div class="ri-description"><?php echo $description; ?></div>
+							<div class="ri-description"><?php echo wp_kses_post( $description ); ?></div>
 						<?php } ?>
 						<div class="ri-buttons <?php echo esc_attr( $btn_wrapper_classes ) ?>">
 							<a href="#" <?php echo $data_atts ?>
 							   class="latepoint-book-button os_trigger_booking latepoint-btn-block <?php echo esc_attr( $btn_classes ); ?>"
 							   data-selected-bundle="<?php echo $bundle->id; ?>" >
-								<?php echo $atts['button_caption']; ?>
+								<?php echo wp_kses_post( $atts['button_caption'] ); ?>
 							</a>
 						</div>
 					</div>
@@ -329,9 +329,9 @@ class OsShortcodesHelper {
 					'classname'           => false,
 					'btn_classes'         => false,
 					'btn_wrapper_classes' => false,
-				] 
+				]
 			),
-			$atts 
+			$atts
 		);
 
 		$btn_wrapper_classes   = [];
@@ -396,7 +396,7 @@ class OsShortcodesHelper {
 				'caption'                 => __( 'Book Appointment', 'latepoint' ),
 				'hide_new_appointment_ui' => false,
 			),
-			$atts 
+			$atts
 		);
 		$atts['hide_new_appointment_ui'] = $atts['hide_new_appointment_ui'] == 'yes' ?? false;
 
@@ -412,7 +412,7 @@ class OsShortcodesHelper {
 			array(
 				'caption' => __( 'Book Appointment', 'latepoint' ),
 			),
-			$atts 
+			$atts
 		);
 
 		$customerCabinetController = new OsCustomerCabinetController();
