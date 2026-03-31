@@ -46,7 +46,7 @@ if ($transactions) {
 			<td><span class="lp-transaction-status lp-transaction-status-<?php echo esc_attr($transaction->status); ?>"><?php echo esc_html(OsPaymentsHelper::get_nice_transaction_status_name($transaction->status)); ?></span>
 			<td><span class="lp-transaction-status lp-transaction-funds-status-<?php echo esc_attr($transaction->kind); ?>"><?php echo esc_html(OsPaymentsHelper::get_nice_transaction_kind_name($transaction->kind)); ?></span>
 			</td>
-			<td><?php echo esc_html($transaction->created_at); ?></td>
+			<td><?php echo esc_html($transaction->readable_created_date()); ?></td>
 		</tr>
 		<?php
 	}

@@ -275,12 +275,15 @@ class OsBookingHelper {
 				self::output_price_breakdown_row_as_input_field( $row_item, $field_name . '[items]' );
 			}
 		} else {
-			$wrapper_class = ( $row['raw_value'] < 0 ) ? [ 'class' => 'green-value-input' ] : [];
+			$is_negative   = ( $row['raw_value'] < 0 );
+			$wrapper_class = $is_negative ? [ 'class' => 'green-value-input' ] : [];
 			$label         = $row['label'] ?? '';
 			if ( ! empty( $row['note'] ) ) {
 				$label .= ' ' . $row['note'];
 			}
-			echo OsFormHelper::money_field( $field_name . '[value]', $label, $row['raw_value'], [ 'theme' => 'right-aligned' ], [], $wrapper_class );
+			// Use abs() for money_field because inputmask cannot parse negative initial values; the sign is preserved via the 'type' hidden field
+			$field_value = $is_negative ? abs( $row['raw_value'] ) : $row['raw_value'];
+			echo OsFormHelper::money_field( $field_name . '[value]', $label, $field_value, [ 'theme' => 'right-aligned' ], [], $wrapper_class );
 			echo OsFormHelper::hidden_field( $field_name . '[label]', $row['label'] ?? '' );
 			echo OsFormHelper::hidden_field( $field_name . '[style]', $row['style'] ?? '' );
 			echo OsFormHelper::hidden_field( $field_name . '[type]', $row['type'] ?? '' );
@@ -836,7 +839,7 @@ class OsBookingHelper {
 			if ( $settings['show_services_arr'] ) {
 				$services_without_category->where_in( 'id', $settings['show_services_arr'] );
 			}
-			$services_without_category = $services_without_category->where( [ 'category_id' => 0 ] )->should_be_active()->get_results_as_models();
+			$services_without_category = $services_without_category->where( [ 'category_id' => 0 ] )->should_be_active()->should_not_be_hidden()->get_results_as_models();
 			if ( $services_without_category ) {
 				OsBookingHelper::generate_services_list( $services_without_category, false );
 			}

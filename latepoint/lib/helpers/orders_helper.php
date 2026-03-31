@@ -32,8 +32,8 @@ class OsOrdersHelper {
 		$route = OsRouterHelper::build_route_name( 'orders', 'quick_edit' );
 
 		$params_str = http_build_query( $params );
-		$html       = 'data-os-params="' . esc_attr( $params_str ) . '" 
-    data-os-action="' . esc_attr( $route ) . '" 
+		$html       = 'data-os-params="' . esc_attr( $params_str ) . '"
+    data-os-action="' . esc_attr( $route ) . '"
     data-os-output-target="side-panel"
     data-os-after-call="latepoint_init_quick_order_form"';
 
@@ -300,9 +300,9 @@ class OsOrdersHelper {
 
 		$extra_css_class = $is_folded ? 'is-folded' : 'is-unfolded';
 		$html            = '';
-		$html            = '<div class="order-item-booking-data-form-wrapper order-item-booking-data-variant-' . $order_item_variant . ' ' . $extra_css_class . '" 
-		data-order-item-variant="' . $order_item_variant . '" 
-		data-order-item-id="' . $order_item_id . '" 
+		$html            = '<div class="order-item-booking-data-form-wrapper order-item-booking-data-variant-' . $order_item_variant . ' ' . $extra_css_class . '"
+		data-order-item-variant="' . $order_item_variant . '"
+		data-order-item-id="' . $order_item_id . '"
 		data-booking-id="' . $booking->get_form_id() . '">';
 		$html           .= self::loading_tile_for_order_item( $order_item_id );
 		switch ( $order_item_variant ) {
@@ -315,12 +315,12 @@ class OsOrdersHelper {
 		}
 		$html .= '<div class="order-booking-data-heading">
 									<div class="fold-order-item-wrapper fold-order-item-booking-data-form-btn">
-										<div class="fold-order-item-icon"> 
+										<div class="fold-order-item-icon">
 											<i class="latepoint-icon latepoint-icon-chevron-up"></i>
 										</div>
 										<div class="ob-label">' . ( $booking->is_new_record() ? __( 'New Booking', 'latepoint' ) : __( 'Edit Booking', 'latepoint' ) ) . '</div>
 									</div>
-									
+
 									<div class="remove-order-item-new-booking-btn remove-order-item-btn" data-os-prompt="' . __( 'Are you sure you want to remove this booking from the order?', 'latepoint' ) . '">
 										<i class="latepoint-icon latepoint-icon-trash1"></i>
 									</div>
@@ -360,7 +360,7 @@ class OsOrdersHelper {
 		$html              .= '<input name="order_items[' . $order_item_form_id . '][variant]" value="' . LATEPOINT_ITEM_VARIANT_BUNDLE . '" type="hidden"/>';
 		$html              .= '<input name="order_items[' . $order_item_form_id . '][item_data]" class="order_item_item_data" value="' . base64_encode( wp_json_encode( $bundle->generate_params_for_booking_form() ) ) . '" type="hidden"/>';
 		$html              .= '<div class="order-item-pill-inner">';
-		$html              .= '<div class="order-item-remove-btn remove-order-item-btn" 
+		$html              .= '<div class="order-item-remove-btn remove-order-item-btn"
 																	data-os-prompt="' . __( 'Are you sure you want to remove this item from the order? All associated appointments will be removed as well.', 'latepoint' ) . '"></div>';
 		$html              .= OsBundlesHelper::generate_order_summary_for_bundle( $bundle, $order_item_form_id, $preselected_booking_id );
 		$html              .= '<div class="bundle-icon"><i class="latepoint-icon latepoint-icon-chevron-down"></i></div>';
@@ -382,7 +382,7 @@ class OsOrdersHelper {
 		if ( $booking->recurrence_id ) {
 			$html .= '<div class="order-item-pill-recurring-mark"><div class="popover-message">' . esc_html__( 'Part of recurring sequence', 'latepoint' ) . '</div><i class="latepoint-icon latepoint-icon-refresh"></i></div>';
 		}
-		$html .= '<div class="order-item-remove-btn remove-order-item-btn" 
+		$html .= '<div class="order-item-remove-btn remove-order-item-btn"
 																	data-os-prompt="' . __( 'Are you sure you want to remove this item from the order?', 'latepoint' ) . '"></div>';
 		$html .= '<div class="booking-item-status-pill"></div>';
 		$html .= OsBookingHelper::generate_summary_for_booking( $booking, false, 'agent' );
@@ -645,7 +645,7 @@ class OsOrdersHelper {
 			[
 				'status'   => LATEPOINT_INVOICE_STATUS_PAID,
 				'order_id' => $order_id,
-			] 
+			]
 		)->get_results_as_models();
 		$total_paid    = 0;
 		$updated       = false;

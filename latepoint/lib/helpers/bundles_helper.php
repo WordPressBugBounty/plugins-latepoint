@@ -170,7 +170,7 @@ class OsBundlesHelper {
 									[
 										'order_item_id' => $order_item_id,
 										'service_id'    => $service->id,
-									] 
+									]
 								) . '><div class="booking-item-status-pill"></div><div class="bib-label">' . esc_html__( 'Schedule now', 'latepoint' ) . '</div></div>';
 							}
 						}
@@ -220,7 +220,10 @@ class OsBundlesHelper {
 	public static function build_bundle_model_from_item_data( array $item_data ): OsBundleModel {
 		$bundle = new OsBundleModel();
 		if ( ! empty( $item_data['bundle_id'] ) ) {
-			$bundle = $bundle->load_by_id( $item_data['bundle_id'] );
+			$loaded = $bundle->load_by_id( $item_data['bundle_id'] );
+			if ( $loaded ) {
+				$bundle = $loaded;
+			}
 		}
 		return $bundle;
 	}

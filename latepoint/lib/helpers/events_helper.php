@@ -119,7 +119,8 @@ class OsEventsHelper {
 					'filter'             => $filter,
 				] 
 			) . '" 
-					data-os-output-target="lightbox" 
+					data-os-output-target="lightbox"
+					data-os-lightbox-classes="width-600"
 					data-os-action="' . OsRouterHelper::build_route_name( 'events', 'events_day_view' ) . '">' . $day_date->format( 'j' ) .
 				'</div>';
 			$html .= '</div>';
@@ -196,7 +197,8 @@ class OsEventsHelper {
 					'filter'             => $filter,
 				] 
 			) . '" 
-					data-os-output-target="lightbox" 
+					data-os-output-target="lightbox"
+					data-os-lightbox-classes="width-600"
 					data-os-action="' . OsRouterHelper::build_route_name( 'events', 'events_day_view' ) . '">' . $day_date->format( 'j' ) .
 				'</div>';
 			$day_services_html = [];
@@ -239,7 +241,8 @@ class OsEventsHelper {
 							] 
 						) 
 					) . '" 
-					data-os-output-target="lightbox" 
+					data-os-output-target="lightbox"
+					data-os-lightbox-classes="width-600"
 					data-os-action="' . esc_attr( OsRouterHelper::build_route_name( 'events', 'events_day_view' ) ) . '">' . esc_html( $more ) . '</div>';
 					break;
 				}

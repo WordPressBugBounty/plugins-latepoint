@@ -190,7 +190,7 @@ class OsCustomerModel extends OsModel {
 						'start_time <' => OsTimeHelper::get_current_minutes(),
 					),
 				),
-			) 
+			)
 		)->get_results_as_models();
 	}
 
@@ -213,7 +213,7 @@ class OsCustomerModel extends OsModel {
 								[
 									'order_item_id' => $order_item_id,
 									'service_id'    => $bundle_service->id,
-								] 
+								]
 							)->should_not_be_cancelled()->count();
 							if ( $total_scheduled_bookings < $bundle_service->join_attributes['quantity'] ) {
 								$non_scheduled_bundles[ $order_item_id ] = $bundle;
@@ -269,7 +269,7 @@ class OsCustomerModel extends OsModel {
 						'start_time >' => OsTimeHelper::get_current_minutes(),
 					),
 				),
-			) 
+			)
 		)->count();
 	}
 
@@ -329,7 +329,7 @@ class OsCustomerModel extends OsModel {
 			[
 				'password' => wp_hash_password( $password ),
 				'is_guest' => false,
-			] 
+			]
 		);
 	}
 

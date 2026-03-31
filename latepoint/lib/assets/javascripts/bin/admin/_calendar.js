@@ -48,6 +48,114 @@ function latepoint_init_calendar_quick_actions(){
   });
 }
 
+
+// ==========================================
+// URL-based calendar state persistence
+// ==========================================
+
+var latepoint_calendar_filter_keys = [
+  {param: 'services', name: 'calendar_settings[show_service_ids][]'},
+  {param: 'agents', name: 'calendar_settings[show_agent_ids][]'},
+  {param: 'locations', name: 'calendar_settings[show_location_ids][]'}
+];
+
+var latepoint_calendar_skip_url_update = false;
+
+function latepoint_calendar_update_url(){
+  if(latepoint_calendar_skip_url_update) return;
+
+  var $form = jQuery('form.os-calendar-settings-form');
+  if(!$form.length) return;
+
+  var params = new URLSearchParams(window.location.search);
+
+  // View
+  var view = $form.find('input[name="calendar_settings[view]"]').val();
+  if(view) params.set('view', view);
+
+  // Date
+  var date = $form.find('input[name="calendar_settings[target_date_string]"]').val();
+  if(date) params.set('date', date);
+
+  // Filter IDs — only include in URL if not all are checked (to keep URL clean)
+  latepoint_calendar_filter_keys.forEach(function(filter){
+    var $checkboxes = $form.find('input[name="' + filter.name + '"]');
+    var $checked = $checkboxes.filter(':checked');
+    if($checkboxes.length && $checked.length < $checkboxes.length){
+      var ids = [];
+      $checked.each(function(){ ids.push(jQuery(this).val()); });
+      params.set(filter.param, ids.join(','));
+    }else{
+      params.delete(filter.param);
+    }
+  });
+
+  var newUrl = window.location.pathname + '?' + params.toString();
+  window.history.replaceState({}, '', newUrl);
+}
+
+function latepoint_calendar_restore_from_url(){
+  var params = new URLSearchParams(window.location.search);
+  var $form = jQuery('form.os-calendar-settings-form');
+  if(!$form.length) return false;
+
+  // Only restore if any calendar params exist in URL
+  var hasCalendarParams = params.has('view') || params.has('date') || params.has('services') || params.has('agents') || params.has('locations');
+  if(!hasCalendarParams) return false;
+
+  // Restore view
+  var view = params.get('view');
+  if(view){
+    $form.find('input[name="calendar_settings[view]"]').val(view);
+    jQuery('.os-calendar-view-option.os-selected').removeClass('os-selected');
+    jQuery('.os-calendar-view-option[data-value="' + view + '"]').addClass('os-selected');
+    jQuery('.calendar-wrapper').attr('data-view', view);
+  }
+
+  // Restore date
+  var date = params.get('date');
+  if(date){
+    $form.find('input[name="calendar_settings[target_date_string]"]').val(date);
+  }
+
+  // Restore filter checkboxes
+  latepoint_calendar_filter_keys.forEach(function(filter){
+    var raw = params.get(filter.param);
+    if(raw !== null){
+      var ids = raw.split(',');
+      var $checkboxes = $form.find('input[name="' + filter.name + '"]');
+
+      $checkboxes.each(function(){
+        var $cb = jQuery(this);
+        if(ids.indexOf($cb.val()) >= 0){
+          $cb.prop('checked', true).attr('checked', 'checked');
+        }else{
+          $cb.prop('checked', false).removeAttr('checked');
+        }
+      });
+
+      // Update latecheckbox filter-value label
+      var $wrapper = $checkboxes.closest('.latecheckbox-w');
+      if($wrapper.length){
+        var total = $checkboxes.length;
+        var checked = $checkboxes.filter(':checked').length;
+        if(checked < total){
+          $wrapper.find('.latecheckbox .filter-value').text(checked);
+        }else{
+          $wrapper.find('.latecheckbox .filter-value').text('All');
+        }
+      }
+    }
+  });
+
+  return true;
+}
+
+
+// ==========================================
+// Calendar initialization & reload
+// ==========================================
+
 function latepoint_init_calendars(){
   latepoint_check_horizontal_calendar_scroll();
   jQuery('.os-calendar-settings-extra .latecheckbox').lateCheckbox();
@@ -115,12 +223,23 @@ function latepoint_init_calendars(){
     jQuery('input[name="calendar_settings[target_date_string]"]').val(jQuery('input[name="next_target_date"]').val()).trigger('change');
     return false;
   });
+
+  // Restore calendar state from URL params on page load
+  if(latepoint_calendar_restore_from_url()){
+    latepoint_calendar_skip_url_update = true;
+    latepoint_reload_calendar_view();
+    latepoint_calendar_skip_url_update = false;
+  }
+
 }
 
 function latepoint_reload_calendar_view(){
   let $calendar_wrapper = jQuery('.calendar-view-wrapper');
   if(!$calendar_wrapper.length) return;
   $calendar_wrapper.addClass('os-loading');
+
+  // Update URL with current filter state
+  latepoint_calendar_update_url();
 
   let calendar_settings = new FormData(jQuery('form.os-calendar-settings-form')[0]);
 

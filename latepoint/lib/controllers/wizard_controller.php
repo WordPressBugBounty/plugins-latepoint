@@ -144,6 +144,11 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 			self::$process_step_function_name();
 
 			$new_current_step_code = $this->steps_in_order[ array_search( $current_step_code, $this->steps_in_order ) + 1 ];
+
+			if ( 'complete' === $new_current_step_code ) {
+				do_action( 'latepoint_onboarding_completed' );
+			}
+
 			if ( array_search( $new_current_step_code, $this->steps_in_order ) <= 1 ) {
 				$this->show_prev_btn = false;
 			}

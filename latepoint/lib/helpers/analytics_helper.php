@@ -7,6 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class OsAnalyticsHelper {
 
 	/**
+	 * BSF Analytics Events instance.
+	 *
+	 * @var BSF_Analytics_Events|null
+	 */
+	private static $events = null;
+
+	/**
 	 * Initialize BSF Analytics.
 	 *
 	 * @return void
@@ -52,6 +59,83 @@ class OsAnalyticsHelper {
 		);
 
 		add_filter( 'bsf_core_stats', [ __CLASS__, 'add_latepoint_analytics_data' ] );
+
+		// Initialize events instance.
+		self::events();
+
+		// Plugin activated (dedup ensures).
+		self::events()->track( 'plugin_activated', LATEPOINT_VERSION );
+
+		// Event hooks.
+		add_action( 'latepoint_onboarding_completed', [ __CLASS__, 'on_onboarding_completed' ] );
+		add_action( 'activated_plugin', [ __CLASS__, 'on_pro_addon_activated' ] );
+		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_payment_processors_connected' ] );
+	}
+
+	/**
+	 * Get the BSF Analytics Events instance, initializing if needed.
+	 *
+	 * @return BSF_Analytics_Events
+	 */
+	public static function events() {
+		if ( null === self::$events ) {
+			if ( ! class_exists( 'BSF_Analytics_Events' ) ) {
+				require_once LATEPOINT_ABSPATH . 'lib/kit/bsf-analytics/class-bsf-analytics-events.php';
+			}
+			self::$events = new \BSF_Analytics_Events( 'latepoint' );
+		}
+		return self::$events;
+	}
+
+	/**
+	 * Handle onboarding completion event.
+	 *
+	 * @return void
+	 */
+	public static function on_onboarding_completed() {
+		self::events()->track( 'onboarding_completed', LATEPOINT_VERSION );
+	}
+
+	/**
+	 * Handle pro addon activation event.
+	 *
+	 * @param string $plugin Plugin basename.
+	 * @return void
+	 */
+	public static function on_pro_addon_activated( $plugin ) {
+		if ( 'latepoint-pro-features/latepoint-pro-features.php' === $plugin ) {
+			$version = defined( 'LATEPOINT_ADDON_PRO_VERSION' ) ? LATEPOINT_ADDON_PRO_VERSION : '';
+			self::events()->track( 'pro_addon_activated', $version );
+		}
+	}
+
+	/**
+	 * Handle payment processors connected event.
+	 *
+	 * Records each enabled payment processor as a separate event — future-proof for new processors.
+	 *
+	 * @param array<mixed> $settings Settings array.
+	 * @return void
+	 */
+	public static function on_payment_processors_connected( $settings ) {
+		if ( ! is_array( $settings ) || ! class_exists( 'OsPaymentsHelper' ) ) {
+			return;
+		}
+
+		$env = isset( $settings['payments_environment'] ) ? $settings['payments_environment'] : '';
+
+		$processors = OsPaymentsHelper::get_payment_processors();
+		foreach ( $processors as $processor ) {
+			$code = $processor['code'] ?? '';
+			$key  = 'enable_payment_processor_' . $code;
+			if ( ! empty( $code ) && isset( $settings[ $key ] ) && 'on' === $settings[ $key ] ) {
+				self::events()->track( $code . '_payment_enabled', $env );
+			}
+		}
+
+		if ( isset( $settings['enable_payments_local'] ) && 'on' === $settings['enable_payments_local'] ) {
+			self::events()->track( 'local_payment_enabled', $env );
+		}
 	}
 
 	/**
@@ -61,13 +145,12 @@ class OsAnalyticsHelper {
 	 * @return bool
 	 */
 	public static function update_contribute_option( $settings ) {
-		if ( isset( $settings['contribute_to_latepoint'] ) && 'on' === $settings['contribute_to_latepoint'] ) {
-			$enable_tracking = 'yes';
-		} else {
-			$enable_tracking = '';
-		}
+		if ( isset( $settings['contribute_to_latepoint'] ) ) {
 
-		return update_option( 'latepoint_usage_optin', $enable_tracking );
+			$enable_contribute = 'on' === $settings['contribute_to_latepoint'] ? 'yes' : 'no';
+
+			return update_option( 'latepoint_usage_optin', $enable_contribute );
+		}
 	}
 
 	/**
@@ -95,6 +178,12 @@ class OsAnalyticsHelper {
 		$kpi_data = self::get_kpi_tracking_data();
 		if ( ! empty( $kpi_data ) ) {
 			$stats_data['plugin_data']['latepoint']['kpi_records'] = $kpi_data;
+		}
+
+		// Flush pending events into payload.
+		$pending_events = self::events()->flush_pending();
+		if ( ! empty( $pending_events ) ) {
+			$stats_data['plugin_data']['latepoint']['events_record'] = $pending_events;
 		}
 
 		return $stats_data;

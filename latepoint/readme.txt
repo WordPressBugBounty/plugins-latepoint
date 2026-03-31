@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.3.1
+Stable tag: 5.3.2
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -203,35 +203,32 @@ If you want a modern, effortless way to let your customers book online, give Lat
 
 == Changelog ==
 
+= 5.3.2 - March 31, 2026 =
+  - New: Calendar URL now remembers your view, date, and filter selections, refresh the page and everything stays in place
+  - Improvement: Dates on Orders and Payments pages now use the same readable format as the rest of the plugin
+  - Fix: Services set to "Visible to admins and agents only" no longer appear on the booking form for customers
+  - Fix: Coupon discounts now display correctly when the thousand separator is set to a space
+  - Fix: Fixed missing close button on the calendar day view popup
+  - Fix: Calendar day view popup is now wider so filter dropdowns aren't cut off
+  - Fix: Fixed a fatal error on the customer dashboard when a purchased bundle has been deleted
+
 = 5.3.1 - March 26, 2026 =
-- Security: Addressed security bugs. Props to WordFence for reporting it.
+  - Security: Addressed security bugs. Props to WordFence for reporting it.
 
 = 5.3.0 - March 19, 2026 =
-- Improvement: Added foundational support for upcoming pro features related to location based agent schedules.
-- Improvements: Improved compatibility checks between Free and Pro plugins.
-- Fix: Fixed SMS OTP not being sent when verifying existing customers by phone due to incorrect delivery method
-- Fix: Fixed OTP verification box showing incorrect label — now displays “Verify your phone number” when SMS OTP is enabled.
+  - Improvement: Added foundational support for upcoming pro features related to location based agent schedules.
+  - Improvements: Improved compatibility checks between Free and Pro plugins.
+  - Fix: Fixed SMS OTP not being sent when verifying existing customers by phone due to incorrect delivery method
+  - Fix: Fixed OTP verification box showing incorrect label — now displays “Verify your phone number” when SMS OTP is enabled.
 
 = 5.2.11 - March 10, 2026 =
-- Fix: Fixed calendar month names displaying duplicated characters (e.g., "Marss", "Aprilil") when both short and full month names are translated to the same value via Loco Translate.
-- Security: Strengthen plugin security and harden against potential vulnerabilities.
+  - Fix: Fixed calendar month names displaying duplicated characters (e.g., "Marss", "Aprilil") when both short and full month names are translated to the same value via Loco Translate.
+  - Security: Strengthen plugin security and harden against potential vulnerabilities.
 
 = 5.2.10 - February 26, 2026 =
-- New: Added "Remove all data on plugin deletion" toggle under Settings > General > Danger Zone > Plugin Deletion to permanently delete all LatePoint data when the plugin is removed.
-- Security: Strengthen plugin security and harden against potential vulnerabilities.
-- Fix: Resolved the forgot-password form persisting when switching back to the New Customer tab in the Booking Form.
+  - New: Added "Remove all data on plugin deletion" toggle under Settings > General > Danger Zone > Plugin Deletion to permanently delete all LatePoint data when the plugin is removed.
+  - Security: Strengthen plugin security and harden against potential vulnerabilities.
+  - Fix: Resolved the forgot-password form persisting when switching back to the New Customer tab in the Booking Form.
 
-= 5.2.9 - February 18, 2026 =
-- Fix: Fixed false positive SQL keyword detection during database restore for column names containing keywords (e.g., "selection_image_id").
-
-= 5.2.8 - February 18, 2026 =
-- Security: Addressed security bugs. Props to WordFence for reporting it.
-- Fix: Fixed admin notes field not saving properly for admin users when creating or updating customers/orders.
-
-= 5.2.7 - February 3, 2026 =
-- Security: Addressed security bugs. Props to WordFence for reporting it.
-
-= 5.2.6 - January 28, 2026 =
-- Security: Addressed security bugs. Props to WordFence for reporting it.
 
 Full changelog can be found on our website: [Full Changelog](https://latepoint.com/changelog/)

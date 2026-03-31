@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class OsMoneyHelper {
 
@@ -23,16 +23,16 @@ class OsMoneyHelper {
 		if ( $hide_zero_decimals ) {
 			$zeros = '';
 			switch ( $decimals ) {
-				case '1': 
+				case '1':
 					$zeros = '0';
 					break;
-				case '2': 
+				case '2':
 					$zeros = '00';
 					break;
-				case '3': 
+				case '3':
 					$zeros = '000';
 					break;
-				case '4': 
+				case '4':
 					$zeros = '0000';
 					break;
 			}
@@ -55,7 +55,7 @@ class OsMoneyHelper {
 		$decimal_separator = OsSettingsHelper::get_settings_value( 'decimal_separator', '.' );
 		// Ensure non-negative amount to prevent financial manipulation
 		// For non-negative ^\\d, For negative ^-\\d
-		$amount = preg_replace( '/[^\\d' . $decimal_separator . ']+/', '', $amount );
+		$amount = preg_replace( '/[^-\\d' . $decimal_separator . ']+/', '', $amount );
 		// database is using dot as a decimal separator, if latepoint is not using dot for currency input - convert it to dot to store in db
 		if ( $decimal_separator != '.' ) {
 			$amount = str_replace( $decimal_separator, '.', $amount );
