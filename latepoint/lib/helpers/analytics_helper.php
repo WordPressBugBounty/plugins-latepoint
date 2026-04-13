@@ -39,6 +39,7 @@ class OsAnalyticsHelper {
 					'path'                => LATEPOINT_ABSPATH . 'lib/kit/bsf-analytics',
 					'author'              => 'LatePoint',
 					'time_to_display'     => '+24 hours',
+					'hide_optin_checkbox' => true,
 					'deactivation_survey' => apply_filters(
 						'latepoint_deactivation_survey_data',
 						[
@@ -66,7 +67,13 @@ class OsAnalyticsHelper {
 		// Plugin activated (dedup ensures).
 		self::events()->track( 'plugin_activated', LATEPOINT_VERSION );
 
+		// Plugin updated. Fires once per version change via OsUpdateHelper.
+		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated' ] );
+		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_payment_state' ] );
+
 		// Event hooks.
+		add_action( 'latepoint_onboarding_started', [ __CLASS__, 'on_onboarding_started' ] );
+		add_action( 'latepoint_onboarding_skipped', [ __CLASS__, 'on_onboarding_skipped' ] );
 		add_action( 'latepoint_onboarding_completed', [ __CLASS__, 'on_onboarding_completed' ] );
 		add_action( 'activated_plugin', [ __CLASS__, 'on_pro_addon_activated' ] );
 		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_payment_processors_connected' ] );
@@ -88,12 +95,47 @@ class OsAnalyticsHelper {
 	}
 
 	/**
+	 * Handle onboarding started event.
+	 *
+	 * @return void
+	 */
+	public static function on_onboarding_started() {
+		self::events()->track( 'onboarding_started', LATEPOINT_VERSION );
+	}
+
+	/**
+	 * Handle onboarding skipped event.
+	 *
+	 * @param string $current_step The step the user was on when they skipped.
+	 * @return void
+	 */
+	public static function on_onboarding_skipped( $current_step ) {
+		$analytics       = get_option( 'latepoint_onboarding_analytics', [] );
+		$completed_steps = isset( $analytics['completed_steps'] ) && is_array( $analytics['completed_steps'] ) ? $analytics['completed_steps'] : [];
+
+		$props = [
+			'current_step'    => $current_step,
+			'completed_steps' => implode( ',', $completed_steps ),
+			'exited_early'    => 'yes',
+		];
+
+		self::events()->track( 'onboarding_skipped', LATEPOINT_VERSION, $props );
+	}
+
+	/**
 	 * Handle onboarding completion event.
 	 *
 	 * @return void
 	 */
 	public static function on_onboarding_completed() {
-		self::events()->track( 'onboarding_completed', LATEPOINT_VERSION );
+		$analytics       = get_option( 'latepoint_onboarding_analytics', [] );
+		$completed_steps = isset( $analytics['completed_steps'] ) && is_array( $analytics['completed_steps'] ) ? $analytics['completed_steps'] : [];
+
+		$props = [
+			'completed_steps' => implode( ',', $completed_steps ),
+		];
+
+		self::events()->track( 'onboarding_completed', LATEPOINT_VERSION, $props );
 	}
 
 	/**
@@ -104,8 +146,51 @@ class OsAnalyticsHelper {
 	 */
 	public static function on_pro_addon_activated( $plugin ) {
 		if ( 'latepoint-pro-features/latepoint-pro-features.php' === $plugin ) {
-			$version = defined( 'LATEPOINT_ADDON_PRO_VERSION' ) ? LATEPOINT_ADDON_PRO_VERSION : '';
+			$version = defined( 'LATEPOINT_ADDON_PRO_VERSION' ) ? LATEPOINT_ADDON_PRO_VERSION : 'unknown';
 			self::events()->track( 'pro_addon_activated', $version );
+		}
+	}
+
+	/**
+	 * Track plugin_updated event. Called via latepoint_update_after hook.
+	 *
+	 * @param string $old_version The version before the update.
+	 * @return void
+	 */
+	public static function on_plugin_updated( $old_version ) {
+		self::events()->track(
+			'plugin_updated',
+			LATEPOINT_VERSION,
+			[
+				'from_version' => $old_version,
+			],
+			true
+		);
+	}
+
+	/**
+	 * Capture current payment processor state on plugin update.
+	 * Reads from DB settings, not from a form submission.
+	 *
+	 * @return void
+	 */
+	public static function on_plugin_updated_payment_state() {
+		if ( ! class_exists( 'OsPaymentsHelper' ) && ! class_exists( 'OsSettingsHelper' ) ) {
+			return;
+		}
+
+		$env = OsSettingsHelper::get_payments_environment();
+
+		$processors = OsPaymentsHelper::get_payment_processors();
+		foreach ( $processors as $processor ) {
+			$code = $processor['code'] ?? '';
+			if ( ! empty( $code ) && OsPaymentsHelper::is_payment_processor_enabled( $code ) ) {
+				self::events()->track( $code . '_payment_enabled', $env, [], true );
+			}
+		}
+
+		if ( OsPaymentsHelper::is_local_payments_enabled() ) {
+			self::events()->track( 'local_payment_enabled', $env, [], true );
 		}
 	}
 
@@ -122,19 +207,19 @@ class OsAnalyticsHelper {
 			return;
 		}
 
-		$env = isset( $settings['payments_environment'] ) ? $settings['payments_environment'] : '';
+		$env = isset( $settings['payments_environment'] ) ? $settings['payments_environment'] : 'dev';
 
 		$processors = OsPaymentsHelper::get_payment_processors();
 		foreach ( $processors as $processor ) {
 			$code = $processor['code'] ?? '';
 			$key  = 'enable_payment_processor_' . $code;
 			if ( ! empty( $code ) && isset( $settings[ $key ] ) && 'on' === $settings[ $key ] ) {
-				self::events()->track( $code . '_payment_enabled', $env );
+				self::events()->track( $code . '_payment_enabled', $env, [], true );
 			}
 		}
 
 		if ( isset( $settings['enable_payments_local'] ) && 'on' === $settings['enable_payments_local'] ) {
-			self::events()->track( 'local_payment_enabled', $env );
+			self::events()->track( 'local_payment_enabled', $env, [], true );
 		}
 	}
 
@@ -188,6 +273,7 @@ class OsAnalyticsHelper {
 
 		return $stats_data;
 	}
+
 
 	/**
 	 * Get KPI tracking data for the last 2 days (excluding today).

@@ -526,13 +526,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                 <div class="sub-section-row">
                     <div class="sub-section-label">
-                        <h3><?php esc_html_e( 'Contribute', 'latepoint' ) ?></h3>
+                        <h3><?php esc_html_e( 'Improve LatePoint', 'latepoint' ) ?></h3>
                     </div>
                     <div class="sub-section-content">
                         <div class="os-row">
                             <div class="os-col-lg-12">
 								<?php
-                                    $ctl_sub_label = __( 'Collect non-sensitive information from your website, such as the PHP version and features used, to help us fix bugs faster, make smarter decisions, and build features that actually matter to you. %1$sLearn More%2$s', 'latepoint' );
+                                    $ctl_sub_label = __( 'Share how you use the plugin so we can build features that matter, fix issues faster, and make smarter decisions. %1$sLearn More%2$s', 'latepoint' );
 
                                     $ctl_sub_label = sprintf(
                                         $ctl_sub_label,
@@ -543,7 +543,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                                     $ctl_option_value = get_option( 'latepoint_usage_optin', 'no' );
                                     $ctl_is_active = $ctl_option_value === 'yes' ? true : false;
 
-                                    echo OsFormHelper::toggler_field( 'settings[contribute_to_latepoint]', __( 'Contribute to LatePoint', 'latepoint' ), $ctl_is_active, false, false, [ 'sub_label' => $ctl_sub_label ] ); ?>
+                                    echo OsFormHelper::toggler_field( 'settings[contribute_to_latepoint]', __( 'Help shape the future of LatePoint', 'latepoint' ), $ctl_is_active, false, false, [ 'sub_label' => $ctl_sub_label ] ); ?>
                             </div>
                         </div>
                     </div>

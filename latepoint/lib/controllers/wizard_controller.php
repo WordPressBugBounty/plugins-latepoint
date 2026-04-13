@@ -83,7 +83,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 						'message'       => $response_html,
 						'show_prev_btn' => true,
 						'show_next_btn' => $this->show_next_btn,
-					) 
+					)
 				);
 			}
 		}
@@ -108,7 +108,7 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 						'message'       => $response_html,
 						'show_prev_btn' => $this->show_prev_btn,
 						'show_next_btn' => $this->show_next_btn,
-					) 
+					)
 				);
 			}
 		}
@@ -120,6 +120,8 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 			self::$step_function_name();
 
 			add_option( 'latepoint_wizard_visited', true );
+
+			do_action( 'latepoint_onboarding_started' );
 
 			$this->vars['current_step_code']    = $current_step_code;
 			$this->vars['current_step_number']  = array_search( $current_step_code, $this->steps_in_order );
@@ -145,6 +147,10 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 			$new_current_step_code = $this->steps_in_order[ array_search( $current_step_code, $this->steps_in_order ) + 1 ];
 
+			// Wizard step completed.
+			$this->on_step_completed( $current_step_code, $new_current_step_code );
+
+			// Wizard is complete.
 			if ( 'complete' === $new_current_step_code ) {
 				do_action( 'latepoint_onboarding_completed' );
 			}
@@ -311,10 +317,31 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 		}
 
 		function step_personal_info() {
-			$this->vars['wizard_first_name']  = OsSettingsHelper::get_settings_value( 'wizard_first_name', '' );
-			$this->vars['wizard_last_name']   = OsSettingsHelper::get_settings_value( 'wizard_last_name', '' );
-			$this->vars['wizard_email']       = OsSettingsHelper::get_settings_value( 'wizard_email', '' );
-			$this->vars['wizard_email_optin'] = OsSettingsHelper::get_settings_value( 'wizard_email_optin', 'off' );
+			$current_user = wp_get_current_user();
+
+			$wizard_first_name = OsSettingsHelper::get_settings_value( 'wizard_first_name', '' );
+			$wizard_last_name  = OsSettingsHelper::get_settings_value( 'wizard_last_name', '' );
+			$wizard_email      = OsSettingsHelper::get_settings_value( 'wizard_email', '' );
+
+			if ( $current_user->exists() ) {
+				if ( empty( $wizard_first_name ) ) {
+					$wizard_first_name = $current_user->first_name;
+				}
+
+				if ( empty( $wizard_last_name ) ) {
+					$wizard_last_name = $current_user->last_name;
+				}
+
+				if ( empty( $wizard_email ) ) {
+					$wizard_email = $current_user->user_email;
+				}
+			}
+
+			$this->vars['wizard_first_name'] = $wizard_first_name;
+			$this->vars['wizard_last_name']  = $wizard_last_name;
+			$this->vars['wizard_email']      = $wizard_email;
+
+			$this->vars['wizard_email_optin'] = OsSettingsHelper::get_settings_value( 'wizard_email_optin', 'on' );
 			$this->show_next_btn              = true;
 		}
 
@@ -363,9 +390,43 @@ if ( ! class_exists( 'OsWizardController' ) ) :
 
 			if ( $email_optin === 'on' ) {
 				update_option( 'latepoint_usage_optin', 'yes' );
-			}
 
-			$this->send_registration_data( $first_name, $last_name, $email, $email_optin );
+				$this->send_registration_data( $first_name, $last_name, $email, $email_optin );
+			}
+		}
+
+		function skip_setup() {
+			$current_step = isset( $this->params['current_step_code'] ) ? sanitize_text_field( $this->params['current_step_code'] ) : 'unknown';
+
+			$analytics                 = get_option( 'latepoint_onboarding_analytics', [] );
+			$analytics['exited_early'] = true;
+			$analytics['current_step'] = $current_step;
+			update_option( 'latepoint_onboarding_analytics', $analytics );
+
+			do_action( 'latepoint_onboarding_skipped', $current_step );
+
+			if ( $this->get_return_format() === 'json' ) {
+				$this->send_json(
+					[
+						'status'   => LATEPOINT_STATUS_SUCCESS,
+						'redirect' => OsRouterHelper::build_link( OsRouterHelper::build_route_name( 'dashboard', 'index' ) ),
+					]
+				);
+			}
+		}
+
+		private function on_step_completed( $step_code, $new_current_step ) {
+			// Save step completion to structured option.
+			$analytics = get_option( 'latepoint_onboarding_analytics', [] );
+			if ( ! isset( $analytics['completed_steps'] ) || ! is_array( $analytics['completed_steps'] ) ) {
+				$analytics['completed_steps'] = [];
+			}
+			if ( ! in_array( $step_code, $analytics['completed_steps'], true ) ) {
+				$analytics['completed_steps'][] = $step_code;
+			}
+			$analytics['current_step'] = $new_current_step;
+
+			update_option( 'latepoint_onboarding_analytics', $analytics );
 		}
 
 		private function send_registration_data( $first_name, $last_name, $email, $email_optin ) {

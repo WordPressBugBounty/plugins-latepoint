@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.3.2
+ * Version: 5.4.0
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.3.2';
+		public $version    = '5.4.0';
 		public $db_version = '2.3.0';
 
 
@@ -829,6 +829,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/events_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/icalendar_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/version_specific_updates_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/update_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/calendar_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/meeting_systems_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/marketing_systems_helper.php';
@@ -1056,6 +1057,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 		function plugins_loaded_hook() {
 			OsAnalyticsHelper::init();
+
+			// Should be trigger after all plugins are loaded.
+			OsUpdateHelper::init();
 		}
 
 		function check_addon_versions() {

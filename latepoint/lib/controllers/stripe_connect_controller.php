@@ -23,12 +23,16 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 		}
 
 		public function create_payment_intent_for_transaction() {
-			if ( ! filter_var( $this->params['invoice_id'], FILTER_VALIDATE_INT ) ) {
-				exit();
-			}
 			try {
-
-				$invoice = new OsInvoiceModel( $this->params['invoice_id'] );
+				$invoice_access_key = sanitize_text_field( $this->params['key'] ?? '' );
+				if ( empty( $invoice_access_key ) ) {
+					throw new Exception( __( 'Invoice not found', 'latepoint' ) );
+				}
+				$invoice = new OsInvoiceModel();
+				$invoice = OsInvoicesHelper::get_invoice_by_key( $invoice_access_key );
+				if ( ! ( $invoice instanceof OsInvoiceModel ) || $invoice->is_new_record() ) {
+					throw new Exception( __( 'Invoice not found', 'latepoint' ) );
+				}
 
 				$transaction_intent = OsTransactionIntentHelper::create_or_update_transaction_intent( $invoice, $this->params );
 
@@ -54,7 +58,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 							'payment_intent_id'      => $payment_intent_id,
 							'payment_intent_secret'  => $payment_intent_client_secret,
 							'transaction_intent_key' => $transaction_intent->intent_key,
-						] 
+						]
 					);
 				}
 			} catch ( Exception $e ) {
@@ -63,7 +67,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 						array(
 							'status'  => LATEPOINT_STATUS_ERROR,
 							'message' => $e->getMessage(),
-						) 
+						)
 					);
 				}
 			}
@@ -121,8 +125,8 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					[
 						LATEPOINT_PAYMENTS_ENV_LIVE,
 						LATEPOINT_PAYMENTS_ENV_DEV,
-					] 
-				) 
+					]
+				)
 			) ) ? $this->params['env'] : OsSettingsHelper::get_payments_environment();
 		}
 
@@ -135,7 +139,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					'status'  => LATEPOINT_STATUS_SUCCESS,
 					'url'     => $url,
 					'message' => __( 'Redirecting to Stripe', 'latepoint' ),
-				) 
+				)
 			);
 		}
 
@@ -157,14 +161,14 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => $e->getMessage(),
-					) 
+					)
 				);
 			}
 			$this->send_json(
 				array(
 					'status'  => LATEPOINT_STATUS_SUCCESS,
 					'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ),
-				) 
+				)
 			);
 		}
 
@@ -205,14 +209,14 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => $e->getMessage(),
-					) 
+					)
 				);
 			}
 			$this->send_json(
 				array(
 					'status'  => LATEPOINT_STATUS_SUCCESS,
 					'message' => OsStripeConnectHelper::get_connection_buttons_and_status( $env ),
-				) 
+				)
 			);
 		}
 
@@ -227,7 +231,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => 'Token is missing',
 					),
-					404 
+					404
 				);
 			}
 			if ( $data['wp_latepoint_server_token'] != OsStripeConnectHelper::get_server_token() ) {
@@ -236,7 +240,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => 'Invalid Token',
 					),
-					404 
+					404
 				);
 			}
 
@@ -245,7 +249,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					'status'  => LATEPOINT_STATUS_SUCCESS,
 					'message' => 'Heartbeat detected',
 				),
-				200 
+				200
 			);
 		}
 
@@ -281,7 +285,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 					[
 						'cart_items_data' => wp_json_encode( $cart_items_data ),
 						'payment_data'    => wp_json_encode( $payment_data ),
-					] 
+					]
 				);
 				if ( $this->get_return_format() == 'json' ) {
 					$this->send_json(
@@ -291,7 +295,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 							'payment_intent_id'         => $payment_intent_id,
 							'payment_intent_secret'     => $payment_intent_client_secret,
 							'order_intent_key'          => $order_intent->intent_key,
-						] 
+						]
 					);
 				}
 			} catch ( Exception $e ) {
@@ -300,7 +304,7 @@ if ( ! class_exists( 'OsStripeConnectController' ) ) :
 						array(
 							'status'  => LATEPOINT_STATUS_ERROR,
 							'message' => $e->getMessage(),
-						) 
+						)
 					);
 				}
 			}

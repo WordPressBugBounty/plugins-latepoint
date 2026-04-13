@@ -237,7 +237,7 @@ class OsShortcodesHelper {
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-map">' . $location->get_google_maps_iframe( 200 ) . '</div>' : '';
 					$output .= '<div class="ri-name"><h3>' . esc_html( $location->name ) . '</h3></div>';
 					$output .= ! empty( $location->full_address ) ? '<div class="ri-description">' . $location->full_address . '<a href="' . $location->get_google_maps_link() . '" target="_blank" class="ri-external-link"><i class="latepoint-icon latepoint-icon-external-link"></i></a></div>' : '';
-					$output .= '<div class="ri-buttons ' . $btn_wrapper_classes . '">
+					$output .= '<div class="ri-buttons ' . esc_attr( $btn_wrapper_classes ) . '">
 						<a href="#" ' . $data_atts . ' class="latepoint-book-button os_trigger_booking ' . esc_attr( $btn_classes ) . '" data-selected-location="' . esc_attr( $location->id ) . '">' . wp_kses_post( $atts['button_caption'] ) . '</a>
 					</div>';
 					$output .= '</div>';

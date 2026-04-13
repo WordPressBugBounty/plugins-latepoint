@@ -79,7 +79,7 @@ class OsTimeHelper {
 		$ago_class = empty( $ago ) ? '' : 'time-past';
 		if ( $event_datetime ) {
 			$diff = $now_datetime->diff( $event_datetime );
-			if ( $diff->d > 0 ) {
+			if ( $diff->d > 0 || $diff->m > 0 || $diff->y > 0 ) {
 				$left = $before . $diff->format( '%a ' . __( 'days', 'latepoint' ) ) . $ago;
 			} else {
 				if ( $diff->h > 0 ) {

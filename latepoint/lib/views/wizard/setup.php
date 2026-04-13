@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="os-wizard-setup-w step-<?php echo esc_attr($current_step_code); ?>">
-	<a href="<?php echo esc_url(OsRouterHelper::build_link(OsRouterHelper::build_route_name('dashboard', 'index'))); ?>" class="os-wizard-close-trigger"><span><?php esc_html_e('Skip setup', 'latepoint'); ?></span><i class="latepoint-icon latepoint-icon-x"></i></a>
+	<a href="#" data-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'wizard', 'skip_setup' ) ); ?>" class="os-wizard-close-trigger os-wizard-skip-btn"><span><?php esc_html_e( 'Skip setup', 'latepoint' ); ?></span><i class="latepoint-icon latepoint-icon-x"></i></a>
 	<div class="os-wizard-setup-i">
 		<div class="os-wizard-step-content-w">
 			<div class="os-wizard-step-content">

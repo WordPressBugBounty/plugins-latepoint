@@ -277,7 +277,8 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 			}
 
 			$booking_id = $this->params['id'];
-			$booking    = new OsBookingModel( $booking_id );
+			$this->check_nonce( 'cancel_booking_' . $booking_id );
+			$booking = new OsBookingModel( $booking_id );
 			if ( ! empty( $booking->id ) && ( OsAuthHelper::get_logged_in_customer_id() == $booking->customer_id ) && OsCustomerHelper::can_cancel_booking( $booking ) ) {
 				if ( $booking->update_status( LATEPOINT_BOOKING_STATUS_CANCELLED ) ) {
 					$status        = LATEPOINT_STATUS_SUCCESS;

@@ -130,6 +130,12 @@ class OsMenuHelper {
 						'link'  => OsRouterHelper::build_link( [ 'pro', 'locations' ] ),
 					),
 					array(
+						'id'    => 'assets',
+						'label' => __( 'Assets', 'latepoint' ),
+						'icon'  => 'latepoint-icon latepoint-icon-layers',
+						'link'  => OsRouterHelper::build_link( [ 'pro', 'assets' ] ),
+					),
+					array(
 						'id'    => 'coupons',
 						'label' => __( 'Coupons', 'latepoint' ),
 						'icon'  => 'latepoint-icon latepoint-icon-tag1',
@@ -332,6 +338,12 @@ class OsMenuHelper {
 						'label' => __( 'Locations', 'latepoint' ),
 						'icon'  => 'latepoint-icon latepoint-icon-map-marker',
 						'link'  => OsRouterHelper::build_link( [ 'pro', 'locations' ] ),
+					),
+					array(
+						'id'    => 'assets',
+						'label' => __( 'Assets', 'latepoint' ),
+						'icon'  => 'latepoint-icon latepoint-icon-layers',
+						'link'  => OsRouterHelper::build_link( [ 'pro', 'assets' ] ),
 					),
 					array(
 						'id'    => 'coupons',

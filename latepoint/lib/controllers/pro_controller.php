@@ -63,6 +63,11 @@ if ( ! class_exists( 'OsProController' ) ) :
 			$this->vars['page_header'] = OsMenuHelper::get_menu_items_by_id( 'locations' );
 			$this->format_render( 'pro_feature', [], [], true );
 		}
+
+		public function assets() {
+			$this->vars['page_header'] = __( 'Assets', 'latepoint' );
+			$this->format_render( 'pro_feature', [], [], true );
+		}
 	}
 
 endif;

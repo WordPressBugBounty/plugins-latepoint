@@ -28,7 +28,15 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
             <div class="os-row">
                 <div class="os-col-12">
-                    <?php echo OsFormHelper::checkbox_field( 'personal_info[email_optin]', __( 'Get notified about updates, tips and new features from LatePoint.', 'latepoint' ), 'on', $wizard_email_optin === 'on' ); ?>
+                    <?php
+						echo OsFormHelper::checkbox_field(
+							'personal_info[email_optin]',
+							// translators: %1$s and %2$s are opening and closing anchor tags for Privacy Policy link
+							sprintf( __( 'Stay in the loop and help shape LatePoint! Get feature updates, and help us build a better LatePoint by sharing how you use the plugin. %1$sPrivacy Policy%2$s', 'latepoint' ), '<a href="https://latepoint.com/privacy-policy/" target="_blank">', '</a>' ),
+							'on',
+							$wizard_email_optin === 'on'
+						);
+					?>
                 </div>
             </div>
         </form>

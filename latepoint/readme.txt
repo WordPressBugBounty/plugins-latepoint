@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.3.2
+Stable tag: 5.4.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -202,6 +202,11 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.4.0 - April 13, 2026 =
+  - New: Added Assets (Shared Resources) feature support for the upcoming Pro release.
+  - Fix: Resolved an issue where scheduled jobs more than a month away displayed incorrect remaining time.
+  - Security: Addressed security bugs. Props to WordFence for reporting it.
 
 = 5.3.2 - March 31, 2026 =
   - New: Calendar URL now remembers your view, date, and filter selections, refresh the page and everything stays in place
