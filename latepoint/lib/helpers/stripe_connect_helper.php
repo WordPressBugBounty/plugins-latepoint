@@ -89,6 +89,13 @@ class OsStripeConnectHelper {
 						// since the payment is already processed on the frontend - we need to retrieve payment intent and verify if its paid
 						$payment_intent_data = self::retrieve_payment_intent( $transaction_intent->get_payment_data_value( 'token' ) );
 						if ( in_array( $payment_intent_data['status'], [ 'succeeded', 'requires_capture' ] ) ) {
+							if ( ! self::validate_payment_intent_amount( $payment_intent_data, $transaction_intent->charge_amount ) ) {
+								$result['status']  = LATEPOINT_STATUS_ERROR;
+								$result['message'] = __( 'Payment amount mismatch', 'latepoint' );
+								OsDebugHelper::log( 'Stripe PI amount mismatch for transaction intent ' . $transaction_intent->id, 'stripe_connect_error' );
+								$transaction_intent->add_error( 'payment_error', $result['message'] );
+								break;
+							}
 							// success
 							$result['status']    = LATEPOINT_STATUS_SUCCESS;
 							$result['processor'] = self::$processor_code;
@@ -123,6 +130,14 @@ class OsStripeConnectHelper {
 						// since the payment is already processed on the frontend - we need to retrieve payment intent and verify if its paid
 						$payment_intent_data = self::retrieve_payment_intent( $order_intent->get_payment_data_value( 'token' ) );
 						if ( in_array( $payment_intent_data['status'], [ 'succeeded', 'requires_capture' ] ) ) {
+							if ( ! self::validate_payment_intent_amount( $payment_intent_data, $order_intent->charge_amount ) ) {
+								$result['status']  = LATEPOINT_STATUS_ERROR;
+								$result['message'] = __( 'Payment amount mismatch', 'latepoint' );
+								OsDebugHelper::log( 'Stripe PI amount mismatch for order intent ' . $order_intent->id, 'stripe_connect_error' );
+								$order_intent->add_error( 'payment_error', $result['message'] );
+								$order_intent->add_error( 'send_to_step', $result['message'], 'payment' );
+								break;
+							}
 							// success
 							$result['status']    = LATEPOINT_STATUS_SUCCESS;
 							$result['processor'] = self::$processor_code;
@@ -457,6 +472,12 @@ class OsStripeConnectHelper {
 			'total'  => $payment_request_data['data']['total'],
 		];
 		return $result;
+	}
+
+	public static function validate_payment_intent_amount( array $payment_intent_data, string $expected_charge_amount ): bool {
+		$expected_in_specs  = (int) self::convert_amount_to_specs( $expected_charge_amount );
+		$actual_from_stripe = (int) $payment_intent_data['total'];
+		return abs( $expected_in_specs - $actual_from_stripe ) <= 1;
 	}
 
 	private static function get_properties_allowed_to_update( $roles = 'admin' ) {
