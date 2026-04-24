@@ -42,9 +42,21 @@ class LatePointAbilityConnectCustomerToWpUser extends LatePointAbstractCustomerA
 			return new WP_Error( 'not_found', __( 'Customer not found.', 'latepoint' ), [ 'status' => 404 ] );
 		}
 
-		$wp_user_id = (int) $args['wp_user_id'];
-		if ( ! get_userdata( $wp_user_id ) ) {
+		$wp_user_id  = (int) $args['wp_user_id'];
+		$target_user = get_userdata( $wp_user_id );
+		if ( ! $target_user ) {
 			return new WP_Error( 'wp_user_not_found', __( 'WordPress user not found.', 'latepoint' ), [ 'status' => 404 ] );
+		}
+
+		// Only allow linking to non-privileged WP accounts using an allowlist of roles.
+		$allowed_roles = [ LATEPOINT_WP_CUSTOMER_ROLE, 'subscriber', 'customer' ];
+		$user_roles    = (array) $target_user->roles;
+		if ( empty( $user_roles ) || ! empty( array_diff( $user_roles, $allowed_roles ) ) ) {
+			return new WP_Error(
+				'privileged_user',
+				__( 'Cannot link a customer to a privileged WordPress account.', 'latepoint' ),
+				[ 'status' => 403 ]
+			);
 		}
 
 		$customer->wordpress_user_id = $wp_user_id;

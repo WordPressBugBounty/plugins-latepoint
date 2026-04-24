@@ -434,8 +434,8 @@ class OsStripeConnectHelper {
 			$charges_enabled = OsSettingsHelper::is_on( OsSettingsHelper::append_payment_env_key( 'stripe_connect_charges_enabled', $env ) );
 			$disconnect_link = '<a class="payment-processor-disconnect-link" href="#"
 										data-os-pass-response="yes"
-										data-os-pass-this="yes"  
-		                data-os-before-after="none" 
+										data-os-pass-this="yes"
+		                data-os-before-after="none"
 		                data-os-after-call="latepointStripeConnectAdmin.reload_connect_status_wrapper"
 		                data-os-params="' . OsUtilHelper::build_os_params( [ 'env' => $env ] ) . '"
 										data-os-action="' . OsRouterHelper::build_route_name( 'stripe_connect', 'disconnect_connect_account' ) . '"
@@ -456,7 +456,7 @@ class OsStripeConnectHelper {
 				$html .= '<div>' . $stripe_connect_account_id . '</div>';
 				$html .= $disconnect_link;
 				$html .= '</div>';
-			}		
+			}
 		} else {
 			$html .= '<a data-env="' . $env . '" data-route-name="' . OsRouterHelper::build_route_name( 'stripe_connect', 'start_connect_process' ) . '" href="#" class="payment-start-connecting"><span>' . __( 'Start Connecting', 'latepoint' ) . '</span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>';
 		}
@@ -726,7 +726,7 @@ class OsStripeConnectHelper {
 			[
 				'payment_intent_options' => $options,
 				'customer_data'          => $customer_data,
-			] 
+			]
 		);
 		if ( empty( $result['data'] ) ) {
 			// translators: %s is the payment error
@@ -771,7 +771,7 @@ class OsStripeConnectHelper {
 			[
 				'payment_intent_options' => $options,
 				'customer_data'          => $customer_data,
-			] 
+			]
 		);
 		if ( empty( $result['data'] ) ) {
 			// translators: %s is the payment error

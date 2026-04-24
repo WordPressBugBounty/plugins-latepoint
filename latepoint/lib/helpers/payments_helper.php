@@ -329,6 +329,16 @@ class OsPaymentsHelper {
 		 */
 		$payment_processing_result = apply_filters( 'latepoint_process_payment_for_order_intent', $payment_processing_result, $order_intent );
 		if ( $payment_processing_result && $payment_processing_result['status'] == LATEPOINT_STATUS_SUCCESS ) {
+			$existing_transaction = ( new OsTransactionModel() )->where(
+				[
+					'token'  => $payment_processing_result['charge_id'],
+					'status' => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED,
+				]
+			)->set_limit( 1 )->get_results_as_models();
+			if ( ! empty( $existing_transaction ) ) {
+				OsDebugHelper::log( 'Duplicate payment token: ' . $payment_processing_result['charge_id'], 'payment_security_error' );
+				return false;
+			}
 			$transaction                  = new OsTransactionModel();
 			$transaction->token           = $payment_processing_result['charge_id'];
 			$transaction->payment_method  = $order_intent->get_payment_data_value( 'method' );
@@ -365,6 +375,16 @@ class OsPaymentsHelper {
 		 */
 		$payment_processing_result = apply_filters( 'latepoint_process_payment_for_transaction_intent', $payment_processing_result, $transaction_intent );
 		if ( $payment_processing_result && $payment_processing_result['status'] == LATEPOINT_STATUS_SUCCESS ) {
+			$existing_transaction = ( new OsTransactionModel() )->where(
+				[
+					'token'  => $payment_processing_result['charge_id'],
+					'status' => LATEPOINT_TRANSACTION_STATUS_SUCCEEDED,
+				]
+			)->set_limit( 1 )->get_results_as_models();
+			if ( ! empty( $existing_transaction ) ) {
+				OsDebugHelper::log( 'Duplicate payment token: ' . $payment_processing_result['charge_id'], 'payment_security_error' );
+				return false;
+			}
 			$transaction                  = new OsTransactionModel();
 			$transaction->token           = $payment_processing_result['charge_id'];
 			$transaction->payment_method  = $transaction_intent->get_payment_data_value( 'method' );

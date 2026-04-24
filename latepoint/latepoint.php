@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.4.1
+ * Version: 5.4.2
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.4.1';
+		public $version    = '5.4.2';
 		public $db_version = '2.3.0';
 
 
@@ -905,7 +905,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once LATEPOINT_ABSPATH . 'lib/mailers/customer_mailer.php';
 
 			// ABILITIES (WordPress 6.9+ Abilities API)
-			if ( function_exists( 'wp_register_ability' ) ) {
+			if ( apply_filters( 'latepoint_enable_abilities', false ) && function_exists( 'wp_register_ability' ) ) {
 				include_once LATEPOINT_ABSPATH . 'lib/abilities/class-latepoint-abilities.php';
 			}
 

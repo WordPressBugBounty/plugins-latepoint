@@ -124,7 +124,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				[
 					'status'  => $status,
 					'message' => $message,
-				] 
+				]
 			);
 		}
 
@@ -163,7 +163,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				[
 					'status'  => LATEPOINT_STATUS_SUCCESS,
 					'message' => OsInvoicesHelper::generate_invoice_tile_on_order_edit_form( $invoice ),
-				] 
+				]
 			);
 		}
 
@@ -178,7 +178,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					[
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => $invoice_params->get_error_message(),
-					] 
+					]
 				);
 
 				return;
@@ -211,14 +211,14 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					[
 						'status'  => LATEPOINT_STATUS_SUCCESS,
 						'message' => $response_html,
-					] 
+					]
 				);
 			} else {
 				$this->send_json(
 					[
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Error: ', 'latepoint' ) . $invoice->get_error_messages(),
-					] 
+					]
 				);
 			}
 		}
@@ -257,7 +257,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					[
 						'status'  => $status,
 						'message' => $response_html,
-					] 
+					]
 				);
 			}
 		}
@@ -293,7 +293,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 						'order'    => $order,
 						'customer' => $customer,
 						'invoice'  => $invoice,
-					] 
+					]
 				);
 				$subject     = OsReplacerHelper::replace_all_vars(
 					$subject,
@@ -301,7 +301,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 						'order'    => $order,
 						'customer' => $customer,
 						'invoice'  => $invoice,
-					] 
+					]
 				);
 				$content     = OsReplacerHelper::replace_all_vars(
 					$content,
@@ -309,7 +309,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 						'order'    => $order,
 						'customer' => $customer,
 						'invoice'  => $invoice,
-					] 
+					]
 				);
 				if ( OsUtilHelper::is_valid_email( $to ) ) {
 					$mailer = new OsMailer();
@@ -319,7 +319,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					$this->vars['success'] = __( 'Invoice email sent', 'latepoint' );
 				} else {
 					$errors[] = __( 'Please enter a valid email address.', 'latepoint' );
-				}			
+				}
 			}
 
 			$this->vars['errors']  = $errors;
@@ -349,7 +349,6 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 			$order  = $invoice->get_order();
 
 			// find an existing transaction intent for this invoice
-
 			$transaction_intent = new OsTransactionIntentModel();
 			$transaction_intent = $transaction_intent->where(
 				[
@@ -359,7 +358,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 						LATEPOINT_TRANSACTION_INTENT_STATUS_CONVERTED,
 					],
 					'invoice_id' => $invoice->id,
-				] 
+				]
 			)->set_limit( 1 )->get_results_as_models();
 			if ( empty( $transaction_intent ) ) {
 				$transaction_intent = new OsTransactionIntentModel();
@@ -492,7 +491,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					[
 						'status'  => LATEPOINT_STATUS_SUCCESS,
 						'message' => $response_html,
-					] 
+					]
 				);
 			} else {
 				$this->vars['in_lightbox'] = false;
@@ -532,7 +531,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 					[
 						'status'  => $status,
 						'message' => $response_html,
-					] 
+					]
 				);
 			}
 		}
