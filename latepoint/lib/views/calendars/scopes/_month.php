@@ -31,7 +31,7 @@ if($agents){ ?>
 	echo '<div class="calendar-month-agents-w '.esc_attr($calendar_not_scrollable_class).'" data-route="'.esc_attr(OsRouterHelper::build_route_name('calendars', 'month_view')).'">';
 		echo '<div class="ma-floated-days-w">';
 			echo '<div class="ma-head-info"><span>'.esc_html__('Date', 'latepoint').'</span><span>'.esc_html__('Agent', 'latepoint').'</span></div>';
-	    for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
+	    	for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
 				echo '<div class="ma-day ma-day-number-'.esc_attr($day_date->format('N')).' '.(($today_date == $day_date) ? 'is-today' : '').'">';
 					echo '<div class="ma-day-info">';
 						echo '<span class="ma-day-number">'.esc_html($day_date->format('j')).'</span>';

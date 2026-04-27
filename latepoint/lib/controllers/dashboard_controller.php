@@ -296,7 +296,7 @@ if ( ! class_exists( 'OsDashboardController' ) ) :
 			if ( $target_date->format( 'Y-m-d' ) == $today_date->format( 'Y-m-d' ) ) {
 				$time_now            = OsTimeHelper::now_datetime_object();
 				$time_now_in_minutes = OsTimeHelper::convert_datetime_to_minutes( $time_now );
-				if ( ( $time_now_in_minutes <= $work_boundaries->end_time && $time_now_in_minutes >= $work_boundaries->start_time ) ) {
+				if ( ( $time_now_in_minutes <= $work_boundaries->end_time && $time_now_in_minutes >= $work_boundaries->start_time ) && $work_total_minutes > 0 ) {
 					$this->vars['time_now_label'] = $time_now->format( OsTimeHelper::get_time_format() );
 					// agents row with avatars and margin below - offset that needs to be accounted for when calculating "time now" indicator position
 					$this->vars['time_now_indicator_left_offset'] = ( $time_now_in_minutes - $work_boundaries->start_time ) / $work_total_minutes * 100;

@@ -734,8 +734,9 @@ class OsAuthHelper {
 					__( 'Your Email Address', 'latepoint' ),
 					$customer->email,
 					array(
-						'validate' => $customer->get_validations_for_property( 'email' ),
-						'class'    => 'required',
+						'validate'     => $customer->get_validations_for_property( 'email' ),
+						'class'        => 'required',
+						'autocomplete' => 'email',
 					)
 				);
 				$html .= '</div>';
@@ -747,9 +748,10 @@ class OsAuthHelper {
 					__( 'Your Phone Number', 'latepoint' ),
 					$customer->phone,
 					array(
-						'validate' => $customer->get_validations_for_property( 'phone' ),
-						'class'    => 'required',
-						'theme'    => 'simple',
+						'validate'     => $customer->get_validations_for_property( 'phone' ),
+						'class'        => 'required',
+						'theme'        => 'simple',
+						'autocomplete' => 'tel',
 					)
 				);
 				$html .= '</div>';
@@ -781,19 +783,27 @@ class OsAuthHelper {
 				<?php
 				if ( in_array( 'email', $enabled_contact_types_for_customer_auth ) ) {
 					echo '<div data-login-method="email" class="customer-login-method-wrapper ' . ( $selected_contact_type_for_auth == 'email' ? '' : 'os-hidden' ) . '">';
-					echo OsFormHelper::text_field( 'auth[email]', __( 'Your Email Address', 'latepoint' ), '' );
+					echo OsFormHelper::text_field( 'auth[email]', __( 'Your Email Address', 'latepoint' ), '', [ 'autocomplete' => 'email' ] );
 					echo '</div>';
 				}
 				?>
 				<?php
 				if ( in_array( 'phone', $enabled_contact_types_for_customer_auth ) ) {
 					echo '<div data-login-method="phone" class="customer-login-method-wrapper ' . ( $selected_contact_type_for_auth == 'phone' ? '' : 'os-hidden' ) . '">';
-					echo OsFormHelper::phone_number_field( 'auth[phone]', __( 'Your Phone Number', 'latepoint' ), '' );
+					echo OsFormHelper::phone_number_field( 'auth[phone]', __( 'Your Phone Number', 'latepoint' ), '', [ 'autocomplete' => 'tel' ] );
 					echo '</div>';
 				}
 				?>
 				<div class="os-customer-login-password-fields-w" <?php echo ( OsAuthHelper::get_default_customer_authentication_method() == 'otp' ) ? 'style="display:none;"' : ''; ?>>
-					<?php echo OsFormHelper::password_field( 'auth[password]', __( 'Your Password', 'latepoint' ), '', array( 'class' => 'required' ) ); ?>
+					<?php echo OsFormHelper::password_field(
+						'auth[password]',
+						__( 'Your Password', 'latepoint' ),
+						'',
+						array(
+							'class'        => 'required',
+							'autocomplete' => 'current-password',
+						) 
+					); ?>
 					<a href="#" class="latepoint-btn latepoint-btn-primary latepoint-btn-link step-forgot-password-btn"
 					   data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'customer_cabinet', 'request_password_reset_token' ) ); ?>"
 					   data-os-output-target=".os-password-reset-form-holder"

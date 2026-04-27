@@ -5,6 +5,10 @@
 
 class OsInvoicesHelper {
 
+	public static function is_enabled(): bool {
+		return OsSettingsHelper::is_on( 'enable_invoices', LATEPOINT_VALUE_ON );
+	}
+
 	public static function get_invoices_for_select(): array {
 		$invoices        = new OsInvoiceModel();
 		$invoices        = $invoices->order_by( 'id desc' )->set_limit( 100 )->get_results_as_models();
@@ -67,7 +71,7 @@ class OsInvoicesHelper {
 				'status'            => LATEPOINT_JOB_STATUS_SCHEDULED,
 				'object_id'         => $new_invoice->id,
 				'object_model_type' => 'invoice',
-			] 
+			]
 		);
 
 		$objects   = [];
@@ -103,7 +107,7 @@ class OsInvoicesHelper {
 					'new' => $invoice->get_data_vars(),
 					'old' => $old_invoice->get_data_vars(),
 				],
-			] 
+			]
 		);
 		OsActivitiesHelper::create_activity( $data );
 	}
@@ -413,14 +417,14 @@ class OsInvoicesHelper {
 				[
 					'order'    => $order,
 					'customer' => $order->get_customer(),
-				] 
+				]
 			),
 			'to'              => OsReplacerHelper::replace_all_vars(
 				OsInvoicesHelper::get_invoice_data_bill_to(),
 				[
 					'order'    => $order,
 					'customer' => $order->get_customer(),
-				] 
+				]
 			),
 			'price_breakdown' => json_decode( $order->price_breakdown ),
 			'tax_id'          => OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ),
@@ -453,6 +457,9 @@ class OsInvoicesHelper {
 	 * @return void
 	 */
 	public static function create_invoices_for_new_order( OsOrderModel $order, ?OsPaymentRequestModel $payment_request = null ) {
+		if ( ! self::is_enabled() ) {
+			return;
+		}
 		$existing_invoices     = new OsInvoiceModel();
 		$existing_invoices     = $existing_invoices->where( [ 'order_id' => $order->id ] )->get_results_as_models();
 		$total_invoiced_amount = 0;
@@ -999,46 +1006,66 @@ class OsInvoicesHelper {
 				<div class="os-form-sub-header"><h3><?php esc_html_e( 'Invoices', 'latepoint' ); ?></h3></div>
 			</div>
 			<div class="white-box-content no-padding">
-				<?php
-				echo '<div class="sub-section-row">
-                          <div class="sub-section-label">
-                            <h3>' . __( 'Invoice Data', 'latepoint' ) . '</h3>
-                          </div>
-                          <div class="sub-section-content">';
-
-				echo '<div class="os-row">
-                            <div class="os-col-lg-12">' . OsFormHelper::media_uploader_field( 'settings[invoices_company_logo]', 0, __( 'Company Logo', 'latepoint' ), __( 'Remove Image', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_logo' ) ) . '</div>
-                        </div>';
-				echo '<div class="os-row os-mb-2">';
-				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );
-				echo '</div>';
-				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_tax_id]', __( 'VAT Number/Tax ID', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ), [ 'theme' => 'simple' ] );
-				echo '</div>';
-				echo '<div class="os-col-4">';
-				echo OsFormHelper::text_field( 'settings[invoices_number_prefix]', __( 'Number Prefix', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ), [ 'theme' => 'simple' ] );
-				echo '</div>';
-				echo '</div>';
-				echo '<div class="os-mb-2">';
-				echo OsFormHelper::textarea_field( 'settings[invoices_data_from]', __( 'Bill From', 'latepoint' ), self::get_invoice_data_bill_from(), [ 'theme' => 'simple' ] );
-				echo '</div>';
-				echo '<div>';
-				echo OsFormHelper::textarea_field( 'settings[invoices_data_to]', __( 'Bill To', 'latepoint' ), self::get_invoice_data_bill_to(), [ 'theme' => 'simple' ] );
-				echo '</div>';
-				echo '</div>
+				<div class="sub-section-row">
+					<div class="sub-section-label">
+						<h3><?php esc_html_e( 'Invoices', 'latepoint' ); ?></h3>
 					</div>
-					<div class="sub-section-row">
-                          <div class="sub-section-label">
-                            <h3>' . __( 'Email Invoice', 'latepoint' ) . '</h3>
-                          </div>
-                          <div class="sub-section-content">
-                            <div class="latepoint-message latepoint-message-subtle">' . __( 'This subject and content will be used when invoice is being emailed. ', 'latepoint' ) . OsUtilHelper::template_variables_link_html() . '</div>';
-				echo OsFormHelper::text_field( 'settings[invoices_email_subject]', __( 'Subject', 'latepoint' ), self::get_subject_for_invoice_email(), [ 'theme' => 'simple' ] );
-				OsFormHelper::wp_editor_field( 'settings[invoices_email_content]', 'settingsInvoiceEmailContent', __( 'Email Content', 'latepoint' ), self::get_content_for_invoice_email() );
-				echo '</div>
+					<div class="sub-section-content">
+						<?php echo OsFormHelper::toggler_field( 'settings[enable_invoices]', __( 'Enable Invoices', 'latepoint' ), self::is_enabled(), 'lp-invoice-settings', false, [ 'sub_label' => __( 'When disabled, no invoices will be created for new bookings and invoice-related features will be hidden', 'latepoint' ) ] ); ?>
+					</div>
+				</div>
+				<div id="lp-invoice-settings" style="border-top: 1px solid #dcdad7; <?php echo self::is_enabled() ? '' : ' display: none;'; ?>">
+				<?php
+				echo '<div class="sub-section-row">';
+					echo '<div class="sub-section-label">
+                            <h3>' . __( 'Invoice Data', 'latepoint' ) . '</h3>
+                          </div>';
+
+					echo '<div class="sub-section-content">';
+						echo '<div class="os-row">
+							<div class="os-col-lg-12">' . OsFormHelper::media_uploader_field( 'settings[invoices_company_logo]', 0, __( 'Company Logo', 'latepoint' ), __( 'Remove Image', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_logo' ) ) . '</div>
+						</div>';
+
+						echo '<div class="os-row os-mb-2">';
+							echo '<div class="os-col-4">';
+								echo OsFormHelper::text_field( 'settings[invoices_company_name]', __( 'Company Name', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_company_name', '' ), [ 'theme' => 'simple' ] );
+							echo '</div>';
+							echo '<div class="os-col-4">';
+								echo OsFormHelper::text_field( 'settings[invoices_tax_id]', __( 'VAT Number/Tax ID', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_tax_id', '' ), [ 'theme' => 'simple' ] );
+							echo '</div>';
+							echo '<div class="os-col-4">';
+								echo OsFormHelper::text_field( 'settings[invoices_number_prefix]', __( 'Number Prefix', 'latepoint' ), OsSettingsHelper::get_settings_value( 'invoices_number_prefix', 'INV-' ), [ 'theme' => 'simple' ] );
+							echo '</div>';
+						echo '</div>';
+
+						echo '<div class="os-mb-2">';
+							echo OsFormHelper::textarea_field( 'settings[invoices_data_from]', __( 'Bill From', 'latepoint' ), self::get_invoice_data_bill_from(), [ 'theme' => 'simple' ] );
+						echo '</div>';
+						echo '<div class="os-mb-2">';
+							echo OsFormHelper::textarea_field( 'settings[invoices_data_to]', __( 'Bill To', 'latepoint' ), self::get_invoice_data_bill_to(), [ 'theme' => 'simple' ] );
+						echo '</div>';
+					echo '</div>';
+
+				echo '</div>';
+				// echo '</div>
+				// 	</div>';
+
+				echo '<div class="sub-section-row">';
+
+					echo '<div class="sub-section-label">
+						<h3>' . __( 'Email Invoice', 'latepoint' ) . '</h3>
 					</div>';
+
+					echo '<div class="sub-section-content">';
+						echo '<div class="latepoint-message latepoint-message-subtle">' . __( 'This subject and content will be used when invoice is being emailed. ', 'latepoint' ) . OsUtilHelper::template_variables_link_html() . '</div>';
+
+						echo OsFormHelper::text_field( 'settings[invoices_email_subject]', __( 'Subject', 'latepoint' ), self::get_subject_for_invoice_email(), [ 'theme' => 'simple' ] );
+
+						OsFormHelper::wp_editor_field( 'settings[invoices_email_content]', 'settingsInvoiceEmailContent', __( 'Email Content', 'latepoint' ), self::get_content_for_invoice_email() );
+					echo '</div>';
+				echo '</div>';
 				?>
+				</div>
 			</div>
 		</div>
 		<?php

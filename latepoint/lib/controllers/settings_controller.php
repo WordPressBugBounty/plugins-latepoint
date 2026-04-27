@@ -329,12 +329,21 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 				}
 			}
 			OsSettingsHelper::save_setting_by_name( 'bookings_table_columns', $selected_columns );
+
+			// Save column order if provided.
+			if ( ! empty( $this->params['columns_order'] ) ) {
+				$columns_order = array_map( 'sanitize_text_field', explode( ',', $this->params['columns_order'] ) );
+				$allowed_keys  = array_keys( OsSettingsHelper::get_all_bookings_table_columns() );
+				$columns_order = array_values( array_intersect( $columns_order, $allowed_keys ) );
+				OsSettingsHelper::save_setting_by_name( 'bookings_table_columns_order', $columns_order );
+			}
+
 			if ( $this->get_return_format() == 'json' ) {
 				$this->send_json(
 					array(
 						'status'  => LATEPOINT_STATUS_SUCCESS,
-						'message' => __( 'Columns Saved', 'latepoint' ),
-					) 
+						'message' => __( 'Table Settings Saved', 'latepoint' ),
+					)
 				);
 			}
 		}

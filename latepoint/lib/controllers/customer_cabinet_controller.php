@@ -30,7 +30,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					'view_booking_summary_in_lightbox',
 					'scheduling_summary_for_bundle',
 					'reload_booking_tile',
-				] 
+				]
 			);
 			$this->action_access['public']   = array_merge(
 				$this->action_access['public'],
@@ -43,7 +43,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					'request_password_reset_token',
 					'change_password',
 					'set_account_password_on_booking_completion',
-				] 
+				]
 			);
 			$this->views_folder              = LATEPOINT_VIEWS_ABSPATH . 'customer_cabinet/';
 		}
@@ -61,7 +61,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Not Allowed', 'latepoint' ),
-					) 
+					)
 				);
 			}
 
@@ -82,7 +82,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Not Allowed', 'latepoint' ),
-					) 
+					)
 				);
 			}
 
@@ -104,7 +104,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Not Allowed', 'latepoint' ),
-					) 
+					)
 				);
 			}
 
@@ -239,7 +239,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -266,7 +266,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -296,7 +296,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -333,7 +333,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -362,7 +362,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -393,7 +393,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -415,8 +415,10 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$customer        = $customer_model->where( [ 'email' => sanitize_email( $this->params['password_reset_email'] ) ] )->set_limit( 1 )->get_results_as_models();
 				$customer_mailer = new OsCustomerMailer();
 
-				$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
-				$customer->save();
+				if ( $customer ) {
+					$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
+					$customer->save();
+				}
 
 				if ( $customer && $customer_mailer->password_reset_request( $customer, $customer->account_nonse ) ) {
 					// Save timestamp for token expiration tracking (Unix timestamp for consistency)
@@ -465,7 +467,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					'password',
 					'password_confirmation',
 					'change_password_nonce',
-				] 
+				]
 			);
 
 			if ( empty( $params['password'] ) ) {
@@ -473,12 +475,14 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Password can not be blank', 'latepoint' ),
-					) 
+					)
 				);
 			}
 
+			$status        = LATEPOINT_STATUS_ERROR;
+			$response_html = __( 'Unknown Error', 'latepoint' );
+			$customer      = false;
 
-			$customer = false;
 			if ( OsAuthHelper::is_customer_logged_in() ) {
 				$this->check_nonce( 'change_password_' . OsAuthHelper::get_logged_in_customer_uuid(), $params['change_password_nonce'] );
 				$customer = OsAuthHelper::get_logged_in_customer();
@@ -507,6 +511,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					}
 				}
 			}
+
 			if ( $customer ) {
 				if ( ! empty( $params['password'] ) && $params['password'] == $params['password_confirmation'] ) {
 					if ( $customer->update_password( $params['password'] ) ) {
@@ -521,21 +526,20 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 						$status        = LATEPOINT_STATUS_ERROR;
 					}
 				} else {
-					$status        = LATEPOINT_STATUS_ERROR;
 					$response_html = __( 'Error! Passwords do not match.', 'latepoint' );
+					$status        = LATEPOINT_STATUS_ERROR;
 				}
 			} else {
 				$status        = LATEPOINT_STATUS_ERROR;
 				$response_html = __( 'Customer Not Found', 'latepoint' );
 			}
 
-
 			if ( $this->get_return_format() == 'json' ) {
 				$this->send_json(
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}
@@ -549,7 +553,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					[
 						'password',
 						'password_nonce',
-					] 
+					]
 				);
 				$this->check_nonce( 'set_initial_password_for_customer_' . $customer->get_uuid(), $params['password_nonce'] );
 				if ( ! empty( $params['password'] ) ) {
@@ -575,7 +579,7 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}

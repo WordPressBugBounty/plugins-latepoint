@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.4.2
+ * Version: 5.5.0
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.4.2';
+		public $version    = '5.5.0';
 		public $db_version = '2.3.0';
 
 
@@ -110,6 +110,13 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 */
 		public function define_constants() {
 			$upload_dir = wp_upload_dir();
+
+			if ( ! defined( 'LATEPOINT_VERSION' ) ) {
+				define( 'LATEPOINT_VERSION', $this->version );
+			}
+			if ( ! defined( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION' ) ) {
+				define( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION', '1.2.5' );
+			}
 
 			// ENVIRONMENTS TYPES
 			if ( ! defined( 'LATEPOINT_ENV_LIVE' ) ) {
@@ -253,13 +260,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				define( 'LATEPOINT_PARAMS_SCOPE_CUSTOMER', 'customer' );
 			}
 
-
-			if ( ! defined( 'LATEPOINT_VERSION' ) ) {
-				define( 'LATEPOINT_VERSION', $this->version );
-			}
-			if ( ! defined( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION' ) ) {
-				define( 'LATEPOINT_MIN_REQUIRED_PRO_VERSION', '1.2.5' );
-			}
 			if ( ! defined( 'LATEPOINT_ENCRYPTION_KEY' ) ) {
 				define( 'LATEPOINT_ENCRYPTION_KEY', 'oiaf(*Ufdsoh2ie7QEy,R@6(I9H/VoX^r4}SHC_7W-<$S!,/kd)OSw?.Y9lcd105cu$' );
 			}
@@ -829,7 +829,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/events_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/icalendar_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/version_specific_updates_helper.php';
-			include_once LATEPOINT_ABSPATH . 'lib/helpers/update_helper.php';
+			include_once LATEPOINT_ABSPATH . 'lib/helpers/plugin_version_update_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/calendar_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/meeting_systems_helper.php';
 			include_once LATEPOINT_ABSPATH . 'lib/helpers/marketing_systems_helper.php';
@@ -956,6 +956,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			add_action( 'init', array( $this, 'init' ), 0 );
 			add_action( 'init', array( $this, 'init_widgets' ), 11 );
 
+			// Should be triggered after all plugins are loaded and textdomain is ready.
+			add_action( 'init', array( 'OsPluginVersionUpdateHelper', 'init' ) );
+
 			add_action( 'admin_menu', array( $this, 'init_menus' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_front_scripts_and_styles' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'load_admin_scripts_and_styles' ) );
@@ -1057,9 +1060,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 		function plugins_loaded_hook() {
 			OsAnalyticsHelper::init();
-
-			// Should be trigger after all plugins are loaded.
-			OsUpdateHelper::init();
 		}
 
 		function check_addon_versions() {

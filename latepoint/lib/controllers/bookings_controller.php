@@ -49,7 +49,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					'service_id'  => $booking->service_id,
 					'location_id' => $booking->location_id,
 					'agent_id'    => $booking->agent_id,
-				] 
+				]
 			)->should_not_be_cancelled()->get_results_as_models();
 			$total_attendees = 0;
 			if ( $group_bookings ) {
@@ -99,6 +99,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 		public function customize_table() {
 			$this->vars['selected_columns']  = OsSettingsHelper::get_selected_columns_for_bookings_table();
 			$this->vars['available_columns'] = OsSettingsHelper::get_available_columns_for_bookings_table();
+			$this->vars['ordered_columns']   = OsSettingsHelper::get_ordered_bookings_table_columns();
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -122,6 +123,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 
 			$selected_columns  = OsSettingsHelper::get_selected_columns_for_bookings_table();
 			$available_columns = OsSettingsHelper::get_available_columns_for_bookings_table();
+			$ordered_columns   = OsSettingsHelper::get_ordered_bookings_table_columns();
 
 			$filter = $this->params['filter'] ?? false;
 
@@ -202,7 +204,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					if ( ! empty( $filter['order']['payment_status'] ) ) {
 						$bookings->select( LATEPOINT_TABLE_ORDERS . '.payment_status' );
 						$query_args[ LATEPOINT_TABLE_ORDERS . '.payment_status' ] = $filter['order']['payment_status'];
-					}				
+					}
 				}
 				if ( ! empty( $filter['customer'] ) ) {
 					$bookings->select( LATEPOINT_TABLE_BOOKINGS . '.*' );
@@ -227,7 +229,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 								} else {
 									// meta field
 									$meta_filter[ $customer_column_key ] = $filter['customer'][ $customer_column_key ];
-								}							
+								}
 							}
 						}
 						if ( count( $meta_filter ) ) {
@@ -252,6 +254,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 
 			$this->vars['selected_columns']  = $selected_columns;
 			$this->vars['available_columns'] = $available_columns;
+			$this->vars['ordered_columns']   = $ordered_columns;
 
 			$this->vars['records_ordered_by_key']       = $order_by['key'];
 			$this->vars['records_ordered_by_direction'] = $order_by['direction'];
@@ -306,7 +309,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 						];
 						$values_row      = apply_filters( 'latepoint_booking_row_for_csv_export', $values_row, $booking, $this->params );
 						$bookings_data[] = $values_row;
-					}				
+					}
 				}
 
 				$bookings_data = apply_filters( 'latepoint_bookings_data_for_csv_export', $bookings_data, $this->params );
@@ -343,7 +346,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					'showing_from'  => $this->vars['showing_from'],
 					'showing_to'    => $this->vars['showing_to'],
 					'total_records' => $total_bookings,
-				] 
+				]
 			);
 		}
 
@@ -379,8 +382,8 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 						'service_id'  => $booking->service_id,
 						'agent_id'    => $booking->agent_id,
 						'location_id' => $booking->location_id,
-					] 
-				) 
+					]
+				)
 			);
 			$work_start_end = OsWorkPeriodsHelper::get_work_start_end_time( $work_periods );
 
@@ -441,7 +444,7 @@ if ( ! class_exists( 'OsBookingsController' ) ) :
 					array(
 						'status'  => $status,
 						'message' => $response_html,
-					) 
+					)
 				);
 			}
 		}

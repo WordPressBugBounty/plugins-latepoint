@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             </a>
         </div>
 		<?php
-		if ( OsPaymentsHelper::is_accepting_payments() ) {
+		if ( OsPaymentsHelper::is_accepting_payments() && OsInvoicesHelper::is_enabled() ) {
 			$unpaid_invoices = $order->get_invoices( [ LATEPOINT_INVOICE_STATUS_OPEN ] );
 			if ( $unpaid_invoices ) {
 				foreach ( $unpaid_invoices as $invoice ) { ?>

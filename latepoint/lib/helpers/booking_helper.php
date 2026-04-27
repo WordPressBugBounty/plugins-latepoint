@@ -1846,4 +1846,345 @@ class OsBookingHelper {
 
 		return $booking;
 	}
+
+	/**
+	 * Returns the <th> HTML for a single column header cell in the bookings table.
+	 *
+	 * @param string $col_key         Unified column key (e.g. 'id', 'datetime', 'customer.email').
+	 * @param array  $col_def         Column definition from get_all_bookings_table_columns().
+	 * @param string $order_key       Currently active sort key.
+	 * @param string $order_dir       Currently active sort direction ('asc'|'desc').
+	 * @return string
+	 */
+	public static function render_table_header_cell( string $col_key, array $col_def, string $order_key, string $order_dir ): string {
+		switch ( $col_key ) {
+			case 'id':
+				$active_class = ( $order_key === 'booking_id' ) ? ' ordered-' . esc_attr( $order_dir ) : '';
+				return '<th class="os-sortable-column' . $active_class . '" data-order-key="booking_id">' . esc_html__( 'ID', 'latepoint' ) . '</th>';
+
+			case 'service':
+				return '<th>' . esc_html__( 'Service', 'latepoint' ) . '</th>';
+
+			case 'datetime':
+				$active_class = ( $order_key === 'booking_start_datetime' ) ? ' ordered-' . esc_attr( $order_dir ) : '';
+				return '<th class="os-sortable-column' . $active_class . '" data-order-key="booking_start_datetime">' . esc_html__( 'Date/Time', 'latepoint' ) . '</th>';
+
+			case 'time_left':
+				$active_class = ( $order_key === 'booking_time_left' ) ? ' ordered-' . esc_attr( $order_dir ) : '';
+				return '<th class="os-sortable-column' . $active_class . '" data-order-key="booking_time_left">' . esc_html__( 'Time Left', 'latepoint' ) . '</th>';
+
+			case 'agent':
+				return '<th>' . esc_html__( 'Agent', 'latepoint' ) . '</th>';
+
+			case 'location':
+				return '<th>' . esc_html__( 'Location', 'latepoint' ) . '</th>';
+
+			case 'customer':
+				return '<th>' . esc_html__( 'Customer', 'latepoint' ) . '</th>';
+
+			case 'status':
+				return '<th>' . esc_html__( 'Status', 'latepoint' ) . '</th>';
+
+			case 'payment_status':
+				return '<th>' . esc_html__( 'Payment Status', 'latepoint' ) . '</th>';
+
+			case 'created_on':
+				$active_class = ( $order_key === 'booking_created_on' ) ? ' ordered-' . esc_attr( $order_dir ) : '';
+				return '<th class="os-sortable-column' . $active_class . '" data-order-key="booking_created_on">' . esc_html__( 'Created On', 'latepoint' ) . '</th>';
+
+			default:
+				// Extra columns.
+				return '<th>' . esc_html( $col_def['label'] ) . '</th>';
+		}
+	}
+
+	/**
+	 * Returns the <th> HTML for a single column filter cell in the bookings table header.
+	 *
+	 * @param string $col_key       Unified column key.
+	 * @param array  $col_def       Column definition.
+	 * @param array  $services_list Keyed list of services for the service filter select.
+	 * @param array  $agents_list   Keyed list of agents for the agent filter select.
+	 * @param array  $locations_list Keyed list of locations for the location filter select.
+	 * @return string
+	 */
+	public static function render_table_filter_cell( string $col_key, array $col_def, array $services_list, array $agents_list, array $locations_list ): string {
+		switch ( $col_key ) {
+			case 'id':
+				return '<th>' . OsFormHelper::text_field(
+					'filter[id]',
+					false,
+					'',
+					[
+						'placeholder' => __( 'ID', 'latepoint' ),
+						'theme'       => 'bordered',
+						'style'       => 'width: 60px;',
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'service':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[service_id]',
+					false,
+					$services_list,
+					'',
+					[
+						'placeholder' => __( 'All Services', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'datetime':
+				ob_start();
+				?>
+				<th>
+					<div class="os-form-group">
+						<div class="os-date-range-picker os-table-filter-datepicker" data-can-be-cleared="yes" data-no-value-label="<?php esc_attr_e( 'Search by Appointment Date', 'latepoint' ); ?>" data-clear-btn-label="<?php esc_attr_e( 'Reset Date Search', 'latepoint' ); ?>">
+							<span class="range-picker-value"><?php esc_html_e( 'Filter Date', 'latepoint' ); ?></span>
+							<i class="latepoint-icon latepoint-icon-chevron-down"></i>
+							<input type="hidden" class="os-table-filter os-datepicker-date-from" name="filter[booking_date_from]" value=""/>
+							<input type="hidden" class="os-table-filter os-datepicker-date-to" name="filter[booking_date_to]" value=""/>
+						</div>
+					</div>
+				</th>
+				<?php
+				return ob_get_clean();
+
+			case 'time_left':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[time_status]',
+					false,
+					[
+						'upcoming' => __( 'Upcoming', 'latepoint' ),
+						'past'     => __( 'Past', 'latepoint' ),
+						'now'      => __( 'Happening Now', 'latepoint' ),
+					],
+					'',
+					[
+						'placeholder' => __( 'Show All', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'agent':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[agent_id]',
+					false,
+					$agents_list,
+					'',
+					[
+						'placeholder' => __( 'All Agents', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'location':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[location_id]',
+					false,
+					$locations_list,
+					'',
+					[
+						'placeholder' => __( 'All Locations', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'customer':
+				return '<th>' . OsFormHelper::text_field(
+					'filter[customer][full_name]',
+					false,
+					'',
+					[
+						'class'       => 'os-table-filter',
+						'theme'       => 'bordered',
+						'placeholder' => __( 'Search by Customer', 'latepoint' ),
+					] 
+				) . '</th>';
+
+			case 'status':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[status]',
+					false,
+					OsBookingHelper::get_statuses_list(),
+					'',
+					[
+						'placeholder' => __( 'Show All', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'payment_status':
+				return '<th>' . OsFormHelper::select_field(
+					'filter[order][payment_status]',
+					false,
+					OsOrdersHelper::get_order_payment_statuses_list(),
+					'',
+					[
+						'placeholder' => __( 'Show All', 'latepoint' ),
+						'class'       => 'os-table-filter',
+					] 
+				) . '</th>';
+
+			case 'created_on':
+				ob_start();
+				?>
+				<th>
+					<div class="os-form-group">
+						<div class="os-date-range-picker os-table-filter-datepicker" data-can-be-cleared="yes" data-no-value-label="<?php esc_attr_e( 'Filter Date', 'latepoint' ); ?>" data-clear-btn-label="<?php esc_attr_e( 'Reset Date Search', 'latepoint' ); ?>">
+							<span class="range-picker-value"><?php esc_html_e( 'Filter Date', 'latepoint' ); ?></span>
+							<i class="latepoint-icon latepoint-icon-chevron-down"></i>
+							<input type="hidden" class="os-table-filter os-datepicker-date-from" name="filter[created_date_from]" value=""/>
+							<input type="hidden" class="os-table-filter os-datepicker-date-to" name="filter[created_date_to]" value=""/>
+						</div>
+					</div>
+				</th>
+				<?php
+				return ob_get_clean();
+
+			default:
+				// Extra columns.
+				if ( 'extra' !== $col_def['type'] ) {
+					return '<th></th>';
+				}
+				$extra_type  = $col_def['extra_type'];
+				$extra_key   = $col_def['extra_key'];
+				$extra_label = $col_def['label'];
+				$field_name  = ( 'booking' !== $extra_type ) ? 'filter[' . $extra_type . '][' . $extra_key . ']' : 'filter[' . $extra_key . ']';
+				// Skip the filter input for magic properties that can't be queried.
+				if ( 'booking' === $extra_type && ! property_exists( 'OsBookingModel', $extra_key ) ) {
+					return '<th></th>';
+				}
+				return '<th>' . OsFormHelper::text_field(
+					$field_name,
+					false,
+					'',
+					[
+						'class'       => 'os-table-filter',
+						'theme'       => 'bordered',
+						'placeholder' => $extra_label,
+					] 
+				) . '</th>';
+		}
+	}
+
+	/**
+	 * Returns the <td> HTML for a single data cell in the bookings table body.
+	 *
+	 * @param string          $col_key  Unified column key.
+	 * @param array           $col_def  Column definition.
+	 * @param OsBookingModel  $booking  Current booking row.
+	 * @return string
+	 */
+	public static function render_table_body_cell( string $col_key, array $col_def, OsBookingModel $booking ): string {
+		switch ( $col_key ) {
+			case 'id':
+				return '<td class="os-column-faded text-right has-floating-button">' .
+					esc_html( $booking->id ) .
+					'<div class="os-floating-button"><i class="latepoint-icon latepoint-icon-edit-3"></i></div>' .
+					'</td>';
+
+			case 'service':
+				return '<td><div class="os-with-service-color"><span class="cell-link-content">' .
+					'<span class="os-column-service-color" style="background-color: ' . esc_attr( $booking->service->bg_color ) . '"></span>' .
+					'<span>' . esc_html( $booking->service->name ) . '</span>' .
+					'</span></div></td>';
+
+			case 'datetime':
+				return '<td><strong>' . esc_html( $booking->nice_start_date ) . '</strong> <span class="os-dot"></span> <span>' . esc_html( $booking->nice_start_time ) . '</span></td>';
+
+			case 'time_left':
+				$time_html = '';
+				switch ( $booking->time_status() ) {
+					case 'upcoming':
+						$time_html = $booking->time_left;
+						break;
+					case 'now':
+						$time_html = '<span class="time-left is-now">' . esc_html__( 'Now', 'latepoint' ) . '</span>';
+						break;
+					case 'past':
+						$time_html = '<span class="time-left is-past">' . esc_html__( 'Past', 'latepoint' ) . '</span>';
+						break;
+				}
+				return '<td><span class="in-table-time-left">' . $time_html . '</span></td>';
+
+			case 'agent':
+				return '<td><div class="os-with-avatar">' .
+					'<span class="cell-link-content">' .
+					'<span class="os-avatar" style="background-image: url(' . esc_url( $booking->agent->get_avatar_url() ) . ')"></span>' .
+					'<span class="os-name">' . esc_html( $booking->agent->full_name ) . '</span>' .
+					'</span>' .
+					'<div class="os-clickable-popup-trigger"' .
+					' data-route="' . esc_attr( OsRouterHelper::build_route_name( 'agents', 'mini_profile' ) ) . '"' .
+					' data-os-params="' . esc_attr(
+						OsUtilHelper::build_os_params(
+							[
+								'agent_id'   => $booking->agent_id,
+								'booking_id' => $booking->id,
+							] 
+						) 
+					) . '">' .
+					'<i class="latepoint-icon latepoint-icon-more-horizontal"></i>' .
+					'</div>' .
+					'</div></td>';
+
+			case 'location':
+				return '<td>' . esc_html( $booking->location->name ) . '</td>';
+
+			case 'customer':
+				return '<td><div class="os-with-avatar">' .
+					'<span class="cell-link-content">' .
+					'<span class="os-avatar" style="background-image: url(' . esc_url( $booking->customer->get_avatar_url() ) . ')"></span>' .
+					'<span class="os-name">' . esc_html( $booking->customer->full_name ) . '</span>' .
+					'</span>' .
+					'<div class="os-clickable-popup-trigger"' .
+					' data-route="' . esc_attr( OsRouterHelper::build_route_name( 'customers', 'mini_profile' ) ) . '"' .
+					' data-os-params="' . esc_attr(
+						OsUtilHelper::build_os_params(
+							[
+								'customer_id' => $booking->customer_id,
+								'booking_id'  => $booking->id,
+							] 
+						) 
+					) . '">' .
+					'<i class="latepoint-icon latepoint-icon-more-horizontal"></i>' .
+					'</div>' .
+					'</div></td>';
+
+			case 'status':
+				return '<td><span class="os-column-status os-column-status-' . esc_attr( $booking->status ) . '">' . esc_html( $booking->nice_status ) . '</span></td>';
+
+			case 'payment_status':
+				return '<td><span class="os-column-status os-column-status-' . esc_attr( $booking->order->payment_status ) . '">' . esc_html( OsOrdersHelper::get_nice_order_payment_status_name( $booking->order->payment_status ) ) . '</span></td>';
+
+			case 'created_on':
+				return '<td>' . esc_html( $booking->nice_created_at ) . '</td>';
+
+			default:
+				// Extra columns: read from the appropriate model via property, getter, or meta.
+				if ( 'extra' !== $col_def['type'] ) {
+					return '<td></td>';
+				}
+				$extra_type = $col_def['extra_type'];
+				$extra_key  = $col_def['extra_key'];
+				$model_obj  = ( 'booking' === $extra_type ) ? $booking : $booking->$extra_type;
+
+				if ( property_exists( $model_obj, $extra_key ) || method_exists( $model_obj, 'get_' . $extra_key ) ) {
+					return '<td>' . esc_html( $model_obj->$extra_key ) . '</td>';
+				}
+
+				$column_value = $model_obj->get_meta_by_key( $extra_key );
+				if ( $column_value &&
+					( $custom_fields_raw = OsSettingsHelper::get_settings_value( 'custom_fields_for_' . $extra_type, false ) ) &&
+					( $custom_fields_arr = json_decode( $custom_fields_raw, true ) ) &&
+					isset( $custom_fields_arr[ $extra_key ]['type'] ) &&
+					'multiselect' === $custom_fields_arr[ $extra_key ]['type']
+				) {
+					$decoded      = json_decode( $column_value );
+					$column_value = is_array( $decoded ) ? implode( ', ', $decoded ) : $column_value;
+				}
+				return '<td>' . esc_html( $column_value ) . '</td>';
+		}
+	}
 }

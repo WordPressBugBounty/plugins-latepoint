@@ -495,6 +495,149 @@ class OsSettingsHelper {
 		return $available_columns;
 	}
 
+	/**
+	 * Returns a registry of ALL bookings table columns (fixed + extra), in default display order.
+	 * Each entry: [ 'label', 'type' (fixed|extra), 'always_visible'?, 'condition'?, 'extra_type'?, 'extra_key'? ]
+	 */
+	public static function get_all_bookings_table_columns(): array {
+		$columns = [
+			'id'             => [
+				'label'          => __( 'ID', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'service'        => [
+				'label'     => __( 'Service', 'latepoint' ),
+				'type'      => 'fixed',
+				'condition' => 'multi_service',
+			],
+			'datetime'       => [
+				'label'          => __( 'Date/Time', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'time_left'      => [
+				'label'          => __( 'Time Left', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'agent'          => [
+				'label'     => __( 'Agent', 'latepoint' ),
+				'type'      => 'fixed',
+				'condition' => 'multi_agent',
+			],
+			'location'       => [
+				'label'     => __( 'Location', 'latepoint' ),
+				'type'      => 'fixed',
+				'condition' => 'multi_location',
+			],
+			'customer'       => [
+				'label'          => __( 'Customer', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'status'         => [
+				'label'          => __( 'Status', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'payment_status' => [
+				'label'          => __( 'Payment Status', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+			'created_on'     => [
+				'label'          => __( 'Created On', 'latepoint' ),
+				'type'           => 'fixed',
+				'always_visible' => true,
+			],
+		];
+
+		// Append extra columns from the existing registry (includes addon filter results).
+		foreach ( self::get_available_columns_for_bookings_table() as $extra_type => $type_columns ) {
+			foreach ( $type_columns as $extra_key => $extra_label ) {
+				$columns[ $extra_type . '.' . $extra_key ] = [
+					'label'      => $extra_label,
+					'type'       => 'extra',
+					'extra_type' => $extra_type,
+					'extra_key'  => $extra_key,
+				];
+			}
+		}
+
+		return apply_filters( 'latepoint_all_bookings_table_columns', $columns );
+	}
+
+	/**
+	 * Returns the saved column order array (flat list of column keys).
+	 * Returns [] if no order has been saved yet.
+	 */
+	public static function get_bookings_table_columns_order(): array {
+		$order = self::get_settings_value( 'bookings_table_columns_order', [] );
+		return is_array( $order ) ? $order : [];
+	}
+
+	/**
+	 * Returns all columns sorted by the user-saved order.
+	 * Falls back to default order when no order is saved (backward compat).
+	 * Columns added by addons after the order was saved are appended at the end.
+	 */
+	public static function get_ordered_bookings_table_columns(): array {
+		$all_columns = self::get_all_bookings_table_columns();
+		$saved_order = self::get_bookings_table_columns_order();
+
+		if ( empty( $saved_order ) ) {
+			return $all_columns;
+		}
+
+		$ordered = [];
+		foreach ( $saved_order as $key ) {
+			if ( 'id' === $key ) continue;
+			if ( isset( $all_columns[ $key ] ) ) {
+				$ordered[ $key ] = $all_columns[ $key ];
+			}
+		}
+		// Append any columns not in saved order (e.g. newly installed addon columns).
+		foreach ( $all_columns as $key => $def ) {
+			if ( 'id' === $key ) continue;
+			if ( ! isset( $ordered[ $key ] ) ) {
+				$ordered[ $key ] = $def;
+			}
+		}
+
+		// ID column is always first regardless of saved order.
+		if ( isset( $all_columns['id'] ) ) {
+			$ordered = array_merge( [ 'id' => $all_columns['id'] ], $ordered );
+		}
+
+		return $ordered;
+	}
+
+	/**
+	 * Determines whether a given column should be visible in the table.
+	 */
+	public static function is_bookings_column_visible( array $col_def, array $selected_columns, int $services_count, int $agents_count, int $locations_count ): bool {
+		if ( ! empty( $col_def['always_visible'] ) ) {
+			return true;
+		}
+		if ( ! empty( $col_def['condition'] ) ) {
+			switch ( $col_def['condition'] ) {
+				case 'multi_service':
+					return $services_count > 1;
+				case 'multi_agent':
+					return $agents_count > 1;
+				case 'multi_location':
+					return $locations_count > 1;
+			}
+		}
+		if ( 'extra' === $col_def['type'] ) {
+			$extra_type = $col_def['extra_type'];
+			$extra_key  = $col_def['extra_key'];
+			return isset( $selected_columns[ $extra_type ] ) && in_array( $extra_key, $selected_columns[ $extra_type ], true );
+		}
+		return false;
+	}
+
 	public static function force_bite( $request ) {
 	}
 

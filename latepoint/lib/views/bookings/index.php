@@ -17,6 +17,7 @@
 /* @var $services_list array */
 /* @var $locations_list array */
 /* @var $selected_columns array */
+/* @var $ordered_columns array */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -31,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	    </div>
 	    <div class="mobile-table-actions-trigger"><i class="latepoint-icon latepoint-icon-more-horizontal"></i></div>
       <div class="table-actions">
-          <a data-os-lightbox-classes="width-700" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('bookings', 'customize_table')); ?>" href="#" data-os-output-target="lightbox" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline download-csv-with-filters"><i class="latepoint-icon latepoint-icon-sliders"></i><span><?php esc_html_e('Table Settings', 'latepoint'); ?></span></a>
+          <a data-os-lightbox-classes="width-700" data-os-after-call="latepoint_init_column_reordering" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('bookings', 'customize_table')); ?>" href="#" data-os-output-target="lightbox" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline download-csv-with-filters"><i class="latepoint-icon latepoint-icon-sliders"></i><span><?php esc_html_e('Table Settings', 'latepoint'); ?></span></a>
           <?php if (OsSettingsHelper::can_download_records_as_csv()) { ?>
               <a href="<?php echo esc_url(OsRouterHelper::build_admin_post_link(['bookings', 'index'])); ?>" target="_blank" class="latepoint-btn latepoint-btn-grey latepoint-btn-outline download-csv-with-filters"><i class="latepoint-icon latepoint-icon-download"></i><span><?php esc_html_e('Download .csv', 'latepoint'); ?></span></a>
           <?php } ?>
@@ -45,67 +46,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	          <?php echo OsFormHelper::hidden_field('filter[records_ordered_by_direction]', $records_ordered_by_direction, ['class' => 'records-ordered-by-direction os-table-filter']); ?>
             <thead>
               <tr>
-                <th class="os-sortable-column <?php if($records_ordered_by_key == 'booking_id') echo 'ordered-'.esc_attr($records_ordered_by_direction); ?>" data-order-key="booking_id"><?php esc_html_e('ID', 'latepoint'); ?></th>
-                <?php if(count($services_list) > 1) echo '<th>'.esc_html__('Service', 'latepoint').'</th>'; ?>
-                <th class="os-sortable-column <?php if($records_ordered_by_key == 'booking_start_datetime') echo 'ordered-'.esc_attr($records_ordered_by_direction); ?>" data-order-key="booking_start_datetime"><?php esc_html_e('Date/Time', 'latepoint'); ?></th>
-                <th class="os-sortable-column <?php if($records_ordered_by_key == 'booking_time_left') echo 'ordered-'.esc_attr($records_ordered_by_direction); ?>" data-order-key="booking_time_left"><?php esc_html_e('Time Left', 'latepoint'); ?></th>
-                <?php if(count($agents_list) > 1) echo '<th>'.esc_html__('Agent', 'latepoint').'</th>'; ?>
-                <?php if(count($locations_list) > 1) echo '<th>'.esc_html__('Location', 'latepoint').'</th>'; ?>
-                <th><?php esc_html_e('Customer', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Status', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Payment Status', 'latepoint'); ?></th>
-                <th class="os-sortable-column <?php if($records_ordered_by_key == 'booking_created_on') echo 'ordered-'.esc_attr($records_ordered_by_direction); ?>" data-order-key="booking_created_on"><?php esc_html_e('Created On', 'latepoint'); ?></th>
                 <?php
-                foreach($selected_columns as $column_type => $columns){ 
-                  foreach($columns as $column_key){ 
-                    if(isset($available_columns[$column_type][$column_key])) echo '<th>'.esc_html($available_columns[$column_type][$column_key]).'</th>';
-                  }
-                } ?>
+                foreach ( $ordered_columns as $col_key => $col_def ) {
+                  if ( ! OsSettingsHelper::is_bookings_column_visible( $col_def, $selected_columns, count( $services_list ), count( $agents_list ), count( $locations_list ) ) ) continue;
+                  echo OsBookingHelper::render_table_header_cell( $col_key, $col_def, $records_ordered_by_key, $records_ordered_by_direction );
+                }
+                ?>
               </tr>
               <tr>
-                <th><?php echo OsFormHelper::text_field('filter[id]', false, '', ['placeholder' => __('ID', 'latepoint'), 'theme' => 'bordered', 'style' => 'width: 60px;', 'class' => 'os-table-filter']); ?></th>
-                <?php if(count($services_list) > 1) echo '<th>'.OsFormHelper::select_field('filter[service_id]', false, $services_list, '', ['placeholder' => __('All Services', 'latepoint'), 'class' => 'os-table-filter']).'</th>'; ?>
-                <th>
-                  <div class="os-form-group">
-                    <div class="os-date-range-picker os-table-filter-datepicker" data-can-be-cleared="yes" data-no-value-label="<?php esc_html_e('Search by Appointment Date', 'latepoint'); ?>" data-clear-btn-label="<?php esc_html_e('Reset Date Search', 'latepoint'); ?>">
-                      <span class="range-picker-value"><?php esc_html_e('Filter Date', 'latepoint'); ?></span>
-                      <i class="latepoint-icon latepoint-icon-chevron-down"></i>
-                      <input type="hidden" class="os-table-filter os-datepicker-date-from" name="filter[booking_date_from]" value=""/>
-                      <input type="hidden" class="os-table-filter os-datepicker-date-to" name="filter[booking_date_to]" value=""/>
-                    </div>
-                  </div>
-                </th>
-                <th><?php echo OsFormHelper::select_field('filter[time_status]', false, ['upcoming' => __('Upcoming', 'latepoint'), 'past' => __('Past', 'latepoint'), 'now' => __('Happening Now', 'latepoint')], '', ['placeholder' => __('Show All', 'latepoint'), 'class' => 'os-table-filter']); ?></th>
-                <?php if(count($agents_list) > 1) echo '<th>'.OsFormHelper::select_field('filter[agent_id]', false, $agents_list, '', ['placeholder' => __('All Agents', 'latepoint'), 'class' => 'os-table-filter']).'</th>'; ?>
-                <?php if(count($locations_list) > 1) echo '<th>'.OsFormHelper::select_field('filter[location_id]', false, $locations_list, '', ['placeholder' => __('All Locations', 'latepoint'), 'class' => 'os-table-filter']).'</th>'; ?>
-                <th><?php echo OsFormHelper::text_field('filter[customer][full_name]', false, '', ['class' => 'os-table-filter', 'theme' => 'bordered', 'placeholder' => __('Search by Customer', 'latepoint')]); ?></th>
-                <th><?php echo OsFormHelper::select_field('filter[status]', false, OsBookingHelper::get_statuses_list(), '', ['placeholder' => __('Show All', 'latepoint'), 'class' => 'os-table-filter']); ?></th>
-                <th><?php echo OsFormHelper::select_field('filter[order][payment_status]', false, OsOrdersHelper::get_order_payment_statuses_list(), '', ['placeholder' => __('Show All', 'latepoint'), 'class' => 'os-table-filter']); ?></th>
-                <th>
-                  <div class="os-form-group">
-                    <div class="os-date-range-picker os-table-filter-datepicker" data-can-be-cleared="yes" data-no-value-label="<?php esc_attr_e('Filter Date', 'latepoint'); ?>" data-clear-btn-label="<?php esc_attr_e('Reset Date Search', 'latepoint'); ?>">
-                      <span class="range-picker-value"><?php esc_html_e('Filter Date', 'latepoint'); ?></span>
-                      <i class="latepoint-icon latepoint-icon-chevron-down"></i>
-                      <input type="hidden" class="os-table-filter os-datepicker-date-from" name="filter[created_date_from]" value=""/>
-                      <input type="hidden" class="os-table-filter os-datepicker-date-to" name="filter[created_date_to]" value=""/>
-                    </div>
-                  </div>
-                </th>
-                <?php 
-                foreach($selected_columns as $column_type => $columns){ 
-                  foreach($columns as $column_key){
-										if(!isset($available_columns[$column_type][$column_key])) continue;
-										// if column belongs to non booking object (customer, transaction, agent etc... build appropriate name for filter var)
-										$field_name = ($column_type != 'booking') ? 'filter['.$column_type.']['.$column_key.']' : 'filter['.$column_key.']';
-										// skip the search box if the property is "magic" (accessed via __get), because we can't query DB with that
-										if($column_type == 'booking' && !property_exists('OsBookingModel', $column_key)){
-											$filter_input = '';
-										}else{
-											$filter_input = OsFormHelper::text_field($field_name, false, '', ['class' => 'os-table-filter', 'theme' => 'bordered', 'placeholder' => $available_columns[$column_type][$column_key]]);
-										}
-                    echo '<th>'.$filter_input.'</th>';
-                  }
-                } ?>
+                <?php
+                foreach ( $ordered_columns as $col_key => $col_def ) {
+                  if ( ! OsSettingsHelper::is_bookings_column_visible( $col_def, $selected_columns, count( $services_list ), count( $agents_list ), count( $locations_list ) ) ) continue;
+                  echo OsBookingHelper::render_table_filter_cell( $col_key, $col_def, $services_list, $agents_list, $locations_list );
+                }
+                ?>
               </tr>
             </thead>
             <tbody>
@@ -113,22 +67,12 @@ if ( ! defined( 'ABSPATH' ) ) {
             </tbody>
             <tfoot>
               <tr>
-                <th><?php esc_html_e('ID', 'latepoint'); ?></th>
-                <?php if(count($services_list) > 1) echo '<th>'.esc_html__('Service', 'latepoint').'</th>'; ?>
-                <th><?php esc_html_e('Date/Time', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Time Left', 'latepoint'); ?></th>
-                <?php if(count($agents_list) > 1) echo '<th>'.esc_html__('Agent', 'latepoint').'</th>'; ?>
-                <?php if(count($locations_list) > 1) echo '<th>'.esc_html__('Location', 'latepoint').'</th>'; ?>
-                <th><?php esc_html_e('Customer', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Status', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Payment Status', 'latepoint'); ?></th>
-                <th><?php esc_html_e('Created On', 'latepoint'); ?></th>
                 <?php
-                foreach($selected_columns as $column_type => $columns){ 
-                  foreach($columns as $column_key){ 
-                    if(isset($available_columns[$column_type][$column_key])) echo '<th>'.esc_html($available_columns[$column_type][$column_key]).'</th>';
-                  }
-                } ?>
+                foreach ( $ordered_columns as $col_key => $col_def ) {
+                  if ( ! OsSettingsHelper::is_bookings_column_visible( $col_def, $selected_columns, count( $services_list ), count( $agents_list ), count( $locations_list ) ) ) continue;
+                  echo '<th>' . esc_html( $col_def['label'] ) . '</th>';
+                }
+                ?>
               </tr>
             </tfoot>
           </table>
@@ -140,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
       <div class="pagination-page-select-w">
         <label for="tablePaginationPageSelector"><?php esc_html_e('Page:', 'latepoint'); ?></label>
         <select id="tablePaginationPageSelector" name="page" class="pagination-page-select">
-          <?php 
+          <?php
           for($i = 1; $i <= $total_pages; $i++){
             $selected = ($current_page_number == $i) ? 'selected' : '';
             echo '<option '.$selected.'>'.esc_html($i).'</option>';

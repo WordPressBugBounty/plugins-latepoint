@@ -131,10 +131,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="latepoint-tab-content tab-content-customer-info-form">
 			<form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'update')); ?>">
 			  <div class="os-row">
-			    <?php echo OsFormHelper::text_field('customer[first_name]', __('Your First Name', 'latepoint'), $customer->first_name, array('class' => 'required'), array('class' => 'os-col-6')); ?>
-			    <?php echo OsFormHelper::text_field('customer[last_name]', __('Your Last Name', 'latepoint'), $customer->last_name, array('class' => 'required'), array('class' => 'os-col-6')); ?>
-			    <?php echo OsFormHelper::phone_number_field('customer[phone]', __('Your Phone Number', 'latepoint'), $customer->phone, [], array('class' => 'os-col-6')); ?>
-			    <?php echo OsFormHelper::text_field('customer[email]', __('Your Email Address', 'latepoint'), $customer->email, array('class' => 'required'), array('class' => 'os-col-6')); ?>
+			    <?php echo OsFormHelper::text_field('customer[first_name]', __('Your First Name', 'latepoint'), $customer->first_name, array('class' => 'required', 'autocomplete' => 'given-name'), array('class' => 'os-col-6')); ?>
+			    <?php echo OsFormHelper::text_field('customer[last_name]', __('Your Last Name', 'latepoint'), $customer->last_name, array('class' => 'required', 'autocomplete' => 'family-name'), array('class' => 'os-col-6')); ?>
+			    <?php echo OsFormHelper::phone_number_field('customer[phone]', __('Your Phone Number', 'latepoint'), $customer->phone, ['autocomplete' => 'tel'], array('class' => 'os-col-6')); ?>
+			    <?php echo OsFormHelper::text_field('customer[email]', __('Your Email Address', 'latepoint'), $customer->email, array('class' => 'required', 'autocomplete' => 'email'), array('class' => 'os-col-6')); ?>
 				</div>
 				<?php do_action('latepoint_customer_dashboard_information_form_after', $customer); ?>
                 <?php wp_nonce_field('update_customer_'.$customer->get_uuid()); ?>
@@ -144,8 +144,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<form action="" data-os-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'change_password')); ?>">
 			    <h5><?php esc_html_e('Set New Password', 'latepoint'); ?></h5>
 				  <div class="os-row">
-				    <?php echo OsFormHelper::password_field('password', __('New Password', 'latepoint'), '', [], array('class' => 'os-col-6')); ?>
-				    <?php echo OsFormHelper::password_field('password_confirmation', __('Confirm New Password', 'latepoint'), '', [], array('class' => 'os-col-6')); ?>
+				    <?php echo OsFormHelper::password_field('password', __('New Password', 'latepoint'), '', ['autocomplete' => 'new-password'], array('class' => 'os-col-6')); ?>
+				    <?php echo OsFormHelper::password_field('password_confirmation', __('Confirm New Password', 'latepoint'), '', ['autocomplete' => 'new-password'], array('class' => 'os-col-6')); ?>
 					</div>
                     <?php wp_nonce_field('change_password_'.$customer->get_uuid(), 'change_password_nonce'); ?>
 					<?php echo OsFormHelper::button('submit', __('Set New Password', 'latepoint'), 'submit', ['class' => 'latepoint-btn']); ?>

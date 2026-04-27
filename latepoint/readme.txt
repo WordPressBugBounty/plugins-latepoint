@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.4.2
+Stable tag: 5.5.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -202,6 +202,14 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.5.0 - April 27, 2026 =
+  - New: Added “Enable Invoices” toggle in general settings. This introduces foundational support for premium versions and allows admins to disable invoice functionality when using external invoicing tools or when invoices are not needed.
+  - New: Added drag-and-drop column reordering to the Appointments table. Users can customize column order via the Table Settings panel, with preferences saved across sessions.
+  - Improvement: Improved browser autofill support by adding proper autocomplete attributes to all customer-facing forms, resolving PCI compliance warnings.
+  - Fix: Fixed a crash on the dashboard and month calendar when an agent has no work schedule, preventing DivisionByZero errors.
+  - Fix: Resolved a WordPress 6.7+ notice related to delayed textdomain loading.
+  - Fix: Fixed a 500 error during password reset requests when customer lookup returned invalid data.
 
 = 5.4.2 - April 24, 2026 =
   - Security: Addressed security bugs. Props to WordFence for reporting it.

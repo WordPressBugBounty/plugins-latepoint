@@ -820,6 +820,30 @@ function latepoint_set_booking_end_time($booking_data_form){
 
 
 
+function latepoint_init_column_reordering() {
+  var container = document.querySelector('.os-column-order-list');
+  if (!container) return;
+
+  dragula([container], {
+    moves: function(el, source, handle) {
+      return handle.classList.contains('os-column-order-drag-handle');
+    },
+  }).on('drop', function() {
+    latepoint_update_column_order_hidden_field();
+  });
+
+  latepoint_update_column_order_hidden_field();
+}
+
+function latepoint_update_column_order_hidden_field() {
+  var order = [];
+  jQuery('.os-column-order-list .os-column-order-item').each(function() {
+    var key = jQuery(this).data('column-key');
+    if (key !== 'id') order.push(key);
+  });
+  jQuery('#bookings_columns_order').val(order.join(','));
+}
+
 function latepoint_init_sortable_columns(){
   jQuery('.os-sortable-column').on('click', function(){
     let current_direction = jQuery(this).hasClass('ordered-desc') ? 'desc' : 'asc';

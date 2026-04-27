@@ -74,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		if (!empty($customer) && $customer->is_guest && (OsSettingsHelper::is_off('steps_hide_registration_prompt') && OsAuthHelper::is_customer_auth_enabled())) { ?>
 			<div class="step-confirmation-set-password">
 				<div class="set-password-fields">
-					<?php echo OsFormHelper::password_field('customer[password]', __('Set Your Password', 'latepoint')); ?>
+					<?php echo OsFormHelper::password_field('customer[password]', __('Set Your Password', 'latepoint'), '', ['autocomplete' => 'new-password']); ?>
 					<a href="#" class="latepoint-btn latepoint-btn-primary set-customer-password-btn"
 					   data-btn-action="<?php echo esc_attr(OsRouterHelper::build_route_name('customer_cabinet', 'set_account_password_on_booking_completion')); ?>"><?php esc_html_e('Save', 'latepoint'); ?></a>
 				</div>

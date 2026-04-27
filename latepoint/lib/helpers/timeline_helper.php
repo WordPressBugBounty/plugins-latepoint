@@ -22,17 +22,20 @@ class OsTimelineHelper {
 		];
 		$settings               = array_merge( $default_settings, $settings );
 		$total_timeline_minutes = $timeline_boundaries->end_time - $timeline_boundaries->start_time;
-		$html                   = '<div class="agent-day-availability-w">';
+
+		$html = '<div class="agent-day-availability-w">';
+
 		if ( $settings['agent_to_show'] ) {
 				// show agent avatar if agent was passed
 			$agent = $settings['agent_to_show'];
 			$html .= '<a href="' . OsRouterHelper::build_link( [ 'agents', 'edit_form' ], [ 'id' => $agent->id ] ) . '" class="agent-avatar-w with-hover-name" style="background-image: url(' . $agent->get_avatar_url() . ');"><span>' . $agent->full_name . '</span></a>';
 		}
-			$booking_slots = OsResourceHelper::get_ordered_booking_slots_from_resources( $resources );
+
+		$booking_slots = OsResourceHelper::get_ordered_booking_slots_from_resources( $resources );
 
 		$html .= '<div class="agent-timeslots">';
 
-		if ( $booking_slots ) {
+		if ( $booking_slots && $total_timeline_minutes > 0 ) {
 			$total_slots     = count( $booking_slots );
 			$after_slot_html = false;
 			$slot_width      = false;
@@ -79,8 +82,10 @@ class OsTimelineHelper {
 		} else {
 			$html .= self::availability_timeline_off();
 		}
+
 		$html .= '</div>';
 		$html .= '</div>';
+
 		return $html;
 	}
 
