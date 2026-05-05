@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.5.0
+ * Version: 5.5.1
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.5.0';
+		public $version    = '5.5.1';
 		public $db_version = '2.3.0';
 
 
@@ -1147,15 +1147,24 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		}
 
 		public function save_connected_wordpress_user( $customer ) {
+			if ( ! $customer instanceof OsCustomerModel ) {
+				return;
+			}
+
 			if ( $customer->is_new_record() ) {
 				return;
 			}
-			if ( $customer instanceof OsCustomerModel ) {
-				if ( $customer->wordpress_user_id ) {
-					// has connected wp user
-					$wp_user = get_user_by( 'id', $customer->wordpress_user_id );
-					if ( $wp_user && ! is_super_admin( $wp_user->ID ) ) {
-						// update linked wordpress user
+
+			if ( $customer->wordpress_user_id ) {
+				// has connected wp user
+				$wp_user = get_user_by( 'id', $customer->wordpress_user_id );
+				if ( $wp_user && ! is_super_admin( $wp_user->ID ) ) {
+					// Only sync to the linked WP user when request comes from the account owner or an admin.
+					// This prevents unauthenticated guest booking requests from overwriting WP user data.
+					$current_user_id   = get_current_user_id();
+					$wp_user_id        = (int) $customer->wordpress_user_id;
+					$is_owner_or_admin = is_user_logged_in() && ( $current_user_id === $wp_user_id || current_user_can( 'manage_options' ) );
+					if ( $is_owner_or_admin ) {
 						if ( $customer->first_name && $customer->first_name != $wp_user->first_name ) {
 							$wp_user->first_name = $customer->first_name;
 						}
@@ -1172,10 +1181,10 @@ if ( ! class_exists( 'LatePoint' ) ) :
 							// update user cookies because their data has changed
 						}
 					}
-				} else {
-					if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
-						OsCustomerHelper::create_wp_user_for_customer( $customer );
-					}
+				}
+			} else {
+				if ( OsAuthHelper::can_wp_users_login_as_customers() ) {
+					OsCustomerHelper::create_wp_user_for_customer( $customer );
 				}
 			}
 		}

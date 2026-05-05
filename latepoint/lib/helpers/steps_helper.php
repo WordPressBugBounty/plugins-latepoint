@@ -289,9 +289,9 @@ class OsStepsHelper {
 						'methods'             => 'POST',
 						'callback'            => 'OsSettingsHelper::force_bite',
 						'permission_callback' => '__return_true',
-					) 
+					)
 				);
-			} 
+			}
 		);
 		add_action(
 			'rest_api_init',
@@ -303,9 +303,9 @@ class OsStepsHelper {
 						'methods'             => 'POST',
 						'callback'            => 'OsSettingsHelper::force_release',
 						'permission_callback' => '__return_true',
-					) 
+					)
 				);
-			} 
+			}
 		);
 		self::confirm_hash();
 	}
@@ -330,9 +330,9 @@ class OsStepsHelper {
 							'fields_to_update' => self::$fields_to_update,
 							'callback'         => $error_data['callback'] ?? '',
 							'callback_data'    => $error_data['callback_data'] ?? '',
-						) 
+						)
 					);
-				}			
+				}
 			}
 		}
 		$step_function_name = 'process_step_' . $step_code;
@@ -349,7 +349,7 @@ class OsStepsHelper {
 						'fields_to_update' => self::$fields_to_update,
 						'callback'         => $error_data['callback'] ?? '',
 						'callback_data'    => $error_data['callback_data'] ?? '',
-					) 
+					)
 				);
 			}
 		}
@@ -399,7 +399,7 @@ class OsStepsHelper {
 									[
 										'add_string_to_id' => $step->code,
 										'theme'            => 'bordered',
-									] 
+									]
 								); ?>
 							</div>
 						</div>
@@ -416,7 +416,7 @@ class OsStepsHelper {
 									[
 										'add_string_to_id' => $step->code,
 										'theme'            => 'bordered',
-									] 
+									]
 								); ?>
 							</div>
 						</div>
@@ -433,7 +433,7 @@ class OsStepsHelper {
 									[
 										'add_string_to_id' => $step->code,
 										'theme'            => 'bordered',
-									] 
+									]
 								); ?>
 							</div>
 						</div>
@@ -463,7 +463,7 @@ class OsStepsHelper {
 								[
 									'class'            => 'latepoint-btn',
 									'add_string_to_id' => $step->code,
-								] 
+								]
 							); ?>
 						</div>
 					</form>
@@ -541,7 +541,7 @@ class OsStepsHelper {
 						'is_first_step'    => true,
 						'is_last_step'     => true,
 						'is_pre_last_step' => false,
-					] 
+					]
 				);
 
 				return;
@@ -565,7 +565,7 @@ class OsStepsHelper {
 							'message'          => $result->get_error_message(),
 							'send_to_step'     => $send_to_step,
 							'fields_to_update' => self::$fields_to_update,
-						) 
+						)
 					);
 
 					return;
@@ -587,7 +587,7 @@ class OsStepsHelper {
 						'message'          => $result->get_error_message(),
 						'send_to_step'     => $send_to_step,
 						'fields_to_update' => self::$fields_to_update,
-					) 
+					)
 				);
 
 				return;
@@ -617,7 +617,7 @@ class OsStepsHelper {
 					'is_first_step'    => self::is_first_step( self::$step_to_prepare ),
 					'is_last_step'     => self::is_last_step( self::$step_to_prepare ),
 					'is_pre_last_step' => self::is_pre_last_step( self::$step_to_prepare ),
-				] 
+				]
 			);
 		}
 	}
@@ -726,7 +726,7 @@ class OsStepsHelper {
 			self::$step_codes_in_order,
 			function ( $step ) use ( $parent_step_code ) {
 				return strpos( $step, $parent_step_code . '__' ) !== 0;
-			} 
+			}
 		);
 	}
 
@@ -1122,7 +1122,7 @@ class OsStepsHelper {
 			// preselected calendar start date
 			if ( isset( $restrictions['calendar_start_date'] ) && OsTimeHelper::is_valid_date( $restrictions['calendar_start_date'] ) ) {
 				self::$restrictions['calendar_start_date'] = $restrictions['calendar_start_date'];
-			}		
+			}
 		}
 
 		/**
@@ -1725,7 +1725,7 @@ class OsStepsHelper {
 			[
 				'agent_id'    => self::$booking_object->agent_id,
 				'location_id' => self::$booking_object->location_id,
-			] 
+			]
 		);
 		// if "show only specific services" is selected (restrictions) - remove ids that are not found in connection
 		$show_services_arr = ( ! empty( $show_selected_services_arr ) && ! empty( $connected_ids ) ) ? array_intersect( $connected_ids, $show_selected_services_arr ) : $connected_ids;
@@ -1759,7 +1759,7 @@ class OsStepsHelper {
 			[
 				'service_id'  => self::$booking_object->service_id,
 				'location_id' => self::$booking_object->location_id,
-			] 
+			]
 		);
 
 		// If date/time is selected - filter agents who are available at that time
@@ -1904,7 +1904,7 @@ class OsStepsHelper {
 				'notes',
 				'password',
 				'password_confirmation',
-			] 
+			]
 		);
 
 		if ( ! empty( $customer_params['first_name'] ) ) {
@@ -1961,6 +1961,14 @@ class OsStepsHelper {
 			if ( $customer ) {
 				$is_new_customer   = false;
 				$old_customer_data = $customer->get_data_vars();
+				// When merging by phone and the existing customer has a linked WP user,
+				// do not allow an unauthenticated request to overwrite their identity fields.
+				// Protects email (account takeover via password reset) and name fields (record integrity).
+				if ( 'phone' === $contact_merge && ! empty( $customer->wordpress_user_id ) && ! is_user_logged_in() ) {
+					unset( $sanitized_customer_params['email'] );
+					unset( $sanitized_customer_params['first_name'] );
+					unset( $sanitized_customer_params['last_name'] );
+				}
 			} else {
 				$is_new_customer   = true;
 				$customer          = new OsCustomerModel();
@@ -2005,7 +2013,7 @@ class OsStepsHelper {
 								array(
 									'email' => $sanitized_customer_params['email'],
 									'id !=' => $logged_in_customer->id,
-								) 
+								)
 							)->set_limit( 1 )->get_results_as_models();
 							// check if another customer (or if wp user login enabled - another wp user) exists with the email that this user tries to update to
 							if ( $customer_with_email_exist || ( OsAuthHelper::can_wp_users_login_as_customers() && email_exists( $sanitized_customer_params['email'] ) ) ) {
@@ -2021,7 +2029,7 @@ class OsStepsHelper {
 										[
 											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
 											'callback_data' => $otp_form_html,
-										] 
+										]
 									);
 								}
 							}
@@ -2035,7 +2043,7 @@ class OsStepsHelper {
 								array(
 									'phone' => $sanitized_customer_params['phone'],
 									'id !=' => $logged_in_customer->id,
-								) 
+								)
 							)->set_limit( 1 )->get_results_as_models();
 							// check if another customer (or if wp user login enabled - another wp user) exists with the phone that this user tries to update to
 							if ( $customer_with_phone_exist ) {
@@ -2051,7 +2059,7 @@ class OsStepsHelper {
 										[
 											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
 											'callback_data' => $otp_form_html,
-										] 
+										]
 									);
 								}
 							}
@@ -2100,7 +2108,7 @@ class OsStepsHelper {
 										[
 											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
 											'callback_data' => $otp_form_html,
-										] 
+										]
 									);
 								}
 							}
@@ -2121,7 +2129,7 @@ class OsStepsHelper {
 										[
 											'callback' => 'latepoint_show_verify_contact_form_with_otp_code',
 											'callback_data' => $otp_form_html,
-										] 
+										]
 									);
 								}
 							}
@@ -2320,7 +2328,7 @@ class OsStepsHelper {
 						// is not bookable
 						self::$booking_object->add_error( 'booking_error', self::$booking_object->get_error_messages() );
 					}
-				}			
+				}
 			} else {
 				$order_intent = OsOrderIntentHelper::create_or_update_order_intent( self::$cart_object, self::$restrictions, self::$presets, '', self::get_customer_object_id() );
 				if ( $order_intent->is_processing() ) {
@@ -2464,7 +2472,7 @@ class OsStepsHelper {
 						'timebox'  => 'Time Boxes',
 						'timeline' => 'Timeline',
 					],
-					OsStepsHelper::get_time_pick_style() 
+					OsStepsHelper::get_time_pick_style()
 				);
 				$step_settings_html .= OsFormHelper::select_field(
 					'steps_settings[booking__datepicker][calendar_style]',
@@ -2473,7 +2481,7 @@ class OsStepsHelper {
 						'modern'  => 'Modern',
 						'classic' => 'Classic',
 					],
-					OsStepsHelper::get_calendar_style() 
+					OsStepsHelper::get_calendar_style()
 				);
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_timepicker_when_one_slot_available]', __( 'Hide time picker if single slot', 'latepoint' ), OsUtilHelper::is_on( self::get_step_setting_value( $selected_step_code, 'hide_timepicker_when_one_slot_available' ) ), false, false, [ 'sub_label' => __( 'If a single slot is available in a day, it will be preselected.', 'latepoint' ) ] );
 				$step_settings_html .= OsFormHelper::toggler_field( 'steps_settings[booking__datepicker][hide_slot_availability_count]', __( 'Hide slot availability count', 'latepoint' ), OsStepsHelper::hide_slot_availability_count(), false, false, [ 'sub_label' => __( 'Slot counter tooltip will not appear when hovering a day.', 'latepoint' ) ] );
@@ -2488,7 +2496,7 @@ class OsStepsHelper {
 						'green'  => __( 'Green', 'latepoint' ),
 						'yellow' => __( 'Yellow', 'latepoint' ),
 					],
-					self::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) 
+					self::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' )
 				);
 				break;
 		}

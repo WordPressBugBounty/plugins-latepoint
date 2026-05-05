@@ -603,21 +603,21 @@ class ProcessAction {
 		$preview_content_html = '';
 		switch ( $this->type ) {
 			case 'send_email':
-				$preview_content_html .= '<div class="action-preview-subject"><span class="os-label">' . __( 'Subject:', 'latepoint' ) . '</span> ' . $this->prepared_data_for_run['subject'] . '</div>';
+				$preview_content_html .= '<div class="action-preview-subject"><span class="os-label">' . __( 'Subject:', 'latepoint' ) . '</span> ' . esc_html( $this->prepared_data_for_run['subject'] ) . '</div>';
 				$preview_content_html .= '<div class="action-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $this->prepared_data_for_run['to'] ) . '</div>';
-				$preview_content_html .= '<div class="action-preview-content">' . $this->prepared_data_for_run['content'] . '</div>';
+				$preview_content_html .= '<div class="action-preview-content">' . wp_kses_post( $this->prepared_data_for_run['content'] ) . '</div>';
 				break;
 			case 'send_sms':
 				$preview_content_html .= '<div class="action-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $this->prepared_data_for_run['to'] ) . '</span></div>';
-				$preview_content_html .= '<div class="action-preview-content">' . $this->prepared_data_for_run['content'] . '</div>';
+				$preview_content_html .= '<div class="action-preview-content">' . wp_kses_post( $this->prepared_data_for_run['content'] ) . '</div>';
 				break;
 			case 'send_whatsapp':
 				$preview_content_html         .= '<div class="action-preview-to"><span class="os-label">' . __( 'To:', 'latepoint' ) . '</span><span class="os-value">' . esc_html( $this->prepared_data_for_run['to'] ) . '</span></div>';
 				$preview_content_html         .= '<div class="action-preview-content">';
 					$preview_content_html     .= '<div class="latepoint-whatsapp-template-preview-messages">';
 						$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message">';
-						$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message-header">' . $this->prepared_data_for_run['content_for_header'] . '</div>';
-						$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message-body">' . $this->prepared_data_for_run['content_for_body'] . '</div>';
+						$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message-header">' . wp_kses_post( $this->prepared_data_for_run['content_for_header'] ) . '</div>';
+						$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message-body">' . wp_kses_post( $this->prepared_data_for_run['content_for_body'] ) . '</div>';
 				if ( $this->prepared_data_for_run['content_for_buttons'] ) {
 					$preview_content_html .= '<div class="latepoint-whatsapp-template-preview-message-buttons">';
 					foreach ( $this->prepared_data_for_run['content_for_buttons'] as $button ) {

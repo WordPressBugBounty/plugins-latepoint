@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointments, booking, scheduling, events, calendar
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 5.5.0
+Stable tag: 5.5.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -202,6 +202,9 @@ If you want a modern, effortless way to let your customers book online, give Lat
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.5.1 - May 5, 2026 =
+  - Security: Addressed security bugs. Props to WordFence for reporting it.
 
 = 5.5.0 - April 27, 2026 =
   - New: Added “Enable Invoices” toggle in general settings. This introduces foundational support for premium versions and allows admins to disable invoice functionality when using external invoicing tools or when invoices are not needed.

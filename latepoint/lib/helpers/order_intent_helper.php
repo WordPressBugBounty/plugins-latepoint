@@ -119,7 +119,7 @@ class OsOrderIntentHelper {
 		$order_intent->presets_data      = wp_json_encode( $presets_data );
 		// override only if not empty
 		if ( ! empty( $booking_form_page_url ) ) {
-			$order_intent->booking_form_page_url = urldecode( $booking_form_page_url );
+			$order_intent->booking_form_page_url = esc_url_raw( urldecode( $booking_form_page_url ) );
 		}
 
 		if ( empty( $customer_id ) ) {

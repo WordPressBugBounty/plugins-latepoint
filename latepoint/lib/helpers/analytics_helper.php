@@ -65,7 +65,10 @@ class OsAnalyticsHelper {
 		self::events();
 
 		// Plugin activated (dedup ensures).
-		self::events()->track( 'plugin_activated', LATEPOINT_VERSION );
+		$referer_key   = defined( 'BSF_UTM_ANALYTICS_REFERER' ) ? BSF_UTM_ANALYTICS_REFERER : 'bsf_product_referers';
+		$bsf_referrers = get_option( $referer_key, array() );
+		$source        = ! empty( $bsf_referrers['latepoint'] ) ? $bsf_referrers['latepoint'] : 'self';
+		self::events()->track( 'plugin_activated', LATEPOINT_VERSION, [ 'source' => $source ] );
 
 		// Plugin updated. Fires once per version change via OsUpdateHelper.
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated' ] );
