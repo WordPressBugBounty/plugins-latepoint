@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.5.1
+ * Version: 5.5.2
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.5.1';
+		public $version    = '5.5.2';
 		public $db_version = '2.3.0';
 
 
@@ -905,7 +905,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			include_once LATEPOINT_ABSPATH . 'lib/mailers/customer_mailer.php';
 
 			// ABILITIES (WordPress 6.9+ Abilities API)
-			if ( apply_filters( 'latepoint_enable_abilities', false ) && function_exists( 'wp_register_ability' ) ) {
+			$abilities_enabled = OsSettingsHelper::is_on( 'latepoint_abilities_api' );
+			if ( $abilities_enabled && function_exists( 'wp_register_ability' ) ) {
 				include_once LATEPOINT_ABSPATH . 'lib/abilities/class-latepoint-abilities.php';
 			}
 
@@ -1158,7 +1159,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			if ( $customer->wordpress_user_id ) {
 				// has connected wp user
 				$wp_user = get_user_by( 'id', $customer->wordpress_user_id );
-				if ( $wp_user && ! is_super_admin( $wp_user->ID ) ) {
+				if ( $wp_user && OsCustomerHelper::is_wp_user_safe_for_customer_link( $wp_user->ID ) ) {
 					// Only sync to the linked WP user when request comes from the account owner or an admin.
 					// This prevents unauthenticated guest booking requests from overwriting WP user data.
 					$current_user_id   = get_current_user_id();
