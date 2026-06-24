@@ -661,6 +661,8 @@ class OsDatabaseHelper {
       short_description text,
       charge_amount decimal(20,4),
       deposit_amount decimal(20,4),
+      price_min decimal(20,4),
+      price_max decimal(20,4),
       status varchar(20) NOT NULL,
       visibility varchar(20) NOT NULL,
       order_number int(11),
