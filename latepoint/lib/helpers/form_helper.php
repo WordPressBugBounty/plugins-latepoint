@@ -405,6 +405,22 @@ class OsFormHelper {
 				}
 				break;
 
+			case 'service_category':
+			case 'OsServiceCategoryModel':
+				// "Uncategorized" is intentionally not offered: its id is 0, and "0" is falsy in PHP, so a
+				// saved condition value of 0 is dropped when the value field is re-rendered.
+				$service_category   = new OsServiceCategoryModel();
+				$service_categories = $service_category->order_by( 'order_number asc' )->get_results_as_models();
+				if ( $service_categories ) {
+					foreach ( $service_categories as $service_category ) {
+						$options[] = [
+							'value' => $service_category->id,
+							'label' => $service_category->name,
+						];
+					}
+				}
+				break;
+
 			case 'bundle':
 			case 'OsBundleModel':
 				if ( $bundles = ( new OsBundleModel() )->get_results_as_models() ) {

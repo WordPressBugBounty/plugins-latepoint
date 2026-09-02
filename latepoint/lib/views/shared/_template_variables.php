@@ -49,6 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <li><span class="var-label"><?php esc_html_e('Email Address:', 'latepoint'); ?></span> <span class="var-code os-click-to-copy">{{customer_email}}</span></li>
     <li><span class="var-label"><?php esc_html_e('Phone:', 'latepoint'); ?></span> <span class="var-code os-click-to-copy">{{customer_phone}}</span></li>
     <li><span class="var-label"><?php esc_html_e('Comments:', 'latepoint'); ?></span> <span class="var-code os-click-to-copy">{{customer_notes}}</span></li>
+    <li><span class="var-label"><?php esc_html_e('Admin Notes:', 'latepoint'); ?></span> <span class="var-code os-click-to-copy">{{customer_admin_notes}}</span></li>
     <li><span class="var-label"><?php esc_html_e('Password Reset Token:', 'latepoint'); ?></span> <span class="var-code os-click-to-copy">{{token}}</span></li>
     <?php do_action('latepoint_available_vars_customer'); ?>
   </ul>

@@ -949,7 +949,7 @@ msgid "delete"
 msgstr ""
 
 #: latepoint.php:1664
-msgid "Type \"delete\" to confirm"
+msgid "Type \"%s\" to confirm"
 msgstr ""
 
 #: latepoint.php:1665

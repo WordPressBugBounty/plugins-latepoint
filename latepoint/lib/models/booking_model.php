@@ -4,6 +4,7 @@
  * @property OsCustomerModel $customer
  * @property OsAgentModel $agent
  * @property OsServiceModel $service
+ * @property string $service_category_id
  * @property OsLocationModel $location
  */
 class OsBookingModel extends OsModel {
@@ -149,11 +150,12 @@ class OsBookingModel extends OsModel {
 
 	public function properties_to_query(): array {
 		return [
-			'service_id'         => __( 'Service', 'latepoint' ),
-			'agent_id'           => __( 'Agent', 'latepoint' ),
-			'status'             => __( 'Status', 'latepoint' ),
-			'start_datetime_utc' => __( 'Start Time', 'latepoint' ),
-			'order_item_counts'  => __( 'Order Item Counts', 'latepoint' ),
+			'service_id'          => __( 'Service', 'latepoint' ),
+			'service_category_id' => __( 'Service Category', 'latepoint' ),
+			'agent_id'            => __( 'Agent', 'latepoint' ),
+			'status'              => __( 'Status', 'latepoint' ),
+			'start_datetime_utc'  => __( 'Start Time', 'latepoint' ),
+			'order_item_counts'   => __( 'Order Item Counts', 'latepoint' ),
 		];
 	}
 
@@ -206,12 +208,14 @@ class OsBookingModel extends OsModel {
 			'booking_code'                => $this->booking_code,
 			'start_datetime'              => $this->format_start_date_and_time_rfc3339(),
 			'end_datetime'                => $this->format_end_date_and_time_rfc3339(),
+			'service_id'                  => $this->service_id,
 			'service_name'                => $this->service->name,
 			'duration'                    => $this->duration,
 			'customer_comment'            => $this->order->customer_comment,
 			'status'                      => $this->status,
 			'start_date'                  => $this->format_start_date(),
 			'start_time'                  => OsTimeHelper::minutes_to_hours_and_minutes( $this->start_time ),
+			'end_time'                    => OsTimeHelper::minutes_to_hours_and_minutes( $this->end_time ),
 			'timezone'                    => OsTimeHelper::get_wp_timezone_name(),
 			'agent'                       => $this->agent->get_data_vars(),
 			'created_datetime'            => $this->format_created_datetime_rfc3339(),
@@ -419,7 +423,7 @@ class OsBookingModel extends OsModel {
 		if ( empty( $this->start_time ) || empty( $this->start_date ) ) {
 			return $this->start_date;
 		}
-		if ( ( $this->start_time + $this->get_total_duration() ) >= ( 24 * 60 ) ) {
+		if ( ( $this->start_time + $this->get_total_duration() ) > ( 24 * 60 ) ) {
 			$date_obj = new OsWpDateTime( $this->start_date );
 			$end_date = $date_obj->modify( '+1 day' )->format( 'Y-m-d' );
 		} else {
@@ -1055,6 +1059,16 @@ class OsBookingModel extends OsModel {
 	}
 
 
+	/**
+	 * Category of the service this booking is for. Not a column on the bookings
+	 * table - resolved through the service, and exposed as a queryable property
+	 * so processes can be conditioned on a service category instead of having to
+	 * list every service in it.
+	 */
+	protected function get_service_category_id(): string {
+		return $this->service_id ? (string) $this->service->category_id : '';
+	}
+
 	protected function get_service() {
 		if ( $this->service_id ) {
 			if ( ! isset( $this->service ) || ( isset( $this->service ) && ( $this->service->id != $this->service_id ) ) ) {
@@ -1187,6 +1201,9 @@ class OsBookingModel extends OsModel {
 			$service        = new OsServiceModel( $this->service_id );
 			$this->duration = $service->duration;
 		}
+		// buffers can arrive as NULL from a service with NULL buffer_before/after, and the bookings table declares them NOT NULL
+		$this->buffer_before = (int) $this->buffer_before;
+		$this->buffer_after  = (int) $this->buffer_after;
 	}
 
 	public function get_default_booking_status() {

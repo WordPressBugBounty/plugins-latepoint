@@ -2,8 +2,8 @@
 Contributors: latepoint
 Tags: appointment booking, booking system, appointments, scheduling, booking
 Requires at least: 6.5
-Tested up to: 7.0
-Stable tag: 5.6.10
+Tested up to: 7.1
+Stable tag: 5.6.11
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -375,6 +375,24 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.6.11 - September 03, 2026 =
+  - New
+    - Added the {{customer_admin_notes}} template variable for use in notifications and calendar sync.
+    - Added the service and end time of a booking to webhook payloads, so both can be mapped in automation workflows.
+    - Service category can now be used as a workflow trigger condition, so a rule can apply to a whole category instead of listing every service in it.
+
+  - Improvements
+    - The Customer Dashboard and Customer Login pages now always load their scripts and styles, even when front-end assets are restricted to selected pages.
+
+  - Fixes
+    - Fixed two customers checking out at the same time being able to book the same slot. A checkout in progress now holds the slot briefly.
+    - Fixed a schedule ending at 12:00 am producing no available time slots, which made a full 24-hour day impossible to set.
+    - Fixed the Orders CSV export showing 0.00 in the Amount column for every order.
+    - Fixed the delete confirmation on non-English sites asking users to type the English word "delete" instead of the translated one. Affects services, locations, agents and appointments.
+    - Fixed "Add another item" failing when "Reset Presets When Adding New Item" was enabled and the booking button had a preselected service.
+    - Fixed the availability tools in the MCP/Abilities integration returning incorrect results.
+    - Fixed Razorpay reporting that the selected payment method is not available even though the payment had gone through.
 
 = 5.6.10 - August 03, 2026 =
   - New

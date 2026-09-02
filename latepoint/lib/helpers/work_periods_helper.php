@@ -308,7 +308,7 @@ class OsWorkPeriodsHelper {
 				if ( in_array( $work_period['week_day'], $inactive_weekdays ) ) {
 					continue;
 				}
-				if ( $work_period['is_active'] == 0 ) {
+				if ( empty( $work_period['is_active'] ) ) {
 					$work_period['start_time'] = 0;  
 					$work_period['end_time']   = 0;  
 					$inactive_weekdays[]       = $work_period['week_day'];
@@ -317,7 +317,7 @@ class OsWorkPeriodsHelper {
 					$end_ampm   = isset( $work_period['end_time']['ampm'] ) ? $work_period['end_time']['ampm'] : false;
 
 					$work_period['start_time'] = OsTimeHelper::convert_time_to_minutes( $work_period['start_time']['formatted_value'], $start_ampm );
-					$work_period['end_time']   = OsTimeHelper::convert_time_to_minutes( $work_period['end_time']['formatted_value'], $end_ampm );
+					$work_period['end_time']   = OsTimeHelper::convert_time_to_minutes( $work_period['end_time']['formatted_value'], $end_ampm, true );
 				}
 				if ( $force_new || substr( $id, 0, 4 ) === 'new_' ) {
 					// new record

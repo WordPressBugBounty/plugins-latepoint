@@ -434,6 +434,77 @@ class OsBookingHelper {
 
 
 	/**
+	 * Injects in-progress checkouts (order intents) as BookedPeriods so a concurrent customer can't grab the same slot.
+	 * Registered in latepoint.php (opt-in setting); dropped in convert_to_order(). Window: `latepoint_slot_hold_minutes` (default 5, 0 disables).
+	 *
+	 * The holds are built once per request and cached in a static, because this filter fires many times per availability
+	 * request (per day/resource and re-entrantly while resolving an "any" agent/location). The same static doubles as
+	 * the recursion guard: it is set non-null before the build, so a re-entrant call reuses it instead of rebuilding.
+	 *
+	 * @param \LatePoint\Misc\BookedPeriod[] $booked_periods
+	 * @param \LatePoint\Misc\Filter         $filter
+	 *
+	 * @return \LatePoint\Misc\BookedPeriod[]
+	 */
+	public static function inject_active_hold_booked_periods( array $booked_periods, \LatePoint\Misc\Filter $filter ): array {
+		// build the active holds once per request, then reuse across every availability call
+		static $hold_periods = null;
+		if ( null === $hold_periods ) {
+			// marked as built before the build runs: resolving an "any" agent/location below re-enters
+			// this filter, and the non-null static makes that nested call skip the build instead of recursing
+			$hold_periods = [];
+			$hold_minutes = (int) apply_filters( 'latepoint_slot_hold_minutes', 5 );
+			if ( $hold_minutes > 0 ) {
+				// collected in a local so a nested call never sees a half-built list
+				$periods = [];
+
+				// exclude the current customer's own checkout so it can't block itself
+				$exclude_order_intent_id = (int) ( OsCartsHelper::get_or_create_cart()->order_intent_id ?? 0 );
+				$cutoff                  = OsTimeHelper::now_datetime_object()->modify( '-' . $hold_minutes . ' minutes' )->format( LATEPOINT_DATETIME_DB_FORMAT );
+
+				$order_intents = ( new OsOrderIntentModel() )
+					->where(
+						[
+							'status'       => [ LATEPOINT_ORDER_INTENT_STATUS_NEW, LATEPOINT_ORDER_INTENT_STATUS_PROCESSING ],
+							'updated_at >' => $cutoff,
+							'id !='        => $exclude_order_intent_id,
+						]
+					)->get_results_as_models();
+
+				foreach ( $order_intents as $order_intent ) {
+					foreach ( $order_intent->build_cart_object()->get_bookings_from_cart_items() as $booking ) {
+						// resolve "any" agent/location to a concrete resource so the held period matches a slot
+						if ( $booking->location_id == LATEPOINT_ANY_LOCATION ) {
+							$booking->location_id = self::get_any_location_for_booking_by_rule( $booking );
+						}
+						if ( $booking->agent_id == LATEPOINT_ANY_AGENT ) {
+							$booking->agent_id = self::get_any_agent_for_booking_by_rule( $booking );
+						}
+						if ( empty( $booking->agent_id ) || empty( $booking->location_id ) ) {
+							continue;
+						}
+						$periods[] = \LatePoint\Misc\BookedPeriod::create_from_booking_model( $booking );
+					}
+				}
+
+				$hold_periods = $periods;
+			}
+		}
+
+		// append holds that fall within the requested date range
+		$date_to = $filter->date_to ? $filter->date_to : $filter->date_from;
+		foreach ( $hold_periods as $hold_period ) {
+			if ( $filter->date_from && ( $hold_period->start_date < $filter->date_from || $hold_period->start_date > $date_to ) ) {
+				continue;
+			}
+			$booked_periods[] = $hold_period;
+		}
+
+		return $booked_periods;
+	}
+
+
+	/**
 	 * @param \LatePoint\Misc\Filter $filter
 	 * @param bool $as_models
 	 *

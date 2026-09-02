@@ -808,7 +808,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 
 			// OUTPUT CSV IF REQUESTED
 			if ( isset( $this->params['download'] ) && $this->params['download'] == 'csv' ) {
-				$csv_filename = 'payments_' . OsUtilHelper::random_text() . '.csv';
+				$csv_filename = 'orders_' . OsUtilHelper::random_text() . '.csv';
 
 				header( 'Content-Type: text/csv' );
 				header( "Content-Disposition: attachment; filename={$csv_filename}" );
@@ -842,7 +842,7 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 							( $order->customer_id ? $order->customer->full_name : 'n/a' ),
 							$order->processor,
 							$order->payment_method,
-							OsMoneyHelper::format_price( $order->amount, true, false ),
+							OsMoneyHelper::format_price( $order->total, true, false ),
 							$order->status,
 							$order->kind,
 							$order->created_at,

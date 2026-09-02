@@ -9375,8 +9375,8 @@ msgid "delete"
 msgstr "xóa"
 
 #: latepoint.php:1664
-msgid "Type \"delete\" to confirm"
-msgstr "Nhập \"delete\" để xác nhận"
+msgid "Type \"%s\" to confirm"
+msgstr "Nhập \"%s\" để xác nhận"
 
 #: latepoint.php:1667
 msgid "Appointment selected"

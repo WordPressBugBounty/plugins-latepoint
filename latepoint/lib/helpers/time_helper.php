@@ -276,7 +276,7 @@ class OsTimeHelper {
 		return $now->format( 'i' ) + ( $now->format( 'G' ) * 60 );
 	}
 
-	public static function convert_time_to_minutes( $time, $ampm = false ) {
+	public static function convert_time_to_minutes( $time, $ampm = false, $as_end_of_day = false ) {
 		if ( strpos( $time, ':' ) === false ) {
 			return 0;
 		}
@@ -291,6 +291,10 @@ class OsTimeHelper {
 			$hours = $hours + 12;
 		}
 		$minutes = ( $hours * 60 ) + $minutes;
+		if ( $as_end_of_day && ! $minutes ) {
+			// midnight entered as a finish time means the end of the day, not its start
+			$minutes = 24 * 60;
+		}
 
 		return $minutes;
 	}
@@ -300,7 +304,8 @@ class OsTimeHelper {
 			return '';
 		}
 
-		return ( $minutes < 720 ) ? 'am' : 'pm';
+		// end of the day is midnight of the same day, not noon
+		return ( $minutes < 720 || $minutes == 1440 ) ? 'am' : 'pm';
 	}
 
 	public static function minutes_to_hours( $time ) {

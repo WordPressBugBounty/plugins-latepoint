@@ -296,6 +296,9 @@ class OsProcessesHelper {
 					case 'service_id':
 						$values = OsFormHelper::model_options_for_multi_select( 'service' );
 						break;
+					case 'service_category_id':
+						$values = OsFormHelper::model_options_for_multi_select( 'service_category' );
+						break;
 				}
 				break;
 			case 'customer':

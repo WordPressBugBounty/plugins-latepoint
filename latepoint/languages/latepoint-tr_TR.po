@@ -9378,8 +9378,8 @@ msgid "delete"
 msgstr "sil"
 
 #: latepoint.php:1664
-msgid "Type \"delete\" to confirm"
-msgstr "Onaylamak için \"sil\" yazın"
+msgid "Type \"%s\" to confirm"
+msgstr "Onaylamak için \"%s\" yazın"
 
 #: latepoint.php:1667
 msgid "Appointment selected"

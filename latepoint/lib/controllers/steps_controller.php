@@ -369,6 +369,9 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					break;
 				case 'specific':
 					$step_code_to_load = OsStepsHelper::should_step_be_skipped( $current_step_code ) ? OsStepsHelper::get_next_step_code( $current_step_code ) : $current_step_code;
+					if ( $step_code_to_load && OsSettingsHelper::is_on( 'reset_presets_when_adding_new_item' ) ) {
+						$step_code_to_load = OsStepsHelper::check_booking_step_access( $step_code_to_load );
+					}
 					break;
 			}
 			if ( $step_code_to_load ) {

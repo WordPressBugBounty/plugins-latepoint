@@ -263,6 +263,7 @@ class OsReplacerHelper {
 			'{{customer_email}}',
 			'{{customer_phone}}',
 			'{{customer_notes}}',
+			'{{customer_admin_notes}}',
 		);
 		$replacements  = array(
 			$customer->full_name,
@@ -271,6 +272,7 @@ class OsReplacerHelper {
 			$customer->email,
 			$customer->phone,
 			$customer->notes,
+			$customer->admin_notes,
 		);
 		$original_text = $text;
 		$text          = str_replace( $needles, $replacements, $text );

@@ -222,6 +222,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <div class="sub-section-content">
 						<?php echo OsFormHelper::toggler_field( 'settings[one_agent_at_location]', __( 'Location can only be used by one agent at a time', 'latepoint' ), OsSettingsHelper::is_on( 'one_agent_at_location' ), '', 'large', [ 'sub_label' => __( 'At any given location, only one agent can be booked at a time', 'latepoint' ) ] ); ?>
 						<?php echo OsFormHelper::toggler_field( 'settings[one_location_at_time]', __( 'Agents can only be present in one location at a time', 'latepoint' ), OsSettingsHelper::is_on( 'one_location_at_time' ), '', 'large', [ 'sub_label' => __( 'If an agent is booked at one location, he will not be able to accept any bookings for the same timeslot at other locations', 'latepoint' ) ] ); ?>
+						<?php echo OsFormHelper::toggler_field( 'settings[reserve_slots_during_checkout]', __( 'Reserve slot while a customer is checking out', 'latepoint' ), OsSettingsHelper::is_on( 'reserve_slots_during_checkout' ), '', 'large', [ 'sub_label' => __( 'Temporarily holds a time slot once a customer reaches checkout so another customer cannot book or pay for the same slot at the same time. The hold expires automatically after a few minutes.', 'latepoint' ) ] ); ?>
                     </div>
                 </div>
                 <div class="sub-section-row">

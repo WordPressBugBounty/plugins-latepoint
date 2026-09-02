@@ -81,6 +81,32 @@ class OsPagesHelper {
 	}
 
 	/**
+	 * Check if the current request is the Customer Dashboard or Customer Login page
+	 * @return bool
+	 */
+	public static function is_customer_dashboard_or_login_page(): bool {
+		if ( ! is_singular() ) {
+			return false;
+		}
+
+		$current_page_id = get_the_ID();
+
+		// Match the configured pages by path, so pages built with Elementor/Bricks are covered too.
+		$current_path = get_page_uri( $current_page_id );
+
+		if ( $current_path ) {
+			$dashboard_path = trim( (string) OsSettingsHelper::get_customer_dashboard_url( false ), '/' );
+			$login_path     = trim( (string) OsSettingsHelper::get_customer_login_url( false ), '/' );
+
+			if ( $current_path === $dashboard_path || $current_path === $login_path ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get page ID by slug with status published
 	 * @param $slug
 	 * @return string|null

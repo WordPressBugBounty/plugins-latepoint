@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.6.10
+ * Version: 5.6.11
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.6.10';
+		public $version    = '5.6.11';
 		public $db_version = '2.3.2';
 
 		/**
@@ -1042,6 +1042,11 @@ if ( ! class_exists( 'LatePoint' ) ) :
 			// plugin related hooks
 			add_action( 'latepoint_model_save', [ $this, 'save_connected_wordpress_user' ] );
 
+			// Reserve slots being actively checked out (opt-in) so two customers can't grab the same slot.
+			if ( OsSettingsHelper::is_on( 'reserve_slots_during_checkout' ) ) {
+				add_filter( 'latepoint_get_booked_periods', [ 'OsBookingHelper', 'inject_active_hold_booked_periods' ], 10, 2 );
+			}
+
 			// Stripe Connect
 
 			add_filter( 'latepoint_payment_processors', 'OsStripeConnectHelper::register_payment_processor' );
@@ -1463,7 +1468,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * Register scripts and styles - FRONT
 		 */
 		public function load_front_scripts_and_styles() {
-			if ( ! (bool) apply_filters( 'latepoint_should_load_front_scripts', true ) ) {
+			$load_scripts = (bool) apply_filters( 'latepoint_should_load_front_scripts', true );
+
+			// Customer Dashboard/Login pages are exempt from the filter, they always need front scripts to work.
+			if ( OsPagesHelper::is_customer_dashboard_or_login_page() ) {
+				$load_scripts = true;
+			}
+
+			if ( ! $load_scripts ) {
 				return;
 			}
 			$localized_vars = [
@@ -1711,6 +1723,9 @@ if ( ! class_exists( 'LatePoint' ) ) :
 
 			// Single shared localize for the delete-confirm modal — used by BOTH the appointments bulk
 			// delete and every single-record delete (services now, others later). Single deletes show the
+			/* translators: the exact word a user must type to confirm a deletion — whatever it is translated to is what users will have to type. Keep it one lowercase word. */
+			$delete_confirm_word = __( 'delete', 'latepoint' );
+
 			wp_localize_script(
 				'latepoint-main-admin',
 				'latepoint_delete_confirm_i18n',
@@ -1718,9 +1733,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 					'modal_title'             => __( 'Are you sure you want to delete these appointments?', 'latepoint' ),
 					'modal_body_one'          => __( 'You are about to delete 1 appointment. This action cannot be undone.', 'latepoint' ),
 					'modal_body_many'         => __( 'You are about to delete %d appointments. This action cannot be undone.', 'latepoint' ),
-					'modal_confirm_prompt'    => __( 'To confirm, type %s in the box below.', 'latepoint' ),
-					'modal_confirm_word'      => __( 'delete', 'latepoint' ),
-					'modal_input_placeholder' => __( 'Type "delete" to confirm', 'latepoint' ),
+					'modal_confirm_word'      => $delete_confirm_word,
+					'modal_input_placeholder' => sprintf( __( 'Type "%s" to confirm', 'latepoint' ), $delete_confirm_word ),
 					'modal_confirm'           => __( 'Delete', 'latepoint' ),
 					'modal_cancel'            => __( 'Cancel', 'latepoint' ),
 					'selected_label_one'      => __( 'Appointment selected', 'latepoint' ),

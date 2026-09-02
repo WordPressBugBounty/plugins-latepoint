@@ -184,10 +184,6 @@ if ( ! class_exists( 'OsRazorpayConnectController' ) ) :
 							http_response_code( 400 );
 							exit();
 						}
-						// Store the payment ID so process_payment() can verify it
-						$payment_data          = json_decode( $order_intent->payment_data, true ) ?? [];
-						$payment_data['token'] = sanitize_text_field( $event['data']['payment_id'] ?? '' );
-						$order_intent->update_attributes( [ 'payment_data' => wp_json_encode( $payment_data ) ] );
 
 						if ( $order_intent->convert_to_order() ) {
 							http_response_code( 200 );
@@ -203,9 +199,6 @@ if ( ! class_exists( 'OsRazorpayConnectController' ) ) :
 							http_response_code( 400 );
 							exit();
 						}
-						$payment_data          = json_decode( $transaction_intent->payment_data, true ) ?? [];
-						$payment_data['token'] = sanitize_text_field( $event['data']['payment_id'] ?? '' );
-						$transaction_intent->update_attributes( [ 'payment_data' => wp_json_encode( $payment_data ) ] );
 
 						if ( $transaction_intent->convert_to_transaction() ) {
 							http_response_code( 200 );

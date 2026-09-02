@@ -97,7 +97,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 					$end_ampm   = $work_period['end_time']['ampm'] ?? false;
 
 					$blocked_period->start_time = OsTimeHelper::convert_time_to_minutes( $work_period['start_time']['formatted_value'], $start_ampm );
-					$blocked_period->end_time   = OsTimeHelper::convert_time_to_minutes( $work_period['end_time']['formatted_value'], $end_ampm );
+					$blocked_period->end_time   = OsTimeHelper::convert_time_to_minutes( $work_period['end_time']['formatted_value'], $end_ampm, true );
 
 					$blocked_period->agent_id    = $blocked_period_settings['agent_id'];
 					$blocked_period->service_id  = $blocked_period_settings['service_id'];

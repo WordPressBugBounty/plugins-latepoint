@@ -232,6 +232,7 @@ class OsOrderIntentModel extends OsModel {
 		$this->mark_as_processing();
 
 		try {
+			remove_filter( 'latepoint_get_booked_periods', [ 'OsBookingHelper', 'inject_active_hold_booked_periods' ], 10 );
 
 			// process is cart -> order intent -> order
 			if ( ! $this->is_bookable() ) {

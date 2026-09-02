@@ -3110,6 +3110,20 @@ class OsStepsHelper {
 		return $first_step_code;
 	}
 
+	// rewinds to the first booking step if service selection is still active and no service is selected, happens when presets are reset for a new cart item
+	public static function check_booking_step_access( string $step_code ): string {
+		if ( explode( '__', $step_code )[0] != 'booking' || ! empty( self::$booking_object->service_id ) ) {
+			return $step_code;
+		}
+		$step_position     = array_search( $step_code, self::$step_codes_in_order, true );
+		$services_position = array_search( 'booking__services', self::$step_codes_in_order, true );
+		if ( $step_position === false || $services_position === false || $services_position >= $step_position ) {
+			return $step_code;
+		}
+
+		return self::get_first_step_for_parent_code( 'booking' );
+	}
+
 	public static function check_step_code_access( string $step_code_to_access ): string {
 		if ( $step_code_to_access == 'confirmation' && ! self::$order_object->is_new_record() ) {
 			return $step_code_to_access;
