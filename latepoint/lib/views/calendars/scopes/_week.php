@@ -52,11 +52,11 @@ if(count($agents) > 1){
 						</div>
 						<div class="ch-day-periods-w">
 						<?php
-				    for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')) {
+				    for($day_date=clone $calendar_start; $day_date->format('Y-m-d')<=$calendar_end->format('Y-m-d'); $day_date->modify('+1 day')) {
 					      $day_off_class = empty($work_time_periods_grouped_by_date_and_agent[$day_date->format('Y-m-d')][$agent->id]) ? 'agent-has-day-off' : '';
 				      ?>
 							<div class="ch-day-periods-i <?php echo esc_attr($day_off_class); ?>">
-								<div class="ch-day ch-day-<?php echo esc_attr(strtolower($day_date->format('N'))); ?> <?php if($today_date == $day_date) echo 'is-today'; ?>">
+								<div class="ch-day ch-day-<?php echo esc_attr(strtolower($day_date->format('N'))); ?> <?php if($today_date->format('Y-m-d') == $day_date->format('Y-m-d')) echo 'is-today'; ?>">
 									<span><?php echo esc_html(OsUtilHelper::get_weekday_name_by_number($day_date->format('N'), true)); ?></span>
 									<strong><?php echo esc_html($day_date->format('j')); ?></strong>
                                     <?php echo OsCalendarHelper::generate_calendar_quick_actions_link($day_date, ['agent_id' => $agent->id, 'start_time' => $work_boundaries->start_time]); ?>

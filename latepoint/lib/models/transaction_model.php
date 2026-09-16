@@ -117,21 +117,29 @@ class OsTransactionModel extends OsModel {
 
 	public function filter_allowed_records(): OsModel {
 		if ( ! OsRolesHelper::are_all_records_allowed() ) {
-			// join orders table to filter allowed transactions
-			$this->join( LATEPOINT_TABLE_BOOKINGS, [ 'id' => $this->table_name . '.order_id' ] );
-			$this->select( LATEPOINT_TABLE_TRANSACTIONS . '.*' );
-			if ( ! OsRolesHelper::are_all_records_allowed( 'agent' ) ) {
-				$this->select( LATEPOINT_TABLE_BOOKINGS . '.agent_id' );
-				$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.agent_id' => OsRolesHelper::get_allowed_records( 'agent' ) ] );
-			}
-			if ( ! OsRolesHelper::are_all_records_allowed( 'location' ) ) {
-				$this->select( LATEPOINT_TABLE_BOOKINGS . '.location_id' );
-				$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.location_id' => OsRolesHelper::get_allowed_records( 'location' ) ] );
-			}
-			if ( ! OsRolesHelper::are_all_records_allowed( 'service' ) ) {
-				$this->select( LATEPOINT_TABLE_BOOKINGS . '.service_id' );
-				$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.service_id' => OsRolesHelper::get_allowed_records( 'service' ) ] );
-			}
+			// a transaction has no record scope of its own, it belongs to an order, so it's restricted to the orders that are allowed for the current user
+			$allowed_orders = ( new OsOrderModel() )->filter_allowed_records()->clear_select()->select( LATEPOINT_TABLE_ORDERS . '.id' )->get_results();
+			$this->filter_where_conditions( [ $this->table_name . '.order_id' => array_map( fn( $allowed_order ) => (int) $allowed_order->id, $allowed_orders ) ] );
+
+			/*
+			 * Earlier implementation, kept for reference in case it is needed in the future:
+			 *
+			 * // join orders table to filter allowed transactions
+			 * $this->join( LATEPOINT_TABLE_BOOKINGS, [ 'id' => $this->table_name . '.order_id' ] );
+			 * $this->select( LATEPOINT_TABLE_TRANSACTIONS . '.*' );
+			 * if ( ! OsRolesHelper::are_all_records_allowed( 'agent' ) ) {
+			 * 	$this->select( LATEPOINT_TABLE_BOOKINGS . '.agent_id' );
+			 * 	$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.agent_id' => OsRolesHelper::get_allowed_records( 'agent' ) ] );
+			 * }
+			 * if ( ! OsRolesHelper::are_all_records_allowed( 'location' ) ) {
+			 * 	$this->select( LATEPOINT_TABLE_BOOKINGS . '.location_id' );
+			 * 	$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.location_id' => OsRolesHelper::get_allowed_records( 'location' ) ] );
+			 * }
+			 * if ( ! OsRolesHelper::are_all_records_allowed( 'service' ) ) {
+			 * 	$this->select( LATEPOINT_TABLE_BOOKINGS . '.service_id' );
+			 * 	$this->filter_where_conditions( [ LATEPOINT_TABLE_BOOKINGS . '.service_id' => OsRolesHelper::get_allowed_records( 'service' ) ] );
+			 * }
+			 */
 		}
 		return $this;
 	}

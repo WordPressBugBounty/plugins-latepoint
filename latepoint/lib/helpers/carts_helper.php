@@ -127,8 +127,21 @@ class OsCartsHelper {
 
 
 	public static function can_checkout(): bool {
-		$cart = self::get_or_create_cart();
-		return ( count( $cart->get_items() ) > 0 );
+		$cart  = self::get_or_create_cart();
+		$items = $cart->get_items();
+		if ( empty( $items ) ) {
+			return false;
+		}
+		foreach ( $items as $item ) {
+			// An event's cart item exists as soon as the info step is processed, before any
+			// tickets are chosen (0 is a valid, real in-progress quantity) — don't let checkout
+			// be reachable while nothing has actually been selected yet.
+			if ( $item->is_event_registration() && OsEventsManagerHelper::resolve_item_quantity( $item->item_data ) < 1 ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 

@@ -1,17 +1,17 @@
 <?php
 return [
-	'OsDashboardController'         => [
+	'OsDashboardController'          => [
 		'default' => [ 'booking__view' ],
 	],
-	'OsActivitiesController'        => [
+	'OsActivitiesController'         => [
 		'default'    => [ 'activity__view' ],
 		'per_action' => [
 			'destroy' => [ 'activity__delete' ],
 		],
 	],
-	'OsAddonsController'            => [],
-	'OsDefaultAgentController'      => [],
-	'OsAgentsController'            => [
+	'OsAddonsController'             => [],
+	'OsDefaultAgentController'       => [],
+	'OsAgentsController'             => [
 		'default'    => [ 'agent__edit' ],
 		'per_action' => [
 			'edit_form'    => [ 'agent__view' ],
@@ -22,8 +22,8 @@ return [
 			'destroy'      => [ 'agent__delete' ],
 		],
 	],
-	'OsAuthController'              => [],
-	'OsBookingsController'          => [
+	'OsAuthController'               => [],
+	'OsBookingsController'           => [
 		'default'    => [ 'booking__view' ],
 		'per_action' => [
 			'view_booking_log' => [ 'activity__view' ],
@@ -34,7 +34,7 @@ return [
 			'bulk_destroy'     => [ 'booking__delete' ],
 		],
 	],
-	'OsOrdersController'            => [
+	'OsOrdersController'             => [
 		'default'    => [ 'booking__view' ],
 		'per_action' => [
 			'view_order_log' => [ 'activity__view' ],
@@ -44,11 +44,11 @@ return [
 			'destroy'        => [ 'booking__delete' ],
 		],
 	],
-	'OsCalendarsController'         => [
+	'OsCalendarsController'          => [
 		'default' => [ 'booking__view' ],
 	],
-	'OsCustomerCabinetController'   => [],
-	'OsCustomersController'         => [
+	'OsCustomerCabinetController'    => [],
+	'OsCustomersController'          => [
 		'default'    => [ 'customer__edit' ],
 		'per_action' => [
 			'set_as_guest'            => [ 'customer__edit' ],
@@ -64,15 +64,15 @@ return [
 			'connect_to_wp_user'      => [ 'customer__edit' ],
 		],
 	],
-	'OsDebugController'             => [],
-	'OsIntegrationsController'      => [],
-	'OsNotificationsController'     => [],
-	'OsProcessJobsController'       => [],
-	'OsProcessesController'         => [],
-	'OsSearchController'            => [
+	'OsDebugController'              => [],
+	'OsIntegrationsController'       => [],
+	'OsNotificationsController'      => [],
+	'OsProcessJobsController'        => [],
+	'OsProcessesController'          => [],
+	'OsSearchController'             => [
 		'default' => [ 'booking__view' ],
 	],
-	'OsServiceCategoriesController' => [
+	'OsServiceCategoriesController'  => [
 		'default'    => [ 'service__edit' ],
 		'per_action' => [
 			'list_for_select' => [ 'service__view' ],
@@ -81,7 +81,7 @@ return [
 			'create'          => [ 'service__create' ],
 		],
 	],
-	'OsServicesController'          => [
+	'OsServicesController'           => [
 		'default'    => [ 'service__edit' ],
 		'per_action' => [
 			'index'   => [ 'service__view' ],
@@ -89,7 +89,7 @@ return [
 			'destroy' => [ 'service__delete' ],
 		],
 	],
-	'OsBundlesController'           => [
+	'OsBundlesController'            => [
 		'default'    => [ 'bundle__edit' ],
 		'per_action' => [
 			'index'   => [ 'bundle__view' ],
@@ -97,7 +97,31 @@ return [
 			'destroy' => [ 'bundle__delete' ],
 		],
 	],
-	'OsSettingsController'          => [
+	'OsEventsManagerController'      => [
+		'default'    => [ 'event__edit' ],
+		'per_action' => [
+			'index'    => [ 'event__view' ],
+			'new_form' => [ 'event__create' ],
+			'create'   => [ 'event__create' ],
+			'destroy'  => [ 'event__delete' ],
+		],
+	],
+	'OsEventCategoriesController'    => [
+		'default'    => [ 'event__edit' ],
+		'per_action' => [
+			'index'   => [ 'event__view' ],
+			'create'  => [ 'event__create' ],
+			'destroy' => [ 'event__delete' ],
+		],
+	],
+	'OsEventRegistrationsController' => [
+		'default'    => [ 'event_registration__view' ],
+		'per_action' => [
+			// 'check_in' => [ 'event_registration__edit' ], // Parked with OsEventRegistrationsController::check_in().
+			'cancel' => [ 'event_registration__edit' ],
+		],
+	],
+	'OsSettingsController'           => [
 		'per_action' => [
 			'load_work_period_form'      => [ 'agent__edit' ],
 			'remove_chain_schedule'      => [ 'agent__edit' ],
@@ -107,17 +131,17 @@ return [
 			'update_work_periods'        => [ 'agent__edit' ],
 		],
 	],
-	'OsStepsController'             => [],
-	'OsTransactionsController'      => [
+	'OsStepsController'              => [],
+	'OsTransactionsController'       => [
 		'default'    => [ 'transaction__edit' ],
 		'per_action' => [
 			'destroy' => [ 'transaction__delete' ],
 			'index'   => [ 'transaction__view' ],
 		],
 	],
-	'OsUpdatesController'           => [],
-	'OsWizardController'            => [],
-	'OsMessagesController'          => [
+	'OsUpdatesController'            => [],
+	'OsWizardController'             => [],
+	'OsMessagesController'           => [
 		'default' => [ 'chat__edit' ],
 	],
 ];

@@ -4,6 +4,46 @@
 <div class="latepoint-lightbox-content">
 <div class="os-premium-features-list">
 <div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-layers"></i></div>
+    <div class="feature-heading">Assets</div>
+    <div class="feature-description">Limit bookings by shared resource capacity — rooms, equipment, or vehicles with a fixed quantity — so the calendar automatically blocks a slot once that resource is fully booked, across any agent.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-slash"></i></div>
+    <div class="feature-heading">No-Show Restrictions</div>
+    <div class="feature-description">Automatically restrict customers who repeatedly miss appointments, by blocking future bookings or requiring upfront payment from them.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-eye"></i></div>
+    <div class="feature-heading">White Label</div>
+    <div class="feature-description">Rebrand the booking experience with your own labels — rename "Agent" and "Customer" roles and customize how LatePoint appears to your team and clients.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-lock"></i></div>
+    <div class="feature-heading">Cloudflare Turnstile</div>
+    <div class="feature-description">Protect your booking form from bots and spam submissions with Cloudflare's invisible verification.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-calendar1"></i></div>
+    <div class="feature-heading">Max Bookings Per Day</div>
+    <div class="feature-description">Cap the total number of bookings your business accepts per day, independent of individual agent schedules.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-message-square"></i></div>
+    <div class="feature-heading">Re-schedule Reasons</div>
+    <div class="feature-description">Prompt customers for a reason when they cancel or reschedule, and reference it in your internal notifications.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-link"></i></div>
+    <div class="feature-heading">URL Prefill</div>
+    <div class="feature-description">Pre-fill customer info (name, email, phone) automatically via URL parameters — useful for embedding booking links in emails, ads, or CRM workflows.</div>
+</div>
+<div class="os-premium-feature">
+    <div class="feature-icon"><i class="latepoint-icon latepoint-icon-credit-card"></i></div>
+    <div class="feature-heading">Base Fee</div>
+    <div class="feature-description">Add a fixed additional charge on top of a service's price — separate from Taxes &amp; Fees, applied per service.</div>
+</div>
+<div class="os-premium-feature">
     <div class="feature-icon"><i class="latepoint-icon latepoint-icon-browser"></i></div>
     <div class="feature-heading">Custom Fields</div>
     <div class="feature-description">Create additional fields to capture data from customers. File upload, address autocomplete, text, checkbox and more</div>
@@ -40,7 +80,7 @@
 </div>
 <div class="os-premium-feature">
     <div class="feature-icon"><i class="latepoint-icon latepoint-icon-video-camera"></i></div>
-    <div class="feature-heading">Zoom & Google Meet</div>
+    <div class="feature-heading">Zoom &amp; Google Meet</div>
     <div class="feature-description">Automatically create zoom and Google Meet video meetings for each appointment.</div>
 </div>
 <div class="os-premium-feature">
@@ -156,5 +196,5 @@
 </div>
 </div>
 <div class="latepoint-lightbox-footer">
-    <a href="<?php echo LATEPOINT_UPGRADE_URL; ?>" target="_blank" class="latepoint-btn latepoint-btn-block upgrade-info-btn"><span><?php esc_html_e('Upgrade Now', 'latepoint'); ?></span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>
+    <a href="<?php echo esc_url( OsUtilHelper::get_upgrade_url( 'modal' ) ); ?>" target="_blank" class="latepoint-btn latepoint-btn-block upgrade-info-btn"><span><?php esc_html_e('Upgrade Now', 'latepoint'); ?></span><i class="latepoint-icon latepoint-icon-arrow-right"></i></a>
 </div>

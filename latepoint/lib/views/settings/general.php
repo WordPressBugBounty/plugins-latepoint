@@ -69,6 +69,34 @@ if ( ! defined( 'ABSPATH' ) ) {
                 </div>
             </div>
         </div>
+        <div class="white-box section-anchor" id="stickySectionEvents">
+            <div class="white-box-header">
+                <div class="os-form-sub-header"><h3><?php esc_html_e( 'Events', 'latepoint' ); ?></h3></div>
+            </div>
+            <div class="white-box-content no-padding">
+                <div class="sub-section-row">
+                    <div class="sub-section-label">
+                        <h3><?php esc_html_e( 'Events', 'latepoint' ) ?></h3>
+                    </div>
+                    <div class="sub-section-content">
+						<?php echo OsFormHelper::toggler_field( 'settings[enable_events_functionality]', __( 'Enable Events Functionality', 'latepoint' ), OsSettingsHelper::is_on( 'enable_events_functionality' ), 'eventsSettingsSubfields', false, [ 'sub_label' => __( 'Enable to let customers browse and register for events. When disabled, event pages, shortcodes, and the registration wizard step are inactive.', 'latepoint' ) ] ); ?>
+                    </div>
+                </div>
+                <div id="eventsSettingsSubfields" style="border-top: 1px solid #dcdad7; <?php echo OsSettingsHelper::is_on( 'enable_events_functionality' ) ? '' : 'display: none;'; ?>">
+					<?php
+					/**
+					 * Plug after the Events settings card's main toggle — for event-related settings
+					 * that belong under the Events umbrella but live in an addon (e.g. Pro's E-Ticket
+					 * QR check-in).
+					 *
+					 * @since 5.7.0
+					 * @hook latepoint_general_settings_section_events_after
+					 *
+					 */
+					do_action( 'latepoint_general_settings_section_events_after' ); ?>
+                </div>
+            </div>
+        </div>
         <div class="white-box section-anchor" id="stickySectionRestrictions">
             <div class="white-box-header">
                 <div class="os-form-sub-header"><h3><?php esc_html_e( 'Restrictions', 'latepoint' ); ?></h3></div>
@@ -874,6 +902,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <div class="side-nav-body">
         <div><a href="#stickySectionAppointment" class="is-active"><?php esc_html_e( 'Appointments', 'latepoint' ); ?></a></div>
+        <div><a href="#stickySectionEvents"><?php esc_html_e( 'Events', 'latepoint' ); ?></a></div>
         <div><a href="#stickySectionRestrictions"><?php esc_html_e( 'Restrictions', 'latepoint' ); ?></a></div>
         <div><a href="#stickySectionCurrency"><?php esc_html_e( 'Currency & Price', 'latepoint' ); ?></a></div>
         <div><a href="#stickySectionPhone"><?php esc_html_e( 'Phone', 'latepoint' ); ?></a></div>

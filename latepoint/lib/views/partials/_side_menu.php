@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<li class="<?php if(isset($menu_item['show_notice']) && $menu_item['show_notice']) echo ' latepoint-show-notice ';?><?php if(isset($menu_item['children']) && (count($menu_item['children']) > 1)) echo ' has-children'; ?><?php if($is_active) echo ' menu-item-is-active'; ?>">
 				<a href="<?php echo esc_url($menu_item['link']); ?>">
 					<i class="<?php echo esc_attr($menu_item['icon']); ?>"></i>
-					<span><?php echo esc_html($menu_item['label']); ?></span>
+					<span><?php echo esc_html($menu_item['label']); ?><?php if(!empty($menu_item['is_new'])) echo OsMenuHelper::get_new_menu_badge_html(); ?></span>
 				</a>
 				<?php echo $sub_menu_html; ?>
 			</li>

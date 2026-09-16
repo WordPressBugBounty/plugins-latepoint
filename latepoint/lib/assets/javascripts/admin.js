@@ -19,6 +19,7 @@
 // @codekit-prepend "bin/admin/_processes.js";
 // @codekit-prepend "bin/admin/_steps.js";
 // @codekit-prepend "bin/admin/_orders.js";
+// @codekit-prepend "bin/admin/_events_manager.js";
 // @codekit-prepend "bin/admin/_stripe_connect.js";
 // @codekit-prepend "bin/admin/_paypal_connect.js";
 // @codekit-prepend "bin/admin/_razorpay_connect.js";
@@ -28,6 +29,9 @@
 // DOCUMENT READY
 jQuery(document).ready(function( $ ) {
 
+
+  // WordPress sub menu anchors take no target attribute and expose no filter, so the Upgrade item opts in here.
+  jQuery('#adminmenu a.latepoint-upgrade-menu-item').attr({ target: '_blank', rel: 'noopener' });
 
   // DASHBOARD
   latepoint_init_calendars();
@@ -46,6 +50,7 @@ jQuery(document).ready(function( $ ) {
   latepoint_init_color_picker();
   latepoint_init_clickable_cells();
   latepoint_init_bookings_bulk();
+  latepoint_init_events_manager_form();
   latepoint_init_delete_confirm();
   latepoint_init_input_masks();
   latepoint_init_process_forms();
@@ -1041,7 +1046,5 @@ jQuery(document).ready(function( $ ) {
     }
     return false;
   });
-
-
 
 });

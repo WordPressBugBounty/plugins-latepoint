@@ -112,11 +112,17 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					] 
 				);
 			} else {
+				// The generic slot message doesn't apply to an event registration (no time slot
+				// involved) — surface is_bookable()'s real reason for that case only; every other
+				// item type (booking, bundle) keeps the exact message it's always shown.
+				$message = OsStepsHelper::$cart_object->contains_event_registration()
+					? ( $order_intent->get_error_messages() ?: __( 'Selected booking slot is not available anymore. Please pick a different time slot.', 'latepoint' ) )
+					: __( 'Selected booking slot is not available anymore. Please pick a different time slot.', 'latepoint' );
 				$this->send_json(
 					[
 						'status'  => LATEPOINT_STATUS_ERROR,
-						'message' => __( 'Selected booking slot is not available anymore. Please pick a different time slot.', 'latepoint' ),
-					] 
+						'message' => $message,
+					]
 				);
 			}
 		}
@@ -265,8 +271,16 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 				OsCartsHelper::reset_cart();
 				OsStepsHelper::set_cart_object();
 			}
-			// clear cart if "shopping cart" feature is not enabled
-			if ( ! OsCartsHelper::can_checkout_multiple_items() ) {
+			// clear cart if "shopping cart" feature is not enabled, or if the flow being started
+			// would mix an event registration with a booking/bundle — they must never coexist in
+			// one order (see OsOrdersHelper's booking-only assumptions in generate_order_items_html()
+			// and friends).
+			$incoming_event_id = (int) ( $merged_params['presets']['selected_event_id'] ?? 0 );
+			if (
+				! OsCartsHelper::can_checkout_multiple_items()
+				|| ( $incoming_event_id && OsStepsHelper::$cart_object->contains_booking_or_bundle() )
+				|| ( ! $incoming_event_id && OsStepsHelper::$cart_object->contains_event_registration() )
+			) {
 				OsStepsHelper::$cart_object->clear();
 			}
 

@@ -342,7 +342,7 @@ if ( ! class_exists( 'OsCalendarsController' ) ) :
 				$work_time_periods_grouped_by_date_and_agent = [];
 				$bookings_grouped_by_date_and_agent          = [];
 				foreach ( $agents as $agent ) {
-					for ( $day_date = clone $calendar_start; $day_date <= $calendar_end; $day_date->modify( '+1 day' ) ) {
+					for ( $day_date = clone $calendar_start; $day_date->format( 'Y-m-d' ) <= $calendar_end->format( 'Y-m-d' ); $day_date->modify( '+1 day' ) ) {
 						// fill in all days and agents bookings with blanks
 						$bookings_grouped_by_date_and_agent[ $day_date->format( 'Y-m-d' ) ][ $agent->id ]          = [];
 						$work_time_periods_grouped_by_date_and_agent[ $day_date->format( 'Y-m-d' ) ][ $agent->id ] = [];

@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointment booking, booking system, appointments, scheduling, booking
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.6.11
+Stable tag: 5.7.0
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -375,6 +375,18 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.7.0 - September 16, 2026 =
+  - New
+    - Introduces Events. You can now host workshops, webinars, and other gatherings with capacity limits.
+
+  - Improvements
+    - The LatePoint item in the WordPress admin sidebar now opens a quick access menu for the main LatePoint screens.
+    - The Payments screen now shows each agent only the transactions of their own customers, matching how the Orders screen is scoped.
+
+  - Fixes
+    - Fixed an issue where reminders and automations were never scheduled for bookings that start at exactly 12:00 am.
+    - Fixed a fatal error on the admin Calendar in time zones where daylight saving time starts at midnight.
 
 = 5.6.11 - September 03, 2026 =
   - New

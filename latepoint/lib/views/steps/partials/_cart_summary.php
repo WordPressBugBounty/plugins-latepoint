@@ -18,6 +18,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="cart-summary-main-section">
 		<?php
+		/**
+		 * Fires at the top of the cart summary items area so custom item types
+		 * (e.g. event_registration) can render their summary boxes alongside bookings and bundles.
+		 *
+		 * @param OsCartModel $cart              Current cart.
+		 * @param string      $output_target     'summary_panel' or 'step_verify'.
+		 * @param string      $current_step_code Current wizard step code.
+		 *
+		 * @since 5.0.0
+		 * @hook latepoint_cart_summary_items
+		 */
+		do_action( 'latepoint_cart_summary_items', $cart, $output_target, $current_step_code );
+		?>
+		<?php
 		if ( ! $cart->is_empty() ) {
 			$cart_bookings = $cart->get_bookings_from_cart_items();
 			$cart_bundles  = $cart->get_bundles_from_cart_items();
@@ -153,7 +167,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				}
 			}
 		}
-		if ( OsCartsHelper::can_checkout_multiple_items() ) {
+		if ( OsCartsHelper::can_checkout_multiple_items() && ! $cart->contains_event_registration() ) {
 			echo '<div class="latepoint-add-another-item-trigger-wrapper on-summary">
 					<div class="latepoint-add-another-item-trigger" tabindex="0" data-step="' . esc_attr(OsStepsHelper::get_first_step_code( 'booking' )) . '">
 						<i class="latepoint-icon latepoint-icon-plus"></i>
@@ -195,7 +209,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
         <?php } ?>
 		<?php
-		if ( OsCartsHelper::can_checkout_multiple_items() ) {
+		if ( OsCartsHelper::can_checkout_multiple_items() && ! $cart->contains_event_registration() ) {
 			echo '<div class="latepoint-add-another-item-trigger-wrapper on-verify">
 					<div class="latepoint-add-another-item-trigger" tabindex="0" data-step="' . esc_attr(OsStepsHelper::get_first_step_code( 'booking' )) . '">
 						<i class="latepoint-icon latepoint-icon-plus"></i>

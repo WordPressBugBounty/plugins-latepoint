@@ -748,6 +748,11 @@
           display: block;
         }
       }
+      &.order-item-pill-variant-event {
+        .summary-box .summary-box-content {
+          padding-left: 50px;
+        }
+      }
       .order-item-pill-inner {
         padding: $order-item-padding;
         border: 1px solid $border-color-main;

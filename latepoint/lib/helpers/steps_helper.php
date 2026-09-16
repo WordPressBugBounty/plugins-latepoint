@@ -2457,7 +2457,19 @@ class OsStepsHelper {
 			$steps_with_labels[ $step_code ] = self::get_step_label_by_code( $step_code );
 		}
 
-		return $steps_with_labels;
+		/**
+		 * Filters the list of steps offered in the Booking Form settings step-text editor.
+		 * Use this to remove a step whose text/position should not be admin-configurable
+		 * (e.g. a step that only ever appears automatically as part of a fixed sub-flow).
+		 *
+		 * @param {array} $steps_with_labels Step codes mapped to their labels.
+		 *
+		 * @returns {array} Filtered array of step codes mapped to their labels.
+		 * @since 5.7.0
+		 * @hook latepoint_steps_for_select
+		 *
+		 */
+		return apply_filters( 'latepoint_steps_for_select', $steps_with_labels );
 	}
 
 

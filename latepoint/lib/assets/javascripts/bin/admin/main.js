@@ -53,7 +53,8 @@ function latepoint_settings_customer_authentication_field_type_changed($select){
 }
 
 function latepoint_init_sticky_side_nav(){
-  jQuery('.latepoint-page-side-nav a').on('click', function(e) {
+  // In-page anchors only - the Resources box links sit in this container too.
+  jQuery('.latepoint-page-side-nav a[href^="#"]').on('click', function(e) {
     e.preventDefault();
     let target = jQuery(this).attr('href');
     let targetOffset = jQuery(target).offset().top - 20;
@@ -1110,6 +1111,8 @@ function latepoint_filter_table($table, $filter_elem, reset_page = true){
         $table_w.find('.os-pagination-from').text(data.showing_from);
         $table_w.find('.os-pagination-to').text(data.showing_to);
         $table_w.find('.os-pagination-total').text(data.total_records);
+        if(data.total_attendees !== undefined) $table_w.find('.os-pagination-attendees').text(data.total_attendees);
+        if(data.total_confirmed !== undefined) $table_w.find('.os-pagination-confirmed').text(data.total_confirmed);
         latepoint_init_clickable_cells();
         if($table_w.find('.os-bulk-actions-bar').length) latepoint_bookings_bulk_reset($table_w);
       }else{

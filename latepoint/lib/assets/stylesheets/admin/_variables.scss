@@ -209,6 +209,15 @@ $button-white-outline-color: #fff;
 $button-white-hover-bg-color: #eee;
 $button-white-hover-border-color: #fff;
 
+// status pill colors — shared between admin/_elements.scss and admin/_events.scss
+$status-pending-bg-color: #ffe1c3;
+$status-pending-border-color: #bd8841;
+$status-pending-color: #2e1e11;
+
+$status-success-bg-color: #cbfad7;
+$status-success-border-color: #65bf99;
+$status-success-color: #347159;
+
 // booking form preview
 $calendar-day-box-bg: #eefdec;
 $calendar-timeline-off-bg: #e6e9ef;

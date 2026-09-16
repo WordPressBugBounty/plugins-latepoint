@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<a href="#" data-target-date="<?php echo esc_attr((clone $target_date)->modify('first day of next month')->format('Y-m-d')); ?>" class="daily-calendar-action-navigation-btn"><i class="latepoint-icon latepoint-icon-chevron-right"></i></a>
 </div>
-<?php for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
+<?php for($day_date=clone $calendar_start; $day_date->format('Y-m-d')<=$calendar_end->format('Y-m-d'); $day_date->modify('+1 day')){
 
 
 	$show_today_indicator = false;

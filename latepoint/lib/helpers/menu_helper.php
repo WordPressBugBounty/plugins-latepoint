@@ -118,6 +118,39 @@ class OsMenuHelper {
 						),
 					),
 					array(
+						'id'       => 'events',
+						'label'    => __( 'Events', 'latepoint' ),
+						'is_new'   => true,
+						'icon'     => 'latepoint-icon latepoint-icon-calendar',
+						'link'     => OsRouterHelper::build_link( [ 'events_manager', 'index' ] ),
+						'children' => array(
+							array(
+								'id'    => 'index',
+								'label' => __( 'All Events', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'events_manager', 'index' ] ),
+							),
+							array(
+								'id'    => 'categories',
+								'label' => __( 'Categories', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'event_categories', 'index' ] ),
+							),
+							array(
+								'id'    => 'registrations',
+								'label' => __( 'Registrations', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'event_registrations', 'index' ] ),
+							),
+							array(
+								'id'    => 'tickets',
+								'label' => __( 'Tickets', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'pro', 'event_tickets' ] ),
+							),
+						),
+					),
+					array(
 						'id'    => 'agents',
 						'label' => __( 'Agents', 'latepoint' ),
 						'icon'  => 'latepoint-icon latepoint-icon-user1',
@@ -340,6 +373,39 @@ class OsMenuHelper {
 						),
 					),
 					array(
+						'id'       => 'events',
+						'label'    => __( 'Events', 'latepoint' ),
+						'is_new'   => true,
+						'icon'     => 'latepoint-icon latepoint-icon-calendar',
+						'link'     => OsRouterHelper::build_link( [ 'events_manager', 'index' ] ),
+						'children' => array(
+							array(
+								'id'    => 'index',
+								'label' => __( 'All Events', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'events_manager', 'index' ] ),
+							),
+							array(
+								'id'    => 'categories',
+								'label' => __( 'Categories', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'event_categories', 'index' ] ),
+							),
+							array(
+								'id'    => 'registrations',
+								'label' => __( 'Registrations', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'event_registrations', 'index' ] ),
+							),
+							array(
+								'id'    => 'tickets',
+								'label' => __( 'Tickets', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'pro', 'event_tickets' ] ),
+							),
+						),
+					),
+					array(
 						'id'    => 'locations',
 						'label' => __( 'Locations', 'latepoint' ),
 						'icon'  => 'latepoint-icon latepoint-icon-map-marker',
@@ -378,6 +444,21 @@ class OsMenuHelper {
 		$menus                 = apply_filters( 'latepoint_side_menu', $menus, $user_role );
 		self::$side_menu_items = self::filter_by_user_capabilities( $menus );
 		return self::$side_menu_items;
+	}
+
+	/**
+	 * Marker for a recently added section, shared by the in-app menu and the WordPress fly out.
+	 */
+	public static function get_new_menu_badge_html(): string {
+		return '<span class="latepoint-menu-new-badge">' . esc_html__( 'New', 'latepoint' ) . '</span>';
+	}
+
+	/**
+	 * Sections mirrored into the WordPress fly out. Membership only - the order comes from
+	 * get_side_menu_items().
+	 */
+	public static function get_sub_menu_item_ids(): array {
+		return array( 'dashboard', 'calendar', 'appointments', 'customers', 'services', 'events', 'agents', 'settings' );
 	}
 
 	public static function filter_by_user_capabilities( array $menus ): array {

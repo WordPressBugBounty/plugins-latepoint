@@ -8,6 +8,7 @@
 // @codekit-prepend "bin/front/main.js"
 // @codekit-prepend "bin/front/_customer.js"
 // @codekit-prepend "bin/front/_events.js"
+// @codekit-prepend "bin/front/_events_manager.js"
 // @codekit-prepend "bin/front/_stripe_connect.js"
 // @codekit-prepend "bin/front/_paypal_connect.js"
 // @codekit-prepend "bin/front/_razorpay_connect.js"

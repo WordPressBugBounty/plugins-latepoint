@@ -2168,7 +2168,12 @@ function latepoint_init_booking_form($booking_form_element) {
             $booking_form_element.removeClass('step-content-loading').addClass('step-content-mid-loading');
 
 
-            if (new_parent_code_name == 'booking' && current_parent_code_name != 'booking' && active_cart_item_id) {
+            // The event info/tickets steps share the "booking__" prefix by naming convention only —
+            // they're a ticket-quantity selection, not a slot/service selection, so going back into
+            // them should never discard the cart item the way returning to services/datepicker does.
+            let is_event_step = new_current_step_code === 'booking__event' || new_current_step_code === 'booking__event_tickets';
+
+            if (new_parent_code_name == 'booking' && current_parent_code_name != 'booking' && active_cart_item_id && !is_event_step) {
 
                 // we are going back to one of the steps of a booking process, we need to remove the item that was just added to the cart and start over
                 $booking_form_element.find('.latepoint-summary-w').addClass('os-loading');

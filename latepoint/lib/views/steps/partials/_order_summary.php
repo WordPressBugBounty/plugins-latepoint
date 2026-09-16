@@ -22,6 +22,18 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="osih-line"></div>
         </div>
 		<?php
+		/**
+		 * Fires after the Order Items heading so custom item types (e.g. event_registration)
+		 * can render their summary boxes alongside bookings and bundles.
+		 *
+		 * @param OsOrderModel $order Current order.
+		 *
+		 * @since 5.0.0
+		 * @hook latepoint_order_summary_items
+		 */
+		do_action( 'latepoint_order_summary_items', $order );
+		?>
+		<?php
 
 	if ($order_bundles) {
 		foreach ($order_bundles as $order_item_id => $bundle) {

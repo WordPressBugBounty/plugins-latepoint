@@ -841,3 +841,31 @@ body.latepoint-admin {
   font-weight: bold;
   border-bottom: 1px dotted #1e7bff;
 }
+
+// Upgrade nudge in the WordPress sidebar fly out - free installs only. Scoped past core's
+// #adminmenu .wp-submenu a rules, a:hover included, without needing !important.
+#adminmenu .wp-submenu li.latepoint-upgrade-menu-item a {
+  background-color: #1d7bff;
+  border-radius: 6px;
+  color: #fff;
+  display: block;
+  font-weight: 700;
+  margin: 8px 10px;
+  padding: 8px 12px;
+  text-align: center;
+  transition: background-color 0.2s ease;
+
+  // Core paints `box-shadow: inset 4px 0 0 0 currentColor` and flattens the corners on hover, which
+  // on a white-on-blue button shows up as a white bar down the left edge.
+  &:hover,
+  &:focus {
+    background-color: #0b63e0;
+    border-radius: 6px;
+    box-shadow: none;
+    color: #fff;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px #fff;
+  }
+}

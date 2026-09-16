@@ -164,6 +164,13 @@ class OsOrderIntentModel extends OsModel {
 					break;
 				case LATEPOINT_ITEM_VARIANT_BUNDLE:
 					break;
+				case LATEPOINT_ITEM_VARIANT_EVENT_REGISTRATION:
+					if ( OsEventsManagerHelper::resolve_item_quantity( $cart_item->item_data ) < 1 ) {
+						$this->add_error( 'send_to_step', __( 'Please select at least one ticket.', 'latepoint' ), OsEventsHooksHelper::$tickets_step_code );
+
+						return false;
+					}
+					break;
 			}
 		}
 

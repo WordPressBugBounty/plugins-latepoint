@@ -268,7 +268,9 @@ class OsBookingModel extends OsModel {
 	}
 
 	public function set_utc_datetimes( bool $save = false ) {
-		if ( empty( $this->start_date ) || empty( $this->end_date ) || empty( $this->start_time ) || empty( $this->end_time ) ) {
+		// if ( empty( $this->start_date ) || empty( $this->end_date ) || empty( $this->start_time ) || empty( $this->end_time ) ) {
+		// times are minutes from midnight, so 0 (midnight) is a valid value and must not be treated as unset
+		if ( empty( $this->start_date ) || empty( $this->end_date ) || is_null( $this->start_time ) || $this->start_time === '' || is_null( $this->end_time ) || $this->end_time === '' ) {
 			return;
 		}
 		$this->start_datetime_utc = $this->get_start_datetime( 'UTC' )->format( LATEPOINT_DATETIME_DB_FORMAT );

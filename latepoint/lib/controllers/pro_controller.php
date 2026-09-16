@@ -74,6 +74,15 @@ if ( ! class_exists( 'OsProController' ) ) :
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'settings' );
 			$this->format_render( 'pro_feature', [], [], true );
 		}
+
+		public function event_tickets() {
+			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'events' );
+			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'events' );
+			$description                   = __( 'Automatically generate an e-ticket with a QR code for every event registration and email it to attendees. E-tickets are ready to scan at check-in with the built-in ticket scanner.', 'latepoint' );
+			$description                  .= '<br><br>';
+			$description                  .= __( 'This feature is available with a paid version, along with over 30 other premium features.', 'latepoint' );
+			$this->format_render( 'pro_feature', [ 'description' => $description ], [], true );
+		}
 	}
 
 endif;

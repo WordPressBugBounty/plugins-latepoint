@@ -45,7 +45,7 @@ class OsController {
 					array(
 						'status'  => LATEPOINT_STATUS_ERROR,
 						'message' => __( 'Invalid Request', 'latepoint' ),
-					) 
+					)
 				);
 			} else {
 				wp_die();

@@ -2,6 +2,28 @@
 
 class OsUtilHelper {
 
+	/**
+	 * "This feature is disabled — enable it in General Settings" notice, shared by several
+	 * Events-related admin views (and Pro's Ticket Types/E-Tickets) instead of each hand-rolling
+	 * the same wp_kses()/sprintf()/div wrapper.
+	 *
+	 * @param string $message         Translated string containing %1$s/%2$s placeholders for the
+	 *                                 opening/closing anchor tags — callers own their own text domain.
+	 * @param string $settings_anchor Fragment id on the General Settings page, e.g. 'stickySectionEvents'.
+	 */
+	public static function render_feature_disabled_notice( string $message, string $settings_anchor ): void {
+		echo '<div class="latepoint-message latepoint-message-subtle">';
+		echo wp_kses(
+			sprintf(
+				$message,
+				'<a href="' . esc_url( admin_url( 'admin.php?page=latepoint&route_name=settings__general#' . $settings_anchor ) ) . '">',
+				'</a>'
+			),
+			[ 'a' => [ 'href' => [] ] ]
+		);
+		echo '</div>';
+	}
+
 	public static function get_referrer() {
 		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 			return $_SERVER['HTTP_REFERER'];
@@ -10,11 +32,37 @@ class OsUtilHelper {
 		}
 	}
 
+	/**
+	 * Builds the upgrade destination, tagged so we can tell which CTA drove the click. Source and
+	 * medium stay constant across the plugin, the campaign carries the placement.
+	 *
+	 * @param string $placement identifies the CTA, suffixed onto the free_plugin campaign.
+	 *
+	 * @return string
+	 */
+	public static function get_upgrade_url( string $placement ): string {
+		$url = add_query_arg(
+			[
+				'utm_source'   => 'latepoint_plugin',
+				'utm_medium'   => 'plugin_admin',
+				'utm_campaign' => 'free_plugin_' . sanitize_key( $placement ),
+			],
+			LATEPOINT_UPGRADE_URL
+		);
+
+		// If LatePoint was installed through another BSF product, that product becomes the utm_source.
+		if ( class_exists( 'BSF_UTM_Analytics' ) ) {
+			$url = BSF_UTM_Analytics::get_utm_ready_link( $url, 'latepoint' );
+		}
+
+		return $url;
+	}
+
 	public static function generate_missing_addon_link( $label = '' ) {
 		if ( empty( $label ) ) {
 			$label = __( 'Requires upgrade to a premium version', 'latepoint' );
 		}
-		$html = '<a target="_blank" href="' . esc_url( LATEPOINT_UPGRADE_URL ) . '" class="os-add-box" >
+		$html = '<a target="_blank" href="' . esc_url( self::get_upgrade_url( 'missing_addon' ) ) . '" class="os-add-box" >
               <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
               <div class="add-box-label">' . esc_html( $label ) . '</div>
             </a>';
@@ -780,7 +828,7 @@ class OsUtilHelper {
 
 	public static function pro_feature_block( string $label = '', string $label_code = '' ): string {
 		$label = ! empty( $label ) ? $label : __( 'Requires upgrade to a premium version', 'latepoint' );
-		$html  = '<a href="' . esc_url( LATEPOINT_UPGRADE_URL ) . '" class="os-add-box" >
+		$html  = '<a target="_blank" href="' . esc_url( self::get_upgrade_url( 'pro_feature_block' ) ) . '" class="os-add-box" >
             <div class="add-box-graphic-w"><div class="add-box-plus"><i class="latepoint-icon latepoint-icon-plus4"></i></div></div>
             <div class="add-box-label">' . esc_html( $label ) . '</div>
           </a>';

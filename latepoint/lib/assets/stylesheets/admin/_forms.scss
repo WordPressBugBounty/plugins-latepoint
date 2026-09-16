@@ -2538,3 +2538,70 @@ form > .os-form-sub-header:first-child {
     }
   }
 }
+
+// Combined date + time control used on the events form "Date & Time" section.
+// Wraps a single-date .os-date-range-picker + a .os-time-group into one
+// bordered field that matches the bordered form-control look.
+.os-datetime-pair {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid $border-color-strong;
+  border-radius: $form-controls-border-radius;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+  min-height: 40px;
+
+  &:hover,
+  &:focus-within {
+    border-color: $brand-primary;
+  }
+
+  .os-date-range-picker {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    cursor: pointer;
+    align-self: stretch;
+    border-right: 1px solid $border-color-sub;
+
+    .range-picker-value {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: $form-controls-color;
+      font-size: $font-size-base;
+    }
+
+    i {
+      flex: 0 0 auto;
+      font-size: 12px;
+      color: $color-faded;
+    }
+  }
+
+  .os-time-group {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+
+    > label { display: none; }
+
+    .os-time-input-fields {
+      display: flex;
+      align-items: center;
+    }
+
+    input.os-form-control {
+      min-height: 30px;
+      height: 30px;
+    }
+  }
+}

@@ -1,18 +1,18 @@
 .os-categories-ordering-w {
 	margin-bottom: 30px;
 	.gu-transit {
-	  pointer-events: none;
+		pointer-events: none;
 	}
 	.os-category-parent-w .os-category-children {
 		padding: 10px;
-		border: 1px dotted rgba(0,0,0,0.15);
+		border: 1px dotted rgba(0, 0, 0, 0.15);
 		border-radius: $border-radius-sm;
 		margin: 10px 20px 10px 20px;
 		.gu-transit {
-		  pointer-events: none;
-		  .os-category-w {
-		  	margin-bottom: 10px;
-		  }
+			pointer-events: none;
+			.os-category-w {
+				margin-bottom: 10px;
+			}
 			.os-category-children {
 			}
 		}
@@ -35,9 +35,10 @@
 }
 
 .os-category-w.os-new-category-form-w {
-
 }
-.os-categories-ordering-w .os-category-w, .os-category-parent-w.gu-mirror .os-category-w{
+.os-categories-ordering-w .os-category-w,
+.os-category-parent-w.gu-mirror .os-category-w,
+.os-event-categories-w .os-category-w {
 	@include white-box();
 	border-radius: $border-radius-lg;
 	& + .os-category-w {
@@ -54,12 +55,12 @@
 			color: $brand-primary;
 			margin-right: 5px;
 			line-height: 1;
-	    cursor: -moz-grab;
-	    cursor: -webkit-grab;
-	    cursor: grab;
-		  &:before {
-		    @include latepointfont_admin("\e92b");
-		  }
+			cursor: -moz-grab;
+			cursor: -webkit-grab;
+			cursor: grab;
+			&:before {
+				@include latepointfont_admin("\e92b");
+			}
 		}
 		.os-category-edit-btn {
 			background-color: transparent;
@@ -156,10 +157,9 @@
 	margin-bottom: 10px;
 }
 
-
 .item-in-category-w {
-  background: rgb(240, 241, 247);
-  border: 2px solid rgb(219, 220, 236);
+	background: rgb(240, 241, 247);
+	border: 2px solid rgb(219, 220, 236);
 	border-radius: $border-radius-sm;
 	padding: 6px 8px;
 	display: flex;
@@ -181,19 +181,18 @@
 		}
 	}
 
-
 	.os-category-item-drag {
 		font-size: 14px;
 		padding: 5px;
 		color: $brand-primary;
 		margin-right: 5px;
 		line-height: 1;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-    cursor: grab;
-	  &:before {
-	    @include latepointfont_admin("\e92b");
-	  }
+		cursor: -moz-grab;
+		cursor: -webkit-grab;
+		cursor: grab;
+		&:before {
+			@include latepointfont_admin("\e92b");
+		}
 	}
 	.os-category-item-meta {
 		margin-right: auto;

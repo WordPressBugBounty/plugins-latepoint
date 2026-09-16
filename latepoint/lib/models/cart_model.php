@@ -177,6 +177,26 @@ class OsCartModel extends OsModel {
 		return ! $this->get_items();
 	}
 
+	public function contains_event_registration(): bool {
+		foreach ( $this->get_items() as $cart_item ) {
+			if ( $cart_item->is_event_registration() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function contains_booking_or_bundle(): bool {
+		foreach ( $this->get_items() as $cart_item ) {
+			if ( $cart_item->is_booking() || $cart_item->is_bundle() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 
 	public function delete_meta_by_key( $meta_key ) {
 		if ( $this->is_new_record() ) {

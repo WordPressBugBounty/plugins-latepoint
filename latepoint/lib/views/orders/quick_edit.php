@@ -124,7 +124,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php } ?>
 				<?php } ?>
                 <div class="order-items-list">
-					<?php if ( empty( $order_bookings ) && empty( $order_bundles ) ) {
+					<?php if ( empty( $order->get_items() ) ) {
 						echo '<div class="no-results">' . esc_html__( 'Order is empty', 'latepoint' ) . '</div>';
 					} else { ?>
 						<?php foreach ( $order_bundles as $order_item_id => $order_bundle ) {
@@ -150,6 +150,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 							echo OsOrdersHelper::booking_data_form_for_order_item_id( $order_item_id, $order_booking, LATEPOINT_ITEM_VARIANT_BOOKING, ! $unfold );
 							echo '</div>';
 						}
+						/**
+						 * Fires inside the admin order items list after bookings and bundles so custom item
+						 * types (e.g. event_registration) can render their read-only rows.
+						 *
+						 * @param OsOrderModel $order Current order.
+						 *
+						 * @since 5.0.0
+						 * @hook latepoint_order_items_list_admin
+						 */
+						do_action( 'latepoint_order_items_list_admin', $order );
 					}
 					?>
                 </div>

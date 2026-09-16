@@ -160,7 +160,21 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 		}
 
 		public function steps_order_modal() {
-			$this->vars['steps'] = OsStepsHelper::unflatten_steps( OsStepsHelper::get_step_codes_in_order( true ) );
+			/**
+			 * Filters the flat list of step codes shown in the "Change Order" reorder modal, before
+			 * it's unflattened into the drag-drop tree. Use this to remove a step that should not be
+			 * admin-reorderable (e.g. a step that only ever appears automatically as part of a fixed
+			 * sub-flow).
+			 *
+			 * @param {array} $step_codes All step codes in their saved order.
+			 *
+			 * @returns {array} Filtered array of step codes.
+			 * @since 5.7.0
+			 * @hook latepoint_step_codes_for_order_modal
+			 *
+			 */
+			$step_codes          = apply_filters( 'latepoint_step_codes_for_order_modal', OsStepsHelper::get_step_codes_in_order( true ) );
+			$this->vars['steps'] = OsStepsHelper::unflatten_steps( $step_codes );
 
 			$this->format_render( __FUNCTION__ );
 		}

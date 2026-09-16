@@ -35,6 +35,10 @@ class OsCartItemModel extends OsModel {
 		return ( $this->variant == LATEPOINT_ITEM_VARIANT_BOOKING );
 	}
 
+	public function is_event_registration(): bool {
+		return ( $this->variant == LATEPOINT_ITEM_VARIANT_EVENT_REGISTRATION );
+	}
+
 	public function get_item_image_url() {
 		$image_url = '';
 		switch ( $this->variant ) {

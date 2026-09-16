@@ -31,8 +31,8 @@ if($agents){ ?>
 	echo '<div class="calendar-month-agents-w '.esc_attr($calendar_not_scrollable_class).'" data-route="'.esc_attr(OsRouterHelper::build_route_name('calendars', 'month_view')).'">';
 		echo '<div class="ma-floated-days-w">';
 			echo '<div class="ma-head-info"><span>'.esc_html__('Date', 'latepoint').'</span><span>'.esc_html__('Agent', 'latepoint').'</span></div>';
-	    	for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
-				echo '<div class="ma-day ma-day-number-'.esc_attr($day_date->format('N')).' '.(($today_date == $day_date) ? 'is-today' : '').'">';
+	    	for($day_date=clone $calendar_start; $day_date->format('Y-m-d')<=$calendar_end->format('Y-m-d'); $day_date->modify('+1 day')){
+				echo '<div class="ma-day ma-day-number-'.esc_attr($day_date->format('N')).' '.(($today_date->format('Y-m-d') == $day_date->format('Y-m-d')) ? 'is-today' : '').'">';
 					echo '<div class="ma-day-info">';
 						echo '<span class="ma-day-number">'.esc_html($day_date->format('j')).'</span>';
 						echo '<span class="ma-day-weekday">'.esc_html(OsUtilHelper::get_weekday_name_by_number($day_date->format('N'), true)).'</span>';
@@ -46,8 +46,8 @@ if($agents){ ?>
 				echo '<div class="ma-head">';
 					echo $agents_head_html;
 				echo '</div>';
-		    for($day_date=clone $calendar_start; $day_date<=$calendar_end; $day_date->modify('+1 day')){
-					echo '<div class="ma-day ma-day-number-'.esc_attr($day_date->format('N')).' '.(($today_date == $day_date) ? 'is-today' : '').'">';
+		    for($day_date=clone $calendar_start; $day_date->format('Y-m-d')<=$calendar_end->format('Y-m-d'); $day_date->modify('+1 day')){
+					echo '<div class="ma-day ma-day-number-'.esc_attr($day_date->format('N')).' '.(($today_date->format('Y-m-d') == $day_date->format('Y-m-d')) ? 'is-today' : '').'">';
 						foreach($agents as $agent){
 							$day_periods = [];
 							$blocked_blocks = [];

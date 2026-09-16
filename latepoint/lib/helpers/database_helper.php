@@ -217,6 +217,11 @@ class OsDatabaseHelper {
 			LATEPOINT_TABLE_PAYMENT_REQUESTS,
 			LATEPOINT_TABLE_RECURRENCES,
 			LATEPOINT_TABLE_CUSTOMER_OTP_CODES,
+			LATEPOINT_TABLE_EVENTS,
+			LATEPOINT_TABLE_EVENT_CATEGORIES,
+			LATEPOINT_TABLE_EVENT_REGISTRATIONS,
+			LATEPOINT_TABLE_EVENT_META,
+			LATEPOINT_TABLE_EVENT_DATES,
 		];
 
 		/**
@@ -922,6 +927,98 @@ class OsDatabaseHelper {
       amount decimal(20,4),
       created_at datetime,
       updated_at datetime,
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+		/* Events */
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_EVENTS . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      name varchar(255) NOT NULL,
+      slug varchar(255),
+      summary text,
+      description longtext,
+      featured_image_id int(11),
+      category_id int(11),
+      location_id int(11),
+      agent_id int(11),
+      event_type varchar(50),
+      online_url varchar(255),
+      start_datetime_utc datetime,
+      end_datetime_utc datetime,
+      timezone varchar(100),
+      capacity int(11),
+      price decimal(20,4),
+      registration_start_utc datetime,
+      registration_end_utc datetime,
+      status varchar(50) NOT NULL,
+      visibility varchar(50),
+      order_number int(11),
+      created_at datetime,
+      updated_at datetime,
+      KEY status_index (status),
+      KEY category_id_index (category_id),
+      KEY start_datetime_utc_index (start_datetime_utc),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+		/* Event Categories */
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_EVENT_CATEGORIES . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      name varchar(255) NOT NULL,
+      short_description text,
+      order_number int(11),
+      status varchar(50) NOT NULL,
+      created_at datetime,
+      updated_at datetime,
+      KEY status_index (status),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+		/* Event Registrations */
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_EVENT_REGISTRATIONS . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      registration_code varchar(20),
+      event_id int(11) NOT NULL,
+      customer_id int(11),
+      order_id int(11),
+      order_item_id int(11),
+      quantity int(11),
+      status varchar(50) NOT NULL,
+      payment_status varchar(50),
+      notes text,
+      created_at datetime,
+      updated_at datetime,
+      KEY event_id_index (event_id),
+      KEY customer_id_index (customer_id),
+      KEY order_id_index (order_id),
+      KEY status_index (status),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+		/* Event Meta */
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_EVENT_META . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      object_id mediumint(9) NOT NULL,
+      meta_key varchar(110) NOT NULL,
+      meta_value text,
+      created_at datetime,
+      updated_at datetime,
+      KEY object_id_index (object_id),
+      KEY meta_key_index (meta_key),
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+
+		/* Event Dates — repeatable date/time ranges for a single event */
+		$sqls[] = 'CREATE TABLE ' . LATEPOINT_TABLE_EVENT_DATES . " (
+      id mediumint(9) NOT NULL AUTO_INCREMENT,
+      event_id int(11) NOT NULL,
+      start_datetime_utc datetime,
+      end_datetime_utc datetime,
+      order_number int(11),
+      created_at datetime,
+      updated_at datetime,
+      KEY event_id_index (event_id),
+      KEY start_datetime_utc_index (start_datetime_utc),
       PRIMARY KEY  (id)
     ) $charset_collate;";
 
