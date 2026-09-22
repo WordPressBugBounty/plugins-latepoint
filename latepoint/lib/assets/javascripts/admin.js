@@ -7,6 +7,7 @@
 // @codekit-prepend "bin/latecheckbox.js";
 // @codekit-prepend "bin/actions.js";
 // @codekit-prepend "bin/notifications.js";
+// @codekit-prepend "bin/phone_field.js";
 // @codekit-prepend "bin/shared.js";
 // @codekit-prepend "bin/admin/updates.js";
 // @codekit-prepend "bin/admin/main.js";
@@ -417,13 +418,13 @@ jQuery(document).ready(function( $ ) {
       var form_data = new FormData($form[0]);
       form_data.set('current_step_code', current_step_code);
 
-      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+      if (latepoint_iti_is_ready()) {
         // Get e164 formatted number from phone fields when form is submitted
         $form.find('input.os-mask-phone').each(function () {
-          let telInstance = window.lp_intlTelInputGlobals.getInstance(this);
+          let telInstance = latepoint_iti_get_instance(this);
           if(telInstance){
             const phoneInputName = this.getAttribute('name');
-            const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+            const phoneInputValue = latepoint_iti_get_e164(this);
             form_data.set(phoneInputName, phoneInputValue);
           }
         });

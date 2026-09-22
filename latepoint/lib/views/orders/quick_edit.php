@@ -85,6 +85,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php } ?>
                     </div>
                 </div>
+				<?php
+				/**
+				 * Whether an add-on contributes an extra order item type, so the picker shows without bundles.
+				 *
+				 * @param {boolean} $has_extra_variants
+				 * @param {OsOrderModel} $order
+				 * @returns {boolean}
+				 *
+				 * @since 5.6.12
+				 * @hook latepoint_order_quick_edit_has_extra_variants
+				 */
+				$show_variant_selector_ui = ! empty( $bundles ) || (bool) apply_filters( 'latepoint_order_quick_edit_has_extra_variants', false, $order );
+				?>
 				<?php if ( ! empty( $bundles ) ) { ?>
                     <div class="new-order-item-list-bundles-wrapper">
                         <div class="centered-question-label"><?php esc_html_e( 'Select a bundle that you want to add', 'latepoint' ); ?></div>
@@ -107,21 +120,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 							?>
                         </div>
                     </div>
-					<?php if ( $bundles ) { ?>
-                        <div class="new-order-item-variant-selector-wrapper">
-                            <div class="centered-question-label"><?php esc_html_e( 'What type of item would you like to add?', 'latepoint' ); ?></div>
-                            <div class="new-order-item-variant-selector">
-                                <div class="new-order-item-variant new-order-item-variant-booking">
-                                    <i class="latepoint-icon latepoint-icon-calendar2"></i>
-                                    <div><?php esc_html_e( 'Booking', 'latepoint' ); ?></div>
-                                </div>
+				<?php } ?>
+				<?php
+				/**
+				 * Extra item pickers rendered above the item type selector, e.g. a service list for a new item type.
+				 *
+				 * @param {OsOrderModel} $order
+				 *
+				 * @since 5.6.12
+				 * @hook latepoint_order_quick_edit_item_pickers
+				 */
+				do_action( 'latepoint_order_quick_edit_item_pickers', $order );
+				?>
+				<?php if ( $show_variant_selector_ui ) { ?>
+                    <div class="new-order-item-variant-selector-wrapper">
+                        <div class="centered-question-label"><?php esc_html_e( 'What type of item would you like to add?', 'latepoint' ); ?></div>
+                        <div class="new-order-item-variant-selector">
+                            <div class="new-order-item-variant new-order-item-variant-booking">
+                                <i class="latepoint-icon latepoint-icon-calendar2"></i>
+                                <div><?php esc_html_e( 'Booking', 'latepoint' ); ?></div>
+                            </div>
+							<?php if ( ! empty( $bundles ) ) { ?>
                                 <div class="new-order-item-variant new-order-item-variant-bundle">
                                     <i class="latepoint-icon latepoint-icon-layers"></i>
                                     <div><?php esc_html_e( 'Bundle', 'latepoint' ); ?></div>
                                 </div>
-                            </div>
+							<?php } ?>
+							<?php
+							/**
+							 * Extra item type tiles rendered next to Booking and Bundle.
+							 *
+							 * @param {OsOrderModel} $order
+							 *
+							 * @since 5.6.12
+							 * @hook latepoint_order_quick_edit_variant_tiles
+							 */
+							do_action( 'latepoint_order_quick_edit_variant_tiles', $order );
+							?>
                         </div>
-					<?php } ?>
+                    </div>
 				<?php } ?>
                 <div class="order-items-list">
 					<?php if ( empty( $order->get_items() ) ) {
@@ -150,6 +187,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 							echo OsOrdersHelper::booking_data_form_for_order_item_id( $order_item_id, $order_booking, LATEPOINT_ITEM_VARIANT_BOOKING, ! $unfold );
 							echo '</div>';
 						}
+
+						/**
+						 * Fires after the booking order items are printed, so an add-on can output markup of its own
+						 * for a set of them - a wrapper its javascript folds them into, for example.
+						 *
+						 * @param {array} $order_bookings OsBookingModel per order item id.
+						 * @param {OsOrderModel} $order
+						 *
+						 * @since 5.6.12
+						 * @hook latepoint_order_quick_edit_booking_items_after
+						 */
+						do_action( 'latepoint_order_quick_edit_booking_items_after', $order_bookings, $order );
 						/**
 						 * Fires inside the admin order items list after bookings and bundles so custom item
 						 * types (e.g. event_registration) can render their read-only rows.

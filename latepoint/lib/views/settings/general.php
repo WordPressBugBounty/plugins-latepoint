@@ -231,7 +231,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     </div>
                     <div class="sub-section-content">
 						<?php echo OsFormHelper::toggler_field( 'settings[validate_phone_number]', __( 'Validate phone typed fields if they are set as required', 'latepoint' ), OsSettingsHelper::is_on( 'validate_phone_number' ), false, false, [ 'sub_label' => __( 'Reject invalid phone for customers and agents if the phone field is set as required', 'latepoint' ) ] ); ?>
-						<?php echo OsFormHelper::toggler_field( 'settings[mask_phone_number_fields]', __( 'Format phone number on input', 'latepoint' ), OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ), false, false, [ 'sub_label' => __( 'Applies formatting on phone fields based on the country selected (not recommended for countries that have multiple NSN lengths)', 'latepoint' ) ] ); ?>
+						<?php echo OsFormHelper::toggler_field( 'settings[mask_phone_number_fields]', __( 'Restrict phone input to valid digits', 'latepoint' ), OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ), false, false, [ 'sub_label' => __( "Blocks characters that can't appear in a valid number for the selected country, and stops input at that country's maximum length.", 'latepoint' ) ] ); ?>
 						<?php echo OsFormHelper::toggler_field( 'settings[show_dial_code_with_flag]', __( 'Show country dial code next to flag', 'latepoint' ), OsSettingsHelper::is_enabled_show_dial_code_with_flag(), false, false, [ 'sub_label' => __( 'If enabled, will show a country code next to a flag, for example +1 for United States', 'latepoint' ) ] ); ?>
                     </div>
                 </div>

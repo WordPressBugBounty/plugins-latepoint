@@ -382,19 +382,6 @@ input, select {
       }
       &.os-form-phonefield-group {
         border: none;
-        .lp_iti {
-          background-color: #fff;
-          border: 1px solid $border-color-strong;
-          padding-left: 8px;
-          align-items: center;
-          border-radius: $form-controls-border-radius;
-          &:has(input:focus){
-            border-color: $brand-primary;
-          }
-          .lp_iti__selected-flag {
-            padding: 0;
-          }
-        }
       }
       input[type="text"].os-form-control {
         &.size-small {
@@ -890,11 +877,6 @@ input, select {
   }
   &.os-form-phonefield-group{
     border-bottom: 1px solid $form-controls-border-color;
-    &:not(.has-value){
-      .lp_iti, .latepoint .lp_iti {
-        align-items: center;
-      }
-    }
     &:has(.os-form-control:focus){
       border-bottom-color: $brand-primary;
     }
@@ -912,29 +894,9 @@ input, select {
       &:has(.os-form-control:focus) {
         border-bottom-color: $form-controls-border-color-error;
       }
-      .lp_iti__flag-container .lp_iti__selected-flag {
-        .lp_iti__selected-dial-code {
-          color: $form-controls-color-error;
-        }
-      }
     }
 
     label {
-    }
-
-
-    .lp_iti__selected-dial-code {
-      line-height: 19px;
-      color: $form-controls-color;
-    }
-
-    .lp_iti__flag-container {
-      .lp_iti__selected-flag {
-        line-height: 18px;
-        transition: all 0.2s ease;
-        font-size: $font-size-base;
-        font-weight: $body-font-weight-bold;
-      }
     }
 
     .os-form-control,
@@ -950,18 +912,6 @@ input, select {
     &.has-value {
       input.os-form-control {
         &.os-mask-phone {
-        }
-      }
-
-      .lp_iti__selected-flag {
-        z-index: 1;
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        &[aria-expanded="true"]{
-          border-bottom-color: $brand-primary;
         }
       }
     }
@@ -980,9 +930,6 @@ input, select {
           }
         }
       }
-      .lp_iti {
-        align-items: center;
-      }
       &.no-label.has-value, &.no-label:not(.has-value) {
         .os-form-control {
           border: none;
@@ -998,9 +945,6 @@ input, select {
 
       &.no-label:not(.has-value),
       &.no-label.has-value {
-        .lp_iti__selected-flag {
-          padding: 7px 6px 8px 10px;
-        }
         .os-form-control {
           border-radius: 0 $form-controls-border-radius $form-controls-border-radius 0;
         }

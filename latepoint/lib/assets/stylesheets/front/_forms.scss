@@ -193,23 +193,6 @@
           .os-form-control {
             padding: 13px 8px 13px 0!important;
           }
-          .lp_iti {
-            background-color: #fff;
-            border: 1px solid $form-input-border-color;
-            align-items: stretch;
-            border-radius: 6px;
-            gap: 5px;
-            &:has(input:focus){
-              border-color: $brand-primary;
-            }
-            .lp_iti__selected-flag {
-              padding: 0;
-              padding-left: 12px;
-            }
-            .lp_iti__flag-container {
-              display: flex;
-            }
-          }
         }
       }
 
@@ -263,26 +246,12 @@
         border-color: $brand-primary;
       }
 
-      .lp_iti__selected-dial-code {
-        color: $form-controls-color;
-        font-weight: $body-font-weight-normal;
-        font-size: $font-size-base!important;
-        white-space: nowrap;
-        margin-left: 4px;
-        line-height: 1.2;
-      }
-
       &.os-invalid {
         border-color: $form-input-border-color-invalid;
 
         &:has(.os-form-control:focus){
           border-color: $form-input-border-color-invalid;
         }
-      }
-
-      .lp_iti__selected-flag {
-        padding: 12px 4px 12px 10px ;
-        transition: all 0.2s ease;
       }
 
       .os-form-control,
@@ -298,21 +267,8 @@
         }
       }
 
-      &:not(.has-value){
-        .lp_iti.lp_iti--allow-dropdown {
-          align-items: stretch;
-        }
-        .lp_iti__selected-flag {
-          padding-top: 12px;
-          padding-bottom: 12px;
-        }
-      }
       &:not(.os-form-group-simple){
         &.has-value {
-          .lp_iti__selected-flag {
-            padding-top: 19px;
-            padding-bottom: 5px;
-          }
           input.os-form-control {
             &.os-mask-phone {
               padding-left: 0px!important;

@@ -417,7 +417,21 @@ class OsOrdersHelper {
 		$html .= '</div>';
 		$html .= '</div>';
 
-		return $html;
+		/**
+		 * The collapsed pill for a booking order item, so an add-on can present it differently.
+		 *
+		 * A replacement must keep the pill's order_items[..][id] and order_items[..][variant] hidden inputs -
+		 * the save path reads the item's id from them.
+		 *
+		 * @param {string} $html
+		 * @param {OsBookingModel} $booking
+		 * @param {string} $order_item_id
+		 * @returns {string}
+		 *
+		 * @since 5.6.12
+		 * @hook latepoint_order_item_pill_for_booking
+		 */
+		return apply_filters( 'latepoint_order_item_pill_for_booking', $html, $booking, $order_item_id );
 	}
 
 	public static function generate_order_item_pill_for_bundle_booking( OsBookingModel $booking, $order_item_id ): string {

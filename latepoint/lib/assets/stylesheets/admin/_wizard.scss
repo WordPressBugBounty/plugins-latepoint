@@ -27,9 +27,6 @@
 	position: relative;
 	animation: 0.5s cubic-bezier(0.25, 1.3, 0.5, 1.15) 0s wizardWrapperAnimation;
 	animation-fill-mode: both;
-	.lp_iti--separate-dial-code .lp_iti__selected-dial-code {
-		padding-top: 0 !important;
-	}
 
 	.os-wizard-close-trigger {
 		border-radius: 4px;

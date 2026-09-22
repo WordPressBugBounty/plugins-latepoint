@@ -403,7 +403,20 @@ class OsShortcodesHelper {
 		$customerCabinetController = new OsCustomerCabinetController();
 		$output                    = $customerCabinetController->dashboard( $atts );
 
-		return $output;
+		return self::encode_shortcode_delimiters( $output );
+	}
+
+	// the_content runs do_shortcode at priority 11; "&#091;" survives core's unescape_invalid_shortcodes(), "&#91;" does not.
+	private static function encode_shortcode_delimiters( string $html ): string {
+		return strtr(
+			$html,
+			[
+				'&#91;' => '&#091;',
+				'&#93;' => '&#093;',
+				'['     => '&#091;',
+				']'     => '&#093;',
+			]
+		);
 	}
 
 	// [latepoint_customer_login]

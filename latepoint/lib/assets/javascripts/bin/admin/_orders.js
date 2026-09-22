@@ -139,6 +139,7 @@ function latepoint_reload_balance_and_payments(){
 function latepoint_cancel_adding_new_order_item_to_quick_edit_form(){
   jQuery('.order-items-list').removeClass('is-blurred');
   jQuery('.new-order-item-list-bundles-wrapper').removeClass('is-open');
+  jQuery('.new-order-item-list-extra-picker-wrapper').removeClass('is-open');
   jQuery('.new-order-item-variant-selector-wrapper').removeClass('is-open');
   jQuery('.order-form-add-item-btn').removeClass('is-cancelling').find('span').text(jQuery('.order-form-add-item-btn').data('add-label'));
 }

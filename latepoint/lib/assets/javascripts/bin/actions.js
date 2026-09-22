@@ -337,13 +337,13 @@ jQuery(function( $ ) {
       var $form = $(this);
       var form_data = new FormData($form[0]);
 
-    if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+    if (latepoint_iti_is_ready()) {
       // Get e164 formatted number from phone fields when form is submitted
       $form.find('input.os-mask-phone').each(function () {
-        let telInstance = window.lp_intlTelInputGlobals.getInstance(this);
+        let telInstance = latepoint_iti_get_instance(this);
         if(telInstance){
           const phoneInputName = this.getAttribute('name');
-          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          const phoneInputValue = latepoint_iti_get_e164(this);
           form_data.set(phoneInputName, phoneInputValue);
         }
       });

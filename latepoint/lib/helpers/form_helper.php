@@ -864,6 +864,26 @@ class OsFormHelper {
 		return self::text_field( $name, $label, $value, $atts, $wrapper_atts, $form_group_atts );
 	}
 
+	/**
+	 * Translated UI strings for the v29 intl-tel-input build's uiTranslations option
+	 * (country search box, ARIA labels). Only a subset of the library's uiTranslations keys -
+	 * missing keys (e.g. the pluralized search result count) fall back to the library's own
+	 * English default. Literal ${countryName} / ${dialCode} tokens are substituted by the
+	 * library itself at runtime and must stay intact.
+	 *
+	 * @return array
+	 */
+	public static function phone_field_i18n() {
+		return [
+			'selectedCountryAriaLabel' => __( 'Change country for phone number, currently selected ${countryName} (${dialCode})', 'latepoint' ),
+			'noCountrySelected'        => __( 'Select country for phone number', 'latepoint' ),
+			'countryListAriaLabel'     => __( 'List of countries', 'latepoint' ),
+			'searchPlaceholder'        => __( 'Search', 'latepoint' ),
+			'clearSearchAriaLabel'     => __( 'Clear search', 'latepoint' ),
+			'searchEmptyState'         => __( 'No results found', 'latepoint' ),
+		];
+	}
+
 
 	/**
 	 * @param string $name

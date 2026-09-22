@@ -130,7 +130,7 @@ function latepoint_init_manage_booking_by_key() {
 }
 
 function latepoint_init_form_masks() {
-    if (('lp_intlTelInput' in window) && ('lp_intlTelInputGlobals' in window)) {
+    if ('lp_intlTelInput' in window) {
         jQuery('.os-mask-phone').each(function () {
             latepoint_mask_phone(jQuery(this));
         });
@@ -1419,10 +1419,10 @@ async function latepoint_resend_customer_otp_code($booking_form_element, $resend
     let form_data = new FormData($booking_form_element.find('.latepoint-form')[0]);
 
         // get values from phone number fields
-      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+      if (latepoint_iti_is_ready()) {
         $booking_form_element.find('input.os-mask-phone').each(function () {
           const phoneInputName = this.getAttribute('name');
-          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          const phoneInputValue = latepoint_iti_get_e164(this);
           // override value generated automatically by formdata with a formatted value of a phone field with country code
           form_data.set(phoneInputName, phoneInputValue);
         });
@@ -1465,10 +1465,10 @@ async function latepoint_request_customer_otp_code($booking_form_element, $reque
 
 
         // get values from phone number fields
-      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+      if (latepoint_iti_is_ready()) {
         $booking_form_element.find('input.os-mask-phone').each(function () {
           const phoneInputName = this.getAttribute('name');
-          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          const phoneInputValue = latepoint_iti_get_e164(this);
           // override value generated automatically by formdata with a formatted value of a phone field with country code
           form_data.set(phoneInputName, phoneInputValue);
         });
@@ -1538,10 +1538,10 @@ async function latepoint_login_customer($booking_form_element, $request_otp_butt
     let form_data = new FormData($form[0]);
 
         // get values from phone number fields
-      if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+      if (latepoint_iti_is_ready()) {
         $form.find('input.os-mask-phone').each(function () {
           const phoneInputName = this.getAttribute('name');
-          const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+          const phoneInputValue = latepoint_iti_get_e164(this);
           // override value generated automatically by formdata with a formatted value of a phone field with country code
           form_data.set(phoneInputName, phoneInputValue);
         });

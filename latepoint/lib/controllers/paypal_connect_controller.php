@@ -23,12 +23,16 @@ if ( ! class_exists( 'OsPaypalConnectController' ) ) :
 		}
 
 		public function create_order_for_transaction() {
-			if ( ! filter_var( $this->params['invoice_id'], FILTER_VALIDATE_INT ) ) {
-				exit();
-			}
 			try {
-
-				$invoice = new OsInvoiceModel( $this->params['invoice_id'] );
+				// resolve by unguessable access key, never by sequential id - this route is public
+				$invoice_access_key = sanitize_text_field( $this->params['key'] ?? '' );
+				if ( empty( $invoice_access_key ) ) {
+					throw new Exception( __( 'Invoice not found', 'latepoint' ) );
+				}
+				$invoice = ( new OsInvoiceModel() )->where( [ 'access_key' => $invoice_access_key ] )->set_limit( 1 )->get_results_as_models();
+				if ( ! ( $invoice instanceof OsInvoiceModel ) || $invoice->is_new_record() ) {
+					throw new Exception( __( 'Invoice not found', 'latepoint' ) );
+				}
 
 				$transaction_intent = OsTransactionIntentHelper::create_or_update_transaction_intent( $invoice, $this->params );
 

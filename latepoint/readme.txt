@@ -1,14 +1,14 @@
 === Appointment Booking Plugin – LatePoint | Calendar & Scheduling for WordPress ===
 Contributors: latepoint
-Tags: appointment booking, booking system, appointments, scheduling, booking
+Tags: appointment booking, booking system, appointment scheduling, event booking system, scheduling
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.7.0
+Stable tag: 5.7.1
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Appointment booking plugin for WordPress. Let clients self-schedule 24/7, accept payments at booking, and reduce no-shows, all from your WordPress site.
+Appointment scheduling & event booking plugin for WordPress. Let clients self-schedule 24/7, register for events, and pay at booking.
 
 == Description ==
 
@@ -18,7 +18,11 @@ Appointment booking plugin for WordPress. Let clients self-schedule 24/7, accept
 
 [youtube https://www.youtube.com/watch?v=s5lcrXFWQcw]
 
-LatePoint is the appointment booking plugin for WordPress that lets your clients schedule, reschedule, and pay for appointments without a single back-and-forth email.
+LatePoint is an appointment scheduling and booking plugin for WordPress that lets your clients schedule, reschedule, and pay for appointments without a single back-and-forth email.
+
+It's the WordPress booking plugin built for coaches, salons, consultants, clinics, and event hosts who rely on appointments and group bookings.
+
+Now with Events. Alongside appointments, LatePoint lets you publish and sell tickets for workshops, classes, and group events, right from the same booking flow your clients already use. Add an events list, or drop a registration button, anywhere with a shortcode, set capacity, and let attendees register and pay in a few clicks. With LatePoint Pro, offer multiple ticket types per event (like General or VIP) at different prices, and every ticket comes with a QR code for fast check-in at the door. Every registration becomes an order, so you manage your event booking system the same way you manage appointment bookings.
 
 Used on 100,000+ WordPress sites, LatePoint gives service businesses a fully branded booking experience that works 24/7. Your clients book from any device. You get paid upfront. No-shows drop. Admin time disappears.
 
@@ -42,9 +46,19 @@ Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LateP
 * Cancellation
 * Clone service
 
+**Event booking**
+
+* Create and publish events - workshops, classes, or ticketed gatherings
+* Event categories
+* Event list and event button shortcodes
+* Capacity and pricing per event
+* Registrations flow through the same cart, checkout, and payment process as appointments
+* Automatic registration confirmation and cancellation emails
+
 **Payments**
 
 * Stripe payments
+* PayPal payments
 * Razorpay payments
 * Manual payments (Pay Later)
 
@@ -61,6 +75,7 @@ Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LateP
 * Scheduled jobs
 * Conversion tracking through tracking code configuration
 * Import / export functionality
+* Event registrations dashboard with CSV export
 
 == Features available with LatePoint Pro ==
 
@@ -78,9 +93,14 @@ Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LateP
 * Shopping cart (book multiple appointments at once)
 * Rescheduling
 
+**Event booking**
+
+* Multiple ticket types per event (e.g. General, VIP), each with its own price
+* QR code issued per ticket, scan or enter the code manually to check attendees in
+
 **Payments**
 
-* PayPal, Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, SureCart
+* Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, SureCart
 * WooCommerce integration
 * Local payment (pay later)
 * Pay via a link
@@ -114,7 +134,7 @@ Set it up in 10 minutes. Look professional. Automate the boring stuff. Let LateP
 
 == Accept payments at the time of booking ==
 
-LatePoint lets you collect payment the moment a client books, no due invoices, no chasing, no unpaid appointments. Connect Stripe or Razorpay in about 10 minutes and start accepting payments on the free plan.
+LatePoint lets you collect payment the moment a client books, no due invoices, no chasing, no unpaid appointments. Connect Stripe, PayPal or Razorpay in about 10 minutes and start accepting payments on the free plan.
 
 Choose how you get paid:
 
@@ -132,8 +152,8 @@ Card data is handled entirely by Stripe or your chosen processor. PCI-DSS compli
 
 Accepting a deposit is the single most effective way to reduce no-shows. When a client has paid to hold their slot, they show up. LatePoint makes it a one-step process at checkout.
 
-* Supported payment gateways (free plugin): Stripe and Razorpay
-* Supported payment gateways (Pro): PayPal, Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, WooCommerce Payments, Stripe, and Razorpay
+* Supported payment gateways (free plugin): Stripe, PayPal and Razorpay
+* Supported payment gateways (Pro): Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, SureCart, WooCommerce Payments, Stripe, and Razorpay
 
 == Who Is LatePoint For? ==
 
@@ -254,7 +274,7 @@ LatePoint isn't just another booking plugin, it's designed to solve real-world s
 == Features You'll Love With the Plugin ==
 
 ✅ **Appointment booking form builder** - Build the form customers will fill while scheduling their appointments.
-✅ **Stripe and Razorpay payments at booking** - Accept a deposit the moment a client books.
+✅ **Stripe, PayPal and Razorpay payments at booking** - Accept a deposit the moment a client books.
 ✅ **Admin dashboard** - Full calendar view with filters for appointments and services.
 ✅ **Multi-step booking wizard** - A clean, guided booking flow that works on any device without configuration.
 ✅ **Email notifications** - Automatic confirmations sent to both you and your client at booking.
@@ -267,12 +287,12 @@ LatePoint isn't just another booking plugin, it's designed to solve real-world s
 
 == Want To Unlock More? ==
 
-LatePoint's free plugin is a solid starting point - unlimited appointments, Stripe & Razorpay payments, and a full booking experience out of the box. When your business grows and you need more power, Pro has you covered.
+LatePoint's free plugin is a solid starting point - unlimited appointments, Stripe, PayPal & Razorpay payments, and a full booking experience out of the box. When your business grows and you need more power, Pro has you covered.
 
 Here's what you unlock with LatePoint Pro:
 
 * Manage multiple locations, staff members, and agents
-* Accept payments via PayPal, Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, and SureCart along with Stripe and Razorpay
+* Accept payments via Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack, and SureCart along with Stripe, PayPal and Razorpay
 * Accept local payments via WooCommerce integration. If you want to use any local payments you can use LatePoint Woo
 * Sync with Google Calendar, Outlook, and Apple Calendar
 * Clients can view, manage, reschedule, and cancel bookings without contacting you
@@ -306,6 +326,10 @@ Here's what you unlock with LatePoint Pro:
 8. Stripe payments - Connect Stripe to securely accept credit and debit card payments.
 9. Razorpay payments - Connect Razorpay to collect payments in local currencies.
 10. Issue refunds from the admin dashboard - Manage orders and process refunds without leaving WordPress.
+11. Events dashboard - Events lives right in your dashboard, next to Services, with quick access to All Events, Categories, Registrations, and Tickets.
+12. Event registrations - Export every registration to CSV whenever you need an offline list for a co-host, venue, or volunteer.
+13. QR code check-in - Scan E-Ticket checks attendees in instantly by reading their ticket's QR code.
+14. Event details for customers - Customers see full event details, including date, availability, organizer, and location, before they complete their registration.
 
 == Blocks ==
 
@@ -330,7 +354,7 @@ Absolutely. It's perfect for agencies or freelancers setting up client booking s
 Yes, the booking cart lets users add multiple appointment bookings in one go.
 
 **Can I accept payments during booking?**
-Yes, Stripe and Razorpay on the free plan. PayPal, Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack on paid plans. Also supports WooCommerce Payments.
+Yes, Stripe, PayPal and Razorpay on the free plan. Square, Mollie, MercadoPago, Flutterwave, Braintree, PayStack and SureCart on paid plans. Also supports WooCommerce Payments.
 
 **Can I make clients pay a deposit during the appointment booking?**
 Yes. Set a fixed deposit per service. Available on all plans including free. The balance can be collected later directly through customers. With the Pro version, you can collect the remaining amount via payment link and invoice.
@@ -349,6 +373,15 @@ Yes, via their customer dashboard. You control the cancellation policy and wheth
 
 **Does it work for group bookings?**
 Yes, you can enable group bookings for your clients with the Pro version.
+
+**Is LatePoint good for appointment scheduling across multiple staff or locations?**
+Yes. LatePoint handles appointment scheduling for solo providers as well as teams of staff or agents, each with their own calendar, availability, and services. If you run multiple locations, LatePoint Pro adds full multi-location scheduling so clients can pick a location, staff member, and time slot in one booking flow.
+
+**Can I sell tickets or manage registrations for events, workshops, or classes?**
+LatePoint now includes a dedicated Events feature in Dashboard. You can create an event, set capacity and pricing, and publish it with a shortcode. Customers register and pay through the same booking cart and checkout LatePoint uses for appointments, and each registration appears in your Orders and in Events -> Registrations. With LatePoint Pro, you can also create multiple ticket types per event (like General or VIP) at different prices, and every ticket gets a QR code for fast check-in at the door.
+
+**Does LatePoint work as an event calendar for my site?**
+LatePoint's event booking system lets you publish a full events list with a shortcode, showing dates, pricing, and live availability for every event at a glance - or drop a button shortcode anywhere you just need a direct registration link. It's designed as a complete booking system built into your existing setup, for event registration and booking rather than as a traditional calendar-only plugin.
 
 **Is LatePoint free or paid?**
 This is the free version, perfect for simple booking needs. Want advanced features like expanded payment options, Zoom integration, recurring appointments, or WhatsApp notifications? [Check out LatePoint Pro](https://latepoint.com/pricing/?utm_source=wordpressorg&utm_medium=plugin_listing&utm_campaign=free_plugin)
@@ -376,9 +409,16 @@ LatePoint® is a registered trademark. Please use the following format when ment
 
 == Changelog ==
 
+= 5.7.1 - September 22, 2026 =
+  - Improvements
+    - The phone number field now has a searchable country selector, no longer drops digits when saving numbers for some countries and has an upgraded phone field library.
+
+  - Security
+    - Addressed security bugs. Props to WordFence for reporting it.
+
 = 5.7.0 - September 16, 2026 =
   - New
-    - Introduces Events. You can now host workshops, webinars, and other gatherings with capacity limits.
+    - Introduces Events. Publish workshops, classes, and ticketed gatherings, with registrations flowing through the same cart and checkout as appointments. LatePoint Pro adds multiple ticket types and QR code check-in.
 
   - Improvements
     - The LatePoint item in the WordPress admin sidebar now opens a quick access menu for the main LatePoint screens.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.7.0
+ * Version: 5.7.1
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.7.0';
+		public $version    = '5.7.1';
 		public $db_version = '2.3.4';
 
 		/**
@@ -1642,6 +1642,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				'start_from_order_intent_key'           => OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) ? OsRouterHelper::get_request_param( 'latepoint_order_intent_key' ) : '',
 				'is_enabled_show_dial_code_with_flag'   => OsSettingsHelper::is_enabled_show_dial_code_with_flag(),
 				'mask_phone_number_fields'              => OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ),
+				'phone_country_name_locale'             => str_replace( '_', '-', get_locale() ),
+				'phone_i18n'                            => OsFormHelper::phone_field_i18n(),
 				'msg_validation_presence'               => __( 'can not be blank', 'latepoint' ),
 				'msg_validation_presence_checkbox'      => __( 'has to be checked', 'latepoint' ),
 				'msg_validation_invalid'                => __( 'is invalid', 'latepoint' ),
@@ -1736,7 +1738,6 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				$this->version
 			);
 
-
 			$localized_vars = apply_filters( 'latepoint_localized_vars_front', $localized_vars );
 
 			wp_localize_script( 'latepoint-main-front', 'latepoint_helper', $localized_vars );
@@ -1825,6 +1826,8 @@ if ( ! class_exists( 'LatePoint' ) ) :
 				'date_format_for_js'                  => OsSettingsHelper::get_date_format_for_js(),
 				'is_enabled_show_dial_code_with_flag' => OsSettingsHelper::is_enabled_show_dial_code_with_flag(),
 				'mask_phone_number_fields'            => OsSettingsHelper::is_on( 'mask_phone_number_fields', LATEPOINT_VALUE_ON ),
+				'phone_country_name_locale'           => str_replace( '_', '-', get_locale() ),
+				'phone_i18n'                          => OsFormHelper::phone_field_i18n(),
 				'msg_validation_presence'             => __( 'can not be blank', 'latepoint' ),
 				'msg_validation_presence_checkbox'    => __( 'has to be checked', 'latepoint' ),
 				'msg_validation_invalid'              => __( 'is invalid', 'latepoint' ),

@@ -41,7 +41,7 @@ function latepoint_validate_form($form) {
             }
             break;
           case 'phone':
-            if (!window.lp_intlTelInputGlobals.getInstance($input[0]).isValidNumber()) {
+            if (!latepoint_iti_is_valid($input[0])) {
               errors.push({message: label + ' ' + latepoint_helper.msg_validation_invalid});
               field_has_errors = true;
             }
@@ -79,10 +79,10 @@ function latepoint_create_form_data($form, route_name = false, extra_params = fa
   }
 
   // get values from phone number fields
-  if (('lp_intlTelInputGlobals' in window) && ('lp_intlTelInputUtils' in window)) {
+  if (latepoint_iti_is_ready()) {
     $form.find('input.os-mask-phone').each(function () {
       const phoneInputName = this.getAttribute('name');
-      const phoneInputValue = window.lp_intlTelInputGlobals.getInstance(this).getNumber(window.lp_intlTelInputUtils.numberFormat.E164);
+      const phoneInputValue = latepoint_iti_get_e164(this);
       // override value generated automatically by formdata with a formatted value of a phone field with country code
       params.set(phoneInputName, phoneInputValue);
     });
@@ -185,82 +185,9 @@ function latepoint_mask_date($elem) {
   }
 }
 
-function latepoint_init_phone_masking_from_placeholder($input) {
-  if (!latepoint_helper.mask_phone_number_fields) return;
-  let format = $input.attr('placeholder');
-  if (format && jQuery().inputmask) {
-    $input.inputmask(format.replace(/[0-9]/g, 9));
-  }
-}
-
+// Initializes the bundled intl-tel-input library (see phone_field.js) on a phone field.
 function latepoint_mask_phone($elem) {
-  let jsElem = $elem[0];
-
-  // First priority is to prevent duplicates (common in non-document.body contexts)
-  if (jsElem && !window.lp_intlTelInputGlobals.getInstance(jsElem)) {
-    let dropdownContainer = document.body;
-
-    let onlyCountries = JSON.parse(latepoint_helper.included_phone_countries);
-    // Remedy a quirk with json_encode(EMPTY_ARRAY)
-    if (onlyCountries.length === 1 && onlyCountries[0] === "") {
-      onlyCountries = [];
-    }
-    const preferredCountries = onlyCountries.length ? [] : window.lp_intlTelInputGlobals.defaults.preferredCountries;
-
-    // remove country name in english and only use names in country language
-    var countryData = window.lp_intlTelInputGlobals.getCountryData();
-
-    for (var i = 0; i < countryData.length; i++) {
-      var country = countryData[i];
-      country.name = country.name.replace(/ *\([^)]*\) */g, "");
-    }
-
-    let defaultCountryCode = latepoint_helper.default_phone_country;
-    if (onlyCountries.length && !onlyCountries.includes(defaultCountryCode)) {
-      defaultCountryCode = onlyCountries[0];
-    }
-
-
-    let iti = window.lp_intlTelInput(jsElem, {
-      dropdownContainer: dropdownContainer,
-      formatOnDisplay: true,
-      nationalMode: true,
-      autoPlaceholder: 'aggressive',
-      initialCountry: defaultCountryCode,
-      geoIpLookup: function (callback) {
-        const cookieName = 'latepoint_phone_country';
-
-        if (latepoint_has_cookie(cookieName)) {
-          callback(latepoint_get_cookie(cookieName));
-        } else {
-          jQuery.get('https://ipinfo.io', function () {
-          }, 'jsonp').always(function (response) {
-            // Sensible default
-            let countryCode = defaultCountryCode;
-
-            if (response && response.country) {
-              countryCode = response.country.toLowerCase();
-              latepoint_set_cookie(cookieName, countryCode);
-            }
-            callback(countryCode);
-          })
-        }
-      },
-      allowDropdown: onlyCountries.length != 1,
-      onlyCountries: onlyCountries,
-      preferredCountries: preferredCountries,
-      separateDialCode: latepoint_helper.is_enabled_show_dial_code_with_flag
-    });
-
-    iti.promise.then(function () {
-      latepoint_init_phone_masking_from_placeholder($elem);
-    });
-
-
-    $elem.on("countrychange", function (event) {
-      latepoint_init_phone_masking_from_placeholder(jQuery(this));
-    });
-  }
+  latepoint_iti_init($elem);
 }
 
 function latepoint_show_booking_end_time() {

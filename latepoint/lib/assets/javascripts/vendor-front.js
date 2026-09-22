@@ -4,6 +4,4 @@
 
 // @codekit-prepend "vendor/sprintf.min.js";
 // @codekit-prepend "vendor/jquery.inputmask.min.js";
-// @codekit-prepend "vendor/intl-tel-input/data.js";
-// @codekit-prepend "vendor/intl-tel-input/utils.js";
-// @codekit-prepend "vendor/intl-tel-input/intlTelInput.min.js";
+// @codekit-prepend "vendor/intl-tel-input/v29/intlTelInput.min.js";
