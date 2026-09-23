@@ -2,7 +2,7 @@
 /**
  * Plugin Name: LatePoint
  * Description: Appointment Scheduling Software for WordPress
- * Version: 5.7.1
+ * Version: 5.7.2
  * Author: LatePoint
  * Author URI: https://latepoint.com
  * Plugin URI: https://latepoint.com
@@ -29,7 +29,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * LatePoint version.
 		 *
 		 */
-		public $version    = '5.7.1';
+		public $version    = '5.7.2';
 		public $db_version = '2.3.4';
 
 		/**
@@ -1463,11 +1463,14 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * Register a custom menu page.
 		 */
 		function init_menus() {
+
+			$capability = OsAuthHelper::get_current_user()->wp_capability ?? 'manage_options';
+
 			// link for admins
 			add_menu_page(
 				OsSettingsHelper::get_brand_name(),
 				OsSettingsHelper::get_brand_name(),
-				OsAuthHelper::get_current_user()->wp_capability,
+				$capability,
 				'latepoint',
 				[ $this, 'route_call' ],
 				apply_filters( 'latepoint_admin_menu_icon', 'none' )
@@ -1479,7 +1482,7 @@ if ( ! class_exists( 'LatePoint' ) ) :
 		 * Mirrors the shortlisted sections in the sidebar fly out, plus an Upgrade nudge on free installs.
 		 */
 		function init_sub_menus() {
-			$capability    = OsAuthHelper::get_current_user()->wp_capability;
+			$capability    = OsAuthHelper::get_current_user()->wp_capability ?? 'manage_options';
 			$admin_url     = admin_url();
 			$allowed_items = OsMenuHelper::get_sub_menu_item_ids();
 
