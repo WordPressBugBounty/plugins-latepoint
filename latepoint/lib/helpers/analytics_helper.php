@@ -73,6 +73,7 @@ class OsAnalyticsHelper {
 		// Plugin updated. Fires once per version change via OsUpdateHelper.
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated' ] );
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_payment_state' ] );
+		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_events_state' ] );
 
 		// Event hooks.
 		add_action( 'latepoint_onboarding_started', [ __CLASS__, 'on_onboarding_started' ] );
@@ -80,12 +81,15 @@ class OsAnalyticsHelper {
 		add_action( 'latepoint_onboarding_completed', [ __CLASS__, 'on_onboarding_completed' ] );
 		add_action( 'activated_plugin', [ __CLASS__, 'on_pro_addon_activated' ] );
 		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_payment_processors_connected' ] );
+		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_events_functionality_toggled' ] );
 		add_action( 'latepoint_booking_created',   [ __CLASS__, 'on_first_booking_created' ], 15 );
 		add_action( 'latepoint_service_saved',     [ __CLASS__, 'on_first_service_created' ], 15, 2 );
 		add_action( 'latepoint_agent_saved',       [ __CLASS__, 'on_first_agent_created' ], 15, 2 );
 		add_action( 'latepoint_process_created',   [ __CLASS__, 'on_first_process_created' ], 15 );
 		add_action( 'latepoint_customer_created',  [ __CLASS__, 'on_first_customer_created' ], 15 );
 		add_action( 'latepoint_customer_imported', [ __CLASS__, 'on_first_customer_imported' ], 15 );
+		add_action( 'latepoint_event_created',              [ __CLASS__, 'on_first_event_created' ], 15 );
+		add_action( 'latepoint_event_registration_created', [ __CLASS__, 'on_first_event_registration_created' ], 15 );
 	}
 
 	/**
@@ -253,6 +257,32 @@ class OsAnalyticsHelper {
 	}
 
 	/**
+	 * Track first_event_created event. Called via latepoint_event_created hook.
+	 *
+	 * @return void
+	 */
+	public static function on_first_event_created() {
+		if ( get_option( 'latepoint_first_event_created' ) ) {
+			return;
+		}
+		update_option( 'latepoint_first_event_created', LATEPOINT_VERSION, false );
+		self::events()->track( 'first_event_created', LATEPOINT_VERSION );
+	}
+
+	/**
+	 * Track first_event_registration_created event. Called via latepoint_event_registration_created hook.
+	 *
+	 * @return void
+	 */
+	public static function on_first_event_registration_created() {
+		if ( get_option( 'latepoint_first_event_registration_created' ) ) {
+			return;
+		}
+		update_option( 'latepoint_first_event_registration_created', LATEPOINT_VERSION, false );
+		self::events()->track( 'first_event_registration_created', LATEPOINT_VERSION );
+	}
+
+	/**
 	 * Backfill a milestone event for existing installs during plugin update.
 	 *
 	 * If the guard option is not yet set and the entity table already has rows,
@@ -298,6 +328,8 @@ class OsAnalyticsHelper {
 		self::maybe_backfill_milestone( 'latepoint_first_agent_created', new OsAgentModel(), 'first_agent_created' );
 		self::maybe_backfill_milestone( 'latepoint_first_process_created', new OsProcessModel(), 'first_process_created' );
 		self::maybe_backfill_milestone( 'latepoint_first_customer_created', new OsCustomerModel(), 'first_customer_created' );
+		self::maybe_backfill_milestone( 'latepoint_first_event_created', new OsEventModel(), 'first_event_created' );
+		self::maybe_backfill_milestone( 'latepoint_first_event_registration_created', new OsEventRegistrationModel(), 'first_event_registration_created' );
 	}
 
 	/**
@@ -356,6 +388,38 @@ class OsAnalyticsHelper {
 	}
 
 	/**
+	 * Capture current Events functionality state on plugin update.
+	 * Reads from DB settings, not from a form submission.
+	 *
+	 * @return void
+	 */
+	public static function on_plugin_updated_events_state() {
+		if ( ! class_exists( 'OsSettingsHelper' ) ) {
+			return;
+		}
+
+		if ( OsSettingsHelper::is_on( 'enable_events_functionality' ) ) {
+			self::events()->track( 'events_functionality_enabled', LATEPOINT_VERSION, [], true );
+		}
+	}
+
+	/**
+	 * Handle the Events functionality toggle from general settings.
+	 *
+	 * @param array<mixed> $settings Settings array.
+	 * @return void
+	 */
+	public static function on_events_functionality_toggled( $settings ) {
+		if ( ! is_array( $settings ) ) {
+			return;
+		}
+
+		if ( isset( $settings['enable_events_functionality'] ) && 'on' === $settings['enable_events_functionality'] ) {
+			self::events()->track( 'events_functionality_enabled', LATEPOINT_VERSION, [], true );
+		}
+	}
+
+	/**
 	 * Toggle contribute to latepoint from general settings.
 	 *
 	 * @param array<mixed> $settings settings array.
@@ -384,13 +448,15 @@ class OsAnalyticsHelper {
 		];
 
 		$stats_data['plugin_data']['latepoint']['numeric_values'] = [
-			'total_bookings'  => self::get_table_count( LATEPOINT_TABLE_BOOKINGS ),
-			'total_orders'    => self::get_table_count( LATEPOINT_TABLE_ORDERS ),
-			'total_services'  => self::get_table_count( LATEPOINT_TABLE_SERVICES ),
-			'total_agents'    => self::get_table_count( LATEPOINT_TABLE_AGENTS ),
-			'total_customers' => self::get_table_count( LATEPOINT_TABLE_CUSTOMERS ),
-			'total_locations' => self::get_table_count( LATEPOINT_TABLE_LOCATIONS ),
-			'total_processes' => self::get_table_count( LATEPOINT_TABLE_PROCESSES ),
+			'total_bookings'            => self::get_table_count( LATEPOINT_TABLE_BOOKINGS ),
+			'total_orders'              => self::get_table_count( LATEPOINT_TABLE_ORDERS ),
+			'total_services'            => self::get_table_count( LATEPOINT_TABLE_SERVICES ),
+			'total_agents'              => self::get_table_count( LATEPOINT_TABLE_AGENTS ),
+			'total_customers'           => self::get_table_count( LATEPOINT_TABLE_CUSTOMERS ),
+			'total_locations'           => self::get_table_count( LATEPOINT_TABLE_LOCATIONS ),
+			'total_processes'           => self::get_table_count( LATEPOINT_TABLE_PROCESSES ),
+			'total_events'              => self::get_table_count( LATEPOINT_TABLE_EVENTS ),
+			'total_event_registrations' => self::get_table_count( LATEPOINT_TABLE_EVENT_REGISTRATIONS ),
 		];
 
 		// Add KPI tracking data.
@@ -423,10 +489,12 @@ class OsAnalyticsHelper {
 
 			$kpi_data[ $date ] = [
 				'numeric_values' => [
-					'bookings'  => self::get_daily_count( LATEPOINT_TABLE_BOOKINGS, $date ),
-					'orders'    => self::get_daily_count( LATEPOINT_TABLE_ORDERS, $date ),
-					'services'  => self::get_daily_count( LATEPOINT_TABLE_SERVICES, $date ),
-					'customers' => self::get_daily_count( LATEPOINT_TABLE_CUSTOMERS, $date ),
+					'bookings'            => self::get_daily_count( LATEPOINT_TABLE_BOOKINGS, $date ),
+					'orders'              => self::get_daily_count( LATEPOINT_TABLE_ORDERS, $date ),
+					'services'            => self::get_daily_count( LATEPOINT_TABLE_SERVICES, $date ),
+					'customers'           => self::get_daily_count( LATEPOINT_TABLE_CUSTOMERS, $date ),
+					'events'              => self::get_daily_count( LATEPOINT_TABLE_EVENTS, $date ),
+					'event_registrations' => self::get_daily_count( LATEPOINT_TABLE_EVENT_REGISTRATIONS, $date ),
 				],
 			];
 		}

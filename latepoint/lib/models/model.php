@@ -379,6 +379,11 @@ class OsModel {
 					} elseif ( is_array( $value ) && ( isset( $value['OR'] ) || isset( $value['AND'] ) ) ) {
 						// IS ARRAY AND OR
 						foreach ( $value as $condition_and_or => $condition_values ) {
+							// Only 'AND'/'OR' are valid outer logical operators. Any other key would be
+							// concatenated verbatim into SQL (via implode and the recursive call) — reject it.
+							if ( ! in_array( strtoupper( trim( (string) $condition_and_or ) ), [ 'AND', 'OR' ], true ) ) {
+								continue;
+							}
 
 							$temp_query .= '(';
 							$sub_queries = [];

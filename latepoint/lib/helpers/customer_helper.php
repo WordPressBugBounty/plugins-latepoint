@@ -252,14 +252,10 @@ class OsCustomerHelper {
 	}
 
 	public static function create_wp_user_for_customer( $customer ) {
-		// NO connected wp user, create one
-		// check if wp user with this customer email already exists
+		// Match by email only - matching by user_login would allow linking to a mismatched account.
 		$wp_user_id = email_exists( $customer->email );
-		if ( ! $wp_user_id ) {
-			$wp_user_id = username_exists( $customer->email );
-		}
 		if ( $wp_user_id ) {
-			// wp user with this email or username exists
+			// wp user with this email exists
 			if ( ! self::is_wp_user_safe_for_customer_link( $wp_user_id ) ) {
 				// Do not link to privileged WP accounts (admin, editor, etc.)
 				$customer->add_error( 'privileged_user', __( 'Cannot link to a privileged WordPress account.', 'latepoint' ) );

@@ -2,12 +2,46 @@
 
 class OsBundlesHelper {
 
-	public static function get_remaining_slots_for_bundle_order_item( $order_item_id ) {
-		$order_item    = new OsOrderItemModel( OsStepsHelper::$booking_object->order_item_id );
-		$bundle        = $order_item->build_original_object_from_item_data();
-		$total_allowed = $bundle->quantity_for_service( OsStepsHelper::$booking_object->service_id );
-		$total_booked  = count( OsOrdersHelper::get_bookings_for_order_item( OsStepsHelper::$booking_object->order_item_id, OsStepsHelper::$booking_object->service_id, OsBookingHelper::get_non_cancelled_booking_statuses() ) );
+	public static function get_remaining_slots_for_bundle_order_item( $order_item_id, $service_id = null ) {
+		if ( is_null( $service_id ) ) {
+			$service_id = isset( OsStepsHelper::$booking_object ) ? OsStepsHelper::$booking_object->service_id : false;
+		}
+		$order_item = new OsOrderItemModel( $order_item_id );
+		$bundle     = $order_item->build_original_object_from_item_data();
+		if ( ! ( $bundle instanceof OsBundleModel ) ) {
+			return 0;
+		}
+		$total_allowed = $bundle->quantity_for_service( $service_id );
+		$total_booked  = count( OsOrdersHelper::get_bookings_for_order_item( $order_item_id, $service_id, OsBookingHelper::get_non_cancelled_booking_statuses() ) );
 		return max( 0, $total_allowed - $total_booked );
+	}
+
+	/**
+	 * Whether the logged in customer owns this bundle order item and still has a slot left for the service.
+	 *
+	 * @param int $order_item_id
+	 * @param mixed $service_id
+	 *
+	 * @return bool
+	 */
+	public static function can_current_customer_schedule( int $order_item_id, $service_id = null ): bool {
+		$customer_id = OsAuthHelper::get_logged_in_customer_id();
+		if ( $order_item_id <= 0 || empty( $customer_id ) ) {
+			return false;
+		}
+
+		$order_item = new OsOrderItemModel( $order_item_id );
+		if ( $order_item->is_new_record() || ! $order_item->is_bundle() ) {
+			return false;
+		}
+
+		// not gated on payment_status - pay later is the default, so an owned bundle is routinely not_paid
+		$order = $order_item->get_order();
+		if ( $order->is_new_record() || ( (int) $order->customer_id !== (int) $customer_id ) ) {
+			return false;
+		}
+
+		return empty( $service_id ) || self::get_remaining_slots_for_bundle_order_item( $order_item_id, $service_id ) > 0;
 	}
 
 	public static function generate_order_summary_for_bundle( OsBundleModel $bundle, string $order_item_id, $preselected_booking_id = false ): string {

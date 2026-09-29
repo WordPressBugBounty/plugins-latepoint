@@ -676,7 +676,6 @@ class OsStepsHelper {
 
 		if ( self::is_bundle_scheduling() ) {
 			// booking a bundle that was already paid for, skip payment step
-			// TODO check if valid order item id
 			self::remove_step_by_name( 'payment__methods' );
 			self::remove_step_by_name( 'payment__times' );
 			self::remove_step_by_name( 'payment__portions' );
@@ -1226,6 +1225,8 @@ class OsStepsHelper {
 		// booking directly in a chosen lifecycle state (e.g. self-approve a pending booking).
 		// The server assigns the status via the model default.
 		unset( $booking_object_params['status'] );
+		// order_item_id is mass assignable - it may only arrive through the verified presets path below
+		unset( $booking_object_params['order_item_id'] );
 
 		self::$booking_object = new OsBookingModel();
 		self::$booking_object->set_data( $booking_object_params );
@@ -1277,8 +1278,8 @@ class OsStepsHelper {
 		if ( isset( self::$presets['selected_start_time'] ) && is_numeric( self::$presets['selected_start_time'] ) ) {
 			self::$booking_object->start_time = self::$presets['selected_start_time'];
 		}
-		// preselected time
-		if ( isset( self::$presets['order_item_id'] ) && is_numeric( self::$presets['order_item_id'] ) ) {
+		// preselected order item - only the owning customer may schedule from a purchased bundle
+		if ( isset( self::$presets['order_item_id'] ) && is_numeric( self::$presets['order_item_id'] ) && OsBundlesHelper::can_current_customer_schedule( (int) self::$presets['order_item_id'], self::$booking_object->service_id ) ) {
 			self::$booking_object->order_item_id = self::$presets['order_item_id'];
 			// TODO - move to pro
 			// it's a bundle, preset values from a bundle

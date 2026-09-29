@@ -1268,6 +1268,21 @@ class OsBookingModel extends OsModel {
 		return $this->image_id;
 	}
 
+	public function prepare_data_before_it_is_set( $data ) {
+		// These fields are always scalar. A nested array here is never legitimate and can
+		// reach the ORM as attacker-controlled SQL — drop it. (Scalar 'any' values for
+		// agent_id/location_id are preserved, unlike a blanket absint().)
+		$scalar_fields = [ 'service_id', 'agent_id', 'location_id', 'customer_id', 'duration', 'total_attendees', 'buffer_before', 'buffer_after', 'order_item_id', 'recurrence_id' ];
+		if ( is_array( $data ) ) {
+			foreach ( $scalar_fields as $field ) {
+				if ( isset( $data[ $field ] ) && is_array( $data[ $field ] ) ) {
+					unset( $data[ $field ] );
+				}
+			}
+		}
+		return $data;
+	}
+
 	protected function allowed_params( $role = 'admin' ) {
 		$allowed_params = array(
 			'service_id',
