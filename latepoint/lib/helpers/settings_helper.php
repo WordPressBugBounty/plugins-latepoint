@@ -675,6 +675,11 @@ class OsSettingsHelper {
 	public static function get_steps_support_text() {
 		$default = '<h5>Questions?</h5><p>Call (858) 939-3746 for help</p>';
 
+		// Intentionally returns the raw stored value: this is also used to prefill the
+		// contenteditable admin preview (_booking_form_preview.php), which persists whatever it
+		// renders on every save. Translating here would round-trip a translated string back into
+		// the DB and permanently break the English-default comparison in OsTranslationHelper.
+		// Front-end rendering translates the value itself, see views/steps/start.php.
 		return self::get_settings_value( 'steps_support_text', $default );
 	}
 
@@ -752,11 +757,38 @@ class OsSettingsHelper {
 	}
 
 	public static function prepare_value( $name, $value ) {
+		$value = self::enforce_value_contract( $name, $value );
 		if ( in_array( $name, self::get_encrypted_settings() ) ) {
 			$value = OsEncryptHelper::encrypt_value( $value );
 		}
 		if ( is_array( $value ) ) {
 			$value = maybe_serialize( $value );
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Enforces a server-side value contract for security-sensitive settings whose UI
+	 * restrictions are otherwise never validated on save. Runs on every settings write
+	 * path, as prepare_value is the shared chokepoint.
+	 *
+	 * @param string $name  Setting name.
+	 * @param mixed  $value Submitted value.
+	 * @return mixed Safe value.
+	 */
+	public static function enforce_value_contract( $name, $value ) {
+		switch ( $name ) {
+			case 'default_wp_role_for_customer':
+				// Must be in the UI's non-admin role list AND not hold site-admin capabilities
+				// (covers admin-equivalent custom roles and any role re-added via the list filter).
+				$allowed_roles = OsRolesHelper::get_wp_roles_list( true );
+				$role_obj      = is_string( $value ) ? get_role( $value ) : null;
+				$is_privileged = $role_obj && ( $role_obj->has_cap( 'manage_options' ) || $role_obj->has_cap( 'promote_users' ) );
+				if ( ! is_string( $value ) || ! isset( $allowed_roles[ $value ] ) || $is_privileged ) {
+					$value = LATEPOINT_WP_CUSTOMER_ROLE;
+				}
+				break;
 		}
 
 		return $value;

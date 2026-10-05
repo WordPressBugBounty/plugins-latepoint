@@ -3,6 +3,22 @@
 class OsReplacerHelper {
 
 	/**
+	 * Escapes placeholder delimiters in substituted values so replaced text is not re-scanned as a placeholder.
+	 *
+	 * @param array $replacements
+	 *
+	 * @return array
+	 */
+	public static function escape_replacements( array $replacements ): array {
+		return array_map(
+			function ( $value ) {
+				return str_replace( [ '{{', '}}' ], [ '&#123;&#123;', '&#125;&#125;' ], (string) $value );
+			},
+			$replacements
+		);
+	}
+
+	/**
 	 * @param array $data_objects
 	 * @param array $other_vars
 	 *
@@ -275,7 +291,7 @@ class OsReplacerHelper {
 			$customer->admin_notes,
 		);
 		$original_text = $text;
-		$text          = str_replace( $needles, $replacements, $text );
+		$text          = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with variables replaced, based on supplied <code>OsCustomerModel</code> instance
@@ -308,7 +324,7 @@ class OsReplacerHelper {
 			$payment_request->portion,
 			$payment_request->get_invoice()->get_pay_url(),
 		];
-		$text         = str_replace( $needles, $replacements, $text );
+		$text         = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with payment request variables replaced, based on supplied <code>OsPaymentRequestModel</code> instance
@@ -347,7 +363,7 @@ class OsReplacerHelper {
 			$transaction->notes,
 			$transaction->payment_portion,
 		];
-		$text         = str_replace( $needles, $replacements, $text );
+		$text         = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with transaction variables replaced, based on supplied <code>OsTransactionModel</code> instance
@@ -387,7 +403,7 @@ class OsReplacerHelper {
 			$agent->extra_phones,
 		);
 		$original_text = $text;
-		$text          = str_replace( $needles, $replacements, $text );
+		$text          = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with variables replaced, based on supplied <code>OsAgentModel</code> instance
@@ -424,7 +440,7 @@ class OsReplacerHelper {
 			OsSettingsHelper::get_customer_dashboard_url(),
 		];
 		$original_text = $text;
-		$text          = str_replace( $needles, $replacements, $text );
+		$text          = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with business-related variables replaced
@@ -462,7 +478,7 @@ class OsReplacerHelper {
 			OsOrdersHelper::extract_property_by_name( $order, 'location_ids' ),
 		];
 		$original_text = $text;
-		$text          = str_replace( $needles, $replacements, $text );
+		$text          = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with tracking-related variables replaced, based on supplied OsOrderModel instance
@@ -526,7 +542,7 @@ class OsReplacerHelper {
 			OsOrdersHelper::generate_direct_manage_order_url( $order, 'customer' ),
 		];
 		$original_text = $text;
-		$text          = str_replace( $needles, $replacements, $text );
+		$text          = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with variables replaced, based on supplied <code>OsOrderModel</code> instance
@@ -581,7 +597,7 @@ class OsReplacerHelper {
 			OsBookingHelper::generate_direct_manage_booking_url( $booking, 'customer' ),
 		];
 		$original_text  = $text;
-		$text           = str_replace( $needles, $replacements, $text );
+		$text           = str_replace( $needles, self::escape_replacements( $replacements ), $text );
 
 		/**
 		 * Returns a string with variables replaced, based on supplied <code>OsBookingModel</code> instance

@@ -205,7 +205,7 @@ class OsOrdersHelper {
 
 
 	public static function generate_confirmation_message( OsOrderModel $order ): string {
-		$title = OsStepsHelper::get_step_setting_value( 'confirmation', 'order_confirmation_message_title', esc_html__( 'Appointment Confirmed', 'latepoint' ) );
+		$title = OsTranslationHelper::translate_default( OsStepsHelper::get_step_setting_value( 'confirmation', 'order_confirmation_message_title', esc_html__( 'Appointment Confirmed', 'latepoint' ) ) );
 		/**
 		 * Filters the confirmation banner title, allowing item-type-specific overrides.
 		 *
@@ -217,7 +217,7 @@ class OsOrdersHelper {
 		 */
 		$title = apply_filters( 'latepoint_order_confirmation_message_title', $title, $order );
 
-		$content = OsStepsHelper::get_step_setting_value( 'confirmation', 'order_confirmation_message_content', esc_html__( 'We look forward to seeing you.', 'latepoint' ) );
+		$content = OsTranslationHelper::translate_default( OsStepsHelper::get_step_setting_value( 'confirmation', 'order_confirmation_message_content', esc_html__( 'We look forward to seeing you.', 'latepoint' ) ) );
 		/**
 		 * Filters the confirmation banner content/subtitle.
 		 *

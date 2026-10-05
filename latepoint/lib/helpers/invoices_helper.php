@@ -45,7 +45,7 @@ class OsInvoicesHelper {
 				$invoice->get_pay_url(),
 				$invoice->get_receipt_url(),
 			];
-			$text         = str_replace( $needles, $replacements, $text );
+			$text         = str_replace( $needles, OsReplacerHelper::escape_replacements( $replacements ), $text );
 
 		}
 		return $text;

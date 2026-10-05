@@ -76,10 +76,11 @@ msgstr "ステップ設定"
 #: blocks/elementor/elementor_widget_book_button.php:429
 #: blocks/elementor/elementor_widget_book_form.php:195
 #: blocks/elementor/elementor_widget_list_of_resources.php:407
+#: lib/helpers/paypal_connect_helper.php:375
 #: lib/helpers/razorpay_connect_helper.php:78
 #: lib/helpers/stripe_connect_helper.php:278
-#: lib/views/services/_form.php:275
-#: lib/views/services/_form.php:358
+#: lib/views/services/_form.php:283
+#: lib/views/services/_form.php:366
 #: lib/views/settings/notifications.php:57
 #: lib/views/settings/payments.php:30
 msgid "Other Settings"
@@ -102,7 +103,7 @@ msgstr "ボタンのキャプション"
 #: blocks/elementor/elementor_widget_book_button.php:76
 #: lib/helpers/shortcodes_helper.php:318
 #: lib/helpers/shortcodes_helper.php:396
-#: lib/helpers/shortcodes_helper.php:413
+#: lib/helpers/shortcodes_helper.php:426
 msgid "Book Appointment"
 msgstr "予約する"
 
@@ -300,7 +301,7 @@ msgstr "位置"
 
 #: blocks/bricks/bricks_widget_book_button.php:248
 #: blocks/bricks/bricks_widget_list_of_resources.php:409
-#: lib/helpers/settings_helper.php:887
+#: lib/helpers/settings_helper.php:893
 msgid "Full Width"
 msgstr "全幅"
 
@@ -366,7 +367,7 @@ msgstr "パディング"
 
 #: blocks/bricks/bricks_widget_book_form.php:16
 #: blocks/elementor/elementor_widget_book_form.php:33
-#: lib/helpers/menu_helper.php:176
+#: lib/helpers/menu_helper.php:209
 msgid "Booking Form"
 msgstr "予約フォーム"
 
@@ -396,8 +397,8 @@ msgstr "Latepointカレンダー"
 
 #: blocks/bricks/bricks_widget_calendar.php:23
 #: blocks/elementor/elementor_widget_calendar.php:60
-#: lib/controllers/orders_controller.php:773
-#: lib/controllers/transactions_controller.php:173
+#: lib/controllers/orders_controller.php:826
+#: lib/controllers/transactions_controller.php:195
 #: lib/views/calendars/scopes/_month.php:33
 #: lib/views/calendars/scopes/_week.php:41
 #: lib/views/orders/index.php:52
@@ -424,7 +425,7 @@ msgstr "場所を選択"
 
 #: blocks/bricks/bricks_widget_calendar.php:67
 #: blocks/elementor/elementor_widget_calendar.php:104
-#: lib/helpers/roles_helper.php:383
+#: lib/helpers/roles_helper.php:399
 #: lib/models/activity_model.php:42
 #: lib/views/transactions/_table_body.php:21
 #: blocks/src/calendar/edit.js:145
@@ -468,10 +469,10 @@ msgstr "リソース一覧"
 #: blocks/bricks/bricks_widget_list_of_resources.php:25
 #: blocks/elementor/elementor_widget_list_of_resources.php:96
 #: lib/controllers/settings_controller.php:20
-#: lib/helpers/menu_helper.php:146
-#: lib/helpers/menu_helper.php:152
-#: lib/helpers/menu_helper.php:362
-#: lib/helpers/roles_helper.php:379
+#: lib/helpers/menu_helper.php:179
+#: lib/helpers/menu_helper.php:185
+#: lib/helpers/menu_helper.php:428
+#: lib/helpers/roles_helper.php:395
 #: lib/views/partials/_top_bar.php:83
 #: lib/views/settings/generate_instant_booking_page.php:29
 msgid "Settings"
@@ -501,12 +502,12 @@ msgstr "リソースタイプ"
 #: blocks/bricks/bricks_widget_list_of_resources.php:94
 #: blocks/elementor/elementor_widget_list_of_resources.php:124
 #: lib/controllers/services_controller.php:20
-#: lib/helpers/booking_helper.php:913
+#: lib/helpers/booking_helper.php:1018
 #: lib/helpers/menu_helper.php:90
 #: lib/helpers/menu_helper.php:96
-#: lib/helpers/menu_helper.php:312
-#: lib/helpers/menu_helper.php:318
-#: lib/helpers/roles_helper.php:370
+#: lib/helpers/menu_helper.php:345
+#: lib/helpers/menu_helper.php:351
+#: lib/helpers/roles_helper.php:382
 #: lib/views/search/query_results.php:58
 #: blocks/src/list-of-resources/edit.js:362
 msgid "Services"
@@ -516,10 +517,10 @@ msgstr "サービス"
 #: blocks/elementor/elementor_widget_list_of_resources.php:125
 #: lib/controllers/default_agent_controller.php:42
 #: lib/controllers/default_agent_controller.php:44
-#: lib/helpers/menu_helper.php:122
-#: lib/helpers/roles_helper.php:369
+#: lib/helpers/menu_helper.php:155
+#: lib/helpers/roles_helper.php:381
 #: lib/views/search/query_results.php:43
-#: lib/views/services/_form.php:353
+#: lib/views/services/_form.php:361
 #: blocks/src/list-of-resources/edit.js:363
 msgid "Agents"
 msgstr "担当者"
@@ -527,18 +528,18 @@ msgstr "担当者"
 #: blocks/bricks/bricks_widget_list_of_resources.php:96
 #: blocks/elementor/elementor_widget_list_of_resources.php:126
 #: lib/helpers/location_helper.php:150
-#: lib/helpers/menu_helper.php:128
-#: lib/helpers/menu_helper.php:344
-#: lib/helpers/roles_helper.php:372
+#: lib/helpers/menu_helper.php:161
+#: lib/helpers/menu_helper.php:410
+#: lib/helpers/roles_helper.php:384
 #: blocks/src/list-of-resources/edit.js:364
 msgid "Locations"
 msgstr "場所"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:97
 #: blocks/elementor/elementor_widget_list_of_resources.php:127
-#: lib/helpers/booking_helper.php:690
+#: lib/helpers/booking_helper.php:773
 #: lib/helpers/menu_helper.php:102
-#: lib/helpers/menu_helper.php:324
+#: lib/helpers/menu_helper.php:357
 #: lib/views/customer_cabinet/dashboard.php:56
 #: blocks/src/list-of-resources/edit.js:365
 msgid "Bundles"
@@ -637,7 +638,7 @@ msgid "Show Selected Bundles"
 msgstr "選択済みバンドルを表示"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:344
-#: lib/helpers/booking_helper.php:1965
+#: lib/helpers/booking_helper.php:2103
 #: lib/helpers/events_helper.php:441
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:25
 #: lib/views/dashboard/widget_daily_bookings_chart.php:39
@@ -651,7 +652,7 @@ msgid "All Service Categories"
 msgstr "すべてのサービスカテゴリ"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:369
-#: lib/helpers/booking_helper.php:2009
+#: lib/helpers/booking_helper.php:2147
 #: lib/helpers/events_helper.php:427
 #: lib/views/dashboard/widget_daily_bookings_chart.php:30
 #: lib/views/dashboard/widget_upcoming_appointments.php:34
@@ -670,8 +671,9 @@ msgstr "タイトル"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:564
 #: blocks/elementor/elementor_widget_list_of_resources.php:866
-#: lib/controllers/bookings_controller.php:283
+#: lib/controllers/bookings_controller.php:292
 #: lib/helpers/settings_helper.php:494
+#: lib/views/events_manager/_form.php:285
 msgid "Price"
 msgstr "価格"
 
@@ -679,6 +681,7 @@ msgstr "価格"
 #: blocks/elementor/elementor_widget_list_of_resources.php:920
 #: lib/controllers/activities_controller.php:58
 #: lib/helpers/invoices_helper.php:276
+#: lib/views/event_categories/_form.php:24
 msgid "Description"
 msgstr "説明"
 
@@ -820,132 +823,133 @@ msgid "Box Padding"
 msgstr "ボックスのパディング"
 
 #. translators: 1: bold open tag, 2: bold close tag, 3: required version, 4: current version
-#: latepoint.php:1112
+#: latepoint.php:1213
 #, php-format
 msgid "You are using an older version of the %1$sLatePoint Pro Features%2$s plugin (v%4$s). Please update the %1$sLatePoint Pro Features%2$s plugin to version %1$s%3$s or later%2$s."
 msgstr "%1$sLatePoint Pro Features%2$s プラグインの古いバージョン（v%4$s）を使用しています。%1$sLatePoint Pro Features%2$s プラグインをバージョン %1$s%3$s 以降%2$s に更新してください。"
 
-#: latepoint.php:1119
+#: latepoint.php:1220
 msgid "Update Now"
 msgstr "今すぐ更新"
 
-#: latepoint.php:1132
+#: latepoint.php:1233
 msgid "Once every 5 minutes"
 msgstr "5分ごと"
 
-#: latepoint.php:1142
+#: latepoint.php:1243
 msgid "Get LatePoint Pro"
 msgstr "LatePoint Pro を入手"
 
-#: latepoint.php:1162
+#: latepoint.php:1263
 msgid "Email Settings"
 msgstr "メール設定"
 
-#: latepoint.php:1166
+#: latepoint.php:1267
 msgid "From Name"
 msgstr "送信者名"
 
-#: latepoint.php:1167
+#: latepoint.php:1268
 msgid "From Email Address"
 msgstr "送信者メールアドレス"
 
-#: latepoint.php:1446
-#: latepoint.php:1605
+#: latepoint.php:1622
+#: latepoint.php:1810
 #: lib/helpers/agent_helper.php:240
 #: lib/helpers/calendar_helper.php:160
 #: lib/helpers/events_helper.php:413
 #: lib/helpers/time_helper.php:29
-#: lib/models/booking_model.php:817
+#: lib/models/booking_model.php:835
 #: lib/views/calendars/view.php:37
 msgid "Today"
 msgstr "今日"
 
-#: latepoint.php:1449
-#: latepoint.php:1611
+#: latepoint.php:1625
+#: latepoint.php:1816
 #: lib/helpers/agent_helper.php:279
 #: lib/helpers/timeline_helper.php:93
 #: lib/helpers/timeline_helper.php:155
 msgid "Not Available"
 msgstr "利用不可"
 
-#: latepoint.php:1455
-#: lib/helpers/booking_helper.php:1735
-#: lib/views/customer_cabinet/_booking_tile.php:37
+#: latepoint.php:1632
+#: lib/helpers/booking_helper.php:1837
 msgid "Are you sure you want to cancel this appointment?"
 msgstr "この予約をキャンセルしてもよろしいですか？"
 
-#: latepoint.php:1456
-#: latepoint.php:1615
+#: latepoint.php:1633
+#: latepoint.php:1820
 msgid "Space Available"
 msgstr "空きあり"
 
-#: latepoint.php:1457
-#: latepoint.php:1616
+#: latepoint.php:1634
+#: latepoint.php:1821
 msgid "Spaces Available"
 msgstr "空き数"
 
-#: latepoint.php:1472
-#: latepoint.php:1628
+#: latepoint.php:1651
+#: latepoint.php:1835
 msgid "can not be blank"
 msgstr "空欄にできません"
 
-#: latepoint.php:1473
-#: latepoint.php:1629
+#: latepoint.php:1652
+#: latepoint.php:1836
 msgid "has to be checked"
 msgstr "チェックが必要です"
 
-#: latepoint.php:1474
-#: latepoint.php:1630
+#: latepoint.php:1653
+#: latepoint.php:1837
 msgid "is invalid"
 msgstr "無効です"
 
-#: latepoint.php:1475
-#: latepoint.php:1631
+#: latepoint.php:1654
+#: latepoint.php:1838
 msgid " minutes"
 msgstr "分"
 
-#: latepoint.php:1481
-#: latepoint.php:1613
+#: latepoint.php:1660
+#: latepoint.php:1818
 #: lib/views/steps/start.php:79
 msgid "Selected"
 msgstr "選択済み"
 
-#: latepoint.php:1606
+#: latepoint.php:1811
+#: lib/views/settings/general.php:628
+#: lib/views/settings/general.php:640
 msgid "Copied"
 msgstr "コピーしました"
 
-#: latepoint.php:1607
+#: latepoint.php:1812
 msgid "Just click to copy"
 msgstr "クリックするだけでコピーできます"
 
-#: latepoint.php:1608
+#: latepoint.php:1813
 msgid "Are you sure you want to approve this booking?"
 msgstr "この予約を承認してもよろしいですか？"
 
-#: latepoint.php:1609
+#: latepoint.php:1814
 msgid "Are you sure you want to reject this booking?"
 msgstr "この予約を却下してもよろしいですか？"
 
-#: latepoint.php:1612
+#: latepoint.php:1817
 #: lib/misc/process_action.php:174
 #: lib/views/processes/_form.php:28
 #: lib/views/services/_form.php:35
 msgid "Active"
 msgstr "有効"
 
-#: latepoint.php:1614
-#: lib/helpers/replacer_helper.php:563
+#: latepoint.php:1819
+#: lib/helpers/replacer_helper.php:565
 #: lib/helpers/time_helper.php:90
-#: lib/models/booking_model.php:988
-#: lib/views/settings/general.php:334
+#: lib/models/booking_model.php:1006
+#: lib/views/settings/general.php:363
 msgid "minutes"
 msgstr "分"
 
-#: lib/abilities/abstract-ability.php:120
+#: lib/abilities/abstract-ability.php:185
 msgid "Page number."
 msgstr "ページ番号。"
 
-#: lib/abilities/abstract-ability.php:127
+#: lib/abilities/abstract-ability.php:192
 msgid "Items per page."
 msgstr "1ページあたりの項目数。"
 
@@ -1166,43 +1170,43 @@ msgstr "上位サービスを取得"
 msgid "Returns the most-booked services with booking counts and revenue for a period."
 msgstr "指定期間の予約数と売上を含む、最も予約されたサービスを返します。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:75
-#: lib/abilities/bookings/abstract-booking-ability.php:79
+#: lib/abilities/bookings/abstract-booking-ability.php:76
+#: lib/abilities/bookings/abstract-booking-ability.php:80
 msgid "Minutes from midnight."
 msgstr "深夜からの分数。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:83
+#: lib/abilities/bookings/abstract-booking-ability.php:84
 #: lib/abilities/services/abstract-service-ability.php:35
 #: lib/abilities/services/create-service.php:29
 msgid "Duration in minutes."
 msgstr "分単位の所要時間。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:106
+#: lib/abilities/bookings/abstract-booking-ability.php:107
 #: lib/abilities/customers/get-customer-bookings.php:28
 msgid "Filter by booking status."
 msgstr "予約ステータスで絞り込みます。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:110
+#: lib/abilities/bookings/abstract-booking-ability.php:111
 msgid "Filter by agent ID."
 msgstr "エージェントIDで絞り込みます。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:114
+#: lib/abilities/bookings/abstract-booking-ability.php:115
 msgid "Filter by service ID."
 msgstr "サービスIDで絞り込みます。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:118
+#: lib/abilities/bookings/abstract-booking-ability.php:119
 msgid "Filter by location ID."
 msgstr "ロケーションIDで絞り込みます。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:122
+#: lib/abilities/bookings/abstract-booking-ability.php:123
 msgid "Filter by customer ID."
 msgstr "顧客IDで絞り込みます。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:127
+#: lib/abilities/bookings/abstract-booking-ability.php:128
 msgid "Start date filter (Y-m-d)."
 msgstr "開始日フィルター（Y-m-d）。"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:132
+#: lib/abilities/bookings/abstract-booking-ability.php:133
 msgid "End date filter (Y-m-d)."
 msgstr "終了日フィルター（Y-m-d）。"
 
@@ -1251,7 +1255,7 @@ msgstr "新しいステータス。"
 msgid "Booking not found."
 msgstr "予約が見つかりません。"
 
-#: lib/abilities/bookings/change-booking-status.php:49
+#: lib/abilities/bookings/change-booking-status.php:53
 msgid "Failed to update booking status."
 msgstr "予約ステータスの更新に失敗しました。"
 
@@ -1340,7 +1344,7 @@ msgstr "データベースから予約レコードを完全に削除します。
 msgid "Booking ID to delete."
 msgstr "削除する予約ID。"
 
-#: lib/abilities/bookings/delete-booking.php:48
+#: lib/abilities/bookings/delete-booking.php:52
 msgid "Failed to delete booking."
 msgstr "予約の削除に失敗しました。"
 
@@ -1364,7 +1368,7 @@ msgstr "任意のグループ化次元。"
 msgid "Numeric total when no group_by; array of {value, group_by_value} objects when group_by is set."
 msgstr "group_by がない場合は数値の合計、group_by が設定されている場合は {value, group_by_value} オブジェクトの配列。"
 
-#: lib/abilities/bookings/get-booking-stats.php:76
+#: lib/abilities/bookings/get-booking-stats.php:78
 msgid "Invalid stat or group_by parameter."
 msgstr "stat または group_by パラメータが無効です。"
 
@@ -1440,7 +1444,7 @@ msgstr "新しい開始時刻（深夜0時からの分）。"
 msgid "New end time (minutes from midnight)."
 msgstr "新しい終了時刻（深夜0時からの分）。"
 
-#: lib/abilities/bookings/reschedule-booking.php:66
+#: lib/abilities/bookings/reschedule-booking.php:70
 msgid "Failed to reschedule booking."
 msgstr "予約の再スケジュールに失敗しました。"
 
@@ -1456,7 +1460,7 @@ msgstr "既存の予約の1つ以上のフィールドを更新します。変�
 msgid "Booking ID to update."
 msgstr "更新する予約ID。"
 
-#: lib/abilities/bookings/update-booking.php:65
+#: lib/abilities/bookings/update-booking.php:69
 msgid "Failed to update booking."
 msgstr "予約の更新に失敗しました。"
 
@@ -1479,10 +1483,6 @@ msgstr "休業期間の作成に失敗しました。"
 #: lib/abilities/calendar/check-slot-availability.php:10
 msgid "Check slot availability"
 msgstr "スロットの空き状況を確認"
-
-#: lib/abilities/calendar/check-slot-availability.php:11
-msgid "Checks whether a specific time slot has no conflicting bookings."
-msgstr "特定の時間枠に競合する予約がないかを確認します。"
 
 #: lib/abilities/calendar/get-available-slots.php:10
 msgid "Get available slots"
@@ -1532,7 +1532,7 @@ msgstr "休業期間が見つかりません。"
 msgid "Failed to delete off period."
 msgstr "休業期間の削除に失敗しました。"
 
-#: lib/abilities/class-latepoint-abilities.php:65
+#: lib/abilities/class-latepoint-abilities.php:190
 msgid "Appointment scheduling — bookings, customers, services, and staff."
 msgstr "予約スケジューリング — 予約、顧客、サービス、スタッフ。"
 
@@ -1562,15 +1562,15 @@ msgstr "WordPressのユーザーID。"
 msgid "Customer not found."
 msgstr "顧客が見つかりません。"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:48
+#: lib/abilities/customers/connect-customer-to-wp-user.php:52
 msgid "WordPress user not found."
 msgstr "WordPressユーザーが見つかりません。"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:57
+#: lib/abilities/customers/connect-customer-to-wp-user.php:61
 msgid "Cannot link a customer to a privileged WordPress account."
 msgstr "特権付きのWordPressアカウントには顧客をリンクできません。"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:66
+#: lib/abilities/customers/connect-customer-to-wp-user.php:70
 msgid "Failed to link customer to WordPress user."
 msgstr "顧客をWordPressユーザーにリンクできませんでした。"
 
@@ -1610,7 +1610,7 @@ msgstr "顧客を削除"
 msgid "Permanently deletes a customer and all their associated bookings and orders. This cannot be undone."
 msgstr "顧客と、それに関連するすべての予約および注文を完全に削除します。これは元に戻せません。"
 
-#: lib/abilities/customers/delete-customer.php:49
+#: lib/abilities/customers/delete-customer.php:53
 msgid "Failed to delete customer."
 msgstr "顧客の削除に失敗しました。"
 
@@ -1698,7 +1698,7 @@ msgstr "顧客を更新"
 msgid "Updates one or more fields on an existing customer profile. Only provided fields are changed."
 msgstr "既存の顧客プロフィールの1つ以上のフィールドを更新します。指定されたフィールドのみが変更されます。"
 
-#: lib/abilities/customers/update-customer.php:68
+#: lib/abilities/customers/update-customer.php:72
 msgid "Failed to update customer."
 msgstr "顧客の更新に失敗しました。"
 
@@ -1850,7 +1850,7 @@ msgstr "新しい請求書ステータス。"
 msgid "Invoice not found."
 msgstr "請求書が見つかりません。"
 
-#: lib/abilities/orders/change-invoice-status.php:49
+#: lib/abilities/orders/change-invoice-status.php:53
 msgid "Failed to update invoice status."
 msgstr "請求書ステータスの更新に失敗しました。"
 
@@ -1877,7 +1877,7 @@ msgstr "注文ID。"
 msgid "Order not found."
 msgstr "注文が見つかりません。"
 
-#: lib/abilities/orders/change-order-status.php:48
+#: lib/abilities/orders/change-order-status.php:52
 msgid "Failed to change order status."
 msgstr "注文ステータスの変更に失敗しました。"
 
@@ -1889,7 +1889,7 @@ msgstr "請求書を作成"
 msgid "Creates a new invoice for an existing order. Does not process any payment."
 msgstr "既存の注文に対して新しい請求書を作成します。支払い処理は行いません。"
 
-#: lib/abilities/orders/create-invoice.php:62
+#: lib/abilities/orders/create-invoice.php:67
 msgid "Failed to create invoice."
 msgstr "請求書の作成に失敗しました。"
 
@@ -1913,7 +1913,7 @@ msgstr "注文と関連する請求書を完全に削除します。これは元
 msgid "Order ID to delete."
 msgstr "削除する注文のID。"
 
-#: lib/abilities/orders/delete-order.php:49
+#: lib/abilities/orders/delete-order.php:53
 msgid "Failed to delete order."
 msgstr "注文の削除に失敗しました。"
 
@@ -1991,7 +1991,7 @@ msgstr "取引を返金"
 msgid "Marks a payment transaction as refunded. Does not process the actual refund through the payment gateway."
 msgstr "支払い取引を返金済みとしてマークします。支払いゲートウェイを通じた実際の返金処理は行いません。"
 
-#: lib/abilities/orders/refund-transaction.php:45
+#: lib/abilities/orders/refund-transaction.php:49
 msgid "Failed to refund transaction."
 msgstr "取引の返金に失敗しました。"
 
@@ -2007,7 +2007,7 @@ msgstr "既存の注文の 1 つ以上のフィールドを更新します。指
 msgid "Order ID to update."
 msgstr "更新する注文 ID。"
 
-#: lib/abilities/orders/update-order.php:60
+#: lib/abilities/orders/update-order.php:64
 msgid "Failed to update order."
 msgstr "注文の更新に失敗しました。"
 
@@ -2170,8 +2170,8 @@ msgid "Activities log cleared"
 msgstr "アクティビティログを消去しました"
 
 #: lib/controllers/activities_controller.php:49
-#: lib/controllers/orders_controller.php:772
-#: lib/controllers/transactions_controller.php:172
+#: lib/controllers/orders_controller.php:825
+#: lib/controllers/transactions_controller.php:194
 #: lib/models/transaction_model.php:77
 #: lib/models/transaction_refund_model.php:25
 #: lib/views/activities/index.php:46
@@ -2187,7 +2187,7 @@ msgid "Agent ID"
 msgstr "担当者 ID"
 
 #: lib/controllers/activities_controller.php:51
-#: lib/controllers/orders_controller.php:766
+#: lib/controllers/orders_controller.php:819
 msgid "Booking ID"
 msgstr "予約 ID"
 
@@ -2236,7 +2236,7 @@ msgstr "アクティビティの削除エラー"
 #: lib/views/manage_order_by_key/show.php:24
 #: lib/views/orders/_full_summary.php:61
 #: lib/views/shared/_template_variables.php:38
-#: lib/views/shared/_template_variables.php:84
+#: lib/views/shared/_template_variables.php:85
 msgid "Status:"
 msgstr "ステータス:"
 
@@ -2370,7 +2370,7 @@ msgstr "wpユーザーの作成エラー"
 #: lib/controllers/steps_controller.php:31
 #: lib/controllers/steps_controller.php:33
 #: lib/helpers/menu_helper.php:61
-#: lib/helpers/menu_helper.php:288
+#: lib/helpers/menu_helper.php:321
 #: lib/views/bookings/index.php:31
 #: lib/views/customers/quick_edit.php:109
 #: lib/views/customer_cabinet/dashboard.php:22
@@ -2378,16 +2378,16 @@ msgstr "wpユーザーの作成エラー"
 #: lib/views/dashboard/widget_daily_bookings_chart.php:68
 #: lib/views/search/query_results.php:14
 #: lib/views/settings/general.php:12
-#: lib/views/settings/general.php:723
+#: lib/views/settings/general.php:904
 msgid "Appointments"
 msgstr "予約"
 
-#: lib/controllers/bookings_controller.php:66
-#: lib/controllers/bookings_controller.php:68
+#: lib/controllers/bookings_controller.php:75
+#: lib/controllers/bookings_controller.php:77
 msgid "Pending Appointments"
 msgstr "保留中の予約"
 
-#: lib/controllers/bookings_controller.php:111
+#: lib/controllers/bookings_controller.php:120
 #: lib/views/calendars/view.php:77
 #: lib/views/calendars/view.php:123
 #: lib/views/calendars/view.php:151
@@ -2397,16 +2397,20 @@ msgstr "保留中の予約"
 msgid "All"
 msgstr "すべて"
 
-#: lib/controllers/bookings_controller.php:272
-#: lib/controllers/customers_controller.php:410
-#: lib/controllers/orders_controller.php:764
-#: lib/controllers/transactions_controller.php:164
-#: lib/helpers/booking_helper.php:1895
-#: lib/helpers/booking_helper.php:1951
+#: lib/controllers/bookings_controller.php:281
+#: lib/controllers/customers_controller.php:446
+#: lib/controllers/event_registrations_controller.php:101
+#: lib/controllers/orders_controller.php:817
+#: lib/controllers/transactions_controller.php:186
+#: lib/helpers/booking_helper.php:2033
+#: lib/helpers/booking_helper.php:2089
 #: lib/helpers/settings_helper.php:509
 #: lib/views/customers/index.php:50
 #: lib/views/customers/index.php:62
 #: lib/views/customers/index.php:88
+#: lib/views/event_registrations/index.php:79
+#: lib/views/event_registrations/index.php:91
+#: lib/views/event_registrations/index.php:120
 #: lib/views/orders/index.php:45
 #: lib/views/orders/index.php:55
 #: lib/views/orders/index.php:83
@@ -2416,97 +2420,103 @@ msgstr "すべて"
 msgid "ID"
 msgstr "ID"
 
-#: lib/controllers/bookings_controller.php:273
-#: lib/helpers/booking_helper.php:1898
+#: lib/controllers/bookings_controller.php:282
+#: lib/helpers/booking_helper.php:2036
 #: lib/helpers/settings_helper.php:514
 #: lib/misc/process_event.php:291
 #: lib/misc/process_event.php:549
 #: lib/misc/process_event.php:561
-#: lib/models/booking_model.php:44
-#: lib/models/booking_model.php:152
-#: lib/models/cart_model.php:275
+#: lib/models/booking_model.php:45
+#: lib/models/booking_model.php:153
+#: lib/models/cart_model.php:295
 #: lib/views/bookings/_booking_data.php:28
 msgid "Service"
 msgstr "サービス"
 
-#: lib/controllers/bookings_controller.php:274
+#: lib/controllers/bookings_controller.php:283
 msgid "Start Date & Time"
 msgstr "開始日時"
 
-#: lib/controllers/bookings_controller.php:275
+#: lib/controllers/bookings_controller.php:284
 #: lib/helpers/settings_helper.php:490
 #: lib/views/bookings/_booking_data.php:86
 #: lib/views/services/_form.php:83
 msgid "Duration"
 msgstr "所要時間"
 
-#: lib/controllers/bookings_controller.php:276
-#: lib/controllers/orders_controller.php:767
-#: lib/controllers/transactions_controller.php:167
-#: lib/helpers/booking_helper.php:1915
+#: lib/controllers/bookings_controller.php:285
+#: lib/controllers/orders_controller.php:820
+#: lib/controllers/transactions_controller.php:189
+#: lib/helpers/booking_helper.php:2053
 #: lib/helpers/customer_helper.php:26
 #: lib/helpers/settings_helper.php:539
-#: lib/helpers/steps_helper.php:2901
+#: lib/helpers/steps_helper.php:2981
 #: lib/misc/user.php:376
+#: lib/models/event_registration_model.php:28
 #: lib/views/bookings/pending_approval.php:48
 #: lib/views/orders/index.php:46
 #: lib/views/orders/index.php:84
-#: lib/views/orders/quick_edit.php:174
+#: lib/views/orders/quick_edit.php:233
 #: lib/views/shared/_template_variables.php:44
 #: lib/views/transactions/index.php:38
 #: lib/views/transactions/index.php:76
 msgid "Customer"
 msgstr "顧客"
 
-#: lib/controllers/bookings_controller.php:277
+#: lib/controllers/bookings_controller.php:286
 msgid "Customer Phone"
 msgstr "顧客の電話番号"
 
-#: lib/controllers/bookings_controller.php:278
+#: lib/controllers/bookings_controller.php:287
+#: lib/controllers/event_registrations_controller.php:105
 msgid "Customer Email"
 msgstr "顧客のメールアドレス"
 
-#: lib/controllers/bookings_controller.php:279
+#: lib/controllers/bookings_controller.php:288
 #: lib/controllers/default_agent_controller.php:24
 #: lib/helpers/agent_helper.php:125
-#: lib/helpers/booking_helper.php:1909
+#: lib/helpers/booking_helper.php:2047
 #: lib/helpers/settings_helper.php:529
-#: lib/helpers/steps_helper.php:2932
+#: lib/helpers/steps_helper.php:3012
 #: lib/misc/process_event.php:283
 #: lib/misc/process_event.php:550
 #: lib/misc/process_event.php:562
 #: lib/misc/user.php:362
 #: lib/models/agent_model.php:457
-#: lib/models/booking_model.php:45
-#: lib/models/booking_model.php:153
+#: lib/models/booking_model.php:46
+#: lib/models/booking_model.php:155
 #: lib/views/bookings/pending_approval.php:29
 #: lib/views/bookings/_booking_data.php:137
 #: lib/views/calendars/scopes/_day.php:68
 #: lib/views/calendars/scopes/_month.php:33
-#: lib/views/customer_cabinet/_booking_tile.php:51
-#: lib/views/shared/_template_variables.php:57
+#: lib/views/customer_cabinet/_booking_tile.php:44
+#: lib/views/shared/_template_variables.php:58
 msgid "Agent"
 msgstr "担当者"
 
-#: lib/controllers/bookings_controller.php:280
+#: lib/controllers/bookings_controller.php:289
 msgid "Agent Phone"
 msgstr "担当者の電話番号"
 
-#: lib/controllers/bookings_controller.php:281
+#: lib/controllers/bookings_controller.php:290
 msgid "Agent Email"
 msgstr "担当者のメールアドレス"
 
-#: lib/controllers/bookings_controller.php:282
-#: lib/controllers/orders_controller.php:771
-#: lib/controllers/transactions_controller.php:171
-#: lib/helpers/booking_helper.php:1918
+#: lib/controllers/bookings_controller.php:291
+#: lib/controllers/event_registrations_controller.php:107
+#: lib/controllers/orders_controller.php:824
+#: lib/controllers/transactions_controller.php:193
+#: lib/helpers/booking_helper.php:2056
 #: lib/helpers/invoices_helper.php:144
 #: lib/helpers/settings_helper.php:544
 #: lib/misc/process_action.php:172
-#: lib/models/booking_model.php:154
+#: lib/models/booking_model.php:156
 #: lib/models/invoice_model.php:42
 #: lib/views/bookings/_booking_data.php:155
-#: lib/views/customer_cabinet/_booking_tile.php:55
+#: lib/views/customer_cabinet/_booking_tile.php:48
+#: lib/views/events_manager/_form.php:95
+#: lib/views/event_registrations/index.php:85
+#: lib/views/event_registrations/index.php:126
 #: lib/views/invoices/edit_data.php:34
 #: lib/views/invoices/new_form.php:39
 #: lib/views/orders/index.php:48
@@ -2520,25 +2530,25 @@ msgstr "担当者のメールアドレス"
 msgid "Status"
 msgstr "ステータス"
 
-#: lib/controllers/bookings_controller.php:284
+#: lib/controllers/bookings_controller.php:293
 msgid "Booked On"
 msgstr "予約日時"
 
-#: lib/controllers/bookings_controller.php:592
-#: lib/controllers/customer_cabinet_controller.php:285
+#: lib/controllers/bookings_controller.php:601
+#: lib/controllers/customer_cabinet_controller.php:288
 #: lib/controllers/manage_booking_by_key_controller.php:320
 #: lib/controllers/manage_booking_by_key_controller.php:388
 msgid "Appointment Status Updated"
 msgstr "予約ステータスが更新されました"
 
-#: lib/controllers/bookings_controller.php:595
-#: lib/controllers/customer_cabinet_controller.php:288
+#: lib/controllers/bookings_controller.php:604
+#: lib/controllers/customer_cabinet_controller.php:291
 #: lib/controllers/manage_booking_by_key_controller.php:323
 #: lib/controllers/manage_booking_by_key_controller.php:391
 msgid "Error Updating Booking Status!"
 msgstr "予約ステータスの更新エラー！"
 
-#: lib/controllers/bookings_controller.php:599
+#: lib/controllers/bookings_controller.php:608
 msgid "Error Updating Booking Status! Invalid ID"
 msgstr "予約ステータスの更新エラー！無効なID"
 
@@ -2559,7 +2569,7 @@ msgstr "%s は休業日に設定されました"
 #: lib/controllers/calendars_controller.php:82
 #: lib/controllers/calendars_controller.php:111
 #: lib/helpers/activities_helper.php:46
-#: lib/helpers/process_jobs_helper.php:311
+#: lib/helpers/process_jobs_helper.php:313
 msgid "Error"
 msgstr "エラー"
 
@@ -2585,18 +2595,29 @@ msgstr "無効なブロック期間"
 #: lib/models/service_category_model.php:71
 #: lib/views/bookings/_booking_data.php:45
 #: lib/views/bookings/_booking_data.php:48
+#: lib/views/events_manager/index.php:20
 #: lib/views/services/index.php:8
 msgid "Uncategorized"
 msgstr "未分類"
 
-#: lib/controllers/carts_controller.php:29
+#: lib/controllers/carts_controller.php:30
 msgid "Booking removed from your cart"
 msgstr "予約がカートから削除されました"
 
-#: lib/controllers/carts_controller.php:32
+#: lib/controllers/carts_controller.php:33
+#: lib/controllers/customers_controller.php:30
+#: lib/controllers/customers_controller.php:89
+#: lib/controllers/customers_controller.php:118
+#: lib/controllers/customers_controller.php:352
+#: lib/controllers/customers_controller.php:380
 #: lib/controllers/customer_cabinet_controller.php:63
 #: lib/controllers/customer_cabinet_controller.php:84
 #: lib/controllers/customer_cabinet_controller.php:106
+#: lib/controllers/orders_controller.php:118
+#: lib/controllers/orders_controller.php:731
+#: lib/controllers/transactions_controller.php:35
+#: lib/controllers/transactions_controller.php:93
+#: lib/controllers/transactions_controller.php:292
 #: lib/helpers/steps_helper.php:520
 msgid "Not Allowed"
 msgstr "許可されていません"
@@ -2610,8 +2631,9 @@ msgstr "予約"
 #: lib/controllers/controller.php:32
 #: lib/controllers/dashboard_controller.php:19
 #: lib/helpers/menu_helper.php:49
-#: lib/helpers/menu_helper.php:276
-#: lib/views/partials/_side_menu.php:9
+#: lib/helpers/menu_helper.php:309
+#: lib/views/partials/_side_menu.php:15
+#: lib/views/partials/_side_menu.php:17
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
@@ -2625,213 +2647,220 @@ msgstr "無効なレイアウト"
 
 #: lib/controllers/customers_controller.php:19
 #: lib/helpers/menu_helper.php:79
-#: lib/helpers/menu_helper.php:306
-#: lib/helpers/roles_helper.php:374
+#: lib/helpers/menu_helper.php:339
+#: lib/helpers/roles_helper.php:390
 #: lib/views/customers/index.php:26
 #: lib/views/search/query_results.php:27
-#: lib/views/settings/general.php:239
-#: lib/views/settings/general.php:728
+#: lib/views/settings/general.php:268
+#: lib/views/settings/general.php:910
 msgid "Customers"
 msgstr "顧客"
 
-#: lib/controllers/customers_controller.php:30
+#: lib/controllers/customers_controller.php:33
 msgid "Customer Removed"
 msgstr "顧客が削除されました"
 
-#: lib/controllers/customers_controller.php:33
-#: lib/controllers/customers_controller.php:37
+#: lib/controllers/customers_controller.php:36
+#: lib/controllers/customers_controller.php:40
 msgid "Error Removing Customer"
 msgstr "顧客の削除エラー"
 
-#: lib/controllers/customers_controller.php:103
+#: lib/controllers/customers_controller.php:121
 msgid "Customer is now allowed to book without password"
 msgstr "顧客はパスワードなしで予約できるようになりました"
 
-#: lib/controllers/customers_controller.php:110
+#: lib/controllers/customers_controller.php:128
 msgid "Error setting customer as guest"
 msgstr "顧客をゲストとして設定するエラー"
 
-#: lib/controllers/customers_controller.php:128
-#: lib/controllers/customers_controller.php:130
+#: lib/controllers/customers_controller.php:146
+#: lib/controllers/customers_controller.php:148
 #: lib/views/customers/quick_edit.php:19
 msgid "Edit Customer"
 msgstr "顧客を編集"
 
 #. translators: %s is the html of a customer edit link
-#: lib/controllers/customers_controller.php:178
+#: lib/controllers/customers_controller.php:196
 #, php-format
 msgid "Customer Created ID: %s"
 msgstr "顧客作成 ID: %s"
 
-#: lib/controllers/customers_controller.php:205
+#: lib/controllers/customers_controller.php:223
 msgid "Access Restricted"
 msgstr "アクセス制限"
 
 #. translators: %s is the html of a customer edit link
-#: lib/controllers/customers_controller.php:214
+#: lib/controllers/customers_controller.php:232
 #, php-format
 msgid "Customer Updated ID: %s"
 msgstr "顧客更新 ID: %s"
 
-#: lib/controllers/customers_controller.php:223
+#: lib/controllers/customers_controller.php:241
 msgid "Invalid customer ID"
 msgstr "無効な顧客ID"
 
-#: lib/controllers/customers_controller.php:279
+#: lib/controllers/customers_controller.php:297
 msgid "Error Accessing Customer"
 msgstr "顧客へのアクセスエラー"
 
-#: lib/controllers/customers_controller.php:316
+#: lib/controllers/customers_controller.php:334
 msgid "Customers Connected"
 msgstr "接続済みの顧客"
 
-#: lib/controllers/customers_controller.php:336
+#: lib/controllers/customers_controller.php:362
 msgid "Customer Disconnected"
 msgstr "顧客の接続解除"
 
-#: lib/controllers/customers_controller.php:356
+#: lib/controllers/customers_controller.php:392
 msgid "Customer Connected"
 msgstr "顧客が接続されました"
 
-#: lib/controllers/customers_controller.php:411
+#: lib/controllers/customers_controller.php:447
+#: lib/models/event_category_model.php:21
+#: lib/models/event_model.php:38
+#: lib/views/event_registrations/index.php:82
+#: lib/views/event_registrations/index.php:123
 #: lib/views/processes/_form.php:33
 msgid "Name"
 msgstr "名前"
 
-#: lib/controllers/customers_controller.php:412
-#: lib/helpers/auth_helper.php:777
+#: lib/controllers/customers_controller.php:448
+#: lib/helpers/auth_helper.php:805
 #: lib/helpers/settings_helper.php:485
 #: lib/views/customers/index.php:52
 #: lib/views/customers/index.php:90
-#: lib/views/settings/general.php:171
-#: lib/views/settings/general.php:726
+#: lib/views/settings/general.php:199
+#: lib/views/settings/general.php:908
 msgid "Phone"
 msgstr "電話番号"
 
-#: lib/controllers/customers_controller.php:413
-#: lib/helpers/auth_helper.php:774
+#: lib/controllers/customers_controller.php:449
+#: lib/helpers/auth_helper.php:802
 #: lib/helpers/customer_import_helper.php:14
 #: lib/helpers/notifications_helper.php:31
 #: lib/helpers/settings_helper.php:484
 #: lib/views/customers/index.php:53
 #: lib/views/customers/index.php:91
+#: lib/views/event_registrations/index.php:83
+#: lib/views/event_registrations/index.php:124
 msgid "Email"
 msgstr "メールアドレス"
 
-#: lib/controllers/customers_controller.php:414
+#: lib/controllers/customers_controller.php:450
 msgid "Total Appointments"
 msgstr "合計予約数"
 
-#: lib/controllers/customers_controller.php:415
+#: lib/controllers/customers_controller.php:451
 #: lib/views/customers/mini_profile.php:33
 msgid "Next Appointment"
 msgstr "次回の予約"
 
-#: lib/controllers/customers_controller.php:416
+#: lib/controllers/customers_controller.php:452
+#: lib/controllers/event_registrations_controller.php:109
 #: lib/views/customers/index.php:59
 #: lib/views/customers/index.php:97
 msgid "Registered On"
 msgstr "登録日時"
 
-#: lib/controllers/customers_controller.php:545
+#: lib/controllers/customers_controller.php:581
 msgid "Email field is required"
 msgstr "メールアドレス欄は必須です"
 
-#: lib/controllers/customer_cabinet_controller.php:199
+#: lib/controllers/customer_cabinet_controller.php:202
 #: lib/controllers/manage_booking_by_key_controller.php:171
-#: lib/models/booking_model.php:546
-#: lib/models/booking_model.php:554
-#: lib/models/booking_model.php:561
+#: lib/models/booking_model.php:564
+#: lib/models/booking_model.php:572
+#: lib/models/booking_model.php:579
 msgid "Unfortunately the selected time slot is not available anymore, please select another timeslot."
 msgstr "申し訳ありませんが、選択された時間枠はすでに利用できません。別の時間枠を選択してください。"
 
-#: lib/controllers/customer_cabinet_controller.php:228
+#: lib/controllers/customer_cabinet_controller.php:231
 #: lib/controllers/manage_booking_by_key_controller.php:203
 msgid "Error! Please try again later"
 msgstr "エラー！後でもう一度お試しください"
 
-#: lib/controllers/customer_cabinet_controller.php:234
+#: lib/controllers/customer_cabinet_controller.php:237
 #: lib/controllers/manage_booking_by_key_controller.php:209
 msgid "Error! LKDFU343"
 msgstr "エラー！LKDFU343"
 
-#: lib/controllers/customer_cabinet_controller.php:262
+#: lib/controllers/customer_cabinet_controller.php:265
 #: lib/controllers/manage_booking_by_key_controller.php:271
 msgid "Reschedule is not allowed"
 msgstr "日程変更は許可されていません"
 
-#: lib/controllers/customer_cabinet_controller.php:292
+#: lib/controllers/customer_cabinet_controller.php:295
 #: lib/controllers/manage_booking_by_key_controller.php:327
 msgid "Not allowed to cancel"
 msgstr "キャンセルは許可されていません"
 
-#: lib/controllers/customer_cabinet_controller.php:320
+#: lib/controllers/customer_cabinet_controller.php:323
 msgid "Information Saved"
 msgstr "情報が保存されました"
 
-#: lib/controllers/customer_cabinet_controller.php:328
+#: lib/controllers/customer_cabinet_controller.php:331
 msgid "Customer not found"
 msgstr "顧客が見つかりません"
 
-#: lib/controllers/customer_cabinet_controller.php:356
+#: lib/controllers/customer_cabinet_controller.php:359
 msgid "Invalid Booking"
 msgstr "無効な予約"
 
-#: lib/controllers/customer_cabinet_controller.php:389
+#: lib/controllers/customer_cabinet_controller.php:392
 msgid "Invalid password or email"
 msgstr "無効なパスワードまたはメールアドレス"
 
-#: lib/controllers/customer_cabinet_controller.php:428
+#: lib/controllers/customer_cabinet_controller.php:431
 msgid "Error! Email was not sent."
 msgstr "エラー！メールは送信されませんでした。"
 
-#: lib/controllers/customer_cabinet_controller.php:428
+#: lib/controllers/customer_cabinet_controller.php:431
 msgid "Email does not match any customer"
 msgstr "メールアドレスに一致する顧客がいません"
 
-#: lib/controllers/customer_cabinet_controller.php:477
+#: lib/controllers/customer_cabinet_controller.php:480
 msgid "Password can not be blank"
 msgstr "パスワードは空欄にできません"
 
-#: lib/controllers/customer_cabinet_controller.php:483
+#: lib/controllers/customer_cabinet_controller.php:486
 msgid "Unknown Error"
 msgstr "不明なエラー"
 
-#: lib/controllers/customer_cabinet_controller.php:501
+#: lib/controllers/customer_cabinet_controller.php:504
 msgid "Password token is invalid. Please request a new password reset."
 msgstr "パスワードトークンが無効です。新しいパスワードのリセットをリクエストしてください。"
 
-#: lib/controllers/customer_cabinet_controller.php:509
+#: lib/controllers/customer_cabinet_controller.php:512
 msgid "Password token has expired. Please request a new password reset."
 msgstr "パスワードトークンの有効期限が切れています。新しいパスワードのリセットをリクエストしてください。"
 
-#: lib/controllers/customer_cabinet_controller.php:523
+#: lib/controllers/customer_cabinet_controller.php:526
 msgid "Your password was successfully updated."
 msgstr "パスワードが正常に更新されました。"
 
-#: lib/controllers/customer_cabinet_controller.php:525
-#: lib/controllers/customer_cabinet_controller.php:564
+#: lib/controllers/customer_cabinet_controller.php:528
+#: lib/controllers/customer_cabinet_controller.php:567
 msgid "Error! Message Code: KS723J"
 msgstr "エラー！メッセージコード: KS723J"
 
-#: lib/controllers/customer_cabinet_controller.php:529
+#: lib/controllers/customer_cabinet_controller.php:532
 msgid "Error! Passwords do not match."
 msgstr "エラー！パスワードが一致しません。"
 
-#: lib/controllers/customer_cabinet_controller.php:534
-#: lib/models/booking_model.php:590
+#: lib/controllers/customer_cabinet_controller.php:537
+#: lib/models/booking_model.php:608
 msgid "Customer Not Found"
 msgstr "顧客が見つかりません"
 
-#: lib/controllers/customer_cabinet_controller.php:562
+#: lib/controllers/customer_cabinet_controller.php:565
 msgid "Account Password Set"
 msgstr "アカウントのパスワードが設定されました"
 
-#: lib/controllers/customer_cabinet_controller.php:569
+#: lib/controllers/customer_cabinet_controller.php:572
 msgid "Error! Password is empty."
 msgstr "エラー！パスワードが空です。"
 
-#: lib/controllers/customer_cabinet_controller.php:572
+#: lib/controllers/customer_cabinet_controller.php:575
 #: lib/controllers/manage_booking_by_key_controller.php:120
 #: lib/controllers/manage_booking_by_key_controller.php:345
 msgid "Invalid request"
@@ -2846,16 +2875,16 @@ msgid "Agent Updated. ID:"
 msgstr "エージェントが更新されました。ID:"
 
 #: lib/controllers/form_fields_controller.php:23
-#: lib/helpers/menu_helper.php:263
+#: lib/helpers/menu_helper.php:296
 msgid "Form Fields"
 msgstr "フォームフィールド"
 
-#: lib/controllers/form_fields_controller.php:54
+#: lib/controllers/form_fields_controller.php:55
 msgid "Default Fields Updated"
 msgstr "デフォルトフィールドが更新されました"
 
 #: lib/controllers/integrations_controller.php:20
-#: lib/helpers/menu_helper.php:231
+#: lib/helpers/menu_helper.php:264
 msgid "Integrations"
 msgstr "統合"
 
@@ -2877,8 +2906,10 @@ msgstr "無効な請求書ID"
 
 #: lib/controllers/invoices_controller.php:139
 #: lib/controllers/invoices_controller.php:269
-#: lib/controllers/invoices_controller.php:340
-#: lib/controllers/invoices_controller.php:475
+#: lib/controllers/invoices_controller.php:342
+#: lib/controllers/invoices_controller.php:477
+#: lib/controllers/paypal_connect_controller.php:30
+#: lib/controllers/paypal_connect_controller.php:34
 #: lib/controllers/razorpay_connect_controller.php:100
 #: lib/controllers/razorpay_connect_controller.php:104
 #: lib/controllers/stripe_connect_controller.php:29
@@ -2894,56 +2925,57 @@ msgstr "エラー:"
 msgid "{{customer_email}}"
 msgstr "{{customer_email}}"
 
-#: lib/controllers/invoices_controller.php:315
+#: lib/controllers/invoices_controller.php:317
 msgid "Invoice email sent"
 msgstr "請求書メールを送信しました"
 
-#: lib/controllers/invoices_controller.php:317
+#: lib/controllers/invoices_controller.php:319
 msgid "Please enter a valid email address."
 msgstr "有効なメールアドレスを入力してください。"
 
-#: lib/controllers/invoices_controller.php:334
-#: lib/controllers/invoices_controller.php:469
+#: lib/controllers/invoices_controller.php:336
+#: lib/controllers/invoices_controller.php:471
 msgid "Invalid Invoice Key"
 msgstr "無効な請求書キー"
 
-#: lib/controllers/invoices_controller.php:370
+#: lib/controllers/invoices_controller.php:372
 #: lib/views/booking_form_settings/_booking_form_preview.php:66
 #: lib/views/steps/start.php:110
-#: lib/views/wizard/setup.php:15
-#: lib/views/wizard/steps/_form_agent.php:34
+#: lib/views/wizard/setup.php:16
+#: lib/views/wizard/steps/_form_agent.php:35
 #: lib/views/wizard/steps/_form_service.php:48
 msgid "Back"
 msgstr "戻る"
 
-#: lib/controllers/invoices_controller.php:371
-#: lib/helpers/steps_helper.php:1555
+#: lib/controllers/invoices_controller.php:373
+#: lib/helpers/steps_helper.php:1582
 #: lib/views/booking_form_settings/_booking_form_preview.php:69
 #: lib/views/customers/import_steps/step_mapping.php:1
 #: lib/views/steps/start.php:115
-#: lib/views/wizard/setup.php:16
+#: lib/views/wizard/setup.php:17
 msgid "Next"
 msgstr "次へ"
 
-#: lib/controllers/invoices_controller.php:394
+#: lib/controllers/invoices_controller.php:396
 msgid "Payment Methods"
 msgstr "支払い方法"
 
-#: lib/controllers/invoices_controller.php:401
+#: lib/controllers/invoices_controller.php:403
 #: lib/views/settings/payments.php:9
 msgid "Payment Processors"
 msgstr "決済プロセッサ"
 
-#: lib/controllers/invoices_controller.php:410
+#: lib/controllers/invoices_controller.php:412
 #, php-format
 msgid "Pay %s"
 msgstr "%s を支払う"
 
-#: lib/controllers/invoices_controller.php:411
+#: lib/controllers/invoices_controller.php:413
 msgid "Payment Form"
 msgstr "支払いフォーム"
 
-#: lib/controllers/invoices_controller.php:433
+#: lib/controllers/invoices_controller.php:435
+#: lib/helpers/translation_helper.php:85
 #: lib/views/orders/index.php:51
 #: lib/views/orders/index.php:61
 #: lib/views/orders/index.php:89
@@ -2966,7 +2998,7 @@ msgid "You cannot modify other agents' bookings"
 msgstr "他のエージェントの予約を変更することはできません"
 
 #: lib/controllers/notifications_controller.php:18
-#: lib/helpers/menu_helper.php:188
+#: lib/helpers/menu_helper.php:221
 msgid "Notifications"
 msgstr "通知"
 
@@ -2977,7 +3009,7 @@ msgstr "テンプレートを選択"
 
 #: lib/controllers/orders_controller.php:22
 #: lib/helpers/menu_helper.php:67
-#: lib/helpers/menu_helper.php:294
+#: lib/helpers/menu_helper.php:327
 #: lib/views/customer_cabinet/dashboard.php:23
 #: lib/views/orders/index.php:24
 msgid "Orders"
@@ -2986,60 +3018,60 @@ msgstr "注文"
 #. translators: %s is the description of an error
 #. translators: %s is an error message
 #. translators: %s is the error description
-#: lib/controllers/orders_controller.php:152
-#: lib/controllers/orders_controller.php:174
-#: lib/controllers/orders_controller.php:410
-#: lib/models/order_intent_model.php:397
+#: lib/controllers/orders_controller.php:179
+#: lib/controllers/orders_controller.php:202
+#: lib/controllers/orders_controller.php:438
+#: lib/models/order_intent_model.php:423
 #: lib/models/transaction_intent_model.php:177
 #, php-format
 msgid "Error: %s"
 msgstr "エラー: %s"
 
 #. translators: %s is a link to the updated order
-#: lib/controllers/orders_controller.php:404
+#: lib/controllers/orders_controller.php:432
 #, php-format
 msgid "Order Updated ID: %s"
 msgstr "注文が更新されました ID: %s"
 
 #. translators: %s is a link to the updated order
-#: lib/controllers/orders_controller.php:404
+#: lib/controllers/orders_controller.php:432
 #, php-format
 msgid "Order Created ID: %s"
 msgstr "注文が作成されました ID: %s"
 
-#: lib/controllers/orders_controller.php:684
+#: lib/controllers/orders_controller.php:737
 msgid "Order Removed"
 msgstr "注文が削除されました"
 
-#: lib/controllers/orders_controller.php:687
-#: lib/controllers/orders_controller.php:691
+#: lib/controllers/orders_controller.php:740
+#: lib/controllers/orders_controller.php:744
 msgid "Error Removing Order"
 msgstr "注文の削除中にエラーが発生しました"
 
-#: lib/controllers/orders_controller.php:765
-#: lib/controllers/transactions_controller.php:165
+#: lib/controllers/orders_controller.php:818
+#: lib/controllers/transactions_controller.php:187
 #: lib/views/transactions/index.php:36
 #: lib/views/transactions/index.php:48
 #: lib/views/transactions/index.php:74
 msgid "Token"
 msgstr "トークン"
 
-#: lib/controllers/orders_controller.php:768
-#: lib/controllers/transactions_controller.php:168
+#: lib/controllers/orders_controller.php:821
+#: lib/controllers/transactions_controller.php:190
 #: lib/views/transactions/index.php:39
 #: lib/views/transactions/index.php:77
 msgid "Processor"
 msgstr "プロセッサ"
 
-#: lib/controllers/orders_controller.php:769
-#: lib/controllers/transactions_controller.php:169
+#: lib/controllers/orders_controller.php:822
+#: lib/controllers/transactions_controller.php:191
 #: lib/views/transactions/index.php:40
 #: lib/views/transactions/index.php:78
 msgid "Method"
 msgstr "方法"
 
-#: lib/controllers/orders_controller.php:770
-#: lib/controllers/transactions_controller.php:170
+#: lib/controllers/orders_controller.php:823
+#: lib/controllers/transactions_controller.php:192
 #: lib/helpers/invoices_helper.php:277
 #: lib/views/invoices/new_form.php:22
 #: lib/views/transactions/edit_form.php:44
@@ -3051,7 +3083,7 @@ msgid "Amount"
 msgstr "金額"
 
 #: lib/controllers/processes_controller.php:24
-#: lib/helpers/menu_helper.php:213
+#: lib/helpers/menu_helper.php:246
 msgid "Workflows"
 msgstr "ワークフロー"
 
@@ -3064,23 +3096,23 @@ msgstr "プロセスが削除されました"
 msgid "Error Removing Workflow"
 msgstr "ワークフローの削除中にエラーが発生しました"
 
-#: lib/controllers/processes_controller.php:198
+#: lib/controllers/processes_controller.php:204
 msgid "Process Saved"
 msgstr "プロセスが保存されました"
 
-#: lib/controllers/processes_controller.php:201
+#: lib/controllers/processes_controller.php:207
 msgid "Error saving process"
 msgstr "プロセスの保存中にエラーが発生しました"
 
-#: lib/controllers/processes_controller.php:332
+#: lib/controllers/processes_controller.php:338
 msgid "Run complete"
 msgstr "実行完了"
 
-#: lib/controllers/processes_controller.php:332
+#: lib/controllers/processes_controller.php:338
 msgid "view logs"
 msgstr "ログを表示"
 
-#: lib/controllers/processes_controller.php:335
+#: lib/controllers/processes_controller.php:341
 msgid "Trigger conditions not met"
 msgstr "トリガー条件が満たされていません"
 
@@ -3109,19 +3141,21 @@ msgid "Job cancelled"
 msgstr "ジョブがキャンセルされました"
 
 #: lib/controllers/pro_controller.php:29
-#: lib/helpers/menu_helper.php:140
-#: lib/helpers/menu_helper.php:356
+#: lib/helpers/menu_helper.php:173
+#: lib/helpers/menu_helper.php:422
 msgid "Coupons"
 msgstr "クーポン"
 
 #: lib/controllers/pro_controller.php:68
-#: lib/helpers/menu_helper.php:134
-#: lib/helpers/menu_helper.php:350
+#: lib/helpers/menu_helper.php:167
+#: lib/helpers/menu_helper.php:416
+#: lib/helpers/roles_helper.php:386
 msgid "Assets"
 msgstr "アセット"
 
+#: lib/controllers/paypal_connect_controller.php:81
 #: lib/controllers/razorpay_connect_controller.php:40
-#: lib/controllers/stripe_connect_controller.php:264
+#: lib/controllers/stripe_connect_controller.php:265
 msgid "Booking slot is not available anymore."
 msgstr "予約枠はもう利用できません。"
 
@@ -3130,7 +3164,7 @@ msgstr "予約枠はもう利用できません。"
 msgid "Razorpay connect account ID not set"
 msgstr "Razorpay の接続アカウント ID が設定されていません"
 
-#: lib/controllers/razorpay_connect_controller.php:230
+#: lib/controllers/razorpay_connect_controller.php:223
 msgid "Redirecting to Razorpay"
 msgstr "Razorpay にリダイレクトしています"
 
@@ -3191,59 +3225,61 @@ msgstr "データがインポートされました"
 msgid "You must upload a JSON file to import data from"
 msgstr "データをインポートするには JSON ファイルをアップロードする必要があります"
 
-#: lib/controllers/settings_controller.php:182
+#: lib/controllers/settings_controller.php:196
 msgid "Order of steps has been successfully updated"
 msgstr "ステップの順序が正常に更新されました"
 
-#: lib/controllers/settings_controller.php:222
+#: lib/controllers/settings_controller.php:236
 msgid "Pages Setup"
 msgstr "ページ設定"
 
-#: lib/controllers/settings_controller.php:235
+#: lib/controllers/settings_controller.php:249
 msgid "Payment Processing"
 msgstr "支払い処理"
 
-#: lib/controllers/settings_controller.php:251
+#: lib/controllers/settings_controller.php:265
 msgid "Work Schedule Settings"
 msgstr "勤務スケジュール設定"
 
-#: lib/controllers/settings_controller.php:262
-#: lib/helpers/menu_helper.php:158
+#: lib/controllers/settings_controller.php:276
+#: lib/helpers/menu_helper.php:191
+#: lib/views/events_manager/_form.php:83
+#: lib/views/events_manager/_form.php:369
 #: lib/views/services/_form.php:16
-#: lib/views/services/_form.php:349
+#: lib/views/services/_form.php:357
 msgid "General"
 msgstr "一般"
 
-#: lib/controllers/settings_controller.php:274
+#: lib/controllers/settings_controller.php:288
 msgid "Date Range Schedule Removed"
 msgstr "日付範囲スケジュールが削除されました"
 
-#: lib/controllers/settings_controller.php:277
+#: lib/controllers/settings_controller.php:291
 msgid "Invalid Data"
 msgstr "無効なデータ"
 
-#: lib/controllers/settings_controller.php:299
+#: lib/controllers/settings_controller.php:313
 msgid "Custom Day Schedule Removed"
 msgstr "カスタム日スケジュールが削除されました"
 
-#: lib/controllers/settings_controller.php:302
+#: lib/controllers/settings_controller.php:316
 msgid "Invalid Date"
 msgstr "無効な日付"
 
-#: lib/controllers/settings_controller.php:345
+#: lib/controllers/settings_controller.php:359
 msgid "Table Settings Saved"
 msgstr "テーブル設定が保存されました"
 
-#: lib/controllers/settings_controller.php:365
-#: lib/controllers/settings_controller.php:446
+#: lib/controllers/settings_controller.php:379
+#: lib/controllers/settings_controller.php:460
 msgid "Work Schedule Updated"
 msgstr "勤務スケジュールが更新されました"
 
-#: lib/controllers/settings_controller.php:493
+#: lib/controllers/settings_controller.php:507
 msgid "Settings Updated"
 msgstr "設定が更新されました"
 
-#: lib/controllers/settings_controller.php:496
+#: lib/controllers/settings_controller.php:510
 msgid "Settings Updated With Errors:"
 msgstr "エラー付きで設定が更新されました:"
 
@@ -3255,19 +3291,21 @@ msgstr "カートはすでに注文に変換されています"
 msgid "Order intent can be converted to order"
 msgstr "注文意図は注文に変換できます"
 
-#: lib/controllers/steps_controller.php:118
+#: lib/controllers/steps_controller.php:119
+#: lib/controllers/steps_controller.php:120
 msgid "Selected booking slot is not available anymore. Please pick a different time slot."
 msgstr "選択した予約枠はもう利用できません。別の時間枠を選択してください。"
 
-#: lib/controllers/steps_controller.php:238
+#: lib/controllers/steps_controller.php:244
 msgid "Invalid order intent key"
 msgstr "無効な注文意図キー"
 
 #: lib/controllers/stripe_connect_controller.php:44
-#: lib/controllers/stripe_connect_controller.php:272
+#: lib/controllers/stripe_connect_controller.php:273
 msgid "Stripe connect account ID not set"
 msgstr "Stripe の接続アカウント ID が設定されていません"
 
+#: lib/controllers/paypal_connect_controller.php:48
 #: lib/controllers/stripe_connect_controller.php:49
 #: lib/helpers/transaction_intent_helper.php:86
 msgid "Unable to save transaction intent"
@@ -3290,41 +3328,41 @@ msgid "Todos"
 msgstr "ToDo"
 
 #: lib/controllers/transactions_controller.php:18
-#: lib/views/orders/quick_edit.php:253
+#: lib/views/orders/quick_edit.php:312
 msgid "Transactions"
 msgstr "取引"
 
-#: lib/controllers/transactions_controller.php:46
+#: lib/controllers/transactions_controller.php:57
 msgid "Invalid Receipt Key"
 msgstr "無効な領収書キー"
 
-#: lib/controllers/transactions_controller.php:55
+#: lib/controllers/transactions_controller.php:66
 msgid "Receipt not found"
 msgstr "領収書が見つかりません"
 
-#: lib/controllers/transactions_controller.php:78
+#: lib/controllers/transactions_controller.php:100
 msgid "Transaction Removed"
 msgstr "取引が削除されました"
 
-#: lib/controllers/transactions_controller.php:81
-#: lib/controllers/transactions_controller.php:85
+#: lib/controllers/transactions_controller.php:103
+#: lib/controllers/transactions_controller.php:107
 msgid "Error Removing Transaction"
 msgstr "取引の削除中にエラーが発生しました"
 
-#: lib/controllers/transactions_controller.php:166
+#: lib/controllers/transactions_controller.php:188
 #: lib/views/transactions/index.php:37
 #: lib/views/transactions/index.php:49
 #: lib/views/transactions/index.php:75
 msgid "Order ID"
 msgstr "注文ID"
 
-#: lib/controllers/transactions_controller.php:254
-#: lib/controllers/transactions_controller.php:267
-#: lib/helpers/razorpay_connect_helper.php:274
+#: lib/controllers/transactions_controller.php:276
+#: lib/controllers/transactions_controller.php:300
+#: lib/helpers/razorpay_connect_helper.php:354
 msgid "Invalid Transaction"
 msgstr "無効な取引"
 
-#: lib/controllers/transactions_controller.php:274
+#: lib/controllers/transactions_controller.php:307
 msgid "Invalid Refund Amount"
 msgstr "無効な返金額"
 
@@ -3487,7 +3525,7 @@ msgstr "予約ステータスが %1$s から %2$s に変更されました"
 
 #: lib/helpers/agent_helper.php:139
 #: lib/helpers/agent_helper.php:191
-#: lib/helpers/steps_helper.php:2927
+#: lib/helpers/steps_helper.php:3007
 msgid "Learn More"
 msgstr "詳細を見る"
 
@@ -3513,22 +3551,22 @@ msgstr "勤務中"
 msgid "Disabled"
 msgstr "無効"
 
-#: lib/helpers/auth_helper.php:450
-#: lib/helpers/auth_helper.php:512
+#: lib/helpers/auth_helper.php:478
+#: lib/helpers/auth_helper.php:540
 #: lib/models/agent_model.php:38
 #: lib/views/booking_form_settings/previews/_customer.php:24
 #: lib/views/steps/partials/_contact_form.php:40
 msgid "Password"
 msgstr "パスワード"
 
-#: lib/helpers/auth_helper.php:451
-#: lib/helpers/auth_helper.php:513
+#: lib/helpers/auth_helper.php:479
+#: lib/helpers/auth_helper.php:541
 msgid "One-time code"
 msgstr "ワンタイムコード"
 
-#: lib/helpers/auth_helper.php:547
-#: lib/helpers/auth_helper.php:672
-#: lib/helpers/settings_helper.php:696
+#: lib/helpers/auth_helper.php:575
+#: lib/helpers/auth_helper.php:700
+#: lib/helpers/settings_helper.php:701
 #: lib/models/agent_model.php:39
 #: lib/models/customer_model.php:32
 #: lib/views/booking_form_settings/previews/_customer.php:22
@@ -3539,15 +3577,15 @@ msgstr "ワンタイムコード"
 #: lib/views/default_agent/edit_form.php:25
 #: lib/views/steps/partials/_contact_form.php:32
 #: lib/views/wizard/steps/_default_agent.php:28
-#: lib/views/wizard/steps/_form_agent.php:18
+#: lib/views/wizard/steps/_form_agent.php:19
 #: lib/views/wizard/steps/_personal_info.php:26
 msgid "Email Address"
 msgstr "メールアドレス"
 
-#: lib/helpers/auth_helper.php:548
-#: lib/helpers/auth_helper.php:673
+#: lib/helpers/auth_helper.php:576
+#: lib/helpers/auth_helper.php:701
 #: lib/helpers/customer_import_helper.php:15
-#: lib/helpers/settings_helper.php:702
+#: lib/helpers/settings_helper.php:707
 #: lib/misc/process_action.php:280
 #: lib/models/customer_model.php:33
 #: lib/views/booking_form_settings/previews/_customer.php:21
@@ -3555,57 +3593,58 @@ msgstr "メールアドレス"
 #: lib/views/default_agent/edit_form.php:28
 #: lib/views/steps/partials/_contact_form.php:24
 #: lib/views/wizard/steps/_default_agent.php:31
-#: lib/views/wizard/steps/_form_agent.php:21
+#: lib/views/wizard/steps/_form_agent.php:22
 msgid "Phone Number"
 msgstr "電話番号"
 
-#: lib/helpers/auth_helper.php:674
+#: lib/helpers/auth_helper.php:702
 msgid "Disable ability to login"
 msgstr "ログイン機能を無効にする"
 
-#: lib/helpers/auth_helper.php:734
-#: lib/helpers/auth_helper.php:786
+#: lib/helpers/auth_helper.php:762
+#: lib/helpers/auth_helper.php:814
 #: lib/views/booking_form_settings/previews/_customer.php:34
 #: lib/views/customer_cabinet/dashboard.php:137
 msgid "Your Email Address"
 msgstr "あなたのメールアドレス"
 
-#: lib/helpers/auth_helper.php:748
-#: lib/helpers/auth_helper.php:793
+#: lib/helpers/auth_helper.php:776
+#: lib/helpers/auth_helper.php:821
 #: lib/views/customer_cabinet/dashboard.php:136
 msgid "Your Phone Number"
 msgstr "あなたの電話番号"
 
-#: lib/helpers/auth_helper.php:759
-#: lib/helpers/auth_helper.php:837
+#: lib/helpers/auth_helper.php:787
+#: lib/helpers/auth_helper.php:865
 #: lib/views/customers/import_csv_modal.php:26
+#: lib/views/settings/general.php:579
 #: lib/views/steps/partials/_cart_clear.php:11
 msgid "Continue"
 msgstr "続行"
 
-#: lib/helpers/auth_helper.php:768
+#: lib/helpers/auth_helper.php:796
 #: lib/views/booking_form_settings/previews/_customer.php:44
 msgid "Sign in"
 msgstr "サインイン"
 
-#: lib/helpers/auth_helper.php:800
+#: lib/helpers/auth_helper.php:828
 #: lib/views/booking_form_settings/previews/_customer.php:35
 msgid "Your Password"
 msgstr "あなたのパスワード"
 
-#: lib/helpers/auth_helper.php:811
+#: lib/helpers/auth_helper.php:839
 msgid "Forgot?"
 msgstr "お忘れですか？"
 
-#: lib/helpers/auth_helper.php:816
+#: lib/helpers/auth_helper.php:844
 msgid "You will receive a 6-digit code to log in."
 msgstr "ログイン用の6桁のコードが届きます。"
 
-#: lib/helpers/auth_helper.php:825
+#: lib/helpers/auth_helper.php:853
 msgid "Use password instead"
 msgstr "代わりにパスワードを使用"
 
-#: lib/helpers/auth_helper.php:828
+#: lib/helpers/auth_helper.php:856
 msgid "Send me a sign-in code"
 msgstr "サインインコードを送信する"
 
@@ -3624,9 +3663,9 @@ msgid "Starts at"
 msgstr "開始時刻"
 
 #: lib/helpers/blocks_helper.php:73
-#: lib/helpers/booking_helper.php:1997
-#: lib/helpers/booking_helper.php:2045
-#: lib/helpers/booking_helper.php:2057
+#: lib/helpers/booking_helper.php:2135
+#: lib/helpers/booking_helper.php:2183
+#: lib/helpers/booking_helper.php:2195
 #: lib/views/orders/index.php:58
 #: lib/views/orders/index.php:59
 #: lib/views/orders/index.php:60
@@ -3658,171 +3697,182 @@ msgid "Microsoft 365"
 msgstr "Microsoft 365"
 
 #. translators: %1$s is agent name, %2$s is service name
-#: lib/helpers/booking_helper.php:503
+#: lib/helpers/booking_helper.php:574
 #, php-format
 msgid "Appointment with %1$s for %2$s"
 msgstr "%2$s の %1$s との予約"
 
-#: lib/helpers/booking_helper.php:686
+#: lib/helpers/booking_helper.php:769
 msgid "Bundle & Save"
 msgstr "まとめ買いでお得"
 
-#: lib/helpers/booking_helper.php:792
+#: lib/helpers/booking_helper.php:823
+#: lib/helpers/booking_helper.php:897
 msgid "Starts From"
 msgstr "開始価格"
 
-#: lib/helpers/booking_helper.php:1384
+#: lib/helpers/booking_helper.php:1489
 #: lib/helpers/orders_helper.php:158
 #: lib/helpers/orders_helper.php:167
 #: lib/helpers/orders_helper.php:176
 msgid "Undefined Status"
 msgstr "未定義のステータス"
 
-#: lib/helpers/booking_helper.php:1391
+#: lib/helpers/booking_helper.php:1496
 msgid "Approved"
 msgstr "承認済み"
 
-#: lib/helpers/booking_helper.php:1392
+#: lib/helpers/booking_helper.php:1497
 msgid "Pending Approval"
 msgstr "承認待ち"
 
-#: lib/helpers/booking_helper.php:1393
+#: lib/helpers/booking_helper.php:1498
 #: lib/helpers/orders_helper.php:46
-#: lib/helpers/process_jobs_helper.php:310
+#: lib/helpers/process_jobs_helper.php:312
+#: lib/models/event_registration_model.php:80
 #: lib/views/customer_cabinet/dashboard.php:97
+#: lib/views/events_manager/_form.php:45
+#: lib/views/event_registrations/index.php:33
 #: lib/views/process_jobs/index.php:49
 msgid "Cancelled"
 msgstr "キャンセル済み"
 
-#: lib/helpers/booking_helper.php:1394
+#: lib/helpers/booking_helper.php:1499
 msgid "No Show"
 msgstr "無断キャンセル"
 
-#: lib/helpers/booking_helper.php:1395
+#: lib/helpers/booking_helper.php:1500
 #: lib/helpers/orders_helper.php:47
-#: lib/helpers/process_jobs_helper.php:308
+#: lib/helpers/process_jobs_helper.php:310
+#: lib/views/events_manager/_form.php:46
 #: lib/views/process_jobs/index.php:49
 msgid "Completed"
 msgstr "完了"
 
-#: lib/helpers/booking_helper.php:1414
-#: lib/helpers/util_helper.php:376
+#: lib/helpers/booking_helper.php:1519
+#: lib/helpers/util_helper.php:424
 msgid "Monday"
 msgstr "月曜日"
 
-#: lib/helpers/booking_helper.php:1415
-#: lib/helpers/util_helper.php:377
+#: lib/helpers/booking_helper.php:1520
+#: lib/helpers/util_helper.php:425
 msgid "Tuesday"
 msgstr "火曜日"
 
-#: lib/helpers/booking_helper.php:1416
-#: lib/helpers/util_helper.php:378
+#: lib/helpers/booking_helper.php:1521
+#: lib/helpers/util_helper.php:426
 msgid "Wednesday"
 msgstr "水曜日"
 
-#: lib/helpers/booking_helper.php:1417
-#: lib/helpers/util_helper.php:379
+#: lib/helpers/booking_helper.php:1522
+#: lib/helpers/util_helper.php:427
 msgid "Thursday"
 msgstr "木曜日"
 
-#: lib/helpers/booking_helper.php:1418
-#: lib/helpers/util_helper.php:380
+#: lib/helpers/booking_helper.php:1523
+#: lib/helpers/util_helper.php:428
 msgid "Friday"
 msgstr "金曜日"
 
-#: lib/helpers/booking_helper.php:1419
-#: lib/helpers/util_helper.php:381
+#: lib/helpers/booking_helper.php:1524
+#: lib/helpers/util_helper.php:429
 msgid "Saturday"
 msgstr "土曜日"
 
-#: lib/helpers/booking_helper.php:1420
-#: lib/helpers/util_helper.php:382
+#: lib/helpers/booking_helper.php:1525
+#: lib/helpers/util_helper.php:430
 msgid "Sunday"
 msgstr "日曜日"
 
-#: lib/helpers/booking_helper.php:1424
+#: lib/helpers/booking_helper.php:1529
 msgid "Mon"
 msgstr "月"
 
-#: lib/helpers/booking_helper.php:1425
+#: lib/helpers/booking_helper.php:1530
 msgid "Tue"
 msgstr "火"
 
-#: lib/helpers/booking_helper.php:1426
+#: lib/helpers/booking_helper.php:1531
 msgid "Wed"
 msgstr "水"
 
-#: lib/helpers/booking_helper.php:1427
+#: lib/helpers/booking_helper.php:1532
 msgid "Thu"
 msgstr "木"
 
-#: lib/helpers/booking_helper.php:1428
+#: lib/helpers/booking_helper.php:1533
 msgid "Fri"
 msgstr "金"
 
-#: lib/helpers/booking_helper.php:1429
+#: lib/helpers/booking_helper.php:1534
 msgid "Sat"
 msgstr "土"
 
-#: lib/helpers/booking_helper.php:1430
+#: lib/helpers/booking_helper.php:1535
 msgid "Sun"
 msgstr "日"
 
-#: lib/helpers/booking_helper.php:1720
-#: lib/views/customer_cabinet/_booking_tile.php:65
+#: lib/helpers/booking_helper.php:1866
+#: lib/views/customer_cabinet/_booking_tile.php:58
 msgid "Add to Calendar"
 msgstr "カレンダーに追加"
 
-#: lib/helpers/booking_helper.php:1723
+#: lib/helpers/booking_helper.php:1869
 #: lib/views/orders/_full_summary.php:44
 msgid "Print"
 msgstr "印刷"
 
-#: lib/helpers/booking_helper.php:1729
+#: lib/helpers/booking_helper.php:1875
 #: lib/views/customer_cabinet/_booking_tile.php:32
 #: lib/views/manage_booking_by_key/show.php:33
 #: lib/views/shared/request_reschedule_calendar.php:39
 msgid "Reschedule"
 msgstr "再予約"
 
-#: latepoint.php:1666
-#: lib/helpers/booking_helper.php:1740
+#: latepoint.php:1875
+#: lib/helpers/booking_helper.php:1843
 #: lib/helpers/steps_helper.php:458
-#: lib/views/customer_cabinet/_booking_tile.php:42
+#: lib/views/event_categories/_form.php:33
+#: lib/views/event_registrations/_table_body.php:55
 #: lib/views/orders/quick_edit.php:78
-#: lib/views/wizard/steps/_form_agent.php:31
+#: lib/views/wizard/steps/_form_agent.php:32
 #: lib/views/wizard/steps/_form_service.php:45
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: lib/helpers/booking_helper.php:1775
+#: lib/helpers/booking_helper.php:1913
 #: lib/helpers/bundles_helper.php:122
-#: lib/views/steps/partials/_cart_summary.php:67
+#: lib/views/steps/partials/_cart_summary.php:81
 msgid "Are you sure you want to remove this item from your cart?"
 msgstr "このアイテムをカートから削除してもよろしいですか？"
 
-#: lib/helpers/booking_helper.php:1902
+#: lib/helpers/booking_helper.php:2040
 #: lib/helpers/settings_helper.php:519
 #: lib/views/activities/index.php:48
 #: lib/views/activities/index.php:72
 msgid "Date/Time"
 msgstr "日時"
 
-#: lib/helpers/booking_helper.php:1906
+#: lib/helpers/booking_helper.php:2044
 #: lib/helpers/settings_helper.php:524
 msgid "Time Left"
 msgstr "残り時間"
 
-#: lib/helpers/booking_helper.php:1912
+#: lib/helpers/booking_helper.php:2050
 #: lib/helpers/location_helper.php:44
 #: lib/helpers/settings_helper.php:534
-#: lib/helpers/steps_helper.php:2888
+#: lib/helpers/steps_helper.php:2968
 #: lib/views/bookings/_booking_data.php:116
-#: lib/views/shared/_template_variables.php:70
+#: lib/views/events_manager/_form.php:130
+#: lib/views/events_manager/_form.php:139
+#: lib/views/events_manager/_step_event.php:96
+#: lib/views/events_manager/_step_event.php:101
+#: lib/views/shared/_template_variables.php:71
 msgid "Location"
 msgstr "場所"
 
-#: lib/helpers/booking_helper.php:1921
+#: lib/controllers/event_registrations_controller.php:108
+#: lib/helpers/booking_helper.php:2059
 #: lib/helpers/settings_helper.php:549
 #: lib/misc/process_event.php:533
 #: lib/misc/process_event.php:543
@@ -3832,54 +3882,54 @@ msgstr "場所"
 msgid "Payment Status"
 msgstr "支払いステータス"
 
-#: lib/helpers/booking_helper.php:1925
+#: lib/helpers/booking_helper.php:2063
 #: lib/helpers/settings_helper.php:554
 msgid "Created On"
 msgstr "作成日"
 
-#: lib/helpers/booking_helper.php:1975
+#: lib/helpers/booking_helper.php:2113
 msgid "Search by Appointment Date"
 msgstr "予約日で検索"
 
-#: lib/helpers/booking_helper.php:1975
-#: lib/helpers/booking_helper.php:2067
+#: lib/helpers/booking_helper.php:2113
+#: lib/helpers/booking_helper.php:2205
 msgid "Reset Date Search"
 msgstr "日付検索をリセット"
 
-#: lib/helpers/booking_helper.php:1976
-#: lib/helpers/booking_helper.php:2067
-#: lib/helpers/booking_helper.php:2068
+#: lib/helpers/booking_helper.php:2114
+#: lib/helpers/booking_helper.php:2205
+#: lib/helpers/booking_helper.php:2206
 msgid "Filter Date"
 msgstr "日付で絞り込む"
 
-#: lib/helpers/booking_helper.php:1991
+#: lib/helpers/booking_helper.php:2129
 #: lib/views/customer_cabinet/dashboard.php:35
 #: lib/views/dashboard/widget_upcoming_appointments.php:20
 #: lib/views/dashboard/widget_upcoming_appointments.php:56
 msgid "Upcoming"
 msgstr "今後の予定"
 
-#: lib/helpers/booking_helper.php:1992
-#: lib/helpers/booking_helper.php:2139
+#: lib/helpers/booking_helper.php:2130
+#: lib/helpers/booking_helper.php:2277
 #: lib/views/customers/_table_body.php:32
 #: lib/views/customer_cabinet/dashboard.php:76
 msgid "Past"
 msgstr "過去"
 
-#: lib/helpers/booking_helper.php:1993
+#: lib/helpers/booking_helper.php:2131
 msgid "Happening Now"
 msgstr "現在進行中"
 
-#: lib/helpers/booking_helper.php:2021
+#: lib/helpers/booking_helper.php:2159
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:19
 msgid "All Locations"
 msgstr "すべての場所"
 
-#: lib/helpers/booking_helper.php:2034
+#: lib/helpers/booking_helper.php:2172
 msgid "Search by Customer"
 msgstr "顧客で検索"
 
-#: lib/helpers/booking_helper.php:2136
+#: lib/helpers/booking_helper.php:2274
 msgid "Now"
 msgstr "今"
 
@@ -3906,28 +3956,28 @@ msgid "Show Full Bundle"
 msgstr "バンドル全体を表示"
 
 #: lib/helpers/bundles_helper.php:49
-#: lib/helpers/bundles_helper.php:153
+#: lib/helpers/bundles_helper.php:154
 #, php-format
 msgid "%d sessions"
 msgstr "%d セッション"
 
 #. translators: %d is the number of cancelled appointments
 #: lib/helpers/bundles_helper.php:65
-#: lib/helpers/bundles_helper.php:182
+#: lib/helpers/bundles_helper.php:183
 #, php-format
 msgid "%d Cancelled Appointment"
 msgid_plural "%d Cancelled Appointments"
 msgstr[0] "%d 件のキャンセル済み予約"
 
 #. translators: %s is the order confirmation code
-#: lib/helpers/bundles_helper.php:140
+#: lib/helpers/bundles_helper.php:141
 #, php-format
 msgid "Order %s"
 msgstr "注文 %s"
 
-#: lib/helpers/bundles_helper.php:166
-#: lib/helpers/bundles_helper.php:174
-#: lib/helpers/orders_helper.php:429
+#: lib/helpers/bundles_helper.php:167
+#: lib/helpers/bundles_helper.php:175
+#: lib/helpers/orders_helper.php:466
 msgid "Schedule now"
 msgstr "今すぐ予約"
 
@@ -3940,12 +3990,12 @@ msgstr "%s の利用可能な日付を検索中"
 msgid "Pick a slot for"
 msgstr "スロットを選択してください"
 
-#: lib/helpers/calendar_helper.php:246
+#: lib/helpers/calendar_helper.php:258
 msgid "In order to generate the calendar, a service must be selected."
 msgstr "カレンダーを生成するには、サービスを選択する必要があります。"
 
 #. translators: %d is the number of slots available
-#: lib/helpers/calendar_helper.php:447
+#: lib/helpers/calendar_helper.php:475
 #, php-format
 msgid "%d Available"
 msgstr "%d 件利用可能"
@@ -3959,7 +4009,7 @@ msgid "Customer with this email already exists"
 msgstr "このメールアドレスの顧客は既に存在します"
 
 #: lib/helpers/customer_import_helper.php:12
-#: lib/helpers/settings_helper.php:684
+#: lib/helpers/settings_helper.php:689
 #: lib/models/agent_model.php:37
 #: lib/views/booking_form_settings/previews/_customer.php:19
 #: lib/views/customers/inline_edit_form.php:15
@@ -3967,13 +4017,13 @@ msgstr "このメールアドレスの顧客は既に存在します"
 #: lib/views/default_agent/edit_form.php:17
 #: lib/views/steps/partials/_contact_form.php:14
 #: lib/views/wizard/steps/_default_agent.php:20
-#: lib/views/wizard/steps/_form_agent.php:10
+#: lib/views/wizard/steps/_form_agent.php:11
 #: lib/views/wizard/steps/_personal_info.php:18
 msgid "First Name"
 msgstr "名"
 
 #: lib/helpers/customer_import_helper.php:13
-#: lib/helpers/settings_helper.php:690
+#: lib/helpers/settings_helper.php:695
 #: lib/models/agent_model.php:41
 #: lib/views/booking_form_settings/previews/_customer.php:20
 #: lib/views/customers/inline_edit_form.php:18
@@ -3981,7 +4031,7 @@ msgstr "名"
 #: lib/views/default_agent/edit_form.php:20
 #: lib/views/steps/partials/_contact_form.php:17
 #: lib/views/wizard/steps/_default_agent.php:23
-#: lib/views/wizard/steps/_form_agent.php:13
+#: lib/views/wizard/steps/_form_agent.php:14
 #: lib/views/wizard/steps/_personal_info.php:21
 msgid "Last Name"
 msgstr "姓"
@@ -4087,24 +4137,27 @@ msgstr "表示:"
 msgid "Are you sure want to remove this file?"
 msgstr "このファイルを削除してもよろしいですか?"
 
-#: lib/helpers/form_helper.php:462
+#: lib/helpers/form_helper.php:478
 msgid "Click to select..."
 msgstr "クリックして選択..."
 
-#: lib/helpers/form_helper.php:621
+#: lib/helpers/form_helper.php:637
 msgid "am"
 msgstr "午前"
 
-#: lib/helpers/form_helper.php:621
+#: lib/helpers/form_helper.php:637
 msgid "pm"
 msgstr "午後"
 
-#: lib/helpers/form_helper.php:646
+#: lib/helpers/form_helper.php:662
 msgid "Pick a color"
 msgstr "色を選択"
 
-#: lib/helpers/form_helper.php:981
+#: lib/controllers/event_registrations_controller.php:102
+#: lib/helpers/form_helper.php:1024
 #: lib/helpers/settings_helper.php:489
+#: lib/views/event_registrations/index.php:80
+#: lib/views/event_registrations/index.php:121
 msgid "Code"
 msgstr "コード"
 
@@ -4114,9 +4167,9 @@ msgid "%s To %s"
 msgstr "%s から %s まで"
 
 #: lib/helpers/invoices_helper.php:118
-#: lib/helpers/process_jobs_helper.php:313
-#: lib/helpers/replacer_helper.php:563
-#: lib/helpers/time_helper.php:326
+#: lib/helpers/process_jobs_helper.php:315
+#: lib/helpers/replacer_helper.php:565
+#: lib/helpers/time_helper.php:331
 #: lib/misc/process_action.php:418
 #: lib/models/process_job_model.php:52
 #: lib/views/customers/_table_body.php:31
@@ -4134,7 +4187,7 @@ msgid "Edit Data"
 msgstr "データを編集"
 
 #: lib/helpers/invoices_helper.php:172
-#: lib/helpers/invoices_helper.php:1059
+#: lib/helpers/invoices_helper.php:1067
 #: lib/views/invoices/email_form.php:17
 msgid "Email Invoice"
 msgstr "請求書をメール送信"
@@ -4145,7 +4198,7 @@ msgstr "領収書"
 
 #: lib/helpers/invoices_helper.php:193
 #: lib/helpers/invoices_helper.php:916
-#: lib/helpers/roles_helper.php:376
+#: lib/helpers/roles_helper.php:392
 msgid "Invoice"
 msgstr "請求書"
 
@@ -4239,11 +4292,12 @@ msgid "Partially Paid"
 msgstr "一部支払い済み"
 
 #: lib/helpers/invoices_helper.php:324
+#: lib/views/events_manager/_form.php:43
 msgid "Draft"
 msgstr "下書き"
 
 #: lib/helpers/invoices_helper.php:325
-#: lib/helpers/payments_helper.php:269
+#: lib/helpers/payments_helper.php:279
 msgid "Void"
 msgstr "無効"
 
@@ -4260,12 +4314,12 @@ msgid "Remaining"
 msgstr "残額"
 
 #: lib/helpers/invoices_helper.php:346
-#: lib/helpers/payments_helper.php:258
+#: lib/helpers/payments_helper.php:268
 msgid "Deposit"
 msgstr "デポジット"
 
 #: lib/helpers/invoices_helper.php:347
-#: lib/helpers/payments_helper.php:259
+#: lib/helpers/payments_helper.php:269
 #: lib/helpers/transaction_helper.php:28
 #: lib/misc/user.php:363
 #: lib/views/booking_form_settings/show.php:33
@@ -4278,7 +4332,7 @@ msgstr "カスタム"
 #: lib/helpers/invoices_helper.php:999
 #: lib/helpers/invoices_helper.php:1008
 #: lib/helpers/invoices_helper.php:1013
-#: lib/views/orders/quick_edit.php:281
+#: lib/views/orders/quick_edit.php:340
 msgid "Invoices"
 msgstr "請求書"
 
@@ -4397,21 +4451,22 @@ msgid "Invoice Data"
 msgstr "請求書データ"
 
 #: lib/helpers/invoices_helper.php:1029
-#: lib/views/settings/general.php:485
+#: lib/views/settings/general.php:666
 msgid "Company Logo"
 msgstr "会社ロゴ"
 
 #: lib/helpers/invoices_helper.php:1029
 #: lib/helpers/steps_helper.php:449
+#: lib/views/events_manager/_form.php:153
 #: lib/views/services/_form.php:60
 #: lib/views/services/_form.php:67
-#: lib/views/settings/general.php:485
+#: lib/views/settings/general.php:666
 #: lib/views/wizard/steps/_form_service.php:18
 msgid "Remove Image"
 msgstr "画像を削除"
 
 #: lib/helpers/invoices_helper.php:1034
-#: lib/views/settings/general.php:490
+#: lib/views/settings/general.php:671
 msgid "Company Name"
 msgstr "会社名"
 
@@ -4423,35 +4478,35 @@ msgstr "VAT番号/税ID"
 msgid "Number Prefix"
 msgstr "番号プレフィックス"
 
-#: lib/helpers/invoices_helper.php:1045
+#: lib/helpers/invoices_helper.php:1053
 msgid "Bill From"
 msgstr "請求元"
 
-#: lib/helpers/invoices_helper.php:1048
+#: lib/helpers/invoices_helper.php:1056
 msgid "Bill To"
 msgstr "請求先"
 
-#: lib/helpers/invoices_helper.php:1063
+#: lib/helpers/invoices_helper.php:1071
 msgid "This subject and content will be used when invoice is being emailed. "
 msgstr "この件名と内容は、請求書をメール送信する際に使用されます。"
 
-#: lib/helpers/invoices_helper.php:1065
+#: lib/helpers/invoices_helper.php:1073
 msgid "Subject"
 msgstr "件名"
 
-#: lib/helpers/invoices_helper.php:1067
+#: lib/helpers/invoices_helper.php:1075
 msgid "Email Content"
 msgstr "メール内容"
 
-#: lib/helpers/invoices_helper.php:1072
+#: lib/helpers/invoices_helper.php:1080
 msgid "Free Bookings"
 msgstr "無料予約"
 
-#: lib/helpers/invoices_helper.php:1076
+#: lib/helpers/invoices_helper.php:1084
 msgid "Create invoices for free bookings"
 msgstr "無料予約の請求書を作成する"
 
-#: lib/helpers/invoices_helper.php:1080
+#: lib/helpers/invoices_helper.php:1088
 msgid "When disabled, no invoice is created and no invoice email/notification is sent for bookings with a $0.00 total (e.g. free services or fully discounted by coupon)."
 msgstr "無効にすると、合計が $0.00 の予約（例: 無料サービス、またはクーポンで全額割引された予約）には請求書が作成されず、請求書メール/通知も送信されません。"
 
@@ -4460,6 +4515,7 @@ msgid "Main Location"
 msgstr "メインロケーション"
 
 #: lib/helpers/location_helper.php:335
+#: lib/views/event_categories/index.php:27
 msgid "ID: "
 msgstr "ID:"
 
@@ -4468,14 +4524,14 @@ msgid "Locations Linked"
 msgstr "リンクされたロケーション"
 
 #: lib/helpers/menu_helper.php:55
-#: lib/helpers/menu_helper.php:282
+#: lib/helpers/menu_helper.php:315
 msgid "Calendar"
 msgstr "カレンダー"
 
 #: lib/helpers/menu_helper.php:73
-#: lib/helpers/menu_helper.php:182
-#: lib/helpers/menu_helper.php:300
-#: lib/helpers/roles_helper.php:375
+#: lib/helpers/menu_helper.php:215
+#: lib/helpers/menu_helper.php:333
+#: lib/helpers/roles_helper.php:391
 #: lib/views/invoices/summary_before_payment.php:26
 #: lib/views/manage_order_by_key/list_payments.php:16
 #: lib/views/transactions/index.php:19
@@ -4483,41 +4539,45 @@ msgid "Payments"
 msgstr "支払い"
 
 #: lib/helpers/menu_helper.php:85
+#: lib/views/partials/_help_box.php:19
 msgid "Resources"
 msgstr "リソース"
 
 #: lib/helpers/menu_helper.php:108
-#: lib/helpers/menu_helper.php:330
+#: lib/helpers/menu_helper.php:135
+#: lib/helpers/menu_helper.php:363
+#: lib/helpers/menu_helper.php:390
 msgid "Categories"
 msgstr "カテゴリ"
 
 #: lib/helpers/menu_helper.php:114
-#: lib/helpers/menu_helper.php:336
+#: lib/helpers/menu_helper.php:369
+#: lib/helpers/roles_helper.php:385
 msgid "Service Extras"
 msgstr "サービス追加項目"
 
-#: lib/helpers/menu_helper.php:164
-#: lib/views/services/_form.php:355
+#: lib/helpers/menu_helper.php:197
+#: lib/views/services/_form.php:363
 msgid "Schedule"
 msgstr "スケジュール"
 
-#: lib/helpers/menu_helper.php:170
+#: lib/helpers/menu_helper.php:203
 msgid "Tax"
 msgstr "税"
 
-#: lib/helpers/menu_helper.php:194
+#: lib/helpers/menu_helper.php:227
 msgid "Roles"
 msgstr "役割"
 
-#: lib/helpers/menu_helper.php:208
+#: lib/helpers/menu_helper.php:241
 msgid "Automation"
 msgstr "自動化"
 
-#: lib/helpers/menu_helper.php:218
+#: lib/helpers/menu_helper.php:251
 msgid "Scheduled Jobs"
 msgstr "スケジュール済みジョブ"
 
-#: lib/helpers/menu_helper.php:223
+#: lib/helpers/menu_helper.php:256
 #: lib/views/bookings/view_booking_log.php:15
 #: lib/views/customers/view_customer_log.php:15
 #: lib/views/orders/view_order_log.php:18
@@ -4525,19 +4585,19 @@ msgstr "スケジュール済みジョブ"
 msgid "Activity Log"
 msgstr "アクティビティログ"
 
-#: lib/helpers/menu_helper.php:237
+#: lib/helpers/menu_helper.php:270
 msgid "Meetings"
 msgstr "ミーティング"
 
-#: lib/helpers/menu_helper.php:243
+#: lib/helpers/menu_helper.php:276
 msgid "Calendars"
 msgstr "カレンダー"
 
-#: lib/helpers/menu_helper.php:249
+#: lib/helpers/menu_helper.php:282
 msgid "Marketing"
 msgstr "マーケティング"
 
-#: lib/helpers/menu_helper.php:255
+#: lib/helpers/menu_helper.php:288
 msgid "Short Links"
 msgstr "短縮リンク"
 
@@ -4621,61 +4681,61 @@ msgid "Fully Paid"
 msgstr "全額支払い済み"
 
 #: lib/helpers/orders_helper.php:120
-#: lib/helpers/payments_helper.php:284
+#: lib/helpers/payments_helper.php:294
 msgid "Processing"
 msgstr "処理中"
 
-#: lib/helpers/orders_helper.php:211
-#: lib/helpers/steps_helper.php:2795
+#: lib/helpers/orders_helper.php:208
+#: lib/helpers/translation_helper.php:88
 msgid "Appointment Confirmed"
 msgstr "予約が確定しました"
 
-#: lib/helpers/orders_helper.php:212
-#: lib/helpers/steps_helper.php:2796
+#: lib/helpers/orders_helper.php:220
+#: lib/helpers/translation_helper.php:89
 msgid "We look forward to seeing you."
 msgstr "お会いできるのを楽しみにしています。"
 
-#: lib/helpers/orders_helper.php:213
-#: lib/helpers/steps_helper.php:2797
+#: lib/helpers/orders_helper.php:236
+#: lib/helpers/steps_helper.php:2877
 #: lib/views/orders/_full_summary.php:51
 msgid "Order #"
 msgstr "注文 #"
 
-#: lib/helpers/orders_helper.php:321
+#: lib/helpers/orders_helper.php:344
 #: lib/misc/process_event.php:242
 #: lib/views/partials/_top_bar.php:39
 msgid "New Booking"
 msgstr "新規予約"
 
-#: lib/helpers/orders_helper.php:321
+#: lib/helpers/orders_helper.php:344
 msgid "Edit Booking"
 msgstr "予約を編集"
 
-#: lib/helpers/orders_helper.php:324
+#: lib/helpers/orders_helper.php:347
 msgid "Are you sure you want to remove this booking from the order?"
 msgstr "この予約を注文から削除してもよろしいですか？"
 
-#: lib/helpers/orders_helper.php:364
+#: lib/helpers/orders_helper.php:387
 msgid "Are you sure you want to remove this item from the order? All associated appointments will be removed as well."
 msgstr "この項目を注文から削除してもよろしいですか？関連するすべての予約も削除されます。"
 
-#: lib/helpers/orders_helper.php:383
+#: lib/helpers/orders_helper.php:406
 msgid "Part of recurring sequence"
 msgstr "繰り返しシーケンスの一部"
 
-#: lib/helpers/orders_helper.php:386
+#: lib/helpers/orders_helper.php:409
 msgid "Are you sure you want to remove this item from the order?"
 msgstr "この項目を注文から削除してもよろしいですか？"
 
-#: lib/helpers/orders_helper.php:503
+#: lib/helpers/orders_helper.php:540
 msgid "Payment Portion: "
 msgstr "支払い割合:"
 
-#: lib/helpers/orders_helper.php:504
+#: lib/helpers/orders_helper.php:541
 msgid "Payment Amount: "
 msgstr "支払い金額:"
 
-#: lib/helpers/orders_helper.php:509
+#: lib/helpers/orders_helper.php:546
 msgid "No transactions found."
 msgstr "取引が見つかりませんでした。"
 
@@ -4729,37 +4789,38 @@ msgid "Failed to send SMS"
 msgstr "SMS の送信に失敗しました"
 
 #: lib/helpers/payments_helper.php:12
-#: lib/helpers/payments_helper.php:121
-#: lib/views/settings/general.php:475
-#: lib/views/settings/general.php:747
+#: lib/helpers/payments_helper.php:131
+#: lib/views/settings/general.php:587
+#: lib/views/settings/general.php:656
+#: lib/views/settings/general.php:929
 msgid "Other"
 msgstr "その他"
 
-#: lib/helpers/payments_helper.php:139
+#: lib/helpers/payments_helper.php:149
 msgid "Pay Locally"
 msgstr "現地で支払う"
 
-#: lib/helpers/payments_helper.php:256
+#: lib/helpers/payments_helper.php:266
 msgid "Full Balance"
 msgstr "全残高"
 
-#: lib/helpers/payments_helper.php:257
+#: lib/helpers/payments_helper.php:267
 msgid "Remaining Balance"
 msgstr "残高"
 
-#: lib/helpers/payments_helper.php:267
+#: lib/helpers/payments_helper.php:277
 msgid "Capture"
 msgstr "売上確定"
 
-#: lib/helpers/payments_helper.php:268
+#: lib/helpers/payments_helper.php:278
 msgid "Authorization"
 msgstr "承認"
 
-#: lib/helpers/payments_helper.php:283
+#: lib/helpers/payments_helper.php:293
 msgid "Succeeded"
 msgstr "成功"
 
-#: lib/helpers/payments_helper.php:285
+#: lib/helpers/payments_helper.php:295
 msgid "Failed"
 msgstr "失敗"
 
@@ -4783,7 +4844,7 @@ msgstr "時間オフセット"
 msgid "Execute actions with a time offset"
 msgstr "時間オフセットを指定してアクションを実行します"
 
-#: lib/helpers/process_jobs_helper.php:309
+#: lib/helpers/process_jobs_helper.php:311
 #: lib/views/process_jobs/index.php:49
 msgid "Scheduled"
 msgstr "スケジュール済み"
@@ -4794,11 +4855,13 @@ msgstr "スケジュール済み"
 msgid "Razorpay Checkout"
 msgstr "Razorpay チェックアウト"
 
+#: lib/helpers/paypal_connect_helper.php:351
 #: lib/helpers/razorpay_connect_helper.php:35
 #: lib/helpers/stripe_connect_helper.php:254
 msgid "Connect (Live)"
 msgstr "接続（本番）"
 
+#: lib/helpers/paypal_connect_helper.php:363
 #: lib/helpers/razorpay_connect_helper.php:47
 #: lib/helpers/stripe_connect_helper.php:266
 msgid "Connect (Dev)"
@@ -4808,11 +4871,13 @@ msgstr "接続（開発）"
 msgid "Currency Settings"
 msgstr "通貨設定"
 
+#: lib/helpers/paypal_connect_helper.php:383
 #: lib/helpers/razorpay_connect_helper.php:68
 #: lib/helpers/stripe_connect_helper.php:286
 msgid "Country"
 msgstr "国"
 
+#: lib/helpers/paypal_connect_helper.php:386
 #: lib/helpers/razorpay_connect_helper.php:71
 #: lib/helpers/stripe_connect_helper.php:289
 msgid "Currency Code"
@@ -4838,159 +4903,170 @@ msgstr "ロゴを削除"
 msgid "Pay with Razorpay"
 msgstr "Razorpay で支払う"
 
-#: lib/helpers/razorpay_connect_helper.php:219
-#: lib/helpers/razorpay_connect_helper.php:249
+#: lib/helpers/paypal_connect_helper.php:94
+#: lib/helpers/paypal_connect_helper.php:99
+#: lib/helpers/paypal_connect_helper.php:132
+#: lib/helpers/paypal_connect_helper.php:138
+#: lib/helpers/razorpay_connect_helper.php:282
+#: lib/helpers/razorpay_connect_helper.php:329
 #: lib/helpers/stripe_connect_helper.php:108
 #: lib/helpers/stripe_connect_helper.php:150
 msgid "Payment Error"
 msgstr "支払いエラー"
 
-#: lib/helpers/razorpay_connect_helper.php:225
-#: lib/helpers/razorpay_connect_helper.php:254
+#: lib/helpers/razorpay_connect_helper.php:288
+#: lib/helpers/razorpay_connect_helper.php:334
 msgid "Payment Error — token missing"
 msgstr "支払いエラー — トークンがありません"
 
-#: lib/helpers/razorpay_connect_helper.php:287
+#: lib/helpers/paypal_connect_helper.php:47
+#: lib/helpers/razorpay_connect_helper.php:367
 #: lib/helpers/stripe_connect_helper.php:46
 msgid "Error Refunding"
 msgstr "返金エラー"
 
 #. translators: %s is the payment error
-#: lib/helpers/razorpay_connect_helper.php:322
-#: lib/helpers/razorpay_connect_helper.php:345
+#: lib/helpers/razorpay_connect_helper.php:402
+#: lib/helpers/razorpay_connect_helper.php:430
 #: lib/helpers/stripe_connect_helper.php:733
 #: lib/helpers/stripe_connect_helper.php:778
 #, php-format
 msgid "Payment Error: %s"
 msgstr "支払いエラー: %s"
 
-#: lib/helpers/razorpay_connect_helper.php:322
+#: lib/helpers/razorpay_connect_helper.php:402
 msgid "Error generating Razorpay order"
 msgstr "Razorpay 注文の生成エラー"
 
-#: lib/helpers/razorpay_connect_helper.php:345
+#: lib/helpers/razorpay_connect_helper.php:430
 msgid "Error generating Razorpay order for transaction"
 msgstr "取引の Razorpay 注文の生成エラー"
 
-#: lib/helpers/razorpay_connect_helper.php:456
+#: lib/helpers/paypal_connect_helper.php:602
+#: lib/helpers/razorpay_connect_helper.php:546
 msgid "The following websites are using the same server token. This can happen if a site was cloned from one server to another. To fix this, disconnect each site and reconnect it."
 msgstr "以下のウェブサイトは同じサーバートークンを使用しています。これは、サイトがあるサーバーから別のサーバーへ複製された場合に発生することがあります。修正するには、各サイトの接続を解除してから再接続してください。"
 
-#: lib/helpers/razorpay_connect_helper.php:471
+#: lib/helpers/paypal_connect_helper.php:621
+#: lib/helpers/razorpay_connect_helper.php:561
 #: lib/helpers/stripe_connect_helper.php:442
 msgid "disconnect"
 msgstr "接続解除"
 
-#: lib/helpers/razorpay_connect_helper.php:473
+#: lib/helpers/paypal_connect_helper.php:623
+#: lib/helpers/razorpay_connect_helper.php:563
 #: lib/helpers/stripe_connect_helper.php:444
 #: lib/views/customers/quick_edit.php:85
 msgid "Connected"
 msgstr "接続済み"
 
-#: lib/helpers/razorpay_connect_helper.php:475
+#: lib/helpers/razorpay_connect_helper.php:565
 #: lib/helpers/stripe_connect_helper.php:446
 msgid "Account: "
 msgstr "アカウント:"
 
-#: lib/helpers/razorpay_connect_helper.php:482
+#: lib/helpers/paypal_connect_helper.php:638
+#: lib/helpers/razorpay_connect_helper.php:572
 #: lib/helpers/stripe_connect_helper.php:453
 msgid "Pending Action"
 msgstr "保留中のアクション"
 
-#: lib/helpers/razorpay_connect_helper.php:483
+#: lib/helpers/razorpay_connect_helper.php:573
 #: lib/helpers/stripe_connect_helper.php:454
 msgid "Continue Setup"
 msgstr "セットアップを続行"
 
-#: lib/helpers/razorpay_connect_helper.php:490
+#: lib/helpers/paypal_connect_helper.php:670
+#: lib/helpers/razorpay_connect_helper.php:580
 #: lib/helpers/stripe_connect_helper.php:461
 msgid "Start Connecting"
 msgstr "接続を開始"
 
-#: lib/helpers/roles_helper.php:209
+#: lib/helpers/roles_helper.php:221
 msgid "WP Role invalid"
 msgstr "WP ロールが無効です"
 
-#: lib/helpers/roles_helper.php:216
+#: lib/helpers/roles_helper.php:228
 msgid "WP Agent role can not be saved"
 msgstr "WP Agent ロールは保存できません"
 
-#: lib/helpers/roles_helper.php:227
+#: lib/helpers/roles_helper.php:239
 msgid "WP Role can not be saved"
 msgstr "WP ロールは保存できません"
 
-#: lib/helpers/roles_helper.php:231
+#: lib/helpers/roles_helper.php:243
 msgid "Invalid role type"
 msgstr "無効なロールタイプ"
 
-#: lib/helpers/roles_helper.php:273
+#: lib/helpers/roles_helper.php:285
 msgid "LatePoint Customer"
 msgstr "LatePoint 顧客"
 
-#: lib/helpers/roles_helper.php:345
+#: lib/helpers/roles_helper.php:357
 msgid "Edit custom schedule of individual agent, location or service."
 msgstr "個別のエージェント、ロケーション、またはサービスのカスタムスケジュールを編集します。"
 
-#: lib/helpers/roles_helper.php:346
+#: lib/helpers/roles_helper.php:358
 msgid "Access to all settings pages, including general schedule and booking steps."
 msgstr "一般スケジュールや予約手順を含む、すべての設定ページにアクセスできます。"
 
-#: lib/helpers/roles_helper.php:347
+#: lib/helpers/roles_helper.php:359
 msgid "Ability to connect agents to services and locations."
 msgstr "エージェントをサービスやロケーションに関連付けることができます。"
 
-#: lib/helpers/roles_helper.php:348
+#: lib/helpers/roles_helper.php:360
 msgid "Ability to send messages to customers (available with chat addon)."
 msgstr "顧客にメッセージを送信できます（チャットアドオンで利用可能）。"
 
-#: lib/helpers/roles_helper.php:367
+#: lib/helpers/roles_helper.php:379
 msgid "Chat"
 msgstr "チャット"
 
-#: lib/helpers/roles_helper.php:368
-#: lib/views/settings/general.php:585
+#: lib/helpers/roles_helper.php:380
+#: lib/views/settings/general.php:766
 msgid "Activity Logs"
 msgstr "アクティビティログ"
 
-#: lib/helpers/roles_helper.php:371
-#: lib/models/cart_model.php:293
-#: lib/views/orders/quick_edit.php:120
+#: lib/helpers/roles_helper.php:383
+#: lib/models/cart_model.php:313
+#: lib/views/orders/quick_edit.php:146
 msgid "Bundle"
 msgstr "バンドル"
 
-#: lib/helpers/roles_helper.php:373
+#: lib/helpers/roles_helper.php:387
 msgid "Bookings & Orders"
 msgstr "予約と注文"
 
-#: lib/helpers/roles_helper.php:377
+#: lib/helpers/roles_helper.php:393
 #: lib/misc/process_event.php:264
 #: lib/views/customer_cabinet/_bundle_tile.php:16
 #: lib/views/shared/_template_variables.php:12
 msgid "Order"
 msgstr "注文"
 
-#: lib/helpers/roles_helper.php:378
+#: lib/helpers/roles_helper.php:394
 msgid "Resource Schedules"
 msgstr "リソーススケジュール"
 
-#: lib/helpers/roles_helper.php:380
+#: lib/helpers/roles_helper.php:396
 msgid "Connections"
 msgstr "接続"
 
-#: lib/helpers/roles_helper.php:381
+#: lib/helpers/roles_helper.php:397
 msgid "Edit"
 msgstr "編集"
 
-#: latepoint.php:1665
-#: lib/helpers/roles_helper.php:382
+#: latepoint.php:1874
+#: lib/helpers/roles_helper.php:398
 #: lib/misc/process_action.php:187
 #: lib/views/activities/view.php:39
+#: lib/views/events_manager/_form.php:66
 #: lib/views/processes/_form.php:76
-#: lib/views/services/_form.php:320
+#: lib/views/services/_form.php:328
 msgid "Delete"
 msgstr "削除"
 
-#: lib/helpers/roles_helper.php:384
+#: lib/helpers/roles_helper.php:400
 msgid "Create"
 msgstr "作成"
 
@@ -5086,15 +5162,15 @@ msgstr "支払い方法"
 msgid "Payment Portion"
 msgstr "支払い割合"
 
-#: lib/helpers/settings_helper.php:708
+#: lib/helpers/settings_helper.php:713
 msgid "Comments"
 msgstr "コメント"
 
-#: lib/helpers/settings_helper.php:880
+#: lib/helpers/settings_helper.php:886
 msgid "Required?"
 msgstr "必須ですか？"
 
-#: lib/helpers/settings_helper.php:888
+#: lib/helpers/settings_helper.php:894
 msgid "Half Width"
 msgstr "半角幅"
 
@@ -5171,158 +5247,158 @@ msgstr "ステップ \"%1$s\" は \"%2$s\" の後に来る必要があります"
 msgid "Step \"%1$s\" has to come before \"%2$s\""
 msgstr "ステップ \"%1$s\" は \"%2$s\" の前に来る必要があります"
 
-#: lib/helpers/steps_helper.php:1557
-#: lib/helpers/steps_helper.php:1558
+#: lib/helpers/steps_helper.php:1584
+#: lib/helpers/steps_helper.php:1585
 #: lib/helpers/transaction_helper.php:49
 #: lib/views/steps/start.php:114
 msgid "Submit"
 msgstr "送信"
 
-#: lib/helpers/steps_helper.php:1558
+#: lib/helpers/steps_helper.php:1585
 #: lib/views/steps/partials/_booking_form_summary_panel.php:19
 #: lib/views/steps/partials/_booking_form_summary_panel.php:29
 msgid "Checkout"
 msgstr "チェックアウト"
 
-#: lib/helpers/steps_helper.php:2049
+#: lib/helpers/steps_helper.php:2093
 msgid "Another customer is registered with this email."
 msgstr "別の顧客がこのメールアドレスで登録されています。"
 
-#: lib/helpers/steps_helper.php:2079
+#: lib/helpers/steps_helper.php:2123
 msgid "Another customer is already registered with this phone number."
 msgstr "別の顧客がすでにこの電話番号で登録されています。"
 
-#: lib/helpers/steps_helper.php:2105
-#: lib/helpers/steps_helper.php:2114
+#: lib/helpers/steps_helper.php:2149
+#: lib/helpers/steps_helper.php:2158
 msgid "An account with that email address already exists. Please try signing in."
 msgstr "そのメールアドレスのアカウントはすでに存在します。サインインをお試しください。"
 
-#: lib/helpers/steps_helper.php:2175
+#: lib/helpers/steps_helper.php:2219
 msgid "Setting password is required and should match password confirmation"
 msgstr "パスワードの設定が必要で、パスワード確認と一致している必要があります"
 
-#: lib/helpers/steps_helper.php:2363
+#: lib/helpers/steps_helper.php:2415
 msgid "Processing..."
 msgstr "処理中..."
 
-#: lib/helpers/steps_helper.php:2484
+#: lib/helpers/steps_helper.php:2555
 msgid "Show service categories"
 msgstr "サービスカテゴリを表示"
 
-#: lib/helpers/steps_helper.php:2484
+#: lib/helpers/steps_helper.php:2555
 msgid "If turned on, services will be displayed in categories"
 msgstr "有効にすると、サービスはカテゴリ別に表示されます"
 
-#: lib/helpers/steps_helper.php:2485
+#: lib/helpers/steps_helper.php:2556
 msgid "Show service count for categories"
 msgstr "カテゴリのサービス数を表示"
 
-#: lib/helpers/steps_helper.php:2485
+#: lib/helpers/steps_helper.php:2556
 msgid "If turned on, category tile will display a count of services"
 msgstr "有効にすると、カテゴリタイルにサービス数が表示されます"
 
-#: lib/helpers/steps_helper.php:2488
+#: lib/helpers/steps_helper.php:2559
 msgid "Show Learn More about agents"
 msgstr "担当者についての詳細を表示"
 
-#: lib/helpers/steps_helper.php:2488
+#: lib/helpers/steps_helper.php:2559
 msgid "A link to open information about agent will be added to each agent tile"
 msgstr "担当者情報を開くリンクが各担当者タイルに追加されます"
 
-#: lib/helpers/steps_helper.php:2489
+#: lib/helpers/steps_helper.php:2560
 msgid "Hide agent name from summary and confirmation"
 msgstr "要約と確認画面から担当者名を非表示にする"
 
-#: lib/helpers/steps_helper.php:2489
+#: lib/helpers/steps_helper.php:2560
 msgid "Check if you want to hide agent name from showing up"
 msgstr "担当者名を表示しない場合はチェックしてください"
 
-#: lib/helpers/steps_helper.php:2490
+#: lib/helpers/steps_helper.php:2561
 msgid "Add \"Any Agent\" option to agent selection"
 msgstr "担当者選択に「任意の担当者」オプションを追加"
 
-#: lib/helpers/steps_helper.php:2490
+#: lib/helpers/steps_helper.php:2561
 msgid "Customers can pick \"Any agent\" and system will find a matching agent"
 msgstr "顧客は「任意の担当者」を選択でき、システムが一致する担当者を見つけます"
 
-#: lib/helpers/steps_helper.php:2492
+#: lib/helpers/steps_helper.php:2563
 msgid "If \"Any Agent\" is selected then assign booking to"
 msgstr "「任意の担当者」が選択された場合、予約の割り当て先"
 
-#: lib/helpers/steps_helper.php:2498
+#: lib/helpers/steps_helper.php:2569
 msgid "Show Time Slots as"
 msgstr "時間枠の表示方法"
 
-#: lib/helpers/steps_helper.php:2507
+#: lib/helpers/steps_helper.php:2578
 msgid "Style of Datepicker"
 msgstr "日付ピッカーのスタイル"
 
-#: lib/helpers/steps_helper.php:2514
+#: lib/helpers/steps_helper.php:2585
 msgid "Hide time picker if single slot"
 msgstr "1つの枠のみの場合は時間ピッカーを非表示にする"
 
-#: lib/helpers/steps_helper.php:2514
+#: lib/helpers/steps_helper.php:2585
 msgid "If a single slot is available in a day, it will be preselected."
 msgstr "1日に利用可能な枠が1つだけある場合、それが事前選択されます。"
 
-#: lib/helpers/steps_helper.php:2515
+#: lib/helpers/steps_helper.php:2586
 msgid "Hide slot availability count"
 msgstr "スロットの空き数を非表示にする"
 
-#: lib/helpers/steps_helper.php:2515
+#: lib/helpers/steps_helper.php:2586
 msgid "Slot counter tooltip will not appear when hovering a day."
 msgstr "日付にカーソルを合わせても、スロットカウンターのツールチップは表示されません。"
 
-#: lib/helpers/steps_helper.php:2516
+#: lib/helpers/steps_helper.php:2587
 msgid "Hide slots that are not available"
 msgstr "利用できないスロットを非表示にする"
 
-#: lib/helpers/steps_helper.php:2516
+#: lib/helpers/steps_helper.php:2587
 msgid "Hides time boxes that are not available, instead of showing them in gray."
 msgstr "利用できない時間枠をグレー表示せずに非表示にします。"
 
-#: lib/helpers/steps_helper.php:2517
+#: lib/helpers/steps_helper.php:2588
 msgid "Disable auto searching for first available slot"
 msgstr "最初に利用可能なスロットを自動検索しない"
 
-#: lib/helpers/steps_helper.php:2517
+#: lib/helpers/steps_helper.php:2588
 msgid "If checked, this will stop calendar from automatically scrolling to a first available slot"
 msgstr "これにチェックすると、カレンダーが最初に利用可能なスロットへ自動的にスクロールしなくなります"
 
-#: lib/helpers/steps_helper.php:2522
+#: lib/helpers/steps_helper.php:2593
 msgid "Message Style"
 msgstr "メッセージスタイル"
 
-#: lib/helpers/steps_helper.php:2524
+#: lib/helpers/steps_helper.php:2595
 #: lib/views/booking_form_settings/show.php:30
 msgid "Green"
 msgstr "緑"
 
-#: lib/helpers/steps_helper.php:2525
+#: lib/helpers/steps_helper.php:2596
 msgid "Yellow"
 msgstr "黄"
 
-#: lib/helpers/steps_helper.php:2544
+#: lib/helpers/steps_helper.php:2615
 msgid "This step does not have any specific settings. You can use the selector above to check another step."
 msgstr "このステップには特定の設定はありません。上のセレクターを使って別のステップを確認できます。"
 
-#: lib/helpers/steps_helper.php:2780
+#: lib/helpers/steps_helper.php:2857
 msgid "If you have both a payment processor and pay locally enabled, customer will make a selection here."
 msgstr "支払い処理業者と現地払いの両方が有効な場合、顧客はここで選択します。"
 
-#: lib/helpers/steps_helper.php:2783
+#: lib/helpers/steps_helper.php:2860
 msgid "If selected service has both deposit and charge amount set, customer will have to pick how much they want to pay now."
 msgstr "選択したサービスにデポジットと請求額の両方が設定されている場合、顧客は今いくら支払うかを選択する必要があります。"
 
-#: lib/helpers/steps_helper.php:2786
+#: lib/helpers/steps_helper.php:2863
 msgid "If you have multiple payment processors enabled, customer will be able to select how they want to pay"
 msgstr "複数の支払い処理業者が有効な場合、顧客は支払い方法を選択できます"
 
-#: lib/helpers/steps_helper.php:2789
+#: lib/helpers/steps_helper.php:2866
 msgid "Payment form generated by selected payment processor will appear here"
 msgstr "選択した支払い処理業者によって生成された支払いフォームがここに表示されます"
 
-#: lib/helpers/steps_helper.php:2800
+#: lib/helpers/steps_helper.php:2880
 msgid "Order information will appear here."
 msgstr "注文情報がここに表示されます。"
 
@@ -5380,7 +5456,7 @@ msgid "Error generating payment intent"
 msgstr "支払い意図の生成中にエラーが発生しました"
 
 #: lib/helpers/support_topics_helper.php:6
-#: lib/views/shared/_template_variables.php:91
+#: lib/views/shared/_template_variables.php:92
 msgid "Payment Request"
 msgstr "支払いリクエスト"
 
@@ -5397,14 +5473,14 @@ msgid "ago"
 msgstr "前"
 
 #: lib/helpers/time_helper.php:83
-#: lib/models/booking_model.php:981
-#: lib/views/settings/general.php:336
+#: lib/models/booking_model.php:999
+#: lib/views/settings/general.php:365
 msgid "days"
 msgstr "日"
 
 #: lib/helpers/time_helper.php:87
-#: lib/models/booking_model.php:985
-#: lib/views/settings/general.php:335
+#: lib/models/booking_model.php:1003
+#: lib/views/settings/general.php:364
 msgid "hours"
 msgstr "時間"
 
@@ -5438,14 +5514,14 @@ msgstr "DD.MM.YYYY"
 msgid "YYYY-MM-DD"
 msgstr "YYYY-MM-DD"
 
-#: lib/helpers/time_helper.php:452
 #: lib/helpers/time_helper.php:457
-#: lib/helpers/time_helper.php:555
+#: lib/helpers/time_helper.php:462
 #: lib/helpers/time_helper.php:560
+#: lib/helpers/time_helper.php:565
 msgid "UTC"
 msgstr "UTC"
 
-#: lib/helpers/time_helper.php:510
+#: lib/helpers/time_helper.php:515
 msgid "Select a city"
 msgstr "都市を選択してください"
 
@@ -5470,8 +5546,8 @@ msgstr "取引を返金"
 msgid "Issue a Refund"
 msgstr "返金を実行"
 
-#: lib/helpers/util_helper.php:15
-#: lib/helpers/util_helper.php:782
+#: lib/helpers/util_helper.php:63
+#: lib/helpers/util_helper.php:830
 #: lib/misc/process_action.php:307
 #: lib/views/integrations/external_calendars.php:48
 #: lib/views/integrations/external_marketing_systems.php:54
@@ -5481,122 +5557,122 @@ msgstr "返金を実行"
 msgid "Requires upgrade to a premium version"
 msgstr "プレミアム版へのアップグレードが必要です"
 
-#: lib/helpers/util_helper.php:155
+#: lib/helpers/util_helper.php:203
 msgid "Show Available Variables"
 msgstr "利用可能な変数を表示"
 
-#: lib/helpers/util_helper.php:280
-#: lib/helpers/util_helper.php:333
+#: lib/helpers/util_helper.php:328
+#: lib/helpers/util_helper.php:381
 msgid "January"
 msgstr "1月"
 
-#: lib/helpers/util_helper.php:281
-#: lib/helpers/util_helper.php:334
+#: lib/helpers/util_helper.php:329
+#: lib/helpers/util_helper.php:382
 msgid "February"
 msgstr "2月"
 
-#: lib/helpers/util_helper.php:282
-#: lib/helpers/util_helper.php:335
+#: lib/helpers/util_helper.php:330
+#: lib/helpers/util_helper.php:383
 msgid "March"
 msgstr "3月"
 
-#: lib/helpers/util_helper.php:283
-#: lib/helpers/util_helper.php:336
+#: lib/helpers/util_helper.php:331
+#: lib/helpers/util_helper.php:384
 msgid "April"
 msgstr "4月"
 
-#: lib/helpers/util_helper.php:284
-#: lib/helpers/util_helper.php:337
+#: lib/helpers/util_helper.php:332
+#: lib/helpers/util_helper.php:385
 msgid "May"
 msgstr "5月"
 
-#: lib/helpers/util_helper.php:285
-#: lib/helpers/util_helper.php:338
+#: lib/helpers/util_helper.php:333
+#: lib/helpers/util_helper.php:386
 msgid "June"
 msgstr "6月"
 
-#: lib/helpers/util_helper.php:286
-#: lib/helpers/util_helper.php:339
+#: lib/helpers/util_helper.php:334
+#: lib/helpers/util_helper.php:387
 msgid "July"
 msgstr "7月"
 
-#: lib/helpers/util_helper.php:287
-#: lib/helpers/util_helper.php:340
+#: lib/helpers/util_helper.php:335
+#: lib/helpers/util_helper.php:388
 msgid "August"
 msgstr "8月"
 
-#: lib/helpers/util_helper.php:288
-#: lib/helpers/util_helper.php:341
+#: lib/helpers/util_helper.php:336
+#: lib/helpers/util_helper.php:389
 msgid "September"
 msgstr "9月"
 
-#: lib/helpers/util_helper.php:289
-#: lib/helpers/util_helper.php:342
+#: lib/helpers/util_helper.php:337
+#: lib/helpers/util_helper.php:390
 msgid "October"
 msgstr "10月"
 
-#: lib/helpers/util_helper.php:290
-#: lib/helpers/util_helper.php:343
+#: lib/helpers/util_helper.php:338
+#: lib/helpers/util_helper.php:391
 msgid "November"
 msgstr "11月"
 
-#: lib/helpers/util_helper.php:291
-#: lib/helpers/util_helper.php:344
+#: lib/helpers/util_helper.php:339
+#: lib/helpers/util_helper.php:392
 msgid "December"
 msgstr "12月"
 
-#: lib/helpers/util_helper.php:294
-#: lib/helpers/util_helper.php:345
+#: lib/helpers/util_helper.php:342
+#: lib/helpers/util_helper.php:393
 msgid "Jan"
 msgstr "1月"
 
-#: lib/helpers/util_helper.php:295
-#: lib/helpers/util_helper.php:346
+#: lib/helpers/util_helper.php:343
+#: lib/helpers/util_helper.php:394
 msgid "Feb"
 msgstr "2月"
 
-#: lib/helpers/util_helper.php:296
-#: lib/helpers/util_helper.php:347
+#: lib/helpers/util_helper.php:344
+#: lib/helpers/util_helper.php:395
 msgid "Mar"
 msgstr "3月"
 
-#: lib/helpers/util_helper.php:297
-#: lib/helpers/util_helper.php:348
+#: lib/helpers/util_helper.php:345
+#: lib/helpers/util_helper.php:396
 msgid "Apr"
 msgstr "4月"
 
-#: lib/helpers/util_helper.php:299
-#: lib/helpers/util_helper.php:349
+#: lib/helpers/util_helper.php:347
+#: lib/helpers/util_helper.php:397
 msgid "Jun"
 msgstr "6月"
 
-#: lib/helpers/util_helper.php:300
-#: lib/helpers/util_helper.php:350
+#: lib/helpers/util_helper.php:348
+#: lib/helpers/util_helper.php:398
 msgid "Jul"
 msgstr "7月"
 
-#: lib/helpers/util_helper.php:301
-#: lib/helpers/util_helper.php:351
+#: lib/helpers/util_helper.php:349
+#: lib/helpers/util_helper.php:399
 msgid "Aug"
 msgstr "8月"
 
-#: lib/helpers/util_helper.php:302
-#: lib/helpers/util_helper.php:352
+#: lib/helpers/util_helper.php:350
+#: lib/helpers/util_helper.php:400
 msgid "Sep"
 msgstr "9月"
 
-#: lib/helpers/util_helper.php:303
-#: lib/helpers/util_helper.php:353
+#: lib/helpers/util_helper.php:351
+#: lib/helpers/util_helper.php:401
 msgid "Oct"
 msgstr "10月"
 
-#: lib/helpers/util_helper.php:304
-#: lib/helpers/util_helper.php:354
+#: lib/helpers/util_helper.php:352
+#: lib/helpers/util_helper.php:402
 msgid "Nov"
 msgstr "11月"
 
-#: lib/helpers/util_helper.php:305
-#: lib/helpers/util_helper.php:355
+#: lib/helpers/util_helper.php:353
+#: lib/helpers/util_helper.php:403
 msgid "Dec"
 msgstr "12月"
 
@@ -5632,10 +5708,12 @@ msgid "WhatsApp notifications are disabled"
 msgstr "WhatsApp通知は無効です"
 
 #: lib/helpers/work_periods_helper.php:281
+#: lib/views/events_manager/event_date_range_form.php:81
 msgid "Start"
 msgstr "開始"
 
 #: lib/helpers/work_periods_helper.php:282
+#: lib/views/events_manager/event_date_range_form.php:82
 msgid "Finish"
 msgstr "終了"
 
@@ -5858,7 +5936,7 @@ msgid "Choose a customer for this test run:"
 msgstr "このテスト実行に使用する顧客を選択してください:"
 
 #: lib/misc/process_event.php:228
-#: lib/views/orders/quick_edit.php:116
+#: lib/views/orders/quick_edit.php:141
 #: lib/views/partials/_top_bar.php:47
 msgid "Booking"
 msgstr "予約"
@@ -5872,7 +5950,7 @@ msgid "Old Order"
 msgstr "旧注文"
 
 #: lib/misc/process_event.php:272
-#: lib/views/shared/_template_variables.php:77
+#: lib/views/shared/_template_variables.php:78
 msgid "Transaction"
 msgstr "取引"
 
@@ -5930,7 +6008,7 @@ msgid "Booking Status"
 msgstr "予約ステータス"
 
 #: lib/misc/process_event.php:551
-#: lib/models/booking_model.php:156
+#: lib/models/booking_model.php:158
 #: lib/models/order_model.php:398
 msgid "Order Item Counts"
 msgstr "注文アイテム数"
@@ -5948,7 +6026,7 @@ msgid "Previous Agent"
 msgstr "前回の担当者"
 
 #: lib/misc/process_event.php:559
-#: lib/models/booking_model.php:155
+#: lib/models/booking_model.php:157
 #: lib/models/work_period_model.php:22
 #: lib/views/bookings/_booking_data.php:177
 msgid "Start Time"
@@ -6005,49 +6083,49 @@ msgstr "新しいカスタムロール"
 msgid "Connected WordPress User"
 msgstr "接続済みの WordPress ユーザー"
 
-#: lib/models/booking_model.php:533
+#: lib/models/booking_model.php:551
 msgid "Unfortunately there are no active resources that can offer selected service, please select another service."
 msgstr "残念ながら、選択されたサービスを提供できる有効なリソースがありません。別のサービスを選択してください。"
 
 #. translators: %2$s is the service name
-#: lib/models/booking_model.php:570
+#: lib/models/booking_model.php:588
 #, php-format
 msgid "Unfortunately the selected time slot \"%1$s\" for \"%2$s\" is not available anymore, please select another timeslot."
 msgstr "残念ながら、「%2$s」の選択された時間帯「%1$s」はもう利用できません。別の時間帯を選択してください。"
 
-#: lib/models/booking_model.php:584
+#: lib/models/booking_model.php:602
 msgid "You have to select a service"
 msgstr "サービスを選択する必要があります"
 
-#: lib/models/booking_model.php:587
+#: lib/models/booking_model.php:605
 msgid "You have to select an agent"
 msgstr "エージェントを選択する必要があります"
 
-#: lib/models/booking_model.php:596
+#: lib/models/booking_model.php:614
 msgid "You have to be logged in"
 msgstr "ログインする必要があります"
 
-#: lib/models/booking_model.php:906
-#: lib/models/booking_model.php:916
+#: lib/models/booking_model.php:924
+#: lib/models/booking_model.php:934
 msgid "Invalid Date/Time"
 msgstr "無効な日付/時刻"
 
-#: lib/models/booking_model.php:1013
+#: lib/models/booking_model.php:1031
 #: lib/views/settings/generate_instant_booking_page.php:36
 msgid "Any Available Agent"
 msgstr "利用可能なエージェントを任意に選択"
 
-#: lib/models/cart_model.php:261
+#: lib/models/cart_model.php:281
 #: lib/models/order_model.php:511
 msgid "Balance Due"
 msgstr "支払残高"
 
-#: lib/models/cart_model.php:313
+#: lib/models/cart_model.php:333
 #: lib/views/orders/_price_breakdown.php:22
 msgid "Sub Total"
 msgstr "小計"
 
-#: lib/models/cart_model.php:323
+#: lib/models/cart_model.php:343
 #: lib/views/orders/_price_breakdown.php:26
 msgid "Total Price"
 msgstr "合計金額"
@@ -6081,24 +6159,24 @@ msgid "Location Name"
 msgstr "ロケーション名"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1111
+#: lib/models/model.php:1116
 #, php-format
 msgid "%s is not valid"
 msgstr "%s は有効ではありません"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1121
+#: lib/models/model.php:1126
 #, php-format
 msgid "%s can not be blank"
 msgstr "%s は空欄にできません"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1152
+#: lib/models/model.php:1157
 #, php-format
 msgid "%s has to be unique"
 msgstr "%s は一意である必要があります"
 
-#: lib/models/order_intent_model.php:207
+#: lib/models/order_intent_model.php:232
 #: lib/models/transaction_intent_model.php:104
 msgid "Can not convert to transaction, because transaction intent conversion is being processed"
 msgstr "トランザクションに変換できません。トランザクション意図の変換が処理中です"
@@ -6202,16 +6280,17 @@ msgstr "サービス時間"
 
 #: lib/models/service_model.php:54
 #: lib/views/bookings/_booking_data.php:191
-#: lib/views/services/_form.php:280
+#: lib/views/services/_form.php:288
 msgid "Buffer Before"
 msgstr "前バッファ"
 
 #: lib/models/service_model.php:55
 #: lib/views/bookings/_booking_data.php:197
-#: lib/views/services/_form.php:286
+#: lib/views/services/_form.php:294
 msgid "Buffer After"
 msgstr "後バッファ"
 
+#: lib/models/booking_model.php:154
 #: lib/models/service_model.php:57
 msgid "Service Category"
 msgstr "サービスカテゴリ"
@@ -6232,8 +6311,11 @@ msgstr "終了時刻"
 
 #: lib/views/activities/index.php:21
 #: lib/views/bookings/index.php:32
+#: lib/views/bookings/index.php:88
 #: lib/views/customers/index.php:27
 #: lib/views/customers/index.php:105
+#: lib/views/event_registrations/index.php:53
+#: lib/views/event_registrations/index.php:139
 #: lib/views/orders/index.php:26
 #: lib/views/orders/index.php:98
 #: lib/views/process_jobs/index.php:26
@@ -6249,6 +6331,8 @@ msgstr "表示中"
 #: lib/views/customers/index.php:27
 #: lib/views/customers/index.php:105
 #: lib/views/dashboard/_booking_info_box_small.php:53
+#: lib/views/event_registrations/index.php:53
+#: lib/views/event_registrations/index.php:139
 #: lib/views/orders/index.php:26
 #: lib/views/orders/index.php:98
 #: lib/views/process_jobs/index.php:26
@@ -6288,6 +6372,8 @@ msgstr "ユーザー ID"
 #: lib/views/activities/index.php:56
 #: lib/views/customers/index.php:73
 #: lib/views/customers/index.php:74
+#: lib/views/event_registrations/index.php:103
+#: lib/views/event_registrations/index.php:105
 #: lib/views/orders/index.php:65
 #: lib/views/orders/index.php:67
 #: lib/views/process_jobs/index.php:52
@@ -6299,6 +6385,7 @@ msgstr "日付で絞り込む"
 
 #: lib/views/activities/index.php:55
 #: lib/views/customers/index.php:73
+#: lib/views/event_registrations/index.php:104
 #: lib/views/orders/index.php:66
 #: lib/views/process_jobs/index.php:52
 #: lib/views/transactions/index.php:58
@@ -6317,6 +6404,7 @@ msgstr "から"
 #: lib/views/activities/index.php:81
 #: lib/views/bookings/index.php:90
 #: lib/views/customers/index.php:107
+#: lib/views/event_registrations/index.php:143
 #: lib/views/orders/index.php:100
 #: lib/views/process_jobs/index.php:86
 #: lib/views/transactions/index.php:91
@@ -6398,7 +6486,7 @@ msgstr "最初の予約を追加"
 #: lib/views/bookings/pending_approval.php:54
 #: lib/views/customers/query_for_booking_form.php:21
 #: lib/views/dashboard/_booking_info_box_small.php:37
-#: lib/views/orders/quick_edit.php:216
+#: lib/views/orders/quick_edit.php:275
 msgid "Phone: "
 msgstr "電話:"
 
@@ -6406,7 +6494,7 @@ msgstr "電話:"
 #: lib/views/bookings/pending_approval.php:58
 #: lib/views/customers/query_for_booking_form.php:17
 #: lib/views/dashboard/_booking_info_box_small.php:41
-#: lib/views/orders/quick_edit.php:212
+#: lib/views/orders/quick_edit.php:271
 msgid "Email: "
 msgstr "メール:"
 
@@ -6437,6 +6525,7 @@ msgstr "予約を作成"
 #: lib/views/bookings/quick_availability.php:9
 #: lib/views/bookings/_booking_data.php:169
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:32
+#: lib/views/events_manager/_step_event.php:67
 msgid "Availability"
 msgstr "空き状況"
 
@@ -6611,10 +6700,12 @@ msgstr "破棄"
 #: lib/views/customers/quick_edit.php:155
 #: lib/views/customer_cabinet/dashboard.php:141
 #: lib/views/default_agent/edit_form.php:37
-#: lib/views/orders/quick_edit.php:310
-#: lib/views/services/_form.php:331
-#: lib/views/services/_form.php:345
-#: lib/views/settings/general.php:720
+#: lib/views/events_manager/_form.php:353
+#: lib/views/events_manager/_form.php:365
+#: lib/views/orders/quick_edit.php:369
+#: lib/views/services/_form.php:339
+#: lib/views/services/_form.php:353
+#: lib/views/settings/general.php:901
 msgid "Save Changes"
 msgstr "変更を保存"
 
@@ -6831,6 +6922,7 @@ msgid "Import .csv"
 msgstr ".csv をインポート"
 
 #: lib/views/customers/index.php:33
+#: lib/views/event_registrations/index.php:68
 msgid "Export .csv"
 msgstr ".csv をエクスポート"
 
@@ -6869,6 +6961,7 @@ msgid "WP User ID"
 msgstr "WP ユーザー ID"
 
 #: lib/views/customers/index.php:63
+#: lib/views/event_registrations/index.php:94
 msgid "Search by Name"
 msgstr "名前で検索"
 
@@ -6877,6 +6970,7 @@ msgid "Phone..."
 msgstr "電話..."
 
 #: lib/views/customers/index.php:65
+#: lib/views/event_registrations/index.php:95
 msgid "Search by Email"
 msgstr "メールで検索"
 
@@ -7073,7 +7167,7 @@ msgstr "顧客認証は無効です"
 
 #: lib/views/customer_cabinet/password_reset_form.php:8
 #: lib/views/customer_cabinet/request_password_reset_token.php:8
-#: lib/views/orders/quick_edit.php:196
+#: lib/views/orders/quick_edit.php:255
 msgid "cancel"
 msgstr "キャンセル"
 
@@ -7138,18 +7232,19 @@ msgstr "この予約はバンドルの一部です。"
 msgid "Show Details"
 msgstr "詳細を表示"
 
-#: lib/views/customer_cabinet/_booking_tile.php:75
+#: lib/views/customer_cabinet/_booking_tile.php:68
 #: lib/views/customer_cabinet/_order_tile.php:33
+#: lib/views/events_manager/_form.php:100
 #: lib/views/steps/partials/_booking_form_summary_panel.php:15
 msgid "Summary"
 msgstr "概要"
 
-#: lib/views/customer_cabinet/_booking_tile.php:82
+#: lib/views/customer_cabinet/_booking_tile.php:75
 #: lib/views/shared/_template_variables.php:19
 msgid "Balance Due:"
 msgstr "支払残高:"
 
-#: lib/views/customer_cabinet/_booking_tile.php:90
+#: lib/views/customer_cabinet/_booking_tile.php:83
 msgid "Make Payment"
 msgstr "支払いを行う"
 
@@ -7165,7 +7260,7 @@ msgid "Not Scheduled"
 msgstr "未予約"
 
 #: lib/views/customer_cabinet/_bundle_tile.php:36
-#: lib/views/steps/partials/_order_summary.php:34
+#: lib/views/steps/partials/_order_summary.php:46
 msgid "Start Scheduling"
 msgstr "予約を開始"
 
@@ -7254,7 +7349,7 @@ msgstr "外部カレンダー"
 #: lib/views/integrations/external_marketing_systems.php:51
 #: lib/views/integrations/external_meeting_systems.php:51
 #: lib/views/integrations/external_short_links_systems.php:48
-#: lib/views/settings/general.php:715
+#: lib/views/settings/general.php:896
 #: lib/views/settings/notifications.php:98
 #: lib/views/settings/payments.php:56
 msgid "Save Settings"
@@ -7292,7 +7387,7 @@ msgstr "一般設定でメールの件名と内容をカスタマイズできま
 msgid "Email to:"
 msgstr "送信先メール:"
 
-#: lib/views/invoices/email_form.php:44
+#: lib/views/invoices/email_form.php:45
 msgid "Send"
 msgstr "送信"
 
@@ -7321,14 +7416,15 @@ msgstr "領収書を表示"
 msgid "Thank you for your payment"
 msgstr "お支払いありがとうございます"
 
+#: lib/views/events_manager/_event_index_item.php:17
 #: lib/views/invoices/payment_form/_confirmation.php:30
 msgid "Date:"
 msgstr "日付:"
 
 #: lib/views/invoices/payment_form/_confirmation.php:36
 #: lib/views/orders/_balance_and_payments.php:64
-#: lib/views/shared/_template_variables.php:80
-#: lib/views/shared/_template_variables.php:94
+#: lib/views/shared/_template_variables.php:81
+#: lib/views/shared/_template_variables.php:95
 msgid "Amount:"
 msgstr "金額:"
 
@@ -7399,6 +7495,7 @@ msgstr "このテンプレートを使用"
 msgid "You can use these variables in your email and sms notifications. Just click on the variable with {} brackets and it will automatically copy to your buffer and you can simply paste it where you want to use it. It will be converted into a value for the agent/service or appointment."
 msgstr "これらの変数は、メールやSMS通知で使用できます。{} で囲まれた変数をクリックするだけで、自動的にバッファにコピーされ、使いたい場所に貼り付けることができます。担当者/サービスまたは予約の値に変換されます。"
 
+#: lib/controllers/event_registrations_controller.php:104
 #: lib/views/orders/index.php:56
 #: lib/views/transactions/index.php:50
 msgid "Customer Name"
@@ -7438,73 +7535,74 @@ msgstr "注文アイテム"
 msgid "Add Another Item"
 msgstr "別のアイテムを追加"
 
-#: lib/views/orders/quick_edit.php:90
+#: lib/views/orders/quick_edit.php:103
 msgid "Select a bundle that you want to add"
 msgstr "追加したいバンドルを選択してください"
 
-#: lib/views/orders/quick_edit.php:112
+#: lib/views/orders/quick_edit.php:137
 msgid "What type of item would you like to add?"
 msgstr "どの種類のアイテムを追加しますか?"
 
-#: lib/views/orders/quick_edit.php:128
+#: lib/views/orders/quick_edit.php:165
 msgid "Order is empty"
 msgstr "注文は空です"
 
 #. translators: %d number of items in the order
-#: lib/views/orders/quick_edit.php:162
+#: lib/views/orders/quick_edit.php:221
 #, php-format
 msgid "There are %d more items in this order."
 msgstr "この注文にはあと %d 件のアイテムがあります。"
 
-#: lib/views/orders/quick_edit.php:164
+#: lib/views/orders/quick_edit.php:223
 msgid "There is one more item in this order."
 msgstr "この注文にはあと 1 件のアイテムがあります。"
 
-#: lib/views/orders/quick_edit.php:166
+#: lib/views/orders/quick_edit.php:225
 msgid "Show All Items"
 msgstr "すべてのアイテムを表示"
 
-#: lib/views/orders/quick_edit.php:181
+#: lib/helpers/menu_helper.php:453
+#: lib/views/orders/quick_edit.php:240
 msgid "New"
 msgstr "新規"
 
-#: lib/views/orders/quick_edit.php:185
+#: lib/views/orders/quick_edit.php:244
 msgid "Find"
 msgstr "検索"
 
-#: lib/views/orders/quick_edit.php:193
+#: lib/views/orders/quick_edit.php:252
 msgid "Start typing to search..."
 msgstr "入力して検索..."
 
-#: lib/views/orders/quick_edit.php:232
+#: lib/views/orders/quick_edit.php:291
 msgid "Price Breakdown"
 msgstr "価格内訳"
 
-#: lib/views/orders/quick_edit.php:237
+#: lib/views/orders/quick_edit.php:296
 msgid "Recalculate"
 msgstr "再計算"
 
-#: lib/views/orders/quick_edit.php:271
+#: lib/views/orders/quick_edit.php:330
 msgid "Add Transaction"
 msgstr "取引を追加"
 
-#: lib/views/orders/quick_edit.php:284
+#: lib/views/orders/quick_edit.php:343
 msgid "Upgrade to PRO"
 msgstr "PRO にアップグレード"
 
-#: lib/views/orders/quick_edit.php:285
+#: lib/views/orders/quick_edit.php:344
 msgid "To unlock invoicing feature, you need to upgrade to a PRO version"
 msgstr "請求書機能を有効にするには、PRO版にアップグレードする必要があります"
 
-#: lib/views/orders/quick_edit.php:307
+#: lib/views/orders/quick_edit.php:366
 msgid "Create Order"
 msgstr "注文を作成"
 
-#: lib/views/orders/quick_edit.php:317
+#: lib/views/orders/quick_edit.php:376
 msgid "Are you sure you want to delete this order? All appointments that are attached ot this order will be removed as well"
 msgstr "この注文を削除してもよろしいですか？この注文に関連付けられているすべての予約も削除されます"
 
-#: lib/views/orders/quick_edit.php:319
+#: lib/views/orders/quick_edit.php:378
 msgid "Delete Order"
 msgstr "注文を削除"
 
@@ -7552,17 +7650,17 @@ msgstr "支払い:"
 msgid "Refunded %s on %s"
 msgstr "%s に %s を返金しました"
 
-#: lib/views/partials/_side_menu.php:12
+#: lib/views/partials/_side_menu.php:21
 #: lib/views/partials/_top_bar.php:7
 msgid "Menu"
 msgstr "メニュー"
 
-#: lib/views/partials/_side_menu.php:68
-#: lib/views/partials/_side_menu.php:69
+#: lib/views/partials/_side_menu.php:77
+#: lib/views/partials/_side_menu.php:78
 msgid "Back to WordPress"
 msgstr "WordPress に戻る"
 
-#: lib/views/partials/_side_menu.php:77
+#: lib/views/partials/_side_menu.php:86
 msgid "back to WordPress"
 msgstr "WordPress に戻る"
 
@@ -7570,6 +7668,7 @@ msgstr "WordPress に戻る"
 msgid "Search..."
 msgstr "検索..."
 
+#: lib/helpers/form_helper.php:881
 #: lib/views/partials/_top_bar.php:20
 msgid "Search"
 msgstr "検索"
@@ -7611,10 +7710,13 @@ msgstr "新しいワークフロー"
 msgid "Process Name"
 msgstr "プロセス名"
 
+#: lib/views/events_manager/_form.php:115
 #: lib/views/processes/_form.php:41
 msgid "Event Type"
 msgstr "イベントタイプ"
 
+#: lib/views/event_registrations/index.php:88
+#: lib/views/event_registrations/index.php:129
 #: lib/views/processes/_form.php:54
 #: lib/views/process_jobs/index.php:38
 #: lib/views/process_jobs/index.php:72
@@ -7638,6 +7740,15 @@ msgstr "このワークフローをテスト"
 msgid "Save Workflow"
 msgstr "ワークフローを保存"
 
+#: lib/controllers/event_registrations_controller.php:103
+#: lib/helpers/events_hooks_helper.php:314
+#: lib/helpers/events_hooks_helper.php:898
+#: lib/helpers/events_hooks_helper.php:920
+#: lib/helpers/events_hooks_helper.php:939
+#: lib/helpers/events_hooks_helper.php:1188
+#: lib/models/event_registration_model.php:27
+#: lib/views/event_registrations/index.php:81
+#: lib/views/event_registrations/index.php:122
 #: lib/views/process_jobs/index.php:35
 #: lib/views/process_jobs/index.php:69
 msgid "Event"
@@ -7668,6 +7779,7 @@ msgstr "実行情報"
 msgid "All Workflows"
 msgstr "すべてのワークフロー"
 
+#: lib/views/event_registrations/index.php:30
 #: lib/views/process_jobs/index.php:49
 msgid "All Statuses"
 msgstr "すべてのステータス"
@@ -7731,7 +7843,7 @@ msgstr "一致するサービスは見つかりませんでした。"
 
 #: lib/views/search/query_results.php:69
 #: lib/views/services/index.php:49
-#: lib/views/services/_form.php:309
+#: lib/views/services/_form.php:317
 msgid "Add Service"
 msgstr "サービスを追加"
 
@@ -7751,6 +7863,7 @@ msgstr[0] "%d 件の無効なサービス"
 msgid "Service ID: %d"
 msgstr "サービスID: %d"
 
+#: lib/views/events_manager/_form.php:112
 #: lib/views/services/_form.php:26
 msgid "Category"
 msgstr "カテゴリー"
@@ -7771,8 +7884,10 @@ msgstr "すべての人に表示"
 msgid "Visible only to admins and agents"
 msgstr "管理者と担当者のみに表示"
 
+#: lib/views/events_manager/_form.php:150
+#: lib/views/events_manager/_form.php:370
 #: lib/views/services/_form.php:50
-#: lib/views/services/_form.php:350
+#: lib/views/services/_form.php:358
 msgid "Media"
 msgstr "メディア"
 
@@ -7793,7 +7908,7 @@ msgid "This image is used when service is listed in [latepoint_resources] shortc
 msgstr "この画像は、[latepoint_resources] ショートコードでサービスが一覧表示されるときに使用されます。"
 
 #: lib/views/services/_form.php:74
-#: lib/views/services/_form.php:351
+#: lib/views/services/_form.php:359
 msgid "Durations and Price"
 msgstr "所要時間と価格"
 
@@ -7802,7 +7917,7 @@ msgid "Duration Name (optional)"
 msgstr "所要時間名（任意）"
 
 #: lib/views/services/_form.php:98
-#: lib/views/services/_form.php:352
+#: lib/views/services/_form.php:360
 msgid "Display Price"
 msgstr "表示価格"
 
@@ -7849,78 +7964,78 @@ msgid "You can set restrictions on earliest/latest dates in the future when your
 msgstr "顧客が予約を入れられる未来の最も早い/遅い日付に制限を設定できます。たとえば \"+1 month\"、\"+2 weeks\"、\"+5 days\"、\"+3 hours\"、\"+30 minutes\"（引用符なしで入力）などの相対値を使用するか、YYYY-MM-DD 形式の固定日付を使用できます。空欄のままにすると、一般設定で設定された既定の制限が使用されます。"
 
 #: lib/views/services/_form.php:211
-#: lib/views/settings/general.php:86
+#: lib/views/settings/general.php:114
 msgid "Earliest Possible Booking"
 msgstr "最も早い予約可能日時"
 
 #: lib/views/services/_form.php:214
-#: lib/views/settings/general.php:89
+#: lib/views/settings/general.php:117
 msgid "Latest Possible Booking"
 msgstr "最も遅い予約可能日時"
 
-#: lib/views/services/_form.php:224
+#: lib/views/services/_form.php:232
 msgid "Service Schedule"
 msgstr "サービススケジュール"
 
-#: lib/views/services/_form.php:226
+#: lib/views/services/_form.php:234
 msgid "Set Custom Schedule"
 msgstr "カスタムスケジュールを設定"
 
-#: lib/views/services/_form.php:244
+#: lib/views/services/_form.php:252
 msgid "This service is using general schedule which is set in main settings"
 msgstr "このサービスは、メイン設定で設定された一般スケジュールを使用しています"
 
-#: lib/views/services/_form.php:254
+#: lib/views/services/_form.php:262
 #: lib/views/settings/work_periods.php:25
 msgid "Days With Custom Schedules"
 msgstr "カスタムスケジュールのある日"
 
-#: lib/views/services/_form.php:257
+#: lib/views/services/_form.php:265
 msgid "Service shares custom daily schedules that you set in general settings for your company, however you can add additional days with custom hours which will be specific to this service only."
 msgstr "このサービスは、会社の一般設定で設定したカスタムの日別スケジュールを共有しますが、このサービス専用の追加日をカスタム時間付きで追加することもできます。"
 
-#: lib/views/services/_form.php:263
-#: lib/views/services/_form.php:357
+#: lib/views/services/_form.php:271
+#: lib/views/services/_form.php:365
 #: lib/views/settings/work_periods.php:33
 msgid "Holidays & Days Off"
 msgstr "祝日と休業日"
 
-#: lib/views/services/_form.php:266
+#: lib/views/services/_form.php:274
 msgid "Service uses the same holidays you set in general settings for your company, however you can add additional holidays for this service here."
 msgstr "このサービスは、会社の一般設定で設定した同じ祝日を使用しますが、ここでこのサービス専用の追加祝日を追加できます。"
 
-#: lib/views/services/_form.php:292
+#: lib/views/services/_form.php:300
 msgid "Override Time Intervals"
 msgstr "時間間隔を上書き"
 
-#: lib/views/services/_form.php:298
+#: lib/views/services/_form.php:306
 msgid "Override status for bookings"
 msgstr "予約のステータスを上書き"
 
-#: lib/views/services/_form.php:298
+#: lib/views/services/_form.php:306
 msgid "Use from general settings"
 msgstr "一般設定を使用"
 
-#: lib/views/services/_form.php:316
+#: lib/views/services/_form.php:324
 msgid "Are you sure you want to remove this service? It will remove all appointments associated with it. You can also change status to disabled if you want to temprorary disable it instead."
 msgstr "このサービスを削除してもよろしいですか？関連するすべての予約が削除されます。代わりに一時的に無効にしたい場合は、ステータスを無効に変更することもできます。"
 
-#: lib/views/services/_form.php:323
+#: lib/views/services/_form.php:331
 msgid "Are you sure you want to duplicate this service?"
 msgstr "このサービスを複製してもよろしいですか？"
 
-#: lib/views/services/_form.php:326
+#: lib/views/services/_form.php:334
 msgid "Duplicate"
 msgstr "複製"
 
-#: lib/views/services/_form.php:354
-#: lib/views/settings/general.php:74
-#: lib/views/settings/general.php:220
-#: lib/views/settings/general.php:724
+#: lib/views/services/_form.php:362
+#: lib/views/settings/general.php:102
+#: lib/views/settings/general.php:248
+#: lib/views/settings/general.php:906
 msgid "Restrictions"
 msgstr "制限"
 
-#: lib/views/services/_form.php:356
+#: lib/views/services/_form.php:364
 msgid "Days with Custom Schedule"
 msgstr "カスタムスケジュールのある日"
 
@@ -7938,6 +8053,7 @@ msgstr "所要時間:"
 msgid "min"
 msgstr "分"
 
+#: lib/views/events_manager/_event_index_item.php:48
 #: lib/views/services/_service_index_item.php:32
 msgid "Price:"
 msgstr "価格:"
@@ -7958,23 +8074,29 @@ msgstr "単日"
 msgid "Date Range"
 msgstr "日付範囲"
 
+#: lib/views/events_manager/event_date_range_form.php:49
 #: lib/views/settings/custom_day_schedule_form.php:18
 msgid "Pick a Start"
 msgstr "開始を選択"
 
+#: lib/views/events_manager/event_date_range_form.php:52
 #: lib/views/settings/custom_day_schedule_form.php:21
 msgid "Pick an End"
 msgstr "終了を選択"
 
+#: lib/views/events_manager/event_date_range_form.php:57
 #: lib/views/settings/custom_day_schedule_form.php:26
 #: lib/views/settings/custom_day_schedule_form.php:28
 msgid "Pick a Date"
 msgstr "日付を選択"
 
+#: lib/views/events_manager/event_date_range_form.php:58
+#: lib/views/events_manager/event_date_range_form.php:59
 #: lib/views/settings/custom_day_schedule_form.php:27
 msgid "Pick a Start Date"
 msgstr "開始日を選択"
 
+#: lib/views/events_manager/event_date_range_form.php:59
 #: lib/views/settings/custom_day_schedule_form.php:28
 msgid "Pick an End Date"
 msgstr "終了日を選択"
@@ -8059,506 +8181,498 @@ msgstr "詳細な日付出力を無効にする"
 msgid "Use number instead of name of the month when outputting dates"
 msgstr "日付出力時に月名の代わりに数字を使用する"
 
-#: lib/views/settings/general.php:80
+#: lib/views/settings/general.php:108
 msgid "Time Restrictions"
 msgstr "時間制限"
 
-#: lib/views/settings/general.php:83
+#: lib/views/settings/general.php:111
 msgid "You can set restrictions on earliest/latest dates in the future when your customer can place an appointment. You can either use a relative values like for example \"+1 month\", \"+2 weeks\", \"+5 days\", \"+3 hours\", \"+30 minutes\" (entered without quotes), or you can use a fixed date in format YYYY-MM-DD. Leave blank to remove any limitations."
 msgstr "お客様が予約を入れられる未来の最短/最長日付に制限を設定できます。たとえば「+1 month」「+2 weeks」「+5 days」「+3 hours」「+30 minutes」のような相対値（引用符なしで入力）を使用することも、YYYY-MM-DD 形式の固定日付を使用することもできます。制限を解除するには空欄のままにしてください。"
 
-#: lib/views/settings/general.php:96
+#: lib/views/settings/general.php:124
 msgid "Quantity Restrictions"
 msgstr "数量制限"
 
-#: lib/views/settings/general.php:99
+#: lib/views/settings/general.php:127
 msgid "Maximum Number of Future Bookings per Customer"
 msgstr "顧客ごとの将来の予約の最大数"
 
-#: lib/views/settings/general.php:115
-#: lib/views/settings/general.php:725
+#: lib/views/settings/general.php:143
+#: lib/views/settings/general.php:907
 msgid "Currency & Price"
 msgstr "通貨と価格"
 
-#: lib/views/settings/general.php:120
+#: lib/views/settings/general.php:148
 msgid "Symbol"
 msgstr "記号"
 
-#: lib/views/settings/general.php:125
+#: lib/views/settings/general.php:153
 msgid "Symbol before the price"
 msgstr "価格の前に記号を表示"
 
-#: lib/views/settings/general.php:128
+#: lib/views/settings/general.php:156
 msgid "Symbol after the price"
 msgstr "価格の後に記号を表示"
 
-#: lib/views/settings/general.php:135
+#: lib/views/settings/general.php:163
 msgid "Formatting"
 msgstr "書式設定"
 
-#: lib/views/settings/general.php:140
+#: lib/views/settings/general.php:168
 msgid "Thousand Separator"
 msgstr "桁区切り記号"
 
-#: lib/views/settings/general.php:141
-#: lib/views/settings/general.php:150
+#: lib/views/settings/general.php:169
+#: lib/views/settings/general.php:178
 msgid "Comma"
 msgstr "カンマ"
 
-#: lib/views/settings/general.php:142
-#: lib/views/settings/general.php:149
+#: lib/views/settings/general.php:170
+#: lib/views/settings/general.php:177
 msgid "Dot"
 msgstr "ドット"
 
-#: lib/views/settings/general.php:143
+#: lib/views/settings/general.php:171
 msgid "Space"
 msgstr "スペース"
 
-#: lib/views/settings/general.php:144
+#: lib/views/settings/general.php:172
 #: blocks/controls/BorderControl.js:36
 #: blocks/controls/TypographyControl.js:72
 #: blocks/src/list-of-resources/edit.js:788
 msgid "None"
 msgstr "なし"
 
-#: lib/views/settings/general.php:148
+#: lib/views/settings/general.php:176
 msgid "Decimal Separator"
 msgstr "小数点区切り記号"
 
-#: lib/views/settings/general.php:154
+#: lib/views/settings/general.php:182
 msgid "Number of Decimals"
 msgstr "小数点以下の桁数"
 
-#: lib/views/settings/general.php:161
+#: lib/views/settings/general.php:189
 msgid "Prices"
 msgstr "価格"
 
-#: lib/views/settings/general.php:164
+#: lib/views/settings/general.php:192
 msgid "Do not show price breakdown, if service price is zero"
 msgstr "サービス価格が 0 の場合、価格の内訳を表示しない"
 
-#: lib/views/settings/general.php:176
+#: lib/views/settings/general.php:204
 msgid "Countries"
 msgstr "国"
 
-#: lib/views/settings/general.php:182
+#: lib/views/settings/general.php:210
 msgid "Countries shown in phone field"
 msgstr "電話欄に表示する国"
 
-#: lib/views/settings/general.php:183
+#: lib/views/settings/general.php:211
 msgid "Show all countries"
 msgstr "すべての国を表示"
 
-#: lib/views/settings/general.php:184
+#: lib/views/settings/general.php:212
 msgid "Show selected countries"
 msgstr "選択した国を表示"
 
-#: lib/views/settings/general.php:188
+#: lib/views/settings/general.php:216
 msgid "Default Country (if not auto-detected)"
 msgstr "デフォルトの国（自動検出されない場合）"
 
-#: lib/views/settings/general.php:194
+#: lib/views/settings/general.php:222
 msgid "Select countries available for phone number field"
 msgstr "電話番号欄で利用可能な国を選択"
 
-#: lib/views/settings/general.php:202
+#: lib/views/settings/general.php:230
 msgid "Validation"
 msgstr "検証"
 
-#: lib/views/settings/general.php:205
+#: lib/views/settings/general.php:233
 msgid "Validate phone typed fields if they are set as required"
 msgstr "必須に設定されている場合、入力された電話番号欄を検証する"
 
-#: lib/views/settings/general.php:205
+#: lib/views/settings/general.php:233
 msgid "Reject invalid phone for customers and agents if the phone field is set as required"
 msgstr "電話欄が必須に設定されている場合、顧客と担当者の無効な電話番号を拒否する"
 
-#: lib/views/settings/general.php:206
-msgid "Format phone number on input"
-msgstr "入力時に電話番号を整形する"
-
-#: lib/views/settings/general.php:206
-msgid "Applies formatting on phone fields based on the country selected (not recommended for countries that have multiple NSN lengths)"
-msgstr "選択した国に基づいて電話欄に書式を適用します（複数の NSN 長を持つ国には推奨されません）"
-
-#: lib/views/settings/general.php:207
+#: lib/views/settings/general.php:235
 msgid "Show country dial code next to flag"
 msgstr "旗の横に国番号を表示"
 
-#: lib/views/settings/general.php:207
+#: lib/views/settings/general.php:235
 msgid "If enabled, will show a country code next to a flag, for example +1 for United States"
 msgstr "有効にすると、たとえば米国の +1 のように、旗の横に国番号を表示します"
 
-#: lib/views/settings/general.php:214
-#: lib/views/settings/general.php:727
+#: lib/views/settings/general.php:242
+#: lib/views/settings/general.php:909
 msgid "Availability Logic"
 msgstr "空き状況ロジック"
 
-#: lib/views/settings/general.php:223
+#: lib/views/settings/general.php:251
 msgid "Location can only be used by one agent at a time"
 msgstr "1つの場所は一度に1人の担当者のみが使用できます"
 
-#: lib/views/settings/general.php:223
+#: lib/views/settings/general.php:251
 msgid "At any given location, only one agent can be booked at a time"
 msgstr "任意の場所で、一度に予約できる担当者は1人のみです"
 
-#: lib/views/settings/general.php:224
+#: lib/views/settings/general.php:252
 msgid "Agents can only be present in one location at a time"
 msgstr "担当者は一度に1つの場所にしか存在できません"
 
-#: lib/views/settings/general.php:224
+#: lib/views/settings/general.php:252
 msgid "If an agent is booked at one location, he will not be able to accept any bookings for the same timeslot at other locations"
 msgstr "担当者がある場所で予約されている場合、他の場所で同じ時間帯の予約を受け付けることはできません"
 
-#: lib/views/settings/general.php:229
+#: lib/views/settings/general.php:258
 msgid "Permissions"
 msgstr "権限"
 
-#: lib/views/settings/general.php:232
+#: lib/views/settings/general.php:261
 msgid "One agent can perform different services simultaneously"
 msgstr "1人の担当者が同時に異なるサービスを実行できます"
 
-#: lib/views/settings/general.php:232
+#: lib/views/settings/general.php:261
 msgid "Allows an agent to be booked for different services within the same timeslot"
 msgstr "同じ時間帯に、担当者を異なるサービスで予約できるようにします"
 
-#: lib/views/settings/general.php:244
+#: lib/views/settings/general.php:273
 msgid "Authentication"
 msgstr "認証"
 
-#: lib/views/settings/general.php:248
+#: lib/views/settings/general.php:277
 msgid "Make sure to install an SMS processor if you choose to text one-time codes (OTP) to customer phone numbers for authentication or verification"
 msgstr "認証または確認のために顧客の電話番号へワンタイムコード（OTP）を送信する場合は、SMS プロセッサを必ずインストールしてください"
 
-#: lib/views/settings/general.php:252
+#: lib/views/settings/general.php:281
 msgid "Field used for authentication"
 msgstr "認証に使用する欄"
 
-#: lib/views/settings/general.php:256
-#: lib/views/settings/general.php:272
+#: lib/views/settings/general.php:285
+#: lib/views/settings/general.php:301
 msgid "Default to"
 msgstr "既定値"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Reuse existing customer if"
 msgstr "次の場合は既存の顧客を再利用"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Email matches"
 msgstr "メールアドレスが一致"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Phone matches"
 msgstr "電話番号が一致"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Do not reuse, always create new customer"
 msgstr "再利用しない、常に新しい顧客を作成する"
 
-#: lib/views/settings/general.php:268
+#: lib/views/settings/general.php:297
 msgid "Authentication method"
 msgstr "認証方法"
 
-#: lib/views/settings/general.php:276
+#: lib/views/settings/general.php:305
 msgid "Require OTP verification for new contacts"
 msgstr "新規連絡先に OTP 検証を必須にする"
 
-#: lib/views/settings/general.php:276
+#: lib/views/settings/general.php:305
 msgid "Require customers to verify their primary contact (email or phone) when they change it or add a new one, a 6 digit one-time code will be sent to their email or phone"
 msgstr "顧客が主要な連絡先（メールまたは電話）を変更したり新しいものを追加したりする際に、その確認を求めます。6桁のワンタイムコードがメールまたは電話に送信されます"
 
-#: lib/views/settings/general.php:282
+#: lib/views/settings/general.php:311
 msgid "Customer Step"
 msgstr "顧客ステップ"
 
-#: lib/views/settings/general.php:286
+#: lib/views/settings/general.php:315
 msgid "Require customers to set password"
 msgstr "顧客にパスワードの設定を必須にする"
 
-#: lib/views/settings/general.php:286
+#: lib/views/settings/general.php:315
 msgid "Shows password field on registration step, customer will be required to set a password in order to create an account"
 msgstr "登録ステップでパスワード欄を表示し、アカウントを作成するために顧客はパスワードの設定が必要になります"
 
-#: lib/views/settings/general.php:288
+#: lib/views/settings/general.php:317
 msgid "Do not show \"Create Account\" prompt on confirmation step"
 msgstr "確認ステップで「アカウントを作成」プロンプトを表示しない"
 
-#: lib/views/settings/general.php:288
+#: lib/views/settings/general.php:317
 msgid "If a customer has not set password for their account, they will be presented with a prompt to do it after a booking is placed."
 msgstr "顧客がアカウントのパスワードを設定していない場合、予約が入った後に設定するよう促すメッセージが表示されます。"
 
-#: lib/views/settings/general.php:294
+#: lib/views/settings/general.php:323
 msgid "WordPress"
 msgstr "WordPress"
 
-#: lib/views/settings/general.php:297
+#: lib/views/settings/general.php:326
 msgid "Use WordPress users as customers"
 msgstr "WordPressユーザーを顧客として使用する"
 
-#: lib/views/settings/general.php:297
+#: lib/views/settings/general.php:326
 msgid "Customers can login using their WordPress credentials (if authentication is enabled above), a linked customer account is created automatically. If a WordPress user is logged in - a customer with the same email will be created automatically and data will be prefilled. If a new customer provided an email address, a linked WordPress user is automatically created for that customer, if not present already."
 msgstr "顧客はWordPressの認証情報を使用してログインできます（上記で認証が有効になっている場合）。リンクされた顧客アカウントが自動的に作成されます。WordPressユーザーがログインしている場合、同じメールアドレスの顧客が自動的に作成され、データが事前入力されます。新しい顧客がメールアドレスを提供した場合、既存でなければ、その顧客用にリンクされたWordPressユーザーが自動的に作成されます。"
 
-#: lib/views/settings/general.php:299
+#: lib/views/settings/general.php:328
 msgid "Default role for a created WP user"
 msgstr "作成されたWPユーザーのデフォルト権限"
 
-#: lib/views/settings/general.php:303
+#: lib/views/settings/general.php:332
 msgid "Important: WordPress users are required to have an email address. You have to set email address field as required in order to create a matching WP user for new customers, otherwise customers without email address on file will not be able to login and make bookings"
 msgstr "重要: WordPressユーザーにはメールアドレスが必要です。新しい顧客に対応するWPユーザーを作成するには、メールアドレス欄を必須に設定する必要があります。そうしないと、メールアドレスが登録されていない顧客はログインして予約を行うことができません"
 
-#: lib/views/settings/general.php:312
+#: lib/views/settings/general.php:341
 msgid "Rescheduling"
 msgstr "再予約"
 
-#: lib/views/settings/general.php:315
+#: lib/views/settings/general.php:344
 msgid "Upgrade to the Premium version to let customers reschedule appointments"
 msgstr "顧客が予約を再予約できるようにするには、Premium版にアップグレードしてください"
 
-#: lib/views/settings/general.php:320
+#: lib/views/settings/general.php:349
 msgid "Cancellation"
 msgstr "キャンセル"
 
-#: lib/views/settings/general.php:323
+#: lib/views/settings/general.php:352
 msgid "Allow customers cancel their bookings"
 msgstr "顧客が予約をキャンセルできるようにする"
 
-#: lib/views/settings/general.php:323
+#: lib/views/settings/general.php:352
 msgid "If enable, shows a button on customer cabinet to cancel an appointment"
 msgstr "有効にすると、顧客用キャビネットに予約をキャンセルするボタンが表示されます"
 
-#: lib/views/settings/general.php:326
+#: lib/views/settings/general.php:355
 msgid "Set restriction on when customer can cancel"
 msgstr "顧客がキャンセルできる条件を制限する"
 
-#: lib/views/settings/general.php:330
+#: lib/views/settings/general.php:359
 msgid "Can cancel when it is at least"
 msgstr "少なくとも次の時間前であればキャンセル可能"
 
-#: lib/views/settings/general.php:331
+#: lib/views/settings/general.php:360
 msgid "Value"
 msgstr "値"
 
-#: lib/views/settings/general.php:339
+#: lib/views/settings/general.php:368
 msgid "before appointment start time"
 msgstr "予約開始時刻の前"
 
-#: lib/views/settings/general.php:347
+#: lib/views/settings/general.php:377
 msgid "Customer Cabinet"
 msgstr "顧客用キャビネット"
 
-#: lib/views/settings/general.php:350
+#: lib/views/settings/general.php:380
 msgid "Shortcode for contents of New Appointment tab"
 msgstr "新規予約タブの内容用ショートコード"
 
-#: lib/views/settings/general.php:352
+#: lib/views/settings/general.php:382
 msgid "You can set attributes for a new appointment button tile in a format"
 msgstr "新規予約ボタンのタイルに対する属性を次の形式で設定できます"
 
-#: lib/views/settings/general.php:354
+#: lib/views/settings/general.php:384
 msgid "Attributes for New Appointment button"
 msgstr "新規予約ボタンの属性"
 
-#: lib/views/settings/general.php:361
+#: lib/views/settings/general.php:391
 msgid "Security & Spam"
 msgstr "セキュリティとスパム"
 
-#: lib/views/settings/general.php:364
+#: lib/views/settings/general.php:394
 msgid "Upgrade to the Premium version to unlock CAPTCHA protection and IP Address logging to fight with spam bookings."
 msgstr "CAPTCHA保護とIPアドレスの記録を有効にして、スパム予約に対抗するには、Premium版にアップグレードしてください。"
 
-#: lib/views/settings/general.php:381
-#: lib/views/settings/general.php:729
+#: lib/views/settings/general.php:411
+#: lib/views/settings/general.php:911
 msgid "Setup Pages"
 msgstr "ページ設定"
 
-#: lib/views/settings/general.php:386
+#: lib/views/settings/general.php:416
 msgid "Set Page URLs"
 msgstr "ページURLを設定する"
 
-#: lib/views/settings/general.php:389
+#: lib/views/settings/general.php:419
 msgid "Customer Dashboard Page URL"
 msgstr "顧客ダッシュボードページURL"
 
-#: lib/views/settings/general.php:390
+#: lib/views/settings/general.php:420
 msgid "Customer Login Page URL"
 msgstr "顧客ログインページURL"
 
-#: lib/views/settings/general.php:397
-#: lib/views/settings/general.php:746
+#: lib/views/settings/general.php:437
+#: lib/views/settings/general.php:928
 msgid "MCP"
 msgstr "MCP"
 
-#: lib/views/settings/general.php:404
+#: lib/views/settings/general.php:446
 msgid "MCP requires WordPress 6.9 or newer. Your changes will be saved but will not take effect until WordPress is updated."
 msgstr "MCPにはWordPress 6.9以降が必要です。変更は保存されますが、WordPressが更新されるまで有効になりません。"
 
-#: lib/views/settings/general.php:411
-#: lib/views/settings/general.php:417
+#: lib/views/settings/general.php:453
+#: lib/views/settings/general.php:459
 msgid "Enable Abilities"
 msgstr "機能を有効にする"
 
-#: lib/views/settings/general.php:421
+#: lib/views/settings/general.php:463
 msgid "Register LatePoint abilities with the WordPress Abilities API. When enabled, AI clients can list, read, create, edit, and delete your bookings, customers, services, agents, and orders. When disabled, no abilities are registered and AI clients cannot perform any actions on your LatePoint data."
 msgstr "LatePoint の機能を WordPress Abilities API に登録します。有効にすると、AI クライアントは予約、顧客、サービス、担当者、注文を一覧表示、読み取り、作成、編集、削除できます。無効にすると、機能は登録されず、AI クライアントは LatePoint のデータに対していかなる操作も実行できません。"
 
-#: lib/views/settings/general.php:429
-#: lib/views/settings/general.php:435
+#: lib/views/settings/general.php:471
+#: lib/views/settings/general.php:477
 msgid "Enable Edit Abilities"
 msgstr "編集機能を有効にする"
 
-#: lib/views/settings/general.php:439
+#: lib/views/settings/general.php:481
 msgid "When enabled, AI clients can create new bookings, update customers, services, agents, and locations, and change appointment statuses (approve, cancel, reschedule). When disabled, these abilities are unregistered and AI clients can only read your data."
 msgstr "有効にすると、AI クライアントは新しい予約を作成し、顧客、サービス、担当者、場所を更新し、予約ステータス（承認、キャンセル、再予約）を変更できます。無効にすると、これらの機能は登録解除され、AI クライアントはデータを読み取ることしかできません。"
 
-#: lib/views/settings/general.php:446
-#: lib/views/settings/general.php:452
+#: lib/views/settings/general.php:488
+#: lib/views/settings/general.php:494
 msgid "Enable Delete Abilities"
 msgstr "削除機能を有効にする"
 
-#: lib/views/settings/general.php:456
+#: lib/views/settings/general.php:498
 msgid "When enabled, AI clients can permanently delete bookings, customers, services, agents, and locations, and process refunds. Deleted data cannot be recovered. When disabled, delete abilities are unregistered and AI clients cannot remove any data."
 msgstr "有効にすると、AI クライアントは予約、顧客、サービス、担当者、場所を完全に削除し、返金処理を行えます。削除されたデータは復元できません。無効にすると、削除機能は登録解除され、AI クライアントはデータを削除できません。"
 
-#: lib/views/settings/general.php:480
+#: lib/views/settings/general.php:661
 msgid "Business Information"
 msgstr "ビジネス情報"
 
-#: lib/views/settings/general.php:493
+#: lib/views/settings/general.php:674
 msgid "Business Phone"
 msgstr "ビジネスの電話番号"
 
-#: lib/views/settings/general.php:496
+#: lib/views/settings/general.php:677
 msgid "Business Address"
 msgstr "ビジネスの住所"
 
-#: lib/views/settings/general.php:503
+#: lib/views/settings/general.php:684
 msgid "Calendar Settings"
 msgstr "カレンダー設定"
 
-#: lib/views/settings/general.php:506
+#: lib/views/settings/general.php:687
 msgid "Minimum height of a daily calendar (in pixels)"
 msgstr "日次カレンダーの最小高さ（ピクセル）"
 
-#: lib/views/settings/general.php:509
+#: lib/views/settings/general.php:690
 msgid "You can use variables in your booking template, they will be replaced with a value for the booking. "
 msgstr "予約テンプレートでは変数を使用できます。これらは予約の値に置き換えられます。"
 
-#: lib/views/settings/general.php:510
+#: lib/views/settings/general.php:691
 msgid "Booking tile information to display on calendar"
 msgstr "カレンダーに表示する予約タイル情報"
 
-#: lib/views/settings/general.php:515
+#: lib/views/settings/general.php:696
 msgid "Conversion Tracking"
 msgstr "コンバージョントラッキング"
 
-#: lib/views/settings/general.php:519
+#: lib/views/settings/general.php:700
 msgid "You can include some javascript or html that will be appended to the confirmation step. For example you can track ad conversions by triggering a tracking code or a facebook pixel. You can use these variables within your code. Click on the variable to copy."
 msgstr "確認ステップに追加される JavaScript または HTML を含めることができます。たとえば、トラッキングコードや Facebook ピクセルを発火させて広告コンバージョンを追跡できます。コード内でこれらの変数を使用できます。変数をクリックするとコピーできます。"
 
-#: lib/views/settings/general.php:527
+#: lib/views/settings/general.php:708
 #: lib/views/shared/_template_variables.php:14
 msgid "Order ID#:"
 msgstr "注文 ID#:"
 
-#: lib/views/settings/general.php:531
+#: lib/views/settings/general.php:712
 msgid "Customer ID#:"
 msgstr "顧客 ID#:"
 
-#: lib/views/settings/general.php:535
+#: lib/views/settings/general.php:716
 msgid "Order Total:"
 msgstr "注文合計:"
 
-#: lib/views/settings/general.php:539
+#: lib/views/settings/general.php:720
 msgid "Service IDs#:"
 msgstr "サービス ID#:"
 
-#: lib/views/settings/general.php:543
+#: lib/views/settings/general.php:724
 msgid "Agent IDs#:"
 msgstr "担当者 ID#:"
 
-#: lib/views/settings/general.php:547
+#: lib/views/settings/general.php:728
 msgid "Bundle IDs#:"
 msgstr "バンドル ID#:"
 
-#: lib/views/settings/general.php:551
+#: lib/views/settings/general.php:732
 msgid "Location IDs#:"
 msgstr "場所 ID#:"
 
-#: lib/views/settings/general.php:561
+#: lib/views/settings/general.php:742
 msgid "Enter Tracking code here"
 msgstr "ここにトラッキングコードを入力"
 
-#: lib/views/settings/general.php:569
+#: lib/views/settings/general.php:750
 msgid "Data Tables"
 msgstr "データテーブル"
 
-#: lib/views/settings/general.php:574
+#: lib/views/settings/general.php:755
 msgid "Allow non admins to download table data as csv"
 msgstr "管理者以外がテーブルデータを csv としてダウンロードできるようにする"
 
-#: lib/views/settings/general.php:574
+#: lib/views/settings/general.php:755
 msgid "Only admins will be able to download table data as csv"
 msgstr "管理者のみがテーブルデータを csv としてダウンロードできます"
 
-#: lib/views/settings/general.php:578
+#: lib/views/settings/general.php:759
 msgid "Number of records per page"
 msgstr "1ページあたりのレコード数"
 
-#: lib/views/settings/general.php:590
+#: lib/views/settings/general.php:771
 msgid "Automatically clear old activity logs"
 msgstr "古いアクティビティログを自動的に消去する"
 
-#: lib/views/settings/general.php:590
+#: lib/views/settings/general.php:771
 msgid "Activity logs older than 6 months will be automatically deleted"
 msgstr "6か月より古いアクティビティログは自動的に削除されます"
 
-#: lib/views/settings/general.php:598
+#: lib/views/settings/general.php:779
 msgid "Improve LatePoint"
 msgstr "LatePoint を改善する"
 
-#: lib/views/settings/general.php:604
+#: lib/views/settings/general.php:785
 #, php-format
 msgid "Share how you use the plugin so we can build features that matter, fix issues faster, and make smarter decisions. %1$sLearn More%2$s"
 msgstr "プラグインの使用方法を共有していただくことで、重要な機能を構築し、問題をより早く修正し、より賢い判断ができるようになります。%1$s詳細を見る%2$s"
 
-#: lib/views/settings/general.php:615
+#: lib/views/settings/general.php:796
 msgid "Help shape the future of LatePoint"
 msgstr "LatePoint の未来を形作る"
 
-#: lib/views/settings/general.php:622
+#: lib/views/settings/general.php:803
 msgid "Export/Import"
 msgstr "エクスポート/インポート"
 
-#: lib/views/settings/general.php:634
+#: lib/views/settings/general.php:815
 msgid "Export Data"
 msgstr "データをエクスポート"
 
-#: lib/views/settings/general.php:636
+#: lib/views/settings/general.php:817
 msgid "Import Data"
 msgstr "データをインポート"
 
-#: lib/views/settings/general.php:670
+#: lib/views/settings/general.php:851
 msgid "Danger Zone"
 msgstr "危険ゾーン"
 
-#: lib/views/settings/general.php:677
+#: lib/views/settings/general.php:858
 msgid "Plugin Deletion"
 msgstr "プラグイン削除"
 
-#: lib/views/settings/general.php:685
+#: lib/views/settings/general.php:866
 msgid "Remove all data on plugin deletion"
 msgstr "プラグイン削除時にすべてのデータを削除する"
 
-#: lib/views/settings/general.php:689
+#: lib/views/settings/general.php:870
 msgid "All LatePoint database tables and settings will be permanently deleted when the plugin is deleted"
 msgstr "LatePoint のすべてのデータベーステーブルと設定は、プラグインが削除されると完全に削除されます"
 
-#: lib/views/settings/general.php:695
+#: lib/views/settings/general.php:876
 msgid "This action is irreversible. Before enabling this option, we recommend exporting your data so you have a backup."
 msgstr "この操作は元に戻せません。このオプションを有効にする前に、データをエクスポートしてバックアップを作成することをおすすめします。"
 
-#: lib/views/settings/general.php:705
+#: lib/views/settings/general.php:886
 msgid "Export your data"
 msgstr "データをエクスポート"
 
@@ -8703,7 +8817,7 @@ msgstr "ローカルでの支払いを許可"
 msgid "Show \"Pay Later\" payment option"
 msgstr "「後で支払う」支払いオプションを表示"
 
-#: lib/views/settings/premium_modal.php:159
+#: lib/views/settings/premium_modal.php:199
 msgid "Upgrade Now"
 msgstr "今すぐアップグレード"
 
@@ -8747,19 +8861,20 @@ msgstr "予約は再スケジュールされました。"
 msgid "New Appointment Time"
 msgstr "新しい予約時間"
 
-#: lib/views/shared/pro_feature.php:7
+#: lib/views/shared/pro_feature.php:17
 msgid "Pro Feature"
 msgstr "Pro 機能"
 
-#: lib/views/shared/pro_feature.php:9
+#: lib/controllers/pro_controller.php:83
+#: lib/views/shared/pro_feature.php:19
 msgid "This feature is available with a paid version, along with over 30 other premium features."
 msgstr "この機能は、有料版および 30 以上の他のプレミアム機能で利用できます。"
 
-#: lib/views/shared/pro_feature.php:11
+#: lib/views/shared/pro_feature.php:21
 msgid "Upgrade to paid version"
 msgstr "有料版にアップグレード"
 
-#: lib/views/shared/pro_feature.php:12
+#: lib/views/shared/pro_feature.php:22
 msgid "Show All premium features"
 msgstr "すべてのプレミアム機能を表示"
 
@@ -8888,17 +9003,17 @@ msgid "Booking Price:"
 msgstr "予約料金:"
 
 #: lib/views/shared/_template_variables.php:46
-#: lib/views/shared/_template_variables.php:61
+#: lib/views/shared/_template_variables.php:62
 msgid "Full Name:"
 msgstr "氏名:"
 
 #: lib/views/shared/_template_variables.php:47
-#: lib/views/shared/_template_variables.php:59
+#: lib/views/shared/_template_variables.php:60
 msgid "First Name:"
 msgstr "名:"
 
 #: lib/views/shared/_template_variables.php:48
-#: lib/views/shared/_template_variables.php:60
+#: lib/views/shared/_template_variables.php:61
 msgid "Last Name:"
 msgstr "姓:"
 
@@ -8907,7 +9022,7 @@ msgid "Email Address:"
 msgstr "メールアドレス:"
 
 #: lib/views/shared/_template_variables.php:50
-#: lib/views/shared/_template_variables.php:64
+#: lib/views/shared/_template_variables.php:65
 msgid "Phone:"
 msgstr "電話:"
 
@@ -8915,67 +9030,67 @@ msgstr "電話:"
 msgid "Comments:"
 msgstr "コメント:"
 
-#: lib/views/shared/_template_variables.php:52
+#: lib/views/shared/_template_variables.php:53
 msgid "Password Reset Token:"
 msgstr "パスワードリセットトークン:"
 
-#: lib/views/shared/_template_variables.php:62
+#: lib/views/shared/_template_variables.php:63
 msgid "Display Name:"
 msgstr "表示名:"
 
-#: lib/views/shared/_template_variables.php:63
+#: lib/views/shared/_template_variables.php:64
 msgid "Email:"
 msgstr "メール:"
 
-#: lib/views/shared/_template_variables.php:65
+#: lib/views/shared/_template_variables.php:66
 msgid "Additional Emails:"
 msgstr "追加のメールアドレス:"
 
-#: lib/views/shared/_template_variables.php:66
+#: lib/views/shared/_template_variables.php:67
 msgid "Additional Phone Numbers:"
 msgstr "追加の電話番号:"
 
-#: lib/views/shared/_template_variables.php:72
+#: lib/views/shared/_template_variables.php:73
 msgid "Name:"
 msgstr "名前:"
 
-#: lib/views/shared/_template_variables.php:73
+#: lib/views/shared/_template_variables.php:74
 msgid "Full Address:"
 msgstr "住所全体:"
 
-#: lib/views/shared/_template_variables.php:79
+#: lib/views/shared/_template_variables.php:80
 msgid "Token:"
 msgstr "トークン:"
 
-#: lib/views/shared/_template_variables.php:81
+#: lib/views/shared/_template_variables.php:82
 msgid "Processor:"
 msgstr "処理業者:"
 
-#: lib/views/shared/_template_variables.php:82
+#: lib/views/shared/_template_variables.php:83
 msgid "Payment Method:"
 msgstr "支払い方法:"
 
-#: lib/views/shared/_template_variables.php:83
+#: lib/views/shared/_template_variables.php:84
 msgid "Type:"
 msgstr "種類:"
 
-#: lib/views/shared/_template_variables.php:85
+#: lib/views/shared/_template_variables.php:86
 msgid "Notes:"
 msgstr "メモ:"
 
-#: lib/views/shared/_template_variables.php:86
+#: lib/views/shared/_template_variables.php:87
 msgid "Payment Portion:"
 msgstr "支払い割合:"
 
-#: lib/views/shared/_template_variables.php:93
+#: lib/views/shared/_template_variables.php:94
 msgid "Portion:"
 msgstr "割合:"
 
-#: lib/views/shared/_template_variables.php:95
+#: lib/views/shared/_template_variables.php:96
 msgid "Due At:"
 msgstr "支払期限:"
 
-#: lib/views/shared/_template_variables.php:96
+#: lib/views/shared/_template_variables.php:97
 msgid "Pay URL:"
 msgstr "支払いURL:"
 
@@ -8989,8 +9104,8 @@ msgid "Manage Order"
 msgstr "注文を管理"
 
 #: lib/views/steps/partials/_booking_summary.php:56
-#: lib/views/steps/partials/_cart_summary.php:189
-#: lib/views/steps/partials/_order_summary.php:88
+#: lib/views/steps/partials/_cart_summary.php:204
+#: lib/views/steps/partials/_order_summary.php:100
 msgid "Cost Breakdown"
 msgstr "費用の内訳"
 
@@ -9014,23 +9129,23 @@ msgstr "既存のカートに商品を追加し続けますか、それとも新
 msgid "Clear"
 msgstr "クリア"
 
-#: lib/views/steps/partials/_cart_summary.php:32
+#: lib/views/steps/partials/_cart_summary.php:46
 msgid "Service Bundles"
 msgstr "サービスバンドル"
 
-#: lib/views/steps/partials/_cart_summary.php:87
+#: lib/views/steps/partials/_cart_summary.php:102
 msgid "Individual Services"
 msgstr "個別サービス"
 
-#: lib/views/steps/partials/_cart_summary.php:159
+#: lib/views/steps/partials/_cart_summary.php:174
 msgid "Add More"
 msgstr "さらに追加"
 
-#: lib/views/steps/partials/_cart_summary.php:186
+#: lib/views/steps/partials/_cart_summary.php:201
 msgid "Breakdown"
 msgstr "内訳"
 
-#: lib/views/steps/partials/_cart_summary.php:201
+#: lib/views/steps/partials/_cart_summary.php:216
 msgid "Add more items to this order"
 msgstr "この注文にさらに商品を追加"
 
@@ -9059,16 +9174,18 @@ msgid "Set Your Password"
 msgstr "パスワードを設定してください"
 
 #: lib/views/steps/_confirmation.php:79
-#: lib/views/wizard/steps/_form_agent.php:37
+#: lib/views/wizard/steps/_form_agent.php:38
 #: lib/views/wizard/steps/_form_service.php:51
 msgid "Save"
 msgstr "保存"
 
 #: lib/views/steps/_confirmation.php:85
+#: lib/views/steps/_confirmation.php:100
 msgid "You can now manage your appointments in your personal cabinet"
 msgstr "これで、個人用 кабинет で予約を管理できます"
 
 #: lib/views/steps/_confirmation.php:88
+#: lib/views/steps/_confirmation.php:103
 msgid "Open My Cabinet"
 msgstr "マイカビネットを開く"
 
@@ -9112,6 +9229,7 @@ msgstr "サービスの支払いはいつにしますか？"
 msgid "You can either pay now or pay locally on arrival. You will be able to select payment method in the next step."
 msgstr "今支払うことも、到着時に現地で支払うこともできます。次のステップで支払い方法を選択できます。"
 
+#: lib/helpers/paypal_connect_helper.php:321
 #: lib/views/steps/_payment__times.php:37
 msgid "Pay Later"
 msgstr "後で支払う"
@@ -9186,11 +9304,11 @@ msgstr "ダッシュボードを開く"
 msgid "Who would you like to send appointment notifications to?"
 msgstr "予約通知を誰に送信しますか？"
 
-#: lib/views/wizard/steps/_form_agent.php:24
+#: lib/views/wizard/steps/_form_agent.php:25
 msgid "Upload Agent's Photo"
 msgstr "エージェントの写真をアップロード"
 
-#: lib/views/wizard/steps/_form_agent.php:24
+#: lib/views/wizard/steps/_form_agent.php:25
 msgid "Remove Agent's Photo"
 msgstr "エージェントの写真を削除"
 
@@ -9352,94 +9470,91 @@ msgstr "説明の色"
 msgid "Card Padding"
 msgstr "カードの余白"
 
-#: latepoint.php:1659
+#: latepoint.php:1869
 msgid "Are you sure you want to delete these appointments?"
 msgstr "これらの予定を削除してもよろしいですか？"
 
-#: latepoint.php:1660
+#: latepoint.php:1870
 msgid "You are about to delete 1 appointment. This action cannot be undone."
 msgstr "1件の予定を削除しようとしています。この操作は元に戻せません。"
 
-#: latepoint.php:1661
+#: latepoint.php:1871
 #, php-format
 msgid "You are about to delete %d appointments. This action cannot be undone."
 msgstr "%d件の予定を削除しようとしています。この操作は元に戻せません。"
 
-#: latepoint.php:1662
-#, php-format
-msgid "To confirm, type %s in the box below."
-msgstr "確認するには、下のボックスに%sと入力してください。"
-
-#: latepoint.php:1663
+#. translators: the exact word a user must type to confirm a deletion — whatever it is translated to is what users will have to type. Keep it one lowercase word.
+#: latepoint.php:1863
 msgid "delete"
 msgstr "削除"
 
-#: latepoint.php:1664
+#: latepoint.php:1873
+#, php-format
 msgid "Type \"%s\" to confirm"
 msgstr "確認するには「%s」と入力してください"
 
-#: latepoint.php:1667
+#: latepoint.php:1876
 msgid "Appointment selected"
 msgstr "予定が選択されました"
 
-#: latepoint.php:1668
-#: lib/helpers/booking_helper.php:2273
+#: latepoint.php:1877
+#: lib/helpers/booking_helper.php:2411
 msgid "Appointments selected"
 msgstr "予定が選択されました"
 
-#: latepoint.php:1669
+#: latepoint.php:1878
 msgid "Something went wrong. Please try again."
 msgstr "問題が発生しました。もう一度お試しください。"
 
-#: lib/controllers/bookings_controller.php:451
+#: lib/controllers/bookings_controller.php:460
 msgid "You do not have permission to delete appointments."
 msgstr "予定を削除する権限がありません。"
 
-#: lib/controllers/bookings_controller.php:474
+#: lib/controllers/bookings_controller.php:483
 msgid "No appointments selected."
 msgstr "予定は選択されていません。"
 
 #. translators: %d: maximum number of appointments allowed in a single bulk action
-#: lib/controllers/bookings_controller.php:486
+#: lib/controllers/bookings_controller.php:495
 #, php-format
 msgid "Too many appointments selected. Please delete in batches of %d or fewer."
 msgstr "選択された予定が多すぎます。%d件以下のバッチで削除してください。"
 
 #. translators: %d: number of appointments deleted
-#: lib/controllers/bookings_controller.php:546
+#: lib/controllers/bookings_controller.php:555
 #, php-format
 msgid "%d appointment deleted successfully."
 msgid_plural "%d appointments deleted successfully."
 msgstr[0] "%d件の予定を正常に削除しました。"
 
 #. translators: 1: number of appointments deleted, 2: number of appointments that could not be deleted
-#: lib/controllers/bookings_controller.php:553
+#: lib/controllers/bookings_controller.php:562
 #, php-format
 msgid "%1$d appointment(s) deleted. %2$d could not be deleted."
 msgstr "%1$d件の予定を削除しました。%2$d件は削除できませんでした。"
 
 #. translators: %d: number of appointments that could not be deleted
-#: lib/controllers/bookings_controller.php:561
+#: lib/controllers/bookings_controller.php:570
 #, php-format
 msgid "%d appointment could not be deleted."
 msgid_plural "%d appointments could not be deleted."
 msgstr[0] "%d件の予定は削除できませんでした。"
 
-#: lib/helpers/booking_helper.php:2231
+#: lib/helpers/booking_helper.php:2369
 msgid "Select all appointments on this page"
 msgstr "このページのすべての予定を選択"
 
 #. translators: %d: appointment ID
-#: lib/helpers/booking_helper.php:2254
+#: lib/helpers/booking_helper.php:2392
 #, php-format
 msgid "Select appointment %d"
 msgstr "予定 %d を選択"
 
-#: lib/helpers/booking_helper.php:2277
+#: lib/helpers/booking_helper.php:2415
 msgid "Delete Selected"
 msgstr "選択した項目を削除"
 
-#: lib/helpers/booking_helper.php:2279
+#: lib/helpers/booking_helper.php:2417
 msgid "Clear selection"
 msgstr "選択をクリア"
 
@@ -9447,11 +9562,11 @@ msgstr "選択をクリア"
 msgid "No appointments are currently available. Please check back later or contact us for assistance."
 msgstr "現在利用可能な予定はありません。しばらくしてから再度ご確認いただくか、サポートまでお問い合わせください。"
 
-#: lib/helpers/menu_helper.php:200
+#: lib/helpers/menu_helper.php:233
 msgid "White Label"
 msgstr "ホワイトラベル"
 
-#: lib/views/services/_form.php:316
+#: lib/views/services/_form.php:324
 msgid "Delete Service"
 msgstr "サービスを削除"
 
@@ -9465,7 +9580,1099 @@ msgctxt "Customer cabinet"
 msgid "Customer Cabinet"
 msgstr "カスタマーキャビネット"
 
-#: lib/helpers/util_helper.php:298
+#: lib/helpers/util_helper.php:346
 msgctxt "short version of May month"
 msgid "May"
 msgstr "5月"
+
+#: latepoint.php:1532
+msgid "Upgrade"
+msgstr ""
+
+#: lib/abilities/abstract-ability.php:172
+#: lib/abilities/orders/abstract-order-ability.php:67
+msgid "You are not allowed to access this record."
+msgstr ""
+
+#: lib/abilities/calendar/abstract-calendar-ability.php:16
+msgid "A valid service ID is required."
+msgstr ""
+
+#: lib/abilities/calendar/abstract-calendar-ability.php:23
+msgid "Date has to be in Y-m-d format."
+msgstr ""
+
+#: lib/abilities/calendar/check-slot-availability.php:11
+msgid "Checks whether a specific time slot can be booked, using the same availability rules as the booking form."
+msgstr ""
+
+#: lib/abilities/class-latepoint-abilities.php:118
+msgid "MCP Server"
+msgstr ""
+
+#. translators: %s: brand name.
+#: lib/abilities/class-latepoint-abilities.php:121
+#, php-format
+msgid "%s MCP Server for managing bookings, customers, services, agents, locations, and orders."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:23
+#: lib/helpers/menu_helper.php:122
+#: lib/helpers/menu_helper.php:377
+#: lib/helpers/roles_helper.php:388
+#: lib/views/settings/general.php:74
+#: lib/views/settings/general.php:79
+#: lib/views/settings/general.php:905
+msgid "Events"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:67
+#: lib/controllers/events_manager_controller.php:69
+msgid "Create New Event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:88
+#: lib/controllers/events_manager_controller.php:157
+#: lib/controllers/events_manager_controller.php:215
+msgid "Invalid Event ID"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:93
+#: lib/controllers/events_manager_controller.php:173
+#: lib/controllers/events_manager_controller.php:263
+#: lib/controllers/events_manager_controller.php:394
+msgid "Event not found"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:97
+#: lib/controllers/events_manager_controller.php:99
+#: lib/views/events_manager/_event_index_item.php:69
+msgid "Edit Event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:193
+msgid "Event saved. ID: "
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:239
+msgid "Event removed"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:242
+msgid "Error removing event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:273
+msgid "Registration is not open for this event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:308
+#: lib/helpers/events_hooks_helper.php:181
+#: lib/helpers/events_hooks_helper.php:209
+#: lib/helpers/events_hooks_helper.php:669
+msgid "Event not found."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:431
+msgid "Please pick a valid date range with an end time on or after the start time."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:447
+msgid "Date range saved"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:473
+msgid "Date range not found"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:489
+msgid "Date range removed"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:631
+#: lib/controllers/event_categories_controller.php:159
+#: lib/controllers/event_registrations_controller.php:323
+msgid "Events functionality is disabled."
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:21
+msgid "Event Categories"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:50
+msgid "Category created. ID: "
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:71
+#: lib/controllers/event_categories_controller.php:117
+msgid "Invalid Category ID"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:87
+msgid "Category not found"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:96
+msgid "Category updated. ID: "
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:132
+msgid "Category removed"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:135
+msgid "Error removing category"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:21
+#: lib/helpers/roles_helper.php:389
+msgid "Event Registrations"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:106
+msgid "Quantity"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:256
+msgid "Invalid Registration ID"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:275
+#: lib/controllers/event_registrations_controller.php:296
+msgid "Registration cancelled"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:299
+msgid "Error cancelling registration"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:43
+#: lib/controllers/paypal_connect_controller.php:89
+msgid "PayPal connect merchant ID not set"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:132
+msgid "PayPal order ID is required"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:240
+msgid "Redirecting to PayPal"
+msgstr ""
+
+#: lib/controllers/pro_controller.php:81
+msgid "Automatically generate an e-ticket with a QR code for every event registration and email it to attendees. E-tickets are ready to scan at check-in with the built-in ticket scanner."
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:149
+#, php-format
+msgid "Connect a payment gateway and start getting paid at the time of booking. <a href=\"%s\">Set up payments →</a>"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:153
+msgid "Did you know you can collect payment upfront in LatePoint?"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:160
+#, php-format
+msgid "Did you know you can collect payment upfront in LatePoint? <a href=\"%s\">Connect Stripe →</a>"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:164
+msgid "🎉 You just got your first booking!"
+msgstr ""
+
+#: lib/helpers/booking_helper.php:1836
+msgid "Cancel Appointment?"
+msgstr ""
+
+#: lib/helpers/booking_helper.php:1838
+msgid "Confirm Cancellation"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:187
+msgid "Register"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:259
+#: lib/views/events_manager/_step_event.php:71
+#: lib/views/front/events/_events_list.php:90
+#: lib/views/front/events/_event_detail.php:118
+#: lib/views/front/events/_event_detail.php:136
+msgid "Sold Out"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:266
+#: lib/views/front/events/_events_list.php:110
+#: lib/views/front/events/_event_detail.php:145
+msgid "Registration Closed"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:315
+#: lib/helpers/menu_helper.php:147
+#: lib/helpers/menu_helper.php:402
+#: lib/views/events_manager/_step_event_tickets.php:73
+msgid "Tickets"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:576
+msgid "Registration for this event is not open."
+msgstr ""
+
+#. translators: %d: available capacity
+#: lib/helpers/events_hooks_helper.php:604
+#, php-format
+msgid "Only %d spot(s) available for this event."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:641
+#: lib/models/order_intent_model.php:169
+msgid "Please select at least one ticket."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:662
+msgid "No event selected."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:816
+msgid "Event Registration"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1077
+msgid "Event Registration Created"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1078
+#: lib/helpers/events_hooks_helper.php:1219
+#: lib/helpers/events_hooks_helper.php:1221
+msgid "Event Registration Cancelled"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1190
+#: lib/views/events_manager/_form.php:92
+msgid "Event Name"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1191
+msgid "Event Start Date"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1192
+msgid "Event Start Time"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1193
+msgid "Event Location"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1194
+#: lib/views/events_manager/_form.php:133
+#: lib/views/events_manager/_form.php:142
+#: lib/views/events_manager/_step_event.php:92
+#: lib/views/events_manager/_step_event.php:106
+msgid "Organizer"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1195
+msgid "Registration Code"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1196
+msgid "Ticket Count"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1211
+#: lib/helpers/events_hooks_helper.php:1213
+msgid "Event Registration Confirmation"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1242
+msgid "Registration Confirmed"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1268
+#: lib/views/events_manager/_form.php:373
+msgid "Ticket Types"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1272
+msgid "Sell tiered tickets such as Early Bird, Regular, or VIP for this event, each with its own price and capacity."
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:70
+#: lib/views/events_manager/event_date_range_form.php:35
+msgid "Edit Date Range"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:76
+msgid "Remove Date Range"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:81
+msgid "Are you sure you want to remove this date range?"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:107
+#: lib/views/events_manager/event_date_range_form.php:35
+msgid "Add Date Range"
+msgstr ""
+
+#: lib/helpers/form_helper.php:878
+msgid "Change country for phone number, currently selected ${countryName} (${dialCode})"
+msgstr ""
+
+#: lib/helpers/form_helper.php:879
+msgid "Select country for phone number"
+msgstr ""
+
+#: lib/helpers/form_helper.php:880
+msgid "List of countries"
+msgstr ""
+
+#: lib/helpers/form_helper.php:882
+msgid "Clear search"
+msgstr ""
+
+#: lib/helpers/form_helper.php:883
+msgid "No results found"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:1044
+msgid "Changing the number prefix only affects invoices created from now on. Existing invoices keep their original numbers."
+msgstr ""
+
+#. translators: %s: the {year} placeholder token
+#: lib/helpers/invoices_helper.php:1047
+#, php-format
+msgid "Tip: use the %s placeholder to insert the invoice year automatically (e.g. 2025-0001)."
+msgstr ""
+
+#: lib/helpers/menu_helper.php:129
+#: lib/helpers/menu_helper.php:384
+#: lib/views/event_registrations/index.php:24
+msgid "All Events"
+msgstr ""
+
+#: lib/helpers/menu_helper.php:141
+#: lib/helpers/menu_helper.php:396
+#: lib/views/event_registrations/index.php:50
+msgid "Registrations"
+msgstr ""
+
+#: lib/helpers/payments_helper.php:329
+#: lib/helpers/steps_helper.php:2322
+#: lib/helpers/steps_helper.php:2420
+msgid "The selected payment method is not available. Please choose a valid payment method and try again."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:88
+#: lib/helpers/paypal_connect_helper.php:125
+#: lib/helpers/razorpay_connect_helper.php:275
+#: lib/helpers/razorpay_connect_helper.php:323
+msgid "Payment verification failed"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:231
+msgid "or pay with card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:242
+msgid "Pay with Card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:274
+#: lib/helpers/paypal_connect_helper.php:275
+#: lib/helpers/paypal_connect_helper.php:319
+msgid "PayPal"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:284
+#: lib/helpers/paypal_connect_helper.php:285
+msgid "PayPal Checkout"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:320
+msgid "Venmo"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:322
+msgid "Credit/Debit Card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:393
+msgid "Disable Pay Later"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:397
+msgid "Hide PayPal Pay Later option from the payment buttons."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:526
+#: lib/helpers/paypal_connect_helper.php:556
+msgid "Appointment Booking"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:625
+msgid "Merchant: "
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:634
+msgid "Payment permission scopes not yet detected. Payments are active, but you may want to reconnect if issues arise."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:643
+msgid "PayPal account email not yet confirmed. Please confirm your PayPal email address."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:646
+msgid "Your PayPal account cannot receive payments yet. Please complete your account setup on PayPal."
+msgstr ""
+
+#: lib/helpers/steps_helper.php:1718
+#: lib/models/booking_model.php:527
+msgid "Selected service is not available."
+msgstr ""
+
+#: lib/helpers/translation_helper.php:31
+msgid "Service Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:32
+msgid "Please select a service for which you want to schedule an appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:33
+msgid "Available Services"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:36
+msgid "Location Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:37
+msgid "Please select a location where you want to schedule an appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:38
+msgid "Available Locations"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:41
+msgid "Agent Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:42
+msgid "Please select an agent that will be providing you a service"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:43
+msgid "Available Agents"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:46
+msgid "Select Date & Time"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:47
+msgid "Please select date and time for your appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:48
+msgid "Date & Time Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:51
+msgid "Enter Your Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:52
+msgid "Please enter your contact information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:53
+msgid "Customer Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:56
+msgid "Verify Order Details"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:57
+msgid "Double check your reservation details and click submit button if everything is correct"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:60
+msgid "Payment Time Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:61
+msgid "Please choose when you would like to pay for your appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:62
+msgid "When would you like to pay?"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:65
+msgid "Payment Portion Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:66
+msgid "Please select how much you would like to pay now"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:67
+msgid "How much would you like to pay now?"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:70
+msgid "Payment Method Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:71
+msgid "Please select a payment method you would like to make a payment with"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:72
+msgid "Select payment method"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:75
+msgid "Payment Processor Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:76
+msgid "Please select a payment processor you want to process the payment with"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:77
+msgid "Select payment processor"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:80
+msgid "Make a Payment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:81
+msgid "Please enter your payment information so we can process the payment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:82
+msgid "Enter your payment information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:86
+msgid "Your order has been placed. Please retain this confirmation for your record."
+msgstr ""
+
+#: lib/helpers/translation_helper.php:87
+msgid "Order Confirmation"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:92
+msgid "Event Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:93
+msgid "Review the event details before you register"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:94
+msgid "Ticket Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:95
+msgid "Please select the number of tickets you'd like to reserve"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:96
+msgid "Select Your Tickets"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:99
+msgid "<h5>Questions?</h5><p>Call (858) 939-3746 for help</p>"
+msgstr ""
+
+#: lib/models/event_model.php:346
+msgid "Free"
+msgstr ""
+
+#: lib/models/event_registration_model.php:78
+#: lib/views/event_registrations/index.php:31
+msgid "Pending"
+msgstr ""
+
+#: lib/models/event_registration_model.php:79
+#: lib/views/event_registrations/index.php:32
+msgid "Confirmed"
+msgstr ""
+
+#: lib/models/event_registration_model.php:81
+#: lib/views/event_registrations/index.php:34
+msgid "Checked In"
+msgstr ""
+
+#: lib/views/events_manager/event_date_range_form.php:77
+msgid "Set Time"
+msgstr ""
+
+#: lib/views/events_manager/event_date_range_form.php:90
+msgid "Save Date Range"
+msgstr ""
+
+#. translators: %1$s and %2$s are opening and closing anchor tags
+#: lib/views/events_manager/index.php:13
+#: lib/views/event_categories/index.php:17
+#: lib/views/event_registrations/index.php:42
+#, php-format
+msgid "Events functionality is currently disabled. You can enable it in %1$sGeneral Settings%2$s."
+msgstr ""
+
+#: lib/views/events_manager/index.php:26
+#: lib/views/events_manager/index.php:49
+msgid "New Event"
+msgstr ""
+
+#: lib/views/events_manager/index.php:58
+msgid "No Events Found"
+msgstr ""
+
+#: lib/views/events_manager/index.php:62
+#: lib/views/events_manager/_form.php:348
+#: lib/views/events_manager/_form.php:365
+msgid "Add Event"
+msgstr ""
+
+#: lib/views/events_manager/_cart_summary_item.php:28
+msgid "Select your tickets"
+msgstr ""
+
+#. translators: 1: number of tickets, 2: formatted total price
+#: lib/views/events_manager/_cart_summary_item.php:33
+#: lib/views/events_manager/_order_item_admin.php:30
+#, php-format
+msgid "%1$d Ticket &middot; %2$s"
+msgid_plural "%1$d Tickets &middot; %2$s"
+msgstr[0] ""
+
+#. translators: %d: number of date ranges in the event's schedule
+#: lib/views/events_manager/_event_index_item.php:24
+#, php-format
+msgid " (%d date ranges)"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:33
+msgid "Category:"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:38
+msgid "Capacity:"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:43
+#: lib/views/events_manager/_step_event.php:69
+msgid "Unlimited"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:24
+msgid "No Category"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:44
+msgid "Published"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:51
+#: lib/views/front/events/_events_list.php:44
+msgid "In Person"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:52
+#: lib/views/front/events/_events_list.php:42
+#: lib/views/front/events/_events_list.php:59
+msgid "Online"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:60
+msgid "Delete Event"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:61
+msgid "Are you sure you want to remove this event? It will remove all registrations associated with it. You can also change status to Draft if you want to temporarily disable it instead."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:85
+#, php-format
+msgid "Event ID: %d"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:106
+msgid "Full Description"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:118
+msgid "Online Meeting URL"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:153
+msgid "Event Image"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:159
+#: lib/views/events_manager/_form.php:371
+msgid "Date & Time"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:174
+#: lib/views/events_manager/_form.php:187
+msgid "Select date"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:192
+msgid "Event Schedule"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:194
+msgid "Save this event first, then you can add its date/time schedule."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:204
+msgid "Registration Opens"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:204
+msgid "Keep the toggle disabled to open registration immediately, or enable it to set a custom opening date."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:208
+#: lib/views/events_manager/_form.php:229
+msgid "Custom date & time"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:212
+msgid "Disabled: Opens immediately."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:225
+msgid "Registration Closes"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:225
+msgid "Keep the toggle disabled to close registration when the event starts, or enable it to set a custom closing date."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:233
+msgid "Disabled: Closes when the event starts."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:250
+#: lib/views/events_manager/_form.php:372
+msgid "Capacity & Pricing"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:267
+msgid "Enter 0 for a free ticket."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:279
+msgid "Leave blank for unlimited capacity."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:288
+msgid "Capacity"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:308
+msgid "Do not multiply charge amount by the number of tickets"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:312
+msgid "Charge the ticket price once per registration, regardless of how many tickets are selected."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:316
+msgid "Do not ask customers to select number of tickets"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:320
+msgid "Skips the ticket quantity step and automatically sets the quantity to 1 for each registration."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:407
+msgid "Setting up your first event"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:411
+msgid "Selling ticket types"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:415
+msgid "Displaying events on your website"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:419
+msgid "Managing event registrations"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:423
+msgid "Checking in attendees with QR tickets"
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:24
+#: lib/views/events_manager/_step_event_tickets.php:24
+msgid "Event not found. Please go back and try again."
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:53
+msgid "Date &amp; time"
+msgstr ""
+
+#. translators: %d: number of spots available
+#. translators: %d: available capacity
+#. translators: %d: number of spots remaining
+#: lib/views/events_manager/_step_event.php:77
+#: lib/views/front/events/_events_list.php:102
+#: lib/views/front/events/_event_detail.php:123
+#, php-format
+msgid "%d spot(s) remaining"
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:87
+#: lib/views/front/events/_event_detail.php:85
+msgid "Online Event"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:54
+msgid "Number of Tickets"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:57
+#, php-format
+msgid "Maximum %d per order"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:72
+msgid "Ticket"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:77
+#: lib/views/event_registrations/index.php:84
+#: lib/views/event_registrations/index.php:125
+msgid "Qty"
+msgstr ""
+
+#: lib/views/event_categories/index.php:28
+msgid "Events Linked"
+msgstr ""
+
+#: lib/views/event_categories/index.php:41
+msgid "New Category"
+msgstr ""
+
+#: lib/views/event_categories/index.php:45
+msgid "Create New Event Category"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:23
+msgid "Category Name"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:25
+msgid "Display Order"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:30
+msgid "Save Category"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:37
+msgid "Are you sure you want to remove this category? Its events will become Uncategorized."
+msgstr ""
+
+#: lib/views/event_categories/_form.php:41
+msgid "Delete Category"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:56
+msgid "attendees"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:58
+msgid "confirmed"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:86
+#: lib/views/event_registrations/index.php:127
+msgid "Payment"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:87
+#: lib/views/event_registrations/index.php:128
+msgid "Registered"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:92
+msgid "Code..."
+msgstr ""
+
+#: lib/views/event_registrations/_table_body.php:50
+msgid "Cancel this registration?"
+msgstr ""
+
+#: lib/views/event_registrations/_table_body.php:68
+msgid "No registrations found."
+msgstr ""
+
+#: lib/views/front/events/_events_list.php:16
+msgid "No upcoming events found."
+msgstr ""
+
+#: lib/views/front/events/_events_list.php:95
+#: lib/views/front/events/_event_detail.php:141
+msgid "Register Now"
+msgstr ""
+
+#: lib/views/front/events/_event_detail.php:95
+msgid "Hosted by"
+msgstr ""
+
+#: lib/views/partials/_help_box.php:36
+msgid "Need help?"
+msgstr ""
+
+#: lib/views/partials/_help_box.php:37
+msgid "Contact support"
+msgstr ""
+
+#: lib/views/services/_form.php:218
+msgid "Limit the total number of bookings this service can accept per day. Leave blank or set to 0 to fall back to the global limit."
+msgstr ""
+
+#: lib/views/services/_form.php:221
+msgid "Maximum Number of Bookings Per Day"
+msgstr ""
+
+#: lib/views/settings/general.php:82
+msgid "Enable Events Functionality"
+msgstr ""
+
+#: lib/views/settings/general.php:82
+msgid "Enable to let customers browse and register for events. When disabled, event pages, shortcodes, and the registration wizard step are inactive."
+msgstr ""
+
+#: lib/views/settings/general.php:234
+msgid "Restrict phone input to valid digits"
+msgstr ""
+
+#: lib/views/settings/general.php:234
+msgid "Blocks characters that can't appear in a valid number for the selected country, and stops input at that country's maximum length."
+msgstr ""
+
+#: lib/views/settings/general.php:253
+msgid "Reserve slot while a customer is checking out"
+msgstr ""
+
+#: lib/views/settings/general.php:253
+msgid "Temporarily holds a time slot once a customer reaches checkout so another customer cannot book or pay for the same slot at the same time. The hold expires automatically after a few minutes."
+msgstr ""
+
+#: lib/views/settings/general.php:438
+msgid "Configure AI client permissions and MCP server settings."
+msgstr ""
+
+#: lib/views/settings/general.php:438
+msgid "View documentation"
+msgstr ""
+
+#: lib/views/settings/general.php:507
+msgid "The dedicated MCP server requires the WordPress MCP Adapter plugin. Install and activate it to expose the LatePoint MCP endpoint."
+msgstr ""
+
+#: lib/views/settings/general.php:514
+#: lib/views/settings/general.php:520
+msgid "Enable MCP Server"
+msgstr ""
+
+#: lib/views/settings/general.php:524
+msgid "Creates a dedicated LatePoint MCP endpoint that AI clients like Claude can connect to. When disabled, the endpoint is removed and external AI clients cannot discover or call any LatePoint abilities."
+msgstr ""
+
+#: lib/views/settings/general.php:547
+msgid "Claude Desktop"
+msgstr ""
+
+#: lib/views/settings/general.php:548
+msgid "~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows)"
+msgstr ""
+
+#: lib/views/settings/general.php:555
+msgid "Claude Code"
+msgstr ""
+
+#: lib/views/settings/general.php:556
+msgid ".mcp.json (project) or ~/.claude.json (global)"
+msgstr ""
+
+#: lib/views/settings/general.php:563
+msgid "Cursor"
+msgstr ""
+
+#: lib/views/settings/general.php:571
+msgid "VS Code (Copilot)"
+msgstr ""
+
+#: lib/views/settings/general.php:572
+msgid ".vscode/mcp.json (project) or settings.json > mcp.servers (global)"
+msgstr ""
+
+#: lib/views/settings/general.php:580
+msgid "~/.continue/config.yaml or config.json"
+msgstr ""
+
+#: lib/views/settings/general.php:588
+msgid "Your client's MCP configuration file"
+msgstr ""
+
+#: lib/views/settings/general.php:612
+msgid "Connect Your AI Client"
+msgstr ""
+
+#: lib/views/settings/general.php:614
+msgid "AI Client"
+msgstr ""
+
+#: lib/views/settings/general.php:620
+msgid "Create an Application Password — "
+msgstr ""
+
+#: lib/views/settings/general.php:621
+msgid "Open Application Passwords"
+msgstr ""
+
+#: lib/views/settings/general.php:625
+msgid "Or use this CLI command to add the server quickly (you will still need to set the environment variables):"
+msgstr ""
+
+#: lib/views/settings/general.php:628
+#: lib/views/settings/general.php:640
+msgid "Copy to clipboard"
+msgstr ""
+
+#: lib/views/settings/general.php:633
+msgid "Copy the JSON config below into:"
+msgstr ""
+
+#: lib/views/settings/general.php:636
+msgid "Replace \"your-application-password\" with the password from Step 1."
+msgstr ""
+
+#: lib/views/settings/general.php:643
+msgid "WP_API_URL — your site's MCP endpoint. WP_API_USERNAME — your WordPress username. WP_API_PASSWORD — the application password you generated."
+msgstr ""
+
+#: lib/views/settings/general.php:644
+msgid "View setup docs"
+msgstr ""
+
+#: lib/views/shared/_template_variables.php:52
+msgid "Admin Notes:"
+msgstr ""

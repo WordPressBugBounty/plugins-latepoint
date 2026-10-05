@@ -289,16 +289,22 @@ class OsEventsHooksHelper {
 		return $rules;
 	}
 
+	/**
+	 * Values here are stored as-is (not gettext-wrapped) because they get auto-seeded into the
+	 * `steps_settings` DB option on first load. Translation for unchanged defaults happens at
+	 * render time via OsTranslationHelper, which requires these to stay in sync with the entries
+	 * registered on the `latepoint_translatable_default_strings` filter.
+	 */
 	public static function add_step_settings( array $settings ): array {
 		$settings[ self::$step_code ]         = [
-			'side_panel_heading'     => __( 'Event Information', 'latepoint' ),
-			'side_panel_description' => __( 'Review the event details before you register', 'latepoint' ),
-			'main_panel_heading'     => __( 'Event Information', 'latepoint' ),
+			'side_panel_heading'     => 'Event Information',
+			'side_panel_description' => 'Review the event details before you register',
+			'main_panel_heading'     => 'Event Information',
 		];
 		$settings[ self::$tickets_step_code ] = [
-			'side_panel_heading'     => __( 'Ticket Selection', 'latepoint' ),
-			'side_panel_description' => __( 'Please select the number of tickets you\'d like to reserve', 'latepoint' ),
-			'main_panel_heading'     => __( 'Select Your Tickets', 'latepoint' ),
+			'side_panel_heading'     => 'Ticket Selection',
+			'side_panel_description' => 'Please select the number of tickets you\'d like to reserve',
+			'main_panel_heading'     => 'Select Your Tickets',
 		];
 
 		return $settings;
@@ -441,6 +447,9 @@ class OsEventsHooksHelper {
 		OsStepsHelper::remove_step_by_name( 'booking__datepicker' );
 		OsStepsHelper::remove_step_by_name( 'booking__group_bookings' );
 		OsStepsHelper::remove_step_by_name( 'booking__service_extras' );
+
+		// An event has no deposit, so there is no portion to choose - skip straight to payment.
+		$cart->payment_portion = LATEPOINT_PAYMENT_PORTION_FULL;
 	}
 
 	/**

@@ -47,9 +47,9 @@ class Step {
 			[
 				'code'                       => $step_code,
 				'label'                      => \OsStepsHelper::get_step_label_by_code( $step_code ),
-				'side_panel_heading'         => $step_settings['side_panel_heading'] ?? '',
-				'side_panel_description'     => $step_settings['side_panel_description'] ?? '',
-				'main_panel_heading'         => $step_settings['main_panel_heading'] ?? '',
+				'side_panel_heading'         => \OsTranslationHelper::translate_default( $step_settings['side_panel_heading'] ?? '' ),
+				'side_panel_description'     => \OsTranslationHelper::translate_default( $step_settings['side_panel_description'] ?? '' ),
+				'main_panel_heading'         => \OsTranslationHelper::translate_default( $step_settings['main_panel_heading'] ?? '' ),
 				'main_panel_content_before'  => $step_settings['main_panel_content_before'] ?? '',
 				'main_panel_content_after'   => $step_settings['main_panel_content_after'] ?? '',
 				'side_panel_custom_image_id' => $step_settings['side_panel_custom_image_id'] ?? '',

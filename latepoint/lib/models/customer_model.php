@@ -385,19 +385,30 @@ class OsCustomerModel extends OsModel {
 
 	public function prepare_data_before_it_is_set( $data ) {
 		if ( isset( $data['first_name'] ) ) {
-			$data['first_name'] = sanitize_text_field( $data['first_name'] );
+			$data['first_name'] = self::strip_template_delimiters( sanitize_text_field( $data['first_name'] ) );
 		}
 		if ( isset( $data['last_name'] ) ) {
-			$data['last_name'] = sanitize_text_field( $data['last_name'] );
+			$data['last_name'] = self::strip_template_delimiters( sanitize_text_field( $data['last_name'] ) );
 		}
 		if ( isset( $data['phone'] ) ) {
 			$data['phone'] = OsUtilHelper::sanitize_phone_number( $data['phone'] );
 		}
 		if ( isset( $data['notes'] ) ) {
-			$data['notes'] = sanitize_textarea_field( $data['notes'] );
+			$data['notes'] = self::strip_template_delimiters( sanitize_textarea_field( $data['notes'] ) );
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Strips template placeholder delimiters from customer-supplied free-text.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	private static function strip_template_delimiters( $value ) {
+		return str_replace( [ '{{', '}}' ], '', (string) $value );
 	}
 
 

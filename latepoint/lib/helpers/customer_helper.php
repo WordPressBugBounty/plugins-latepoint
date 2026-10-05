@@ -285,7 +285,9 @@ class OsCustomerHelper {
 				'user_pass'  => $customer->password,
 			];
 
-			$default_role = OsSettingsHelper::get_default_wp_role_for_new_customers();
+			// Defense in depth: run the stored role through the same contract enforced on save,
+			// so a settings row poisoned before this patch can't provision a privileged account.
+			$default_role = OsSettingsHelper::enforce_value_contract( 'default_wp_role_for_customer', OsSettingsHelper::get_default_wp_role_for_new_customers() );
 			if ( wp_roles()->is_role( $default_role ) ) {
 				$userdata['role'] = $default_role;
 			}

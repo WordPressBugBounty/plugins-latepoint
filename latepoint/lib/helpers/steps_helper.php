@@ -1227,6 +1227,8 @@ class OsStepsHelper {
 		unset( $booking_object_params['status'] );
 		// order_item_id is mass assignable - it may only arrive through the verified presets path below
 		unset( $booking_object_params['order_item_id'] );
+		// drop id - set_data() would load-by-id before the allow-list; the form never sends booking[id].
+		unset( $booking_object_params['id'] );
 
 		self::$booking_object = new OsBookingModel();
 		self::$booking_object->set_data( $booking_object_params );
@@ -2619,6 +2621,12 @@ class OsStepsHelper {
 		return $step_settings_html;
 	}
 
+	/**
+	 * These values are auto-seeded into the `steps_settings` DB option on first load (see
+	 * get_steps_settings()) and stay as raw English literals on purpose. OsTranslationHelper
+	 * translates them at render time by comparing the stored value against these defaults, so any
+	 * string changed here must be mirrored in OsTranslationHelper::get_translatable_default_strings().
+	 */
 	public static function get_default_value_for_step_settings( string $step_code ): array {
 		$settings = [
 			'booking__services'   => [
@@ -2864,8 +2872,11 @@ class OsStepsHelper {
 				echo '<div class="summary-status-wrapper summary-status-style-' . esc_attr( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_style', 'green' ) ) . '">';
 				echo '<div class="summary-status-inner">';
 				echo '<div class="ss-icon"></div>';
-				echo '<div class="ss-title bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_title]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_title', __( 'Appointment Confirmed', 'latepoint' ) ) ) . '</div>';
-				echo '<div class="ss-description bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_content]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_content', __( 'We look forward to seeing you.', 'latepoint' ) ) ) . '</div>';
+				// Fallback defaults are kept as raw English (not gettext-wrapped): this admin preview
+				// is what gets harvested and saved back into steps_settings, so a translated fallback
+				// here would permanently overwrite the English default that OsTranslationHelper relies on.
+				echo '<div class="ss-title bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_title]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_title', 'Appointment Confirmed' ) ) . '</div>';
+				echo '<div class="ss-description bf-side-heading editable-setting" data-setting-key="[' . esc_attr( $selected_step_code ) . '][order_confirmation_message_content]" contenteditable="true">' . esc_html( OsStepsHelper::get_step_setting_value( $selected_step_code, 'order_confirmation_message_content', 'We look forward to seeing you.' ) ) . '</div>';
 				echo '<div class="ss-confirmation-number"><span>' . esc_html__( 'Order #', 'latepoint' ) . '</span><strong>KDFJ934K</strong></div>';
 				echo '</div>';
 				echo '</div>';
@@ -3063,9 +3074,11 @@ class OsStepsHelper {
 	public static function set_active_cart_item_object( array $cart_item_params = [] ): OsCartItemModel {
 		self::$active_cart_item = new OsCartItemModel();
 		if ( ! empty( $cart_item_params['id'] ) ) {
-			self::$active_cart_item->id = $cart_item_params['id'];
-			// try to find it in cart
-			$cart_item = new OsCartItemModel( self::$active_cart_item->id );
+			// accept id only if it belongs to the current cart.
+			$cart_item = new OsCartItemModel( $cart_item_params['id'] );
+			if ( ! $cart_item->is_new_record() && isset( self::$cart_object ) && ! empty( self::$cart_object->id ) && (int) $cart_item->cart_id === (int) self::$cart_object->id ) {
+				self::$active_cart_item->id = $cart_item->id;
+			}
 			if ( $cart_item->is_new_record() ) {
 				// not found, reset active cart item ID
 				self::$active_cart_item = new OsCartItemModel();
@@ -3225,6 +3238,8 @@ class OsStepsHelper {
 			self::load_order_object( self::$cart_object->order_id );
 		} else {
 			self::load_order_object();
+			// drop id - cart resolves from the session uuid only, never a user-supplied key.
+			unset( $params['id'] );
 			self::$cart_object->set_data( $params );
 
 			// set source id

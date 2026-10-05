@@ -76,10 +76,11 @@ msgstr "การตั้งค่าขั้นตอน"
 #: blocks/elementor/elementor_widget_book_button.php:429
 #: blocks/elementor/elementor_widget_book_form.php:195
 #: blocks/elementor/elementor_widget_list_of_resources.php:407
+#: lib/helpers/paypal_connect_helper.php:375
 #: lib/helpers/razorpay_connect_helper.php:78
 #: lib/helpers/stripe_connect_helper.php:278
-#: lib/views/services/_form.php:275
-#: lib/views/services/_form.php:358
+#: lib/views/services/_form.php:283
+#: lib/views/services/_form.php:366
 #: lib/views/settings/notifications.php:57
 #: lib/views/settings/payments.php:30
 msgid "Other Settings"
@@ -102,7 +103,7 @@ msgstr "คำอธิบายปุ่ม"
 #: blocks/elementor/elementor_widget_book_button.php:76
 #: lib/helpers/shortcodes_helper.php:318
 #: lib/helpers/shortcodes_helper.php:396
-#: lib/helpers/shortcodes_helper.php:413
+#: lib/helpers/shortcodes_helper.php:426
 msgid "Book Appointment"
 msgstr "จองนัดหมาย"
 
@@ -300,7 +301,7 @@ msgstr "ตำแหน่ง"
 
 #: blocks/bricks/bricks_widget_book_button.php:248
 #: blocks/bricks/bricks_widget_list_of_resources.php:409
-#: lib/helpers/settings_helper.php:887
+#: lib/helpers/settings_helper.php:893
 msgid "Full Width"
 msgstr "เต็มความกว้าง"
 
@@ -366,7 +367,7 @@ msgstr "ระยะห่างภายใน"
 
 #: blocks/bricks/bricks_widget_book_form.php:16
 #: blocks/elementor/elementor_widget_book_form.php:33
-#: lib/helpers/menu_helper.php:176
+#: lib/helpers/menu_helper.php:209
 msgid "Booking Form"
 msgstr "แบบฟอร์มการจอง"
 
@@ -396,8 +397,8 @@ msgstr "ปฏิทิน LatePoint"
 
 #: blocks/bricks/bricks_widget_calendar.php:23
 #: blocks/elementor/elementor_widget_calendar.php:60
-#: lib/controllers/orders_controller.php:773
-#: lib/controllers/transactions_controller.php:173
+#: lib/controllers/orders_controller.php:826
+#: lib/controllers/transactions_controller.php:195
 #: lib/views/calendars/scopes/_month.php:33
 #: lib/views/calendars/scopes/_week.php:41
 #: lib/views/orders/index.php:52
@@ -424,7 +425,7 @@ msgstr "เลือกสถานที่"
 
 #: blocks/bricks/bricks_widget_calendar.php:67
 #: blocks/elementor/elementor_widget_calendar.php:104
-#: lib/helpers/roles_helper.php:383
+#: lib/helpers/roles_helper.php:399
 #: lib/models/activity_model.php:42
 #: lib/views/transactions/_table_body.php:21
 #: blocks/src/calendar/edit.js:145
@@ -468,10 +469,10 @@ msgstr "รายการทรัพยากร"
 #: blocks/bricks/bricks_widget_list_of_resources.php:25
 #: blocks/elementor/elementor_widget_list_of_resources.php:96
 #: lib/controllers/settings_controller.php:20
-#: lib/helpers/menu_helper.php:146
-#: lib/helpers/menu_helper.php:152
-#: lib/helpers/menu_helper.php:362
-#: lib/helpers/roles_helper.php:379
+#: lib/helpers/menu_helper.php:179
+#: lib/helpers/menu_helper.php:185
+#: lib/helpers/menu_helper.php:428
+#: lib/helpers/roles_helper.php:395
 #: lib/views/partials/_top_bar.php:83
 #: lib/views/settings/generate_instant_booking_page.php:29
 msgid "Settings"
@@ -501,12 +502,12 @@ msgstr "ประเภททรัพยากร"
 #: blocks/bricks/bricks_widget_list_of_resources.php:94
 #: blocks/elementor/elementor_widget_list_of_resources.php:124
 #: lib/controllers/services_controller.php:20
-#: lib/helpers/booking_helper.php:913
+#: lib/helpers/booking_helper.php:1018
 #: lib/helpers/menu_helper.php:90
 #: lib/helpers/menu_helper.php:96
-#: lib/helpers/menu_helper.php:312
-#: lib/helpers/menu_helper.php:318
-#: lib/helpers/roles_helper.php:370
+#: lib/helpers/menu_helper.php:345
+#: lib/helpers/menu_helper.php:351
+#: lib/helpers/roles_helper.php:382
 #: lib/views/search/query_results.php:58
 #: blocks/src/list-of-resources/edit.js:362
 msgid "Services"
@@ -516,10 +517,10 @@ msgstr "บริการ"
 #: blocks/elementor/elementor_widget_list_of_resources.php:125
 #: lib/controllers/default_agent_controller.php:42
 #: lib/controllers/default_agent_controller.php:44
-#: lib/helpers/menu_helper.php:122
-#: lib/helpers/roles_helper.php:369
+#: lib/helpers/menu_helper.php:155
+#: lib/helpers/roles_helper.php:381
 #: lib/views/search/query_results.php:43
-#: lib/views/services/_form.php:353
+#: lib/views/services/_form.php:361
 #: blocks/src/list-of-resources/edit.js:363
 msgid "Agents"
 msgstr "เจ้าหน้าที่"
@@ -527,18 +528,18 @@ msgstr "เจ้าหน้าที่"
 #: blocks/bricks/bricks_widget_list_of_resources.php:96
 #: blocks/elementor/elementor_widget_list_of_resources.php:126
 #: lib/helpers/location_helper.php:150
-#: lib/helpers/menu_helper.php:128
-#: lib/helpers/menu_helper.php:344
-#: lib/helpers/roles_helper.php:372
+#: lib/helpers/menu_helper.php:161
+#: lib/helpers/menu_helper.php:410
+#: lib/helpers/roles_helper.php:384
 #: blocks/src/list-of-resources/edit.js:364
 msgid "Locations"
 msgstr "สถานที่"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:97
 #: blocks/elementor/elementor_widget_list_of_resources.php:127
-#: lib/helpers/booking_helper.php:690
+#: lib/helpers/booking_helper.php:773
 #: lib/helpers/menu_helper.php:102
-#: lib/helpers/menu_helper.php:324
+#: lib/helpers/menu_helper.php:357
 #: lib/views/customer_cabinet/dashboard.php:56
 #: blocks/src/list-of-resources/edit.js:365
 msgid "Bundles"
@@ -637,7 +638,7 @@ msgid "Show Selected Bundles"
 msgstr "แสดงชุดบริการที่เลือก"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:344
-#: lib/helpers/booking_helper.php:1965
+#: lib/helpers/booking_helper.php:2103
 #: lib/helpers/events_helper.php:441
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:25
 #: lib/views/dashboard/widget_daily_bookings_chart.php:39
@@ -651,7 +652,7 @@ msgid "All Service Categories"
 msgstr "หมวดหมู่บริการทั้งหมด"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:369
-#: lib/helpers/booking_helper.php:2009
+#: lib/helpers/booking_helper.php:2147
 #: lib/helpers/events_helper.php:427
 #: lib/views/dashboard/widget_daily_bookings_chart.php:30
 #: lib/views/dashboard/widget_upcoming_appointments.php:34
@@ -670,8 +671,9 @@ msgstr "ชื่อเรื่อง"
 
 #: blocks/bricks/bricks_widget_list_of_resources.php:564
 #: blocks/elementor/elementor_widget_list_of_resources.php:866
-#: lib/controllers/bookings_controller.php:283
+#: lib/controllers/bookings_controller.php:292
 #: lib/helpers/settings_helper.php:494
+#: lib/views/events_manager/_form.php:285
 msgid "Price"
 msgstr "ราคา"
 
@@ -679,6 +681,7 @@ msgstr "ราคา"
 #: blocks/elementor/elementor_widget_list_of_resources.php:920
 #: lib/controllers/activities_controller.php:58
 #: lib/helpers/invoices_helper.php:276
+#: lib/views/event_categories/_form.php:24
 msgid "Description"
 msgstr "คำอธิบาย"
 
@@ -820,132 +823,133 @@ msgid "Box Padding"
 msgstr "ระยะห่างภายในกล่อง"
 
 #. translators: 1: bold open tag, 2: bold close tag, 3: required version, 4: current version
-#: latepoint.php:1112
+#: latepoint.php:1213
 #, php-format
 msgid "You are using an older version of the %1$sLatePoint Pro Features%2$s plugin (v%4$s). Please update the %1$sLatePoint Pro Features%2$s plugin to version %1$s%3$s or later%2$s."
 msgstr "คุณกำลังใช้ปลั๊กอิน %1$sLatePoint Pro Features%2$s เวอร์ชันเก่า (v%4$s) โปรดอัปเดตปลั๊กอิน %1$sLatePoint Pro Features%2$s เป็นเวอร์ชัน %1$s%3$s หรือใหม่กว่า%2$s"
 
-#: latepoint.php:1119
+#: latepoint.php:1220
 msgid "Update Now"
 msgstr "อัปเดตตอนนี้"
 
-#: latepoint.php:1132
+#: latepoint.php:1233
 msgid "Once every 5 minutes"
 msgstr "ทุก 5 นาที"
 
-#: latepoint.php:1142
+#: latepoint.php:1243
 msgid "Get LatePoint Pro"
 msgstr "รับ LatePoint Pro"
 
-#: latepoint.php:1162
+#: latepoint.php:1263
 msgid "Email Settings"
 msgstr "การตั้งค่าอีเมล"
 
-#: latepoint.php:1166
+#: latepoint.php:1267
 msgid "From Name"
 msgstr "ชื่อผู้ส่ง"
 
-#: latepoint.php:1167
+#: latepoint.php:1268
 msgid "From Email Address"
 msgstr "ที่อยู่อีเมลผู้ส่ง"
 
-#: latepoint.php:1446
-#: latepoint.php:1605
+#: latepoint.php:1622
+#: latepoint.php:1810
 #: lib/helpers/agent_helper.php:240
 #: lib/helpers/calendar_helper.php:160
 #: lib/helpers/events_helper.php:413
 #: lib/helpers/time_helper.php:29
-#: lib/models/booking_model.php:817
+#: lib/models/booking_model.php:835
 #: lib/views/calendars/view.php:37
 msgid "Today"
 msgstr "วันนี้"
 
-#: latepoint.php:1449
-#: latepoint.php:1611
+#: latepoint.php:1625
+#: latepoint.php:1816
 #: lib/helpers/agent_helper.php:279
 #: lib/helpers/timeline_helper.php:93
 #: lib/helpers/timeline_helper.php:155
 msgid "Not Available"
 msgstr "ไม่พร้อมใช้งาน"
 
-#: latepoint.php:1455
-#: lib/helpers/booking_helper.php:1735
-#: lib/views/customer_cabinet/_booking_tile.php:37
+#: latepoint.php:1632
+#: lib/helpers/booking_helper.php:1837
 msgid "Are you sure you want to cancel this appointment?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการนัดหมายนี้?"
 
-#: latepoint.php:1456
-#: latepoint.php:1615
+#: latepoint.php:1633
+#: latepoint.php:1820
 msgid "Space Available"
 msgstr "มีที่ว่าง"
 
-#: latepoint.php:1457
-#: latepoint.php:1616
+#: latepoint.php:1634
+#: latepoint.php:1821
 msgid "Spaces Available"
 msgstr "มีที่ว่าง"
 
-#: latepoint.php:1472
-#: latepoint.php:1628
+#: latepoint.php:1651
+#: latepoint.php:1835
 msgid "can not be blank"
 msgstr "ต้องไม่เว้นว่าง"
 
-#: latepoint.php:1473
-#: latepoint.php:1629
+#: latepoint.php:1652
+#: latepoint.php:1836
 msgid "has to be checked"
 msgstr "ต้องถูกเลือก"
 
-#: latepoint.php:1474
-#: latepoint.php:1630
+#: latepoint.php:1653
+#: latepoint.php:1837
 msgid "is invalid"
 msgstr "ไม่ถูกต้อง"
 
-#: latepoint.php:1475
-#: latepoint.php:1631
+#: latepoint.php:1654
+#: latepoint.php:1838
 msgid " minutes"
 msgstr "นาที"
 
-#: latepoint.php:1481
-#: latepoint.php:1613
+#: latepoint.php:1660
+#: latepoint.php:1818
 #: lib/views/steps/start.php:79
 msgid "Selected"
 msgstr "เลือกแล้ว"
 
-#: latepoint.php:1606
+#: latepoint.php:1811
+#: lib/views/settings/general.php:628
+#: lib/views/settings/general.php:640
 msgid "Copied"
 msgstr "คัดลอกแล้ว"
 
-#: latepoint.php:1607
+#: latepoint.php:1812
 msgid "Just click to copy"
 msgstr "เพียงคลิกเพื่อคัดลอก"
 
-#: latepoint.php:1608
+#: latepoint.php:1813
 msgid "Are you sure you want to approve this booking?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการอนุมัติการจองนี้?"
 
-#: latepoint.php:1609
+#: latepoint.php:1814
 msgid "Are you sure you want to reject this booking?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการปฏิเสธการจองนี้?"
 
-#: latepoint.php:1612
+#: latepoint.php:1817
 #: lib/misc/process_action.php:174
 #: lib/views/processes/_form.php:28
 #: lib/views/services/_form.php:35
 msgid "Active"
 msgstr "ใช้งานอยู่"
 
-#: latepoint.php:1614
-#: lib/helpers/replacer_helper.php:563
+#: latepoint.php:1819
+#: lib/helpers/replacer_helper.php:565
 #: lib/helpers/time_helper.php:90
-#: lib/models/booking_model.php:988
-#: lib/views/settings/general.php:334
+#: lib/models/booking_model.php:1006
+#: lib/views/settings/general.php:363
 msgid "minutes"
 msgstr "นาที"
 
-#: lib/abilities/abstract-ability.php:120
+#: lib/abilities/abstract-ability.php:185
 msgid "Page number."
 msgstr "หมายเลขหน้า."
 
-#: lib/abilities/abstract-ability.php:127
+#: lib/abilities/abstract-ability.php:192
 msgid "Items per page."
 msgstr "รายการต่อหน้า."
 
@@ -1166,43 +1170,43 @@ msgstr "ดึงบริการยอดนิยม"
 msgid "Returns the most-booked services with booking counts and revenue for a period."
 msgstr "ส่งคืนบริการที่ถูกจองมากที่สุด พร้อมจำนวนการจองและรายได้สำหรับช่วงเวลาหนึ่ง"
 
-#: lib/abilities/bookings/abstract-booking-ability.php:75
-#: lib/abilities/bookings/abstract-booking-ability.php:79
+#: lib/abilities/bookings/abstract-booking-ability.php:76
+#: lib/abilities/bookings/abstract-booking-ability.php:80
 msgid "Minutes from midnight."
 msgstr "นาทีจากเที่ยงคืน."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:83
+#: lib/abilities/bookings/abstract-booking-ability.php:84
 #: lib/abilities/services/abstract-service-ability.php:35
 #: lib/abilities/services/create-service.php:29
 msgid "Duration in minutes."
 msgstr "ระยะเวลาเป็นนาที."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:106
+#: lib/abilities/bookings/abstract-booking-ability.php:107
 #: lib/abilities/customers/get-customer-bookings.php:28
 msgid "Filter by booking status."
 msgstr "กรองตามสถานะการจอง."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:110
+#: lib/abilities/bookings/abstract-booking-ability.php:111
 msgid "Filter by agent ID."
 msgstr "กรองตามรหัสเอเจนต์."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:114
+#: lib/abilities/bookings/abstract-booking-ability.php:115
 msgid "Filter by service ID."
 msgstr "กรองตามรหัสบริการ."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:118
+#: lib/abilities/bookings/abstract-booking-ability.php:119
 msgid "Filter by location ID."
 msgstr "กรองตามรหัสสถานที่."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:122
+#: lib/abilities/bookings/abstract-booking-ability.php:123
 msgid "Filter by customer ID."
 msgstr "กรองตามรหัสลูกค้า."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:127
+#: lib/abilities/bookings/abstract-booking-ability.php:128
 msgid "Start date filter (Y-m-d)."
 msgstr "ตัวกรองวันที่เริ่มต้น (Y-m-d)."
 
-#: lib/abilities/bookings/abstract-booking-ability.php:132
+#: lib/abilities/bookings/abstract-booking-ability.php:133
 msgid "End date filter (Y-m-d)."
 msgstr "ตัวกรองวันที่สิ้นสุด (Y-m-d)."
 
@@ -1251,7 +1255,7 @@ msgstr "สถานะใหม่."
 msgid "Booking not found."
 msgstr "ไม่พบการจอง."
 
-#: lib/abilities/bookings/change-booking-status.php:49
+#: lib/abilities/bookings/change-booking-status.php:53
 msgid "Failed to update booking status."
 msgstr "ไม่สามารถอัปเดตสถานะการจองได้."
 
@@ -1340,7 +1344,7 @@ msgstr "ลบบันทึกการจองออกจากฐานข
 msgid "Booking ID to delete."
 msgstr "รหัสการจองที่จะลบ."
 
-#: lib/abilities/bookings/delete-booking.php:48
+#: lib/abilities/bookings/delete-booking.php:52
 msgid "Failed to delete booking."
 msgstr "ไม่สามารถลบการจองได้."
 
@@ -1364,7 +1368,7 @@ msgstr "มิติการจัดกลุ่มแบบเลือกไ
 msgid "Numeric total when no group_by; array of {value, group_by_value} objects when group_by is set."
 msgstr "ผลรวมเป็นตัวเลขเมื่อไม่มี group_by; อาร์เรย์ของวัตถุ {value, group_by_value} เมื่อกำหนด group_by"
 
-#: lib/abilities/bookings/get-booking-stats.php:76
+#: lib/abilities/bookings/get-booking-stats.php:78
 msgid "Invalid stat or group_by parameter."
 msgstr "พารามิเตอร์ stat หรือ group_by ไม่ถูกต้อง."
 
@@ -1440,7 +1444,7 @@ msgstr "เวลาเริ่มต้นใหม่ (นาทีจาก�
 msgid "New end time (minutes from midnight)."
 msgstr "เวลาสิ้นสุดใหม่ (นาทีจากเที่ยงคืน)."
 
-#: lib/abilities/bookings/reschedule-booking.php:66
+#: lib/abilities/bookings/reschedule-booking.php:70
 msgid "Failed to reschedule booking."
 msgstr "ไม่สามารถเลื่อนเวลาการจองได้."
 
@@ -1456,7 +1460,7 @@ msgstr "อัปเดตหนึ่งหรือหลายฟิลด์
 msgid "Booking ID to update."
 msgstr "รหัสการจองที่จะอัปเดต"
 
-#: lib/abilities/bookings/update-booking.php:65
+#: lib/abilities/bookings/update-booking.php:69
 msgid "Failed to update booking."
 msgstr "ไม่สามารถอัปเดตการจองได้"
 
@@ -1479,10 +1483,6 @@ msgstr "ไม่สามารถสร้างช่วงเวลาปิ
 #: lib/abilities/calendar/check-slot-availability.php:10
 msgid "Check slot availability"
 msgstr "ตรวจสอบความพร้อมของช่วงเวลา"
-
-#: lib/abilities/calendar/check-slot-availability.php:11
-msgid "Checks whether a specific time slot has no conflicting bookings."
-msgstr "ตรวจสอบว่าช่วงเวลาใดเวลาหนึ่งไม่มีการจองที่ขัดแย้งกัน"
 
 #: lib/abilities/calendar/get-available-slots.php:10
 msgid "Get available slots"
@@ -1532,7 +1532,7 @@ msgstr "ไม่พบช่วงเวลาปิด"
 msgid "Failed to delete off period."
 msgstr "ไม่สามารถลบช่วงเวลาปิดได้"
 
-#: lib/abilities/class-latepoint-abilities.php:65
+#: lib/abilities/class-latepoint-abilities.php:190
 msgid "Appointment scheduling — bookings, customers, services, and staff."
 msgstr "การจัดตารางนัดหมาย — การจอง ลูกค้า บริการ และพนักงาน"
 
@@ -1562,15 +1562,15 @@ msgstr "รหัสผู้ใช้ WordPress"
 msgid "Customer not found."
 msgstr "ไม่พบลูกค้า"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:48
+#: lib/abilities/customers/connect-customer-to-wp-user.php:52
 msgid "WordPress user not found."
 msgstr "ไม่พบผู้ใช้ WordPress"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:57
+#: lib/abilities/customers/connect-customer-to-wp-user.php:61
 msgid "Cannot link a customer to a privileged WordPress account."
 msgstr "ไม่สามารถเชื่อมโยงลูกค้ากับบัญชี WordPress ที่มีสิทธิพิเศษได้"
 
-#: lib/abilities/customers/connect-customer-to-wp-user.php:66
+#: lib/abilities/customers/connect-customer-to-wp-user.php:70
 msgid "Failed to link customer to WordPress user."
 msgstr "ไม่สามารถเชื่อมโยงลูกค้ากับผู้ใช้ WordPress ได้"
 
@@ -1610,7 +1610,7 @@ msgstr "ลบลูกค้า"
 msgid "Permanently deletes a customer and all their associated bookings and orders. This cannot be undone."
 msgstr "ลบลูกค้าและการจองกับคำสั่งซื้อทั้งหมดที่เกี่ยวข้องอย่างถาวร ไม่สามารถยกเลิกได้"
 
-#: lib/abilities/customers/delete-customer.php:49
+#: lib/abilities/customers/delete-customer.php:53
 msgid "Failed to delete customer."
 msgstr "ไม่สามารถลบลูกค้าได้"
 
@@ -1698,7 +1698,7 @@ msgstr "อัปเดตลูกค้า"
 msgid "Updates one or more fields on an existing customer profile. Only provided fields are changed."
 msgstr "อัปเดตฟิลด์หนึ่งหรือหลายฟิลด์ในโปรไฟล์ลูกค้าที่มีอยู่แล้ว เฉพาะฟิลด์ที่ระบุเท่านั้นที่จะถูกเปลี่ยนแปลง"
 
-#: lib/abilities/customers/update-customer.php:68
+#: lib/abilities/customers/update-customer.php:72
 msgid "Failed to update customer."
 msgstr "ไม่สามารถอัปเดตลูกค้าได้"
 
@@ -1850,7 +1850,7 @@ msgstr "สถานะใบแจ้งหนี้ใหม่"
 msgid "Invoice not found."
 msgstr "ไม่พบใบแจ้งหนี้"
 
-#: lib/abilities/orders/change-invoice-status.php:49
+#: lib/abilities/orders/change-invoice-status.php:53
 msgid "Failed to update invoice status."
 msgstr "ไม่สามารถอัปเดตสถานะใบแจ้งหนี้ได้"
 
@@ -1877,7 +1877,7 @@ msgstr "รหัสคำสั่งซื้อ"
 msgid "Order not found."
 msgstr "ไม่พบคำสั่งซื้อ"
 
-#: lib/abilities/orders/change-order-status.php:48
+#: lib/abilities/orders/change-order-status.php:52
 msgid "Failed to change order status."
 msgstr "ไม่สามารถเปลี่ยนสถานะคำสั่งซื้อได้"
 
@@ -1889,7 +1889,7 @@ msgstr "สร้างใบแจ้งหนี้"
 msgid "Creates a new invoice for an existing order. Does not process any payment."
 msgstr "สร้างใบแจ้งหนี้ใหม่สำหรับคำสั่งซื้อที่มีอยู่แล้ว ไม่ได้ประมวลผลการชำระเงินใดๆ"
 
-#: lib/abilities/orders/create-invoice.php:62
+#: lib/abilities/orders/create-invoice.php:67
 msgid "Failed to create invoice."
 msgstr "ไม่สามารถสร้างใบแจ้งหนี้ได้"
 
@@ -1913,7 +1913,7 @@ msgstr "ลบคำสั่งซื้อและใบแจ้งหนี
 msgid "Order ID to delete."
 msgstr "รหัสคำสั่งซื้อที่จะลบ"
 
-#: lib/abilities/orders/delete-order.php:49
+#: lib/abilities/orders/delete-order.php:53
 msgid "Failed to delete order."
 msgstr "ไม่สามารถลบคำสั่งซื้อได้"
 
@@ -1991,7 +1991,7 @@ msgstr "คืนเงินธุรกรรม"
 msgid "Marks a payment transaction as refunded. Does not process the actual refund through the payment gateway."
 msgstr "ทำเครื่องหมายธุรกรรมการชำระเงินว่าได้รับเงินคืนแล้ว ไม่ได้ประมวลผลการคืนเงินจริงผ่านเกตเวย์การชำระเงิน"
 
-#: lib/abilities/orders/refund-transaction.php:45
+#: lib/abilities/orders/refund-transaction.php:49
 msgid "Failed to refund transaction."
 msgstr "ไม่สามารถคืนเงินธุรกรรมได้"
 
@@ -2007,7 +2007,7 @@ msgstr "อัปเดตหนึ่งฟิลด์หรือมากก
 msgid "Order ID to update."
 msgstr "ID คำสั่งซื้อที่จะอัปเดต"
 
-#: lib/abilities/orders/update-order.php:60
+#: lib/abilities/orders/update-order.php:64
 msgid "Failed to update order."
 msgstr "ไม่สามารถอัปเดตคำสั่งซื้อได้"
 
@@ -2170,8 +2170,8 @@ msgid "Activities log cleared"
 msgstr "ล้างบันทึกกิจกรรมแล้ว"
 
 #: lib/controllers/activities_controller.php:49
-#: lib/controllers/orders_controller.php:772
-#: lib/controllers/transactions_controller.php:172
+#: lib/controllers/orders_controller.php:825
+#: lib/controllers/transactions_controller.php:194
 #: lib/models/transaction_model.php:77
 #: lib/models/transaction_refund_model.php:25
 #: lib/views/activities/index.php:46
@@ -2187,7 +2187,7 @@ msgid "Agent ID"
 msgstr "ID เจ้าหน้าที่"
 
 #: lib/controllers/activities_controller.php:51
-#: lib/controllers/orders_controller.php:766
+#: lib/controllers/orders_controller.php:819
 msgid "Booking ID"
 msgstr "ID การจอง"
 
@@ -2236,7 +2236,7 @@ msgstr "เกิดข้อผิดพลาดในการลบกิจ
 #: lib/views/manage_order_by_key/show.php:24
 #: lib/views/orders/_full_summary.php:61
 #: lib/views/shared/_template_variables.php:38
-#: lib/views/shared/_template_variables.php:84
+#: lib/views/shared/_template_variables.php:85
 msgid "Status:"
 msgstr "สถานะ:"
 
@@ -2370,7 +2370,7 @@ msgstr "เกิดข้อผิดพลาดในการสร้าง
 #: lib/controllers/steps_controller.php:31
 #: lib/controllers/steps_controller.php:33
 #: lib/helpers/menu_helper.php:61
-#: lib/helpers/menu_helper.php:288
+#: lib/helpers/menu_helper.php:321
 #: lib/views/bookings/index.php:31
 #: lib/views/customers/quick_edit.php:109
 #: lib/views/customer_cabinet/dashboard.php:22
@@ -2378,16 +2378,16 @@ msgstr "เกิดข้อผิดพลาดในการสร้าง
 #: lib/views/dashboard/widget_daily_bookings_chart.php:68
 #: lib/views/search/query_results.php:14
 #: lib/views/settings/general.php:12
-#: lib/views/settings/general.php:723
+#: lib/views/settings/general.php:904
 msgid "Appointments"
 msgstr "การนัดหมาย"
 
-#: lib/controllers/bookings_controller.php:66
-#: lib/controllers/bookings_controller.php:68
+#: lib/controllers/bookings_controller.php:75
+#: lib/controllers/bookings_controller.php:77
 msgid "Pending Appointments"
 msgstr "การนัดหมายที่รอดำเนินการ"
 
-#: lib/controllers/bookings_controller.php:111
+#: lib/controllers/bookings_controller.php:120
 #: lib/views/calendars/view.php:77
 #: lib/views/calendars/view.php:123
 #: lib/views/calendars/view.php:151
@@ -2397,16 +2397,20 @@ msgstr "การนัดหมายที่รอดำเนินการ
 msgid "All"
 msgstr "ทั้งหมด"
 
-#: lib/controllers/bookings_controller.php:272
-#: lib/controllers/customers_controller.php:410
-#: lib/controllers/orders_controller.php:764
-#: lib/controllers/transactions_controller.php:164
-#: lib/helpers/booking_helper.php:1895
-#: lib/helpers/booking_helper.php:1951
+#: lib/controllers/bookings_controller.php:281
+#: lib/controllers/customers_controller.php:446
+#: lib/controllers/event_registrations_controller.php:101
+#: lib/controllers/orders_controller.php:817
+#: lib/controllers/transactions_controller.php:186
+#: lib/helpers/booking_helper.php:2033
+#: lib/helpers/booking_helper.php:2089
 #: lib/helpers/settings_helper.php:509
 #: lib/views/customers/index.php:50
 #: lib/views/customers/index.php:62
 #: lib/views/customers/index.php:88
+#: lib/views/event_registrations/index.php:79
+#: lib/views/event_registrations/index.php:91
+#: lib/views/event_registrations/index.php:120
 #: lib/views/orders/index.php:45
 #: lib/views/orders/index.php:55
 #: lib/views/orders/index.php:83
@@ -2416,97 +2420,103 @@ msgstr "ทั้งหมด"
 msgid "ID"
 msgstr "รหัส"
 
-#: lib/controllers/bookings_controller.php:273
-#: lib/helpers/booking_helper.php:1898
+#: lib/controllers/bookings_controller.php:282
+#: lib/helpers/booking_helper.php:2036
 #: lib/helpers/settings_helper.php:514
 #: lib/misc/process_event.php:291
 #: lib/misc/process_event.php:549
 #: lib/misc/process_event.php:561
-#: lib/models/booking_model.php:44
-#: lib/models/booking_model.php:152
-#: lib/models/cart_model.php:275
+#: lib/models/booking_model.php:45
+#: lib/models/booking_model.php:153
+#: lib/models/cart_model.php:295
 #: lib/views/bookings/_booking_data.php:28
 msgid "Service"
 msgstr "บริการ"
 
-#: lib/controllers/bookings_controller.php:274
+#: lib/controllers/bookings_controller.php:283
 msgid "Start Date & Time"
 msgstr "วันที่และเวลาเริ่มต้น"
 
-#: lib/controllers/bookings_controller.php:275
+#: lib/controllers/bookings_controller.php:284
 #: lib/helpers/settings_helper.php:490
 #: lib/views/bookings/_booking_data.php:86
 #: lib/views/services/_form.php:83
 msgid "Duration"
 msgstr "ระยะเวลา"
 
-#: lib/controllers/bookings_controller.php:276
-#: lib/controllers/orders_controller.php:767
-#: lib/controllers/transactions_controller.php:167
-#: lib/helpers/booking_helper.php:1915
+#: lib/controllers/bookings_controller.php:285
+#: lib/controllers/orders_controller.php:820
+#: lib/controllers/transactions_controller.php:189
+#: lib/helpers/booking_helper.php:2053
 #: lib/helpers/customer_helper.php:26
 #: lib/helpers/settings_helper.php:539
-#: lib/helpers/steps_helper.php:2901
+#: lib/helpers/steps_helper.php:2981
 #: lib/misc/user.php:376
+#: lib/models/event_registration_model.php:28
 #: lib/views/bookings/pending_approval.php:48
 #: lib/views/orders/index.php:46
 #: lib/views/orders/index.php:84
-#: lib/views/orders/quick_edit.php:174
+#: lib/views/orders/quick_edit.php:233
 #: lib/views/shared/_template_variables.php:44
 #: lib/views/transactions/index.php:38
 #: lib/views/transactions/index.php:76
 msgid "Customer"
 msgstr "ลูกค้า"
 
-#: lib/controllers/bookings_controller.php:277
+#: lib/controllers/bookings_controller.php:286
 msgid "Customer Phone"
 msgstr "โทรศัพท์ลูกค้า"
 
-#: lib/controllers/bookings_controller.php:278
+#: lib/controllers/bookings_controller.php:287
+#: lib/controllers/event_registrations_controller.php:105
 msgid "Customer Email"
 msgstr "อีเมลลูกค้า"
 
-#: lib/controllers/bookings_controller.php:279
+#: lib/controllers/bookings_controller.php:288
 #: lib/controllers/default_agent_controller.php:24
 #: lib/helpers/agent_helper.php:125
-#: lib/helpers/booking_helper.php:1909
+#: lib/helpers/booking_helper.php:2047
 #: lib/helpers/settings_helper.php:529
-#: lib/helpers/steps_helper.php:2932
+#: lib/helpers/steps_helper.php:3012
 #: lib/misc/process_event.php:283
 #: lib/misc/process_event.php:550
 #: lib/misc/process_event.php:562
 #: lib/misc/user.php:362
 #: lib/models/agent_model.php:457
-#: lib/models/booking_model.php:45
-#: lib/models/booking_model.php:153
+#: lib/models/booking_model.php:46
+#: lib/models/booking_model.php:155
 #: lib/views/bookings/pending_approval.php:29
 #: lib/views/bookings/_booking_data.php:137
 #: lib/views/calendars/scopes/_day.php:68
 #: lib/views/calendars/scopes/_month.php:33
-#: lib/views/customer_cabinet/_booking_tile.php:51
-#: lib/views/shared/_template_variables.php:57
+#: lib/views/customer_cabinet/_booking_tile.php:44
+#: lib/views/shared/_template_variables.php:58
 msgid "Agent"
 msgstr "เจ้าหน้าที่"
 
-#: lib/controllers/bookings_controller.php:280
+#: lib/controllers/bookings_controller.php:289
 msgid "Agent Phone"
 msgstr "โทรศัพท์เจ้าหน้าที่"
 
-#: lib/controllers/bookings_controller.php:281
+#: lib/controllers/bookings_controller.php:290
 msgid "Agent Email"
 msgstr "อีเมลเจ้าหน้าที่"
 
-#: lib/controllers/bookings_controller.php:282
-#: lib/controllers/orders_controller.php:771
-#: lib/controllers/transactions_controller.php:171
-#: lib/helpers/booking_helper.php:1918
+#: lib/controllers/bookings_controller.php:291
+#: lib/controllers/event_registrations_controller.php:107
+#: lib/controllers/orders_controller.php:824
+#: lib/controllers/transactions_controller.php:193
+#: lib/helpers/booking_helper.php:2056
 #: lib/helpers/invoices_helper.php:144
 #: lib/helpers/settings_helper.php:544
 #: lib/misc/process_action.php:172
-#: lib/models/booking_model.php:154
+#: lib/models/booking_model.php:156
 #: lib/models/invoice_model.php:42
 #: lib/views/bookings/_booking_data.php:155
-#: lib/views/customer_cabinet/_booking_tile.php:55
+#: lib/views/customer_cabinet/_booking_tile.php:48
+#: lib/views/events_manager/_form.php:95
+#: lib/views/event_registrations/index.php:85
+#: lib/views/event_registrations/index.php:126
 #: lib/views/invoices/edit_data.php:34
 #: lib/views/invoices/new_form.php:39
 #: lib/views/orders/index.php:48
@@ -2520,25 +2530,25 @@ msgstr "อีเมลเจ้าหน้าที่"
 msgid "Status"
 msgstr "สถานะ"
 
-#: lib/controllers/bookings_controller.php:284
+#: lib/controllers/bookings_controller.php:293
 msgid "Booked On"
 msgstr "จองเมื่อ"
 
-#: lib/controllers/bookings_controller.php:592
-#: lib/controllers/customer_cabinet_controller.php:285
+#: lib/controllers/bookings_controller.php:601
+#: lib/controllers/customer_cabinet_controller.php:288
 #: lib/controllers/manage_booking_by_key_controller.php:320
 #: lib/controllers/manage_booking_by_key_controller.php:388
 msgid "Appointment Status Updated"
 msgstr "อัปเดตสถานะการนัดหมายแล้ว"
 
-#: lib/controllers/bookings_controller.php:595
-#: lib/controllers/customer_cabinet_controller.php:288
+#: lib/controllers/bookings_controller.php:604
+#: lib/controllers/customer_cabinet_controller.php:291
 #: lib/controllers/manage_booking_by_key_controller.php:323
 #: lib/controllers/manage_booking_by_key_controller.php:391
 msgid "Error Updating Booking Status!"
 msgstr "เกิดข้อผิดพลาดในการอัปเดตสถานะการจอง!"
 
-#: lib/controllers/bookings_controller.php:599
+#: lib/controllers/bookings_controller.php:608
 msgid "Error Updating Booking Status! Invalid ID"
 msgstr "เกิดข้อผิดพลาดในการอัปเดตสถานะการจอง! รหัสไม่ถูกต้อง"
 
@@ -2559,7 +2569,7 @@ msgstr "%s ถูกทำเครื่องหมายเป็นวัน
 #: lib/controllers/calendars_controller.php:82
 #: lib/controllers/calendars_controller.php:111
 #: lib/helpers/activities_helper.php:46
-#: lib/helpers/process_jobs_helper.php:311
+#: lib/helpers/process_jobs_helper.php:313
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
@@ -2585,18 +2595,29 @@ msgstr "ช่วงเวลาที่ถูกบล็อกไม่ถู
 #: lib/models/service_category_model.php:71
 #: lib/views/bookings/_booking_data.php:45
 #: lib/views/bookings/_booking_data.php:48
+#: lib/views/events_manager/index.php:20
 #: lib/views/services/index.php:8
 msgid "Uncategorized"
 msgstr "ไม่จัดหมวดหมู่"
 
-#: lib/controllers/carts_controller.php:29
+#: lib/controllers/carts_controller.php:30
 msgid "Booking removed from your cart"
 msgstr "การจองถูกลบออกจากรถเข็นของคุณแล้ว"
 
-#: lib/controllers/carts_controller.php:32
+#: lib/controllers/carts_controller.php:33
+#: lib/controllers/customers_controller.php:30
+#: lib/controllers/customers_controller.php:89
+#: lib/controllers/customers_controller.php:118
+#: lib/controllers/customers_controller.php:352
+#: lib/controllers/customers_controller.php:380
 #: lib/controllers/customer_cabinet_controller.php:63
 #: lib/controllers/customer_cabinet_controller.php:84
 #: lib/controllers/customer_cabinet_controller.php:106
+#: lib/controllers/orders_controller.php:118
+#: lib/controllers/orders_controller.php:731
+#: lib/controllers/transactions_controller.php:35
+#: lib/controllers/transactions_controller.php:93
+#: lib/controllers/transactions_controller.php:292
 #: lib/helpers/steps_helper.php:520
 msgid "Not Allowed"
 msgstr "ไม่อนุญาต"
@@ -2610,8 +2631,9 @@ msgstr "การจอง"
 #: lib/controllers/controller.php:32
 #: lib/controllers/dashboard_controller.php:19
 #: lib/helpers/menu_helper.php:49
-#: lib/helpers/menu_helper.php:276
-#: lib/views/partials/_side_menu.php:9
+#: lib/helpers/menu_helper.php:309
+#: lib/views/partials/_side_menu.php:15
+#: lib/views/partials/_side_menu.php:17
 msgid "Dashboard"
 msgstr "แดชบอร์ด"
 
@@ -2625,213 +2647,220 @@ msgstr "รูปแบบไม่ถูกต้อง"
 
 #: lib/controllers/customers_controller.php:19
 #: lib/helpers/menu_helper.php:79
-#: lib/helpers/menu_helper.php:306
-#: lib/helpers/roles_helper.php:374
+#: lib/helpers/menu_helper.php:339
+#: lib/helpers/roles_helper.php:390
 #: lib/views/customers/index.php:26
 #: lib/views/search/query_results.php:27
-#: lib/views/settings/general.php:239
-#: lib/views/settings/general.php:728
+#: lib/views/settings/general.php:268
+#: lib/views/settings/general.php:910
 msgid "Customers"
 msgstr "ลูกค้า"
 
-#: lib/controllers/customers_controller.php:30
+#: lib/controllers/customers_controller.php:33
 msgid "Customer Removed"
 msgstr "ลบลูกค้าแล้ว"
 
-#: lib/controllers/customers_controller.php:33
-#: lib/controllers/customers_controller.php:37
+#: lib/controllers/customers_controller.php:36
+#: lib/controllers/customers_controller.php:40
 msgid "Error Removing Customer"
 msgstr "เกิดข้อผิดพลาดในการลบลูกค้า"
 
-#: lib/controllers/customers_controller.php:103
+#: lib/controllers/customers_controller.php:121
 msgid "Customer is now allowed to book without password"
 msgstr "ขณะนี้ลูกค้าสามารถจองได้โดยไม่ต้องใช้รหัสผ่าน"
 
-#: lib/controllers/customers_controller.php:110
+#: lib/controllers/customers_controller.php:128
 msgid "Error setting customer as guest"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าลูกค้าเป็นผู้เยี่ยมชม"
 
-#: lib/controllers/customers_controller.php:128
-#: lib/controllers/customers_controller.php:130
+#: lib/controllers/customers_controller.php:146
+#: lib/controllers/customers_controller.php:148
 #: lib/views/customers/quick_edit.php:19
 msgid "Edit Customer"
 msgstr "แก้ไขลูกค้า"
 
 #. translators: %s is the html of a customer edit link
-#: lib/controllers/customers_controller.php:178
+#: lib/controllers/customers_controller.php:196
 #, php-format
 msgid "Customer Created ID: %s"
 msgstr "สร้างลูกค้าแล้ว รหัส: %s"
 
-#: lib/controllers/customers_controller.php:205
+#: lib/controllers/customers_controller.php:223
 msgid "Access Restricted"
 msgstr "การเข้าถึงถูกจำกัด"
 
 #. translators: %s is the html of a customer edit link
-#: lib/controllers/customers_controller.php:214
+#: lib/controllers/customers_controller.php:232
 #, php-format
 msgid "Customer Updated ID: %s"
 msgstr "อัปเดตลูกค้าแล้ว รหัส: %s"
 
-#: lib/controllers/customers_controller.php:223
+#: lib/controllers/customers_controller.php:241
 msgid "Invalid customer ID"
 msgstr "รหัสลูกค้าไม่ถูกต้อง"
 
-#: lib/controllers/customers_controller.php:279
+#: lib/controllers/customers_controller.php:297
 msgid "Error Accessing Customer"
 msgstr "เกิดข้อผิดพลาดในการเข้าถึงลูกค้า"
 
-#: lib/controllers/customers_controller.php:316
+#: lib/controllers/customers_controller.php:334
 msgid "Customers Connected"
 msgstr "ลูกค้าที่เชื่อมต่อแล้ว"
 
-#: lib/controllers/customers_controller.php:336
+#: lib/controllers/customers_controller.php:362
 msgid "Customer Disconnected"
 msgstr "ลูกค้าถูกตัดการเชื่อมต่อแล้ว"
 
-#: lib/controllers/customers_controller.php:356
+#: lib/controllers/customers_controller.php:392
 msgid "Customer Connected"
 msgstr "ลูกค้าเชื่อมต่อแล้ว"
 
-#: lib/controllers/customers_controller.php:411
+#: lib/controllers/customers_controller.php:447
+#: lib/models/event_category_model.php:21
+#: lib/models/event_model.php:38
+#: lib/views/event_registrations/index.php:82
+#: lib/views/event_registrations/index.php:123
 #: lib/views/processes/_form.php:33
 msgid "Name"
 msgstr "ชื่อ"
 
-#: lib/controllers/customers_controller.php:412
-#: lib/helpers/auth_helper.php:777
+#: lib/controllers/customers_controller.php:448
+#: lib/helpers/auth_helper.php:805
 #: lib/helpers/settings_helper.php:485
 #: lib/views/customers/index.php:52
 #: lib/views/customers/index.php:90
-#: lib/views/settings/general.php:171
-#: lib/views/settings/general.php:726
+#: lib/views/settings/general.php:199
+#: lib/views/settings/general.php:908
 msgid "Phone"
 msgstr "โทรศัพท์"
 
-#: lib/controllers/customers_controller.php:413
-#: lib/helpers/auth_helper.php:774
+#: lib/controllers/customers_controller.php:449
+#: lib/helpers/auth_helper.php:802
 #: lib/helpers/customer_import_helper.php:14
 #: lib/helpers/notifications_helper.php:31
 #: lib/helpers/settings_helper.php:484
 #: lib/views/customers/index.php:53
 #: lib/views/customers/index.php:91
+#: lib/views/event_registrations/index.php:83
+#: lib/views/event_registrations/index.php:124
 msgid "Email"
 msgstr "อีเมล"
 
-#: lib/controllers/customers_controller.php:414
+#: lib/controllers/customers_controller.php:450
 msgid "Total Appointments"
 msgstr "การนัดหมายทั้งหมด"
 
-#: lib/controllers/customers_controller.php:415
+#: lib/controllers/customers_controller.php:451
 #: lib/views/customers/mini_profile.php:33
 msgid "Next Appointment"
 msgstr "การนัดหมายถัดไป"
 
-#: lib/controllers/customers_controller.php:416
+#: lib/controllers/customers_controller.php:452
+#: lib/controllers/event_registrations_controller.php:109
 #: lib/views/customers/index.php:59
 #: lib/views/customers/index.php:97
 msgid "Registered On"
 msgstr "ลงทะเบียนเมื่อ"
 
-#: lib/controllers/customers_controller.php:545
+#: lib/controllers/customers_controller.php:581
 msgid "Email field is required"
 msgstr "ต้องกรอกช่องอีเมล"
 
-#: lib/controllers/customer_cabinet_controller.php:199
+#: lib/controllers/customer_cabinet_controller.php:202
 #: lib/controllers/manage_booking_by_key_controller.php:171
-#: lib/models/booking_model.php:546
-#: lib/models/booking_model.php:554
-#: lib/models/booking_model.php:561
+#: lib/models/booking_model.php:564
+#: lib/models/booking_model.php:572
+#: lib/models/booking_model.php:579
 msgid "Unfortunately the selected time slot is not available anymore, please select another timeslot."
 msgstr "ขออภัย ช่วงเวลาที่เลือกไม่ว่างแล้ว โปรดเลือกช่วงเวลาอื่น"
 
-#: lib/controllers/customer_cabinet_controller.php:228
+#: lib/controllers/customer_cabinet_controller.php:231
 #: lib/controllers/manage_booking_by_key_controller.php:203
 msgid "Error! Please try again later"
 msgstr "เกิดข้อผิดพลาด! โปรดลองอีกครั้งในภายหลัง"
 
-#: lib/controllers/customer_cabinet_controller.php:234
+#: lib/controllers/customer_cabinet_controller.php:237
 #: lib/controllers/manage_booking_by_key_controller.php:209
 msgid "Error! LKDFU343"
 msgstr "เกิดข้อผิดพลาด! LKDFU343"
 
-#: lib/controllers/customer_cabinet_controller.php:262
+#: lib/controllers/customer_cabinet_controller.php:265
 #: lib/controllers/manage_booking_by_key_controller.php:271
 msgid "Reschedule is not allowed"
 msgstr "ไม่อนุญาตให้เลื่อนเวลา"
 
-#: lib/controllers/customer_cabinet_controller.php:292
+#: lib/controllers/customer_cabinet_controller.php:295
 #: lib/controllers/manage_booking_by_key_controller.php:327
 msgid "Not allowed to cancel"
 msgstr "ไม่อนุญาตให้ยกเลิก"
 
-#: lib/controllers/customer_cabinet_controller.php:320
+#: lib/controllers/customer_cabinet_controller.php:323
 msgid "Information Saved"
 msgstr "บันทึกข้อมูลแล้ว"
 
-#: lib/controllers/customer_cabinet_controller.php:328
+#: lib/controllers/customer_cabinet_controller.php:331
 msgid "Customer not found"
 msgstr "ไม่พบลูกค้า"
 
-#: lib/controllers/customer_cabinet_controller.php:356
+#: lib/controllers/customer_cabinet_controller.php:359
 msgid "Invalid Booking"
 msgstr "การจองไม่ถูกต้อง"
 
-#: lib/controllers/customer_cabinet_controller.php:389
+#: lib/controllers/customer_cabinet_controller.php:392
 msgid "Invalid password or email"
 msgstr "รหัสผ่านหรืออีเมลไม่ถูกต้อง"
 
-#: lib/controllers/customer_cabinet_controller.php:428
+#: lib/controllers/customer_cabinet_controller.php:431
 msgid "Error! Email was not sent."
 msgstr "เกิดข้อผิดพลาด! ไม่ได้ส่งอีเมล"
 
-#: lib/controllers/customer_cabinet_controller.php:428
+#: lib/controllers/customer_cabinet_controller.php:431
 msgid "Email does not match any customer"
 msgstr "อีเมลไม่ตรงกับลูกค้าใดๆ"
 
-#: lib/controllers/customer_cabinet_controller.php:477
+#: lib/controllers/customer_cabinet_controller.php:480
 msgid "Password can not be blank"
 msgstr "รหัสผ่านต้องไม่เว้นว่าง"
 
-#: lib/controllers/customer_cabinet_controller.php:483
+#: lib/controllers/customer_cabinet_controller.php:486
 msgid "Unknown Error"
 msgstr "ข้อผิดพลาดที่ไม่ทราบสาเหตุ"
 
-#: lib/controllers/customer_cabinet_controller.php:501
+#: lib/controllers/customer_cabinet_controller.php:504
 msgid "Password token is invalid. Please request a new password reset."
 msgstr "โทเค็นรหัสผ่านไม่ถูกต้อง โปรดขอรีเซ็ตรหัสผ่านใหม่"
 
-#: lib/controllers/customer_cabinet_controller.php:509
+#: lib/controllers/customer_cabinet_controller.php:512
 msgid "Password token has expired. Please request a new password reset."
 msgstr "โทเค็นรหัสผ่านหมดอายุแล้ว โปรดขอรีเซ็ตรหัสผ่านใหม่"
 
-#: lib/controllers/customer_cabinet_controller.php:523
+#: lib/controllers/customer_cabinet_controller.php:526
 msgid "Your password was successfully updated."
 msgstr "รหัสผ่านของคุณได้รับการอัปเดตเรียบร้อยแล้ว"
 
-#: lib/controllers/customer_cabinet_controller.php:525
-#: lib/controllers/customer_cabinet_controller.php:564
+#: lib/controllers/customer_cabinet_controller.php:528
+#: lib/controllers/customer_cabinet_controller.php:567
 msgid "Error! Message Code: KS723J"
 msgstr "เกิดข้อผิดพลาด! รหัสข้อความ: KS723J"
 
-#: lib/controllers/customer_cabinet_controller.php:529
+#: lib/controllers/customer_cabinet_controller.php:532
 msgid "Error! Passwords do not match."
 msgstr "ข้อผิดพลาด! รหัสผ่านไม่ตรงกัน."
 
-#: lib/controllers/customer_cabinet_controller.php:534
-#: lib/models/booking_model.php:590
+#: lib/controllers/customer_cabinet_controller.php:537
+#: lib/models/booking_model.php:608
 msgid "Customer Not Found"
 msgstr "ไม่พบลูกค้า"
 
-#: lib/controllers/customer_cabinet_controller.php:562
+#: lib/controllers/customer_cabinet_controller.php:565
 msgid "Account Password Set"
 msgstr "ตั้งรหัสผ่านบัญชีแล้ว"
 
-#: lib/controllers/customer_cabinet_controller.php:569
+#: lib/controllers/customer_cabinet_controller.php:572
 msgid "Error! Password is empty."
 msgstr "ข้อผิดพลาด! รหัสผ่านว่างเปล่า."
 
-#: lib/controllers/customer_cabinet_controller.php:572
+#: lib/controllers/customer_cabinet_controller.php:575
 #: lib/controllers/manage_booking_by_key_controller.php:120
 #: lib/controllers/manage_booking_by_key_controller.php:345
 msgid "Invalid request"
@@ -2846,16 +2875,16 @@ msgid "Agent Updated. ID:"
 msgstr "อัปเดตเอเจนต์แล้ว. ID:"
 
 #: lib/controllers/form_fields_controller.php:23
-#: lib/helpers/menu_helper.php:263
+#: lib/helpers/menu_helper.php:296
 msgid "Form Fields"
 msgstr "ฟิลด์แบบฟอร์ม"
 
-#: lib/controllers/form_fields_controller.php:54
+#: lib/controllers/form_fields_controller.php:55
 msgid "Default Fields Updated"
 msgstr "อัปเดตฟิลด์เริ่มต้นแล้ว"
 
 #: lib/controllers/integrations_controller.php:20
-#: lib/helpers/menu_helper.php:231
+#: lib/helpers/menu_helper.php:264
 msgid "Integrations"
 msgstr "การผสานรวม"
 
@@ -2877,8 +2906,10 @@ msgstr "ID ใบแจ้งหนี้ไม่ถูกต้อง"
 
 #: lib/controllers/invoices_controller.php:139
 #: lib/controllers/invoices_controller.php:269
-#: lib/controllers/invoices_controller.php:340
-#: lib/controllers/invoices_controller.php:475
+#: lib/controllers/invoices_controller.php:342
+#: lib/controllers/invoices_controller.php:477
+#: lib/controllers/paypal_connect_controller.php:30
+#: lib/controllers/paypal_connect_controller.php:34
 #: lib/controllers/razorpay_connect_controller.php:100
 #: lib/controllers/razorpay_connect_controller.php:104
 #: lib/controllers/stripe_connect_controller.php:29
@@ -2894,56 +2925,57 @@ msgstr "ข้อผิดพลาด:"
 msgid "{{customer_email}}"
 msgstr "{{customer_email}}"
 
-#: lib/controllers/invoices_controller.php:315
+#: lib/controllers/invoices_controller.php:317
 msgid "Invoice email sent"
 msgstr "ส่งอีเมลใบแจ้งหนี้แล้ว"
 
-#: lib/controllers/invoices_controller.php:317
+#: lib/controllers/invoices_controller.php:319
 msgid "Please enter a valid email address."
 msgstr "โปรดป้อนที่อยู่อีเมลที่ถูกต้อง."
 
-#: lib/controllers/invoices_controller.php:334
-#: lib/controllers/invoices_controller.php:469
+#: lib/controllers/invoices_controller.php:336
+#: lib/controllers/invoices_controller.php:471
 msgid "Invalid Invoice Key"
 msgstr "คีย์ใบแจ้งหนี้ไม่ถูกต้อง"
 
-#: lib/controllers/invoices_controller.php:370
+#: lib/controllers/invoices_controller.php:372
 #: lib/views/booking_form_settings/_booking_form_preview.php:66
 #: lib/views/steps/start.php:110
-#: lib/views/wizard/setup.php:15
-#: lib/views/wizard/steps/_form_agent.php:34
+#: lib/views/wizard/setup.php:16
+#: lib/views/wizard/steps/_form_agent.php:35
 #: lib/views/wizard/steps/_form_service.php:48
 msgid "Back"
 msgstr "ย้อนกลับ"
 
-#: lib/controllers/invoices_controller.php:371
-#: lib/helpers/steps_helper.php:1555
+#: lib/controllers/invoices_controller.php:373
+#: lib/helpers/steps_helper.php:1582
 #: lib/views/booking_form_settings/_booking_form_preview.php:69
 #: lib/views/customers/import_steps/step_mapping.php:1
 #: lib/views/steps/start.php:115
-#: lib/views/wizard/setup.php:16
+#: lib/views/wizard/setup.php:17
 msgid "Next"
 msgstr "ถัดไป"
 
-#: lib/controllers/invoices_controller.php:394
+#: lib/controllers/invoices_controller.php:396
 msgid "Payment Methods"
 msgstr "วิธีการชำระเงิน"
 
-#: lib/controllers/invoices_controller.php:401
+#: lib/controllers/invoices_controller.php:403
 #: lib/views/settings/payments.php:9
 msgid "Payment Processors"
 msgstr "ตัวประมวลผลการชำระเงิน"
 
-#: lib/controllers/invoices_controller.php:410
+#: lib/controllers/invoices_controller.php:412
 #, php-format
 msgid "Pay %s"
 msgstr "ชำระ %s"
 
-#: lib/controllers/invoices_controller.php:411
+#: lib/controllers/invoices_controller.php:413
 msgid "Payment Form"
 msgstr "แบบฟอร์มการชำระเงิน"
 
-#: lib/controllers/invoices_controller.php:433
+#: lib/controllers/invoices_controller.php:435
+#: lib/helpers/translation_helper.php:85
 #: lib/views/orders/index.php:51
 #: lib/views/orders/index.php:61
 #: lib/views/orders/index.php:89
@@ -2966,7 +2998,7 @@ msgid "You cannot modify other agents' bookings"
 msgstr "คุณไม่สามารถแก้ไขการจองของเอเจนต์อื่นได้"
 
 #: lib/controllers/notifications_controller.php:18
-#: lib/helpers/menu_helper.php:188
+#: lib/helpers/menu_helper.php:221
 msgid "Notifications"
 msgstr "การแจ้งเตือน"
 
@@ -2977,7 +3009,7 @@ msgstr "เลือกเทมเพลต"
 
 #: lib/controllers/orders_controller.php:22
 #: lib/helpers/menu_helper.php:67
-#: lib/helpers/menu_helper.php:294
+#: lib/helpers/menu_helper.php:327
 #: lib/views/customer_cabinet/dashboard.php:23
 #: lib/views/orders/index.php:24
 msgid "Orders"
@@ -2986,60 +3018,60 @@ msgstr "คำสั่งซื้อ"
 #. translators: %s is the description of an error
 #. translators: %s is an error message
 #. translators: %s is the error description
-#: lib/controllers/orders_controller.php:152
-#: lib/controllers/orders_controller.php:174
-#: lib/controllers/orders_controller.php:410
-#: lib/models/order_intent_model.php:397
+#: lib/controllers/orders_controller.php:179
+#: lib/controllers/orders_controller.php:202
+#: lib/controllers/orders_controller.php:438
+#: lib/models/order_intent_model.php:423
 #: lib/models/transaction_intent_model.php:177
 #, php-format
 msgid "Error: %s"
 msgstr "ข้อผิดพลาด: %s"
 
 #. translators: %s is a link to the updated order
-#: lib/controllers/orders_controller.php:404
+#: lib/controllers/orders_controller.php:432
 #, php-format
 msgid "Order Updated ID: %s"
 msgstr "อัปเดตคำสั่งซื้อแล้ว ID: %s"
 
 #. translators: %s is a link to the updated order
-#: lib/controllers/orders_controller.php:404
+#: lib/controllers/orders_controller.php:432
 #, php-format
 msgid "Order Created ID: %s"
 msgstr "สร้างคำสั่งซื้อแล้ว ID: %s"
 
-#: lib/controllers/orders_controller.php:684
+#: lib/controllers/orders_controller.php:737
 msgid "Order Removed"
 msgstr "ลบคำสั่งซื้อแล้ว"
 
-#: lib/controllers/orders_controller.php:687
-#: lib/controllers/orders_controller.php:691
+#: lib/controllers/orders_controller.php:740
+#: lib/controllers/orders_controller.php:744
 msgid "Error Removing Order"
 msgstr "เกิดข้อผิดพลาดในการลบคำสั่งซื้อ"
 
-#: lib/controllers/orders_controller.php:765
-#: lib/controllers/transactions_controller.php:165
+#: lib/controllers/orders_controller.php:818
+#: lib/controllers/transactions_controller.php:187
 #: lib/views/transactions/index.php:36
 #: lib/views/transactions/index.php:48
 #: lib/views/transactions/index.php:74
 msgid "Token"
 msgstr "โทเค็น"
 
-#: lib/controllers/orders_controller.php:768
-#: lib/controllers/transactions_controller.php:168
+#: lib/controllers/orders_controller.php:821
+#: lib/controllers/transactions_controller.php:190
 #: lib/views/transactions/index.php:39
 #: lib/views/transactions/index.php:77
 msgid "Processor"
 msgstr "ตัวประมวลผล"
 
-#: lib/controllers/orders_controller.php:769
-#: lib/controllers/transactions_controller.php:169
+#: lib/controllers/orders_controller.php:822
+#: lib/controllers/transactions_controller.php:191
 #: lib/views/transactions/index.php:40
 #: lib/views/transactions/index.php:78
 msgid "Method"
 msgstr "วิธีการ"
 
-#: lib/controllers/orders_controller.php:770
-#: lib/controllers/transactions_controller.php:170
+#: lib/controllers/orders_controller.php:823
+#: lib/controllers/transactions_controller.php:192
 #: lib/helpers/invoices_helper.php:277
 #: lib/views/invoices/new_form.php:22
 #: lib/views/transactions/edit_form.php:44
@@ -3051,7 +3083,7 @@ msgid "Amount"
 msgstr "จำนวนเงิน"
 
 #: lib/controllers/processes_controller.php:24
-#: lib/helpers/menu_helper.php:213
+#: lib/helpers/menu_helper.php:246
 msgid "Workflows"
 msgstr "เวิร์กโฟลว์"
 
@@ -3064,23 +3096,23 @@ msgstr "ลบกระบวนการแล้ว"
 msgid "Error Removing Workflow"
 msgstr "เกิดข้อผิดพลาดในการลบเวิร์กโฟลว์"
 
-#: lib/controllers/processes_controller.php:198
+#: lib/controllers/processes_controller.php:204
 msgid "Process Saved"
 msgstr "บันทึกกระบวนการแล้ว"
 
-#: lib/controllers/processes_controller.php:201
+#: lib/controllers/processes_controller.php:207
 msgid "Error saving process"
 msgstr "เกิดข้อผิดพลาดในการบันทึกกระบวนการ"
 
-#: lib/controllers/processes_controller.php:332
+#: lib/controllers/processes_controller.php:338
 msgid "Run complete"
 msgstr "ดำเนินการเสร็จสิ้น"
 
-#: lib/controllers/processes_controller.php:332
+#: lib/controllers/processes_controller.php:338
 msgid "view logs"
 msgstr "ดูบันทึก"
 
-#: lib/controllers/processes_controller.php:335
+#: lib/controllers/processes_controller.php:341
 msgid "Trigger conditions not met"
 msgstr "เงื่อนไขทริกเกอร์ไม่เป็นไปตามที่กำหนด"
 
@@ -3109,19 +3141,21 @@ msgid "Job cancelled"
 msgstr "ยกเลิกงานแล้ว"
 
 #: lib/controllers/pro_controller.php:29
-#: lib/helpers/menu_helper.php:140
-#: lib/helpers/menu_helper.php:356
+#: lib/helpers/menu_helper.php:173
+#: lib/helpers/menu_helper.php:422
 msgid "Coupons"
 msgstr "คูปอง"
 
 #: lib/controllers/pro_controller.php:68
-#: lib/helpers/menu_helper.php:134
-#: lib/helpers/menu_helper.php:350
+#: lib/helpers/menu_helper.php:167
+#: lib/helpers/menu_helper.php:416
+#: lib/helpers/roles_helper.php:386
 msgid "Assets"
 msgstr "สินทรัพย์"
 
+#: lib/controllers/paypal_connect_controller.php:81
 #: lib/controllers/razorpay_connect_controller.php:40
-#: lib/controllers/stripe_connect_controller.php:264
+#: lib/controllers/stripe_connect_controller.php:265
 msgid "Booking slot is not available anymore."
 msgstr "ช่วงเวลาการจองไม่พร้อมใช้งานแล้ว."
 
@@ -3130,7 +3164,7 @@ msgstr "ช่วงเวลาการจองไม่พร้อมใช
 msgid "Razorpay connect account ID not set"
 msgstr "ยังไม่ได้ตั้งค่า ID บัญชีเชื่อมต่อ Razorpay"
 
-#: lib/controllers/razorpay_connect_controller.php:230
+#: lib/controllers/razorpay_connect_controller.php:223
 msgid "Redirecting to Razorpay"
 msgstr "กำลังเปลี่ยนเส้นทางไปยัง Razorpay"
 
@@ -3191,59 +3225,61 @@ msgstr "นำเข้าข้อมูลแล้ว"
 msgid "You must upload a JSON file to import data from"
 msgstr "คุณต้องอัปโหลดไฟล์ JSON เพื่อใช้ในการนำเข้าข้อมูล"
 
-#: lib/controllers/settings_controller.php:182
+#: lib/controllers/settings_controller.php:196
 msgid "Order of steps has been successfully updated"
 msgstr "ลำดับขั้นตอนได้รับการอัปเดตเรียบร้อยแล้ว"
 
-#: lib/controllers/settings_controller.php:222
+#: lib/controllers/settings_controller.php:236
 msgid "Pages Setup"
 msgstr "ตั้งค่าหน้า"
 
-#: lib/controllers/settings_controller.php:235
+#: lib/controllers/settings_controller.php:249
 msgid "Payment Processing"
 msgstr "การประมวลผลการชำระเงิน"
 
-#: lib/controllers/settings_controller.php:251
+#: lib/controllers/settings_controller.php:265
 msgid "Work Schedule Settings"
 msgstr "การตั้งค่าตารางเวลาทำงาน"
 
-#: lib/controllers/settings_controller.php:262
-#: lib/helpers/menu_helper.php:158
+#: lib/controllers/settings_controller.php:276
+#: lib/helpers/menu_helper.php:191
+#: lib/views/events_manager/_form.php:83
+#: lib/views/events_manager/_form.php:369
 #: lib/views/services/_form.php:16
-#: lib/views/services/_form.php:349
+#: lib/views/services/_form.php:357
 msgid "General"
 msgstr "ทั่วไป"
 
-#: lib/controllers/settings_controller.php:274
+#: lib/controllers/settings_controller.php:288
 msgid "Date Range Schedule Removed"
 msgstr "ลบตารางช่วงวันที่แล้ว"
 
-#: lib/controllers/settings_controller.php:277
+#: lib/controllers/settings_controller.php:291
 msgid "Invalid Data"
 msgstr "ข้อมูลไม่ถูกต้อง"
 
-#: lib/controllers/settings_controller.php:299
+#: lib/controllers/settings_controller.php:313
 msgid "Custom Day Schedule Removed"
 msgstr "ลบตารางวันกำหนดเองแล้ว"
 
-#: lib/controllers/settings_controller.php:302
+#: lib/controllers/settings_controller.php:316
 msgid "Invalid Date"
 msgstr "วันที่ไม่ถูกต้อง"
 
-#: lib/controllers/settings_controller.php:345
+#: lib/controllers/settings_controller.php:359
 msgid "Table Settings Saved"
 msgstr "บันทึกการตั้งค่าตารางแล้ว"
 
-#: lib/controllers/settings_controller.php:365
-#: lib/controllers/settings_controller.php:446
+#: lib/controllers/settings_controller.php:379
+#: lib/controllers/settings_controller.php:460
 msgid "Work Schedule Updated"
 msgstr "อัปเดตตารางเวลาทำงานแล้ว"
 
-#: lib/controllers/settings_controller.php:493
+#: lib/controllers/settings_controller.php:507
 msgid "Settings Updated"
 msgstr "อัปเดตการตั้งค่าแล้ว"
 
-#: lib/controllers/settings_controller.php:496
+#: lib/controllers/settings_controller.php:510
 msgid "Settings Updated With Errors:"
 msgstr "อัปเดตการตั้งค่าแล้วพร้อมข้อผิดพลาด:"
 
@@ -3255,19 +3291,21 @@ msgstr "ตะกร้าถูกแปลงเป็นคำสั่งซ
 msgid "Order intent can be converted to order"
 msgstr "ความตั้งใจในการสั่งซื้อสามารถแปลงเป็นคำสั่งซื้อได้"
 
-#: lib/controllers/steps_controller.php:118
+#: lib/controllers/steps_controller.php:119
+#: lib/controllers/steps_controller.php:120
 msgid "Selected booking slot is not available anymore. Please pick a different time slot."
 msgstr "ช่วงเวลาการจองที่เลือกไม่พร้อมใช้งานแล้ว โปรดเลือกช่วงเวลาอื่น."
 
-#: lib/controllers/steps_controller.php:238
+#: lib/controllers/steps_controller.php:244
 msgid "Invalid order intent key"
 msgstr "คีย์ความตั้งใจในการสั่งซื้อไม่ถูกต้อง"
 
 #: lib/controllers/stripe_connect_controller.php:44
-#: lib/controllers/stripe_connect_controller.php:272
+#: lib/controllers/stripe_connect_controller.php:273
 msgid "Stripe connect account ID not set"
 msgstr "ยังไม่ได้ตั้งค่า ID บัญชีเชื่อมต่อ Stripe"
 
+#: lib/controllers/paypal_connect_controller.php:48
 #: lib/controllers/stripe_connect_controller.php:49
 #: lib/helpers/transaction_intent_helper.php:86
 msgid "Unable to save transaction intent"
@@ -3290,41 +3328,41 @@ msgid "Todos"
 msgstr "สิ่งที่ต้องทำ"
 
 #: lib/controllers/transactions_controller.php:18
-#: lib/views/orders/quick_edit.php:253
+#: lib/views/orders/quick_edit.php:312
 msgid "Transactions"
 msgstr "ธุรกรรม"
 
-#: lib/controllers/transactions_controller.php:46
+#: lib/controllers/transactions_controller.php:57
 msgid "Invalid Receipt Key"
 msgstr "คีย์ใบเสร็จไม่ถูกต้อง"
 
-#: lib/controllers/transactions_controller.php:55
+#: lib/controllers/transactions_controller.php:66
 msgid "Receipt not found"
 msgstr "ไม่พบใบเสร็จ"
 
-#: lib/controllers/transactions_controller.php:78
+#: lib/controllers/transactions_controller.php:100
 msgid "Transaction Removed"
 msgstr "ลบธุรกรรมแล้ว"
 
-#: lib/controllers/transactions_controller.php:81
-#: lib/controllers/transactions_controller.php:85
+#: lib/controllers/transactions_controller.php:103
+#: lib/controllers/transactions_controller.php:107
 msgid "Error Removing Transaction"
 msgstr "เกิดข้อผิดพลาดในการลบธุรกรรม"
 
-#: lib/controllers/transactions_controller.php:166
+#: lib/controllers/transactions_controller.php:188
 #: lib/views/transactions/index.php:37
 #: lib/views/transactions/index.php:49
 #: lib/views/transactions/index.php:75
 msgid "Order ID"
 msgstr "ID คำสั่งซื้อ"
 
-#: lib/controllers/transactions_controller.php:254
-#: lib/controllers/transactions_controller.php:267
-#: lib/helpers/razorpay_connect_helper.php:274
+#: lib/controllers/transactions_controller.php:276
+#: lib/controllers/transactions_controller.php:300
+#: lib/helpers/razorpay_connect_helper.php:354
 msgid "Invalid Transaction"
 msgstr "ธุรกรรมไม่ถูกต้อง"
 
-#: lib/controllers/transactions_controller.php:274
+#: lib/controllers/transactions_controller.php:307
 msgid "Invalid Refund Amount"
 msgstr "จำนวนเงินคืนไม่ถูกต้อง"
 
@@ -3487,7 +3525,7 @@ msgstr "สถานะการนัดหมายเปลี่ยนจา
 
 #: lib/helpers/agent_helper.php:139
 #: lib/helpers/agent_helper.php:191
-#: lib/helpers/steps_helper.php:2927
+#: lib/helpers/steps_helper.php:3007
 msgid "Learn More"
 msgstr "เรียนรู้เพิ่มเติม"
 
@@ -3513,22 +3551,22 @@ msgstr "ปฏิบัติหน้าที่"
 msgid "Disabled"
 msgstr "ปิดใช้งาน"
 
-#: lib/helpers/auth_helper.php:450
-#: lib/helpers/auth_helper.php:512
+#: lib/helpers/auth_helper.php:478
+#: lib/helpers/auth_helper.php:540
 #: lib/models/agent_model.php:38
 #: lib/views/booking_form_settings/previews/_customer.php:24
 #: lib/views/steps/partials/_contact_form.php:40
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: lib/helpers/auth_helper.php:451
-#: lib/helpers/auth_helper.php:513
+#: lib/helpers/auth_helper.php:479
+#: lib/helpers/auth_helper.php:541
 msgid "One-time code"
 msgstr "รหัสใช้ครั้งเดียว"
 
-#: lib/helpers/auth_helper.php:547
-#: lib/helpers/auth_helper.php:672
-#: lib/helpers/settings_helper.php:696
+#: lib/helpers/auth_helper.php:575
+#: lib/helpers/auth_helper.php:700
+#: lib/helpers/settings_helper.php:701
 #: lib/models/agent_model.php:39
 #: lib/models/customer_model.php:32
 #: lib/views/booking_form_settings/previews/_customer.php:22
@@ -3539,15 +3577,15 @@ msgstr "รหัสใช้ครั้งเดียว"
 #: lib/views/default_agent/edit_form.php:25
 #: lib/views/steps/partials/_contact_form.php:32
 #: lib/views/wizard/steps/_default_agent.php:28
-#: lib/views/wizard/steps/_form_agent.php:18
+#: lib/views/wizard/steps/_form_agent.php:19
 #: lib/views/wizard/steps/_personal_info.php:26
 msgid "Email Address"
 msgstr "ที่อยู่อีเมล"
 
-#: lib/helpers/auth_helper.php:548
-#: lib/helpers/auth_helper.php:673
+#: lib/helpers/auth_helper.php:576
+#: lib/helpers/auth_helper.php:701
 #: lib/helpers/customer_import_helper.php:15
-#: lib/helpers/settings_helper.php:702
+#: lib/helpers/settings_helper.php:707
 #: lib/misc/process_action.php:280
 #: lib/models/customer_model.php:33
 #: lib/views/booking_form_settings/previews/_customer.php:21
@@ -3555,57 +3593,58 @@ msgstr "ที่อยู่อีเมล"
 #: lib/views/default_agent/edit_form.php:28
 #: lib/views/steps/partials/_contact_form.php:24
 #: lib/views/wizard/steps/_default_agent.php:31
-#: lib/views/wizard/steps/_form_agent.php:21
+#: lib/views/wizard/steps/_form_agent.php:22
 msgid "Phone Number"
 msgstr "หมายเลขโทรศัพท์"
 
-#: lib/helpers/auth_helper.php:674
+#: lib/helpers/auth_helper.php:702
 msgid "Disable ability to login"
 msgstr "ปิดความสามารถในการเข้าสู่ระบบ"
 
-#: lib/helpers/auth_helper.php:734
-#: lib/helpers/auth_helper.php:786
+#: lib/helpers/auth_helper.php:762
+#: lib/helpers/auth_helper.php:814
 #: lib/views/booking_form_settings/previews/_customer.php:34
 #: lib/views/customer_cabinet/dashboard.php:137
 msgid "Your Email Address"
 msgstr "ที่อยู่อีเมลของคุณ"
 
-#: lib/helpers/auth_helper.php:748
-#: lib/helpers/auth_helper.php:793
+#: lib/helpers/auth_helper.php:776
+#: lib/helpers/auth_helper.php:821
 #: lib/views/customer_cabinet/dashboard.php:136
 msgid "Your Phone Number"
 msgstr "หมายเลขโทรศัพท์ของคุณ"
 
-#: lib/helpers/auth_helper.php:759
-#: lib/helpers/auth_helper.php:837
+#: lib/helpers/auth_helper.php:787
+#: lib/helpers/auth_helper.php:865
 #: lib/views/customers/import_csv_modal.php:26
+#: lib/views/settings/general.php:579
 #: lib/views/steps/partials/_cart_clear.php:11
 msgid "Continue"
 msgstr "ดำเนินการต่อ"
 
-#: lib/helpers/auth_helper.php:768
+#: lib/helpers/auth_helper.php:796
 #: lib/views/booking_form_settings/previews/_customer.php:44
 msgid "Sign in"
 msgstr "ลงชื่อเข้าใช้"
 
-#: lib/helpers/auth_helper.php:800
+#: lib/helpers/auth_helper.php:828
 #: lib/views/booking_form_settings/previews/_customer.php:35
 msgid "Your Password"
 msgstr "รหัสผ่านของคุณ"
 
-#: lib/helpers/auth_helper.php:811
+#: lib/helpers/auth_helper.php:839
 msgid "Forgot?"
 msgstr "ลืม?"
 
-#: lib/helpers/auth_helper.php:816
+#: lib/helpers/auth_helper.php:844
 msgid "You will receive a 6-digit code to log in."
 msgstr "คุณจะได้รับรหัส 6 หลักเพื่อเข้าสู่ระบบ"
 
-#: lib/helpers/auth_helper.php:825
+#: lib/helpers/auth_helper.php:853
 msgid "Use password instead"
 msgstr "ใช้รหัสผ่านแทน"
 
-#: lib/helpers/auth_helper.php:828
+#: lib/helpers/auth_helper.php:856
 msgid "Send me a sign-in code"
 msgstr "ส่งรหัสเข้าสู่ระบบให้ฉัน"
 
@@ -3624,9 +3663,9 @@ msgid "Starts at"
 msgstr "เริ่มต้นที่"
 
 #: lib/helpers/blocks_helper.php:73
-#: lib/helpers/booking_helper.php:1997
-#: lib/helpers/booking_helper.php:2045
-#: lib/helpers/booking_helper.php:2057
+#: lib/helpers/booking_helper.php:2135
+#: lib/helpers/booking_helper.php:2183
+#: lib/helpers/booking_helper.php:2195
 #: lib/views/orders/index.php:58
 #: lib/views/orders/index.php:59
 #: lib/views/orders/index.php:60
@@ -3658,171 +3697,182 @@ msgid "Microsoft 365"
 msgstr "Microsoft 365"
 
 #. translators: %1$s is agent name, %2$s is service name
-#: lib/helpers/booking_helper.php:503
+#: lib/helpers/booking_helper.php:574
 #, php-format
 msgid "Appointment with %1$s for %2$s"
 msgstr "การนัดหมายกับ %1$s สำหรับ %2$s"
 
-#: lib/helpers/booking_helper.php:686
+#: lib/helpers/booking_helper.php:769
 msgid "Bundle & Save"
 msgstr "รวมชุดและประหยัด"
 
-#: lib/helpers/booking_helper.php:792
+#: lib/helpers/booking_helper.php:823
+#: lib/helpers/booking_helper.php:897
 msgid "Starts From"
 msgstr "เริ่มจาก"
 
-#: lib/helpers/booking_helper.php:1384
+#: lib/helpers/booking_helper.php:1489
 #: lib/helpers/orders_helper.php:158
 #: lib/helpers/orders_helper.php:167
 #: lib/helpers/orders_helper.php:176
 msgid "Undefined Status"
 msgstr "สถานะไม่ระบุ"
 
-#: lib/helpers/booking_helper.php:1391
+#: lib/helpers/booking_helper.php:1496
 msgid "Approved"
 msgstr "อนุมัติแล้ว"
 
-#: lib/helpers/booking_helper.php:1392
+#: lib/helpers/booking_helper.php:1497
 msgid "Pending Approval"
 msgstr "รอการอนุมัติ"
 
-#: lib/helpers/booking_helper.php:1393
+#: lib/helpers/booking_helper.php:1498
 #: lib/helpers/orders_helper.php:46
-#: lib/helpers/process_jobs_helper.php:310
+#: lib/helpers/process_jobs_helper.php:312
+#: lib/models/event_registration_model.php:80
 #: lib/views/customer_cabinet/dashboard.php:97
+#: lib/views/events_manager/_form.php:45
+#: lib/views/event_registrations/index.php:33
 #: lib/views/process_jobs/index.php:49
 msgid "Cancelled"
 msgstr "ยกเลิกแล้ว"
 
-#: lib/helpers/booking_helper.php:1394
+#: lib/helpers/booking_helper.php:1499
 msgid "No Show"
 msgstr "ไม่มาตามนัด"
 
-#: lib/helpers/booking_helper.php:1395
+#: lib/helpers/booking_helper.php:1500
 #: lib/helpers/orders_helper.php:47
-#: lib/helpers/process_jobs_helper.php:308
+#: lib/helpers/process_jobs_helper.php:310
+#: lib/views/events_manager/_form.php:46
 #: lib/views/process_jobs/index.php:49
 msgid "Completed"
 msgstr "เสร็จสิ้น"
 
-#: lib/helpers/booking_helper.php:1414
-#: lib/helpers/util_helper.php:376
+#: lib/helpers/booking_helper.php:1519
+#: lib/helpers/util_helper.php:424
 msgid "Monday"
 msgstr "วันจันทร์"
 
-#: lib/helpers/booking_helper.php:1415
-#: lib/helpers/util_helper.php:377
+#: lib/helpers/booking_helper.php:1520
+#: lib/helpers/util_helper.php:425
 msgid "Tuesday"
 msgstr "วันอังคาร"
 
-#: lib/helpers/booking_helper.php:1416
-#: lib/helpers/util_helper.php:378
+#: lib/helpers/booking_helper.php:1521
+#: lib/helpers/util_helper.php:426
 msgid "Wednesday"
 msgstr "วันพุธ"
 
-#: lib/helpers/booking_helper.php:1417
-#: lib/helpers/util_helper.php:379
+#: lib/helpers/booking_helper.php:1522
+#: lib/helpers/util_helper.php:427
 msgid "Thursday"
 msgstr "วันพฤหัสบดี"
 
-#: lib/helpers/booking_helper.php:1418
-#: lib/helpers/util_helper.php:380
+#: lib/helpers/booking_helper.php:1523
+#: lib/helpers/util_helper.php:428
 msgid "Friday"
 msgstr "วันศุกร์"
 
-#: lib/helpers/booking_helper.php:1419
-#: lib/helpers/util_helper.php:381
+#: lib/helpers/booking_helper.php:1524
+#: lib/helpers/util_helper.php:429
 msgid "Saturday"
 msgstr "วันเสาร์"
 
-#: lib/helpers/booking_helper.php:1420
-#: lib/helpers/util_helper.php:382
+#: lib/helpers/booking_helper.php:1525
+#: lib/helpers/util_helper.php:430
 msgid "Sunday"
 msgstr "วันอาทิตย์"
 
-#: lib/helpers/booking_helper.php:1424
+#: lib/helpers/booking_helper.php:1529
 msgid "Mon"
 msgstr "จันทร์"
 
-#: lib/helpers/booking_helper.php:1425
+#: lib/helpers/booking_helper.php:1530
 msgid "Tue"
 msgstr "อังคาร"
 
-#: lib/helpers/booking_helper.php:1426
+#: lib/helpers/booking_helper.php:1531
 msgid "Wed"
 msgstr "พุธ"
 
-#: lib/helpers/booking_helper.php:1427
+#: lib/helpers/booking_helper.php:1532
 msgid "Thu"
 msgstr "พฤหัส"
 
-#: lib/helpers/booking_helper.php:1428
+#: lib/helpers/booking_helper.php:1533
 msgid "Fri"
 msgstr "ศุกร์"
 
-#: lib/helpers/booking_helper.php:1429
+#: lib/helpers/booking_helper.php:1534
 msgid "Sat"
 msgstr "เสาร์"
 
-#: lib/helpers/booking_helper.php:1430
+#: lib/helpers/booking_helper.php:1535
 msgid "Sun"
 msgstr "อาทิตย์"
 
-#: lib/helpers/booking_helper.php:1720
-#: lib/views/customer_cabinet/_booking_tile.php:65
+#: lib/helpers/booking_helper.php:1866
+#: lib/views/customer_cabinet/_booking_tile.php:58
 msgid "Add to Calendar"
 msgstr "เพิ่มลงในปฏิทิน"
 
-#: lib/helpers/booking_helper.php:1723
+#: lib/helpers/booking_helper.php:1869
 #: lib/views/orders/_full_summary.php:44
 msgid "Print"
 msgstr "พิมพ์"
 
-#: lib/helpers/booking_helper.php:1729
+#: lib/helpers/booking_helper.php:1875
 #: lib/views/customer_cabinet/_booking_tile.php:32
 #: lib/views/manage_booking_by_key/show.php:33
 #: lib/views/shared/request_reschedule_calendar.php:39
 msgid "Reschedule"
 msgstr "กำหนดเวลาใหม่"
 
-#: latepoint.php:1666
-#: lib/helpers/booking_helper.php:1740
+#: latepoint.php:1875
+#: lib/helpers/booking_helper.php:1843
 #: lib/helpers/steps_helper.php:458
-#: lib/views/customer_cabinet/_booking_tile.php:42
+#: lib/views/event_categories/_form.php:33
+#: lib/views/event_registrations/_table_body.php:55
 #: lib/views/orders/quick_edit.php:78
-#: lib/views/wizard/steps/_form_agent.php:31
+#: lib/views/wizard/steps/_form_agent.php:32
 #: lib/views/wizard/steps/_form_service.php:45
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: lib/helpers/booking_helper.php:1775
+#: lib/helpers/booking_helper.php:1913
 #: lib/helpers/bundles_helper.php:122
-#: lib/views/steps/partials/_cart_summary.php:67
+#: lib/views/steps/partials/_cart_summary.php:81
 msgid "Are you sure you want to remove this item from your cart?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการนำรายการนี้ออกจากตะกร้าของคุณ?"
 
-#: lib/helpers/booking_helper.php:1902
+#: lib/helpers/booking_helper.php:2040
 #: lib/helpers/settings_helper.php:519
 #: lib/views/activities/index.php:48
 #: lib/views/activities/index.php:72
 msgid "Date/Time"
 msgstr "วันที่/เวลา"
 
-#: lib/helpers/booking_helper.php:1906
+#: lib/helpers/booking_helper.php:2044
 #: lib/helpers/settings_helper.php:524
 msgid "Time Left"
 msgstr "เวลาที่เหลือ"
 
-#: lib/helpers/booking_helper.php:1912
+#: lib/helpers/booking_helper.php:2050
 #: lib/helpers/location_helper.php:44
 #: lib/helpers/settings_helper.php:534
-#: lib/helpers/steps_helper.php:2888
+#: lib/helpers/steps_helper.php:2968
 #: lib/views/bookings/_booking_data.php:116
-#: lib/views/shared/_template_variables.php:70
+#: lib/views/events_manager/_form.php:130
+#: lib/views/events_manager/_form.php:139
+#: lib/views/events_manager/_step_event.php:96
+#: lib/views/events_manager/_step_event.php:101
+#: lib/views/shared/_template_variables.php:71
 msgid "Location"
 msgstr "สถานที่"
 
-#: lib/helpers/booking_helper.php:1921
+#: lib/controllers/event_registrations_controller.php:108
+#: lib/helpers/booking_helper.php:2059
 #: lib/helpers/settings_helper.php:549
 #: lib/misc/process_event.php:533
 #: lib/misc/process_event.php:543
@@ -3832,54 +3882,54 @@ msgstr "สถานที่"
 msgid "Payment Status"
 msgstr "สถานะการชำระเงิน"
 
-#: lib/helpers/booking_helper.php:1925
+#: lib/helpers/booking_helper.php:2063
 #: lib/helpers/settings_helper.php:554
 msgid "Created On"
 msgstr "สร้างเมื่อ"
 
-#: lib/helpers/booking_helper.php:1975
+#: lib/helpers/booking_helper.php:2113
 msgid "Search by Appointment Date"
 msgstr "ค้นหาตามวันที่นัดหมาย"
 
-#: lib/helpers/booking_helper.php:1975
-#: lib/helpers/booking_helper.php:2067
+#: lib/helpers/booking_helper.php:2113
+#: lib/helpers/booking_helper.php:2205
 msgid "Reset Date Search"
 msgstr "รีเซ็ตการค้นหาวันที่"
 
-#: lib/helpers/booking_helper.php:1976
-#: lib/helpers/booking_helper.php:2067
-#: lib/helpers/booking_helper.php:2068
+#: lib/helpers/booking_helper.php:2114
+#: lib/helpers/booking_helper.php:2205
+#: lib/helpers/booking_helper.php:2206
 msgid "Filter Date"
 msgstr "กรองวันที่"
 
-#: lib/helpers/booking_helper.php:1991
+#: lib/helpers/booking_helper.php:2129
 #: lib/views/customer_cabinet/dashboard.php:35
 #: lib/views/dashboard/widget_upcoming_appointments.php:20
 #: lib/views/dashboard/widget_upcoming_appointments.php:56
 msgid "Upcoming"
 msgstr "ที่จะมาถึง"
 
-#: lib/helpers/booking_helper.php:1992
-#: lib/helpers/booking_helper.php:2139
+#: lib/helpers/booking_helper.php:2130
+#: lib/helpers/booking_helper.php:2277
 #: lib/views/customers/_table_body.php:32
 #: lib/views/customer_cabinet/dashboard.php:76
 msgid "Past"
 msgstr "ที่ผ่านมา"
 
-#: lib/helpers/booking_helper.php:1993
+#: lib/helpers/booking_helper.php:2131
 msgid "Happening Now"
 msgstr "กำลังเกิดขึ้นตอนนี้"
 
-#: lib/helpers/booking_helper.php:2021
+#: lib/helpers/booking_helper.php:2159
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:19
 msgid "All Locations"
 msgstr "ทุกสถานที่"
 
-#: lib/helpers/booking_helper.php:2034
+#: lib/helpers/booking_helper.php:2172
 msgid "Search by Customer"
 msgstr "ค้นหาตามลูกค้า"
 
-#: lib/helpers/booking_helper.php:2136
+#: lib/helpers/booking_helper.php:2274
 msgid "Now"
 msgstr "ตอนนี้"
 
@@ -3906,28 +3956,28 @@ msgid "Show Full Bundle"
 msgstr "แสดงชุดทั้งหมด"
 
 #: lib/helpers/bundles_helper.php:49
-#: lib/helpers/bundles_helper.php:153
+#: lib/helpers/bundles_helper.php:154
 #, php-format
 msgid "%d sessions"
 msgstr "%d เซสชัน"
 
 #. translators: %d is the number of cancelled appointments
 #: lib/helpers/bundles_helper.php:65
-#: lib/helpers/bundles_helper.php:182
+#: lib/helpers/bundles_helper.php:183
 #, php-format
 msgid "%d Cancelled Appointment"
 msgid_plural "%d Cancelled Appointments"
 msgstr[0] "%d การนัดหมายที่ยกเลิกแล้ว"
 
 #. translators: %s is the order confirmation code
-#: lib/helpers/bundles_helper.php:140
+#: lib/helpers/bundles_helper.php:141
 #, php-format
 msgid "Order %s"
 msgstr "คำสั่งซื้อ %s"
 
-#: lib/helpers/bundles_helper.php:166
-#: lib/helpers/bundles_helper.php:174
-#: lib/helpers/orders_helper.php:429
+#: lib/helpers/bundles_helper.php:167
+#: lib/helpers/bundles_helper.php:175
+#: lib/helpers/orders_helper.php:466
 msgid "Schedule now"
 msgstr "กำหนดเวลาทันที"
 
@@ -3940,12 +3990,12 @@ msgstr "กำลังค้นหา %s สำหรับวันที่�
 msgid "Pick a slot for"
 msgstr "เลือกรอบเวลาสำหรับ"
 
-#: lib/helpers/calendar_helper.php:246
+#: lib/helpers/calendar_helper.php:258
 msgid "In order to generate the calendar, a service must be selected."
 msgstr "ในการสร้างปฏิทิน ต้องเลือกบริการก่อน"
 
 #. translators: %d is the number of slots available
-#: lib/helpers/calendar_helper.php:447
+#: lib/helpers/calendar_helper.php:475
 #, php-format
 msgid "%d Available"
 msgstr "%d ว่าง"
@@ -3959,7 +4009,7 @@ msgid "Customer with this email already exists"
 msgstr "มีลูกค้าที่ใช้อีเมลนี้อยู่แล้ว"
 
 #: lib/helpers/customer_import_helper.php:12
-#: lib/helpers/settings_helper.php:684
+#: lib/helpers/settings_helper.php:689
 #: lib/models/agent_model.php:37
 #: lib/views/booking_form_settings/previews/_customer.php:19
 #: lib/views/customers/inline_edit_form.php:15
@@ -3967,13 +4017,13 @@ msgstr "มีลูกค้าที่ใช้อีเมลนี้อย
 #: lib/views/default_agent/edit_form.php:17
 #: lib/views/steps/partials/_contact_form.php:14
 #: lib/views/wizard/steps/_default_agent.php:20
-#: lib/views/wizard/steps/_form_agent.php:10
+#: lib/views/wizard/steps/_form_agent.php:11
 #: lib/views/wizard/steps/_personal_info.php:18
 msgid "First Name"
 msgstr "ชื่อ"
 
 #: lib/helpers/customer_import_helper.php:13
-#: lib/helpers/settings_helper.php:690
+#: lib/helpers/settings_helper.php:695
 #: lib/models/agent_model.php:41
 #: lib/views/booking_form_settings/previews/_customer.php:20
 #: lib/views/customers/inline_edit_form.php:18
@@ -3981,7 +4031,7 @@ msgstr "ชื่อ"
 #: lib/views/default_agent/edit_form.php:20
 #: lib/views/steps/partials/_contact_form.php:17
 #: lib/views/wizard/steps/_default_agent.php:23
-#: lib/views/wizard/steps/_form_agent.php:13
+#: lib/views/wizard/steps/_form_agent.php:14
 #: lib/views/wizard/steps/_personal_info.php:21
 msgid "Last Name"
 msgstr "นามสกุล"
@@ -4087,24 +4137,27 @@ msgstr "แสดง:"
 msgid "Are you sure want to remove this file?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบไฟล์นี้?"
 
-#: lib/helpers/form_helper.php:462
+#: lib/helpers/form_helper.php:478
 msgid "Click to select..."
 msgstr "คลิกเพื่อเลือก..."
 
-#: lib/helpers/form_helper.php:621
+#: lib/helpers/form_helper.php:637
 msgid "am"
 msgstr "am"
 
-#: lib/helpers/form_helper.php:621
+#: lib/helpers/form_helper.php:637
 msgid "pm"
 msgstr "pm"
 
-#: lib/helpers/form_helper.php:646
+#: lib/helpers/form_helper.php:662
 msgid "Pick a color"
 msgstr "เลือกสี"
 
-#: lib/helpers/form_helper.php:981
+#: lib/controllers/event_registrations_controller.php:102
+#: lib/helpers/form_helper.php:1024
 #: lib/helpers/settings_helper.php:489
+#: lib/views/event_registrations/index.php:80
+#: lib/views/event_registrations/index.php:121
 msgid "Code"
 msgstr "รหัส"
 
@@ -4114,9 +4167,9 @@ msgid "%s To %s"
 msgstr "%s ถึง %s"
 
 #: lib/helpers/invoices_helper.php:118
-#: lib/helpers/process_jobs_helper.php:313
-#: lib/helpers/replacer_helper.php:563
-#: lib/helpers/time_helper.php:326
+#: lib/helpers/process_jobs_helper.php:315
+#: lib/helpers/replacer_helper.php:565
+#: lib/helpers/time_helper.php:331
 #: lib/misc/process_action.php:418
 #: lib/models/process_job_model.php:52
 #: lib/views/customers/_table_body.php:31
@@ -4134,7 +4187,7 @@ msgid "Edit Data"
 msgstr "แก้ไขข้อมูล"
 
 #: lib/helpers/invoices_helper.php:172
-#: lib/helpers/invoices_helper.php:1059
+#: lib/helpers/invoices_helper.php:1067
 #: lib/views/invoices/email_form.php:17
 msgid "Email Invoice"
 msgstr "ส่งใบแจ้งหนี้ทางอีเมล"
@@ -4145,7 +4198,7 @@ msgstr "ใบเสร็จรับเงิน"
 
 #: lib/helpers/invoices_helper.php:193
 #: lib/helpers/invoices_helper.php:916
-#: lib/helpers/roles_helper.php:376
+#: lib/helpers/roles_helper.php:392
 msgid "Invoice"
 msgstr "ใบแจ้งหนี้"
 
@@ -4239,11 +4292,12 @@ msgid "Partially Paid"
 msgstr "ชำระบางส่วนแล้ว"
 
 #: lib/helpers/invoices_helper.php:324
+#: lib/views/events_manager/_form.php:43
 msgid "Draft"
 msgstr "ฉบับร่าง"
 
 #: lib/helpers/invoices_helper.php:325
-#: lib/helpers/payments_helper.php:269
+#: lib/helpers/payments_helper.php:279
 msgid "Void"
 msgstr "โมฆะ"
 
@@ -4260,12 +4314,12 @@ msgid "Remaining"
 msgstr "คงเหลือ"
 
 #: lib/helpers/invoices_helper.php:346
-#: lib/helpers/payments_helper.php:258
+#: lib/helpers/payments_helper.php:268
 msgid "Deposit"
 msgstr "เงินมัดจำ"
 
 #: lib/helpers/invoices_helper.php:347
-#: lib/helpers/payments_helper.php:259
+#: lib/helpers/payments_helper.php:269
 #: lib/helpers/transaction_helper.php:28
 #: lib/misc/user.php:363
 #: lib/views/booking_form_settings/show.php:33
@@ -4278,7 +4332,7 @@ msgstr "กำหนดเอง"
 #: lib/helpers/invoices_helper.php:999
 #: lib/helpers/invoices_helper.php:1008
 #: lib/helpers/invoices_helper.php:1013
-#: lib/views/orders/quick_edit.php:281
+#: lib/views/orders/quick_edit.php:340
 msgid "Invoices"
 msgstr "ใบแจ้งหนี้"
 
@@ -4397,21 +4451,22 @@ msgid "Invoice Data"
 msgstr "ข้อมูลใบแจ้งหนี้"
 
 #: lib/helpers/invoices_helper.php:1029
-#: lib/views/settings/general.php:485
+#: lib/views/settings/general.php:666
 msgid "Company Logo"
 msgstr "โลโก้บริษัท"
 
 #: lib/helpers/invoices_helper.php:1029
 #: lib/helpers/steps_helper.php:449
+#: lib/views/events_manager/_form.php:153
 #: lib/views/services/_form.php:60
 #: lib/views/services/_form.php:67
-#: lib/views/settings/general.php:485
+#: lib/views/settings/general.php:666
 #: lib/views/wizard/steps/_form_service.php:18
 msgid "Remove Image"
 msgstr "ลบรูปภาพ"
 
 #: lib/helpers/invoices_helper.php:1034
-#: lib/views/settings/general.php:490
+#: lib/views/settings/general.php:671
 msgid "Company Name"
 msgstr "ชื่อบริษัท"
 
@@ -4423,35 +4478,35 @@ msgstr "หมายเลข VAT/Tax ID"
 msgid "Number Prefix"
 msgstr "คำนำหน้าหมายเลข"
 
-#: lib/helpers/invoices_helper.php:1045
+#: lib/helpers/invoices_helper.php:1053
 msgid "Bill From"
 msgstr "เรียกเก็บจาก"
 
-#: lib/helpers/invoices_helper.php:1048
+#: lib/helpers/invoices_helper.php:1056
 msgid "Bill To"
 msgstr "เรียกเก็บถึง"
 
-#: lib/helpers/invoices_helper.php:1063
+#: lib/helpers/invoices_helper.php:1071
 msgid "This subject and content will be used when invoice is being emailed. "
 msgstr "หัวข้อและเนื้อหานี้จะถูกใช้เมื่อมีการส่งใบแจ้งหนี้ทางอีเมล"
 
-#: lib/helpers/invoices_helper.php:1065
+#: lib/helpers/invoices_helper.php:1073
 msgid "Subject"
 msgstr "หัวข้อ"
 
-#: lib/helpers/invoices_helper.php:1067
+#: lib/helpers/invoices_helper.php:1075
 msgid "Email Content"
 msgstr "เนื้อหาอีเมล"
 
-#: lib/helpers/invoices_helper.php:1072
+#: lib/helpers/invoices_helper.php:1080
 msgid "Free Bookings"
 msgstr "การจองฟรี"
 
-#: lib/helpers/invoices_helper.php:1076
+#: lib/helpers/invoices_helper.php:1084
 msgid "Create invoices for free bookings"
 msgstr "สร้างใบแจ้งหนี้สำหรับการจองฟรี"
 
-#: lib/helpers/invoices_helper.php:1080
+#: lib/helpers/invoices_helper.php:1088
 msgid "When disabled, no invoice is created and no invoice email/notification is sent for bookings with a $0.00 total (e.g. free services or fully discounted by coupon)."
 msgstr "เมื่อปิดใช้งาน จะไม่มีการสร้างใบแจ้งหนี้และจะไม่มีการส่งอีเมล/การแจ้งเตือนใบแจ้งหนี้สำหรับการจองที่มียอดรวม $0.00 (เช่น บริการฟรีหรือถูกส่วนลดเต็มจำนวนด้วยคูปอง)"
 
@@ -4460,6 +4515,7 @@ msgid "Main Location"
 msgstr "สถานที่หลัก"
 
 #: lib/helpers/location_helper.php:335
+#: lib/views/event_categories/index.php:27
 msgid "ID: "
 msgstr "ID:"
 
@@ -4468,14 +4524,14 @@ msgid "Locations Linked"
 msgstr "สถานที่ที่เชื่อมโยง"
 
 #: lib/helpers/menu_helper.php:55
-#: lib/helpers/menu_helper.php:282
+#: lib/helpers/menu_helper.php:315
 msgid "Calendar"
 msgstr "ปฏิทิน"
 
 #: lib/helpers/menu_helper.php:73
-#: lib/helpers/menu_helper.php:182
-#: lib/helpers/menu_helper.php:300
-#: lib/helpers/roles_helper.php:375
+#: lib/helpers/menu_helper.php:215
+#: lib/helpers/menu_helper.php:333
+#: lib/helpers/roles_helper.php:391
 #: lib/views/invoices/summary_before_payment.php:26
 #: lib/views/manage_order_by_key/list_payments.php:16
 #: lib/views/transactions/index.php:19
@@ -4483,41 +4539,45 @@ msgid "Payments"
 msgstr "การชำระเงิน"
 
 #: lib/helpers/menu_helper.php:85
+#: lib/views/partials/_help_box.php:19
 msgid "Resources"
 msgstr "ทรัพยากร"
 
 #: lib/helpers/menu_helper.php:108
-#: lib/helpers/menu_helper.php:330
+#: lib/helpers/menu_helper.php:135
+#: lib/helpers/menu_helper.php:363
+#: lib/helpers/menu_helper.php:390
 msgid "Categories"
 msgstr "หมวดหมู่"
 
 #: lib/helpers/menu_helper.php:114
-#: lib/helpers/menu_helper.php:336
+#: lib/helpers/menu_helper.php:369
+#: lib/helpers/roles_helper.php:385
 msgid "Service Extras"
 msgstr "บริการเสริม"
 
-#: lib/helpers/menu_helper.php:164
-#: lib/views/services/_form.php:355
+#: lib/helpers/menu_helper.php:197
+#: lib/views/services/_form.php:363
 msgid "Schedule"
 msgstr "ตารางเวลา"
 
-#: lib/helpers/menu_helper.php:170
+#: lib/helpers/menu_helper.php:203
 msgid "Tax"
 msgstr "ภาษี"
 
-#: lib/helpers/menu_helper.php:194
+#: lib/helpers/menu_helper.php:227
 msgid "Roles"
 msgstr "บทบาท"
 
-#: lib/helpers/menu_helper.php:208
+#: lib/helpers/menu_helper.php:241
 msgid "Automation"
 msgstr "ระบบอัตโนมัติ"
 
-#: lib/helpers/menu_helper.php:218
+#: lib/helpers/menu_helper.php:251
 msgid "Scheduled Jobs"
 msgstr "งานที่กำหนดเวลาไว้"
 
-#: lib/helpers/menu_helper.php:223
+#: lib/helpers/menu_helper.php:256
 #: lib/views/bookings/view_booking_log.php:15
 #: lib/views/customers/view_customer_log.php:15
 #: lib/views/orders/view_order_log.php:18
@@ -4525,19 +4585,19 @@ msgstr "งานที่กำหนดเวลาไว้"
 msgid "Activity Log"
 msgstr "บันทึกกิจกรรม"
 
-#: lib/helpers/menu_helper.php:237
+#: lib/helpers/menu_helper.php:270
 msgid "Meetings"
 msgstr "การประชุม"
 
-#: lib/helpers/menu_helper.php:243
+#: lib/helpers/menu_helper.php:276
 msgid "Calendars"
 msgstr "ปฏิทิน"
 
-#: lib/helpers/menu_helper.php:249
+#: lib/helpers/menu_helper.php:282
 msgid "Marketing"
 msgstr "การตลาด"
 
-#: lib/helpers/menu_helper.php:255
+#: lib/helpers/menu_helper.php:288
 msgid "Short Links"
 msgstr "ลิงก์สั้น"
 
@@ -4621,61 +4681,61 @@ msgid "Fully Paid"
 msgstr "ชำระเต็มจำนวนแล้ว"
 
 #: lib/helpers/orders_helper.php:120
-#: lib/helpers/payments_helper.php:284
+#: lib/helpers/payments_helper.php:294
 msgid "Processing"
 msgstr "กำลังดำเนินการ"
 
-#: lib/helpers/orders_helper.php:211
-#: lib/helpers/steps_helper.php:2795
+#: lib/helpers/orders_helper.php:208
+#: lib/helpers/translation_helper.php:88
 msgid "Appointment Confirmed"
 msgstr "ยืนยันการนัดหมายแล้ว"
 
-#: lib/helpers/orders_helper.php:212
-#: lib/helpers/steps_helper.php:2796
+#: lib/helpers/orders_helper.php:220
+#: lib/helpers/translation_helper.php:89
 msgid "We look forward to seeing you."
 msgstr "เราหวังว่าจะได้พบคุณ"
 
-#: lib/helpers/orders_helper.php:213
-#: lib/helpers/steps_helper.php:2797
+#: lib/helpers/orders_helper.php:236
+#: lib/helpers/steps_helper.php:2877
 #: lib/views/orders/_full_summary.php:51
 msgid "Order #"
 msgstr "คำสั่งซื้อ #"
 
-#: lib/helpers/orders_helper.php:321
+#: lib/helpers/orders_helper.php:344
 #: lib/misc/process_event.php:242
 #: lib/views/partials/_top_bar.php:39
 msgid "New Booking"
 msgstr "การจองใหม่"
 
-#: lib/helpers/orders_helper.php:321
+#: lib/helpers/orders_helper.php:344
 msgid "Edit Booking"
 msgstr "แก้ไขการจอง"
 
-#: lib/helpers/orders_helper.php:324
+#: lib/helpers/orders_helper.php:347
 msgid "Are you sure you want to remove this booking from the order?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการจองนี้ออกจากคำสั่งซื้อ?"
 
-#: lib/helpers/orders_helper.php:364
+#: lib/helpers/orders_helper.php:387
 msgid "Are you sure you want to remove this item from the order? All associated appointments will be removed as well."
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้ออกจากคำสั่งซื้อ? การนัดหมายที่เกี่ยวข้องทั้งหมดจะถูกลบด้วย"
 
-#: lib/helpers/orders_helper.php:383
+#: lib/helpers/orders_helper.php:406
 msgid "Part of recurring sequence"
 msgstr "เป็นส่วนหนึ่งของลำดับที่เกิดซ้ำ"
 
-#: lib/helpers/orders_helper.php:386
+#: lib/helpers/orders_helper.php:409
 msgid "Are you sure you want to remove this item from the order?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้ออกจากคำสั่งซื้อ?"
 
-#: lib/helpers/orders_helper.php:503
+#: lib/helpers/orders_helper.php:540
 msgid "Payment Portion: "
 msgstr "ส่วนของการชำระเงิน:"
 
-#: lib/helpers/orders_helper.php:504
+#: lib/helpers/orders_helper.php:541
 msgid "Payment Amount: "
 msgstr "จำนวนเงินที่ชำระ:"
 
-#: lib/helpers/orders_helper.php:509
+#: lib/helpers/orders_helper.php:546
 msgid "No transactions found."
 msgstr "ไม่พบธุรกรรม"
 
@@ -4729,37 +4789,38 @@ msgid "Failed to send SMS"
 msgstr "ส่ง SMS ไม่สำเร็จ"
 
 #: lib/helpers/payments_helper.php:12
-#: lib/helpers/payments_helper.php:121
-#: lib/views/settings/general.php:475
-#: lib/views/settings/general.php:747
+#: lib/helpers/payments_helper.php:131
+#: lib/views/settings/general.php:587
+#: lib/views/settings/general.php:656
+#: lib/views/settings/general.php:929
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: lib/helpers/payments_helper.php:139
+#: lib/helpers/payments_helper.php:149
 msgid "Pay Locally"
 msgstr "ชำระเงินในพื้นที่"
 
-#: lib/helpers/payments_helper.php:256
+#: lib/helpers/payments_helper.php:266
 msgid "Full Balance"
 msgstr "ยอดคงเหลือทั้งหมด"
 
-#: lib/helpers/payments_helper.php:257
+#: lib/helpers/payments_helper.php:267
 msgid "Remaining Balance"
 msgstr "ยอดคงเหลือที่เหลือ"
 
-#: lib/helpers/payments_helper.php:267
+#: lib/helpers/payments_helper.php:277
 msgid "Capture"
 msgstr "เรียกเก็บเงิน"
 
-#: lib/helpers/payments_helper.php:268
+#: lib/helpers/payments_helper.php:278
 msgid "Authorization"
 msgstr "การอนุญาต"
 
-#: lib/helpers/payments_helper.php:283
+#: lib/helpers/payments_helper.php:293
 msgid "Succeeded"
 msgstr "สำเร็จ"
 
-#: lib/helpers/payments_helper.php:285
+#: lib/helpers/payments_helper.php:295
 msgid "Failed"
 msgstr "ล้มเหลว"
 
@@ -4783,7 +4844,7 @@ msgstr "การเลื่อนเวลา"
 msgid "Execute actions with a time offset"
 msgstr "ดำเนินการด้วยการเลื่อนเวลา"
 
-#: lib/helpers/process_jobs_helper.php:309
+#: lib/helpers/process_jobs_helper.php:311
 #: lib/views/process_jobs/index.php:49
 msgid "Scheduled"
 msgstr "กำหนดเวลาไว้แล้ว"
@@ -4794,11 +4855,13 @@ msgstr "กำหนดเวลาไว้แล้ว"
 msgid "Razorpay Checkout"
 msgstr "Razorpay Checkout"
 
+#: lib/helpers/paypal_connect_helper.php:351
 #: lib/helpers/razorpay_connect_helper.php:35
 #: lib/helpers/stripe_connect_helper.php:254
 msgid "Connect (Live)"
 msgstr "เชื่อมต่อ (ใช้งานจริง)"
 
+#: lib/helpers/paypal_connect_helper.php:363
 #: lib/helpers/razorpay_connect_helper.php:47
 #: lib/helpers/stripe_connect_helper.php:266
 msgid "Connect (Dev)"
@@ -4808,11 +4871,13 @@ msgstr "เชื่อมต่อ (Dev)"
 msgid "Currency Settings"
 msgstr "การตั้งค่าสกุลเงิน"
 
+#: lib/helpers/paypal_connect_helper.php:383
 #: lib/helpers/razorpay_connect_helper.php:68
 #: lib/helpers/stripe_connect_helper.php:286
 msgid "Country"
 msgstr "ประเทศ"
 
+#: lib/helpers/paypal_connect_helper.php:386
 #: lib/helpers/razorpay_connect_helper.php:71
 #: lib/helpers/stripe_connect_helper.php:289
 msgid "Currency Code"
@@ -4838,159 +4903,170 @@ msgstr "ลบโลโก้"
 msgid "Pay with Razorpay"
 msgstr "ชำระด้วย Razorpay"
 
-#: lib/helpers/razorpay_connect_helper.php:219
-#: lib/helpers/razorpay_connect_helper.php:249
+#: lib/helpers/paypal_connect_helper.php:94
+#: lib/helpers/paypal_connect_helper.php:99
+#: lib/helpers/paypal_connect_helper.php:132
+#: lib/helpers/paypal_connect_helper.php:138
+#: lib/helpers/razorpay_connect_helper.php:282
+#: lib/helpers/razorpay_connect_helper.php:329
 #: lib/helpers/stripe_connect_helper.php:108
 #: lib/helpers/stripe_connect_helper.php:150
 msgid "Payment Error"
 msgstr "ข้อผิดพลาดในการชำระเงิน"
 
-#: lib/helpers/razorpay_connect_helper.php:225
-#: lib/helpers/razorpay_connect_helper.php:254
+#: lib/helpers/razorpay_connect_helper.php:288
+#: lib/helpers/razorpay_connect_helper.php:334
 msgid "Payment Error — token missing"
 msgstr "ข้อผิดพลาดในการชำระเงิน — ไม่พบโทเค็น"
 
-#: lib/helpers/razorpay_connect_helper.php:287
+#: lib/helpers/paypal_connect_helper.php:47
+#: lib/helpers/razorpay_connect_helper.php:367
 #: lib/helpers/stripe_connect_helper.php:46
 msgid "Error Refunding"
 msgstr "ข้อผิดพลาดในการคืนเงิน"
 
 #. translators: %s is the payment error
-#: lib/helpers/razorpay_connect_helper.php:322
-#: lib/helpers/razorpay_connect_helper.php:345
+#: lib/helpers/razorpay_connect_helper.php:402
+#: lib/helpers/razorpay_connect_helper.php:430
 #: lib/helpers/stripe_connect_helper.php:733
 #: lib/helpers/stripe_connect_helper.php:778
 #, php-format
 msgid "Payment Error: %s"
 msgstr "ข้อผิดพลาดในการชำระเงิน: %s"
 
-#: lib/helpers/razorpay_connect_helper.php:322
+#: lib/helpers/razorpay_connect_helper.php:402
 msgid "Error generating Razorpay order"
 msgstr "เกิดข้อผิดพลาดในการสร้างคำสั่งซื้อ Razorpay"
 
-#: lib/helpers/razorpay_connect_helper.php:345
+#: lib/helpers/razorpay_connect_helper.php:430
 msgid "Error generating Razorpay order for transaction"
 msgstr "เกิดข้อผิดพลาดในการสร้างคำสั่งซื้อ Razorpay สำหรับธุรกรรม"
 
-#: lib/helpers/razorpay_connect_helper.php:456
+#: lib/helpers/paypal_connect_helper.php:602
+#: lib/helpers/razorpay_connect_helper.php:546
 msgid "The following websites are using the same server token. This can happen if a site was cloned from one server to another. To fix this, disconnect each site and reconnect it."
 msgstr "เว็บไซต์ต่อไปนี้กำลังใช้โทเค็นเซิร์ฟเวอร์เดียวกัน ซึ่งอาจเกิดขึ้นหากไซต์ถูกโคลนจากเซิร์ฟเวอร์หนึ่งไปยังอีกเซิร์ฟเวอร์หนึ่ง เพื่อแก้ไขปัญหานี้ ให้ยกเลิกการเชื่อมต่อแต่ละไซต์แล้วเชื่อมต่อใหม่"
 
-#: lib/helpers/razorpay_connect_helper.php:471
+#: lib/helpers/paypal_connect_helper.php:621
+#: lib/helpers/razorpay_connect_helper.php:561
 #: lib/helpers/stripe_connect_helper.php:442
 msgid "disconnect"
 msgstr "ยกเลิกการเชื่อมต่อ"
 
-#: lib/helpers/razorpay_connect_helper.php:473
+#: lib/helpers/paypal_connect_helper.php:623
+#: lib/helpers/razorpay_connect_helper.php:563
 #: lib/helpers/stripe_connect_helper.php:444
 #: lib/views/customers/quick_edit.php:85
 msgid "Connected"
 msgstr "เชื่อมต่อแล้ว"
 
-#: lib/helpers/razorpay_connect_helper.php:475
+#: lib/helpers/razorpay_connect_helper.php:565
 #: lib/helpers/stripe_connect_helper.php:446
 msgid "Account: "
 msgstr "บัญชี:"
 
-#: lib/helpers/razorpay_connect_helper.php:482
+#: lib/helpers/paypal_connect_helper.php:638
+#: lib/helpers/razorpay_connect_helper.php:572
 #: lib/helpers/stripe_connect_helper.php:453
 msgid "Pending Action"
 msgstr "การดำเนินการที่รอดำเนินการ"
 
-#: lib/helpers/razorpay_connect_helper.php:483
+#: lib/helpers/razorpay_connect_helper.php:573
 #: lib/helpers/stripe_connect_helper.php:454
 msgid "Continue Setup"
 msgstr "ดำเนินการตั้งค่าต่อ"
 
-#: lib/helpers/razorpay_connect_helper.php:490
+#: lib/helpers/paypal_connect_helper.php:670
+#: lib/helpers/razorpay_connect_helper.php:580
 #: lib/helpers/stripe_connect_helper.php:461
 msgid "Start Connecting"
 msgstr "เริ่มเชื่อมต่อ"
 
-#: lib/helpers/roles_helper.php:209
+#: lib/helpers/roles_helper.php:221
 msgid "WP Role invalid"
 msgstr "บทบาท WP ไม่ถูกต้อง"
 
-#: lib/helpers/roles_helper.php:216
+#: lib/helpers/roles_helper.php:228
 msgid "WP Agent role can not be saved"
 msgstr "ไม่สามารถบันทึกบทบาท WP Agent ได้"
 
-#: lib/helpers/roles_helper.php:227
+#: lib/helpers/roles_helper.php:239
 msgid "WP Role can not be saved"
 msgstr "ไม่สามารถบันทึกบทบาท WP ได้"
 
-#: lib/helpers/roles_helper.php:231
+#: lib/helpers/roles_helper.php:243
 msgid "Invalid role type"
 msgstr "ประเภทบทบาทไม่ถูกต้อง"
 
-#: lib/helpers/roles_helper.php:273
+#: lib/helpers/roles_helper.php:285
 msgid "LatePoint Customer"
 msgstr "ลูกค้า LatePoint"
 
-#: lib/helpers/roles_helper.php:345
+#: lib/helpers/roles_helper.php:357
 msgid "Edit custom schedule of individual agent, location or service."
 msgstr "แก้ไขตารางเวลาที่กำหนดเองของเอเจนต์ สถานที่ หรือบริการแต่ละรายการ"
 
-#: lib/helpers/roles_helper.php:346
+#: lib/helpers/roles_helper.php:358
 msgid "Access to all settings pages, including general schedule and booking steps."
 msgstr "เข้าถึงหน้าการตั้งค่าทั้งหมด รวมถึงตารางเวลาทั่วไปและขั้นตอนการจอง"
 
-#: lib/helpers/roles_helper.php:347
+#: lib/helpers/roles_helper.php:359
 msgid "Ability to connect agents to services and locations."
 msgstr "สามารถเชื่อมต่อเอเจนต์กับบริการและสถานที่ได้"
 
-#: lib/helpers/roles_helper.php:348
+#: lib/helpers/roles_helper.php:360
 msgid "Ability to send messages to customers (available with chat addon)."
 msgstr "สามารถส่งข้อความถึงลูกค้าได้ (ใช้ได้กับส่วนเสริมแชท)"
 
-#: lib/helpers/roles_helper.php:367
+#: lib/helpers/roles_helper.php:379
 msgid "Chat"
 msgstr "แชท"
 
-#: lib/helpers/roles_helper.php:368
-#: lib/views/settings/general.php:585
+#: lib/helpers/roles_helper.php:380
+#: lib/views/settings/general.php:766
 msgid "Activity Logs"
 msgstr "บันทึกกิจกรรม"
 
-#: lib/helpers/roles_helper.php:371
-#: lib/models/cart_model.php:293
-#: lib/views/orders/quick_edit.php:120
+#: lib/helpers/roles_helper.php:383
+#: lib/models/cart_model.php:313
+#: lib/views/orders/quick_edit.php:146
 msgid "Bundle"
 msgstr "ชุด"
 
-#: lib/helpers/roles_helper.php:373
+#: lib/helpers/roles_helper.php:387
 msgid "Bookings & Orders"
 msgstr "การจอง &amp; คำสั่งซื้อ"
 
-#: lib/helpers/roles_helper.php:377
+#: lib/helpers/roles_helper.php:393
 #: lib/misc/process_event.php:264
 #: lib/views/customer_cabinet/_bundle_tile.php:16
 #: lib/views/shared/_template_variables.php:12
 msgid "Order"
 msgstr "คำสั่งซื้อ"
 
-#: lib/helpers/roles_helper.php:378
+#: lib/helpers/roles_helper.php:394
 msgid "Resource Schedules"
 msgstr "ตารางทรัพยากร"
 
-#: lib/helpers/roles_helper.php:380
+#: lib/helpers/roles_helper.php:396
 msgid "Connections"
 msgstr "การเชื่อมต่อ"
 
-#: lib/helpers/roles_helper.php:381
+#: lib/helpers/roles_helper.php:397
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: latepoint.php:1665
-#: lib/helpers/roles_helper.php:382
+#: latepoint.php:1874
+#: lib/helpers/roles_helper.php:398
 #: lib/misc/process_action.php:187
 #: lib/views/activities/view.php:39
+#: lib/views/events_manager/_form.php:66
 #: lib/views/processes/_form.php:76
-#: lib/views/services/_form.php:320
+#: lib/views/services/_form.php:328
 msgid "Delete"
 msgstr "ลบ"
 
-#: lib/helpers/roles_helper.php:384
+#: lib/helpers/roles_helper.php:400
 msgid "Create"
 msgstr "สร้าง"
 
@@ -5086,15 +5162,15 @@ msgstr "วิธีการชำระเงิน"
 msgid "Payment Portion"
 msgstr "สัดส่วนการชำระเงิน"
 
-#: lib/helpers/settings_helper.php:708
+#: lib/helpers/settings_helper.php:713
 msgid "Comments"
 msgstr "ความคิดเห็น"
 
-#: lib/helpers/settings_helper.php:880
+#: lib/helpers/settings_helper.php:886
 msgid "Required?"
 msgstr "จำเป็นหรือไม่?"
 
-#: lib/helpers/settings_helper.php:888
+#: lib/helpers/settings_helper.php:894
 msgid "Half Width"
 msgstr "ครึ่งความกว้าง"
 
@@ -5171,158 +5247,158 @@ msgstr "ขั้นตอน \"%1$s\" ต้องอยู่หลัง \"%2
 msgid "Step \"%1$s\" has to come before \"%2$s\""
 msgstr "ขั้นตอน \"%1$s\" ต้องอยู่ก่อน \"%2$s\""
 
-#: lib/helpers/steps_helper.php:1557
-#: lib/helpers/steps_helper.php:1558
+#: lib/helpers/steps_helper.php:1584
+#: lib/helpers/steps_helper.php:1585
 #: lib/helpers/transaction_helper.php:49
 #: lib/views/steps/start.php:114
 msgid "Submit"
 msgstr "ส่ง"
 
-#: lib/helpers/steps_helper.php:1558
+#: lib/helpers/steps_helper.php:1585
 #: lib/views/steps/partials/_booking_form_summary_panel.php:19
 #: lib/views/steps/partials/_booking_form_summary_panel.php:29
 msgid "Checkout"
 msgstr "ชำระเงิน"
 
-#: lib/helpers/steps_helper.php:2049
+#: lib/helpers/steps_helper.php:2093
 msgid "Another customer is registered with this email."
 msgstr "มีลูกค้าอีกคนลงทะเบียนด้วยอีเมลนี้แล้ว"
 
-#: lib/helpers/steps_helper.php:2079
+#: lib/helpers/steps_helper.php:2123
 msgid "Another customer is already registered with this phone number."
 msgstr "มีลูกค้าอีกคนลงทะเบียนด้วยหมายเลขโทรศัพท์นี้แล้ว"
 
-#: lib/helpers/steps_helper.php:2105
-#: lib/helpers/steps_helper.php:2114
+#: lib/helpers/steps_helper.php:2149
+#: lib/helpers/steps_helper.php:2158
 msgid "An account with that email address already exists. Please try signing in."
 msgstr "มีบัญชีที่ใช้อีเมลนั้นอยู่แล้ว โปรดลองลงชื่อเข้าใช้"
 
-#: lib/helpers/steps_helper.php:2175
+#: lib/helpers/steps_helper.php:2219
 msgid "Setting password is required and should match password confirmation"
 msgstr "จำเป็นต้องตั้งรหัสผ่านและต้องตรงกับการยืนยันรหัสผ่าน"
 
-#: lib/helpers/steps_helper.php:2363
+#: lib/helpers/steps_helper.php:2415
 msgid "Processing..."
 msgstr "กำลังประมวลผล..."
 
-#: lib/helpers/steps_helper.php:2484
+#: lib/helpers/steps_helper.php:2555
 msgid "Show service categories"
 msgstr "แสดงหมวดหมู่บริการ"
 
-#: lib/helpers/steps_helper.php:2484
+#: lib/helpers/steps_helper.php:2555
 msgid "If turned on, services will be displayed in categories"
 msgstr "หากเปิดใช้งาน บริการจะแสดงเป็นหมวดหมู่"
 
-#: lib/helpers/steps_helper.php:2485
+#: lib/helpers/steps_helper.php:2556
 msgid "Show service count for categories"
 msgstr "แสดงจำนวนบริการสำหรับหมวดหมู่"
 
-#: lib/helpers/steps_helper.php:2485
+#: lib/helpers/steps_helper.php:2556
 msgid "If turned on, category tile will display a count of services"
 msgstr "หากเปิดใช้งาน ไทล์หมวดหมู่จะแสดงจำนวนบริการ"
 
-#: lib/helpers/steps_helper.php:2488
+#: lib/helpers/steps_helper.php:2559
 msgid "Show Learn More about agents"
 msgstr "แสดงเรียนรู้เพิ่มเติมเกี่ยวกับตัวแทน"
 
-#: lib/helpers/steps_helper.php:2488
+#: lib/helpers/steps_helper.php:2559
 msgid "A link to open information about agent will be added to each agent tile"
 msgstr "จะเพิ่มลิงก์เพื่อเปิดข้อมูลเกี่ยวกับตัวแทนในแต่ละไทล์ของตัวแทน"
 
-#: lib/helpers/steps_helper.php:2489
+#: lib/helpers/steps_helper.php:2560
 msgid "Hide agent name from summary and confirmation"
 msgstr "ซ่อนชื่อตัวแทนจากสรุปและการยืนยัน"
 
-#: lib/helpers/steps_helper.php:2489
+#: lib/helpers/steps_helper.php:2560
 msgid "Check if you want to hide agent name from showing up"
 msgstr "เลือกหากคุณต้องการซ่อนชื่อของตัวแทนไม่ให้แสดง"
 
-#: lib/helpers/steps_helper.php:2490
+#: lib/helpers/steps_helper.php:2561
 msgid "Add \"Any Agent\" option to agent selection"
 msgstr "เพิ่มตัวเลือก \"ตัวแทนใดก็ได้\" ในการเลือกตัวแทน"
 
-#: lib/helpers/steps_helper.php:2490
+#: lib/helpers/steps_helper.php:2561
 msgid "Customers can pick \"Any agent\" and system will find a matching agent"
 msgstr "ลูกค้าสามารถเลือก \"ตัวแทนใดก็ได้\" และระบบจะค้นหาตัวแทนที่ตรงกัน"
 
-#: lib/helpers/steps_helper.php:2492
+#: lib/helpers/steps_helper.php:2563
 msgid "If \"Any Agent\" is selected then assign booking to"
 msgstr "หากเลือก \"ตัวแทนใดก็ได้\" ให้มอบหมายการจองไปยัง"
 
-#: lib/helpers/steps_helper.php:2498
+#: lib/helpers/steps_helper.php:2569
 msgid "Show Time Slots as"
 msgstr "แสดงช่วงเวลาเป็น"
 
-#: lib/helpers/steps_helper.php:2507
+#: lib/helpers/steps_helper.php:2578
 msgid "Style of Datepicker"
 msgstr "รูปแบบของตัวเลือกวันที่"
 
-#: lib/helpers/steps_helper.php:2514
+#: lib/helpers/steps_helper.php:2585
 msgid "Hide time picker if single slot"
 msgstr "ซ่อนตัวเลือกเวลาเมื่อมีช่วงเวลาเดียว"
 
-#: lib/helpers/steps_helper.php:2514
+#: lib/helpers/steps_helper.php:2585
 msgid "If a single slot is available in a day, it will be preselected."
 msgstr "หากมีช่วงเวลาเดียวในวันนั้น ระบบจะเลือกไว้ล่วงหน้า"
 
-#: lib/helpers/steps_helper.php:2515
+#: lib/helpers/steps_helper.php:2586
 msgid "Hide slot availability count"
 msgstr "ซ่อนจำนวนความพร้อมใช้งานของช่อง"
 
-#: lib/helpers/steps_helper.php:2515
+#: lib/helpers/steps_helper.php:2586
 msgid "Slot counter tooltip will not appear when hovering a day."
 msgstr "ทูลทิปตัวนับช่องจะไม่แสดงเมื่อวางเมาส์เหนือวัน"
 
-#: lib/helpers/steps_helper.php:2516
+#: lib/helpers/steps_helper.php:2587
 msgid "Hide slots that are not available"
 msgstr "ซ่อนช่องที่ไม่พร้อมใช้งาน"
 
-#: lib/helpers/steps_helper.php:2516
+#: lib/helpers/steps_helper.php:2587
 msgid "Hides time boxes that are not available, instead of showing them in gray."
 msgstr "ซ่อนช่องเวลา ที่ไม่พร้อมใช้งาน แทนที่จะแสดงเป็นสีเทา"
 
-#: lib/helpers/steps_helper.php:2517
+#: lib/helpers/steps_helper.php:2588
 msgid "Disable auto searching for first available slot"
 msgstr "ปิดการค้นหาช่องที่ว่างแรกโดยอัตโนมัติ"
 
-#: lib/helpers/steps_helper.php:2517
+#: lib/helpers/steps_helper.php:2588
 msgid "If checked, this will stop calendar from automatically scrolling to a first available slot"
 msgstr "หากเลือกไว้ ระบบจะหยุดปฏิทินไม่ให้เลื่อนไปยังช่องที่ว่างแรกโดยอัตโนมัติ"
 
-#: lib/helpers/steps_helper.php:2522
+#: lib/helpers/steps_helper.php:2593
 msgid "Message Style"
 msgstr "รูปแบบข้อความ"
 
-#: lib/helpers/steps_helper.php:2524
+#: lib/helpers/steps_helper.php:2595
 #: lib/views/booking_form_settings/show.php:30
 msgid "Green"
 msgstr "สีเขียว"
 
-#: lib/helpers/steps_helper.php:2525
+#: lib/helpers/steps_helper.php:2596
 msgid "Yellow"
 msgstr "สีเหลือง"
 
-#: lib/helpers/steps_helper.php:2544
+#: lib/helpers/steps_helper.php:2615
 msgid "This step does not have any specific settings. You can use the selector above to check another step."
 msgstr "ขั้นตอนนี้ไม่มีการตั้งค่าเฉพาะ คุณสามารถใช้ตัวเลือกด้านบนเพื่อตรวจสอบขั้นตอนอื่นได้"
 
-#: lib/helpers/steps_helper.php:2780
+#: lib/helpers/steps_helper.php:2857
 msgid "If you have both a payment processor and pay locally enabled, customer will make a selection here."
 msgstr "หากคุณเปิดใช้งานทั้งผู้ประมวลผลการชำระเงินและการชำระเงินในสถานที่ ลูกค้าจะทำการเลือกที่นี่"
 
-#: lib/helpers/steps_helper.php:2783
+#: lib/helpers/steps_helper.php:2860
 msgid "If selected service has both deposit and charge amount set, customer will have to pick how much they want to pay now."
 msgstr "หากบริการที่เลือกมีการตั้งค่าทั้งเงินมัดจำและจำนวนเงินที่เรียกเก็บ ลูกค้าจะต้องเลือกว่าจะชำระเท่าไรตอนนี้"
 
-#: lib/helpers/steps_helper.php:2786
+#: lib/helpers/steps_helper.php:2863
 msgid "If you have multiple payment processors enabled, customer will be able to select how they want to pay"
 msgstr "หากคุณเปิดใช้งานผู้ประมวลผลการชำระเงินหลายรายการ ลูกค้าจะสามารถเลือกวิธีการชำระเงินได้"
 
-#: lib/helpers/steps_helper.php:2789
+#: lib/helpers/steps_helper.php:2866
 msgid "Payment form generated by selected payment processor will appear here"
 msgstr "แบบฟอร์มการชำระเงินที่สร้างโดยผู้ประมวลผลการชำระเงินที่เลือกจะแสดงที่นี่"
 
-#: lib/helpers/steps_helper.php:2800
+#: lib/helpers/steps_helper.php:2880
 msgid "Order information will appear here."
 msgstr "ข้อมูลคำสั่งซื้อจะแสดงที่นี่"
 
@@ -5380,7 +5456,7 @@ msgid "Error generating payment intent"
 msgstr "เกิดข้อผิดพลาดในการสร้าง payment intent"
 
 #: lib/helpers/support_topics_helper.php:6
-#: lib/views/shared/_template_variables.php:91
+#: lib/views/shared/_template_variables.php:92
 msgid "Payment Request"
 msgstr "คำขอชำระเงิน"
 
@@ -5397,14 +5473,14 @@ msgid "ago"
 msgstr "ที่ผ่านมา"
 
 #: lib/helpers/time_helper.php:83
-#: lib/models/booking_model.php:981
-#: lib/views/settings/general.php:336
+#: lib/models/booking_model.php:999
+#: lib/views/settings/general.php:365
 msgid "days"
 msgstr "วัน"
 
 #: lib/helpers/time_helper.php:87
-#: lib/models/booking_model.php:985
-#: lib/views/settings/general.php:335
+#: lib/models/booking_model.php:1003
+#: lib/views/settings/general.php:364
 msgid "hours"
 msgstr "ชั่วโมง"
 
@@ -5438,14 +5514,14 @@ msgstr "DD.MM.YYYY"
 msgid "YYYY-MM-DD"
 msgstr "YYYY-MM-DD"
 
-#: lib/helpers/time_helper.php:452
 #: lib/helpers/time_helper.php:457
-#: lib/helpers/time_helper.php:555
+#: lib/helpers/time_helper.php:462
 #: lib/helpers/time_helper.php:560
+#: lib/helpers/time_helper.php:565
 msgid "UTC"
 msgstr "UTC"
 
-#: lib/helpers/time_helper.php:510
+#: lib/helpers/time_helper.php:515
 msgid "Select a city"
 msgstr "เลือกเมือง"
 
@@ -5470,8 +5546,8 @@ msgstr "คืนเงินธุรกรรม"
 msgid "Issue a Refund"
 msgstr "ออกเงินคืน"
 
-#: lib/helpers/util_helper.php:15
-#: lib/helpers/util_helper.php:782
+#: lib/helpers/util_helper.php:63
+#: lib/helpers/util_helper.php:830
 #: lib/misc/process_action.php:307
 #: lib/views/integrations/external_calendars.php:48
 #: lib/views/integrations/external_marketing_systems.php:54
@@ -5481,122 +5557,122 @@ msgstr "ออกเงินคืน"
 msgid "Requires upgrade to a premium version"
 msgstr "ต้องอัปเกรดเป็นเวอร์ชันพรีเมียม"
 
-#: lib/helpers/util_helper.php:155
+#: lib/helpers/util_helper.php:203
 msgid "Show Available Variables"
 msgstr "แสดงตัวแปรที่ใช้ได้"
 
-#: lib/helpers/util_helper.php:280
-#: lib/helpers/util_helper.php:333
+#: lib/helpers/util_helper.php:328
+#: lib/helpers/util_helper.php:381
 msgid "January"
 msgstr "มกราคม"
 
-#: lib/helpers/util_helper.php:281
-#: lib/helpers/util_helper.php:334
+#: lib/helpers/util_helper.php:329
+#: lib/helpers/util_helper.php:382
 msgid "February"
 msgstr "กุมภาพันธ์"
 
-#: lib/helpers/util_helper.php:282
-#: lib/helpers/util_helper.php:335
+#: lib/helpers/util_helper.php:330
+#: lib/helpers/util_helper.php:383
 msgid "March"
 msgstr "มีนาคม"
 
-#: lib/helpers/util_helper.php:283
-#: lib/helpers/util_helper.php:336
+#: lib/helpers/util_helper.php:331
+#: lib/helpers/util_helper.php:384
 msgid "April"
 msgstr "เมษายน"
 
-#: lib/helpers/util_helper.php:284
-#: lib/helpers/util_helper.php:337
+#: lib/helpers/util_helper.php:332
+#: lib/helpers/util_helper.php:385
 msgid "May"
 msgstr "พฤษภาคม"
 
-#: lib/helpers/util_helper.php:285
-#: lib/helpers/util_helper.php:338
+#: lib/helpers/util_helper.php:333
+#: lib/helpers/util_helper.php:386
 msgid "June"
 msgstr "มิถุนายน"
 
-#: lib/helpers/util_helper.php:286
-#: lib/helpers/util_helper.php:339
+#: lib/helpers/util_helper.php:334
+#: lib/helpers/util_helper.php:387
 msgid "July"
 msgstr "กรกฎาคม"
 
-#: lib/helpers/util_helper.php:287
-#: lib/helpers/util_helper.php:340
+#: lib/helpers/util_helper.php:335
+#: lib/helpers/util_helper.php:388
 msgid "August"
 msgstr "สิงหาคม"
 
-#: lib/helpers/util_helper.php:288
-#: lib/helpers/util_helper.php:341
+#: lib/helpers/util_helper.php:336
+#: lib/helpers/util_helper.php:389
 msgid "September"
 msgstr "กันยายน"
 
-#: lib/helpers/util_helper.php:289
-#: lib/helpers/util_helper.php:342
+#: lib/helpers/util_helper.php:337
+#: lib/helpers/util_helper.php:390
 msgid "October"
 msgstr "ตุลาคม"
 
-#: lib/helpers/util_helper.php:290
-#: lib/helpers/util_helper.php:343
+#: lib/helpers/util_helper.php:338
+#: lib/helpers/util_helper.php:391
 msgid "November"
 msgstr "พฤศจิกายน"
 
-#: lib/helpers/util_helper.php:291
-#: lib/helpers/util_helper.php:344
+#: lib/helpers/util_helper.php:339
+#: lib/helpers/util_helper.php:392
 msgid "December"
 msgstr "ธันวาคม"
 
-#: lib/helpers/util_helper.php:294
-#: lib/helpers/util_helper.php:345
+#: lib/helpers/util_helper.php:342
+#: lib/helpers/util_helper.php:393
 msgid "Jan"
 msgstr "ม.ค."
 
-#: lib/helpers/util_helper.php:295
-#: lib/helpers/util_helper.php:346
+#: lib/helpers/util_helper.php:343
+#: lib/helpers/util_helper.php:394
 msgid "Feb"
 msgstr "ก.พ."
 
-#: lib/helpers/util_helper.php:296
-#: lib/helpers/util_helper.php:347
+#: lib/helpers/util_helper.php:344
+#: lib/helpers/util_helper.php:395
 msgid "Mar"
 msgstr "มี.ค."
 
-#: lib/helpers/util_helper.php:297
-#: lib/helpers/util_helper.php:348
+#: lib/helpers/util_helper.php:345
+#: lib/helpers/util_helper.php:396
 msgid "Apr"
 msgstr "เม.ย."
 
-#: lib/helpers/util_helper.php:299
-#: lib/helpers/util_helper.php:349
+#: lib/helpers/util_helper.php:347
+#: lib/helpers/util_helper.php:397
 msgid "Jun"
 msgstr "มิ.ย."
 
-#: lib/helpers/util_helper.php:300
-#: lib/helpers/util_helper.php:350
+#: lib/helpers/util_helper.php:348
+#: lib/helpers/util_helper.php:398
 msgid "Jul"
 msgstr "ก.ค."
 
-#: lib/helpers/util_helper.php:301
-#: lib/helpers/util_helper.php:351
+#: lib/helpers/util_helper.php:349
+#: lib/helpers/util_helper.php:399
 msgid "Aug"
 msgstr "ส.ค."
 
-#: lib/helpers/util_helper.php:302
-#: lib/helpers/util_helper.php:352
+#: lib/helpers/util_helper.php:350
+#: lib/helpers/util_helper.php:400
 msgid "Sep"
 msgstr "ก.ย."
 
-#: lib/helpers/util_helper.php:303
-#: lib/helpers/util_helper.php:353
+#: lib/helpers/util_helper.php:351
+#: lib/helpers/util_helper.php:401
 msgid "Oct"
 msgstr "ต.ค."
 
-#: lib/helpers/util_helper.php:304
-#: lib/helpers/util_helper.php:354
+#: lib/helpers/util_helper.php:352
+#: lib/helpers/util_helper.php:402
 msgid "Nov"
 msgstr "พ.ย."
 
-#: lib/helpers/util_helper.php:305
-#: lib/helpers/util_helper.php:355
+#: lib/helpers/util_helper.php:353
+#: lib/helpers/util_helper.php:403
 msgid "Dec"
 msgstr "ธ.ค."
 
@@ -5632,10 +5708,12 @@ msgid "WhatsApp notifications are disabled"
 msgstr "การแจ้งเตือน WhatsApp ถูกปิดใช้งาน"
 
 #: lib/helpers/work_periods_helper.php:281
+#: lib/views/events_manager/event_date_range_form.php:81
 msgid "Start"
 msgstr "เริ่มต้น"
 
 #: lib/helpers/work_periods_helper.php:282
+#: lib/views/events_manager/event_date_range_form.php:82
 msgid "Finish"
 msgstr "สิ้นสุด"
 
@@ -5858,7 +5936,7 @@ msgid "Choose a customer for this test run:"
 msgstr "เลือกข้อมูลลูกค้าสำหรับการทดสอบนี้:"
 
 #: lib/misc/process_event.php:228
-#: lib/views/orders/quick_edit.php:116
+#: lib/views/orders/quick_edit.php:141
 #: lib/views/partials/_top_bar.php:47
 msgid "Booking"
 msgstr "การจอง"
@@ -5872,7 +5950,7 @@ msgid "Old Order"
 msgstr "คำสั่งซื้อเก่า"
 
 #: lib/misc/process_event.php:272
-#: lib/views/shared/_template_variables.php:77
+#: lib/views/shared/_template_variables.php:78
 msgid "Transaction"
 msgstr "ธุรกรรม"
 
@@ -5930,7 +6008,7 @@ msgid "Booking Status"
 msgstr "สถานะการจอง"
 
 #: lib/misc/process_event.php:551
-#: lib/models/booking_model.php:156
+#: lib/models/booking_model.php:158
 #: lib/models/order_model.php:398
 msgid "Order Item Counts"
 msgstr "จำนวนรายการคำสั่งซื้อ"
@@ -5948,7 +6026,7 @@ msgid "Previous Agent"
 msgstr "เจ้าหน้าที่ก่อนหน้า"
 
 #: lib/misc/process_event.php:559
-#: lib/models/booking_model.php:155
+#: lib/models/booking_model.php:157
 #: lib/models/work_period_model.php:22
 #: lib/views/bookings/_booking_data.php:177
 msgid "Start Time"
@@ -6005,49 +6083,49 @@ msgstr "บทบาทกำหนดเองใหม่"
 msgid "Connected WordPress User"
 msgstr "ผู้ใช้ WordPress ที่เชื่อมต่อแล้ว"
 
-#: lib/models/booking_model.php:533
+#: lib/models/booking_model.php:551
 msgid "Unfortunately there are no active resources that can offer selected service, please select another service."
 msgstr "ขออภัย ไม่มีทรัพยากรที่ใช้งานอยู่ซึ่งสามารถให้บริการที่เลือกได้ โปรดเลือกบริการอื่น"
 
 #. translators: %2$s is the service name
-#: lib/models/booking_model.php:570
+#: lib/models/booking_model.php:588
 #, php-format
 msgid "Unfortunately the selected time slot \"%1$s\" for \"%2$s\" is not available anymore, please select another timeslot."
 msgstr "ขออภัย ช่วงเวลาที่เลือก \"%1$s\" สำหรับ \"%2$s\" ไม่สามารถใช้งานได้แล้ว โปรดเลือกช่วงเวลาอื่น"
 
-#: lib/models/booking_model.php:584
+#: lib/models/booking_model.php:602
 msgid "You have to select a service"
 msgstr "คุณต้องเลือกบริการ"
 
-#: lib/models/booking_model.php:587
+#: lib/models/booking_model.php:605
 msgid "You have to select an agent"
 msgstr "คุณต้องเลือกตัวแทน"
 
-#: lib/models/booking_model.php:596
+#: lib/models/booking_model.php:614
 msgid "You have to be logged in"
 msgstr "คุณต้องเข้าสู่ระบบ"
 
-#: lib/models/booking_model.php:906
-#: lib/models/booking_model.php:916
+#: lib/models/booking_model.php:924
+#: lib/models/booking_model.php:934
 msgid "Invalid Date/Time"
 msgstr "วันที่/เวลาไม่ถูกต้อง"
 
-#: lib/models/booking_model.php:1013
+#: lib/models/booking_model.php:1031
 #: lib/views/settings/generate_instant_booking_page.php:36
 msgid "Any Available Agent"
 msgstr "ตัวแทนที่ว่างใดก็ได้"
 
-#: lib/models/cart_model.php:261
+#: lib/models/cart_model.php:281
 #: lib/models/order_model.php:511
 msgid "Balance Due"
 msgstr "ยอดคงเหลือที่ต้องชำระ"
 
-#: lib/models/cart_model.php:313
+#: lib/models/cart_model.php:333
 #: lib/views/orders/_price_breakdown.php:22
 msgid "Sub Total"
 msgstr "ยอดรวมย่อย"
 
-#: lib/models/cart_model.php:323
+#: lib/models/cart_model.php:343
 #: lib/views/orders/_price_breakdown.php:26
 msgid "Total Price"
 msgstr "ราคารวม"
@@ -6081,24 +6159,24 @@ msgid "Location Name"
 msgstr "ชื่อสถานที่"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1111
+#: lib/models/model.php:1116
 #, php-format
 msgid "%s is not valid"
 msgstr "%s ไม่ถูกต้อง"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1121
+#: lib/models/model.php:1126
 #, php-format
 msgid "%s can not be blank"
 msgstr "%s ต้องไม่เว้นว่าง"
 
 #. translators: %s is the property name for a model
-#: lib/models/model.php:1152
+#: lib/models/model.php:1157
 #, php-format
 msgid "%s has to be unique"
 msgstr "%s ต้องไม่ซ้ำกัน"
 
-#: lib/models/order_intent_model.php:207
+#: lib/models/order_intent_model.php:232
 #: lib/models/transaction_intent_model.php:104
 msgid "Can not convert to transaction, because transaction intent conversion is being processed"
 msgstr "ไม่สามารถแปลงเป็นธุรกรรมได้ เนื่องจากกำลังประมวลผลการแปลงเจตนาธุรกรรมอยู่"
@@ -6202,16 +6280,17 @@ msgstr "ระยะเวลาบริการ"
 
 #: lib/models/service_model.php:54
 #: lib/views/bookings/_booking_data.php:191
-#: lib/views/services/_form.php:280
+#: lib/views/services/_form.php:288
 msgid "Buffer Before"
 msgstr "บัฟเฟอร์ก่อน"
 
 #: lib/models/service_model.php:55
 #: lib/views/bookings/_booking_data.php:197
-#: lib/views/services/_form.php:286
+#: lib/views/services/_form.php:294
 msgid "Buffer After"
 msgstr "บัฟเฟอร์หลัง"
 
+#: lib/models/booking_model.php:154
 #: lib/models/service_model.php:57
 msgid "Service Category"
 msgstr "หมวดหมู่บริการ"
@@ -6232,8 +6311,11 @@ msgstr "เวลาสิ้นสุด"
 
 #: lib/views/activities/index.php:21
 #: lib/views/bookings/index.php:32
+#: lib/views/bookings/index.php:88
 #: lib/views/customers/index.php:27
 #: lib/views/customers/index.php:105
+#: lib/views/event_registrations/index.php:53
+#: lib/views/event_registrations/index.php:139
 #: lib/views/orders/index.php:26
 #: lib/views/orders/index.php:98
 #: lib/views/process_jobs/index.php:26
@@ -6249,6 +6331,8 @@ msgstr "กำลังแสดง"
 #: lib/views/customers/index.php:27
 #: lib/views/customers/index.php:105
 #: lib/views/dashboard/_booking_info_box_small.php:53
+#: lib/views/event_registrations/index.php:53
+#: lib/views/event_registrations/index.php:139
 #: lib/views/orders/index.php:26
 #: lib/views/orders/index.php:98
 #: lib/views/process_jobs/index.php:26
@@ -6288,6 +6372,8 @@ msgstr "รหัสผู้ใช้"
 #: lib/views/activities/index.php:56
 #: lib/views/customers/index.php:73
 #: lib/views/customers/index.php:74
+#: lib/views/event_registrations/index.php:103
+#: lib/views/event_registrations/index.php:105
 #: lib/views/orders/index.php:65
 #: lib/views/orders/index.php:67
 #: lib/views/process_jobs/index.php:52
@@ -6299,6 +6385,7 @@ msgstr "กรองตามวันที่"
 
 #: lib/views/activities/index.php:55
 #: lib/views/customers/index.php:73
+#: lib/views/event_registrations/index.php:104
 #: lib/views/orders/index.php:66
 #: lib/views/process_jobs/index.php:52
 #: lib/views/transactions/index.php:58
@@ -6317,6 +6404,7 @@ msgstr "ถึง"
 #: lib/views/activities/index.php:81
 #: lib/views/bookings/index.php:90
 #: lib/views/customers/index.php:107
+#: lib/views/event_registrations/index.php:143
 #: lib/views/orders/index.php:100
 #: lib/views/process_jobs/index.php:86
 #: lib/views/transactions/index.php:91
@@ -6398,7 +6486,7 @@ msgstr "เพิ่มการนัดหมายแรก"
 #: lib/views/bookings/pending_approval.php:54
 #: lib/views/customers/query_for_booking_form.php:21
 #: lib/views/dashboard/_booking_info_box_small.php:37
-#: lib/views/orders/quick_edit.php:216
+#: lib/views/orders/quick_edit.php:275
 msgid "Phone: "
 msgstr "โทรศัพท์:"
 
@@ -6406,7 +6494,7 @@ msgstr "โทรศัพท์:"
 #: lib/views/bookings/pending_approval.php:58
 #: lib/views/customers/query_for_booking_form.php:17
 #: lib/views/dashboard/_booking_info_box_small.php:41
-#: lib/views/orders/quick_edit.php:212
+#: lib/views/orders/quick_edit.php:271
 msgid "Email: "
 msgstr "อีเมล:"
 
@@ -6437,6 +6525,7 @@ msgstr "สร้างการนัดหมาย"
 #: lib/views/bookings/quick_availability.php:9
 #: lib/views/bookings/_booking_data.php:169
 #: lib/views/dashboard/widget_bookings_and_availability_timeline.php:32
+#: lib/views/events_manager/_step_event.php:67
 msgid "Availability"
 msgstr "ความพร้อมใช้งาน"
 
@@ -6611,10 +6700,12 @@ msgstr "ละทิ้ง"
 #: lib/views/customers/quick_edit.php:155
 #: lib/views/customer_cabinet/dashboard.php:141
 #: lib/views/default_agent/edit_form.php:37
-#: lib/views/orders/quick_edit.php:310
-#: lib/views/services/_form.php:331
-#: lib/views/services/_form.php:345
-#: lib/views/settings/general.php:720
+#: lib/views/events_manager/_form.php:353
+#: lib/views/events_manager/_form.php:365
+#: lib/views/orders/quick_edit.php:369
+#: lib/views/services/_form.php:339
+#: lib/views/services/_form.php:353
+#: lib/views/settings/general.php:901
 msgid "Save Changes"
 msgstr "บันทึกการเปลี่ยนแปลง"
 
@@ -6831,6 +6922,7 @@ msgid "Import .csv"
 msgstr "นำเข้า .csv"
 
 #: lib/views/customers/index.php:33
+#: lib/views/event_registrations/index.php:68
 msgid "Export .csv"
 msgstr "ส่งออก .csv"
 
@@ -6869,6 +6961,7 @@ msgid "WP User ID"
 msgstr "ID ผู้ใช้ WP"
 
 #: lib/views/customers/index.php:63
+#: lib/views/event_registrations/index.php:94
 msgid "Search by Name"
 msgstr "ค้นหาตามชื่อ"
 
@@ -6877,6 +6970,7 @@ msgid "Phone..."
 msgstr "โทรศัพท์..."
 
 #: lib/views/customers/index.php:65
+#: lib/views/event_registrations/index.php:95
 msgid "Search by Email"
 msgstr "ค้นหาตามอีเมล"
 
@@ -7073,7 +7167,7 @@ msgstr "การยืนยันตัวตนของลูกค้าถ
 
 #: lib/views/customer_cabinet/password_reset_form.php:8
 #: lib/views/customer_cabinet/request_password_reset_token.php:8
-#: lib/views/orders/quick_edit.php:196
+#: lib/views/orders/quick_edit.php:255
 msgid "cancel"
 msgstr "ยกเลิก"
 
@@ -7138,18 +7232,19 @@ msgstr "การจองนี้เป็นส่วนหนึ่งขอ
 msgid "Show Details"
 msgstr "แสดงรายละเอียด"
 
-#: lib/views/customer_cabinet/_booking_tile.php:75
+#: lib/views/customer_cabinet/_booking_tile.php:68
 #: lib/views/customer_cabinet/_order_tile.php:33
+#: lib/views/events_manager/_form.php:100
 #: lib/views/steps/partials/_booking_form_summary_panel.php:15
 msgid "Summary"
 msgstr "สรุป"
 
-#: lib/views/customer_cabinet/_booking_tile.php:82
+#: lib/views/customer_cabinet/_booking_tile.php:75
 #: lib/views/shared/_template_variables.php:19
 msgid "Balance Due:"
 msgstr "ยอดคงเหลือที่ต้องชำระ:"
 
-#: lib/views/customer_cabinet/_booking_tile.php:90
+#: lib/views/customer_cabinet/_booking_tile.php:83
 msgid "Make Payment"
 msgstr "ชำระเงิน"
 
@@ -7165,7 +7260,7 @@ msgid "Not Scheduled"
 msgstr "ยังไม่กำหนด"
 
 #: lib/views/customer_cabinet/_bundle_tile.php:36
-#: lib/views/steps/partials/_order_summary.php:34
+#: lib/views/steps/partials/_order_summary.php:46
 msgid "Start Scheduling"
 msgstr "เริ่มกำหนดเวลา"
 
@@ -7254,7 +7349,7 @@ msgstr "ปฏิทินภายนอก"
 #: lib/views/integrations/external_marketing_systems.php:51
 #: lib/views/integrations/external_meeting_systems.php:51
 #: lib/views/integrations/external_short_links_systems.php:48
-#: lib/views/settings/general.php:715
+#: lib/views/settings/general.php:896
 #: lib/views/settings/notifications.php:98
 #: lib/views/settings/payments.php:56
 msgid "Save Settings"
@@ -7292,7 +7387,7 @@ msgstr "คุณสามารถปรับแต่งหัวข้อแ
 msgid "Email to:"
 msgstr "ส่งอีเมลถึง:"
 
-#: lib/views/invoices/email_form.php:44
+#: lib/views/invoices/email_form.php:45
 msgid "Send"
 msgstr "ส่ง"
 
@@ -7321,14 +7416,15 @@ msgstr "ดูใบเสร็จ"
 msgid "Thank you for your payment"
 msgstr "ขอบคุณสำหรับการชำระเงินของคุณ"
 
+#: lib/views/events_manager/_event_index_item.php:17
 #: lib/views/invoices/payment_form/_confirmation.php:30
 msgid "Date:"
 msgstr "วันที่:"
 
 #: lib/views/invoices/payment_form/_confirmation.php:36
 #: lib/views/orders/_balance_and_payments.php:64
-#: lib/views/shared/_template_variables.php:80
-#: lib/views/shared/_template_variables.php:94
+#: lib/views/shared/_template_variables.php:81
+#: lib/views/shared/_template_variables.php:95
 msgid "Amount:"
 msgstr "จำนวนเงิน:"
 
@@ -7399,6 +7495,7 @@ msgstr "ใช้เทมเพลตนี้"
 msgid "You can use these variables in your email and sms notifications. Just click on the variable with {} brackets and it will automatically copy to your buffer and you can simply paste it where you want to use it. It will be converted into a value for the agent/service or appointment."
 msgstr "คุณสามารถใช้ตัวแปรเหล่านี้ในอีเมลและการแจ้งเตือนทาง SMS ของคุณ เพียงคลิกที่ตัวแปรที่มีวงเล็บ {} แล้วมันจะถูกคัดลอกไปยังบัฟเฟอร์ของคุณโดยอัตโนมัติ และคุณสามารถวางลงในตำแหน่งที่ต้องการใช้ได้ มันจะถูกแปลงเป็นค่าของเอเจนต์/บริการ หรือการนัดหมาย"
 
+#: lib/controllers/event_registrations_controller.php:104
 #: lib/views/orders/index.php:56
 #: lib/views/transactions/index.php:50
 msgid "Customer Name"
@@ -7438,73 +7535,74 @@ msgstr "รายการในคำสั่งซื้อ"
 msgid "Add Another Item"
 msgstr "เพิ่มรายการอื่น"
 
-#: lib/views/orders/quick_edit.php:90
+#: lib/views/orders/quick_edit.php:103
 msgid "Select a bundle that you want to add"
 msgstr "เลือกชุดที่คุณต้องการเพิ่ม"
 
-#: lib/views/orders/quick_edit.php:112
+#: lib/views/orders/quick_edit.php:137
 msgid "What type of item would you like to add?"
 msgstr "คุณต้องการเพิ่มรายการประเภทใด?"
 
-#: lib/views/orders/quick_edit.php:128
+#: lib/views/orders/quick_edit.php:165
 msgid "Order is empty"
 msgstr "คำสั่งซื้อว่างเปล่า"
 
 #. translators: %d number of items in the order
-#: lib/views/orders/quick_edit.php:162
+#: lib/views/orders/quick_edit.php:221
 #, php-format
 msgid "There are %d more items in this order."
 msgstr "มีรายการในคำสั่งซื้อนี้อีก %d รายการ"
 
-#: lib/views/orders/quick_edit.php:164
+#: lib/views/orders/quick_edit.php:223
 msgid "There is one more item in this order."
 msgstr "มีรายการในคำสั่งซื้อนี้อีกหนึ่งรายการ"
 
-#: lib/views/orders/quick_edit.php:166
+#: lib/views/orders/quick_edit.php:225
 msgid "Show All Items"
 msgstr "แสดงทุกรายการ"
 
-#: lib/views/orders/quick_edit.php:181
+#: lib/helpers/menu_helper.php:453
+#: lib/views/orders/quick_edit.php:240
 msgid "New"
 msgstr "ใหม่"
 
-#: lib/views/orders/quick_edit.php:185
+#: lib/views/orders/quick_edit.php:244
 msgid "Find"
 msgstr "ค้นหา"
 
-#: lib/views/orders/quick_edit.php:193
+#: lib/views/orders/quick_edit.php:252
 msgid "Start typing to search..."
 msgstr "เริ่มพิมพ์เพื่อค้นหา..."
 
-#: lib/views/orders/quick_edit.php:232
+#: lib/views/orders/quick_edit.php:291
 msgid "Price Breakdown"
 msgstr "รายละเอียดราคา"
 
-#: lib/views/orders/quick_edit.php:237
+#: lib/views/orders/quick_edit.php:296
 msgid "Recalculate"
 msgstr "คำนวณใหม่"
 
-#: lib/views/orders/quick_edit.php:271
+#: lib/views/orders/quick_edit.php:330
 msgid "Add Transaction"
 msgstr "เพิ่มรายการธุรกรรม"
 
-#: lib/views/orders/quick_edit.php:284
+#: lib/views/orders/quick_edit.php:343
 msgid "Upgrade to PRO"
 msgstr "อัปเกรดเป็น PRO"
 
-#: lib/views/orders/quick_edit.php:285
+#: lib/views/orders/quick_edit.php:344
 msgid "To unlock invoicing feature, you need to upgrade to a PRO version"
 msgstr "เพื่อปลดล็อกฟีเจอร์การออกใบแจ้งหนี้ คุณต้องอัปเกรดเป็นเวอร์ชัน PRO"
 
-#: lib/views/orders/quick_edit.php:307
+#: lib/views/orders/quick_edit.php:366
 msgid "Create Order"
 msgstr "สร้างคำสั่งซื้อ"
 
-#: lib/views/orders/quick_edit.php:317
+#: lib/views/orders/quick_edit.php:376
 msgid "Are you sure you want to delete this order? All appointments that are attached ot this order will be removed as well"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบคำสั่งซื้อนี้? การนัดหมายทั้งหมดที่เชื่อมโยงกับคำสั่งซื้อนี้จะถูกลบด้วย"
 
-#: lib/views/orders/quick_edit.php:319
+#: lib/views/orders/quick_edit.php:378
 msgid "Delete Order"
 msgstr "ลบคำสั่งซื้อ"
 
@@ -7552,17 +7650,17 @@ msgstr "การชำระเงิน:"
 msgid "Refunded %s on %s"
 msgstr "คืนเงิน %s เมื่อ %s"
 
-#: lib/views/partials/_side_menu.php:12
+#: lib/views/partials/_side_menu.php:21
 #: lib/views/partials/_top_bar.php:7
 msgid "Menu"
 msgstr "เมนู"
 
-#: lib/views/partials/_side_menu.php:68
-#: lib/views/partials/_side_menu.php:69
+#: lib/views/partials/_side_menu.php:77
+#: lib/views/partials/_side_menu.php:78
 msgid "Back to WordPress"
 msgstr "กลับไปที่ WordPress"
 
-#: lib/views/partials/_side_menu.php:77
+#: lib/views/partials/_side_menu.php:86
 msgid "back to WordPress"
 msgstr "กลับไปที่ WordPress"
 
@@ -7570,6 +7668,7 @@ msgstr "กลับไปที่ WordPress"
 msgid "Search..."
 msgstr "กำลังค้นหา..."
 
+#: lib/helpers/form_helper.php:881
 #: lib/views/partials/_top_bar.php:20
 msgid "Search"
 msgstr "ค้นหา"
@@ -7611,10 +7710,13 @@ msgstr "เวิร์กโฟลว์ใหม่"
 msgid "Process Name"
 msgstr "ชื่อกระบวนการ"
 
+#: lib/views/events_manager/_form.php:115
 #: lib/views/processes/_form.php:41
 msgid "Event Type"
 msgstr "ประเภทเหตุการณ์"
 
+#: lib/views/event_registrations/index.php:88
+#: lib/views/event_registrations/index.php:129
 #: lib/views/processes/_form.php:54
 #: lib/views/process_jobs/index.php:38
 #: lib/views/process_jobs/index.php:72
@@ -7638,6 +7740,15 @@ msgstr "ทดสอบเวิร์กโฟลว์นี้"
 msgid "Save Workflow"
 msgstr "บันทึกเวิร์กโฟลว์"
 
+#: lib/controllers/event_registrations_controller.php:103
+#: lib/helpers/events_hooks_helper.php:314
+#: lib/helpers/events_hooks_helper.php:898
+#: lib/helpers/events_hooks_helper.php:920
+#: lib/helpers/events_hooks_helper.php:939
+#: lib/helpers/events_hooks_helper.php:1188
+#: lib/models/event_registration_model.php:27
+#: lib/views/event_registrations/index.php:81
+#: lib/views/event_registrations/index.php:122
 #: lib/views/process_jobs/index.php:35
 #: lib/views/process_jobs/index.php:69
 msgid "Event"
@@ -7668,6 +7779,7 @@ msgstr "ข้อมูลการรัน"
 msgid "All Workflows"
 msgstr "เวิร์กโฟลว์ทั้งหมด"
 
+#: lib/views/event_registrations/index.php:30
 #: lib/views/process_jobs/index.php:49
 msgid "All Statuses"
 msgstr "สถานะทั้งหมด"
@@ -7731,7 +7843,7 @@ msgstr "ไม่พบบริการที่ตรงกัน"
 
 #: lib/views/search/query_results.php:69
 #: lib/views/services/index.php:49
-#: lib/views/services/_form.php:309
+#: lib/views/services/_form.php:317
 msgid "Add Service"
 msgstr "เพิ่มบริการ"
 
@@ -7751,6 +7863,7 @@ msgstr[0] "%d บริการที่ถูกปิดใช้งาน"
 msgid "Service ID: %d"
 msgstr "รหัสบริการ: %d"
 
+#: lib/views/events_manager/_form.php:112
 #: lib/views/services/_form.php:26
 msgid "Category"
 msgstr "หมวดหมู่"
@@ -7771,8 +7884,10 @@ msgstr "มองเห็นได้สำหรับทุกคน"
 msgid "Visible only to admins and agents"
 msgstr "มองเห็นได้เฉพาะผู้ดูแลระบบและผู้ให้บริการ"
 
+#: lib/views/events_manager/_form.php:150
+#: lib/views/events_manager/_form.php:370
 #: lib/views/services/_form.php:50
-#: lib/views/services/_form.php:350
+#: lib/views/services/_form.php:358
 msgid "Media"
 msgstr "สื่อ"
 
@@ -7793,7 +7908,7 @@ msgid "This image is used when service is listed in [latepoint_resources] shortc
 msgstr "รูปภาพนี้ใช้เมื่อมีการแสดงบริการใน shortcode [latepoint_resources]"
 
 #: lib/views/services/_form.php:74
-#: lib/views/services/_form.php:351
+#: lib/views/services/_form.php:359
 msgid "Durations and Price"
 msgstr "ระยะเวลาและราคา"
 
@@ -7802,7 +7917,7 @@ msgid "Duration Name (optional)"
 msgstr "ชื่อระยะเวลา (ไม่บังคับ)"
 
 #: lib/views/services/_form.php:98
-#: lib/views/services/_form.php:352
+#: lib/views/services/_form.php:360
 msgid "Display Price"
 msgstr "แสดงราคา"
 
@@ -7849,78 +7964,78 @@ msgid "You can set restrictions on earliest/latest dates in the future when your
 msgstr "คุณสามารถตั้งข้อจำกัดเกี่ยวกับวันที่เร็วที่สุด/ช้าที่สุดในอนาคตที่ลูกค้าของคุณสามารถนัดหมายได้ คุณสามารถใช้ค่าระยะเวลาแบบสัมพัทธ์ได้ เช่น \"+1 month\", \"+2 weeks\", \"+5 days\", \"+3 hours\", \"+30 minutes\" (ป้อนโดยไม่ใส่เครื่องหมายคำพูด) หรือคุณสามารถใช้วันที่แบบตายตัวในรูปแบบ YYYY-MM-DD ได้ เว้นว่างไว้แล้วระบบจะใช้ข้อจำกัดเริ่มต้นที่ตั้งไว้ในค่าการตั้งค่าทั่วไป"
 
 #: lib/views/services/_form.php:211
-#: lib/views/settings/general.php:86
+#: lib/views/settings/general.php:114
 msgid "Earliest Possible Booking"
 msgstr "การจองที่เป็นไปได้เร็วที่สุด"
 
 #: lib/views/services/_form.php:214
-#: lib/views/settings/general.php:89
+#: lib/views/settings/general.php:117
 msgid "Latest Possible Booking"
 msgstr "การจองที่เป็นไปได้ช้าที่สุด"
 
-#: lib/views/services/_form.php:224
+#: lib/views/services/_form.php:232
 msgid "Service Schedule"
 msgstr "ตารางเวลาบริการ"
 
-#: lib/views/services/_form.php:226
+#: lib/views/services/_form.php:234
 msgid "Set Custom Schedule"
 msgstr "ตั้งค่าตารางเวลาแบบกำหนดเอง"
 
-#: lib/views/services/_form.php:244
+#: lib/views/services/_form.php:252
 msgid "This service is using general schedule which is set in main settings"
 msgstr "บริการนี้ใช้ตารางเวลาทั่วไปซึ่งตั้งค่าไว้ในค่าการตั้งค่าหลัก"
 
-#: lib/views/services/_form.php:254
+#: lib/views/services/_form.php:262
 #: lib/views/settings/work_periods.php:25
 msgid "Days With Custom Schedules"
 msgstr "วันที่มีตารางเวลาแบบกำหนดเอง"
 
-#: lib/views/services/_form.php:257
+#: lib/views/services/_form.php:265
 msgid "Service shares custom daily schedules that you set in general settings for your company, however you can add additional days with custom hours which will be specific to this service only."
 msgstr "บริการนี้ใช้ตารางเวลารายวันแบบกำหนดเองที่คุณตั้งไว้ในค่าการตั้งค่าทั่วไปสำหรับบริษัทของคุณ อย่างไรก็ตาม คุณสามารถเพิ่มวันเพิ่มเติมพร้อมชั่วโมงแบบกำหนดเองซึ่งจะเฉพาะสำหรับบริการนี้เท่านั้น"
 
-#: lib/views/services/_form.php:263
-#: lib/views/services/_form.php:357
+#: lib/views/services/_form.php:271
+#: lib/views/services/_form.php:365
 #: lib/views/settings/work_periods.php:33
 msgid "Holidays & Days Off"
 msgstr "วันหยุดและวันหยุดพักผ่อน"
 
-#: lib/views/services/_form.php:266
+#: lib/views/services/_form.php:274
 msgid "Service uses the same holidays you set in general settings for your company, however you can add additional holidays for this service here."
 msgstr "บริการนี้ใช้วันหยุดเดียวกับที่คุณตั้งไว้ในค่าการตั้งค่าทั่วไปสำหรับบริษัทของคุณ อย่างไรก็ตาม คุณสามารถเพิ่มวันหยุดเพิ่มเติมสำหรับบริการนี้ได้ที่นี่"
 
-#: lib/views/services/_form.php:292
+#: lib/views/services/_form.php:300
 msgid "Override Time Intervals"
 msgstr "แทนที่ช่วงเวลา"
 
-#: lib/views/services/_form.php:298
+#: lib/views/services/_form.php:306
 msgid "Override status for bookings"
 msgstr "แทนที่สถานะสำหรับการจอง"
 
-#: lib/views/services/_form.php:298
+#: lib/views/services/_form.php:306
 msgid "Use from general settings"
 msgstr "ใช้จากค่าการตั้งค่าทั่วไป"
 
-#: lib/views/services/_form.php:316
+#: lib/views/services/_form.php:324
 msgid "Are you sure you want to remove this service? It will remove all appointments associated with it. You can also change status to disabled if you want to temprorary disable it instead."
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบบริการนี้? การดำเนินการนี้จะลบการนัดหมายทั้งหมดที่เกี่ยวข้องกับบริการนี้ด้วย คุณยังสามารถเปลี่ยนสถานะเป็นปิดใช้งานได้ หากคุณต้องการปิดใช้งานชั่วคราวแทน"
 
-#: lib/views/services/_form.php:323
+#: lib/views/services/_form.php:331
 msgid "Are you sure you want to duplicate this service?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการทำสำเนาบริการนี้?"
 
-#: lib/views/services/_form.php:326
+#: lib/views/services/_form.php:334
 msgid "Duplicate"
 msgstr "ทำสำเนา"
 
-#: lib/views/services/_form.php:354
-#: lib/views/settings/general.php:74
-#: lib/views/settings/general.php:220
-#: lib/views/settings/general.php:724
+#: lib/views/services/_form.php:362
+#: lib/views/settings/general.php:102
+#: lib/views/settings/general.php:248
+#: lib/views/settings/general.php:906
 msgid "Restrictions"
 msgstr "ข้อจำกัด"
 
-#: lib/views/services/_form.php:356
+#: lib/views/services/_form.php:364
 msgid "Days with Custom Schedule"
 msgstr "วันที่มีตารางเวลาแบบกำหนดเอง"
 
@@ -7938,6 +8053,7 @@ msgstr "ระยะเวลา:"
 msgid "min"
 msgstr "นาที"
 
+#: lib/views/events_manager/_event_index_item.php:48
 #: lib/views/services/_service_index_item.php:32
 msgid "Price:"
 msgstr "ราคา:"
@@ -7958,23 +8074,29 @@ msgstr "วันเดียว"
 msgid "Date Range"
 msgstr "ช่วงวันที่"
 
+#: lib/views/events_manager/event_date_range_form.php:49
 #: lib/views/settings/custom_day_schedule_form.php:18
 msgid "Pick a Start"
 msgstr "เลือกเวลาเริ่มต้น"
 
+#: lib/views/events_manager/event_date_range_form.php:52
 #: lib/views/settings/custom_day_schedule_form.php:21
 msgid "Pick an End"
 msgstr "เลือกเวลาสิ้นสุด"
 
+#: lib/views/events_manager/event_date_range_form.php:57
 #: lib/views/settings/custom_day_schedule_form.php:26
 #: lib/views/settings/custom_day_schedule_form.php:28
 msgid "Pick a Date"
 msgstr "เลือกวันที่"
 
+#: lib/views/events_manager/event_date_range_form.php:58
+#: lib/views/events_manager/event_date_range_form.php:59
 #: lib/views/settings/custom_day_schedule_form.php:27
 msgid "Pick a Start Date"
 msgstr "เลือกวันที่เริ่มต้น"
 
+#: lib/views/events_manager/event_date_range_form.php:59
 #: lib/views/settings/custom_day_schedule_form.php:28
 msgid "Pick an End Date"
 msgstr "เลือกวันที่สิ้นสุด"
@@ -8059,506 +8181,498 @@ msgstr "ปิดการแสดงวันที่แบบละเอี
 msgid "Use number instead of name of the month when outputting dates"
 msgstr "ใช้ตัวเลขแทนชื่อเดือนเมื่อแสดงวันที่"
 
-#: lib/views/settings/general.php:80
+#: lib/views/settings/general.php:108
 msgid "Time Restrictions"
 msgstr "ข้อจำกัดด้านเวลา"
 
-#: lib/views/settings/general.php:83
+#: lib/views/settings/general.php:111
 msgid "You can set restrictions on earliest/latest dates in the future when your customer can place an appointment. You can either use a relative values like for example \"+1 month\", \"+2 weeks\", \"+5 days\", \"+3 hours\", \"+30 minutes\" (entered without quotes), or you can use a fixed date in format YYYY-MM-DD. Leave blank to remove any limitations."
 msgstr "คุณสามารถกำหนดข้อจำกัดเกี่ยวกับวันที่เร็วที่สุด/ช้าที่สุดในอนาคตที่ลูกค้าของคุณสามารถนัดหมายได้ คุณสามารถใช้ค่าที่สัมพันธ์กันได้ เช่น \"+1 month\", \"+2 weeks\", \"+5 days\", \"+3 hours\", \"+30 minutes\" (ป้อนโดยไม่ต้องใส่เครื่องหมายอัญประกาศ) หรือคุณสามารถใช้วันที่แบบคงที่ในรูปแบบ YYYY-MM-DD ได้ เว้นว่างไว้เพื่อลบข้อจำกัดทั้งหมด"
 
-#: lib/views/settings/general.php:96
+#: lib/views/settings/general.php:124
 msgid "Quantity Restrictions"
 msgstr "ข้อจำกัดด้านจำนวน"
 
-#: lib/views/settings/general.php:99
+#: lib/views/settings/general.php:127
 msgid "Maximum Number of Future Bookings per Customer"
 msgstr "จำนวนการจองล่วงหน้าสูงสุดต่อหนึ่งลูกค้า"
 
-#: lib/views/settings/general.php:115
-#: lib/views/settings/general.php:725
+#: lib/views/settings/general.php:143
+#: lib/views/settings/general.php:907
 msgid "Currency & Price"
 msgstr "สกุลเงิน & ราคา"
 
-#: lib/views/settings/general.php:120
+#: lib/views/settings/general.php:148
 msgid "Symbol"
 msgstr "สัญลักษณ์"
 
-#: lib/views/settings/general.php:125
+#: lib/views/settings/general.php:153
 msgid "Symbol before the price"
 msgstr "สัญลักษณ์ก่อนราคา"
 
-#: lib/views/settings/general.php:128
+#: lib/views/settings/general.php:156
 msgid "Symbol after the price"
 msgstr "สัญลักษณ์หลังราคา"
 
-#: lib/views/settings/general.php:135
+#: lib/views/settings/general.php:163
 msgid "Formatting"
 msgstr "การจัดรูปแบบ"
 
-#: lib/views/settings/general.php:140
+#: lib/views/settings/general.php:168
 msgid "Thousand Separator"
 msgstr "ตัวคั่นหลักพัน"
 
-#: lib/views/settings/general.php:141
-#: lib/views/settings/general.php:150
+#: lib/views/settings/general.php:169
+#: lib/views/settings/general.php:178
 msgid "Comma"
 msgstr "จุลภาค"
 
-#: lib/views/settings/general.php:142
-#: lib/views/settings/general.php:149
+#: lib/views/settings/general.php:170
+#: lib/views/settings/general.php:177
 msgid "Dot"
 msgstr "จุด"
 
-#: lib/views/settings/general.php:143
+#: lib/views/settings/general.php:171
 msgid "Space"
 msgstr "เว้นวรรค"
 
-#: lib/views/settings/general.php:144
+#: lib/views/settings/general.php:172
 #: blocks/controls/BorderControl.js:36
 #: blocks/controls/TypographyControl.js:72
 #: blocks/src/list-of-resources/edit.js:788
 msgid "None"
 msgstr "ไม่มี"
 
-#: lib/views/settings/general.php:148
+#: lib/views/settings/general.php:176
 msgid "Decimal Separator"
 msgstr "ตัวคั่นทศนิยม"
 
-#: lib/views/settings/general.php:154
+#: lib/views/settings/general.php:182
 msgid "Number of Decimals"
 msgstr "จำนวนตำแหน่งทศนิยม"
 
-#: lib/views/settings/general.php:161
+#: lib/views/settings/general.php:189
 msgid "Prices"
 msgstr "ราคา"
 
-#: lib/views/settings/general.php:164
+#: lib/views/settings/general.php:192
 msgid "Do not show price breakdown, if service price is zero"
 msgstr "ไม่แสดงรายละเอียดการแยกราคา หากราคาบริการเป็นศูนย์"
 
-#: lib/views/settings/general.php:176
+#: lib/views/settings/general.php:204
 msgid "Countries"
 msgstr "ประเทศ"
 
-#: lib/views/settings/general.php:182
+#: lib/views/settings/general.php:210
 msgid "Countries shown in phone field"
 msgstr "ประเทศที่แสดงในช่องโทรศัพท์"
 
-#: lib/views/settings/general.php:183
+#: lib/views/settings/general.php:211
 msgid "Show all countries"
 msgstr "แสดงทุกประเทศ"
 
-#: lib/views/settings/general.php:184
+#: lib/views/settings/general.php:212
 msgid "Show selected countries"
 msgstr "แสดงประเทศที่เลือก"
 
-#: lib/views/settings/general.php:188
+#: lib/views/settings/general.php:216
 msgid "Default Country (if not auto-detected)"
 msgstr "ประเทศเริ่มต้น (หากตรวจหาอัตโนมัติไม่ได้)"
 
-#: lib/views/settings/general.php:194
+#: lib/views/settings/general.php:222
 msgid "Select countries available for phone number field"
 msgstr "เลือกประเทศที่ใช้ได้สำหรับช่องหมายเลขโทรศัพท์"
 
-#: lib/views/settings/general.php:202
+#: lib/views/settings/general.php:230
 msgid "Validation"
 msgstr "การตรวจสอบความถูกต้อง"
 
-#: lib/views/settings/general.php:205
+#: lib/views/settings/general.php:233
 msgid "Validate phone typed fields if they are set as required"
 msgstr "ตรวจสอบฟิลด์หมายเลขโทรศัพท์ที่พิมพ์ หากตั้งค่าเป็นจำเป็น"
 
-#: lib/views/settings/general.php:205
+#: lib/views/settings/general.php:233
 msgid "Reject invalid phone for customers and agents if the phone field is set as required"
 msgstr "ปฏิเสธหมายเลขโทรศัพท์ที่ไม่ถูกต้องสำหรับลูกค้าและเจ้าหน้าที่ หากฟิลด์โทรศัพท์ตั้งค่าเป็นจำเป็น"
 
-#: lib/views/settings/general.php:206
-msgid "Format phone number on input"
-msgstr "จัดรูปแบบหมายเลขโทรศัพท์ขณะป้อนข้อมูล"
-
-#: lib/views/settings/general.php:206
-msgid "Applies formatting on phone fields based on the country selected (not recommended for countries that have multiple NSN lengths)"
-msgstr "ใช้การจัดรูปแบบกับฟิลด์โทรศัพท์ตามประเทศที่เลือก (ไม่แนะนำสำหรับประเทศที่มีความยาว NSN หลายแบบ)"
-
-#: lib/views/settings/general.php:207
+#: lib/views/settings/general.php:235
 msgid "Show country dial code next to flag"
 msgstr "แสดงรหัสโทรประเทศถัดจากธง"
 
-#: lib/views/settings/general.php:207
+#: lib/views/settings/general.php:235
 msgid "If enabled, will show a country code next to a flag, for example +1 for United States"
 msgstr "หากเปิดใช้งาน จะแสดงรหัสประเทศถัดจากธง เช่น +1 สำหรับสหรัฐอเมริกา"
 
-#: lib/views/settings/general.php:214
-#: lib/views/settings/general.php:727
+#: lib/views/settings/general.php:242
+#: lib/views/settings/general.php:909
 msgid "Availability Logic"
 msgstr "ตรรกะความพร้อมใช้งาน"
 
-#: lib/views/settings/general.php:223
+#: lib/views/settings/general.php:251
 msgid "Location can only be used by one agent at a time"
 msgstr "สถานที่สามารถใช้ได้โดยเจ้าหน้าที่เพียงหนึ่งคนในแต่ละครั้ง"
 
-#: lib/views/settings/general.php:223
+#: lib/views/settings/general.php:251
 msgid "At any given location, only one agent can be booked at a time"
 msgstr "ในสถานที่ใดก็ตาม เจ้าหน้าที่เพียงหนึ่งคนเท่านั้นที่สามารถถูกจองได้ในแต่ละครั้ง"
 
-#: lib/views/settings/general.php:224
+#: lib/views/settings/general.php:252
 msgid "Agents can only be present in one location at a time"
 msgstr "เจ้าหน้าที่สามารถอยู่ได้เพียงหนึ่งสถานที่ในแต่ละครั้ง"
 
-#: lib/views/settings/general.php:224
+#: lib/views/settings/general.php:252
 msgid "If an agent is booked at one location, he will not be able to accept any bookings for the same timeslot at other locations"
 msgstr "หากเจ้าหน้าที่ถูกจองที่สถานที่หนึ่ง เขาจะไม่สามารถรับการจองใด ๆ สำหรับช่วงเวลาเดียวกันในสถานที่อื่นได้"
 
-#: lib/views/settings/general.php:229
+#: lib/views/settings/general.php:258
 msgid "Permissions"
 msgstr "สิทธิ์การใช้งาน"
 
-#: lib/views/settings/general.php:232
+#: lib/views/settings/general.php:261
 msgid "One agent can perform different services simultaneously"
 msgstr "เจ้าหน้าที่หนึ่งคนสามารถให้บริการต่าง ๆ ได้พร้อมกัน"
 
-#: lib/views/settings/general.php:232
+#: lib/views/settings/general.php:261
 msgid "Allows an agent to be booked for different services within the same timeslot"
 msgstr "อนุญาตให้เจ้าหน้าที่ถูกจองสำหรับบริการต่าง ๆ ภายในช่วงเวลาเดียวกัน"
 
-#: lib/views/settings/general.php:244
+#: lib/views/settings/general.php:273
 msgid "Authentication"
 msgstr "การยืนยันตัวตน"
 
-#: lib/views/settings/general.php:248
+#: lib/views/settings/general.php:277
 msgid "Make sure to install an SMS processor if you choose to text one-time codes (OTP) to customer phone numbers for authentication or verification"
 msgstr "โปรดตรวจสอบให้แน่ใจว่าได้ติดตั้งตัวประมวลผล SMS หากคุณเลือกที่จะส่งรหัสใช้ครั้งเดียว (OTP) ไปยังหมายเลขโทรศัพท์ของลูกค้าเพื่อการยืนยันตัวตนหรือการตรวจสอบ"
 
-#: lib/views/settings/general.php:252
+#: lib/views/settings/general.php:281
 msgid "Field used for authentication"
 msgstr "ฟิลด์ที่ใช้สำหรับการยืนยันตัวตน"
 
-#: lib/views/settings/general.php:256
-#: lib/views/settings/general.php:272
+#: lib/views/settings/general.php:285
+#: lib/views/settings/general.php:301
 msgid "Default to"
 msgstr "ค่าเริ่มต้นเป็น"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Reuse existing customer if"
 msgstr "ใช้ลูกค้าเดิมซ้ำหาก"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Email matches"
 msgstr "อีเมลตรงกัน"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Phone matches"
 msgstr "โทรศัพท์ตรงกัน"
 
-#: lib/views/settings/general.php:261
+#: lib/views/settings/general.php:290
 msgid "Do not reuse, always create new customer"
 msgstr "ไม่ใช้ซ้ำ สร้างลูกค้าใหม่เสมอ"
 
-#: lib/views/settings/general.php:268
+#: lib/views/settings/general.php:297
 msgid "Authentication method"
 msgstr "วิธีการยืนยันตัวตน"
 
-#: lib/views/settings/general.php:276
+#: lib/views/settings/general.php:305
 msgid "Require OTP verification for new contacts"
 msgstr "ต้องยืนยัน OTP สำหรับผู้ติดต่อใหม่"
 
-#: lib/views/settings/general.php:276
+#: lib/views/settings/general.php:305
 msgid "Require customers to verify their primary contact (email or phone) when they change it or add a new one, a 6 digit one-time code will be sent to their email or phone"
 msgstr "กำหนดให้ลูกค้าต้องยืนยันข้อมูลติดต่อหลักของตน (อีเมลหรือโทรศัพท์) เมื่อมีการเปลี่ยนแปลงหรือเพิ่มข้อมูลใหม่ โดยจะส่งรหัสใช้ครั้งเดียว 6 หลักไปยังอีเมลหรือโทรศัพท์ของลูกค้า"
 
-#: lib/views/settings/general.php:282
+#: lib/views/settings/general.php:311
 msgid "Customer Step"
 msgstr "ขั้นตอนลูกค้า"
 
-#: lib/views/settings/general.php:286
+#: lib/views/settings/general.php:315
 msgid "Require customers to set password"
 msgstr "กำหนดให้ลูกค้าตั้งรหัสผ่าน"
 
-#: lib/views/settings/general.php:286
+#: lib/views/settings/general.php:315
 msgid "Shows password field on registration step, customer will be required to set a password in order to create an account"
 msgstr "แสดงช่องรหัสผ่านในขั้นตอนการลงทะเบียน ลูกค้าจะต้องตั้งรหัสผ่านเพื่อสร้างบัญชี"
 
-#: lib/views/settings/general.php:288
+#: lib/views/settings/general.php:317
 msgid "Do not show \"Create Account\" prompt on confirmation step"
 msgstr "ไม่แสดงข้อความแจ้ง \"สร้างบัญชี\" ในขั้นตอนยืนยัน"
 
-#: lib/views/settings/general.php:288
+#: lib/views/settings/general.php:317
 msgid "If a customer has not set password for their account, they will be presented with a prompt to do it after a booking is placed."
 msgstr "หากลูกค้ายังไม่ได้ตั้งรหัสผ่านสำหรับบัญชีของตน ระบบจะแสดงข้อความแจ้งให้ตั้งรหัสผ่านหลังจากทำการจองแล้ว"
 
-#: lib/views/settings/general.php:294
+#: lib/views/settings/general.php:323
 msgid "WordPress"
 msgstr "WordPress"
 
-#: lib/views/settings/general.php:297
+#: lib/views/settings/general.php:326
 msgid "Use WordPress users as customers"
 msgstr "ใช้ผู้ใช้ WordPress เป็นลูกค้า"
 
-#: lib/views/settings/general.php:297
+#: lib/views/settings/general.php:326
 msgid "Customers can login using their WordPress credentials (if authentication is enabled above), a linked customer account is created automatically. If a WordPress user is logged in - a customer with the same email will be created automatically and data will be prefilled. If a new customer provided an email address, a linked WordPress user is automatically created for that customer, if not present already."
 msgstr "ลูกค้าสามารถเข้าสู่ระบบโดยใช้ข้อมูลประจำตัว WordPress ของตนได้ (หากเปิดใช้งานการยืนยันตัวตนด้านบน) และจะมีการสร้างบัญชีลูกค้าที่เชื่อมโยงกันโดยอัตโนมัติ หากผู้ใช้ WordPress ลงชื่อเข้าใช้แล้ว ระบบจะสร้างลูกค้าที่ใช้อีเมลเดียวกันโดยอัตโนมัติและกรอกข้อมูลไว้ล่วงหน้า หากลูกค้าใหม่ระบุที่อยู่อีเมล ระบบจะสร้างผู้ใช้ WordPress ที่เชื่อมโยงกันสำหรับลูกค้ารายนั้นโดยอัตโนมัติ หากยังไม่มีอยู่ก่อนแล้ว"
 
-#: lib/views/settings/general.php:299
+#: lib/views/settings/general.php:328
 msgid "Default role for a created WP user"
 msgstr "บทบาทเริ่มต้นสำหรับผู้ใช้ WP ที่สร้างขึ้น"
 
-#: lib/views/settings/general.php:303
+#: lib/views/settings/general.php:332
 msgid "Important: WordPress users are required to have an email address. You have to set email address field as required in order to create a matching WP user for new customers, otherwise customers without email address on file will not be able to login and make bookings"
 msgstr "สำคัญ: ผู้ใช้ WordPress จำเป็นต้องมีที่อยู่อีเมล คุณต้องตั้งค่าช่องที่อยู่อีเมลให้เป็นข้อมูลที่จำเป็น เพื่อสร้างผู้ใช้ WP ที่ตรงกันสำหรับลูกค้าใหม่ มิฉะนั้นลูกค้าที่ไม่มีที่อยู่อีเมลในระบบจะไม่สามารถเข้าสู่ระบบและทำการจองได้"
 
-#: lib/views/settings/general.php:312
+#: lib/views/settings/general.php:341
 msgid "Rescheduling"
 msgstr "การเลื่อนนัด"
 
-#: lib/views/settings/general.php:315
+#: lib/views/settings/general.php:344
 msgid "Upgrade to the Premium version to let customers reschedule appointments"
 msgstr "อัปเกรดเป็นเวอร์ชัน Premium เพื่อให้ลูกค้าสามารถเลื่อนนัดหมายได้"
 
-#: lib/views/settings/general.php:320
+#: lib/views/settings/general.php:349
 msgid "Cancellation"
 msgstr "การยกเลิก"
 
-#: lib/views/settings/general.php:323
+#: lib/views/settings/general.php:352
 msgid "Allow customers cancel their bookings"
 msgstr "อนุญาตให้ลูกค้ายกเลิกการจองของตนได้"
 
-#: lib/views/settings/general.php:323
+#: lib/views/settings/general.php:352
 msgid "If enable, shows a button on customer cabinet to cancel an appointment"
 msgstr "หากเปิดใช้งาน จะแสดงปุ่มในหน้าบัญชีลูกค้าเพื่อยกเลิกนัดหมาย"
 
-#: lib/views/settings/general.php:326
+#: lib/views/settings/general.php:355
 msgid "Set restriction on when customer can cancel"
 msgstr "กำหนดข้อจำกัดว่าลูกค้าสามารถยกเลิกได้เมื่อใด"
 
-#: lib/views/settings/general.php:330
+#: lib/views/settings/general.php:359
 msgid "Can cancel when it is at least"
 msgstr "สามารถยกเลิกได้เมื่ออย่างน้อย"
 
-#: lib/views/settings/general.php:331
+#: lib/views/settings/general.php:360
 msgid "Value"
 msgstr "ค่า"
 
-#: lib/views/settings/general.php:339
+#: lib/views/settings/general.php:368
 msgid "before appointment start time"
 msgstr "ก่อนเวลาเริ่มนัดหมาย"
 
-#: lib/views/settings/general.php:347
+#: lib/views/settings/general.php:377
 msgid "Customer Cabinet"
 msgstr "หน้าบัญชีลูกค้า"
 
-#: lib/views/settings/general.php:350
+#: lib/views/settings/general.php:380
 msgid "Shortcode for contents of New Appointment tab"
 msgstr "ชอร์ตโค้ดสำหรับเนื้อหาแท็บนัดหมายใหม่"
 
-#: lib/views/settings/general.php:352
+#: lib/views/settings/general.php:382
 msgid "You can set attributes for a new appointment button tile in a format"
 msgstr "คุณสามารถตั้งค่าแอตทริบิวต์สำหรับไทล์ปุ่มนัดหมายใหม่ในรูปแบบ"
 
-#: lib/views/settings/general.php:354
+#: lib/views/settings/general.php:384
 msgid "Attributes for New Appointment button"
 msgstr "แอตทริบิวต์สำหรับปุ่มนัดหมายใหม่"
 
-#: lib/views/settings/general.php:361
+#: lib/views/settings/general.php:391
 msgid "Security & Spam"
 msgstr "ความปลอดภัยและสแปม"
 
-#: lib/views/settings/general.php:364
+#: lib/views/settings/general.php:394
 msgid "Upgrade to the Premium version to unlock CAPTCHA protection and IP Address logging to fight with spam bookings."
 msgstr "อัปเกรดเป็นเวอร์ชัน Premium เพื่อปลดล็อกการป้องกัน CAPTCHA และการบันทึกที่อยู่ IP เพื่อต่อสู้กับการจองสแปม"
 
-#: lib/views/settings/general.php:381
-#: lib/views/settings/general.php:729
+#: lib/views/settings/general.php:411
+#: lib/views/settings/general.php:911
 msgid "Setup Pages"
 msgstr "ตั้งค่าหน้า"
 
-#: lib/views/settings/general.php:386
+#: lib/views/settings/general.php:416
 msgid "Set Page URLs"
 msgstr "ตั้งค่า URL ของหน้า"
 
-#: lib/views/settings/general.php:389
+#: lib/views/settings/general.php:419
 msgid "Customer Dashboard Page URL"
 msgstr "URL ของหน้าควบคุมลูกค้า"
 
-#: lib/views/settings/general.php:390
+#: lib/views/settings/general.php:420
 msgid "Customer Login Page URL"
 msgstr "URL ของหน้าล็อกอินลูกค้า"
 
-#: lib/views/settings/general.php:397
-#: lib/views/settings/general.php:746
+#: lib/views/settings/general.php:437
+#: lib/views/settings/general.php:928
 msgid "MCP"
 msgstr "MCP"
 
-#: lib/views/settings/general.php:404
+#: lib/views/settings/general.php:446
 msgid "MCP requires WordPress 6.9 or newer. Your changes will be saved but will not take effect until WordPress is updated."
 msgstr "MCP ต้องใช้ WordPress 6.9 หรือใหม่กว่า การเปลี่ยนแปลงของคุณจะถูกบันทึกไว้ แต่จะยังไม่มีผลจนกว่า WordPress จะได้รับการอัปเดต"
 
-#: lib/views/settings/general.php:411
-#: lib/views/settings/general.php:417
+#: lib/views/settings/general.php:453
+#: lib/views/settings/general.php:459
 msgid "Enable Abilities"
 msgstr "เปิดใช้งานความสามารถ"
 
-#: lib/views/settings/general.php:421
+#: lib/views/settings/general.php:463
 msgid "Register LatePoint abilities with the WordPress Abilities API. When enabled, AI clients can list, read, create, edit, and delete your bookings, customers, services, agents, and orders. When disabled, no abilities are registered and AI clients cannot perform any actions on your LatePoint data."
 msgstr "ลงทะเบียนความสามารถของ LatePoint กับ WordPress Abilities API เมื่อเปิดใช้งาน ไคลเอนต์ AI สามารถแสดงรายการ อ่าน สร้าง แก้ไข และลบการจอง ลูกค้า บริการ เอเจนต์ และคำสั่งซื้อของคุณได้ เมื่อปิดใช้งาน จะไม่มีการลงทะเบียนความสามารถ และไคลเอนต์ AI จะไม่สามารถดำเนินการใดๆ กับข้อมูล LatePoint ของคุณได้"
 
-#: lib/views/settings/general.php:429
-#: lib/views/settings/general.php:435
+#: lib/views/settings/general.php:471
+#: lib/views/settings/general.php:477
 msgid "Enable Edit Abilities"
 msgstr "เปิดใช้งานความสามารถในการแก้ไข"
 
-#: lib/views/settings/general.php:439
+#: lib/views/settings/general.php:481
 msgid "When enabled, AI clients can create new bookings, update customers, services, agents, and locations, and change appointment statuses (approve, cancel, reschedule). When disabled, these abilities are unregistered and AI clients can only read your data."
 msgstr "เมื่อเปิดใช้งาน ไคลเอนต์ AI สามารถสร้างการจองใหม่ อัปเดตลูกค้า บริการ เอเจนต์ และสถานที่ รวมถึงเปลี่ยนสถานะการนัดหมาย (อนุมัติ ยกเลิก เลื่อนนัด) ได้ เมื่อปิดใช้งาน ความสามารถเหล่านี้จะถูกยกเลิกการลงทะเบียน และไคลเอนต์ AI จะอ่านข้อมูลของคุณได้เท่านั้น"
 
-#: lib/views/settings/general.php:446
-#: lib/views/settings/general.php:452
+#: lib/views/settings/general.php:488
+#: lib/views/settings/general.php:494
 msgid "Enable Delete Abilities"
 msgstr "เปิดใช้งานความสามารถในการลบ"
 
-#: lib/views/settings/general.php:456
+#: lib/views/settings/general.php:498
 msgid "When enabled, AI clients can permanently delete bookings, customers, services, agents, and locations, and process refunds. Deleted data cannot be recovered. When disabled, delete abilities are unregistered and AI clients cannot remove any data."
 msgstr "เมื่อเปิดใช้งาน ไคลเอนต์ AI สามารถลบการจอง ลูกค้า บริการ เอเจนต์ และสถานที่อย่างถาวร รวมถึงดำเนินการคืนเงินได้ ข้อมูลที่ถูกลบไม่สามารถกู้คืนได้ เมื่อปิดใช้งาน ความสามารถในการลบจะถูกยกเลิกการลงทะเบียน และไคลเอนต์ AI จะไม่สามารถลบข้อมูลใดๆ ได้"
 
-#: lib/views/settings/general.php:480
+#: lib/views/settings/general.php:661
 msgid "Business Information"
 msgstr "ข้อมูลธุรกิจ"
 
-#: lib/views/settings/general.php:493
+#: lib/views/settings/general.php:674
 msgid "Business Phone"
 msgstr "เบอร์โทรธุรกิจ"
 
-#: lib/views/settings/general.php:496
+#: lib/views/settings/general.php:677
 msgid "Business Address"
 msgstr "ที่อยู่ธุรกิจ"
 
-#: lib/views/settings/general.php:503
+#: lib/views/settings/general.php:684
 msgid "Calendar Settings"
 msgstr "การตั้งค่าปฏิทิน"
 
-#: lib/views/settings/general.php:506
+#: lib/views/settings/general.php:687
 msgid "Minimum height of a daily calendar (in pixels)"
 msgstr "ความสูงขั้นต่ำของปฏิทินรายวัน (เป็นพิกเซล)"
 
-#: lib/views/settings/general.php:509
+#: lib/views/settings/general.php:690
 msgid "You can use variables in your booking template, they will be replaced with a value for the booking. "
 msgstr "คุณสามารถใช้ตัวแปรในเทมเพลตการจองของคุณได้ โดยค่าจะถูกแทนที่ด้วยค่าของการจอง"
 
-#: lib/views/settings/general.php:510
+#: lib/views/settings/general.php:691
 msgid "Booking tile information to display on calendar"
 msgstr "ข้อมูลไทล์การจองที่จะแสดงบนปฏิทิน"
 
-#: lib/views/settings/general.php:515
+#: lib/views/settings/general.php:696
 msgid "Conversion Tracking"
 msgstr "การติดตามการแปลง"
 
-#: lib/views/settings/general.php:519
+#: lib/views/settings/general.php:700
 msgid "You can include some javascript or html that will be appended to the confirmation step. For example you can track ad conversions by triggering a tracking code or a facebook pixel. You can use these variables within your code. Click on the variable to copy."
 msgstr "คุณสามารถใส่ javascript หรือ html บางส่วนที่จะถูกต่อท้ายในขั้นตอนยืนยัน ตัวอย่างเช่น คุณสามารถติดตามการแปลงโฆษณาได้โดยการเรียกใช้โค้ดติดตามหรือ Facebook pixel คุณสามารถใช้ตัวแปรเหล่านี้ภายในโค้ดของคุณ คลิกที่ตัวแปรเพื่อคัดลอก"
 
-#: lib/views/settings/general.php:527
+#: lib/views/settings/general.php:708
 #: lib/views/shared/_template_variables.php:14
 msgid "Order ID#:"
 msgstr "รหัสคำสั่งซื้อ#:"
 
-#: lib/views/settings/general.php:531
+#: lib/views/settings/general.php:712
 msgid "Customer ID#:"
 msgstr "รหัสลูกค้า#:"
 
-#: lib/views/settings/general.php:535
+#: lib/views/settings/general.php:716
 msgid "Order Total:"
 msgstr "ยอดรวมคำสั่งซื้อ:"
 
-#: lib/views/settings/general.php:539
+#: lib/views/settings/general.php:720
 msgid "Service IDs#:"
 msgstr "รหัสบริการ#:"
 
-#: lib/views/settings/general.php:543
+#: lib/views/settings/general.php:724
 msgid "Agent IDs#:"
 msgstr "รหัสเอเจนต์#:"
 
-#: lib/views/settings/general.php:547
+#: lib/views/settings/general.php:728
 msgid "Bundle IDs#:"
 msgstr "รหัสชุด#:"
 
-#: lib/views/settings/general.php:551
+#: lib/views/settings/general.php:732
 msgid "Location IDs#:"
 msgstr "รหัสสถานที่#:"
 
-#: lib/views/settings/general.php:561
+#: lib/views/settings/general.php:742
 msgid "Enter Tracking code here"
 msgstr "ป้อนโค้ดติดตามที่นี่"
 
-#: lib/views/settings/general.php:569
+#: lib/views/settings/general.php:750
 msgid "Data Tables"
 msgstr "ตารางข้อมูล"
 
-#: lib/views/settings/general.php:574
+#: lib/views/settings/general.php:755
 msgid "Allow non admins to download table data as csv"
 msgstr "อนุญาตให้ผู้ที่ไม่ใช่ผู้ดูแลระบบดาวน์โหลดข้อมูลตารางเป็น csv"
 
-#: lib/views/settings/general.php:574
+#: lib/views/settings/general.php:755
 msgid "Only admins will be able to download table data as csv"
 msgstr "เฉพาะผู้ดูแลระบบเท่านั้นที่จะสามารถดาวน์โหลดข้อมูลตารางเป็น csv ได้"
 
-#: lib/views/settings/general.php:578
+#: lib/views/settings/general.php:759
 msgid "Number of records per page"
 msgstr "จำนวนระเบียนต่อหน้า"
 
-#: lib/views/settings/general.php:590
+#: lib/views/settings/general.php:771
 msgid "Automatically clear old activity logs"
 msgstr "ล้างบันทึกกิจกรรมเก่าโดยอัตโนมัติ"
 
-#: lib/views/settings/general.php:590
+#: lib/views/settings/general.php:771
 msgid "Activity logs older than 6 months will be automatically deleted"
 msgstr "บันทึกกิจกรรมที่เก่ากว่า 6 เดือนจะถูกลบโดยอัตโนมัติ"
 
-#: lib/views/settings/general.php:598
+#: lib/views/settings/general.php:779
 msgid "Improve LatePoint"
 msgstr "ช่วยปรับปรุง LatePoint"
 
-#: lib/views/settings/general.php:604
+#: lib/views/settings/general.php:785
 #, php-format
 msgid "Share how you use the plugin so we can build features that matter, fix issues faster, and make smarter decisions. %1$sLearn More%2$s"
 msgstr "แบ่งปันวิธีที่คุณใช้ปลั๊กอิน เพื่อให้เราสามารถสร้างฟีเจอร์ที่สำคัญ แก้ไขปัญหาได้เร็วขึ้น และตัดสินใจได้อย่างชาญฉลาดขึ้น %1$sเรียนรู้เพิ่มเติม%2$s"
 
-#: lib/views/settings/general.php:615
+#: lib/views/settings/general.php:796
 msgid "Help shape the future of LatePoint"
 msgstr "ช่วยกำหนดอนาคตของ LatePoint"
 
-#: lib/views/settings/general.php:622
+#: lib/views/settings/general.php:803
 msgid "Export/Import"
 msgstr "ส่งออก/นำเข้า"
 
-#: lib/views/settings/general.php:634
+#: lib/views/settings/general.php:815
 msgid "Export Data"
 msgstr "ส่งออกข้อมูล"
 
-#: lib/views/settings/general.php:636
+#: lib/views/settings/general.php:817
 msgid "Import Data"
 msgstr "นำเข้าข้อมูล"
 
-#: lib/views/settings/general.php:670
+#: lib/views/settings/general.php:851
 msgid "Danger Zone"
 msgstr "โซนอันตราย"
 
-#: lib/views/settings/general.php:677
+#: lib/views/settings/general.php:858
 msgid "Plugin Deletion"
 msgstr "การลบปลั๊กอิน"
 
-#: lib/views/settings/general.php:685
+#: lib/views/settings/general.php:866
 msgid "Remove all data on plugin deletion"
 msgstr "ลบข้อมูลทั้งหมดเมื่อมีการลบปลั๊กอิน"
 
-#: lib/views/settings/general.php:689
+#: lib/views/settings/general.php:870
 msgid "All LatePoint database tables and settings will be permanently deleted when the plugin is deleted"
 msgstr "ตารางฐานข้อมูลและการตั้งค่าทั้งหมดของ LatePoint จะถูกลบอย่างถาวรเมื่อปลั๊กอินถูกลบ"
 
-#: lib/views/settings/general.php:695
+#: lib/views/settings/general.php:876
 msgid "This action is irreversible. Before enabling this option, we recommend exporting your data so you have a backup."
 msgstr "การดำเนินการนี้ไม่สามารถย้อนกลับได้ ก่อนเปิดใช้งานตัวเลือกนี้ เราแนะนำให้ส่งออกข้อมูลของคุณเพื่อเก็บเป็นข้อมูลสำรอง"
 
-#: lib/views/settings/general.php:705
+#: lib/views/settings/general.php:886
 msgid "Export your data"
 msgstr "ส่งออกข้อมูลของคุณ"
 
@@ -8703,7 +8817,7 @@ msgstr "อนุญาตให้ชำระเงินในพื้นท
 msgid "Show \"Pay Later\" payment option"
 msgstr "แสดงตัวเลือกการชำระเงิน \"จ่ายทีหลัง\""
 
-#: lib/views/settings/premium_modal.php:159
+#: lib/views/settings/premium_modal.php:199
 msgid "Upgrade Now"
 msgstr "อัปเกรดตอนนี้"
 
@@ -8747,19 +8861,20 @@ msgstr "การนัดหมายของคุณถูกกำหนด
 msgid "New Appointment Time"
 msgstr "เวลานัดหมายใหม่"
 
-#: lib/views/shared/pro_feature.php:7
+#: lib/views/shared/pro_feature.php:17
 msgid "Pro Feature"
 msgstr "ฟีเจอร์ Pro"
 
-#: lib/views/shared/pro_feature.php:9
+#: lib/controllers/pro_controller.php:83
+#: lib/views/shared/pro_feature.php:19
 msgid "This feature is available with a paid version, along with over 30 other premium features."
 msgstr "ฟีเจอร์นี้มีให้ในเวอร์ชันที่มีค่าใช้จ่าย พร้อมฟีเจอร์พรีเมียมอื่น ๆ อีกกว่า 30 รายการ"
 
-#: lib/views/shared/pro_feature.php:11
+#: lib/views/shared/pro_feature.php:21
 msgid "Upgrade to paid version"
 msgstr "อัปเกรดเป็นเวอร์ชันที่มีค่าใช้จ่าย"
 
-#: lib/views/shared/pro_feature.php:12
+#: lib/views/shared/pro_feature.php:22
 msgid "Show All premium features"
 msgstr "แสดงฟีเจอร์พรีเมียมทั้งหมด"
 
@@ -8888,17 +9003,17 @@ msgid "Booking Price:"
 msgstr "ราคาการจอง:"
 
 #: lib/views/shared/_template_variables.php:46
-#: lib/views/shared/_template_variables.php:61
+#: lib/views/shared/_template_variables.php:62
 msgid "Full Name:"
 msgstr "ชื่อ-นามสกุล:"
 
 #: lib/views/shared/_template_variables.php:47
-#: lib/views/shared/_template_variables.php:59
+#: lib/views/shared/_template_variables.php:60
 msgid "First Name:"
 msgstr "ชื่อ:"
 
 #: lib/views/shared/_template_variables.php:48
-#: lib/views/shared/_template_variables.php:60
+#: lib/views/shared/_template_variables.php:61
 msgid "Last Name:"
 msgstr "นามสกุล:"
 
@@ -8907,7 +9022,7 @@ msgid "Email Address:"
 msgstr "ที่อยู่อีเมล:"
 
 #: lib/views/shared/_template_variables.php:50
-#: lib/views/shared/_template_variables.php:64
+#: lib/views/shared/_template_variables.php:65
 msgid "Phone:"
 msgstr "โทรศัพท์:"
 
@@ -8915,67 +9030,67 @@ msgstr "โทรศัพท์:"
 msgid "Comments:"
 msgstr "ความคิดเห็น:"
 
-#: lib/views/shared/_template_variables.php:52
+#: lib/views/shared/_template_variables.php:53
 msgid "Password Reset Token:"
 msgstr "โทเค็นรีเซ็ตรหัสผ่าน:"
 
-#: lib/views/shared/_template_variables.php:62
+#: lib/views/shared/_template_variables.php:63
 msgid "Display Name:"
 msgstr "ชื่อที่แสดง:"
 
-#: lib/views/shared/_template_variables.php:63
+#: lib/views/shared/_template_variables.php:64
 msgid "Email:"
 msgstr "อีเมล:"
 
-#: lib/views/shared/_template_variables.php:65
+#: lib/views/shared/_template_variables.php:66
 msgid "Additional Emails:"
 msgstr "อีเมลเพิ่มเติม:"
 
-#: lib/views/shared/_template_variables.php:66
+#: lib/views/shared/_template_variables.php:67
 msgid "Additional Phone Numbers:"
 msgstr "หมายเลขโทรศัพท์เพิ่มเติม:"
 
-#: lib/views/shared/_template_variables.php:72
+#: lib/views/shared/_template_variables.php:73
 msgid "Name:"
 msgstr "ชื่อ:"
 
-#: lib/views/shared/_template_variables.php:73
+#: lib/views/shared/_template_variables.php:74
 msgid "Full Address:"
 msgstr "ที่อยู่เต็ม:"
 
-#: lib/views/shared/_template_variables.php:79
+#: lib/views/shared/_template_variables.php:80
 msgid "Token:"
 msgstr "โทเค็น:"
 
-#: lib/views/shared/_template_variables.php:81
+#: lib/views/shared/_template_variables.php:82
 msgid "Processor:"
 msgstr "ตัวประมวลผล:"
 
-#: lib/views/shared/_template_variables.php:82
+#: lib/views/shared/_template_variables.php:83
 msgid "Payment Method:"
 msgstr "วิธีการชำระเงิน:"
 
-#: lib/views/shared/_template_variables.php:83
+#: lib/views/shared/_template_variables.php:84
 msgid "Type:"
 msgstr "ประเภท:"
 
-#: lib/views/shared/_template_variables.php:85
+#: lib/views/shared/_template_variables.php:86
 msgid "Notes:"
 msgstr "หมายเหตุ:"
 
-#: lib/views/shared/_template_variables.php:86
+#: lib/views/shared/_template_variables.php:87
 msgid "Payment Portion:"
 msgstr "ส่วนของการชำระเงิน:"
 
-#: lib/views/shared/_template_variables.php:93
+#: lib/views/shared/_template_variables.php:94
 msgid "Portion:"
 msgstr "ส่วน:"
 
-#: lib/views/shared/_template_variables.php:95
+#: lib/views/shared/_template_variables.php:96
 msgid "Due At:"
 msgstr "ครบกำหนดเมื่อ:"
 
-#: lib/views/shared/_template_variables.php:96
+#: lib/views/shared/_template_variables.php:97
 msgid "Pay URL:"
 msgstr "URL การชำระเงิน:"
 
@@ -8989,8 +9104,8 @@ msgid "Manage Order"
 msgstr "จัดการคำสั่งซื้อ"
 
 #: lib/views/steps/partials/_booking_summary.php:56
-#: lib/views/steps/partials/_cart_summary.php:189
-#: lib/views/steps/partials/_order_summary.php:88
+#: lib/views/steps/partials/_cart_summary.php:204
+#: lib/views/steps/partials/_order_summary.php:100
 msgid "Cost Breakdown"
 msgstr "รายละเอียดค่าใช้จ่าย"
 
@@ -9014,23 +9129,23 @@ msgstr "คุณต้องการเพิ่มรายการต่อ
 msgid "Clear"
 msgstr "ล้าง"
 
-#: lib/views/steps/partials/_cart_summary.php:32
+#: lib/views/steps/partials/_cart_summary.php:46
 msgid "Service Bundles"
 msgstr "ชุดบริการ"
 
-#: lib/views/steps/partials/_cart_summary.php:87
+#: lib/views/steps/partials/_cart_summary.php:102
 msgid "Individual Services"
 msgstr "บริการรายบุคคล"
 
-#: lib/views/steps/partials/_cart_summary.php:159
+#: lib/views/steps/partials/_cart_summary.php:174
 msgid "Add More"
 msgstr "เพิ่มเพิ่มเติม"
 
-#: lib/views/steps/partials/_cart_summary.php:186
+#: lib/views/steps/partials/_cart_summary.php:201
 msgid "Breakdown"
 msgstr "รายละเอียด"
 
-#: lib/views/steps/partials/_cart_summary.php:201
+#: lib/views/steps/partials/_cart_summary.php:216
 msgid "Add more items to this order"
 msgstr "เพิ่มรายการเพิ่มเติมในคำสั่งซื้อนี้"
 
@@ -9059,16 +9174,18 @@ msgid "Set Your Password"
 msgstr "ตั้งรหัสผ่านของคุณ"
 
 #: lib/views/steps/_confirmation.php:79
-#: lib/views/wizard/steps/_form_agent.php:37
+#: lib/views/wizard/steps/_form_agent.php:38
 #: lib/views/wizard/steps/_form_service.php:51
 msgid "Save"
 msgstr "บันทึก"
 
 #: lib/views/steps/_confirmation.php:85
+#: lib/views/steps/_confirmation.php:100
 msgid "You can now manage your appointments in your personal cabinet"
 msgstr "ตอนนี้คุณสามารถจัดการการนัดหมายของคุณได้ในบัญชีส่วนตัวของคุณ"
 
 #: lib/views/steps/_confirmation.php:88
+#: lib/views/steps/_confirmation.php:103
 msgid "Open My Cabinet"
 msgstr "เปิดบัญชีของฉัน"
 
@@ -9112,6 +9229,7 @@ msgstr "คุณต้องการชำระค่าบริการเ
 msgid "You can either pay now or pay locally on arrival. You will be able to select payment method in the next step."
 msgstr "คุณสามารถชำระตอนนี้หรือชำระที่หน้างานเมื่อมาถึง คุณจะสามารถเลือกวิธีการชำระเงินได้ในขั้นตอนถัดไป"
 
+#: lib/helpers/paypal_connect_helper.php:321
 #: lib/views/steps/_payment__times.php:37
 msgid "Pay Later"
 msgstr "ชำระภายหลัง"
@@ -9186,11 +9304,11 @@ msgstr "เปิดแดชบอร์ด"
 msgid "Who would you like to send appointment notifications to?"
 msgstr "คุณต้องการส่งการแจ้งเตือนการนัดหมายไปให้ใคร?"
 
-#: lib/views/wizard/steps/_form_agent.php:24
+#: lib/views/wizard/steps/_form_agent.php:25
 msgid "Upload Agent's Photo"
 msgstr "อัปโหลดรูปภาพของเจ้าหน้าที่"
 
-#: lib/views/wizard/steps/_form_agent.php:24
+#: lib/views/wizard/steps/_form_agent.php:25
 msgid "Remove Agent's Photo"
 msgstr "ลบรูปภาพของเจ้าหน้าที่"
 
@@ -9352,94 +9470,91 @@ msgstr "สีคำอธิบาย"
 msgid "Card Padding"
 msgstr "ระยะห่างภายในการ์ด"
 
-#: latepoint.php:1659
+#: latepoint.php:1869
 msgid "Are you sure you want to delete these appointments?"
 msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบการนัดหมายเหล่านี้?"
 
-#: latepoint.php:1660
+#: latepoint.php:1870
 msgid "You are about to delete 1 appointment. This action cannot be undone."
 msgstr "คุณกำลังจะลบการนัดหมาย 1 รายการ การดำเนินการนี้ไม่สามารถยกเลิกได้"
 
-#: latepoint.php:1661
+#: latepoint.php:1871
 #, php-format
 msgid "You are about to delete %d appointments. This action cannot be undone."
 msgstr "คุณกำลังจะลบการนัดหมาย %d รายการ การดำเนินการนี้ไม่สามารถยกเลิกได้"
 
-#: latepoint.php:1662
-#, php-format
-msgid "To confirm, type %s in the box below."
-msgstr "เพื่อยืนยัน ให้พิมพ์ %s ในช่องด้านล่าง"
-
-#: latepoint.php:1663
+#. translators: the exact word a user must type to confirm a deletion — whatever it is translated to is what users will have to type. Keep it one lowercase word.
+#: latepoint.php:1863
 msgid "delete"
 msgstr "ลบ"
 
-#: latepoint.php:1664
+#: latepoint.php:1873
+#, php-format
 msgid "Type \"%s\" to confirm"
 msgstr "พิมพ์ \"%s\" เพื่อยืนยัน"
 
-#: latepoint.php:1667
+#: latepoint.php:1876
 msgid "Appointment selected"
 msgstr "เลือกการนัดหมายแล้ว"
 
-#: latepoint.php:1668
-#: lib/helpers/booking_helper.php:2273
+#: latepoint.php:1877
+#: lib/helpers/booking_helper.php:2411
 msgid "Appointments selected"
 msgstr "เลือกการนัดหมายแล้ว"
 
-#: latepoint.php:1669
+#: latepoint.php:1878
 msgid "Something went wrong. Please try again."
 msgstr "มีบางอย่างผิดพลาด โปรดลองอีกครั้ง"
 
-#: lib/controllers/bookings_controller.php:451
+#: lib/controllers/bookings_controller.php:460
 msgid "You do not have permission to delete appointments."
 msgstr "คุณไม่มีสิทธิ์ลบการนัดหมาย"
 
-#: lib/controllers/bookings_controller.php:474
+#: lib/controllers/bookings_controller.php:483
 msgid "No appointments selected."
 msgstr "ยังไม่ได้เลือกการนัดหมาย"
 
 #. translators: %d: maximum number of appointments allowed in a single bulk action
-#: lib/controllers/bookings_controller.php:486
+#: lib/controllers/bookings_controller.php:495
 #, php-format
 msgid "Too many appointments selected. Please delete in batches of %d or fewer."
 msgstr "เลือกการนัดหมายมากเกินไป โปรดลบเป็นชุดที่มี %d รายการหรือน้อยกว่า"
 
 #. translators: %d: number of appointments deleted
-#: lib/controllers/bookings_controller.php:546
+#: lib/controllers/bookings_controller.php:555
 #, php-format
 msgid "%d appointment deleted successfully."
 msgid_plural "%d appointments deleted successfully."
 msgstr[0] "ลบการนัดหมาย %d รายการเรียบร้อยแล้ว"
 
 #. translators: 1: number of appointments deleted, 2: number of appointments that could not be deleted
-#: lib/controllers/bookings_controller.php:553
+#: lib/controllers/bookings_controller.php:562
 #, php-format
 msgid "%1$d appointment(s) deleted. %2$d could not be deleted."
 msgstr "ลบการนัดหมายแล้ว %1$d รายการ ไม่สามารถลบได้ %2$d รายการ"
 
 #. translators: %d: number of appointments that could not be deleted
-#: lib/controllers/bookings_controller.php:561
+#: lib/controllers/bookings_controller.php:570
 #, php-format
 msgid "%d appointment could not be deleted."
 msgid_plural "%d appointments could not be deleted."
 msgstr[0] "ไม่สามารถลบการนัดหมาย %d รายการได้"
 
-#: lib/helpers/booking_helper.php:2231
+#: lib/helpers/booking_helper.php:2369
 msgid "Select all appointments on this page"
 msgstr "เลือกการนัดหมายทั้งหมดในหน้านี้"
 
 #. translators: %d: appointment ID
-#: lib/helpers/booking_helper.php:2254
+#: lib/helpers/booking_helper.php:2392
 #, php-format
 msgid "Select appointment %d"
 msgstr "เลือกการนัดหมาย %d"
 
-#: lib/helpers/booking_helper.php:2277
+#: lib/helpers/booking_helper.php:2415
 msgid "Delete Selected"
 msgstr "ลบที่เลือก"
 
-#: lib/helpers/booking_helper.php:2279
+#: lib/helpers/booking_helper.php:2417
 msgid "Clear selection"
 msgstr "ล้างการเลือก"
 
@@ -9447,11 +9562,11 @@ msgstr "ล้างการเลือก"
 msgid "No appointments are currently available. Please check back later or contact us for assistance."
 msgstr "ขณะนี้ไม่มีการนัดหมาย โปรดกลับมาตรวจสอบอีกครั้งในภายหลังหรือติดต่อเราเพื่อขอความช่วยเหลือ"
 
-#: lib/helpers/menu_helper.php:200
+#: lib/helpers/menu_helper.php:233
 msgid "White Label"
 msgstr "ไวท์เลเบล"
 
-#: lib/views/services/_form.php:316
+#: lib/views/services/_form.php:324
 msgid "Delete Service"
 msgstr "ลบบริการ"
 
@@ -9465,7 +9580,1099 @@ msgctxt "Customer cabinet"
 msgid "Customer Cabinet"
 msgstr "ตู้ลูกค้า"
 
-#: lib/helpers/util_helper.php:298
+#: lib/helpers/util_helper.php:346
 msgctxt "short version of May month"
 msgid "May"
 msgstr "พฤษภาคม"
+
+#: latepoint.php:1532
+msgid "Upgrade"
+msgstr ""
+
+#: lib/abilities/abstract-ability.php:172
+#: lib/abilities/orders/abstract-order-ability.php:67
+msgid "You are not allowed to access this record."
+msgstr ""
+
+#: lib/abilities/calendar/abstract-calendar-ability.php:16
+msgid "A valid service ID is required."
+msgstr ""
+
+#: lib/abilities/calendar/abstract-calendar-ability.php:23
+msgid "Date has to be in Y-m-d format."
+msgstr ""
+
+#: lib/abilities/calendar/check-slot-availability.php:11
+msgid "Checks whether a specific time slot can be booked, using the same availability rules as the booking form."
+msgstr ""
+
+#: lib/abilities/class-latepoint-abilities.php:118
+msgid "MCP Server"
+msgstr ""
+
+#. translators: %s: brand name.
+#: lib/abilities/class-latepoint-abilities.php:121
+#, php-format
+msgid "%s MCP Server for managing bookings, customers, services, agents, locations, and orders."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:23
+#: lib/helpers/menu_helper.php:122
+#: lib/helpers/menu_helper.php:377
+#: lib/helpers/roles_helper.php:388
+#: lib/views/settings/general.php:74
+#: lib/views/settings/general.php:79
+#: lib/views/settings/general.php:905
+msgid "Events"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:67
+#: lib/controllers/events_manager_controller.php:69
+msgid "Create New Event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:88
+#: lib/controllers/events_manager_controller.php:157
+#: lib/controllers/events_manager_controller.php:215
+msgid "Invalid Event ID"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:93
+#: lib/controllers/events_manager_controller.php:173
+#: lib/controllers/events_manager_controller.php:263
+#: lib/controllers/events_manager_controller.php:394
+msgid "Event not found"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:97
+#: lib/controllers/events_manager_controller.php:99
+#: lib/views/events_manager/_event_index_item.php:69
+msgid "Edit Event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:193
+msgid "Event saved. ID: "
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:239
+msgid "Event removed"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:242
+msgid "Error removing event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:273
+msgid "Registration is not open for this event"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:308
+#: lib/helpers/events_hooks_helper.php:181
+#: lib/helpers/events_hooks_helper.php:209
+#: lib/helpers/events_hooks_helper.php:669
+msgid "Event not found."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:431
+msgid "Please pick a valid date range with an end time on or after the start time."
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:447
+msgid "Date range saved"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:473
+msgid "Date range not found"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:489
+msgid "Date range removed"
+msgstr ""
+
+#: lib/controllers/events_manager_controller.php:631
+#: lib/controllers/event_categories_controller.php:159
+#: lib/controllers/event_registrations_controller.php:323
+msgid "Events functionality is disabled."
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:21
+msgid "Event Categories"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:50
+msgid "Category created. ID: "
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:71
+#: lib/controllers/event_categories_controller.php:117
+msgid "Invalid Category ID"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:87
+msgid "Category not found"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:96
+msgid "Category updated. ID: "
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:132
+msgid "Category removed"
+msgstr ""
+
+#: lib/controllers/event_categories_controller.php:135
+msgid "Error removing category"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:21
+#: lib/helpers/roles_helper.php:389
+msgid "Event Registrations"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:106
+msgid "Quantity"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:256
+msgid "Invalid Registration ID"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:275
+#: lib/controllers/event_registrations_controller.php:296
+msgid "Registration cancelled"
+msgstr ""
+
+#: lib/controllers/event_registrations_controller.php:299
+msgid "Error cancelling registration"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:43
+#: lib/controllers/paypal_connect_controller.php:89
+msgid "PayPal connect merchant ID not set"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:132
+msgid "PayPal order ID is required"
+msgstr ""
+
+#: lib/controllers/paypal_connect_controller.php:240
+msgid "Redirecting to PayPal"
+msgstr ""
+
+#: lib/controllers/pro_controller.php:81
+msgid "Automatically generate an e-ticket with a QR code for every event registration and email it to attendees. E-tickets are ready to scan at check-in with the built-in ticket scanner."
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:149
+#, php-format
+msgid "Connect a payment gateway and start getting paid at the time of booking. <a href=\"%s\">Set up payments →</a>"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:153
+msgid "Did you know you can collect payment upfront in LatePoint?"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:160
+#, php-format
+msgid "Did you know you can collect payment upfront in LatePoint? <a href=\"%s\">Connect Stripe →</a>"
+msgstr ""
+
+#: lib/helpers/admin_nudges_helper.php:164
+msgid "🎉 You just got your first booking!"
+msgstr ""
+
+#: lib/helpers/booking_helper.php:1836
+msgid "Cancel Appointment?"
+msgstr ""
+
+#: lib/helpers/booking_helper.php:1838
+msgid "Confirm Cancellation"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:187
+msgid "Register"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:259
+#: lib/views/events_manager/_step_event.php:71
+#: lib/views/front/events/_events_list.php:90
+#: lib/views/front/events/_event_detail.php:118
+#: lib/views/front/events/_event_detail.php:136
+msgid "Sold Out"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:266
+#: lib/views/front/events/_events_list.php:110
+#: lib/views/front/events/_event_detail.php:145
+msgid "Registration Closed"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:315
+#: lib/helpers/menu_helper.php:147
+#: lib/helpers/menu_helper.php:402
+#: lib/views/events_manager/_step_event_tickets.php:73
+msgid "Tickets"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:576
+msgid "Registration for this event is not open."
+msgstr ""
+
+#. translators: %d: available capacity
+#: lib/helpers/events_hooks_helper.php:604
+#, php-format
+msgid "Only %d spot(s) available for this event."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:641
+#: lib/models/order_intent_model.php:169
+msgid "Please select at least one ticket."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:662
+msgid "No event selected."
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:816
+msgid "Event Registration"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1077
+msgid "Event Registration Created"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1078
+#: lib/helpers/events_hooks_helper.php:1219
+#: lib/helpers/events_hooks_helper.php:1221
+msgid "Event Registration Cancelled"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1190
+#: lib/views/events_manager/_form.php:92
+msgid "Event Name"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1191
+msgid "Event Start Date"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1192
+msgid "Event Start Time"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1193
+msgid "Event Location"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1194
+#: lib/views/events_manager/_form.php:133
+#: lib/views/events_manager/_form.php:142
+#: lib/views/events_manager/_step_event.php:92
+#: lib/views/events_manager/_step_event.php:106
+msgid "Organizer"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1195
+msgid "Registration Code"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1196
+msgid "Ticket Count"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1211
+#: lib/helpers/events_hooks_helper.php:1213
+msgid "Event Registration Confirmation"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1242
+msgid "Registration Confirmed"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1268
+#: lib/views/events_manager/_form.php:373
+msgid "Ticket Types"
+msgstr ""
+
+#: lib/helpers/events_hooks_helper.php:1272
+msgid "Sell tiered tickets such as Early Bird, Regular, or VIP for this event, each with its own price and capacity."
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:70
+#: lib/views/events_manager/event_date_range_form.php:35
+msgid "Edit Date Range"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:76
+msgid "Remove Date Range"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:81
+msgid "Are you sure you want to remove this date range?"
+msgstr ""
+
+#: lib/helpers/events_manager_helper.php:107
+#: lib/views/events_manager/event_date_range_form.php:35
+msgid "Add Date Range"
+msgstr ""
+
+#: lib/helpers/form_helper.php:878
+msgid "Change country for phone number, currently selected ${countryName} (${dialCode})"
+msgstr ""
+
+#: lib/helpers/form_helper.php:879
+msgid "Select country for phone number"
+msgstr ""
+
+#: lib/helpers/form_helper.php:880
+msgid "List of countries"
+msgstr ""
+
+#: lib/helpers/form_helper.php:882
+msgid "Clear search"
+msgstr ""
+
+#: lib/helpers/form_helper.php:883
+msgid "No results found"
+msgstr ""
+
+#: lib/helpers/invoices_helper.php:1044
+msgid "Changing the number prefix only affects invoices created from now on. Existing invoices keep their original numbers."
+msgstr ""
+
+#. translators: %s: the {year} placeholder token
+#: lib/helpers/invoices_helper.php:1047
+#, php-format
+msgid "Tip: use the %s placeholder to insert the invoice year automatically (e.g. 2025-0001)."
+msgstr ""
+
+#: lib/helpers/menu_helper.php:129
+#: lib/helpers/menu_helper.php:384
+#: lib/views/event_registrations/index.php:24
+msgid "All Events"
+msgstr ""
+
+#: lib/helpers/menu_helper.php:141
+#: lib/helpers/menu_helper.php:396
+#: lib/views/event_registrations/index.php:50
+msgid "Registrations"
+msgstr ""
+
+#: lib/helpers/payments_helper.php:329
+#: lib/helpers/steps_helper.php:2322
+#: lib/helpers/steps_helper.php:2420
+msgid "The selected payment method is not available. Please choose a valid payment method and try again."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:88
+#: lib/helpers/paypal_connect_helper.php:125
+#: lib/helpers/razorpay_connect_helper.php:275
+#: lib/helpers/razorpay_connect_helper.php:323
+msgid "Payment verification failed"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:231
+msgid "or pay with card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:242
+msgid "Pay with Card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:274
+#: lib/helpers/paypal_connect_helper.php:275
+#: lib/helpers/paypal_connect_helper.php:319
+msgid "PayPal"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:284
+#: lib/helpers/paypal_connect_helper.php:285
+msgid "PayPal Checkout"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:320
+msgid "Venmo"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:322
+msgid "Credit/Debit Card"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:393
+msgid "Disable Pay Later"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:397
+msgid "Hide PayPal Pay Later option from the payment buttons."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:526
+#: lib/helpers/paypal_connect_helper.php:556
+msgid "Appointment Booking"
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:625
+msgid "Merchant: "
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:634
+msgid "Payment permission scopes not yet detected. Payments are active, but you may want to reconnect if issues arise."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:643
+msgid "PayPal account email not yet confirmed. Please confirm your PayPal email address."
+msgstr ""
+
+#: lib/helpers/paypal_connect_helper.php:646
+msgid "Your PayPal account cannot receive payments yet. Please complete your account setup on PayPal."
+msgstr ""
+
+#: lib/helpers/steps_helper.php:1718
+#: lib/models/booking_model.php:527
+msgid "Selected service is not available."
+msgstr ""
+
+#: lib/helpers/translation_helper.php:31
+msgid "Service Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:32
+msgid "Please select a service for which you want to schedule an appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:33
+msgid "Available Services"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:36
+msgid "Location Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:37
+msgid "Please select a location where you want to schedule an appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:38
+msgid "Available Locations"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:41
+msgid "Agent Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:42
+msgid "Please select an agent that will be providing you a service"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:43
+msgid "Available Agents"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:46
+msgid "Select Date & Time"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:47
+msgid "Please select date and time for your appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:48
+msgid "Date & Time Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:51
+msgid "Enter Your Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:52
+msgid "Please enter your contact information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:53
+msgid "Customer Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:56
+msgid "Verify Order Details"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:57
+msgid "Double check your reservation details and click submit button if everything is correct"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:60
+msgid "Payment Time Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:61
+msgid "Please choose when you would like to pay for your appointment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:62
+msgid "When would you like to pay?"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:65
+msgid "Payment Portion Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:66
+msgid "Please select how much you would like to pay now"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:67
+msgid "How much would you like to pay now?"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:70
+msgid "Payment Method Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:71
+msgid "Please select a payment method you would like to make a payment with"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:72
+msgid "Select payment method"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:75
+msgid "Payment Processor Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:76
+msgid "Please select a payment processor you want to process the payment with"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:77
+msgid "Select payment processor"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:80
+msgid "Make a Payment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:81
+msgid "Please enter your payment information so we can process the payment"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:82
+msgid "Enter your payment information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:86
+msgid "Your order has been placed. Please retain this confirmation for your record."
+msgstr ""
+
+#: lib/helpers/translation_helper.php:87
+msgid "Order Confirmation"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:92
+msgid "Event Information"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:93
+msgid "Review the event details before you register"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:94
+msgid "Ticket Selection"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:95
+msgid "Please select the number of tickets you'd like to reserve"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:96
+msgid "Select Your Tickets"
+msgstr ""
+
+#: lib/helpers/translation_helper.php:99
+msgid "<h5>Questions?</h5><p>Call (858) 939-3746 for help</p>"
+msgstr ""
+
+#: lib/models/event_model.php:346
+msgid "Free"
+msgstr ""
+
+#: lib/models/event_registration_model.php:78
+#: lib/views/event_registrations/index.php:31
+msgid "Pending"
+msgstr ""
+
+#: lib/models/event_registration_model.php:79
+#: lib/views/event_registrations/index.php:32
+msgid "Confirmed"
+msgstr ""
+
+#: lib/models/event_registration_model.php:81
+#: lib/views/event_registrations/index.php:34
+msgid "Checked In"
+msgstr ""
+
+#: lib/views/events_manager/event_date_range_form.php:77
+msgid "Set Time"
+msgstr ""
+
+#: lib/views/events_manager/event_date_range_form.php:90
+msgid "Save Date Range"
+msgstr ""
+
+#. translators: %1$s and %2$s are opening and closing anchor tags
+#: lib/views/events_manager/index.php:13
+#: lib/views/event_categories/index.php:17
+#: lib/views/event_registrations/index.php:42
+#, php-format
+msgid "Events functionality is currently disabled. You can enable it in %1$sGeneral Settings%2$s."
+msgstr ""
+
+#: lib/views/events_manager/index.php:26
+#: lib/views/events_manager/index.php:49
+msgid "New Event"
+msgstr ""
+
+#: lib/views/events_manager/index.php:58
+msgid "No Events Found"
+msgstr ""
+
+#: lib/views/events_manager/index.php:62
+#: lib/views/events_manager/_form.php:348
+#: lib/views/events_manager/_form.php:365
+msgid "Add Event"
+msgstr ""
+
+#: lib/views/events_manager/_cart_summary_item.php:28
+msgid "Select your tickets"
+msgstr ""
+
+#. translators: 1: number of tickets, 2: formatted total price
+#: lib/views/events_manager/_cart_summary_item.php:33
+#: lib/views/events_manager/_order_item_admin.php:30
+#, php-format
+msgid "%1$d Ticket &middot; %2$s"
+msgid_plural "%1$d Tickets &middot; %2$s"
+msgstr[0] ""
+
+#. translators: %d: number of date ranges in the event's schedule
+#: lib/views/events_manager/_event_index_item.php:24
+#, php-format
+msgid " (%d date ranges)"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:33
+msgid "Category:"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:38
+msgid "Capacity:"
+msgstr ""
+
+#: lib/views/events_manager/_event_index_item.php:43
+#: lib/views/events_manager/_step_event.php:69
+msgid "Unlimited"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:24
+msgid "No Category"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:44
+msgid "Published"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:51
+#: lib/views/front/events/_events_list.php:44
+msgid "In Person"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:52
+#: lib/views/front/events/_events_list.php:42
+#: lib/views/front/events/_events_list.php:59
+msgid "Online"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:60
+msgid "Delete Event"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:61
+msgid "Are you sure you want to remove this event? It will remove all registrations associated with it. You can also change status to Draft if you want to temporarily disable it instead."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:85
+#, php-format
+msgid "Event ID: %d"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:106
+msgid "Full Description"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:118
+msgid "Online Meeting URL"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:153
+msgid "Event Image"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:159
+#: lib/views/events_manager/_form.php:371
+msgid "Date & Time"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:174
+#: lib/views/events_manager/_form.php:187
+msgid "Select date"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:192
+msgid "Event Schedule"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:194
+msgid "Save this event first, then you can add its date/time schedule."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:204
+msgid "Registration Opens"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:204
+msgid "Keep the toggle disabled to open registration immediately, or enable it to set a custom opening date."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:208
+#: lib/views/events_manager/_form.php:229
+msgid "Custom date & time"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:212
+msgid "Disabled: Opens immediately."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:225
+msgid "Registration Closes"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:225
+msgid "Keep the toggle disabled to close registration when the event starts, or enable it to set a custom closing date."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:233
+msgid "Disabled: Closes when the event starts."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:250
+#: lib/views/events_manager/_form.php:372
+msgid "Capacity & Pricing"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:267
+msgid "Enter 0 for a free ticket."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:279
+msgid "Leave blank for unlimited capacity."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:288
+msgid "Capacity"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:308
+msgid "Do not multiply charge amount by the number of tickets"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:312
+msgid "Charge the ticket price once per registration, regardless of how many tickets are selected."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:316
+msgid "Do not ask customers to select number of tickets"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:320
+msgid "Skips the ticket quantity step and automatically sets the quantity to 1 for each registration."
+msgstr ""
+
+#: lib/views/events_manager/_form.php:407
+msgid "Setting up your first event"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:411
+msgid "Selling ticket types"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:415
+msgid "Displaying events on your website"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:419
+msgid "Managing event registrations"
+msgstr ""
+
+#: lib/views/events_manager/_form.php:423
+msgid "Checking in attendees with QR tickets"
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:24
+#: lib/views/events_manager/_step_event_tickets.php:24
+msgid "Event not found. Please go back and try again."
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:53
+msgid "Date &amp; time"
+msgstr ""
+
+#. translators: %d: number of spots available
+#. translators: %d: available capacity
+#. translators: %d: number of spots remaining
+#: lib/views/events_manager/_step_event.php:77
+#: lib/views/front/events/_events_list.php:102
+#: lib/views/front/events/_event_detail.php:123
+#, php-format
+msgid "%d spot(s) remaining"
+msgstr ""
+
+#: lib/views/events_manager/_step_event.php:87
+#: lib/views/front/events/_event_detail.php:85
+msgid "Online Event"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:54
+msgid "Number of Tickets"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:57
+#, php-format
+msgid "Maximum %d per order"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:72
+msgid "Ticket"
+msgstr ""
+
+#: lib/views/events_manager/_step_event_tickets.php:77
+#: lib/views/event_registrations/index.php:84
+#: lib/views/event_registrations/index.php:125
+msgid "Qty"
+msgstr ""
+
+#: lib/views/event_categories/index.php:28
+msgid "Events Linked"
+msgstr ""
+
+#: lib/views/event_categories/index.php:41
+msgid "New Category"
+msgstr ""
+
+#: lib/views/event_categories/index.php:45
+msgid "Create New Event Category"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:23
+msgid "Category Name"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:25
+msgid "Display Order"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:30
+msgid "Save Category"
+msgstr ""
+
+#: lib/views/event_categories/_form.php:37
+msgid "Are you sure you want to remove this category? Its events will become Uncategorized."
+msgstr ""
+
+#: lib/views/event_categories/_form.php:41
+msgid "Delete Category"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:56
+msgid "attendees"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:58
+msgid "confirmed"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:86
+#: lib/views/event_registrations/index.php:127
+msgid "Payment"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:87
+#: lib/views/event_registrations/index.php:128
+msgid "Registered"
+msgstr ""
+
+#: lib/views/event_registrations/index.php:92
+msgid "Code..."
+msgstr ""
+
+#: lib/views/event_registrations/_table_body.php:50
+msgid "Cancel this registration?"
+msgstr ""
+
+#: lib/views/event_registrations/_table_body.php:68
+msgid "No registrations found."
+msgstr ""
+
+#: lib/views/front/events/_events_list.php:16
+msgid "No upcoming events found."
+msgstr ""
+
+#: lib/views/front/events/_events_list.php:95
+#: lib/views/front/events/_event_detail.php:141
+msgid "Register Now"
+msgstr ""
+
+#: lib/views/front/events/_event_detail.php:95
+msgid "Hosted by"
+msgstr ""
+
+#: lib/views/partials/_help_box.php:36
+msgid "Need help?"
+msgstr ""
+
+#: lib/views/partials/_help_box.php:37
+msgid "Contact support"
+msgstr ""
+
+#: lib/views/services/_form.php:218
+msgid "Limit the total number of bookings this service can accept per day. Leave blank or set to 0 to fall back to the global limit."
+msgstr ""
+
+#: lib/views/services/_form.php:221
+msgid "Maximum Number of Bookings Per Day"
+msgstr ""
+
+#: lib/views/settings/general.php:82
+msgid "Enable Events Functionality"
+msgstr ""
+
+#: lib/views/settings/general.php:82
+msgid "Enable to let customers browse and register for events. When disabled, event pages, shortcodes, and the registration wizard step are inactive."
+msgstr ""
+
+#: lib/views/settings/general.php:234
+msgid "Restrict phone input to valid digits"
+msgstr ""
+
+#: lib/views/settings/general.php:234
+msgid "Blocks characters that can't appear in a valid number for the selected country, and stops input at that country's maximum length."
+msgstr ""
+
+#: lib/views/settings/general.php:253
+msgid "Reserve slot while a customer is checking out"
+msgstr ""
+
+#: lib/views/settings/general.php:253
+msgid "Temporarily holds a time slot once a customer reaches checkout so another customer cannot book or pay for the same slot at the same time. The hold expires automatically after a few minutes."
+msgstr ""
+
+#: lib/views/settings/general.php:438
+msgid "Configure AI client permissions and MCP server settings."
+msgstr ""
+
+#: lib/views/settings/general.php:438
+msgid "View documentation"
+msgstr ""
+
+#: lib/views/settings/general.php:507
+msgid "The dedicated MCP server requires the WordPress MCP Adapter plugin. Install and activate it to expose the LatePoint MCP endpoint."
+msgstr ""
+
+#: lib/views/settings/general.php:514
+#: lib/views/settings/general.php:520
+msgid "Enable MCP Server"
+msgstr ""
+
+#: lib/views/settings/general.php:524
+msgid "Creates a dedicated LatePoint MCP endpoint that AI clients like Claude can connect to. When disabled, the endpoint is removed and external AI clients cannot discover or call any LatePoint abilities."
+msgstr ""
+
+#: lib/views/settings/general.php:547
+msgid "Claude Desktop"
+msgstr ""
+
+#: lib/views/settings/general.php:548
+msgid "~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows)"
+msgstr ""
+
+#: lib/views/settings/general.php:555
+msgid "Claude Code"
+msgstr ""
+
+#: lib/views/settings/general.php:556
+msgid ".mcp.json (project) or ~/.claude.json (global)"
+msgstr ""
+
+#: lib/views/settings/general.php:563
+msgid "Cursor"
+msgstr ""
+
+#: lib/views/settings/general.php:571
+msgid "VS Code (Copilot)"
+msgstr ""
+
+#: lib/views/settings/general.php:572
+msgid ".vscode/mcp.json (project) or settings.json > mcp.servers (global)"
+msgstr ""
+
+#: lib/views/settings/general.php:580
+msgid "~/.continue/config.yaml or config.json"
+msgstr ""
+
+#: lib/views/settings/general.php:588
+msgid "Your client's MCP configuration file"
+msgstr ""
+
+#: lib/views/settings/general.php:612
+msgid "Connect Your AI Client"
+msgstr ""
+
+#: lib/views/settings/general.php:614
+msgid "AI Client"
+msgstr ""
+
+#: lib/views/settings/general.php:620
+msgid "Create an Application Password — "
+msgstr ""
+
+#: lib/views/settings/general.php:621
+msgid "Open Application Passwords"
+msgstr ""
+
+#: lib/views/settings/general.php:625
+msgid "Or use this CLI command to add the server quickly (you will still need to set the environment variables):"
+msgstr ""
+
+#: lib/views/settings/general.php:628
+#: lib/views/settings/general.php:640
+msgid "Copy to clipboard"
+msgstr ""
+
+#: lib/views/settings/general.php:633
+msgid "Copy the JSON config below into:"
+msgstr ""
+
+#: lib/views/settings/general.php:636
+msgid "Replace \"your-application-password\" with the password from Step 1."
+msgstr ""
+
+#: lib/views/settings/general.php:643
+msgid "WP_API_URL — your site's MCP endpoint. WP_API_USERNAME — your WordPress username. WP_API_PASSWORD — the application password you generated."
+msgstr ""
+
+#: lib/views/settings/general.php:644
+msgid "View setup docs"
+msgstr ""
+
+#: lib/views/shared/_template_variables.php:52
+msgid "Admin Notes:"
+msgstr ""

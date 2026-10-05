@@ -59,7 +59,7 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
                 </div>
 			<?php } ?>
         </div>
-        <div class="latepoint-questions"><?php echo OsSettingsHelper::get_steps_support_text(); ?></div>
+        <div class="latepoint-questions"><?php echo OsTranslationHelper::translate_default( OsSettingsHelper::get_steps_support_text() ); ?></div>
 
 		<?php
 
