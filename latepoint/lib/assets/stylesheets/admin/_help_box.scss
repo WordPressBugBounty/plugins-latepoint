@@ -29,6 +29,8 @@
 			align-items: center;
 			justify-content: space-between;
 			gap: 8px;
+			// Side nav sets nowrap on every anchor; long doc titles must wrap.
+			white-space: normal;
 			font-size: $body-font-size-xs;
 			color: $color-faded;
 			text-decoration: none;

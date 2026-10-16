@@ -4,7 +4,7 @@
  * Include with `include LATEPOINT_LIB_ABSPATH . 'views/partials/_help_box.php';` after setting:
  *
  * @var array  $help_links        Required. Array of ['label' => string, 'url' => string].
- * @var string $help_header_label Optional. Defaults to "Tips & Resources".
+ * @var string $help_header_label Optional. Defaults to "Resources".
  * @var string $help_support_url  Optional. Defaults to https://latepoint.com/support/.
  */
 
@@ -13,6 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( empty( $help_links ) ) {
+	return;
+}
+
+// White labeled installs suppress all LatePoint branding, docs and upsells.
+if ( OsSettingsHelper::is_on( 'white_label_enabled' ) ) {
 	return;
 }
 

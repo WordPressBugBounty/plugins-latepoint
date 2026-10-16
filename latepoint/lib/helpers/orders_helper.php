@@ -231,8 +231,8 @@ class OsOrdersHelper {
 		$html = '<div class="summary-status-wrapper summary-status-style-' . esc_attr( OsStepsHelper::get_step_setting_value( 'confirmation', 'order_confirmation_message_style', 'green' ) ) . '">
                     <div class="summary-status-inner">
                         <div class="ss-icon"></div>
-                        <div class="ss-title">' . $title . '</div>
-                        <div class="ss-description">' . $content . '</div>
+                        <div class="ss-title">' . wp_kses_post( $title ) . '</div>
+                        <div class="ss-description">' . wp_kses_post( $content ) . '</div>
                         <div class="ss-confirmation-number"><span>' . esc_html__( 'Order #', 'latepoint' ) . '</span><strong>' . esc_html( $order->confirmation_code ) . '</strong></div>
                     </div>
                 </div>';

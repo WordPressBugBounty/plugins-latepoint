@@ -40,7 +40,7 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
 					echo '<div class="latepoint-desc-media svg-w">' . $current_step->get_default_image_html_for_side_panel() . '</div>';
 				} ?>
                 <h3 class="latepoint-desc-title"><?php echo wp_kses_post($current_step->side_panel_heading); ?></h3>
-                <div class="latepoint-desc-content"><?php echo stripcslashes( $current_step->side_panel_description ); ?></div>
+                <div class="latepoint-desc-content"><?php echo wp_kses_post( stripcslashes( $current_step->side_panel_description ) ); ?></div>
             </div>
 			<?php
 			foreach ( $all_steps as $index => $step ) { ?>
@@ -55,11 +55,11 @@ $element_classes[] = ((!$cart->is_empty() || $booking->is_ready_for_summary()) &
 						echo '<div class="latepoint-desc-media svg-w">' . $step->get_default_image_html_for_side_panel() . '</div>';
 					} ?>
                     <h3 class="latepoint-desc-title"><?php echo esc_html($step->side_panel_heading); ?></h3>
-                    <div class="latepoint-desc-content"><?php echo $step->side_panel_description; ?></div>
+                    <div class="latepoint-desc-content"><?php echo wp_kses_post( $step->side_panel_description ); ?></div>
                 </div>
 			<?php } ?>
         </div>
-        <div class="latepoint-questions"><?php echo OsTranslationHelper::translate_default( OsSettingsHelper::get_steps_support_text() ); ?></div>
+        <div class="latepoint-questions"><?php echo wp_kses_post( OsTranslationHelper::translate_default( OsSettingsHelper::get_steps_support_text() ) ); ?></div>
 
 		<?php
 

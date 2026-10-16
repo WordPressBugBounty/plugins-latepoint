@@ -229,6 +229,12 @@ class OsMenuHelper {
 								'link'  => OsRouterHelper::build_link( [ 'pro', 'roles' ] ),
 							),
 							array(
+								'id'    => 'api',
+								'label' => __( 'API', 'latepoint' ),
+								'icon'  => '',
+								'link'  => OsRouterHelper::build_link( [ 'pro', 'api' ] ),
+							),
+							array(
 								'id'    => 'white_label',
 								'label' => __( 'White Label', 'latepoint' ),
 								'icon'  => '',

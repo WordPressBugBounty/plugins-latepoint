@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointment booking, booking system, appointment scheduling, event booking system, scheduling
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.7.4
+Stable tag: 5.7.5
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -408,6 +408,16 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.7.5 - October 16, 2026 =
+  - New
+    - Added REST API support for the upcoming premium release
+
+  - Improvements
+    - Added a resources box with helpful documentation links across the LatePoint admin screens.
+
+  - Security
+    - Addressed security bugs. Props to WPScan and WordFence for reporting them.
 
 = 5.7.4 - October 05, 2026 =
   - Improvements

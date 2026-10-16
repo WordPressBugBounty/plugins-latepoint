@@ -168,7 +168,7 @@ class OsAuthHelper {
 		}
 	}
 
-	private static function check_login_rate_limit( string $contact_value, string $contact_type ): bool {
+	public static function check_login_rate_limit( string $contact_value, string $contact_type ): bool {
 		// Per-contact check
 		$contact_key = self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type );
 		$attempts    = absint( get_transient( $contact_key ) );
@@ -198,7 +198,7 @@ class OsAuthHelper {
 		return true;
 	}
 
-	private static function record_failed_login_attempt( string $contact_value, string $contact_type ): void {
+	public static function record_failed_login_attempt( string $contact_value, string $contact_type ): void {
 		$lockout_duration = self::$login_lockout_minutes * MINUTE_IN_SECONDS;
 		$client_ip        = OsUtilHelper::get_user_ip();
 
@@ -213,7 +213,7 @@ class OsAuthHelper {
 		}
 	}
 
-	private static function clear_login_rate_limits( string $contact_value, string $contact_type ): void {
+	public static function clear_login_rate_limits( string $contact_value, string $contact_type ): void {
 		delete_transient( self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type ) );
 
 		$client_ip = OsUtilHelper::get_user_ip();

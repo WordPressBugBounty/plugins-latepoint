@@ -1010,7 +1010,7 @@ class OsBookingHelper {
 								<div class="os-item-name-w">
 									<div class="os-item-name"><?php echo esc_html( $service_category->name ); ?></div>
 									<?php if ( ! empty( $service_category->short_description ) ) { ?>
-										<div class="os-item-desc"><?php echo $service_category->short_description; ?></div>
+										<div class="os-item-desc"><?php echo wp_kses_post( $service_category->short_description ); ?></div>
 									<?php } ?>
 								</div>
 								<?php if ( OsSettingsHelper::is_on( 'show_service_categories_count' ) && count( $services ) ) { ?>

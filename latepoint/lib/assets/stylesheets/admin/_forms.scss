@@ -2329,7 +2329,9 @@ form > .os-form-sub-header:first-child {
     display: flex;
     flex-direction: column;
     max-height: calc(100dvh - 40px);
-    flex: 0 0 230px;
+    flex: 0 0 300px;
+    min-width: 0;
+    max-width: 300px;
     position: sticky;
     top: 20px;
     .side-nav-actions {

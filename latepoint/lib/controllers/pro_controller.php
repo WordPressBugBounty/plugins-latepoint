@@ -75,6 +75,12 @@ if ( ! class_exists( 'OsProController' ) ) :
 			$this->format_render( 'pro_feature', [], [], true );
 		}
 
+		public function api() {
+			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'settings' );
+			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'settings' );
+			$this->format_render( 'pro_feature', [], [], true );
+		}
+
 		public function event_tickets() {
 			$this->vars['page_header']     = OsMenuHelper::get_menu_items_by_id( 'events' );
 			$this->vars['pre_page_header'] = OsMenuHelper::get_label_by_id( 'events' );

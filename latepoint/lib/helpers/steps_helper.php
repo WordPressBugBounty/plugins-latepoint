@@ -1171,8 +1171,11 @@ class OsStepsHelper {
 		if ( OsAuthHelper::is_customer_auth_disabled() ) {
 
 			if ( ! empty( $customer_params['uuid'] ) ) {
-				$customer = new OsCustomerModel();
-				$customer = $customer->where( [ 'uuid' => $customer_params['uuid'] ] )->set_limit( 1 )->get_results_as_models();
+				// uuid must be a scalar - a nested array would inject query operators (e.g. LIKE) into the lookup.
+				if ( ! is_scalar( $customer_params['uuid'] ) ) {
+					return self::$customer_object;
+				}
+				$customer = OsCustomerHelper::get_by_uuid( sanitize_text_field( (string) $customer_params['uuid'] ) );
 				if ( $customer ) {
 					self::$customer_object = $customer;
 				}
@@ -2541,7 +2544,7 @@ class OsStepsHelper {
 	public static function get_formatted_extra_step_content( string $step_code, string $placement ): string {
 		$content = self::get_step_setting_value( $step_code, 'main_panel_content_' . $placement );
 
-		return ! empty( $content ) ? '<div class="latepoint-step-content-text-left">' . $content . '</div>' : '';
+		return ! empty( $content ) ? '<div class="latepoint-step-content-text-left">' . wp_kses_post( $content ) . '</div>' : '';
 	}
 
 

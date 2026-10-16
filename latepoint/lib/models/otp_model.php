@@ -64,4 +64,21 @@ class OsOTPModel extends OsModel {
 
 		return $validations;
 	}
+
+	// Atomic increment so concurrent requests can't bypass the attempts cap.
+	public function increment_attempts_within_limit( int $max_attempts ): bool {
+		if ( $this->is_new_record() ) {
+			return false;
+		}
+		$updated = $this->db->query(
+			$this->db->prepare(
+				'UPDATE ' . $this->table_name . ' SET attempts = attempts + 1, updated_at = %s WHERE id = %d AND attempts < %d',
+				OsTimeHelper::now_datetime_in_format( LATEPOINT_DATETIME_DB_FORMAT ),
+				$this->id,
+				$max_attempts
+			)
+		);
+
+		return ! empty( $updated );
+	}
 }

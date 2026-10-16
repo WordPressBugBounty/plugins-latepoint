@@ -101,6 +101,10 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$selected_customer = new OsCustomerModel();
 			if ( isset( $this->params['customer_id'] ) ) {
 				$selected_customer->load_by_id( $this->params['customer_id'] );
+				if ( ! OsRolesHelper::can_user_make_action_on_model_record( $selected_customer, 'edit' ) ) {
+					$this->access_not_allowed();
+					return;
+				}
 			}
 			$this->vars['default_fields_for_customer'] = OsSettingsHelper::get_default_fields_for_customer();
 			$this->vars['selected_customer']           = $selected_customer;
@@ -175,7 +179,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 						'phone LIKE' => $sql_query,
 					),
 				)
-			)->set_limit( 20 )->order_by( 'first_name asc, last_name asc' )->get_results_as_models();
+			)->filter_allowed_records()->set_limit( 20 )->order_by( 'first_name asc, last_name asc' )->get_results_as_models();
 
 			$this->format_render( __FUNCTION__ );
 		}
@@ -253,7 +257,11 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 		public function mini_profile() {
 			if ( filter_var( $this->params['customer_id'], FILTER_VALIDATE_INT ) ) {
-				$customer                       = new OsCustomerModel( $this->params['customer_id'] );
+				$customer = new OsCustomerModel( $this->params['customer_id'] );
+				if ( ! OsRolesHelper::can_user_make_action_on_model_record( $customer, 'view' ) ) {
+					$this->access_not_allowed();
+					return;
+				}
 				$this->vars['upcoming_booking'] = $customer->get_future_bookings( 1, true );
 				$this->vars['customer']         = $customer;
 

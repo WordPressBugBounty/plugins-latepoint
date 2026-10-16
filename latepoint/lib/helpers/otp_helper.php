@@ -196,6 +196,11 @@ class OsOTPHelper {
 			return new WP_Error( 'otp_generation_error', 'Invalid Code' );
 		}
 
+		// Claim one attempt atomically before the check; zero rows means the cap is reached, even under concurrency.
+		if ( ! $active_otp->increment_attempts_within_limit( self::$max_verification_attempts ) ) {
+			return new WP_Error( 'otp_generation_error', 'Invalid Code' );
+		}
+
 		if ( wp_check_password( $otp_code, $active_otp->otp_hash ) ) {
 			// Mark this OTP as used
 			$active_otp->update_attributes(
@@ -224,8 +229,6 @@ class OsOTPHelper {
 				'contact_value' => $contact_value,
 			];
 		}
-
-		$active_otp->update_attributes( [ 'attempts' => $active_otp->attempts + 1 ] );
 
 		return new WP_Error( 'otp_generation_error', 'Invalid Code' );
 	}

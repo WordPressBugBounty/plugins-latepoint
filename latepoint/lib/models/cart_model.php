@@ -457,6 +457,16 @@ class OsCartModel extends OsModel {
 		return OsMoneyHelper::format_price( $this->get_total(), true, false );
 	}
 
+	public function prepare_data_before_it_is_set( $data ) {
+		// payment_portion is mass assignable - a 'deposit' portion on a cart with no deposit due
+		// charges zero while the order is recorded at full price. Only honour it when a deposit exists.
+		if ( isset( $data['payment_portion'] ) && LATEPOINT_PAYMENT_PORTION_DEPOSIT === $data['payment_portion'] && $this->deposit_amount_to_charge() <= 0 ) {
+			$data['payment_portion'] = LATEPOINT_PAYMENT_PORTION_FULL;
+		}
+
+		return $data;
+	}
+
 	public function set_payment_portion() {
 		if ( ! empty( $this->payment_time ) ) {
 			if ( $this->payment_time == LATEPOINT_PAYMENT_TIME_LATER ) {

@@ -382,6 +382,54 @@ if ( ! defined( 'ABSPATH' ) ) {
                     }
                     ?>
                 </div>
+                <?php
+                /**
+                 * Doc links shown in the "Resources" box below the service form's side nav.
+                 *
+                 * @param {array}          $help_links Array of ['label' => string, 'url' => string].
+                 * @param {OsServiceModel} $service    The service being edited.
+                 * @returns {array} The filtered array of help links.
+                 *
+                 * @since 5.7.5
+                 * @hook latepoint_service_edit_form_help_links
+                 *
+                 */
+                $help_links = apply_filters(
+                    'latepoint_service_edit_form_help_links',
+                    [
+                        [
+                            'label' => __( 'Understanding charge amount vs. price range', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/what-does-charge-amount-and-minimum-and-maximum-price-values-mean/',
+                        ],
+                        [
+                            'label' => __( 'Limiting how many bookings you take per day', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/how-to-set-up-maximum-bookings-per-day/',
+                        ],
+                        [
+                            'label' => __( 'Showing prices with tax included', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/display-tax-inclusive-prices/',
+                        ],
+                        [
+                            'label' => __( 'Adding a booking button for just this service', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/add-pre-selected-agent-or-service-on-book-appointment-button/',
+                        ],
+                        [
+                            'label' => __( 'Adding a fixed base fee to group bookings', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/base-fee-for-group-bookings/',
+                        ],
+                        [
+                            'label' => __( 'Letting customers book repeat sessions', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/enabling-recurring-appointments-in-latepoint/',
+                        ],
+                        [
+                            'label' => __( 'Offering add-ons with this service', 'latepoint' ),
+                            'url'   => 'https://latepoint.com/docs/how-to-create-service-extras/',
+                        ],
+                    ],
+                    $service
+                );
+                include LATEPOINT_LIB_ABSPATH . 'views/partials/_help_box.php';
+                ?>
             </div>
     </div>
 </form>

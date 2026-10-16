@@ -928,6 +928,48 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div><a href="#stickySectionAbilities"><?php esc_html_e( 'MCP', 'latepoint' ); ?></a></div>
         <div><a href="#stickySectionOther"><?php esc_html_e( 'Other', 'latepoint' ); ?></a></div>
     </div>
+    <?php
+    /**
+     * Doc links shown in the "Resources" box below the general settings side nav.
+     *
+     * @param {array} $help_links Array of ['label' => string, 'url' => string].
+     * @returns {array} The filtered array of help links.
+     *
+     * @since 5.7.5
+     * @hook latepoint_general_settings_help_links
+     *
+     */
+    $help_links = apply_filters(
+        'latepoint_general_settings_help_links',
+        [
+            [
+                'label' => __( 'Setting up passwordless login and OTP codes', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/how-to-configure-customer-authentication-and-otp-verification-in-latepoint/',
+            ],
+            [
+                'label' => __( 'Blocking customers who keep missing appointments', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/no-show-customer-restrictions/',
+            ],
+            [
+                'label' => __( 'Showing your business timezone to customers', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/show-your-wordpress-timezone-on-the-customer-booking-form/',
+            ],
+            [
+                'label' => __( 'Sending customers to your own thank-you page', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/how-to-redirect-to-a-custom-thank-you-page-after-booking-process-is-complete/',
+            ],
+            [
+                'label' => __( 'Connecting Claude, Cursor and other AI tools', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/latepoint-abilities-connect-ai-clients-to-your-booking-system/',
+            ],
+            [
+                'label' => __( 'Creating and emailing invoices', 'latepoint' ),
+                'url'   => 'https://latepoint.com/docs/how-to-use-invoices-in-latepoint/',
+            ],
+        ]
+    );
+    include LATEPOINT_LIB_ABSPATH . 'views/partials/_help_box.php';
+    ?>
 
 </div>
 </div>

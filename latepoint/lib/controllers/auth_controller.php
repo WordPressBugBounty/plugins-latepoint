@@ -35,17 +35,29 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 			$contact_value           = $otp_verification_params['contact_value'];
 			$delivery_method         = $otp_verification_params['delivery_method'];
 
+			if ( ! OsAuthHelper::check_login_rate_limit( $contact_value, $contact_type ) ) {
+				$this->send_json(
+					array(
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Too many attempts. Please try again later.', 'latepoint' ),
+					)
+				);
+			}
+
 			$result = OsOTPHelper::verifyOTP( $otp_code, $contact_value, $contact_type, $delivery_method );
 
 			$message = __( 'Invalid Code', 'latepoint' );
 			$status  = LATEPOINT_STATUS_ERROR;
 
 			if ( is_wp_error( $result ) ) {
+				OsAuthHelper::record_failed_login_attempt( $contact_value, $contact_type );
 				$message = $result->get_error_message();
 			} elseif ( $result['status'] == LATEPOINT_STATUS_ERROR ) {
+				OsAuthHelper::record_failed_login_attempt( $contact_value, $contact_type );
 				$message = $result['message'];
 			} elseif ( $result['status'] == LATEPOINT_STATUS_SUCCESS ) {
 				// Success
+				OsAuthHelper::clear_login_rate_limits( $contact_value, $contact_type );
 				$status  = LATEPOINT_STATUS_SUCCESS;
 				$message = OsOTPHelper::create_verification_token( $contact_value, $contact_type );
 				// if auth is enabled - make sure customer is logged in
