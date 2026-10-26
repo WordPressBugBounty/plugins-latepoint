@@ -362,10 +362,10 @@ class OsCustomerModel extends OsModel {
 			$this->password = wp_hash_password( bin2hex( openssl_random_pseudo_bytes( 8 ) ) );
 		}
 		if ( empty( $this->activation_key ) ) {
-			$this->activation_key = sha1( wp_rand( 10000, 99999 ) . time() . $this->email );
+			$this->activation_key = OsUtilHelper::generate_key_to_manage();
 		}
 		if ( empty( $this->account_nonse ) ) {
-			$this->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . $this->activation_key );
+			$this->account_nonse = OsUtilHelper::generate_key_to_manage();
 		}
 	}
 

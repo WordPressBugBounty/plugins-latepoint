@@ -66,7 +66,11 @@ class OsTransactionIntentHelper {
 			$transaction_intent = new OsTransactionIntentModel();
 		}
 
-		$transaction_intent->charge_amount = $invoice->charge_amount;
+		$amount_due = $invoice->get_amount_due();
+		if ( $amount_due <= 0 ) {
+			throw new Exception( __( 'This invoice has no balance due', 'latepoint' ) );
+		}
+		$transaction_intent->charge_amount = OsMoneyHelper::pad_to_db_format( $amount_due );
 		$transaction_intent->invoice_id    = $invoice->id;
 		$order                             = $invoice->get_order();
 		$transaction_intent->order_id      = $order->id;

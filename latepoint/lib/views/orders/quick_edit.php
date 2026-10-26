@@ -23,7 +23,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 <div class="os-form-w quick-order-form-w <?php echo ( $order->is_new_record() ) ? 'is-new-order' : 'is-existing-order'; ?>"
-     data-refresh-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'orders', 'quick_edit' ) ); ?>">
+     data-refresh-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'orders', 'quick_edit' ) ); ?>"
+     data-booking-form-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'orders', 'generate_booking_order_item_block' ) ); ?>"
+     data-bundle-form-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'orders', 'generate_bundle_order_item_block' ) ); ?>"
+     data-fold-booking-data-route-name="<?php echo esc_attr( OsRouterHelper::build_route_name( 'orders', 'fold_booking_data_form' ) ); ?>">
     <form action=""
           data-route-name="<?php echo ( $order->is_new_record() ) ? esc_attr( OsRouterHelper::build_route_name( 'orders', 'create' ) ) : esc_attr( OsRouterHelper::build_route_name( 'orders', 'update' ) ); ?>"
           class="order-quick-edit-form">

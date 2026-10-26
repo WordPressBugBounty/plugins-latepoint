@@ -103,6 +103,16 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 					] 
 				);
 			}
+			if ( ! OsStepsHelper::is_bundle_scheduling() && OsStepsHelper::$cart_object->is_empty() ) {
+				// bundle scheduling books straight off the order item, so its cart is empty by design.
+				// Otherwise report the real reason - the slot message below means nothing with an empty cart.
+				$this->send_json(
+					[
+						'status'  => LATEPOINT_STATUS_ERROR,
+						'message' => __( 'Your cart is empty, please add an item before checking out.', 'latepoint' ),
+					]
+				);
+			}
 			$order_intent = OsOrderIntentHelper::create_or_update_order_intent( OsStepsHelper::$cart_object, OsStepsHelper::$restrictions, OsStepsHelper::$presets, '', OsStepsHelper::get_customer_object_id() );
 			if ( $order_intent->is_bookable() ) {
 				$this->send_json(

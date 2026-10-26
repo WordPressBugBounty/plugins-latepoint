@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointment booking, booking system, appointment scheduling, event booking system, scheduling
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.7.5
+Stable tag: 5.7.6
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -408,6 +408,19 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.7.6 - October 26, 2026 =
+  - New
+    - Added Events Waiting List support for the upcoming premium release
+
+  - Fixes
+    - Fixed bundle sessions not being schedulable from the admin Edit Order panel when "Disable Shopping Cart Functionality" is enabled.
+    - Fixed the booking form not resetting when the only cart item was removed, which could leave the removed item in the summary and allow an empty order to be submitted.
+    - Fixed paying an invoice online charging the full invoice total instead of the remaining balance when a partial payment had already been applied.
+    - Fixed bundle bookings inflating Dashboard Sales Revenue by counting the full bundle price for every scheduled session.
+
+  - Security
+    - Hardened the security of the plugin.
 
 = 5.7.5 - October 16, 2026 =
   - New

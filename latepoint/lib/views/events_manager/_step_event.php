@@ -67,8 +67,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<span class="event-step-meta-label"><?php esc_html_e( 'Availability', 'latepoint' ); ?></span>
 						<?php if ( ! $event->has_capacity_limit() ) : ?>
 							<span class="event-step-meta-value"><?php esc_html_e( 'Unlimited', 'latepoint' ); ?></span>
-						<?php elseif ( $available <= 0 ) : ?>
-							<span class="event-step-meta-value event-sold-out"><?php esc_html_e( 'Sold Out', 'latepoint' ); ?></span>
+						<?php elseif ( $event->is_sold_out() ) : ?>
+							<?php
+							// is_sold_out(), not `$available <= 0`: an addon can hold a capped event closed while its queue waits.
+							$sold_out_action_html = '<span class="event-step-meta-value event-sold-out">' . esc_html__( 'Sold Out', 'latepoint' ) . '</span>';
+							/** This filter is documented in lib/views/front/events/_events_list.php */
+							echo apply_filters( 'latepoint_event_sold_out_action_html', $sold_out_action_html, $event, 'step' );
+							?>
 						<?php else : ?>
 							<span class="event-step-meta-value">
 								<?php

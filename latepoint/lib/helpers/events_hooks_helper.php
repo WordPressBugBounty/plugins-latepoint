@@ -573,7 +573,21 @@ class OsEventsHooksHelper {
 		 */
 		$quantity = (int) apply_filters( 'latepoint_event_step_quantity', $base_quantity, $event, $params );
 
-		if ( ! $event->is_registration_open() ) {
+		/**
+		 * Filters whether to skip this step's registration-open check, which is false for a full event
+		 *
+		 * @since 5.7.0
+		 * @hook latepoint_event_skip_registration_open_check
+		 *
+		 * @param {bool} $skip Whether to skip the check. Default false
+		 * @param {OsEventModel} $event Event being registered for
+		 * @param {array} $params Raw request params for the current step
+		 *
+		 * @returns {bool} Whether to skip the check
+		 */
+		$skip_registration_open_check = apply_filters( 'latepoint_event_skip_registration_open_check', false, $event, $params );
+
+		if ( ! $skip_registration_open_check && ! $event->is_registration_open() ) {
 			return [
 				'quantity'          => $quantity,
 				'error'             => __( 'Registration for this event is not open.', 'latepoint' ),
@@ -1273,6 +1287,25 @@ class OsEventsHooksHelper {
 			<div class="white-box-content">
 				<?php
 				$description = __( 'Sell tiered tickets such as Early Bird, Regular, or VIP for this event, each with its own price and capacity.', 'latepoint' );
+				include LATEPOINT_ABSPATH . 'lib/views/shared/pro_feature.php';
+				?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Default "Waiting List" upgrade teaser on the event edit form, shown when Pro isn't active.
+	 */
+	public static function output_waiting_list_upsell( OsEventModel $event ): void {
+		?>
+		<div class="white-box section-anchor" id="stickySectionWaitingList">
+			<div class="white-box-header">
+				<div class="os-form-sub-header"><h3><?php esc_html_e( 'Waiting List', 'latepoint' ); ?></h3></div>
+			</div>
+			<div class="white-box-content">
+				<?php
+				$description = __( 'Let customers queue for a place when this event is full, and promote them when someone cancels.', 'latepoint' );
 				include LATEPOINT_ABSPATH . 'lib/views/shared/pro_feature.php';
 				?>
 			</div>

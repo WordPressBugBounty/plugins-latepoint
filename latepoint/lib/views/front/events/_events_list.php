@@ -86,14 +86,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</div>
 
 						<?php if ( $event->is_sold_out() ) : ?>
-							<button class="latepoint-event-sold-out latepoint-btn latepoint-btn-secondary" disabled>
-								<?php esc_html_e( 'Sold Out', 'latepoint' ); ?>
-							</button>
+							<?php
+							$sold_out_action_html = '<button class="latepoint-event-sold-out latepoint-btn latepoint-btn-secondary" disabled>' . esc_html__( 'Sold Out', 'latepoint' ) . '</button>';
+							/**
+							 * Filters the markup shown in place of the register button when an event is full
+							 *
+							 * @since 5.7.0
+							 * @hook latepoint_event_sold_out_action_html
+							 *
+							 * @param {string} $sold_out_action_html Default disabled "Sold Out" button markup
+							 * @param {OsEventModel} $event Event that is full
+							 * @param {string} $context Where it is being rendered: list, detail or step
+							 *
+							 * @returns {string} Markup to show in place of the register button
+							 */
+							echo apply_filters( 'latepoint_event_sold_out_action_html', $sold_out_action_html, $event, 'list' );
+							?>
+							<?php // has_capacity_limit(), not the column: a tiered event keeps its own capacity at 0. ?>
+							<?php if ( $show_seats_left && $event->has_capacity_limit() ) : ?>
+								<div class="latepoint-event-seats-left latepoint-event-seats-full">
+									<?php
+									$full_label_html = '<span class="latepoint-event-full-label">' . esc_html__( 'Full', 'latepoint' ) . '</span>';
+									/**
+									 * Filters the availability text on a full event's card, shown in place of "N spot(s) remaining"
+									 *
+									 * @since 5.7.0
+									 * @hook latepoint_event_full_label_html
+									 *
+									 * @param {string} $full_label_html Default "Full" label markup
+									 * @param {OsEventModel} $event Event that is full
+									 *
+									 * @returns {string} Markup for the availability text
+									 */
+									echo apply_filters( 'latepoint_event_full_label_html', $full_label_html, $event );
+									?>
+								</div>
+							<?php endif; ?>
 						<?php elseif ( $event->is_registration_open() ) : ?>
 							<button class="latepoint-event-register-btn latepoint-btn latepoint-btn-primary"
 							        data-event-id="<?php echo esc_attr( (string) $event->id ); ?>">
 								<?php esc_html_e( 'Register Now', 'latepoint' ); ?>
 							</button>
+							<?php
+							/**
+							 * Plug after the register button, for the part of an event that is full while the rest still sells
+							 *
+							 * @since 5.7.0
+							 * @hook latepoint_event_register_action_after
+							 *
+							 * @param {OsEventModel} $event Event being rendered
+							 * @param {string} $context Where it is being rendered: list or detail
+							 *
+							 */
+							do_action( 'latepoint_event_register_action_after', $event, 'list' );
+							?>
 							<?php if ( $show_seats_left && $event->has_capacity_limit() ) : ?>
 								<div class="latepoint-event-seats-left">
 									<?php

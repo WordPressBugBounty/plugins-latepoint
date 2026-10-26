@@ -418,20 +418,21 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$customer        = $customer_model->where( [ 'email' => sanitize_email( $this->params['password_reset_email'] ) ] )->set_limit( 1 )->get_results_as_models();
 				$customer_mailer = new OsCustomerMailer();
 
-				if ( $customer ) {
+				$token_created_at = $customer ? OsMetaHelper::get_customer_meta_by_key( 'password_reset_token_created_at', $customer->id ) : '';
+				// Keep a still valid token so a repeat request does not void the one already emailed.
+				$has_active_token = ! empty( $token_created_at ) && ( current_time( 'timestamp' ) - intval( $token_created_at ) ) <= 900;
+
+				if ( $customer && ! $has_active_token ) {
 					$customer->account_nonse = sha1( wp_rand( 10000, 99999 ) . time() . wp_generate_password( 32, true, true ) );
 					$customer->save();
 				}
 
-				if ( $customer && $customer_mailer->password_reset_request( $customer, $customer->account_nonse ) ) {
+				if ( $customer && $customer_mailer->password_reset_request( $customer, $customer->account_nonse ) && ! $has_active_token ) {
 					// Save timestamp for token expiration tracking (Unix timestamp for consistency)
 					OsMetaHelper::save_customer_meta_by_key( 'password_reset_token_created_at', current_time( 'timestamp' ), $customer->id );
-					return $this->format_render_return( 'password_reset_form' );
-				} else {
-					$this->vars['reset_token_error'] = ( $customer ) ? __( 'Error! Email was not sent.', 'latepoint' ) : __( 'Email does not match any customer', 'latepoint' );
-
-					return $this->format_render_return( __FUNCTION__ );
 				}
+
+				return $this->format_render_return( 'password_reset_form' );
 			} else {
 				return $this->format_render_return( __FUNCTION__ );
 			}

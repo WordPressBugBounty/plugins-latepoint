@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class=" <?php echo $in_lightbox ? 'latepoint-lightbox-content invoice-payment-summary-wrapper' : 'clean-layout-content-body is-dotted'; ?>">
         <div class="invoice-due-amount-wrapper">
             <div class="invoice-due-amount-inner">
-                <div class="id-amount"><?php echo OsMoneyHelper::format_price($invoice->charge_amount, true, false); ?></div>
+                <div class="id-amount"><?php echo OsMoneyHelper::format_price($invoice->get_amount_due(), true, false); ?></div>
                 <div class="id-sub-info">
                     <?php esc_html_e('Order:', 'latepoint'); ?>
                     <a href="<?php echo $order->manage_by_key_url('customer') ?>" target="_blank"><span><?php echo $order->confirmation_code; ?></span><i class="latepoint-icon latepoint-icon-external-link"></i></a>
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                     <?php } ?>
                 </div>
             </div>
-            <?php if($invoice->status == LATEPOINT_INVOICE_STATUS_OPEN){ ?>
+            <?php if($invoice->status == LATEPOINT_INVOICE_STATUS_OPEN && $invoice->get_amount_due() > 0){ ?>
                 <a href="#"
                    data-os-params="<?php echo esc_attr( http_build_query( [ 'key' => $invoice->access_key, 'in_lightbox' => ($in_lightbox ? 'yes' : 'no') ] ) ); ?>"
                    data-os-action="<?php echo esc_attr( OsRouterHelper::build_route_name( 'invoices', 'payment_form' ) ); ?>"

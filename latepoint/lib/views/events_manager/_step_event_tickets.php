@@ -48,6 +48,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 				// Quantity selector
 				$max_qty = $event->has_capacity_limit() ? min( $event->get_available_capacity(), 10 ) : 10;
 				$max_qty = max( 1, $max_qty );
+				/**
+				 * Filters the largest quantity this step will offer, by default the remaining capacity capped at 10
+				 *
+				 * @since 5.7.0
+				 * @hook latepoint_event_tickets_step_max_qty
+				 *
+				 * @param {int} $max_qty Default maximum quantity
+				 * @param {OsEventModel} $event Event being registered for
+				 *
+				 * @returns {int} The maximum quantity to offer
+				 */
+				$filtered_max_qty = (int) apply_filters( 'latepoint_event_tickets_step_max_qty', $max_qty, $event );
+				$max_qty          = max( 1, $filtered_max_qty );
 				?>
 				<div class="event-ticket-selector-w">
 					<div class="event-ticket-selector-label">

@@ -74,6 +74,7 @@ class OsAnalyticsHelper {
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated' ] );
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_payment_state' ] );
 		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_events_state' ] );
+		add_action( 'latepoint_update_after', [ __CLASS__, 'on_plugin_updated_integrations_state' ] );
 
 		// Event hooks.
 		add_action( 'latepoint_onboarding_started', [ __CLASS__, 'on_onboarding_started' ] );
@@ -82,7 +83,9 @@ class OsAnalyticsHelper {
 		add_action( 'activated_plugin', [ __CLASS__, 'on_pro_addon_activated' ] );
 		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_payment_processors_connected' ] );
 		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_events_functionality_toggled' ] );
+		add_action( 'latepoint_settings_updated', [ __CLASS__, 'on_integrations_connected' ] );
 		add_action( 'latepoint_booking_created',   [ __CLASS__, 'on_first_booking_created' ], 15 );
+		add_action( 'latepoint_booking_created',   [ __CLASS__, 'on_first_recurring_booking_created' ], 15 );
 		add_action( 'latepoint_service_saved',     [ __CLASS__, 'on_first_service_created' ], 15, 2 );
 		add_action( 'latepoint_agent_saved',       [ __CLASS__, 'on_first_agent_created' ], 15, 2 );
 		add_action( 'latepoint_process_created',   [ __CLASS__, 'on_first_process_created' ], 15 );
@@ -180,6 +183,20 @@ class OsAnalyticsHelper {
 		}
 		update_option( 'latepoint_first_booking_created', LATEPOINT_VERSION, false );
 		self::events()->track( 'first_booking_created', LATEPOINT_VERSION );
+	}
+
+	/**
+	 * Track first_recurring_booking_created event. Called via latepoint_booking_created hook.
+	 *
+	 * @param OsBookingModel $booking The booking that was just created.
+	 * @return void
+	 */
+	public static function on_first_recurring_booking_created( $booking ) {
+		if ( empty( $booking->recurrence_id ) || get_option( 'latepoint_first_recurring_booking_created' ) ) {
+			return;
+		}
+		update_option( 'latepoint_first_recurring_booking_created', LATEPOINT_VERSION, false );
+		self::events()->track( 'first_recurring_booking_created', LATEPOINT_VERSION );
 	}
 
 	/**
@@ -416,6 +433,70 @@ class OsAnalyticsHelper {
 
 		if ( isset( $settings['enable_events_functionality'] ) && 'on' === $settings['enable_events_functionality'] ) {
 			self::events()->track( 'events_functionality_enabled', LATEPOINT_VERSION, [], true );
+		}
+	}
+
+	/**
+	 * Track a *_connected state snapshot for each enabled entry in an integrations list.
+	 *
+	 * @param array<int, array<string, mixed>> $integrations List of ['code' => ..., ...] entries.
+	 * @param callable                         $is_enabled    Receives a code, returns bool.
+	 * @return void
+	 */
+	private static function track_connected_integrations( array $integrations, callable $is_enabled ) {
+		foreach ( $integrations as $integration ) {
+			$code = $integration['code'] ?? '';
+			if ( $code && $is_enabled( $code ) ) {
+				self::events()->track( $code . '_connected', LATEPOINT_VERSION, [], true );
+			}
+		}
+	}
+
+	/**
+	 * Capture current external integrations state (calendars, meeting systems, marketing systems)
+	 * on plugin update. Reads from DB settings, not from a form submission.
+	 *
+	 * @return void
+	 */
+	public static function on_plugin_updated_integrations_state() {
+		if ( ! class_exists( 'OsSettingsHelper' ) ) {
+			return;
+		}
+
+		if ( class_exists( 'OsCalendarHelper' ) ) {
+			self::track_connected_integrations( OsCalendarHelper::get_list_of_external_calendars(), [ 'OsCalendarHelper', 'is_external_calendar_enabled' ] );
+		}
+		if ( class_exists( 'OsMeetingSystemsHelper' ) ) {
+			self::track_connected_integrations( OsMeetingSystemsHelper::get_list_of_external_meeting_systems(), [ 'OsMeetingSystemsHelper', 'is_external_meeting_system_enabled' ] );
+		}
+		if ( class_exists( 'OsMarketingSystemsHelper' ) ) {
+			self::track_connected_integrations( OsMarketingSystemsHelper::get_list_of_external_marketing_systems(), [ 'OsMarketingSystemsHelper', 'is_external_marketing_system_enabled' ] );
+		}
+	}
+
+	/**
+	 * Handle external integrations connected event.
+	 *
+	 * @param array<mixed> $settings Settings array.
+	 * @return void
+	 */
+	public static function on_integrations_connected( $settings ) {
+		if ( ! is_array( $settings ) ) {
+			return;
+		}
+
+		$is_enabled_in_settings = function ( $code ) use ( $settings ) {
+			return isset( $settings[ 'enable_' . $code ] ) && 'on' === $settings[ 'enable_' . $code ];
+		};
+
+		if ( class_exists( 'OsCalendarHelper' ) ) {
+			self::track_connected_integrations( OsCalendarHelper::get_list_of_external_calendars(), $is_enabled_in_settings );
+		}
+		if ( class_exists( 'OsMeetingSystemsHelper' ) ) {
+			self::track_connected_integrations( OsMeetingSystemsHelper::get_list_of_external_meeting_systems(), $is_enabled_in_settings );
+		}
+		if ( class_exists( 'OsMarketingSystemsHelper' ) ) {
+			self::track_connected_integrations( OsMarketingSystemsHelper::get_list_of_external_marketing_systems(), $is_enabled_in_settings );
 		}
 	}
 

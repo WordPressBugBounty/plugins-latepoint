@@ -1642,7 +1642,10 @@ class OsBookingHelper {
 				$stat_query = 'SUM(end_time - start_time)';
 				break;
 			case 'price':
-				$stat_query = 'sum(' . LATEPOINT_TABLE_ORDER_ITEMS . '.total)';
+				// A bundle purchase creates one order item shared by several bookings; for bundle items
+				// only, divide the total by the number of non-cancelled bookings on that item so revenue
+				// isn't counted per session. Non-bundle order items are unaffected (always 1 booking each).
+				$stat_query = 'sum(CASE WHEN ' . LATEPOINT_TABLE_ORDER_ITEMS . '.variant = \'' . LATEPOINT_ITEM_VARIANT_BUNDLE . '\' THEN ' . LATEPOINT_TABLE_ORDER_ITEMS . '.total / (SELECT COUNT(*) FROM ' . $bookings->table_name . ' AS lp_sibling_bookings WHERE lp_sibling_bookings.order_item_id = ' . $bookings->table_name . '.order_item_id AND lp_sibling_bookings.status != \'' . LATEPOINT_BOOKING_STATUS_CANCELLED . '\') ELSE ' . LATEPOINT_TABLE_ORDER_ITEMS . '.total END)';
 				$bookings->join( LATEPOINT_TABLE_ORDER_ITEMS, [ 'id' => $bookings->table_name . '.order_item_id' ] );
 				$bookings->join( LATEPOINT_TABLE_ORDERS, [ 'id' => LATEPOINT_TABLE_ORDER_ITEMS . '.order_id' ] );
 				break;

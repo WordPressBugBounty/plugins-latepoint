@@ -343,6 +343,12 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				exit;
 			}
 
+			$amount_due = $invoice->get_amount_due();
+			if ( $amount_due <= 0 ) {
+				echo esc_html__( 'This invoice has no balance due', 'latepoint' );
+				exit;
+			}
+
 			$errors = [];
 			$order  = $invoice->get_order();
 
@@ -362,7 +368,7 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 				$transaction_intent = new OsTransactionIntentModel();
 			}
 
-			$transaction_intent->charge_amount = $invoice->charge_amount;
+			$transaction_intent->charge_amount = OsMoneyHelper::pad_to_db_format( $amount_due );
 			$transaction_intent->invoice_id    = $invoice->id;
 			$transaction_intent->order_id      = $order->id;
 			$transaction_intent->customer_id   = $order->customer_id;

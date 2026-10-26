@@ -326,9 +326,10 @@ if ( ! $is_new && current_user_can( 'manage_options' ) ) {
 			</div>
 
 			<?php
-			// Pro's Ticket Types addon listens on this action when active.
+			// Pro's Ticket Types and Waiting List addons listen on this action when active.
 			if ( ! defined( 'LATEPOINT_ADDON_PRO_VERSION' ) ) {
 				OsEventsHooksHelper::output_ticket_types_upsell( $event );
+				OsEventsHooksHelper::output_waiting_list_upsell( $event );
 			}
 			/**
 			 * Fires after the event form's main sections, before the save buttons.
@@ -371,6 +372,7 @@ if ( ! $is_new && current_user_can( 'manage_options' ) ) {
 				<div><a href="#stickySectionDateTime"><?php esc_html_e( 'Date & Time', 'latepoint' ); ?></a></div>
 				<div><a href="#stickySectionCapacity"><?php esc_html_e( 'Capacity & Pricing', 'latepoint' ); ?></a></div>
 				<div><a href="#stickySectionTicketTypes"><?php esc_html_e( 'Ticket Types', 'latepoint' ); ?></a></div>
+				<div><a href="#stickySectionWaitingList"><?php esc_html_e( 'Waiting List', 'latepoint' ); ?></a></div>
 				<?php
 				/**
 				 * Sticky menu items links for the event edit form

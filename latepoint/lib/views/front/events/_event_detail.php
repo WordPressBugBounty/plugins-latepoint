@@ -114,7 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<span class="latepoint-icon latepoint-icon-users"></span>
 						<div>
 							<?php $available = $event->get_available_capacity(); ?>
-							<?php if ( $available <= 0 ) : ?>
+							<?php if ( $event->is_sold_out() ) : ?>
 								<span class="latepoint-event-sold-out"><?php esc_html_e( 'Sold Out', 'latepoint' ); ?></span>
 							<?php else : ?>
 								<?php
@@ -132,14 +132,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<!-- CTA -->
 				<div class="latepoint-event-detail-cta">
 					<?php if ( $event->is_sold_out() ) : ?>
-						<button class="latepoint-event-sold-out latepoint-btn latepoint-btn-secondary" disabled>
-							<?php esc_html_e( 'Sold Out', 'latepoint' ); ?>
-						</button>
+						<?php
+						$sold_out_action_html = '<button class="latepoint-event-sold-out latepoint-btn latepoint-btn-secondary" disabled>' . esc_html__( 'Sold Out', 'latepoint' ) . '</button>';
+						/** This filter is documented in lib/views/front/events/_events_list.php */
+						echo apply_filters( 'latepoint_event_sold_out_action_html', $sold_out_action_html, $event, 'detail' );
+						?>
 					<?php elseif ( $event->is_registration_open() ) : ?>
 						<button class="latepoint-event-register-btn latepoint-btn latepoint-btn-primary"
 						        data-event-id="<?php echo esc_attr( (string) $event->id ); ?>">
 							<?php esc_html_e( 'Register Now', 'latepoint' ); ?>
 						</button>
+						<?php
+						/** This action is documented in lib/views/front/events/_events_list.php */
+						do_action( 'latepoint_event_register_action_after', $event, 'detail' );
+						?>
 					<?php else : ?>
 						<button class="latepoint-event-unavailable latepoint-btn latepoint-btn-secondary" disabled>
 							<?php esc_html_e( 'Registration Closed', 'latepoint' ); ?>

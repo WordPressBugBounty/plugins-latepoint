@@ -297,6 +297,14 @@ function latepoint_remove_coupon($elem) {
 function latepoint_restart_booking_process($booking_form_element) {
     // first first step
     let first_step_code = $booking_form_element.find('.latepoint-step-content').first().data('step-code');
+    if (!$booking_form_element.find('.latepoint-step-content[data-step-code^="booking__"]').length) {
+        // presets removed every booking step, so there is none rendered to rewind to - drop the presets
+        // that described the removed item and restart from the top of the booking process
+        latepoint_clear_presets($booking_form_element);
+        latepoint_reset_active_cart_item($booking_form_element);
+        $booking_form_element.find('.latepoint-step-content').remove();
+        first_step_code = 'booking';
+    }
     latepoint_reload_step($booking_form_element, first_step_code);
     return false;
 }

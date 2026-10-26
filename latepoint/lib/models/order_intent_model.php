@@ -225,6 +225,13 @@ class OsOrderIntentModel extends OsModel {
 			return $this->order_id;
 		}
 
+		if ( empty( json_decode( (string) $this->cart_items_data, true ) ) ) {
+			// an item-less intent must never become an empty $0 order
+			$this->add_error( 'empty_cart', __( 'Your cart is empty, please add an item before checking out.', 'latepoint' ) );
+
+			return false;
+		}
+
 		if ( $this->is_processing() ) {
 
 			$this->wait_for_transaction_completion();

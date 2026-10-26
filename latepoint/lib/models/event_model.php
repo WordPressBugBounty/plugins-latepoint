@@ -291,7 +291,20 @@ if ( ! class_exists( 'OsEventModel' ) ) :
 				return false;
 			}
 
-			return $this->get_available_capacity() <= 0;
+			$is_sold_out = $this->get_available_capacity() <= 0;
+
+			/**
+			 * Filters whether the event should be presented as full
+			 *
+			 * @since 5.7.0
+			 * @hook latepoint_event_is_sold_out
+			 *
+			 * @param {bool} $is_sold_out Whether capacity alone says the event is full
+			 * @param {OsEventModel} $event Event being checked
+			 *
+			 * @returns {bool} Whether the event should be presented as full
+			 */
+			return (bool) apply_filters( 'latepoint_event_is_sold_out', $is_sold_out, $this );
 		}
 
 		public function is_registration_open(): bool {
