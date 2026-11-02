@@ -2,10 +2,15 @@
 
     jQuery.fn.lateSelect = function() {
 
+      // .text() decodes entities, so re-escape option text and values before building HTML from them
+      function os_escape_html(str){
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
       function os_build_selected_item($option){
         var quantity_html = '';
         if($option.data('quantity')) quantity_html = '<span class="os-late-quantity-selector-w"><span class="os-late-quantity-selector minus" data-sign="minus"></span><input class="os-late-quantity-selector-input" type="text" data-max-quantity="'+ $option.data('max-quantity') +'" value="' + $option.data('quantity') + '"/><span class="os-late-quantity-selector plus" data-sign="plus"></span></span>';
-        return '<div class="ls-item" data-value="' + $option.val() + '"><span class="latepoint-icon latepoint-icon-cross ls-item-remover"></span><span>' + $option.text() + '</span>' + quantity_html + '</div>'
+        return '<div class="ls-item" data-value="' + os_escape_html($option.val()) + '"><span class="latepoint-icon latepoint-icon-cross ls-item-remover"></span><span>' + os_escape_html($option.text()) + '</span>' + quantity_html + '</div>'
       }
 
       this.each( function() {
@@ -18,7 +23,7 @@
           jQuery(this).find('option').each(function(){
               if(jQuery(this).is(':selected')) selected_items+= os_build_selected_item(jQuery(this));
               is_selected = jQuery(this).is(':selected') ? 'selected' : '';
-              all_items+= '<div class="ls-item '+ is_selected +'" data-value="' + jQuery(this).val() + '">' + jQuery(this).text() + '</div>';
+              all_items+= '<div class="ls-item '+ is_selected +'" data-value="' + os_escape_html(jQuery(this).val()) + '">' + os_escape_html(jQuery(this).text()) + '</div>';
           });
           var placeholder = '<div class="ls-placeholder">' + jQuery(this).data('placeholder') + '</div>';
           lateselect_html = jQuery('<div class="lateselect-w"></div>');

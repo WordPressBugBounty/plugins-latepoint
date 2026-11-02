@@ -14,7 +14,7 @@ if($customers){
             <i class="latepoint-icon latepoint-icon-info"></i>
             <div>
                 <div><?php echo sprintf(__('There are customers with identical %s, you need to fix these, otherwise they will not be able to make bookings:', 'latepoint'), $field_name); ?></div>
-                <div class="latepoint-fix-records-values"><?php echo implode(', ', $customers_violating_auth_rules['values']); ?></div>
+                <div class="latepoint-fix-records-values"><?php echo esc_html(implode(', ', $customers_violating_auth_rules['values'])); ?></div>
             </div>
         </div>
         <?php

@@ -141,7 +141,7 @@ class ProcessAction {
 	}
 
 	public static function generate_form( ProcessAction $action, string $process_id = '' ): string {
-		$descriptive_setting = $action->get_descriptive_setting() ? '<div class="process-action-descriptive-setting">' . $action->get_descriptive_setting() . '</div>' : '';
+		$descriptive_setting = $action->get_descriptive_setting() ? '<div class="process-action-descriptive-setting">' . esc_html( $action->get_descriptive_setting() ) . '</div>' : '';
 		$html                = '<div class="process-action-form pa-type-' . $action->type . ' pa-status-' . $action->status . '" data-id="' . $action->id . '">';
 			$html           .= '<div class="process-action-heading">
 								<div class="process-action-status"></div>

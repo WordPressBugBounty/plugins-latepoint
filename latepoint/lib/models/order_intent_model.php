@@ -163,6 +163,12 @@ class OsOrderIntentModel extends OsModel {
 					}
 					break;
 				case LATEPOINT_ITEM_VARIANT_BUNDLE:
+					$bundle = $cart_item->build_original_object_from_item_data();
+					if ( ! ( $bundle instanceof OsBundleModel ) || $bundle->is_new_record() || ! $bundle->is_active() || $bundle->is_hidden() ) {
+						$this->add_error( 'send_to_step', __( 'Selected bundle is not available.', 'latepoint' ), 'booking__services' );
+
+						return false;
+					}
 					break;
 				case LATEPOINT_ITEM_VARIANT_EVENT_REGISTRATION:
 					if ( OsEventsManagerHelper::resolve_item_quantity( $cart_item->item_data ) < 1 ) {

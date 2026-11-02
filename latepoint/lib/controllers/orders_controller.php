@@ -159,8 +159,11 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 			}
 
 			if ( $can_modify_customer ) {
-				// Set customer data only if is allowed. Prevent mass assignment of wordpress_user_id.
-				// Use admin scope for backend panel users (admin, agent, custom roles), otherwise restrict to public fields
+				// Only a full admin may mass-assign the WP account link or password. Strip them for agents and
+				// custom roles: neither is a customer-form field, and the WP link is set via the dedicated connect action.
+				if ( is_array( $customer_params ) && ! OsAuthHelper::is_admin_logged_in() ) {
+					unset( $customer_params['wordpress_user_id'], $customer_params['password'] );
+				}
 				$customer->set_data( $customer_params, OsAuthHelper::get_current_user()->has_backend_access() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 				if ( $customer->save() ) {
 					if ( $is_new_customer ) {
@@ -319,7 +322,12 @@ if ( ! class_exists( 'OsOrdersController' ) ) :
 					foreach ( $this->params['transactions'] as $transaction_params ) {
 						if ( ! empty( $transaction_params['id'] ) && filter_var( $transaction_params['id'], FILTER_VALIDATE_INT ) ) {
 							// update existing transaction
-							$transaction        = new OsTransactionModel( $transaction_params['id'] );
+							$transaction = new OsTransactionModel( $transaction_params['id'] );
+							// A transaction can only be edited through the order it already belongs to.
+							// Ignore an id that points at another order to prevent cross-order reassignment.
+							if ( ! $transaction->is_new_record() && ! empty( $transaction->order_id ) && ( (int) $transaction->order_id !== (int) $order->id ) ) {
+								continue;
+							}
 							$is_new_transaction = false;
 						} else {
 							// new transaction

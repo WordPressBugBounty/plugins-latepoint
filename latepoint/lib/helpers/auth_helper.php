@@ -170,7 +170,7 @@ class OsAuthHelper {
 
 	public static function check_login_rate_limit( string $contact_value, string $contact_type ): bool {
 		// Per-contact check
-		$contact_key = self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type );
+		$contact_key = self::get_login_rate_limit_key( 'contact', self::normalize_login_contact( $contact_value, $contact_type ) . '::' . $contact_type );
 		$attempts    = absint( get_transient( $contact_key ) );
 		if ( $attempts >= self::$max_login_attempts_per_contact ) {
 			OsDebugHelper::log(
@@ -202,7 +202,7 @@ class OsAuthHelper {
 		$lockout_duration = self::$login_lockout_minutes * MINUTE_IN_SECONDS;
 		$client_ip        = OsUtilHelper::get_user_ip();
 
-		$contact_key = self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type );
+		$contact_key = self::get_login_rate_limit_key( 'contact', self::normalize_login_contact( $contact_value, $contact_type ) . '::' . $contact_type );
 		$attempts    = absint( get_transient( $contact_key ) );
 		set_transient( $contact_key, $attempts + 1, $lockout_duration );
 
@@ -214,7 +214,7 @@ class OsAuthHelper {
 	}
 
 	public static function clear_login_rate_limits( string $contact_value, string $contact_type ): void {
-		delete_transient( self::get_login_rate_limit_key( 'contact', $contact_value . '::' . $contact_type ) );
+		delete_transient( self::get_login_rate_limit_key( 'contact', self::normalize_login_contact( $contact_value, $contact_type ) . '::' . $contact_type ) );
 
 		$client_ip = OsUtilHelper::get_user_ip();
 		if ( ! empty( $client_ip ) && $client_ip !== 'n/a' ) {
@@ -224,6 +224,18 @@ class OsAuthHelper {
 
 	private static function get_login_rate_limit_key( string $type, string $identifier ): string {
 		return 'latepoint_login_' . $type . '_' . substr( wp_hash( $identifier ), 0, 20 );
+	}
+
+	// Mirror the login lookup's normalization so every variant of one account shares a counter.
+	private static function normalize_login_contact( string $contact_value, string $contact_type ): string {
+		switch ( $contact_type ) {
+			case 'email':
+				return strtolower( sanitize_email( $contact_value ) );
+			case 'phone':
+				return OsUtilHelper::sanitize_phone_number( $contact_value );
+			default:
+				return strtolower( trim( $contact_value ) );
+		}
 	}
 
 	public static function can_wp_users_login_as_customers(): bool {

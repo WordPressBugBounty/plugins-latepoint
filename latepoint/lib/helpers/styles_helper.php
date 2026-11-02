@@ -98,7 +98,8 @@ class OsStylesHelper {
 				];
 				break;
 			case 'custom':
-				$custom_primary_color = OsSettingsHelper::get_settings_value( 'custom_brand_primary_color', '#000000' );
+				// Printed inside an inline <style>; only a hex colour may reach it (same as the white-label colour).
+				$custom_primary_color = sanitize_hex_color( OsSettingsHelper::get_settings_value( 'custom_brand_primary_color', '#000000' ) ) ?: '#000000';
 
 				$override_css_variables = [
 					'--latepoint-brand-primary'           => $custom_primary_color,

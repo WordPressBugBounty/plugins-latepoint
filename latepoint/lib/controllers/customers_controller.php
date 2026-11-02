@@ -191,10 +191,14 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 
 		public function create() {
 			$this->check_nonce( 'new_customer' );
-			$customer = new OsCustomerModel();
-			// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
-			// Use admin scope for backend panel users (admin, agent, custom roles), otherwise restrict to public fields.
-			$customer->set_data( $this->params['customer'], OsAuthHelper::get_current_user()->has_backend_access() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
+			$customer        = new OsCustomerModel();
+			$customer_params = is_array( $this->params['customer'] ) ? $this->params['customer'] : [];
+			// Only a full admin may mass-assign the WP account link or password. Strip them for agents and
+			// custom roles: neither is a customer-form field, and the WP link is set via the dedicated connect action.
+			if ( ! OsAuthHelper::is_admin_logged_in() ) {
+				unset( $customer_params['wordpress_user_id'], $customer_params['password'] );
+			}
+			$customer->set_data( $customer_params, OsAuthHelper::get_current_user()->has_backend_access() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 			if ( $customer->save() ) {
 				// translators: %s is the html of a customer edit link
 				$response_html = sprintf( __( 'Customer Created ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );
@@ -228,9 +232,13 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 					$status        = LATEPOINT_STATUS_ERROR;
 				} else {
 					$old_customer_data = $customer->get_data_vars();
-					// Security fix: Prevent mass assignment of wordpress_user_id by non-admin users.
-					// Use admin scope for backend panel users (admin, agent, custom roles), otherwise restrict to public fields.
-					$customer->set_data( $this->params['customer'], OsAuthHelper::get_current_user()->has_backend_access() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
+					$customer_params   = is_array( $this->params['customer'] ) ? $this->params['customer'] : [];
+					// Only a full admin may mass-assign the WP account link or password. Strip them for agents and
+					// custom roles: neither is a customer-form field, and the WP link is set via the dedicated connect action.
+					if ( ! OsAuthHelper::is_admin_logged_in() ) {
+						unset( $customer_params['wordpress_user_id'], $customer_params['password'] );
+					}
+					$customer->set_data( $customer_params, OsAuthHelper::get_current_user()->has_backend_access() ? LATEPOINT_PARAMS_SCOPE_ADMIN : LATEPOINT_PARAMS_SCOPE_PUBLIC );
 					if ( $customer->save() ) {
 						// translators: %s is the html of a customer edit link
 						$response_html = sprintf( __( 'Customer Updated ID: %s', 'latepoint' ), '<span class="os-notification-link" ' . OsCustomerHelper::quick_customer_btn_html( $customer->id ) . '>' . $customer->id . '</span>' );
@@ -320,7 +328,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$this->check_nonce( 'connect_all_customers_to_wp_users' );
 
 			$customers = new OsCustomerModel();
-			$customers = $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->get_results_as_models();
+			$customers = $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->filter_allowed_records()->get_results_as_models();
 			if ( $customers ) {
 				foreach ( $customers as $customer ) {
 					$wp_user_id = OsCustomerHelper::create_wp_user_for_customer( $customer );

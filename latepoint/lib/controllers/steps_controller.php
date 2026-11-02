@@ -185,7 +185,9 @@ if ( ! class_exists( 'OsStepsController' ) ) :
 
 
 		public function start_from_order_intent() {
-			$order_intent = OsOrderIntentHelper::get_order_intent_by_intent_key( $this->params['order_intent_key'] );
+			// Intent key is a hex token - a value with spaces/operators (e.g. "IS NOT NULL") is never valid.
+			$order_intent_key = sanitize_text_field( $this->params['order_intent_key'] ?? '' );
+			$order_intent     = ( is_string( $order_intent_key ) && ctype_alnum( $order_intent_key ) ) ? OsOrderIntentHelper::get_order_intent_by_intent_key( $order_intent_key ) : new OsOrderIntentModel();
 
 			if ( ! $order_intent->is_new_record() ) {
 				$step_codes_to_preload = [];

@@ -492,7 +492,10 @@ if ( ! class_exists( 'OsCustomerCabinetController' ) ) :
 				$customer = OsAuthHelper::get_logged_in_customer();
 			} elseif ( ! empty( $params['password_reset_token'] ) ) {
 				$params['password_reset_token'] = sanitize_text_field( $params['password_reset_token'] );
-				$customer                       = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
+				// Reset token is a hex key - a value with spaces/operators (e.g. "IS NOT NULL") is never valid.
+				if ( is_string( $params['password_reset_token'] ) && ctype_alnum( $params['password_reset_token'] ) ) {
+					$customer = OsCustomerHelper::get_by_account_nonse( $params['password_reset_token'] );
+				}
 
 				// Validate token expiration (15 minutes)
 				if ( $customer ) {

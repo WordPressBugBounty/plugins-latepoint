@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointment booking, booking system, appointment scheduling, event booking system, scheduling
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.7.6
+Stable tag: 5.7.7
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -408,6 +408,16 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.7.7 - November 02, 2026 =
+  - Improvements
+    - Greyed out the Time Left countdown for cancelled appointments in the Bookings list so they no longer look like upcoming ones.
+
+  - Fixes
+    - Fixed the Booking Form "Change Order" modal failing to save a new step order when Events is enabled.
+
+  - Security
+    - Hardened the security of the plugin. Props to WordFence for reporting it.
 
 = 5.7.6 - October 26, 2026 =
   - New

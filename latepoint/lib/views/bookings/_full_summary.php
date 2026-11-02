@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="booking-status-info-wrapper status-<?php echo esc_attr($booking->status); ?>">
     <div class="booking-status-icon"></div>
-    <div class="booking-status-label"><?php echo $booking->get_nice_status(); ?></div>
+    <div class="booking-status-label"><?php echo esc_html( $booking->get_nice_status() ); ?></div>
     <div class="booking-confirmation"><?php echo sprintf(esc_html__('Order #%s', 'latepoint'), '<strong>'.$booking->order->confirmation_code.'</strong>'); ?></div>
 </div>
 <div class="full-summary-wrapper">

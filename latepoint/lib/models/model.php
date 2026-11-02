@@ -205,6 +205,44 @@ class OsModel {
 		return $this;
 	}
 
+	/**
+	 * Marker objects for SQL IS NULL / IS NOT NULL comparisons used as a WHERE value.
+	 * Request values are always strings/arrays, so they can never be identical (===) to
+	 * these objects. where_null()/where_not_null() use them so a NULL comparison can be
+	 * expressed without relying on the literal 'IS NULL'/'IS NOT NULL' string.
+	 */
+	public static function null_condition() {
+		static $marker = null;
+		if ( null === $marker ) {
+			$marker = (object) array( 'latepoint_sql_null' => true );
+		}
+
+		return $marker;
+	}
+
+	public static function not_null_condition() {
+		static $marker = null;
+		if ( null === $marker ) {
+			$marker = (object) array( 'latepoint_sql_null' => false );
+		}
+
+		return $marker;
+	}
+
+	public function where_null( $column ) {
+		$condition        = array( $column => self::null_condition() );
+		$this->conditions = array_merge( $this->conditions, $condition );
+
+		return $this;
+	}
+
+	public function where_not_null( $column ) {
+		$condition        = array( $column => self::not_null_condition() );
+		$this->conditions = array_merge( $this->conditions, $condition );
+
+		return $this;
+	}
+
 	public function join( $table, $on_args, $type = '' ) {
 		$this->joins[] = [
 			'join_table'   => $table,
@@ -408,10 +446,10 @@ class OsModel {
 							$temp_query .= implode( ' ' . $condition_and_or . ' ', $sub_queries );
 							$temp_query .= ')';
 						}
-					} elseif ( $value === 'IS NULL' ) {
+					} elseif ( $value === 'IS NULL' || $value === self::null_condition() ) {
 						// IS NULL
 						$temp_query = $this->with_table_name( $column ) . ' IS NULL ';
-					} elseif ( $value === 'IS NOT NULL' ) {
+					} elseif ( $value === 'IS NOT NULL' || $value === self::not_null_condition() ) {
 						// IS NOT NULL
 						$temp_query = $this->with_table_name( $column ) . ' IS NOT NULL ';
 					} elseif ( is_array( $value ) && ! empty( $value ) ) {

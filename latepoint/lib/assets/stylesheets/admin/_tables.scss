@@ -38,6 +38,12 @@
         border-color: #eee;
       }
     }
+    &.is-cancelled .time-left {
+      background-color: #eee;
+      color: #777;
+      border-color: #eee;
+      animation: none;
+    }
   }
 }
 .os-table {

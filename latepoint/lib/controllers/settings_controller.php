@@ -184,8 +184,15 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 			$new_order = explode( ',', $this->params['steps_order'] );
 			$errors    = [];
 
+			$step_rules       = OsStepsHelper::get_step_codes_with_rules();
+			$all_step_codes   = OsStepsHelper::get_step_codes_in_order( true );
+			$modal_step_codes = apply_filters( 'latepoint_step_codes_for_order_modal', $all_step_codes );
+			foreach ( array_diff( $all_step_codes, $modal_step_codes ) as $hidden_step_code ) {
+				$new_order = OsStepsHelper::insert_step( $new_order, $hidden_step_code, $step_rules[ $hidden_step_code ] ?? [] );
+			}
+
 			if ( $new_order ) {
-				$errors = OsStepsHelper::check_steps_for_errors( $new_order, OsStepsHelper::get_step_codes_with_rules() );
+				$errors = OsStepsHelper::check_steps_for_errors( $new_order, $step_rules );
 				if ( empty( $errors ) ) {
 					OsStepsHelper::save_step_codes_in_order( $new_order );
 				}
@@ -481,6 +488,10 @@ if ( ! class_exists( 'OsSettingsController' ) ) :
 					$this->params['settings']['thousand_separator'] = '';
 				}
 				foreach ( $this->params['settings'] as $setting_name => $setting_value ) {
+					// Role and capability maps grant backend access; like the Roles screen, only WP admins may change them.
+					if ( in_array( $setting_name, [ 'custom_roles', 'agent_role_capabilities' ], true ) && ! current_user_can( 'manage_options' ) ) {
+						continue;
+					}
 					$setting       = new OsSettingsModel();
 					$setting       = $setting->load_by_name( $setting_name );
 					$is_new_record = $setting->is_new_record();

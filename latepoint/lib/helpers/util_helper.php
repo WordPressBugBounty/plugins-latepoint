@@ -262,7 +262,8 @@ class OsUtilHelper {
 	}
 
 	public static function is_valid_email( $email ) {
-		return filter_var( $email, FILTER_VALIDATE_EMAIL );
+		// is_email() rejects quoted local parts, which FILTER_VALIDATE_EMAIL lets carry HTML.
+		return is_email( (string) filter_var( $email, FILTER_VALIDATE_EMAIL ) );
 	}
 
 	public static function merge_default_atts( $defaults = [], $settings = [] ) {

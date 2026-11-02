@@ -367,10 +367,10 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 
 
 		public function login_customer_using_google_token() {
-			// Condition for pro compatibility. Remove later.
-			if ( isset( $this->params['nonce'] ) ) {
-				// Verify nonce.
-				$this->check_nonce( 'social_login_nonce', $this->params['nonce'] );
+			// Pro sends this nonce since 1.2.5; only an older Pro may omit it.
+			$legacy_pro = defined( 'LATEPOINT_ADDON_PRO_VERSION' ) && version_compare( LATEPOINT_ADDON_PRO_VERSION, '1.2.5', '<' );
+			if ( ! $legacy_pro || isset( $this->params['nonce'] ) ) {
+				$this->check_nonce( 'social_login_nonce', $this->params['nonce'] ?? '' );
 			}
 
 			$social_user = [];
@@ -382,10 +382,10 @@ if ( ! class_exists( 'OsAuthController' ) ) :
 		}
 
 		public function login_customer_using_facebook_token() {
-			// Condition for pro compatibility. Remove later.
-			if ( isset( $this->params['nonce'] ) ) {
-				// Verify nonce.
-				$this->check_nonce( 'social_login_nonce', $this->params['nonce'] );
+			// Pro sends this nonce since 1.2.5; only an older Pro may omit it.
+			$legacy_pro = defined( 'LATEPOINT_ADDON_PRO_VERSION' ) && version_compare( LATEPOINT_ADDON_PRO_VERSION, '1.2.5', '<' );
+			if ( ! $legacy_pro || isset( $this->params['nonce'] ) ) {
+				$this->check_nonce( 'social_login_nonce', $this->params['nonce'] ?? '' );
 			}
 
 			$social_user = [];

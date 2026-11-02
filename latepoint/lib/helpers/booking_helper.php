@@ -2280,7 +2280,8 @@ class OsBookingHelper {
 						$time_html = '<span class="time-left is-past">' . esc_html__( 'Past', 'latepoint' ) . '</span>';
 						break;
 				}
-				return '<td><span class="in-table-time-left">' . $time_html . '</span></td>';
+				$cancelled_class = ( $booking->status === LATEPOINT_BOOKING_STATUS_CANCELLED ) ? ' is-cancelled' : '';
+				return '<td><span class="in-table-time-left' . $cancelled_class . '">' . $time_html . '</span></td>';
 
 			case 'agent':
 				return '<td><div class="os-with-avatar">' .

@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					class="bf-side-desc os-editable-basic editable-setting"
 					data-setting-key="[<?php echo esc_attr( $selected_step_code ); ?>][side_panel_description]"
 				>
-					<?php echo strip_tags( OsStepsHelper::get_step_setting_value( $selected_step_code, 'side_panel_description' ), [ 'a', 'i', 'u', 'b', 'br' ] ); ?>
+					<?php echo wp_kses_post( strip_tags( OsStepsHelper::get_step_setting_value( $selected_step_code, 'side_panel_description' ), [ 'a', 'i', 'u', 'b', 'br' ] ) ); ?>
 				</div>
 			</div>
 			<div class="side-panel-extra os-editable editable-setting" data-setting-key="[shared][steps_support_text]">
