@@ -98,7 +98,7 @@ class OsLocationHelper {
 	public static function generate_locations_and_categories_list( $parent_id = false, $show_selected_locations = false ) {
 		$location_categories = new OsLocationCategoryModel();
 		$args                = array();
-		$args['parent_id']   = $parent_id ? $parent_id : 'IS NULL';
+		$args['parent_id']   = $parent_id ? $parent_id : OsModel::null_condition();
 		$location_categories = $location_categories->where( $args )->order_by( 'order_number asc' )->get_results_as_models();
 
 
@@ -298,14 +298,14 @@ class OsLocationHelper {
 		$location_model->name = __( 'Main Location', 'latepoint' );
 		if ( $location_model->save() ) {
 			$connector              = new OsConnectorModel();
-			$incomplete_connections = $connector->where( [ 'location_id' => 'IS NULL' ] )->get_results_as_models();
+			$incomplete_connections = $connector->where( [ 'location_id' => OsModel::null_condition() ] )->get_results_as_models();
 			if ( $incomplete_connections ) {
 				foreach ( $incomplete_connections as $incomplete_connection ) {
 					$incomplete_connection->update_attributes( [ 'location_id' => $location_model->id ] );
 				}
 			}
 			$bookings            = new OsBookingModel();
-			$incomplete_bookings = $bookings->where( [ 'location_id' => 'IS NULL' ] )->get_results_as_models();
+			$incomplete_bookings = $bookings->where( [ 'location_id' => OsModel::null_condition() ] )->get_results_as_models();
 			if ( $incomplete_bookings ) {
 				foreach ( $incomplete_bookings as $incomplete_booking ) {
 					$incomplete_booking->update_attributes( [ 'location_id' => $location_model->id ] );
@@ -320,7 +320,7 @@ class OsLocationHelper {
 	public static function generate_location_categories_list( $parent_id = false ) {
 		$location_categories = new OsLocationCategoryModel();
 		$args                = array();
-		$args['parent_id']   = $parent_id ? $parent_id : 'IS NULL';
+		$args['parent_id']   = $parent_id ? $parent_id : OsModel::null_condition();
 		$location_categories = $location_categories->where( $args )->order_by( 'order_number asc' )->get_results_as_models();
 		if ( ! is_array( $location_categories ) ) {
 			return;

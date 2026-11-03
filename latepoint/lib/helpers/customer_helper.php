@@ -206,7 +206,7 @@ class OsCustomerHelper {
 	public static function count_customers_not_connected_to_wp_users() {
 		$customers = new OsCustomerModel();
 
-		return $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->filter_allowed_records()->count();
+		return $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, OsModel::null_condition() ] ] ] )->filter_allowed_records()->count();
 	}
 
 	public static function get_by_contact( $contact_value, $contact_type ) {

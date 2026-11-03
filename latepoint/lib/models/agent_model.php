@@ -250,7 +250,7 @@ class OsAgentModel extends OsModel {
 				'agent_id'    => $this->id,
 				'service_id'  => 0,
 				'location_id' => $location_id,
-				'custom_date' => 'IS NULL',
+				'custom_date' => OsModel::null_condition(),
 			)
 		)->get_results_as_models();
 		if ( is_array( $work_periods ) ) {

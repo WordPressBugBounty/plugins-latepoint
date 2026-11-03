@@ -3,7 +3,7 @@ Contributors: latepoint
 Tags: appointment booking, booking system, appointment scheduling, event booking system, scheduling
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 5.7.7
+Stable tag: 5.7.8
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -408,6 +408,14 @@ LatePoint® is a registered trademark. Please use the following format when ment
 3. Make sure to disable caching on your customer cabinet page
 
 == Changelog ==
+
+= 5.7.8 - November 03, 2026 =
+  - Fixes
+    - Fixed invoice totals being multiplied when creating an invoice from an order while the Decimal Separator is set to a comma.
+    - Fixed opening an invoice link with an unrecognised access key returning a server error instead of an "Invoice not found" message.
+
+  - Security
+    - Addressed a security bug. Props to WordFence for reporting it.
 
 = 5.7.7 - November 02, 2026 =
   - Improvements

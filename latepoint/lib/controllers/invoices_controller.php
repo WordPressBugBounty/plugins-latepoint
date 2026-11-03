@@ -56,7 +56,9 @@ if ( ! class_exists( 'OsInvoicesController' ) ) :
 
 			$invoice_params['order_id']        = absint( sanitize_text_field( $this->params['invoice']['order_id'] ) );
 			$invoice_params['payment_portion'] = sanitize_text_field( $this->params['invoice']['payment_portion'] );
-			$invoice_params['charge_amount']   = OsParamsHelper::sanitize_param( sanitize_text_field( $this->params['invoice']['charge_amount'] ), 'money' );
+			// charge_amount is intentionally left un-converted here - OsInvoiceModel::set_data() converts it
+			// via params_to_sanitize(), converting it here too would run the money conversion twice.
+			$invoice_params['charge_amount'] = sanitize_text_field( $this->params['invoice']['charge_amount'] );
 
 			$errors = [];
 			if ( ! in_array( $invoice_params['payment_portion'], array_keys( OsPaymentsHelper::get_payment_portions_list() ) ) ) {

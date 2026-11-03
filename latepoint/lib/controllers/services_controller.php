@@ -119,7 +119,7 @@ if ( ! class_exists( 'OsServicesController' ) ) :
 					'category_id' => [
 						'OR' => [
 							0,
-							'IS NULL',
+							OsModel::null_condition(),
 						],
 					],
 				) 

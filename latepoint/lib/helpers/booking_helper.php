@@ -936,7 +936,7 @@ class OsBookingHelper {
 						[
 							'parent_id' => [
 								'OR' => [
-									'IS NULL',
+									OsModel::null_condition(),
 									' NOT IN' => $settings['show_service_categories_arr'],
 								],
 							],
@@ -948,7 +948,7 @@ class OsBookingHelper {
 			if ( $settings['preselected_category'] ) {
 				$service_categories->where( [ 'id' => $settings['preselected_category'] ] );
 			} else {
-				$args['parent_id'] = $parent_id ? $parent_id : 'IS NULL';
+				$args['parent_id'] = $parent_id ? $parent_id : OsModel::null_condition();
 			}
 		}
 		$service_categories = $service_categories->where( $args )->order_by( 'order_number asc' )->get_results_as_models();

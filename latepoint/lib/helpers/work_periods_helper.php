@@ -123,7 +123,7 @@ class OsWorkPeriodsHelper {
 					# custom date should be in range, or NULL
 					$query_args['AND'][] = [
 						'OR' => [
-							'custom_date' => 'IS NULL',
+							'custom_date' => OsModel::null_condition(),
 							'AND'         => [
 								'custom_date >=' => $filter->date_from,
 								'custom_date <=' => $filter->date_to,
@@ -138,11 +138,11 @@ class OsWorkPeriodsHelper {
 					$query_args['custom_date'] = $filter->date_from;
 				} else {
 					# custom date should match requested date or NULL
-					$query_args['custom_date']['OR'] = [ 'IS NULL', $filter->date_from ];
+					$query_args['custom_date']['OR'] = [ OsModel::null_condition(), $filter->date_from ];
 				}
 			}
 		} else {
-			$query_args['custom_date'] = 'IS NULL';
+			$query_args['custom_date'] = OsModel::null_condition();
 		}
 
 		$work_periods_model->where( $query_args )->order_by( 'custom_date DESC, agent_id DESC, service_id DESC, location_id DESC, start_time asc' );
@@ -349,7 +349,7 @@ class OsWorkPeriodsHelper {
 			if ( isset( $work_period_obj ) && $work_period_obj->custom_date ) {
 				$search_args['custom_date'] = $work_period_obj->custom_date;
 			} else {
-				$search_args['custom_date'] = 'IS NULL';
+				$search_args['custom_date'] = OsModel::null_condition();
 			}
 			$ids_in_db = OsWorkPeriodsHelper::get_periods_ids_by_args( $search_args );
 
@@ -445,7 +445,7 @@ class OsWorkPeriodsHelper {
 					'service_id'  => 0,
 					'location_id' => 0,
 				) 
-			)->where( array( 'custom_date' => 'IS NULL' ) )->group_by( 'week_day' )->get_results( ARRAY_A );
+			)->where( array( 'custom_date' => OsModel::null_condition() ) )->group_by( 'week_day' )->get_results( ARRAY_A );
 			if ( self::$existing_work_periods ) {
 				self::$existing_work_periods = array_map(
 					function ( $work_period ) {
@@ -509,7 +509,7 @@ class OsWorkPeriodsHelper {
 		$work_periods = new OsWorkPeriodModel();
 		$work_periods = $work_periods->where( $args )->where(
 			[
-				'custom_date'    => 'IS NOT NULL',
+				'custom_date'    => OsModel::not_null_condition(),
 				'custom_date >=' => OsTimeHelper::today_date(),
 				'OR'             => [
 					'start_time !=' => 0,
@@ -595,7 +595,7 @@ class OsWorkPeriodsHelper {
 					$work_periods_for_date       = $work_periods_for_date_model->where( $args )->where(
 						[
 							'custom_date' => $work_period->custom_date,
-							'chain_id'    => 'IS NULL', 
+							'chain_id'    => OsModel::null_condition(),
 							'OR'          => [
 								'start_time !=' => 0,
 								'end_time !='   => 0,
@@ -636,7 +636,7 @@ class OsWorkPeriodsHelper {
 		$work_periods = new OsWorkPeriodModel();
 		$work_periods = $work_periods->where( $args )->where(
 			[
-				'custom_date'    => 'IS NOT NULL',
+				'custom_date'    => OsModel::not_null_condition(),
 				'custom_date >=' => OsTimeHelper::today_date(),
 				'start_time'     => 0, 
 				'end_time'       => 0,

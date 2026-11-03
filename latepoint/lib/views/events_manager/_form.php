@@ -191,7 +191,9 @@ if ( ! $is_new && current_user_can( 'manage_options' ) ) {
 							<div class="os-form-group">
 								<label><?php esc_html_e( 'Event Schedule', 'latepoint' ); ?></label>
 								<?php if ( $is_new ) : ?>
-									<p class="description"><?php esc_html_e( 'Save this event first, then you can add its date/time schedule.', 'latepoint' ); ?></p>
+									<div class="latepoint-message latepoint-message-subtle">
+										<?php esc_html_e( 'Save this event first, then you can add its date/time schedule.', 'latepoint' ); ?>
+									</div>
 								<?php else : ?>
 									<?php echo OsEventsManagerHelper::generate_event_date_range_tiles( $event->id ); ?>
 								<?php endif; ?>
@@ -367,26 +369,33 @@ if ( ! $is_new && current_user_can( 'manage_options' ) ) {
 				</div>
 			<?php endif; ?>
 			<div class="side-nav-body">
-				<div><a href="#stickySectionGeneral" class="is-active"><?php esc_html_e( 'General', 'latepoint' ); ?></a></div>
-				<div><a href="#stickySectionMedia"><?php esc_html_e( 'Media', 'latepoint' ); ?></a></div>
-				<div><a href="#stickySectionDateTime"><?php esc_html_e( 'Date & Time', 'latepoint' ); ?></a></div>
-				<div><a href="#stickySectionCapacity"><?php esc_html_e( 'Capacity & Pricing', 'latepoint' ); ?></a></div>
-				<div><a href="#stickySectionTicketTypes"><?php esc_html_e( 'Ticket Types', 'latepoint' ); ?></a></div>
-				<div><a href="#stickySectionWaitingList"><?php esc_html_e( 'Waiting List', 'latepoint' ); ?></a></div>
 				<?php
+				$sticky_menu_items = [
+					[ 'href' => 'stickySectionGeneral', 'label' => __( 'General', 'latepoint' ) ],
+					[ 'href' => 'stickySectionMedia', 'label' => __( 'Media', 'latepoint' ) ],
+					[ 'href' => 'stickySectionDateTime', 'label' => __( 'Date & Time', 'latepoint' ) ],
+					[ 'href' => 'stickySectionCapacity', 'label' => __( 'Capacity & Pricing', 'latepoint' ) ],
+					[ 'href' => 'stickySectionTicketTypes', 'label' => __( 'Ticket Types', 'latepoint' ) ],
+					[ 'href' => 'stickySectionWaitingList', 'label' => __( 'Waiting List', 'latepoint' ) ],
+				];
+
 				/**
 				 * Sticky menu items links for the event edit form
 				 *
-				 * @param {array} $sticky_menu_items items that go into sticky menu on the right of settings, in format ['href' => '', 'label' => '']
+				 * @param {array} $sticky_menu_items The full list of items, in display order, each
+				 * in the format ['href' => '', 'label' => ''] — addons can splice their own items
+				 * into any position (e.g. right after a specific existing item), not only append.
 				 * @returns {array} The filtered array of sticky menu items
 				 *
 				 * @since 5.7.0
 				 * @hook latepoint_event_edit_form_sticky_section_items
 				 *
 				 */
-				$before_other_items = apply_filters( 'latepoint_event_edit_form_sticky_section_items', [] );
-				foreach ( $before_other_items as $item ) {
-					echo '<div><a href="#' . esc_attr( $item['href'] ) . '">' . esc_html( $item['label'] ) . '</a></div>';
+				$sticky_menu_items = apply_filters( 'latepoint_event_edit_form_sticky_section_items', $sticky_menu_items );
+
+				foreach ( $sticky_menu_items as $index => $item ) {
+					$active_class = ( 0 === $index ) ? ' class="is-active"' : '';
+					echo '<div><a href="#' . esc_attr( $item['href'] ) . '"' . $active_class . '>' . esc_html( $item['label'] ) . '</a></div>';
 				}
 				?>
 			</div>

@@ -12,7 +12,7 @@ class OsMigrationsHelper {
 
 
 		$bookings            = new OsBookingModel();
-		$bookings_to_migrate = $bookings->where( [ 'order_item_id' => 'IS NOT NULL' ] )->get_results_as_models();
+		$bookings_to_migrate = $bookings->where( [ 'order_item_id' => OsModel::not_null_condition() ] )->get_results_as_models();
 		$report              = '';
 		foreach ( $bookings_to_migrate as $booking ) {
 			$report    .= '<div>Start migrating totals for Booking ID:' . $booking->id . '</div>';
@@ -39,7 +39,7 @@ class OsMigrationsHelper {
 
 		$report      = '';
 		$bookings    = new OsBookingModel();
-		$v4_bookings = $bookings->where( [ 'order_item_id' => 'IS NULL' ] )->get_results_as_models();
+		$v4_bookings = $bookings->where( [ 'order_item_id' => OsModel::null_condition() ] )->get_results_as_models();
 		foreach ( $v4_bookings as $booking ) {
 			$report                .= '<div>Start migrating Booking ID:' . $booking->id . '</div>';
 			$order                  = new OsOrderModel();
@@ -101,7 +101,7 @@ class OsMigrationsHelper {
 			}
 		}
 		$transactions    = new OsTransactionModel();
-		$v4_transactions = $transactions->where( [ 'order_id' => 'IS NULL' ] )->get_results_as_models();
+		$v4_transactions = $transactions->where( [ 'order_id' => OsModel::null_condition() ] )->get_results_as_models();
 		foreach ( $v4_transactions as $transaction ) {
 			$report .= '<div>Start migrating Transaction ID:' . $transaction->id . '</div>';
 			if ( empty( $transaction->booking_id ) ) {

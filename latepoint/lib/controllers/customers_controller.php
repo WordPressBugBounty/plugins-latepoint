@@ -328,7 +328,7 @@ if ( ! class_exists( 'OsCustomersController' ) ) :
 			$this->check_nonce( 'connect_all_customers_to_wp_users' );
 
 			$customers = new OsCustomerModel();
-			$customers = $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, 'IS NULL' ] ] ] )->filter_allowed_records()->get_results_as_models();
+			$customers = $customers->where( [ 'wordpress_user_id' => [ 'OR' => [ 0, OsModel::null_condition() ] ] ] )->filter_allowed_records()->get_results_as_models();
 			if ( $customers ) {
 				foreach ( $customers as $customer ) {
 					$wp_user_id = OsCustomerHelper::create_wp_user_for_customer( $customer );

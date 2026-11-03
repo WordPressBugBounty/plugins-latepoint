@@ -38,7 +38,7 @@ if ( ! class_exists( 'OsEventsManagerController' ) ) :
 					'category_id' => [
 						'OR' => [
 							0,
-							'IS NULL',
+							OsModel::null_condition(),
 						],
 					],
 				]

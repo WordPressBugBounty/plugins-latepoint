@@ -75,14 +75,14 @@ class OsAgentHelper {
 		$agent_model->email      = get_bloginfo( 'admin_email' );
 		if ( $agent_model->save() ) {
 			$connector              = new OsConnectorModel();
-			$incomplete_connections = $connector->where( [ 'agent_id' => 'IS NULL' ] )->get_results_as_models();
+			$incomplete_connections = $connector->where( [ 'agent_id' => OsModel::null_condition() ] )->get_results_as_models();
 			if ( $incomplete_connections ) {
 				foreach ( $incomplete_connections as $incomplete_connection ) {
 					$incomplete_connection->update_attributes( [ 'agent_id' => $agent_model->id ] );
 				}
 			}
 			$bookings            = new OsBookingModel();
-			$incomplete_bookings = $bookings->where( [ 'agent_id' => 'IS NULL' ] )->get_results_as_models();
+			$incomplete_bookings = $bookings->where( [ 'agent_id' => OsModel::null_condition() ] )->get_results_as_models();
 			if ( $incomplete_bookings ) {
 				foreach ( $incomplete_bookings as $incomplete_booking ) {
 					$incomplete_booking->update_attributes( [ 'agent_id' => $agent_model->id ] );

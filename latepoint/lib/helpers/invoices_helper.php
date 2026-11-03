@@ -123,8 +123,9 @@ class OsInvoicesHelper {
 			return new OsInvoiceModel();
 		}
 		$invoice = new OsInvoiceModel();
+		$invoice = $invoice->where( [ 'access_key' => $key ] )->set_limit( 1 )->get_results_as_models();
 
-		return $invoice->where( [ 'access_key' => $key ] )->set_limit( 1 )->get_results_as_models();
+		return empty( $invoice ) ? new OsInvoiceModel() : $invoice;
 	}
 
 	public static function get_invoice_logo_url(): string {

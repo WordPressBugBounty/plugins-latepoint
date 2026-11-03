@@ -243,6 +243,15 @@ class OsModel {
 		return $this;
 	}
 
+	// Pro below 1.7.7 still passes the literal 'IS NULL'; honor it until Pro is updated.
+	protected static function is_legacy_null_condition() {
+		if ( defined( 'LATEPOINT_ADDON_PRO_VERSION' ) && version_compare( LATEPOINT_ADDON_PRO_VERSION, '1.7.7', '<' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function join( $table, $on_args, $type = '' ) {
 		$this->joins[] = [
 			'join_table'   => $table,
@@ -446,11 +455,11 @@ class OsModel {
 							$temp_query .= implode( ' ' . $condition_and_or . ' ', $sub_queries );
 							$temp_query .= ')';
 						}
-					} elseif ( $value === 'IS NULL' || $value === self::null_condition() ) {
-						// IS NULL
+					} elseif ( $value === self::null_condition() || ( $value === 'IS NULL' && self::is_legacy_null_condition() ) ) {
+						// IS NULL - the internal marker, or the literal string while Pro is below 1.7.7; otherwise it binds as a literal value below.
 						$temp_query = $this->with_table_name( $column ) . ' IS NULL ';
-					} elseif ( $value === 'IS NOT NULL' || $value === self::not_null_condition() ) {
-						// IS NOT NULL
+					} elseif ( $value === self::not_null_condition() ) {
+						// IS NOT NULL - only the internal marker opts in; a request string like 'IS NOT NULL' binds as a literal value below.
 						$temp_query = $this->with_table_name( $column ) . ' IS NOT NULL ';
 					} elseif ( is_array( $value ) && ! empty( $value ) ) {
 						$temp_query = $this->with_table_name( $column ) . ' IN ' . OsModel::where_in_array_to_string( $value );
